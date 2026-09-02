@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="140" viewBox="0 0 120 140">
+  <rect width="120" height="140" rx="8" fill="#fff"/>
+  <g fill="#172033">
+    <path d="M10 10h30v30H10zm6 6v18h18V16zM80 10h30v30H80zm6 6v18h18V16zM10 80h30v30H10zm6 6v18h18V86z"/>
+    <path d="M48 10h8v8h-8zm16 0h8v16h-8zM48 26h16v8H48zm8 16h8v8h-8zm16 0h8v16h-8zM42 58h8v16h-8zm16 0h16v8H58zm24-10h8v18h-8zm16 0h12v8H98zM48 80h8v8h-8zm16-8h8v16h-8zm16 0h8v8h-8zm16 0h14v8H96zM48 96h16v8H48zm24-8h8v22h-8zm16 0h8v8h-8zm8 16h14v8H96z"/>
+  </g>
+  <rect x="4" y="4" width="112" height="112" rx="4" fill="none" stroke="#18aeb5" stroke-width="3"/>
+  <text x="60" y="132" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#8a3fad">QR DEMO</text>
+</svg>

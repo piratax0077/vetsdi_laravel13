@@ -1,0 +1,133 @@
+body {
+    background: #0F6B62; 
+    background: -webkit-linear-gradient(90deg, #0F6B62 0%, #178F80 100%);
+    background: -moz-linear-gradient(90deg, #0F6B62 0%, #178F80 100%);
+    background: -o-linear-gradient(90deg, #0F6B62 0%, #178F80 100%);
+    background: linear-gradient(90deg, #0F6B62 0%, #178F80 100%);
+}
+
+.bg-c-info {
+	background-color: #1CBEBE;  
+}
+
+@media (min-width: 992px) { 
+
+.subir {
+      
+  transform: translate(0px);
+  transition: 0.5s;
+}
+
+.subir:hover {
+      
+  transform: translateY(-10px);
+  transition: 0.5s;
+}
+
+.opacidad {
+    opacity:1;
+    transition: 0.2s;
+}
+
+.opacidad:hover {
+    opacity:0.7;
+    transition: 0.2s;   
+}
+
+.bg-c-orange {
+	background-color: #E27222;
+}
+
+.btn-horas-rojo {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: none;
+    padding: 2px 3px 2px 3px;
+    margin: 1px;
+    font-size: 10px;
+    cursor:pointer;
+    transition: 0.5s;
+}
+
+.btn-horas-rojo:hover {
+    color: #fff;
+    background-color: #BC0214;
+    border-color: none;
+    padding: 2px 3px 2px 3px;
+    cursor:pointer;
+    transition: 0.5s;   
+}
+
+.btn-horas-verde {
+    color: #fff;
+    background-color: #72B02C;
+    border-color: none;
+    padding: 2px 3px 2px 3px;
+    margin: 1px;
+    font-size: 10px;
+    cursor:pointer;
+    transition: 0.5s;
+}
+
+.btn-horas-verde:hover {
+    color: #fff;
+    background-color: #4D8013;
+    border-color: none;
+    padding: 2px 3px 2px 3px;
+    cursor:pointer;
+    transition: 0.5s;
+}
+
+.card-derecho {
+  flex-direction: row;
+}
+
+.card-derecho img {
+  width: 30%;
+}
+
+.btn.btn-icon {
+    width: 33px;
+    height: 33px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+td{
+    font-size: 14px!important;
+}
+
+
+
+
+
+/* Encabezados del escritorio de tutores y mascotas: contraste uniforme */
+.pcoded-main-container .page-header .page-header-title h5,
+.pcoded-main-container .page-header .page-header-title h4,
+.pcoded-main-container .page-header .page-header-title h3 {
+    color: #fff !important;
+    font-weight: 700 !important;
+    text-shadow: 0 1px 2px rgba(0, 66, 63, .18);
+}
+
+.pcoded-main-container .page-header .breadcrumb,
+.pcoded-main-container .page-header .breadcrumb-item,
+.pcoded-main-container .page-header .breadcrumb-item.active,
+.pcoded-main-container .page-header .breadcrumb-item a,
+.pcoded-main-container .page-header .breadcrumb-item i {
+    color: rgba(255, 255, 255, .94) !important;
+}
+
+.pcoded-main-container .page-header .breadcrumb-item:last-child,
+.pcoded-main-container .page-header .breadcrumb-item:last-child a {
+    color: #fff !important;
+    font-weight: 700 !important;
+}
+
+.pcoded-main-container .page-header .breadcrumb-item + .breadcrumb-item::before {
+    color: rgba(255, 255, 255, .62) !important;
+}
