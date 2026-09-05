@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
-                    <h5 class="modal-title text-white font-weight-bold" id="modal_ramLabel">
+                    <h5 class="modal-title font-weight-bold" id="modal_ramLabel">
                         <i class="feather icon-alert-triangle"></i> Registrar Reacción Adversa a Medicamento (RAM)
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$('#modal_ram').modal('hide');">

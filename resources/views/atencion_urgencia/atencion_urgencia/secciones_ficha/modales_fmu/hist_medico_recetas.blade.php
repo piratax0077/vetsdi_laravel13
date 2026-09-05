@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="id_ficha_receta"
+                <h5 class="modal-title" id="id_ficha_receta"
                     style="font-size: 1.3rem; color: #3366CC;"> </h5>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#m_cons_receta').modal('hide'); ">

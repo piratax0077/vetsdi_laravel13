@@ -144,7 +144,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white font-weight-bold" id="modal_bonoLabel">
+                    <h5 class="modal-title font-weight-bold" id="modal_bonoLabel">
                         <i class="feather icon-credit-card"></i> Detalle del Bono FONASA
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">

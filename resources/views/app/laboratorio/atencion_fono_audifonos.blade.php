@@ -2641,7 +2641,7 @@
 <div class="modal fade" id="modal_detalle_campana" tabindex="-1" role="dialog" aria-labelledby="modal_detalle_campana_label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content shadow-lg rounded">
-            <div class="modal-header bg-info text-white">
+            <div class="modal-header bg-info">
                 <h5 class="modal-title font-weight-bold" id="modal_detalle_campana_label">
                     <i class="feather icon-megaphone mr-2"></i> Detalle de Campaña Promocional
                 </h5>

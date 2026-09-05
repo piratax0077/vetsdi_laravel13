@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-xl" role="document">
 		<div class="modal-content" >
 			<div class="modal-header bg-info">
-				<h5 class="modal-title text-white mt-1">INFORME NUTRICIÓN</h5>
+				<h5 class="modal-title mt-1">INFORME NUTRICIÓN</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 			</div>
 			<div class="modal-body">
@@ -344,7 +344,7 @@ function enviarEmailInformeNutricion(email) {
     <div class="modal-dialog modal-xl" role="document" style="max-width:92vw;">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_preview_pdf_nutri_label">
+                <h5 class="modal-title mt-1" id="modal_preview_pdf_nutri_label">
                     <i class="feather icon-file-text mr-1"></i> Previsualización — Informe Nutrición
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">

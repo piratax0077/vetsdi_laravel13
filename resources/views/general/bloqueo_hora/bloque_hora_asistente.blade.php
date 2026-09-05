@@ -4,7 +4,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header" style="background-color: rgb(28, 190, 190);">
-        <h5 class="modal-title text-white" id="modal_bloqueo_horaLabel">Configuración de Agenda</h5>
+        <h5 class="modal-title" id="modal_bloqueo_horaLabel">Configuración de Agenda</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modal_bloqueo_hora').modal('hide');">
           <span aria-hidden="true">&times;</span>
         </button>

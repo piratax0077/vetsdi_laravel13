@@ -173,7 +173,7 @@
             <div class="modal-header bg-info">
                 <div class="row w-100">
                     <div class="col-md-8">
-                        <h5 class="modal-title text-white">Control de enfermedades crónicas</h5>
+                        <h5 class="modal-title">Control de enfermedades crónicas</h5>
                     </div>
                     <div class="col-md-4">
                         <select class="form-control form-control-sm" onchange="cambiar_enfermedad_cronica();" id="cronicos" name="cronicos" >
@@ -1238,7 +1238,7 @@
             <div class="modal-header bg-info">
                 <div class="row">
                     <div class="col-md-7">
-                        <h5 class="modal-title text-white">Seleccione antecedente</h5>
+                        <h5 class="modal-title">Seleccione antecedente</h5>
                     </div>
                     <div class="col-md-5">
                         <select class="form-control form-control-sm" onchange="cambiar_antecedente();" id="nuevo_antecedente" name="nuevo_antecedente" onchange="mostrar(this.value);">

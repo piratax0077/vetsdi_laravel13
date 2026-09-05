@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center" id="nuevo_asistente_titulo">
+                <h5 class="modal-title text-center" id="nuevo_asistente_titulo">
                     Inscribir secretaria
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">

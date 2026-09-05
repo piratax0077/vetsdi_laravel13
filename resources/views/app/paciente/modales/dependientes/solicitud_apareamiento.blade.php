@@ -48,7 +48,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h5 class="modal-title text-white mb-1" id="modalSolicitudApareamientoLabel">
+                    <h5 class="modal-title mb-1" id="modalSolicitudApareamientoLabel">
                         <i class="feather icon-heart"></i> Solicitud de apareamiento
                     </h5>
                     <small>Indique las características del compañero reproductivo que busca</small>

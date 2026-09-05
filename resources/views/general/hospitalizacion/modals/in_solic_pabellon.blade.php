@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1 f-18" id="eco_gine"> Solicitar pabellón - <script>
+                <h5 class="modal-title mt-1 f-18" id="eco_gine"> Solicitar pabellón - <script>
                         var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
                         var f=new Date();

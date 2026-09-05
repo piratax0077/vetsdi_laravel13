@@ -79,7 +79,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modalSucursalesDestinoLabel"></h5>
+                <h5 class="modal-title" id="modalSucursalesDestinoLabel"></h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -104,7 +104,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modalDetalleProductoBodegasLabel">Detalle de ubicación</h5>
+                <h5 class="modal-title" id="modalDetalleProductoBodegasLabel">Detalle de ubicación</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$('#modalDetalleProductoBodegas').modal('hide')">
                     <span aria-hidden="true">&times;</span>
                 </button>

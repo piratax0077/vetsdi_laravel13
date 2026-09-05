@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white">Maxilar inferior</h5>
+                <h5 class="modal-title">Maxilar inferior</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
             </div>
             <div class="modal-body">
@@ -106,7 +106,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_tratamiento_dental">Maxilar inferior Endodoncia</h5>
+                <h5 class="modal-title mt-1" id="modal_tratamiento_dental">Maxilar inferior Endodoncia</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span>
                 </button>
@@ -301,7 +301,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_tratamiento_dental">Maxilar inferior</h5>
+                <h5 class="modal-title mt-1" id="modal_tratamiento_dental">Maxilar inferior</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span>
                 </button>

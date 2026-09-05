@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Recomendaciones generales Cuidado Ocular</h5>
+                <h5 class="modal-title text-center">Recomendaciones generales Cuidado Ocular</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#m_ind_sal_ocular').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <embed src="{{ asset('documentos/oftalmo/saludocular.pdf') }}" type="application/pdf"  data-documento="saludocular.pdf"  data-url="documentos/oftalmo/saludocular.pdf"  width="100%" height="680px">

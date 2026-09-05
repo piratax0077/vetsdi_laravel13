@@ -71,7 +71,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h5 class="modal-title text-white mb-1" id="modal_edo_titulo">
+                    <h5 class="modal-title mb-1" id="modal_edo_titulo">
                         <i class="feather icon-alert-triangle"></i> Enfermedades de Denuncia Obligatoria (EDO)
                     </h5>
                     <small>Registro veterinario de sospecha para notificación al SAG</small>

@@ -10,7 +10,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <div class="page-header-title mt-3">
-                            <h4 class="m-b-10 font-weight-bold text-white">Hola, {{ $profesional->nombre }}</h4>
+                            <h4 class="m-b-10  text-white">Hola, {{ $profesional->nombre }}</h4>
                             <p class="text-white">Bienvenido/a a tu escritorio, todo lo que necesitas para tu práctica diaria.</p>
                         </div>
                         <!--<ul class="breadcrumb">

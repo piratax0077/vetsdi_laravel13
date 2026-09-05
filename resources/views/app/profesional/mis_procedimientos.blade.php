@@ -86,7 +86,7 @@
             <form id="form-nuevo-procedimiento">
                 @csrf
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="nuevoProcedimientoProfesionalLabel">Registrar procedimiento</h5>
+                    <h5 class="modal-title" id="nuevoProcedimientoProfesionalLabel">Registrar procedimiento</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -141,7 +141,7 @@
                 @csrf
                 <input type="hidden" id="id_procedimiento_profesional" name="id_procedimiento_profesional">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="cargarProcedimientoProfesionalLabel">Editar procedimiento</h5>
+                    <h5 class="modal-title" id="cargarProcedimientoProfesionalLabel">Editar procedimiento</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

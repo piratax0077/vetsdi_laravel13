@@ -7,7 +7,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" data-backdrop="static" tabindex="-1" aria-labelledby="staticBackdropLabel" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1">Indicar Medicamento</h5>
+                <h5 class="modal-title mt-1">Indicar Medicamento</h5>
                 <input type="hidden" id="id_profesional" value="{{ @Auth::user()->id }}">
                 <button type="button" class="close" aria-label="Close" onclick="cerrarModalMedicamentosFicha();">
                     <span aria-hidden="true">×</span>

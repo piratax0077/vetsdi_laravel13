@@ -229,7 +229,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content odonto-mascota-detail-modal">
             <div class="modal-header bg-purple">
-                <h5 class="modal-title text-white" id="modalDetallePiezaMascotaTitulo">
+                <h5 class="modal-title" id="modalDetallePiezaMascotaTitulo">
                     Detalle de la pieza
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">

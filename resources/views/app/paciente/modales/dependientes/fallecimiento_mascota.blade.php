@@ -41,7 +41,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h5 class="modal-title text-white mb-1" id="modalFallecimientoMascotaLabel">
+                    <h5 class="modal-title mb-1" id="modalFallecimientoMascotaLabel">
                         <i class="feather icon-cloud"></i> Registrar fallecimiento
                     </h5>
                     <small id="fallecimiento_mascota_subtitulo">Cree un espacio de recuerdo para su mascota</small>

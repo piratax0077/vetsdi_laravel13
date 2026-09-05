@@ -200,7 +200,7 @@
                                                                                                 <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                                                                                                     <div class="modal-content">
                                                                                                         <div class="modal-header bg-info">
-                                                                                                            <h5 class="modal-title text-white mt-1 f-18" id="eco_gine"> Ecografía Obstétrica</h5>
+                                                                                                            <h5 class="modal-title mt-1 f-18" id="eco_gine"> Ecografía Obstétrica</h5>
                                                                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                                                                                                             </button>
                                                                                                         </div>
@@ -790,7 +790,7 @@
                                                                                 <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                                                                                     <div class="modal-content">
                                                                                         <div class="modal-header bg-info">
-                                                                                            <h5 class="modal-title text-white mt-1 f-18" id="eco_gine"> Ecografía Obstétrica</h5>
+                                                                                            <h5 class="modal-title mt-1 f-18" id="eco_gine"> Ecografía Obstétrica</h5>
                                                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                                                                                             </button>
                                                                                         </div>
@@ -1189,7 +1189,7 @@
                                                             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header bg-info">
-                                                                        <h5 class="modal-title text-white mt-1 f-18" id="eco_gine"> Ecografía Obstétrica</h5>
+                                                                        <h5 class="modal-title mt-1 f-18" id="eco_gine"> Ecografía Obstétrica</h5>
                                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                                                                         </button>
                                                                     </div>
@@ -1778,7 +1778,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_mamas">Examen Clínico de mamas</h5>
+                <h5 class="modal-title mt-1" id="modal_mamas">Examen Clínico de mamas</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                 </button>
             </div>
@@ -1926,7 +1926,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_adjuntar_examen">
+                <h5 class="modal-title mt-1" id="modal_adjuntar_examen">
                 EXAMEN P-A-P</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                 </button>
@@ -2045,7 +2045,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1 f-18" id="modal_info1"> Antecedentes  Mamas</h5>
+                <h5 class="modal-title mt-1 f-18" id="modal_info1"> Antecedentes  Mamas</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                 </button>
             </div>

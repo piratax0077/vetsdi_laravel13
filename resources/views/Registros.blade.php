@@ -220,7 +220,7 @@
                                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header bg-info">
-                                                    <h5 class="modal-title text-white mt-1" id="modal_indicar_medicamentos">
+                                                    <h5 class="modal-title mt-1" id="modal_indicar_medicamentos">
                                                         Indicar Medicamento</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close"><span aria-hidden="true">×</span>
@@ -361,7 +361,7 @@
                                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header bg-info">
-                                                    <h5 class="modal-title text-white mt-1" id="modal_indicar_examen">
+                                                    <h5 class="modal-title mt-1" id="modal_indicar_examen">
                                                         Indicar
                                                         Examen</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
@@ -2439,7 +2439,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header bg-info">
-                                        <h5 class="modal-title text-white" id="m_consultaantLabel"
+                                        <h5 class="modal-title" id="m_consultaantLabel"
                                             style="font-size: 1.3rem; color: #3366CC;">consulta del..... </h5>
                                         <button type="button" class="close" data-dismiss="modal"
                                             aria-label="Close">
@@ -2536,7 +2536,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header bg-info">
-                                        <h5 class="modal-title text-white" id="m_cons_exLabel"
+                                        <h5 class="modal-title" id="m_cons_exLabel"
                                             style="font-size: 1.3rem; color: #3366CC;">Examenes Solicitados
                                             el.... </h5>
                                         <button type="button" class="close" data-dismiss="modal"
@@ -2599,7 +2599,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header bg-info">
-                                        <h5 class="modal-title text-white" id="id_ficha_receta"
+                                        <h5 class="modal-title" id="id_ficha_receta"
                                             style="font-size: 1.3rem; color: #3366CC;"> </h5>
 
                                         <button type="button" class="close" data-dismiss="modal"
@@ -2641,7 +2641,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header bg-info">
-                                        <h5 class="modal-title text-white" id="id_ficha_examen"
+                                        <h5 class="modal-title" id="id_ficha_examen"
                                             style="font-size: 1.3rem; color: #3366CC;"> </h5>
 
                                         <button type="button" class="close" data-dismiss="modal"
@@ -2697,7 +2697,7 @@
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header bg-info">
-                                        <h5 class="modal-title text-white mt-1" id="modal_adjuntar_examen">
+                                        <h5 class="modal-title mt-1" id="modal_adjuntar_examen">
                                             Adjuntar Examen</h5>
                                         <button type="button" class="close" data-dismiss="modal"
                                             aria-label="Close"><span aria-hidden="true">×</span>
@@ -3340,7 +3340,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center">Certificado de reposo</h5>
+                    <h5 class="modal-title text-center">Certificado de reposo</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
                 </div>
@@ -3422,7 +3422,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center">Interconsulta</h5>
+                    <h5 class="modal-title text-center">Interconsulta</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
                 </div>
@@ -3572,7 +3572,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center">Informe Médico</h5>
+                    <h5 class="modal-title text-center">Informe Médico</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
                 </div>
@@ -3658,7 +3658,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center">Uso Personal</h5>
+                    <h5 class="modal-title text-center">Uso Personal</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
                 </div>
@@ -3701,7 +3701,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center">Constancia GES (Artículo 24 Ley 19.966)</h5>
+                    <h5 class="modal-title text-center">Constancia GES (Artículo 24 Ley 19.966)</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
                 </div>
@@ -3889,7 +3889,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center">Enfermedades de declaración obligatoria E.N.O</h5>
+                    <h5 class="modal-title text-center">Enfermedades de declaración obligatoria E.N.O</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
                 </div>
@@ -4277,7 +4277,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center">Reembolso de gastos médicos</h5>
+                    <h5 class="modal-title text-center">Reembolso de gastos médicos</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
                 </div>
@@ -4775,7 +4775,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center">Reembolso de gastos dentales</h5>
+                    <h5 class="modal-title text-center">Reembolso de gastos dentales</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
                 </div>
@@ -5341,7 +5341,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center">Consentimiento informado anestesia</h5>
+                    <h5 class="modal-title text-center">Consentimiento informado anestesia</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
                 </div>

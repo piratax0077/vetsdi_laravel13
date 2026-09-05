@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_eval_hab_preart">Ingesta diaria de alimentos (<script>
+                <h5 class="modal-title mt-1" id="modal_eval_hab_preart">Ingesta diaria de alimentos (<script>
                                 var f = new Date();
                                 document.write(f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear());
                             </script>)</h5>

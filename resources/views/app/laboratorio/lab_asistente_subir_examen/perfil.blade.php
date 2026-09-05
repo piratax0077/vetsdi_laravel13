@@ -384,7 +384,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
-                   <h5 class="modal-title text-white text-center">Agregar contacto de emergencia</h5>
+                   <h5 class="modal-title text-center">Agregar contacto de emergencia</h5>
                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -499,7 +499,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                   <h5 class="modal-title text-white text-center">Información de contacto</h5>
+                   <h5 class="modal-title text-center">Información de contacto</h5>
                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -547,7 +547,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
-                   <h5 class="modal-title text-white text-center">Editar contacto de emergencia</h5>
+                   <h5 class="modal-title text-center">Editar contacto de emergencia</h5>
                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">

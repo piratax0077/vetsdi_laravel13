@@ -2,7 +2,7 @@
     <div class="modal-dialog  modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="m_consultaantLabel" onclick="('#m_consultaant').modal('hide'); ">Ficha clínica </h5>
+                <h5 class="modal-title" id="m_consultaantLabel" onclick="('#m_consultaant').modal('hide'); ">Ficha clínica </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#m_consultaant').modal('hide');" >
                      <span aria-hidden="true">&times;</span>
                 </button>

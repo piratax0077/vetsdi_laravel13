@@ -98,7 +98,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Añadir Sala Espera</h5>
+                <h5 class="modal-title text-center">Añadir Sala Espera</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
                     onclick="$('#moda_agregar_sala_espera').modal('hide');"><span
                         aria-hidden="true">&times;</span></button>
@@ -177,7 +177,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Editar Sala Espera</h5>
+                <h5 class="modal-title text-center">Editar Sala Espera</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
                     onclick="$('#moda_editar_sala_espera').modal('hide');"><span
                         aria-hidden="true">&times;</span></button>
@@ -259,7 +259,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">TV de Sala Espera</h5>
+                <h5 class="modal-title text-center">TV de Sala Espera</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
                     onclick="$('#moda_tv_sala_espera').modal('hide');"><span
                         aria-hidden="true">&times;</span></button>
@@ -376,7 +376,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Box de Sala Espera</h5>
+                <h5 class="modal-title text-center">Box de Sala Espera</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
                     onclick="$('#moda_box_sala_espera').modal('hide');"><span
                         aria-hidden="true">&times;</span></button>

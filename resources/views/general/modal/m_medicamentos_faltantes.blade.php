@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_medicamentos_faltantes_label">
+                <h5 class="modal-title" id="modal_medicamentos_faltantes_label">
                     <i class="feather icon-plus-circle mr-1"></i> Agregar Medicamento Faltante
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#modal_medicamentos_faltantes').modal('hide');" aria-label="Cerrar">

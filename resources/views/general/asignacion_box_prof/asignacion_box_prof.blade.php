@@ -7,7 +7,7 @@
         @csrf
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Asigancion de Box</h5>
+                <h5 class="modal-title text-center">Asigancion de Box</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
                     onclick="$('#m_modificar_box_prf').modal('hide');"><span aria-hidden="true">&times;</span></button>
             </div>

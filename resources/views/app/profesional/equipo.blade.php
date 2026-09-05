@@ -106,7 +106,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white mt-1 f-18" id="eco_gine"> Registro de nuevo equipo quirúrgico - <script>
+                    <h5 class="modal-title mt-1 f-18" id="eco_gine"> Registro de nuevo equipo quirúrgico - <script>
                             var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
                             var f=new Date();
@@ -194,7 +194,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white mt-1 f-18" id="eco_gine"> Ver equipo<script>
+                    <h5 class="modal-title mt-1 f-18" id="eco_gine"> Ver equipo<script>
                             var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
                             var f=new Date();
@@ -215,7 +215,7 @@
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white mt-1 f-18" id="title_modal"> Modificar equipo<script>
+                    <h5 class="modal-title mt-1 f-18" id="title_modal"> Modificar equipo<script>
                             var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
                             var f=new Date();

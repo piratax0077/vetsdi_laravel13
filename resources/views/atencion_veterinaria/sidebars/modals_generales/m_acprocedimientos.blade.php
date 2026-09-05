@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header bg-info">
-				<h5 class="modal-title text-white text-center">Consentimiento Informado Procedimientos Médicos</h5>
+				<h5 class="modal-title text-center">Consentimiento Informado Procedimientos Médicos</h5>
 				<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 				</button>

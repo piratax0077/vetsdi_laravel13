@@ -6,7 +6,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-info">
-        <h5 class="modal-title text-white" id="modal_bloqueo_horaLabel">Configuración de agenda</h5>
+        <h5 class="modal-title" id="modal_bloqueo_horaLabel">Configuración de agenda</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modal_bloqueo_hora').modal('hide');">
           <span aria-hidden="true">&times;</span>
         </button>

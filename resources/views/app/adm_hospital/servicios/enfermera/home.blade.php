@@ -832,7 +832,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_pago_consulta_title">Asignación</h5>
+                <h5 class="modal-title" id="modal_pago_consulta_title">Asignación</h5>
                 <button type="button" class="close close_modal_recepcion_bonos_api" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body pb-0">

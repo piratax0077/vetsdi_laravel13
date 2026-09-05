@@ -236,7 +236,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_agregar_cliente_label"><i class="feather icon-plus"></i> Ficha cliente</h5>
+                <h5 class="modal-title" id="modal_agregar_cliente_label"><i class="feather icon-plus"></i> Ficha cliente</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#modal_ficha_cliente').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -297,7 +297,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background: linear-gradient(135deg, #1a73e8, #0d47a1);">
-                <h5 class="modal-title text-white" id="modal_envio_label">
+                <h5 class="modal-title" id="modal_envio_label">
                     <i class="fas fa-truck mr-2"></i> Configurar Despacho del Pedido
                     <small class="d-block f-12 mt-1" id="envio_numero_pedido_label" style="opacity:0.85;"></small>
                 </h5>
@@ -478,7 +478,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_agregar_cliente_label"><i class="feather icon-plus"></i> Ver pedido</h5>
+                <h5 class="modal-title" id="modal_agregar_cliente_label"><i class="feather icon-plus"></i> Ver pedido</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#modal_verPedido_cliente').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

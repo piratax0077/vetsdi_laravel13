@@ -48,7 +48,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="modal_paciente_reserva_title">Reserva de Horas</h5>
+                    <h5 class="modal-title" id="modal_paciente_reserva_title">Reserva de Horas</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
                 </div>
@@ -142,7 +142,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="modal_pago_consulta_title">Confirmación de Atención Médica</h5>
+                    <h5 class="modal-title" id="modal_pago_consulta_title">Confirmación de Atención Médica</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span>
                     </button>
@@ -173,7 +173,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="modal_pago_consulta_title">Pago de Atención Médica</h5>
+                    <h5 class="modal-title" id="modal_pago_consulta_title">Pago de Atención Médica</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span>
                     </button>
@@ -268,7 +268,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="modal_pago_consulta_title">Ver de Atención Médica</h5>
+                    <h5 class="modal-title" id="modal_pago_consulta_title">Ver de Atención Médica</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span>
                     </button>
@@ -294,7 +294,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="modal_pago_consulta_title">Atender paciente</h5>
+                    <h5 class="modal-title" id="modal_pago_consulta_title">Atender paciente</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span>
                     </button>

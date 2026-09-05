@@ -371,7 +371,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
             <div class="modal-header bg-info py-3">
-                <h5 class="modal-title text-white" id="title-antecedente"><i class="feather icon-clipboard mr-2"></i>Agregar antecedente veterinario</h5>
+                <h5 class="modal-title" id="title-antecedente"><i class="feather icon-clipboard mr-2"></i>Agregar antecedente veterinario</h5>
                 <button type="button" class="close text-white" onclick="verModalAgregar('hide')" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>

@@ -322,7 +322,7 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modalRegistrarMascotaAgendaLabel">Agregar Mascota no registrada</h5>
+                <h5 class="modal-title mt-1" id="modalRegistrarMascotaAgendaLabel">Agregar Mascota no registrada</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

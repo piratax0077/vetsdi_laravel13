@@ -116,7 +116,7 @@
             data-insumos='@json(!empty($c->insumos_utilizados) ? (json_decode($c->insumos_utilizados, true) ?: []) : [])'>
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-header bg-primary text-white">
+                    <div class="modal-header bg-primary">
                         <h5 class="modal-title" id="modalAgregarInsumosLabel_{{ $c->id }}">
                             <i class="feather icon-package"></i>
                             Insumos para: {{ $c->datos_curacion->nombre_procedimiento ?? 'Curación' }}

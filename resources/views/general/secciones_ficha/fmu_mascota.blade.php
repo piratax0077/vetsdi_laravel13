@@ -1377,7 +1377,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content border-0 rounded-xl overflow-hidden">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_contacto_emergencia_fvu_titulo">
+                <h5 class="modal-title" id="modal_contacto_emergencia_fvu_titulo">
                     <i class="feather icon-phone-call mr-2"></i> Contacto de emergencia
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
@@ -1424,7 +1424,7 @@
 <div class="modal fade" id="modal_fvu_vacunas" tabindex="-1" role="dialog" aria-labelledby="modal_fvu_vacunas_titulo" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info text-white">
+            <div class="modal-header bg-info">
                 <h5 class="modal-title" id="modal_fvu_vacunas_titulo">Registro de vacunas — {{ $mascota->nombre ?? 'Mascota' }}</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
@@ -1468,7 +1468,7 @@
 <div class="modal fade" id="modal_fvu_desparasitaciones" tabindex="-1" role="dialog" aria-labelledby="modal_fvu_desparasitaciones_titulo" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info text-white">
+            <div class="modal-header bg-info">
                 <h5 class="modal-title" id="modal_fvu_desparasitaciones_titulo">Registro de desparasitación — {{ $mascota->nombre ?? 'Mascota' }}</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>

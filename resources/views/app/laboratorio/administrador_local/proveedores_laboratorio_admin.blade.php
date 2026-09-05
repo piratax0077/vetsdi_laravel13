@@ -127,7 +127,7 @@ require_once('../include/footer.php');
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Agregar proveedor</h5>
+                <h5 class="modal-title text-center">Agregar proveedor</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -204,7 +204,7 @@ require_once('../include/footer.php');
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">
+                <h5 class="modal-title text-center">
                     Editar proveedor
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -283,7 +283,7 @@ require_once('../include/footer.php');
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Productos</h5>
+                <h5 class="modal-title text-center">Productos</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

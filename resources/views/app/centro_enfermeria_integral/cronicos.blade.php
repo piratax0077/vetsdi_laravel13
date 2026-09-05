@@ -762,7 +762,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white">Direcciones de Pacientes para Entrega</h5>
+                <h5 class="modal-title">Direcciones de Pacientes para Entrega</h5>
                 <button type="button" class="close text-white" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
@@ -808,7 +808,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success">
-                <h5 class="modal-title text-white">Registrar Entrega de Medicamentos</h5>
+                <h5 class="modal-title">Registrar Entrega de Medicamentos</h5>
                 <button type="button" class="close text-white" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
@@ -875,7 +875,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white">Detalle de Entrega Realizada</h5>
+                <h5 class="modal-title">Detalle de Entrega Realizada</h5>
                 <button type="button" class="close text-white" data-dismiss="modal">
                     <span>&times;</span>
                 </button>

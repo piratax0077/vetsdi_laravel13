@@ -164,7 +164,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background:#d32f2f">
-                <h5 class="modal-title text-white" id="modalEmergenciaLabel">
+                <h5 class="modal-title" id="modalEmergenciaLabel">
                     <i class="feather icon-video mr-2"></i>Consulta de Emergencia
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">

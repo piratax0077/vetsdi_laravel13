@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1">Receta Audífonos</h5>
+                <h5 class="modal-title mt-1">Receta Audífonos</h5>
                 <button type="button" class="close" data-dismiss="modal" onclick="$('#indicar_audif').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span>
                 </button>
             </div>

@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Datos de Facturaci&oacute;n</h5>
+                <h5 class="modal-title text-center">Datos de Facturaci&oacute;n</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#88;</span></button>
             </div>
             <div class="modal-body">
@@ -54,10 +54,10 @@
                                 <label class="floating-label-activo-sm">Regi&oacute;n</label>
                                 <select class="form-control form-control-sm" id="region">
                                     <option>Seleccione opci&oacute;n</option>
-                                    <optgroup label="Valparaíso">
-                                        <option value="AL">Viña del Mar</option>
+                                    <optgroup label="Valpara\xEDso">
+                                        <option value="AL">Vi\xF1a del Mar</option>
                                         <option value="LA">La Calera</option>
-                                        <option value="VA">Valparaíso</option>
+                                        <option value="VA">Valpara\xEDso</option>
                                     </optgroup>
                                 </select>
                             </div>
@@ -67,10 +67,10 @@
                                 <label class="floating-label-activo-sm">Comuna</label>
                                 <select class="form-control form-control-sm"  id="region">
                                     <option>Seleccione opci&oacute;n</option>
-                                    <optgroup label="Valparaíso">
-                                        <option value="AL">Viña del Mar</option>
+                                    <optgroup label="Valpara\xEDso">
+                                        <option value="AL">Vi\xF1a del Mar</option>
                                         <option value="LA">La Calera</option>
-                                        <option value="VA">Valparaíso</option>
+                                        <option value="VA">Valpara\xEDso</option>
                                     </optgroup>
                                 </select>
                             </div>

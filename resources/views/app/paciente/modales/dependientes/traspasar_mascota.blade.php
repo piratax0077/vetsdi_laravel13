@@ -65,7 +65,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h5 class="modal-title text-white mb-1" id="modalTraspasarMascotaLabel">
+                    <h5 class="modal-title mb-1" id="modalTraspasarMascotaLabel">
                         <i class="feather icon-shuffle"></i> Traspasar mascota a otro tutor
                     </h5>
                     <small>Transfiere la mascota con FVU, carné de vacunas y desparasitaciones</small>

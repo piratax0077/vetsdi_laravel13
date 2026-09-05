@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Permisos para Asistentes Agregar/Modificar/Eliminar </h5>
+                <h5 class="modal-title text-center">Permisos para Asistentes Agregar/Modificar/Eliminar </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <input type="hidden" name="permisos_rol_id" id="permisos_rol_id" value="">
             </div>
@@ -34,7 +34,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Confirmación actualizacion de Permisos para Asistentes </h5>
+                <h5 class="modal-title text-center">Confirmación actualizacion de Permisos para Asistentes </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

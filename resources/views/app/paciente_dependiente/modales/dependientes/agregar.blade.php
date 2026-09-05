@@ -7,8 +7,8 @@
 <div class="modal fade" id="modal_agregar_dep_buscar" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_indicar_examen">Buscar Rut Dependiente</h5>
+            <div class="modal-header">
+                <h5 class="modal-title mt-1" id="modal_indicar_examen">Buscar Rut Dependiente</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
@@ -30,8 +30,8 @@
 <div class="modal fade" id="modal_agregar_dep_existente" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_indicar_examen">Agregar Dependiente</h5>
+            <div class="modal-header">
+                <h5 class="modal-title mt-1" id="modal_indicar_examen">Agregar Dependiente</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
@@ -106,8 +106,8 @@
 <div class="modal fade" id="modal_agregar_dep_nuevo" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-        <div class="modal-header bg-info">
-            <h5 class="modal-title text-white mt-1" id="modal_indicar_examen">Agregar Dependiente No registrado</h5>
+        <div class="modal-header">
+            <h5 class="modal-title mt-1" id="modal_indicar_examen">Agregar Dependiente No registrado</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">

@@ -3750,7 +3750,7 @@
 <div class="modal fade" id="modal_detalle_campana" tabindex="-1" role="dialog" aria-labelledby="modal_detalle_campana_label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content shadow-lg rounded">
-            <div class="modal-header bg-info text-white">
+            <div class="modal-header bg-info">
                 <h5 class="modal-title font-weight-bold" id="modal_detalle_campana_label">
                     <i class="feather icon-megaphone mr-2"></i> Detalle de Campaña Promocional
                 </h5>
@@ -3802,7 +3802,7 @@
 <div class="modal fade" id="modal_seguimiento_cotizacion" tabindex="-1" role="dialog" aria-labelledby="modal_seguimiento_cotizacion_label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content shadow-lg rounded">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header bg-primary">
                 <h5 class="modal-title font-weight-bold" id="modal_seguimiento_cotizacion_label">
                     <i class="feather icon-clipboard mr-2"></i> Seguimiento de Cotización
                 </h5>
@@ -3836,7 +3836,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Detalle de solicitud</h5>
+                <h5 class="modal-title text-center">Detalle de solicitud</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#88;</span></button>
             </div>
             <div class="modal-body" id="detalle_pedido_body">

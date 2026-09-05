@@ -80,8 +80,8 @@
 <div class="modal fade" id="modal_desparasitacion" tabindex="-1" role="dialog" aria-labelledby="modal_desparasitacion_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_desparasitacion_label">Añadir registro de desparasitación</h5>
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_desparasitacion_label">Añadir registro de desparasitación</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

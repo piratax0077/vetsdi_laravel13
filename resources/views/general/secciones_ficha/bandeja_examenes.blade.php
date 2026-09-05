@@ -408,7 +408,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_eval_hab_preart">Exámenes radiológicos</h5>
+                <h5 class="modal-title mt-1" id="modal_eval_hab_preart">Exámenes radiológicos</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modal_ver_rayo').modal('hide');"><span aria-hidden="true">×</span>
                 </button>
             </div>

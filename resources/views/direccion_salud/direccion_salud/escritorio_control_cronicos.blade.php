@@ -260,7 +260,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="modal_detalle_paciente_label">
+                    <h5 class="modal-title" id="modal_detalle_paciente_label">
                         <i class="feather icon-user mr-1"></i> Detalle del paciente
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
@@ -320,7 +320,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="modal_detalle_medicamento_label">
+                    <h5 class="modal-title" id="modal_detalle_medicamento_label">
                         <i class="feather icon-package mr-1"></i> Detalle de medicamento
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">

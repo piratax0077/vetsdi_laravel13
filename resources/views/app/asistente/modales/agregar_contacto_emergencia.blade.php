@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-danger">
-                <h5 class="modal-title text-white text-center">Agregar contacto de emergencia</h5>
+                <h5 class="modal-title text-center">Agregar contacto de emergencia</h5>
                 <button type="button" class="close text-white" onclick="cerrar_agregar_contacto_emergencia();" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>

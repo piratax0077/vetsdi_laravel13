@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content modal-xl">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Asignar Paciente Cama <span id="cama_servicio_numero"></span> <span id="cama_servicio_titulo"></span> Sala <span id="sala_servicio_numero"></span></h5>
+                <h5 class="modal-title text-center">Asignar Paciente Cama <span id="cama_servicio_numero"></span> <span id="cama_servicio_titulo"></span> Sala <span id="sala_servicio_numero"></span></h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

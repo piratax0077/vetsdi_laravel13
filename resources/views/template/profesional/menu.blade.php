@@ -295,7 +295,7 @@
         <div class="modal-content">
             <div class="modal-header tutorial-sdi-header">
                 <div>
-                    <h5 class="modal-title text-white mb-0" id="tutorialSdiTitulo">
+                    <h5 class="modal-title mb-0" id="tutorialSdiTitulo">
                         <i class="feather icon-play-circle mr-2"></i>Academia VET SDI
                     </h5>
                     <span class="tutorial-sdi-kicker">Aprende cada función con videos breves y prácticos</span>

@@ -232,7 +232,7 @@
     <div class="modal fade" id="modalResumenContacto" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info text-white">
+                <div class="modal-header bg-info">
                     <h5 class="modal-title"><i class="feather icon-user-check mr-2"></i>Resumen y contacto</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                 </div>
@@ -276,7 +276,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info text-center">
-                    <h4 class="modal-title text-white w-100 font-weight-bold">Nuevo Correo</h4>
+                    <h4 class="modal-title w-100 font-weight-bold">Nuevo Correo</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body mx-3">
@@ -327,7 +327,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white mt-1" id="modalMascotaDetalleLabel">Información de la mascota</h5>
+                    <h5 class="modal-title mt-1" id="modalMascotaDetalleLabel">Información de la mascota</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
@@ -394,7 +394,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h4 class="modal-title text-white w-100 font-weight-bold">Emitir documentos</h4>
+                    <h4 class="modal-title w-100 font-weight-bold">Emitir documentos</h4>
                     <button type="button" class="close" onclick="cerrar_cta_banco_m();" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

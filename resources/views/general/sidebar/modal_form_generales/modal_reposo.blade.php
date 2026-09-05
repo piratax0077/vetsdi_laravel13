@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" data-backdrop="static" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Certificado de reposo</h5>
+                <h5 class="modal-title text-center">Certificado de reposo</h5>
                 <button type="button" class="close text-white"  data-dismiss="modal" aria-label="Close" onclick="$('#modal_certificado_reposo').modal('hide')"><span
                         aria-hidden="true">×</span></button>
             </div>

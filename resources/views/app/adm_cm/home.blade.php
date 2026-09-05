@@ -73,7 +73,7 @@
                                         ->filter()
                                         ->first() ?? 'Administrador';
                                 @endphp
-                                <h4 class=" font-weight-bold text-white">Hola, {{ $primerNombreAdministrador }}</h4>
+                                <h4 class="f-w-800 text-white">Hola, {{ $primerNombreAdministrador }}</h4>
                                 <p class="text-white">Bienvenido a tu escritorio de Administrador General de {{ mb_strtoupper($institucion->nombre) }}</p>
                                 @if (false && !empty($contextosCentro) && !empty($contextoActivo))
                                     <form method="GET" action="{{ route('adm_cm.home') }}" class="mt-3">

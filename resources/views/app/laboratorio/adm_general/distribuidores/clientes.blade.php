@@ -104,7 +104,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_agregar_cliente_label">Añadir nuevo cliente</h5>
+                <h5 class="modal-title" id="modal_agregar_cliente_label">Añadir nuevo cliente</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#modal_agregar_cliente').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -219,7 +219,7 @@
     <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_editar_cliente_label">Editar nuevo cliente</h5>
+                <h5 class="modal-title" id="modal_editar_cliente_label">Editar nuevo cliente</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#modal_editar_cliente').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -328,7 +328,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_estado_cuenta_label">Estado de Cuenta</h5>
+                <h5 class="modal-title" id="modal_estado_cuenta_label">Estado de Cuenta</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#modal_estado_cuenta').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

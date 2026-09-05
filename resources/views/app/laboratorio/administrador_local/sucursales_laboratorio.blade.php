@@ -107,7 +107,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Agregar nueva sucursal</h5>
+                <h5 class="modal-title text-center">Agregar nueva sucursal</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -215,7 +215,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">
+                <h5 class="modal-title text-center">
                     Editar Sucursal
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -325,7 +325,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center" id="">Desasociar o Agregar sucursal existente</h5>
+                <h5 class="modal-title text-center" id="">Desasociar o Agregar sucursal existente</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -400,7 +400,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Configurar Asistentes</h5>
+                <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Configurar Asistentes</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -471,7 +471,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Configurar horario de atención</h5>
+                <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Configurar horario de atención</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -621,7 +621,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Convenios</h5>
+                <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Convenios</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

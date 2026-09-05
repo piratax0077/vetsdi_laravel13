@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white d-inline mt-1">Reparación de audífono</h5>
+                <h5 class="modal-title d-inline mt-1">Reparación de audífono</h5>
                     <p class="font-weight-bold mt-1 mb-0 text-white float-md-right">
                         @php
                             $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");

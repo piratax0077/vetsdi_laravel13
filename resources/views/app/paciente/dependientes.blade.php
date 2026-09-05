@@ -365,8 +365,8 @@
             aria-labelledby="modalSeleccionarDefuncionLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-header bg-secondary text-white">
-                        <h5 class="modal-title text-white" id="modalSeleccionarDefuncionLabel">
+                    <div class="modal-header bg-secondary">
+                        <h5 class="modal-title" id="modalSeleccionarDefuncionLabel">
                             <i class="feather icon-cloud"></i> Registrar defunción
                         </h5>
                         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
@@ -398,8 +398,8 @@
     <div class="modal fade" id="modal_detalle_mascota" tabindex="-1" role="dialog" aria-labelledby="modalDetalleMascota" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white mt-1" id="modalDetalleMascota">Información de la mascota </h5>
+                <div class="modal-header">
+                    <h5 class="modal-title mt-1" id="modalDetalleMascota">Información de la mascota </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
@@ -463,8 +463,8 @@
     <div class="modal fade" id="modal_ficha_mascota" tabindex="-1" role="dialog" aria-labelledby="modalFichaMascota" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white mt-1" id="modalFichaMascota">Ficha Médica <span id="modal_ficha_mascota_nombre"></span></h5>
+                <div class="modal-header">
+                    <h5 class="modal-title mt-1" id="modalFichaMascota">Ficha Médica <span id="modal_ficha_mascota_nombre"></span></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">

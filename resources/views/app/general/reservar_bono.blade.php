@@ -397,7 +397,7 @@
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content border-0 shadow">
 
-                <div class="modal-header bg-primary text-white">
+                <div class="modal-header bg-primary">
                     <div>
                         <h5 class="modal-title mb-0" id="convenioUsuarioLabel">
                             <i class="feather icon-credit-card mr-1"></i> Cotización y pago del bono
@@ -594,7 +594,7 @@
     <div class="modal fade" id="orden_qr_modal" tabindex="-1" role="dialog" aria-labelledby="ordenQrModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
             <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-primary text-white">
+                <div class="modal-header bg-primary">
                     <div>
                         <h5 class="modal-title mb-0" id="ordenQrModalLabel">
                             <i class="feather icon-grid mr-1"></i> Código QR Voucher
@@ -670,7 +670,7 @@
     <div class="modal fade" id="modal_compartir_voucher" tabindex="-1" role="dialog" aria-labelledby="modalCompartirVoucherLabel" aria-hidden="true">
         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
             <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-success text-white">
+                <div class="modal-header bg-success">
                     <div>
                         <h5 class="modal-title mb-0" id="modalCompartirVoucherLabel">
                             <i class="feather icon-share-2 mr-1"></i> Compartir voucher
@@ -753,7 +753,7 @@
     <div class="modal fade" id="modal_editar_voucher" tabindex="-1" role="dialog" aria-labelledby="modalEditarVoucherLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-info text-white">
+                <div class="modal-header bg-info">
                     <div>
                         <h5 class="modal-title mb-0" id="modalEditarVoucherLabel">
                             <i class="feather icon-edit mr-1"></i> Editar voucher
@@ -832,7 +832,7 @@
     <div class="modal fade" id="modal_eliminar_voucher" tabindex="-1" role="dialog" aria-labelledby="modalEliminarVoucherLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-danger text-white">
+                <div class="modal-header bg-danger">
                     <div>
                         <h5 class="modal-title mb-0" id="modalEliminarVoucherLabel">
                             <i class="feather icon-trash-2 mr-1"></i> Eliminar / anular voucher

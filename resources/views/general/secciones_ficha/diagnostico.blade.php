@@ -79,7 +79,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width:900px;width:calc(100% - 30px);">
         <div class="modal-content">
             <div class="modal-header bg-info py-2">
-                <h5 class="modal-title text-white" id="titulo_agendar_proximo_control">
+                <h5 class="modal-title" id="titulo_agendar_proximo_control">
                     <i class="feather icon-calendar mr-2"></i>Agendar próximo control
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">

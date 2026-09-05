@@ -170,7 +170,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="nuevo_lugar_atencion_titulo">Agregar nuevo lugar de atención&nbsp;</h5>
+                    <h5 class="modal-title text-center" id="nuevo_lugar_atencion_titulo">Agregar nuevo lugar de atención&nbsp;</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -272,7 +272,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="editar_lugar_atencion_titulo">Configurar lugar de atención</h5>
+                    <h5 class="modal-title text-center" id="editar_lugar_atencion_titulo">Configurar lugar de atención</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -363,7 +363,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="">Desasociar o Agregar lugar existente</h5>
+                    <h5 class="modal-title text-center" id="">Desasociar o Agregar lugar existente</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -433,7 +433,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Configurar asistentes</h5>
+                    <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Configurar asistentes</h5>
                     <button type="button" id="cerrar_editar_asistentes" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -522,7 +522,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Configurar horario de atenci&oacute;n</h5>
+                    <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Configurar horario de atenci&oacute;n</h5>
                     <button type="button" id="cerrar_modal_editar_horario_atencion" class="close text-white" onclick="" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -708,7 +708,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Convenios y valores de atención veterinaria</h5>
+                    <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Convenios y valores de atención veterinaria</h5>
                     <button type="button" id="cerrar_modal_editar_valor_atencion" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -829,7 +829,7 @@
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Procedimientos</h5>
+                    <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Procedimientos</h5>
                     <button type="button" id="cerrar_modal_editar_valor_atencion" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="cerrar_modal_agrear_editar_procedimientos();"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -896,9 +896,9 @@
     <div id="modal_tarifario_veterinario" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info text-white">
+                <div class="modal-header bg-info">
                     <div>
-                        <h5 class="modal-title text-white mb-1">Servicios y valores de atención veterinaria</h5>
+                        <h5 class="modal-title mb-1">Servicios y valores de atención veterinaria</h5>
                         <small>Configure el precio particular de cada acción. Los servicios con valor estarán disponibles en presupuestos.</small>
                     </div>
                     <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>

@@ -2,7 +2,7 @@
         <div class=" modal-dialog modal-lg " role="document">
             <div class="modal-content">
                     <div class="modal-header bg-info">
-                        <h5 class="modal-title text-white mt-1 f-18"id="modal_IMCLabel" style="font-size: 1.3rem; color: #3366CC;"><strong>Valores referenciales peso talla edad</strong></h5>
+                        <h5 class="modal-title mt-1 f-18"id="modal_IMCLabel" style="font-size: 1.3rem; color: #3366CC;"><strong>Valores referenciales peso talla edad</strong></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

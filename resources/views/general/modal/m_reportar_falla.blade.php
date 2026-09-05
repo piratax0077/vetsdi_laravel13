@@ -4,7 +4,7 @@
         @csrf
         <div class="modal-content">
             <div class="modal-header bg-danger">
-                <h5 class="modal-title text-white text-center">Reportar Falla del Sistema</h5>
+                <h5 class="modal-title text-center">Reportar Falla del Sistema</h5>
                 <button type="button" class="close text-white" data-bs-dismiss="modal" onclick="$('#freportar_falla').modal('hide');" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -72,7 +72,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info pt-3 pb-2">
-                <h5 class="modal-title text-white text-center">Registrar otro acompañante</h5>
+                <h5 class="modal-title text-center">Registrar otro acompañante</h5>
                 <button id="btn_cerrar_otro_acompanante_x" type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

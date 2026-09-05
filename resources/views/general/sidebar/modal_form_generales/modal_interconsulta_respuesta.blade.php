@@ -3,7 +3,7 @@
         <div class="modal-content">
 
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Respuesta Interconsulta</h5>
+                <h5 class="modal-title text-center">Respuesta Interconsulta</h5>
                 <button type="button" class="close text-white" onclick="$('#modal_interconsulta_respuesta').modal('hide')"  data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>

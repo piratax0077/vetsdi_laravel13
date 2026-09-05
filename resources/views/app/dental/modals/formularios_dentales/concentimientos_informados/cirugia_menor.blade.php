@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Consentimiento Informado Cirugía Dental Menor</h5>
+                <h5 class="modal-title text-center">Consentimiento Informado Cirugía Dental Menor</h5>
                 <h6 class="close text-white" style="font-size:15px;text-align:right">
                     <script>
                         var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",

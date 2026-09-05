@@ -185,7 +185,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info pt-3 pb-2">
-                    <h5 class="modal-title text-white text-center"><i class="icono-agenda feather icon-calendar"></i> Agendamiento de horas médicas</h5>
+                    <h5 class="modal-title text-center"><i class="icono-agenda feather icon-calendar"></i> Agendamiento de horas médicas</h5>
                     <button id="cerrar_tomar_hora" type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -925,7 +925,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
-                        <h5 class="modal-title text-white" id="modal_pago_consulta_title">Recepción de pago atención</h5>
+                        <h5 class="modal-title" id="modal_pago_consulta_title">Recepción de pago atención</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             onclick="$('#modal_recepcion_bonos_api').modal('hide');"><span
                                 aria-hidden="true">×</span></button>

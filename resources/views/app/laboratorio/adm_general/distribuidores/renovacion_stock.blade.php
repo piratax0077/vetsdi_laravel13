@@ -157,7 +157,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-warning">
-                <h5 class="modal-title text-white"><i class="feather icon-alert-triangle mr-2"></i>Solicitar reposición al proveedor</h5>
+                <h5 class="modal-title"><i class="feather icon-alert-triangle mr-2"></i>Solicitar reposición al proveedor</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

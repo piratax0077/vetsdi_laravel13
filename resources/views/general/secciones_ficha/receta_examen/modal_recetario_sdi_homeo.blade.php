@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1">Recetario SDI Homeopatía</h5>
+                <h5 class="modal-title mt-1">Recetario SDI Homeopatía</h5>
                 <input type="hidden" id="id_profesional_homeo" value="{{ @Auth::user()->id }}">
                 <button type="button" class="close" aria-label="Close" onclick="cerrarModalMedicamentosHomeo_sdi();">
                     <span aria-hidden="true">×</span>

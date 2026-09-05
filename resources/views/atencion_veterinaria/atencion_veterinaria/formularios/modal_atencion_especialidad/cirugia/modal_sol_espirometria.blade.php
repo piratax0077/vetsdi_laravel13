@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Solicitud Exámenes Funcionales</h5>
+                <h5 class="modal-title text-center">Solicitud Exámenes Funcionales</h5>
                 <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>

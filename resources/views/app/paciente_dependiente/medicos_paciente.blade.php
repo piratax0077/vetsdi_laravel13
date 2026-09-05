@@ -146,8 +146,8 @@
 <div class="modal fade" id="modal_reserva_veterinaria" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_reserva_veterinaria_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_reserva_veterinaria_label">Agendar Hora Veterinaria</h5>
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_reserva_veterinaria_label">Agendar Hora Veterinaria</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

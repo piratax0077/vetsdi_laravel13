@@ -9,7 +9,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <div class="page-header-title">
-                            <h4 class="m-b-10 font-weight-bold text-white">Hola, {{ $paciente->nombres }}</h4>
+                            <h4 class="m-b-10  text-white">Hola, {{ $paciente->nombres }}</h4>
                             <p class="text-white">Bienvenido/a a tu escritorio de cuidado de mascotas</p>
                         </div>
                         <!--<ul class="breadcrumb">
@@ -118,14 +118,12 @@
                 </div>
             </div>
         </div>
-
-        <!--CIERRE: Row Botones -->
-        <!--Row Mis Horas Médicas y Botón Examenes-->
+        <!--PROX CITAS DE MASCOTAS-->
         <div class="row m-b-30" >
             <div class="col-md-8">
                 <div class="card h-100 pb-0" >
-                    <div class="card-header bg-purple">
-                        <h4 class=" d-inline text-white  f-22"><i class="feather icon-calendar mr-3"></i> Mis próximas citas</h4>
+                    <div class="card-header">
+                        <h5><i class="feather icon-calendar mr-2"></i> Mis próximas citas</h5>
                     </div>
                     <div class="card-body pt-4 pb-0" style="height:290px;">
                         <div class="dt-responsive table-responsive" style="height:290px;back">
@@ -242,7 +240,7 @@
 						<a href="{{ route('paciente.referidos.index') }}" class="btn" type="button">
 							<div class="card-body">
 								<i class="feather icon-gift text-white mb-3" style="font-size:30px"></i>
-								<h5 class="my-auto text-white">INVITA Y GANA CON VET SDI</h5>
+								<h5 class="my-auto text-white">Invita y gana con vet sdi</h5>
 							</div>
 						</a>
 					</div>
@@ -250,7 +248,7 @@
 						<a href="{{ route('app.descarga') }}" class="btn" type="button" target="_blank">
 							<div class="card-body">
 								<img class="wid-30 mb-3" src="{{ asset('images/iconos/lock.svg') }}">
-								<h5 class="my-auto text-white">DESCARGA TU APLICACIÓN</h5>
+								<h5 class="my-auto text-white">Descarga VetPass</h5>
 							</div>
 						</a>
 					</div>

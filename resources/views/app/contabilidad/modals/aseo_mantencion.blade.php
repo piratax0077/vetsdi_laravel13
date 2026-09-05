@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Registrar Nuevo/a Personal Aseo y Mantenci&oacute;n</h5>
+                <h5 class="modal-title text-center">Registrar Nuevo/a Personal Aseo y Mantenci&oacute;n</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#88;</span></button>
             </div>
             <div class="modal-body">

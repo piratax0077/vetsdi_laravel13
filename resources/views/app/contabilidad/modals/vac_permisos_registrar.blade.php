@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Registrar Permisos/Vacaciones</h5>
+                <h5 class="modal-title text-center">Registrar Permisos/Vacaciones</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#88;</span></button>
             </div>
             <div class="modal-body">
@@ -95,9 +95,9 @@
                                 <label class="floating-label-activo-sm">Funci&oacute;n</label>
                                 <select class="form-control form-control-sm" id="funcion">
                                     <option>Seleccione opci&oacute;n</option>
-                                    <option>Mantención el&eacute;ctrica</option>
-                                    <option>Mantención Agua</option>
-                                    <option>Mantención Estructura</option>
+                                    <option>Mantenci\xF3n el&eacute;ctrica</option>
+                                    <option>Mantenci\xF3n Agua</option>
+                                    <option>Mantenci\xF3n Estructura</option>
                                     <option>etc</option>
                                 </select>
                             </div>

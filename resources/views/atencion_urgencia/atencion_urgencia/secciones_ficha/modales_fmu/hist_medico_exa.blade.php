@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="id_ficha_examen" style="font-size: 1.3rem; color: #3366CC;"> </h5>
+                <h5 class="modal-title" id="id_ficha_examen" style="font-size: 1.3rem; color: #3366CC;"> </h5>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#m_cons_examen').modal('hide'); ">
                     <span aria-hidden="true">&times;</span>

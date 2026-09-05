@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Finiquito Trabajador</h5>
+                <h5 class="modal-title text-center">Finiquito Trabajador</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#88;</span></button>
             </div>
             <div class="modal-body">
@@ -37,7 +37,7 @@
                             <h6 class="text-center">Promedios Variables &Uacute;ltimos tres meses</h6>
                         </div>
                     </div>
-                    <div class="col-sm-4"><!--carga los datos de liquidaciones de últimos 3 meses de trabajo-->
+                    <div class="col-sm-4"><!--carga los datos de liquidaciones de \xFAltimos 3 meses de trabajo-->
                         <div class="form-group">
                             <label class="floating-label-activo-sm">Mes 1</label>
                             <input class="form-control form-control-sm" name="mes_1" id="mes_1" type="text" >
@@ -60,13 +60,13 @@
                             <h6 class="text-center">Vacaciones</h6>
                         </div>
                     </div>
-                    <div class="col-sm-2"><!--carga los datos de liquidaciones de últimos 3 meses de trabajo-->
+                    <div class="col-sm-2"><!--carga los datos de liquidaciones de \xFAltimos 3 meses de trabajo-->
                         <div class="form-group">
                             <label class="floating-label-activo-sm">A&ntilde;os</label>
                             <input class="form-control form-control-sm" name="vac_anios" id="vac_anios" type="text" >
                         </div>
                     </div>
-                    <div class="col-sm-1"><!--carga los datos de liquidaciones de últimos 3 meses de trabajo-->
+                    <div class="col-sm-1"><!--carga los datos de liquidaciones de \xFAltimos 3 meses de trabajo-->
                         <div class="form-group">
                             <label class="floating-label-activo-sm">vac</label>
                             <input class="form-control form-control-sm" name="diasvacporanios" id="diasvacporanios" type="text" >
@@ -78,7 +78,7 @@
                             <input class="form-control form-control-sm" name="vac_meses" id="vac_meses" type="text" >
                         </div>
                     </div>
-                    <div class="col-sm-1"><!--carga los datos de liquidaciones de últimos 3 meses de trabajo-->
+                    <div class="col-sm-1"><!--carga los datos de liquidaciones de \xFAltimos 3 meses de trabajo-->
                         <div class="form-group">
                             <label class="floating-label-activo-sm">vac</label>
                             <input class="form-control form-control-sm" name="diasvac_meses" id="diasvac_meses" type="text" >
@@ -90,7 +90,7 @@
                             <input class="form-control form-control-sm" name="vac_dias" id="vac_dias" type="text" >
                         </div>
                     </div>
-                    <div class="col-sm-1"><!--carga los datos de liquidaciones de últimos 3 meses de trabajo-->
+                    <div class="col-sm-1"><!--carga los datos de liquidaciones de \xFAltimos 3 meses de trabajo-->
                         <div class="form-group">
                             <label class="floating-label-activo-sm">vac</label>
                             <input class="form-control form-control-sm" name="diasvac_dias" id="diasvac_dias" type="text" >
@@ -102,7 +102,7 @@
                             <input class="form-control form-control-sm" name="total_vac" id="total_vac" type="text" >
                         </div>
                     </div>
-                    <div class="col-sm-3"><!--carga los datos de liquidaciones de últimos 3 meses de trabajo-->
+                    <div class="col-sm-3"><!--carga los datos de liquidaciones de \xFAltimos 3 meses de trabajo-->
                         <div class="form-group">
                             <label class="floating-label-activo-sm">Progresivos</label>
                             <input class="form-control form-control-sm" name="progresivos" id="progresivos" type="text" >
@@ -131,7 +131,7 @@
                             <h6 class="text-center">Datos Para el C&aacute;lculo del Finiquito</h6>
                         </div>
                     </div>
-                    <div class="col-sm-3"><!--carga los datos de liquidaciones de últimos 3 meses de trabajo-->
+                    <div class="col-sm-3"><!--carga los datos de liquidaciones de \xFAltimos 3 meses de trabajo-->
                         <div class="form-group">
                             <label class="floating-label-activo-sm">Sueldo Base</label>
                             <input class="form-control form-control-sm" name="sueldo_base" id="sueldo_base" type="text" >
@@ -149,7 +149,7 @@
                             <input class="form-control form-control-sm" name="mov_colac" id="mov_colac" type="text" >
                         </div>
                     </div>
-                    <div class="col-sm-3"><!--carga los datos de liquidaciones de últimos 3 meses de trabajo-->
+                    <div class="col-sm-3"><!--carga los datos de liquidaciones de \xFAltimos 3 meses de trabajo-->
                         <div class="form-group">
                             <label class="floating-label-activo-sm">Prom/variab/&uacute;lt 3 meses</label>
                             <input class="form-control form-control-sm" name="promedio" id="promedio" type="text" >

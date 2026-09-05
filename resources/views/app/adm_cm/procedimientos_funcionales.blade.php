@@ -67,7 +67,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 id="titulo_modal_procedimiento" class="modal-title text-white">Agregar procedimiento</h5>
+                <h5 id="titulo_modal_procedimiento" class="modal-title">Agregar procedimiento</h5>
                 <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>
             </div>
             <form id="form_procedimiento">

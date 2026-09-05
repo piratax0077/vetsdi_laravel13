@@ -130,7 +130,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Agregar productos</h5>
+                <h5 class="modal-title text-center">Agregar productos</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#agregar_producto').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -200,7 +200,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center"> Quitar productos </h5>
+                <h5 class="modal-title text-center"> Quitar productos </h5>
                  <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#quitar_producto').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -240,7 +240,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Editar producto</h5>
+                <h5 class="modal-title text-center">Editar producto</h5>
                  <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#editar_producto').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
              <div class="modal-body">
@@ -384,7 +384,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Agregar Bodega</h5>
+                <h5 class="modal-title text-center">Agregar Bodega</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -472,7 +472,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-warning">
-                <h5 class="modal-title text-white"><i class="feather icon-alert-triangle mr-2"></i>Solicitar reposición al proveedor</h5>
+                <h5 class="modal-title"><i class="feather icon-alert-triangle mr-2"></i>Solicitar reposición al proveedor</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

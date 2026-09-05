@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white d-inline mt-1">Rendición Cierres de Cajas</h5>
+                <h5 class="modal-title d-inline mt-1">Rendición Cierres de Cajas</h5>
                 <button type="button" class="close text-white" aria-label="Close" onclick="cerrarModalCierreDia();"><span aria-hidden="true">×</span></button>
             </div>
 

@@ -4,7 +4,7 @@
         @csrf
 		<div class="modal-content">
 			<div class="modal-header bg-info">
-				<h5 class="modal-title text-white text-center">Solicitud de Inclusión Consentimiento Faltante </h5>
+				<h5 class="modal-title text-center">Solicitud de Inclusión Consentimiento Faltante </h5>
 				<button type="button" class="close"  data-bs-dismiss="modal"  aria-label="Close" onclick="cerrarcfaltante();">
 				<span aria-hidden="true">&times;</span>
 				</button>

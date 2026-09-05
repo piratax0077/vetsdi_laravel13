@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="m_cons_archivos_fmuLabel">Documentos</h5>
+                <h5 class="modal-title" id="m_cons_archivos_fmuLabel">Documentos</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#m_cons_archivos_fmu').modal('hide');" >
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -292,7 +292,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-secondary">
-                    <h5 class="modal-title text-white font-weight-bold">
+                    <h5 class="modal-title font-weight-bold">
                         <i class="feather icon-eye"></i> Detalle Denuncia RAM
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>

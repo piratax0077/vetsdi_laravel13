@@ -186,7 +186,7 @@
             <div class="modal-dialog modal-xl" role="document" style="max-width:95vw;">
                 <div class="modal-content">
                     <div class="modal-header bg-primary border-bottom">
-                        <h5 class="modal-title text-white font-weight-bold" id="modal_sesion_farmaciaLabel">
+                        <h5 class="modal-title font-weight-bold" id="modal_sesion_farmaciaLabel">
                              Sesión con Farmacia &mdash; <span id="sesion_farm_nombre"></span>
                         </h5>
                         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
@@ -346,7 +346,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
-                        <h5 class="modal-title text-white font-weight-bold" id="modal_farmaciaLabel">
+                        <h5 class="modal-title font-weight-bold" id="modal_farmaciaLabel">
                             <span id="modal_farmacia_titulo">Nueva Farmacia</span>
                         </h5>
                         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
