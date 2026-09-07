@@ -35,16 +35,24 @@ class ApiPacienteAuth
 
         $user = Auth::guard('sanctum')->user();
 
-        \Log::info('ApiPacienteAuth: Usuario autenticado', [
+        $logData = [
             'user_id' => $user->id,
             'email' => $user->email,
-            'tipo_usuario' => $user->tipo_usuario,
-            'activo' => $user->activo
-        ]);
+        ];
+
+        if (isset($user->tipo_usuario)) {
+            $logData['tipo_usuario'] = $user->tipo_usuario;
+        }
+
+        if (isset($user->activo)) {
+            $logData['activo'] = $user->activo;
+        }
+
+        \Log::info('ApiPacienteAuth: Usuario autenticado', $logData);
 
         // TEMPORALMENTE COMENTADO: Verificar que el usuario sea un paciente (tipo_usuario = 2)
         /*
-        if ($user->tipo_usuario != 2) {
+        if (isset($user->tipo_usuario) && $user->tipo_usuario != 2) {
             \Log::info('ApiPacienteAuth: Usuario no es paciente', [
                 'tipo_usuario_actual' => $user->tipo_usuario,
                 'tipo_requerido' => 2
@@ -60,8 +68,8 @@ class ApiPacienteAuth
         }
         */
 
-        // Verificar que el usuario esté activo
-        if ($user->activo != 1) {
+        // Verificar que el usuario esté activo solo si la columna existe en el esquema actual.
+        if (isset($user->activo) && (int) $user->activo !== 1) {
             \Log::info('ApiPacienteAuth: Usuario inactivo', [
                 'activo' => $user->activo
             ]);

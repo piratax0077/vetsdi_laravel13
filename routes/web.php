@@ -24,7 +24,7 @@ use App\Http\Controllers\HoraMedicaController;
 
 use App\Http\Controllers\InformeMedicoController;
 
-use App\Http\Controllers\Mascotascontroller;
+use App\Http\Controllers\MascotasController;
 
 use App\Http\Controllers\PacienteController;
 
@@ -1632,7 +1632,7 @@ Route::group([
 
 
 
-    Route::post('/Paciente/crear', [App\Http\Controllers\pacienteController::class, 'crear_paciente'])->name('profesional.paciente_agregar');
+    Route::post('/Paciente/crear', [App\Http\Controllers\PacienteController::class, 'crear_paciente'])->name('profesional.paciente_agregar');
 
     Route::post('/Asistente/crear', [App\Http\Controllers\EscritorioProfesional::class, 'crear_asistente'])->name('profesional.crear_asistente');
 
@@ -3485,7 +3485,7 @@ Route::group([
 
     Route::get('/Ficha_medica/profesional_provisorio/{id_paciente}/{lugar_atencion_id}/{id_hora_realizar}', [App\Http\Controllers\ficha_atencionController::class, 'index2'])->name('ficha_medica.profesional_provisorio'); // PROFESIONAL PROVISORIO
 
-    Route::get('/Registro_paciente', [App\Http\Controllers\pacienteController::class, 'buscar_paciente'])->name('buscar_paciente');
+    Route::get('/Registro_paciente', [App\Http\Controllers\PacienteController::class, 'buscar_paciente'])->name('buscar_paciente');
 
 
 
@@ -4511,11 +4511,11 @@ Route::group([
 
 ], function () {
 
-    Route::get('/getMisPacientes',      [App\Http\Controllers\ProfesionalController::class, 'getPacientes']);
+    Route::get('/getMisPacientes',      [App\Http\Controllers\profesionalController::class, 'getPacientes']);
 
-    Route::get('/getMisClinicasDental', [App\Http\Controllers\ProfesionalController::class, 'getMisClinicasDental']);
+    Route::get('/getMisClinicasDental', [App\Http\Controllers\profesionalController::class, 'getMisClinicasDental']);
 
-    Route::get('/newLugarAtencion',     [App\Http\Controllers\ProfesionalController::class, 'newLugarAtencion']);
+    Route::get('/newLugarAtencion',     [App\Http\Controllers\profesionalController::class, 'newLugarAtencion']);
 
 });
 

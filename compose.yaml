@@ -1,0 +1,76 @@
+services:
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - "8087:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: ${DB_USERNAME:-vetsdi}
+      PMA_PASSWORD: ${DB_PASSWORD:-vetsdi_secret}
+    depends_on:
+      - mysql
+    networks:
+      - vetsdi
+
+  app:
+    build:
+      context: .
+      args:
+        HOST_UID: ${HOST_UID:-1000}
+        HOST_GID: ${HOST_GID:-1000}
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - vetsdi
+
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "${APP_PORT:-8082}:80"
+    volumes:
+      - ./:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - vetsdi
+
+  mysql:
+    image: mysql:8.4
+    ports:
+      - "${FORWARD_DB_PORT:-3308}:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-vetsdi}
+      MYSQL_USER: ${DB_USERNAME:-vetsdi}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-vetsdi_secret}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_secret}
+    volumes:
+      - vetsdi_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - vetsdi
+
+  node:
+    image: node:22-bookworm-slim
+    working_dir: /var/www/html
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - vetsdi
+
+volumes:
+  vetsdi_mysql:
+
+networks:
+  vetsdi:
+    driver: bridge
