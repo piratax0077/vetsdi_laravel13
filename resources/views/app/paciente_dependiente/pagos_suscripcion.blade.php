@@ -22,7 +22,7 @@
 
         <style>
 
-            @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 
             #vetbilling{
                 --bg:#F5F8F7;
@@ -44,7 +44,7 @@
                 --radius:16px;
                 --shadow:0 6px 24px rgba(14,33,30,.06);
                 --shadow-lift:0 16px 40px rgba(14,33,30,.12);
-                font-family:'Inter',sans-serif;
+                font-family:'Nunito',sans-serif;
                 color:var(--ink);
             }
 
@@ -53,7 +53,7 @@
             #vetbilling .mono{ font-family:'JetBrains Mono',monospace; }
 
             #vetbilling h1,#vetbilling h2,#vetbilling h3,#vetbilling h4,#vetbilling h5{
-                font-family:'Outfit',sans-serif;
+                font-family:'Nunito',sans-serif;
                 color:var(--ink);
                 letter-spacing:-.01em;
             }
@@ -135,7 +135,7 @@
                 color:#fff;
             }
             #vetbilling .vb-side-note p{ font-size:12.5px; opacity:.85; margin:2px 0 10px; }
-            #vetbilling .vb-side-note strong{ font-size:14px; font-family:'Outfit',sans-serif; }
+            #vetbilling .vb-side-note strong{ font-size:14px; font-family:'Nunito',sans-serif; }
             #vetbilling .vb-side-note a{ color:#fff; font-size:12.5px; font-weight:700; text-decoration:underline; }
 
             /* ---------- panel card ---------- */
@@ -202,7 +202,7 @@
             }
 
             #vetbilling .vb-sub-body{ flex:1; min-width:180px; }
-            #vetbilling .vb-sub-body h6{ margin:0 0 2px; font-family:'Outfit',sans-serif; font-weight:700; font-size:15px; }
+            #vetbilling .vb-sub-body h6{ margin:0 0 2px; font-family:'Nunito',sans-serif; font-weight:700; font-size:15px; }
             #vetbilling .vb-sub-dates{ font-size:12px; color:var(--muted); }
 
             #vetbilling .vb-pill{
@@ -245,7 +245,7 @@
             #vetbilling .vb-vcard .vb-vnum{ font-family:'JetBrains Mono',monospace; font-size:17px; letter-spacing:2px; }
             #vetbilling .vb-vcard .vb-vfoot{ display:flex; justify-content:space-between; align-items:flex-end; font-size:11px; }
             #vetbilling .vb-vcard .vb-vfoot span{ display:block; opacity:.65; font-size:9px; text-transform:uppercase; letter-spacing:.06em; }
-            #vetbilling .vb-vcard .vb-brand{ font-family:'Outfit',sans-serif; font-weight:700; font-size:13px; }
+            #vetbilling .vb-vcard .vb-brand{ font-family:'Nunito',sans-serif; font-weight:700; font-size:13px; }
 
             #vetbilling .vb-billing-row{ display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; }
             #vetbilling .vb-billing-meta{ flex:1; min-width:220px; }
@@ -285,7 +285,7 @@
             }
 
             #vetbilling .vb-plan-name{ font-size:16px; font-weight:700; margin:6px 0 2px; }
-            #vetbilling .vb-plan-price{ font-family:'Outfit',sans-serif; font-size:32px; font-weight:800; line-height:1; margin-top:6px; }
+            #vetbilling .vb-plan-price{ font-family:'Nunito',sans-serif; font-size:32px; font-weight:800; line-height:1; margin-top:6px; }
             #vetbilling .vb-plan-price sup{ font-size:14px; font-weight:600; top:-14px; }
             #vetbilling .vb-plan-period{ font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
 
@@ -306,14 +306,14 @@
             #vetbilling .vb-field label{ font-size:12.5px; font-weight:600; color:var(--muted); margin-bottom:4px; display:block; }
             #vetbilling .vb-field input{
                 border:1.5px solid var(--border); border-radius:10px; padding:10px 12px; width:100%;
-                font-family:'Inter',sans-serif; font-size:14px; transition:border-color .2s ease, box-shadow .2s ease;
+                font-family:'Nunito',sans-serif; font-size:14px; transition:border-color .2s ease, box-shadow .2s ease;
             }
             #vetbilling .vb-field input:focus{ outline:none; border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-light); }
 
             .vb-toast-stack{ position:fixed; right:20px; bottom:20px; z-index:2000; display:flex; flex-direction:column; gap:10px; }
             .vb-toast{
                 background:var(--ink,#0E211E); color:#fff; padding:12px 16px; border-radius:12px;
-                font-family:'Inter',sans-serif; font-size:13.5px; display:flex; align-items:center; gap:10px;
+                font-family:'Nunito',sans-serif; font-size:13.5px; display:flex; align-items:center; gap:10px;
                 box-shadow:0 10px 30px rgba(0,0,0,.25); min-width:220px;
                 animation:vbToastIn .3s ease forwards;
             }
@@ -332,10 +332,10 @@
             .vb-confirm-box{
                 background:#fff; border-radius:16px; padding:24px; width:340px; max-width:90vw;
                 transform:translateY(10px) scale(.97); transition:transform .2s ease;
-                font-family:'Inter',sans-serif; box-shadow:var(--shadow-lift);
+                font-family:'Nunito',sans-serif; box-shadow:var(--shadow-lift);
             }
             .vb-confirm-backdrop.show .vb-confirm-box{ transform:translateY(0) scale(1); }
-            .vb-confirm-box h6{ font-family:'Outfit',sans-serif; font-size:17px; margin:0 0 6px; }
+            .vb-confirm-box h6{ font-family:'Nunito',sans-serif; font-size:17px; margin:0 0 6px; }
             .vb-confirm-box p{ font-size:13.5px; color:var(--muted,#65786F); margin:0 0 18px; }
             .vb-confirm-actions{ display:flex; gap:10px; justify-content:flex-end; }
 
@@ -591,7 +591,7 @@
         <div class="modal-content" style="border-radius:16px; border:none; overflow:hidden;">
 
             <div class="modal-header" style="border-bottom:1px solid #E4EAE7;">
-                <h5 class="modal-title" style="font-family:'Outfit',sans-serif;">Tarjeta de pago</h5>
+                <h5 class="modal-title" style="font-family:'Nunito',sans-serif;">Tarjeta de pago</h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>

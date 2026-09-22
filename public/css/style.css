@@ -218,7 +218,7 @@ Template Name: VET-SDI
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
-    --font-family-sans-serif: "Open Sans", sans-serif;
+    --font-family-sans-serif: "Nunito", sans-serif;
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -263,14 +263,14 @@ hr {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family:'Nunito Sans',sans-serif;
+    font-family:'Nunito',sans-serif;
     font-optical-sizing: auto;
     margin-top: 0;
     margin-bottom: 0.5rem;
 }
 
 p {
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Nunito Sans', sans-serif;
     margin-top: 0;
     margin-bottom: 0;
 }
@@ -416,6 +416,7 @@ th {
 
 label {
     font-family: 'Nunito', sans-serif;
+    color: #272727;
     display: inline-block;
     margin-bottom: 0.5rem;
     margin-left: 0.5rem;
@@ -569,7 +570,7 @@ template {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: 'Nunito Sans',sans-serif;
+    font-family: 'Nunito',sans-serif;
     font-optical-sizing: auto;
     margin-bottom: 0.5rem;
     font-weight: 500;
@@ -3591,35 +3592,74 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-dark {
-    color: #343a40;
-    border-color: #343a40;
+    color: #ff5252;
+    border-color: #ff5252;
 }
 
 .btn-outline-dark:hover {
     color: #fff;
-    background-color: #343a40;
-    border-color: #343a40;
+    background-color: #ff5252;
+    border-color: #ff5252;
 }
 
 .btn-outline-dark:focus, .btn-outline-dark.focus {
-    box-shadow: 0 0 0 0rem rgba(52, 58, 64, 0.5);
+    box-shadow: 0 0 0 0rem rgba(255, 82, 82, 0.5);
 }
 
 .btn-outline-dark.disabled, .btn-outline-dark:disabled {
-    color: #343a40;
+    color: #ff5252;
     background-color: transparent;
 }
 
 .btn-outline-dark:not(:disabled):not(.disabled):active, .btn-outline-dark:not(:disabled):not(.disabled).active,
   .show > .btn-outline-dark.dropdown-toggle {
     color: #fff;
-    background-color: #343a40;
-    border-color: #343a40;
+    background-color: #ff5252;
+    border-color: #ff5252;
 }
 
 .btn-outline-dark:not(:disabled):not(.disabled):active:focus, .btn-outline-dark:not(:disabled):not(.disabled).active:focus,
     .show > .btn-outline-dark.dropdown-toggle:focus {
-    box-shadow: 0 0 0 0rem rgba(52, 58, 64, 0.5);
+    box-shadow: 0 0 0 0rem rgba(255, 82, 82, 0.5);
+}
+
+/* Cerrar y cancelar en footers de modal y card: se ven como btn-outline-dark */
+.modal-footer [data-dismiss="modal"]:not(.btn-success):not(.btn-primary):not(.btn-info),
+.modal-footer .btn-danger-light,
+.modal-footer .btn-danger-light-c,
+.card-footer .btn-danger-light,
+.card-footer .btn-danger-light-c {
+    color: #ff5252;
+    background-color: transparent;
+    border-color: #ff5252;
+}
+
+.modal-footer [data-dismiss="modal"]:not(.btn-success):not(.btn-primary):not(.btn-info):hover,
+.modal-footer .btn-danger-light:hover,
+.modal-footer .btn-danger-light-c:hover,
+.card-footer .btn-danger-light:hover,
+.card-footer .btn-danger-light-c:hover {
+    color: #fff;
+    background-color: #ff5252;
+    border-color: #ff5252;
+}
+
+.modal-footer [data-dismiss="modal"]:not(.btn-success):not(.btn-primary):not(.btn-info):focus,
+.modal-footer .btn-danger-light:focus,
+.modal-footer .btn-danger-light-c:focus,
+.card-footer .btn-danger-light:focus,
+.card-footer .btn-danger-light-c:focus {
+    box-shadow: 0 0 0 0rem rgba(255, 82, 82, 0.5);
+}
+
+.modal-footer [data-dismiss="modal"]:not(.btn-success):not(.btn-primary):not(.btn-info):not(:disabled):not(.disabled):active,
+.modal-footer .btn-danger-light:not(:disabled):not(.disabled):active,
+.modal-footer .btn-danger-light-c:not(:disabled):not(.disabled):active,
+.card-footer .btn-danger-light:not(:disabled):not(.disabled):active,
+.card-footer .btn-danger-light-c:not(:disabled):not(.disabled):active {
+    color: #fff;
+    background-color: #ff5252;
+    border-color: #ff5252;
 }
 
 .btn-link {
@@ -4744,7 +4784,7 @@ input[type="button"].btn-block {
     font-size: 0.90rem!important;
     display: block;
     padding: 0.5rem 0.2rem;
-    color: #616161;
+    color: #ff5252;
     font-weight: 800;
 
 }
@@ -5305,13 +5345,14 @@ input[type="button"].btn-block {
 }
 
 .card-header {
-    font-family: 'Nunito Sans',sans-serif; font-weight:700;
-    padding: 0.4rem  1rem 0.3rem;
+    font-family: 'Nunito',sans-serif;
+    font-weight:700;
+    padding: 0.5rem  1rem 0.4rem;
     margin-bottom: 0;
-    font-size: 1.2rem;
-    background-color: #f7f7f7;
-    color: #1a49a3;
-    border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+    font-size: 1.3rem;
+    /* background-color: #f7f7f7; */
+    /* color: #1a49a3; */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 
@@ -6768,7 +6809,7 @@ a.close.disabled {
     z-index: 1070;
     display: block;
     margin: 0;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Nunito", sans-serif;
     font-style: normal;
     font-weight: 400;
     line-height: 1.5;
@@ -6881,7 +6922,7 @@ a.close.disabled {
     z-index: 1060;
     display: block;
     max-width: 276px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Nunito", sans-serif;
     font-style: normal;
     font-weight: 400;
     line-height: 1.5;
@@ -20804,7 +20845,7 @@ a.badge-light-dark.active, a.badge-light-dark:active, a.badge-light-dark:focus, 
       Custom css start
 ==========================  **/
 body {
-    font-family: "Nunito Sans", sans-serif;
+    font-family: "Nunito", sans-serif;
     font-size: 13px;
     color: #596679;
     font-weight: 400;
@@ -20822,7 +20863,7 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    color: #485465;
+    color: #272727;
     font-weight: 800;
 
 }
@@ -26208,7 +26249,7 @@ pre[class*=language-]:before {
 }
 
 .pcoded-navbar.menu-light a {
-    color: #485465;
+    color: #272727;
 }
 
 .pcoded-navbar.menu-light.navbar-collapsed .pcoded-menu-caption:after {
@@ -29578,7 +29619,7 @@ body.box-layout .pcoded-navbar.theme-horizontal ~ .pcoded-header {
 }
 
 .daterangepicker {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Nunito", sans-serif;
     border: 1px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0 0 25px rgba(70, 128, 255, 0.15);
     background-color: #fff;
@@ -33680,6 +33721,7 @@ font-family: 'Nunito', sans-serif;
 
 
 .floating-label-activo-sm {  
+    color: #272727!important;
     position: absolute!important;
     top: -11px!important;
     left: 2px!important;
@@ -36277,7 +36319,7 @@ transition: 0.2s!important;
 
 /*****MODALES VETSDI**/
 .modal-title-sdi {
-    font-family: 'Nunito Sans',sans-serif; font-weight:700;
+    font-family: 'Nunito',sans-serif; font-weight:700;
     font-size: 1.3rem!important;
     color: #fff;
     margin-top: 7px;
@@ -36322,4 +36364,44 @@ transition: 0.2s!important;
 
 .texto-corporativo {
     color: #08776f;
+}
+
+.icono-header {
+    font-size: 1.2rem!important;
+}
+
+.btn-outline-header {
+    color: #fff;
+    background-color: transparent;
+    border-color: #fff;
+}
+
+.btn-outline-header:hover {
+    color: #08776f;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+.btn-outline-header:focus, .btn-outline-header.focus {
+    color: #fff;
+    box-shadow: 0 0 0 0rem rgba(255, 255, 255, 0.5);
+}
+
+.btn-outline-header.disabled, .btn-outline-header:disabled {
+    color: #fff;
+    background-color: transparent;
+}
+
+.btn-outline-header:not(:disabled):not(.disabled):active,
+.btn-outline-header:not(:disabled):not(.disabled).active,
+.show > .btn-outline-header.dropdown-toggle {
+    color: #08776f;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+.btn-outline-header:not(:disabled):not(.disabled):active:focus,
+.btn-outline-header:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-header.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0rem rgba(255, 255, 255, 0.5);
 }

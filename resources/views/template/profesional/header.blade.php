@@ -5,7 +5,7 @@
                 <img src="{{ asset('/images/logo_pais.png') }}" alt="" class="logo" height="45px">
             </a>
             <a href="#!" class="mob-toggler">
-                <i class="feather icon-more-vertical"></i>
+                <i class="feather icon-more-vertical icono-header"></i>
             </a>
         </div>
         <div class="collapse navbar-collapse">
@@ -16,7 +16,7 @@
                         <li>
                             <div class="dropdown drp-user">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Mensajes" data-placement="button">
-                                    <i class="feather icon-mail" style="font-size: 1.2rem!important;"></i>
+                                    <i class="feather icon-mail icono-header"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right profile-notification">
                                     <div class="pro-head font-weight-bold f-16 py-2">
@@ -58,7 +58,7 @@
                     <li>
                         <div class="dropdown drp-user">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="feather icon-user" style="font-size: 1.2rem!important;"></i>
+                                <i class="feather icon-user icono-header"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right profile-notification">
                                 <div class="pro-head font-weight-bold f-16 py-2">

@@ -104,7 +104,7 @@
     <li>
         <div class="dropdown drp-user">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Cambiar entre Veterinario y Tutor" data-placement="button" aria-label="Cambiar escritorio">
-                <i class="feather icon-refresh-cw" style="font-size: 1.2rem!important;"></i>
+                <i class="feather icon-refresh-cw icono-header"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-notification">
                 <div class="pro-head font-weight-bold f-16 py-2">

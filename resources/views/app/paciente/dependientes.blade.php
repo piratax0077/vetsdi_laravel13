@@ -16,11 +16,6 @@
     #modal_ficha_mascota td:nth-child(1) {
         width: 120px;
     }
-    .mascotas-page-heading { display:flex; align-items:center; justify-content:flex-start; gap:12px; }
-    .mascotas-page-heading h5 { margin:0!important; line-height:1; }
-    .inicio-mascotas-icono { display:inline-flex; align-items:center; justify-content:center; padding:6px; border:0; color:#fff!important; background:transparent; font-size:24px; line-height:1; transition:.2s ease; }
-    .inicio-mascotas-icono:hover { color:#d9fffc!important; transform:translateY(-1px) scale(1.08); }
-    .inicio-mascotas-icono:focus { color:#fff!important; outline:2px solid rgba(255,255,255,.75); outline-offset:3px; }
     #card-lista-dependientes .card-mascota { height:calc(100% - 24px); margin-bottom:24px; overflow:hidden; border:0; border-radius:16px; box-shadow:0 7px 22px rgba(38,59,80,.1); transition:.2s ease; }
     #card-lista-dependientes .card-mascota:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(38,59,80,.16); }
     .mascota-card-profile { padding:22px 18px 15px; background:linear-gradient(145deg,#f7ffff 0%,#fff 65%); }
@@ -226,25 +221,27 @@
 
                         <div class="col-md-12">
 
-                            <div class="page-header-title mascotas-page-heading">
-
-                                <a href="{{ route('paciente.home') }}" class="inicio-mascotas-icono" title="Volver al inicio" aria-label="Volver al inicio">
-                                    <i class="feather icon-home" aria-hidden="true"></i>
-                                </a>
+                            <div class="page-header-title">
 
                                 <h5 class="font-weight-bold mb-0">Mis Mascotas</h5>
 
                             </div>
 
-                            <!-- <ul class="breadcrumb">
+                            <ul class="breadcrumb">
 
                                 <li class="breadcrumb-item">
 
-                                    <a href="#">Mis Mascotas</a>
+                                    <a href="{{ route('paciente.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
+
+                                        <i class="feather icon-home"></i>
+
+                                    </a>
 
                                 </li>
 
-                            </ul> -->
+                                <li class="breadcrumb-item active" aria-current="page">Mis Mascotas</li>
+
+                            </ul>
 
                         </div>
 

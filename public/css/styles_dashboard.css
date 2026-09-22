@@ -11,7 +11,7 @@
     --line: #e6edf1;
     --surface: #ffffff;
     --background: #f3f7f9;
-    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    font-family: "Nunito", sans-serif;
 }
 
 * { box-sizing: border-box; }

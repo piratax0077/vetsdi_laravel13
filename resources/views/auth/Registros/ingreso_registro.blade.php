@@ -41,6 +41,26 @@
 </style>
 
 <body>
+    <div class="barra-superior">
+        <div class="barra-superior-datos">
+            <div class="barra-superior-redes">
+                <a class="boton-red" href="#" aria-label="Facebook"><i class="feather icon-facebook"></i></a>
+                <a class="boton-red" href="#" aria-label="Instagram"><i class="feather icon-instagram"></i></a>
+            </div>
+            <a class="barra-superior-correo" href="mailto:contacto@vetsdi.cl"><i class="feather icon-mail"></i><span class="barra-superior-correo-texto">contacto@vetsdi.cl</span></a>
+        </div>
+        <a class="barra-superior-inicio" href="#"><i class="feather icon-home"></i> Inicio</a>
+    </div>
+
+    <header class="menu-flotante">
+        <a class="menu-flotante-logo" href="#" aria-label="Vet SDI, ir al inicio">
+            <img src="{{ asset('images/logo_pais_vertical.png') }}" alt="Vet SDI">
+        </a>
+        <nav class="menu-flotante-acciones" aria-label="Navegación principal">
+            <a class="menu-flotante-enlace" href="#">Inicio</a>
+        </nav>
+    </header>
+
     <div class="blur-bg-images"></div>
     <div class="auth-wrapper">
         <div class="auth-content">
@@ -48,7 +68,7 @@
             <div class="card text-center" id="ingreso">
                 <div class="card-body">
                     <img src="{{ asset('images/logo_pais_vertical.png') }}" alt="" class="img-fluid mb-4 wid-100">
-                    <h5 class="mb-3 f-w-400">¡Bienvenido a Vet SDI!</h5>
+                    <h5 class="mb-4">¡Bienvenido a Vet SDI!</h5>
                     <!-- mensaje -->
                     <div class="row div_mensaje">
                         @if(session('mensaje'))
@@ -60,20 +80,16 @@
                     </div>
                     <!-- Ingreso -->
                     <div class="toggle-block">
-                        <ol class="position-relative carousel-indicators justify-content-center">
-                            <li class="toggle-btn"></li>
-                            <li class="active"></li>
-                        </ol>
-
                         <div class="form-group mb-3">
 
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-group mb-3">
-                                    <label class="floating-label-activo-sm">Ingrese su correo electrónico</label>
+                                    <label class="floating-label-activo-sm">Ingrese email o RUT</label>
                                     <input type="text" class="form-control" name="email" id="email" value="">
+                                    <small class="ingreso-ayuda">Escriba correo electrónico o RUT sin puntos y con guión</small>
                                 </div>
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-2">
             <label class="floating-label-activo-sm ">Ingrese su contraseña</label>
             <div>
                 <input type="password" class="form-control" name="password" id="password"
@@ -84,11 +100,14 @@
                 </span>
             </div>
         </div>
+                                <div class="mb-4">
+                                    <a href="#" class="ingreso-enlace ingreso-enlace-chico" onclick="activar_recuperacion(); return false;">¿Olvidó su contraseña?</a>
+                                </div>
                                 <button class="btn btn-info mb-4" id="btn-ingresar">Ingresar</button>
                                 {{--  <button id="registrar" class="btn btn-outline-info mb-4 toggle-btn">¡Quiero registrarme!</button>  --}}
                             </form>
 
-                            <p class="mb-2 text-muted">¿Olvidó su contraseña? <div style="cursor: pointer;" onclick="activar_recuperacion();" class="f-w-400">¡Recuperela!</div></p>
+                            <p class="ingreso-mas-info text-muted mb-0">¿Quieres conocer más? <a href="#" class="ingreso-enlace">crea tu cuenta</a> o <a href="#" class="ingreso-enlace">descúbrelo aquí</a></p>
                         </div>
 
                     </div>
