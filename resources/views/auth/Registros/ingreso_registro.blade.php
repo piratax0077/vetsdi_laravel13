@@ -47,9 +47,9 @@
                 <a class="boton-red" href="#" aria-label="Facebook"><i class="feather icon-facebook"></i></a>
                 <a class="boton-red" href="#" aria-label="Instagram"><i class="feather icon-instagram"></i></a>
             </div>
-            <a class="barra-superior-correo" href="mailto:contacto@vetsdi.cl"><i class="feather icon-mail"></i><span class="barra-superior-correo-texto">contacto@vetsdi.cl</span></a>
+            <a class="barra-superior-correo" href="mailto:contacto@veterchile.cl"><i class="feather icon-mail"></i><span class="barra-superior-correo-texto">contacto@veterchile.cl</span></a>
         </div>
-        <a class="barra-superior-inicio" href="#"><i class="feather icon-home"></i> Inicio</a>
+        <a class="barra-superior-inicio" href="#"><i class="feather icon-home"></i> Inicio Veterchile</a>
     </div>
 
     <header class="menu-flotante">
@@ -57,18 +57,18 @@
             <img src="{{ asset('images/logo_pais_vertical.png') }}" alt="Vet SDI">
         </a>
         <nav class="menu-flotante-acciones" aria-label="Navegación principal">
-            <a class="menu-flotante-enlace" href="#">Inicio</a>
+            <a class="menu-flotante-enlace" href="#">Inicio Veterchile</a>
         </nav>
     </header>
 
     <div class="blur-bg-images"></div>
     <div class="auth-wrapper">
         <div class="auth-content">
-            <!-- Ingreso a Medichile -->
+            <!-- Ingreso a VETERCHILE -->
             <div class="card text-center" id="ingreso">
                 <div class="card-body">
-                    <img src="{{ asset('images/logo_pais_vertical.png') }}" alt="" class="img-fluid mb-4 wid-100">
-                    <h5 class="mb-4">¡Bienvenido a Vet SDI!</h5>
+                    <img src="{{ asset('images/logo_pais_vertical.png') }}" alt="" class="img-fluid mb-2 wid-120">
+                    <h5 class="mb-4">¡Bienvenido a Veterchile!</h5>
                     <!-- mensaje -->
                     <div class="row div_mensaje">
                         @if(session('mensaje'))
@@ -90,16 +90,16 @@
                                     <small class="ingreso-ayuda">Escriba correo electrónico o RUT sin puntos y con guión</small>
                                 </div>
                                 <div class="form-group mb-2">
-            <label class="floating-label-activo-sm ">Ingrese su contraseña</label>
-            <div>
-                <input type="password" class="form-control" name="password" id="password"
-                    value="" style="padding-right: 40px;">
-                <span id="toggle-password" onclick="togglePassword()"
-                    style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; user-select: none;">
-                    <i class="feather icon-eye-off"></i>
-                </span>
-            </div>
-        </div>
+                                <label class="floating-label-activo-sm ">Ingrese su contraseña</label>
+                                <div>
+                                    <input type="password" class="form-control" name="password" id="password"
+                                        value="" style="padding-right: 40px;">
+                                    <span id="toggle-password" onclick="togglePassword()"
+                                        style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; user-select: none;">
+                                        <i class="feather icon-eye-off"></i>
+                                    </span>
+                                </div>
+                            </div>
                                 <div class="mb-4">
                                     <a href="#" class="ingreso-enlace ingreso-enlace-chico" onclick="activar_recuperacion(); return false;">¿Olvidó su contraseña?</a>
                                 </div>
@@ -164,7 +164,7 @@
                     <!-- Registro -->
                 </div>
             </div>
-            <!-- Cierre: Ingreso a Medichile -->
+            <!-- Cierre: Ingreso a Veterchilee -->
 
 
             <!-- recuperar contraseña usuario -->
