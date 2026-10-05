@@ -9,7 +9,7 @@
         <div class="pcoded-content">
             <!--Header-->
             <div class="row">
-                <div class="col-md-12 mb-2 encabezado-pagina">
+                <div class="col-md-12 mb-3 encabezado-pagina">
                     <h5 class="f-26 d-inline">Mis mensajes</h5>
                     <button class="btn btn-info btn-sm mb-1" onclick="enviar_mensaje_a_profesional()"><i class="feather icon-mail"></i> Enviar mensaje</button>
                 </div>

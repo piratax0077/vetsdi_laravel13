@@ -1,7 +1,7 @@
 <div id="modal_pago" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="modal_pago" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
-			<div class="modal-header bg-info">
+			<div class="modal-header modal-header-purple">
 				<h5 class="modal-title text-center">Recibir pago</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>

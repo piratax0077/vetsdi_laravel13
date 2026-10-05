@@ -3,7 +3,7 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--HEADER-->
-            <div class="page-header">
+            <div class="page-header encabezado-ficha">
                 <div class="page-block">
                     <div class="row align-items-center pb-2">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
@@ -44,9 +44,9 @@
                                                 </li>--}}
                                                 {{--  <li class="nav-item" id="nav-fmu">
                                                     @if(!empty(session('fmu_token')) && session('fmu_estado') == 1)
-                                                        <a class="nav-link text-reset" id="fmu-tab" data-toggle="tab" href="#fmu" role="tab" aria-controls="fmu" aria-selected="false">FMU</a>
+                                                        <a class="nav-link text-reset" id="fmu-tab" data-toggle="tab" href="#fmu" role="tab" aria-controls="fmu" aria-selected="false">FVU</a>
                                                     @else
-                                                        <a class="nav-link text-reset" id="fmu-tab" data-toggle="tab" href="#" role="tab" aria-controls="fmu" aria-selected="false" onclick="abrir_autorizacion_fmu();">FMU</a>
+                                                        <a class="nav-link text-reset" id="fmu-tab" data-toggle="tab" href="#" role="tab" aria-controls="fmu" aria-selected="false" onclick="abrir_autorizacion_fmu();">FVU</a>
                                                     @endif
                                                 </li>  --}}
                                                 <li class="nav-item">

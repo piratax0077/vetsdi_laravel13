@@ -14,9 +14,9 @@
             justify-content: center;
         }
         .configuracion-card-icon {
-            width: 78px !important;
-            height: 78px !important;
-            margin: 0 0 16px !important;
+            width: 62px !important;
+            height: 62px !important;
+            margin: 0 0 10px !important;
             object-fit: contain;
             flex: 0 0 78px;
         }
@@ -28,7 +28,7 @@
         <div class="pcoded-content">
             <!--Header-->
             <div class="row">
-                <div class="col-md-12 mb-2">
+                <div class="col-md-12 mb-3">
                     <h5 class="f-26 d-inline">Panel de configuración</h5>
                 </div>
             </div>

@@ -3,9 +3,6 @@
 @section('content')
 <style>
     .vet-report-card{border:0;border-radius:14px;box-shadow:0 4px 16px rgba(31,45,61,.08)}
-    .vet-kpi{padding:20px;min-height:118px;display:flex;align-items:center;gap:16px}
-    .vet-kpi-icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:23px;background:#e5f8f7;color:#16aaa8}
-    .vet-kpi strong{font-size:25px;color:#34445c;display:block}.vet-kpi small{color:#778398}
     .vet-bar{height:10px;border-radius:10px;background:#edf1f5;overflow:hidden}.vet-bar span{height:100%;display:block;border-radius:10px;background:linear-gradient(90deg,#13b6b3,#6b3a91)}
     .vet-filter{background:#fff;border-radius:14px;padding:16px 20px;box-shadow:0 4px 16px rgba(31,45,61,.08)}
     #contenido_reporte{-webkit-transition:opacity .2s ease;transition:opacity .2s ease}
@@ -60,9 +57,9 @@
         @foreach([
             ['icon-clipboard','Atenciones',$resumen['atenciones']], ['icon-check-circle','Finalizadas',$resumen['finalizadas']],
             ['icon-heart','Mascotas atendidas',$resumen['mascotas']], ['icon-calendar','Horas agendadas',$resumen['horas_agendadas']],
-            ['icon-dollar-sign','Ingresos registrados','$'.number_format($resumen['ingresos'],0,',','.')]
+            ['icon-credit-card','Ingresos registrados','$'.number_format($resumen['ingresos'],0,',','.')]
         ] as $kpi)
-        <div class="col-sm-6 col-xl mb-3"><div class="card vet-report-card h-100"><div class="vet-kpi"><span class="vet-kpi-icon"><i class="feather {{ $kpi[0] }}"></i></span><div><strong>{{ $kpi[2] }}</strong><small>{{ $kpi[1] }}</small></div></div></div></div>
+        <div class="col-sm-6 col-xl mb-3"><div class="tarjeta-indicador"><span class="tarjeta-indicador-icono"><i class="feather {{ $kpi[0] }}"></i></span><strong class="tarjeta-indicador-valor">{{ $kpi[2] }}</strong><span class="tarjeta-indicador-etiqueta">{{ $kpi[1] }}</span></div></div>
         @endforeach
     </div>
 

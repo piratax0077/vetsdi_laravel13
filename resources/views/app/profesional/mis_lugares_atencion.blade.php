@@ -5,7 +5,7 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content mt-top">
             <div class="row">
-                <div class="col-md-12 mb-2 encabezado-pagina">
+                <div class="col-md-12 mb-3 encabezado-pagina">
                     <h5 class="f-26 d-inline">Mis lugares de atención</h5>
                     <button type="button" class="btn btn-info btn-sm mb-1" data-toggle="modal" data-target="#nuevo_lugar_atencion">
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Agregar nuevo lugar de atención

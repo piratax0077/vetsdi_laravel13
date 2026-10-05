@@ -53,7 +53,7 @@
         <div class="pcoded-content">
 
             <div class="row">
-                <div class="col-md-12 mb-2 encabezado-pagina">
+                <div class="col-md-12 mb-3 encabezado-pagina">
                     <div>
                         <h5 class="f-26 d-block mb-0">Mascotas y tutores</h5>
                     </div>

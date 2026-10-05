@@ -217,7 +217,7 @@
    <div id="modal_recepcion_bonos_api" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Recepcion de bonos" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title" id="modal_pago_consulta_title">Recepción de bonos y programas</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                     </button>
@@ -291,7 +291,7 @@
     <div id="modal_venta_bonos_api" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_pago_consulta_0" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title" id="modal_pago_consulta_title">Pago de Atención Médica</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                     </button>
@@ -368,7 +368,7 @@
     <div id="modal_boleta_electronica" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_pago_consulta_0" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title">Boleta electrónica (Servicios de Impuestos Internos)</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                     </button>

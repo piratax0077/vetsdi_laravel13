@@ -196,7 +196,7 @@
         aria-labelledby="agregar_paciente_asistente" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info pt-3 pb-2">
+                <div class="modal-header modal-header-purple pt-3 pb-2">
                     <h5 class="modal-title text-center">Tomar horas</h5>
                     <button id="cerrar_tomar_hora" type="button" class="close" data-bs-dismiss="modal" aria-label="Close" ><span aria-hidden="true">×</span>
                 </button>
@@ -918,7 +918,7 @@
         aria-labelledby="Recepcion de bonos" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title" id="modal_pago_consulta_title">Recepción de pago atención</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                         onclick="$('#modal_recepcion_bonos_api').modal('hide');"><span

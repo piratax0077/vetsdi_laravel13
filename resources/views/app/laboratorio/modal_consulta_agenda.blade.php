@@ -5,7 +5,7 @@
             <input type="hidden" name="estado_id_profesional" id="estado_id_profesional" value="">
             <input type="hidden" name="estado_id_paciente" id="estado_id_paciente" value="">
             <input type="hidden" name="id_hora_medica" id="id_hora_medica" value="">
-            <div class="modal-header bg-info pt-3 pb-3">
+            <div class="modal-header modal-header-purple pt-3 pb-3">
                 <h6 id="cabecera_hora_medica" class="text-white f-16 mb-0 mt-0">Información del paciente</h6>
             </div>
             <div class="modal-body">

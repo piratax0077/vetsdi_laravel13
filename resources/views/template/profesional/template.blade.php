@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon" />
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=20260819-2" />
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=20261005-1" />
     <link rel="stylesheet" href="{{ asset('css/escritorio_profesional.css') }}?v=20260819-2">
 
     <!-- select2 selectbonito css -->

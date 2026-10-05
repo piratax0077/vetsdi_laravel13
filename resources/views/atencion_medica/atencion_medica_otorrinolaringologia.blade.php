@@ -5,7 +5,7 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--HEADER-->
-            <div class="page-header">
+            <div class="page-header encabezado-ficha">
                 <div class="page-block">
                     <div class="row align-items-center pb-2">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">

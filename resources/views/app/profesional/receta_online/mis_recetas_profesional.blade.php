@@ -5,7 +5,7 @@
         <div class="pcoded-content">
             <!--Header-->
             <div class="row">
-                <div class="col-md-12 mb-2">
+                <div class="col-md-12 mb-3">
                     <h5 class="f-26 d-inline">Mis recetas</h5>
                 </div>
             </div>

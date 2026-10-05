@@ -3099,8 +3099,8 @@ fieldset:disabled a.btn {
 
 .btn-purple {
     color: #fff;
-    background-color: #A06CC1;
-    border-color: #A06CC1;
+    background-color: #6f42c1;
+    border-color: #6f42c1;
 }
 
 .btn-purple:hover {
@@ -5898,7 +5898,7 @@ a.badge-dark:focus, a.badge-dark.focus {
     padding: 0.75rem 1.25rem;
     margin-bottom: 1rem;
     border: 1px solid transparent;
-    border-radius: 0.25rem;
+    border-radius: 0.35rem;
     font-weight: 600;
 }
 
@@ -5972,7 +5972,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 
 .alert-info {
     color: #008d9e;
-    background-color: #cceef3;
+    background-color: #e8fcff;
     border-color: #b8e8ee;
 }
 
@@ -5984,9 +5984,16 @@ a.badge-dark:focus, a.badge-dark.focus {
     color: #002c31;
 }
 
+.alert-purple {
+    color: #7b5097;
+    background-color: #f9f7fd;
+    border-color: #d8c2e6;
+}
+
+
 .alert-warning {
-    color: #85612d;
-    background-color: #fff1dd;
+    color: #94703b;
+    background-color: #fff9f0;
     border-color: #ffecd0;
 }
 
@@ -21147,6 +21154,34 @@ f-w-800 {
     }
 }
 
+/* Franja del título en las fichas de atención: lleva el mismo morado del encabezado
+   y va de borde a borde, para que el título y la fecha en blanco se lean bien.
+   Los márgenes negativos compensan el margin-top y el padding de .pcoded-content. */
+.page-header.encabezado-ficha {
+    margin: -42px -22px 18px;
+    padding: 12px 22px 2px;
+    background: #6f42c1;
+    background: linear-gradient(120deg, #6f42c1 0%, #59339c 100%);
+}
+
+.page-header.encabezado-ficha .page-header-title::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.page-header.encabezado-ficha .page-header-title h5,
+.page-header.encabezado-ficha .page-header-title p {
+    color: #fff !important;
+}
+
+@media only screen and (max-width: 575px) {
+    .page-header.encabezado-ficha {
+        margin: -45px -15px 15px;
+        padding: 12px 15px 8px;
+    }
+}
+
 /* ==========  card css start  =========== */
 .anim-rotate {
     -webkit-animation: anim-rotate 1s linear infinite;
@@ -27565,11 +27600,22 @@ body.box-layout .pcoded-navbar.theme-horizontal ~ .pcoded-header {
     transition: background 0s ease-out;
 }
 
+/* Foco tenue en todos los campos, igual al del escritorio del tutor:
+   borde morado y un halo suave alrededor. Vale para .form-control y .form-control-sm */
 .form-control:focus {
     background-size: 100% 100%, 100% 100%;
     transition-duration: 0.3s;
-    box-shadow: none;
-    border: 1px solid #613584;
+    border: 1px solid #6f42c1;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
+}
+
+.custom-select:focus {
+    border-color: #6f42c1;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
 }
 
 .form-group {
@@ -37313,8 +37359,6 @@ table thead th,
     font-size: 12.5px;
     line-height: 1.5;
     background: #f9f7fd;
-    border: 1px solid #e5ddf5;
-    border-left: 3px solid #6f42c1;
     border-radius: 10px;
 }
 
@@ -41165,4 +41209,306 @@ tbody tr.codigo th::first-letter {
 
 .encabezado-pagina h5 {
     margin-bottom: 4px;
+}
+
+/* Tarjeta de indicador: cifra grande y etiqueta a la izquierda, ícono en círculo a la derecha.
+   Sirve para cualquier resumen numérico (atenciones, finalizadas, ingresos, etc.).
+   Estructura:
+   <div class="tarjeta-indicador">
+       <span class="tarjeta-indicador-icono"><i class="feather icon-check-circle"></i></span>
+       <strong class="tarjeta-indicador-valor">0</strong>
+       <span class="tarjeta-indicador-etiqueta">Finalizados</span>
+   </div>
+   El color del ícono se cambia con un modificador: --morado, --naranja, --azul, --rojo. */
+.tarjeta-indicador {
+    --indicador-color: #16aaa8;
+    --indicador-fondo: #e3f4f3;
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    -webkit-column-gap: 12px;
+    column-gap: 12px;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: start;
+    box-sizing: border-box;
+    height: 100%;
+    min-height: 118px;
+    padding: 22px 24px;
+    background: #fff;
+    border: 0;
+    border-radius: 22px;
+    -webkit-box-shadow: 0 6px 20px rgba(31, 45, 61, .10);
+    box-shadow: 0 6px 20px rgba(31, 45, 61, .10);
+    font-family: "Nunito", sans-serif;
+}
+
+.tarjeta-indicador-valor {
+    grid-column: 1;
+    grid-row: 1;
+    display: block;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.1;
+    color: #272727;
+    word-break: break-word;
+}
+
+.tarjeta-indicador-etiqueta {
+    grid-column: 1;
+    grid-row: 2;
+    display: block;
+    margin-top: 6px;
+    font-family: "Nunito Sans", "Nunito", sans-serif;
+    font-size: 16px;
+    line-height: 1.3;
+    color: #555;
+}
+
+.tarjeta-indicador-icono {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    -ms-grid-column-align: end;
+    justify-self: end;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--indicador-fondo);
+    color: var(--indicador-color);
+    font-size: 18px;
+}
+
+.tarjeta-indicador--morado { --indicador-color: #6b3a91; --indicador-fondo: #eee6f5; }
+.tarjeta-indicador--naranja { --indicador-color: #e8923a; --indicador-fondo: #fcefe0; }
+.tarjeta-indicador--azul { --indicador-color: #3a7be0; --indicador-fondo: #e4eefc; }
+.tarjeta-indicador--rojo { --indicador-color: #e0524f; --indicador-fondo: #fbe6e5; }
+
+@media (max-width: 575.98px) {
+    .tarjeta-indicador {
+        min-height: 100px;
+        padding: 18px 20px;
+    }
+
+    .tarjeta-indicador-valor {
+        font-size: 34px;
+    }
+}
+
+
+/* ==========================================================================
+   Modal "Significado de los estados de la agenda"
+   ========================================================================== */
+#modal_simbologia_agenda .modal-body {
+    padding: 8px 20px 16px;
+}
+
+.simbologia-agenda-lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.simbologia-agenda-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 12px 4px;
+    border-bottom: 1px solid #eee9f5;
+}
+
+.simbologia-agenda-item:last-child {
+    border-bottom: 0;
+}
+
+.simbologia-agenda-punto {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    font-size: 1.35rem;
+    line-height: 1;
+    margin-right: 14px;
+}
+
+.simbologia-agenda-nombre {
+    margin: 0;
+    font-family: 'Nunito Sans', 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #272727;
+}
+
+/*****RESUMEN DE LA MASCOTA O DEL PACIENTE EN EL MENU LATERAL DE LA FICHA**/
+
+/* Tarjeta que acompaña al menú mientras se atiende: quién es el paciente
+   y sus patologías crónicas, siempre a la vista */
+.ficha-resumen {
+    margin: 125px 10px 12px;
+    padding: 14px;
+    background: #fff;
+    border: 1px solid #ebe6f5;
+    border-radius: 14px;
+    -webkit-box-shadow: 0 6px 18px rgba(89, 51, 156, .10);
+    box-shadow: 0 6px 18px rgba(89, 51, 156, .10);
+    font-family: 'Nunito Sans', 'Nunito', sans-serif;
+    color: #272727;
+}
+
+.ficha-resumen-cabecera {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-bottom: 12px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #f0ecf7;
+}
+
+.ficha-resumen-icono {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    margin-right: 10px;
+    border-radius: 12px;
+    background: #f3eefc;
+    color: #6f42c1;
+    font-size: 1.1rem;
+}
+
+/* Sin esto el nombre largo empuja la tarjeta fuera del menú */
+.ficha-resumen-titulo {
+    min-width: 0;
+}
+
+.ficha-resumen-etiqueta {
+    display: block;
+    font-family: 'Nunito', sans-serif;
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #8a7fa3;
+}
+
+.ficha-resumen-nombre {
+    display: block;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #272727;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.ficha-resumen-datos {
+    margin: 0;
+    padding: 0;
+}
+
+.ficha-resumen-dato {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: baseline;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid #f5f2fa;
+}
+
+.ficha-resumen-dato:last-child {
+    border-bottom: 0;
+}
+
+.ficha-resumen-dato dt {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin: 0 10px 0 0;
+    font-size: .76rem;
+    font-weight: 600;
+    color: #7c7f8a;
+}
+
+.ficha-resumen-dato dd {
+    margin: 0;
+    min-width: 0;
+    font-size: .82rem;
+    font-weight: 700;
+    color: #272727;
+    text-align: right;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.ficha-resumen-seccion {
+    margin: 12px 0 8px;
+    padding-top: 12px;
+    border-top: 1px solid #f0ecf7;
+    font-family: 'Nunito', sans-serif;
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #8a7fa3;
+}
+
+.ficha-resumen-lista {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Una patología sin nombre no debe dejar una etiqueta vacía */
+.ficha-resumen-lista li:empty {
+    display: none;
+}
+
+.ficha-resumen-lista li {
+    display: inline-block;
+    max-width: 100%;
+    margin: 0 4px 6px 0;
+    padding: 3px 10px;
+    border: 1px solid #e6def6;
+    border-radius: 999px;
+    background: #f9f7fd;
+    font-size: .74rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #59339c;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Con el menú angosto la tarjeta no cabe; vuelve al pasar el mouse y expandirse */
+.pcoded-navbar.navbar-collapsed:not(:hover) .ficha-resumen {
+    display: none;
 }

@@ -4,7 +4,7 @@
         @include('atencion_veterinaria.include.head_veter_general')
 
         <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=20260728-3">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=20261005-1">
         <link rel="stylesheet" href="{{ asset('css/style_index.css') }}?v=20260728-3">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 

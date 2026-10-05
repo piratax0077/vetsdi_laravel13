@@ -6,9 +6,9 @@
 
     <div class="pcoded-main-container">
 
-        <div class="pcoded-content m-top">
+        <div class="pcoded-content ">
             <div class="row">
-                <div class="col-md-12 mb-2 encabezado-pagina">
+                <div class="col-md-12 mb-3 encabezado-pagina">
                     <h5 class="f-26 d-inline">Mis asistentes</h5>
                     <div class="d-inline-flex flex-wrap justify-content-end">
                         @if($es_odontologia_veterinaria)
@@ -16,8 +16,8 @@
                                 <i class="feather icon-user-plus"></i> Agregar TONS / técnico en odontología
                             </a>
                         @endif
-                        <button type="button" class="btn btn-sm btn-info mb-1" data-toggle="modal" data-target="#nuevo_asistente">
-                            <i class="feather icon-plus"></i> Agregar secretaria
+                        <button type="button" class="btn  btn-info mb-1" data-toggle="modal" data-target="#nuevo_asistente">
+                            <i class="feather icon-plus"></i> Agregar asistente
                         </button>
                     </div>
                 </div>
