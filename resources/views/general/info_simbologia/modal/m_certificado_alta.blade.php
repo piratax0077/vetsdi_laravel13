@@ -60,7 +60,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" onclick="registrar_alta_medica('modal_cert_alta_tipo_informe','modal_cert_alta_comentarios','modal_cert_alta');" class="btn btn-info">Generar Certificado de Alta</button>
             </div>
         </div>

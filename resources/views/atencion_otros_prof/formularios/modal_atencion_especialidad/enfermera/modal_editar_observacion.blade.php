@@ -31,7 +31,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">
                     <i class="fas fa-times"></i> Cancelar
                 </button>
                 <button type="button" class="btn btn-info" onclick="guardar_observacion_medicamento();">

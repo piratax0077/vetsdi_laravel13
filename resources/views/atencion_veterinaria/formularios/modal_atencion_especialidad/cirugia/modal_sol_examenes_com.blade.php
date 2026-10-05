@@ -1,7 +1,7 @@
 <div id="m_ex_comunes" class="modal fade" role="dialog" aria-labelledby="m_ex_comunes" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Solicitud Exámenes Frecuentes</h5>
                 <button type="button" class="close text-white" onclick="$('#m_ex_comunes').modal('hide')" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
@@ -216,7 +216,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary btn-sm" onclick="enviar_examenes_paciente(4)"><i class="fas fa-email"></i>Enviar a paciente</button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="cerrarsol_ex_func_cardio();"
+                <button type="button" class="btn btn-outline-dark btn-sm" onclick="cerrarsol_ex_func_cardio();"
                     data-bs-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-info btn-sm"> Guardar</button>
             </div>

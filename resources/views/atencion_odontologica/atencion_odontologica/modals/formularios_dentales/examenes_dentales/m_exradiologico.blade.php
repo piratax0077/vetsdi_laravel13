@@ -107,7 +107,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" onclick="reset_form('form_radiologico_validacion')"
-                                class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                             <input type="submit" id="btn_registrar_examen_radiologico" style="display:none;"
                                 class="btn btn-info" onclick="registrar_examen_radiologico()" value="GUARDAR">
                         </div>

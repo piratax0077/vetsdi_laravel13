@@ -864,7 +864,7 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
           <button type="button" onclick="enviar_email_presupuesto_insumos()" class="btn btn-primary">Enviar</button>
         </div>
       </div>

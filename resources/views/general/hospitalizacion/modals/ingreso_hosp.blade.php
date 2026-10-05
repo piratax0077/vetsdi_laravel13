@@ -2,7 +2,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1 f-18" id="eco_gine"> Solicitud de hospitalización - <script>
                         var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
                             "Octubre", "Noviembre", "Diciembre");
@@ -491,7 +491,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#ingreso_m_modal').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#ingreso_m_modal').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
                 <button type="button" class="btn btn-info" onclick="guardar_hospitalizacion()"><i class="feather icon-save"></i> Guardar y enviar</button>
                 <button type="button" class="btn btn-primary" onclick="generar_pdf_hospitalizacion()"><i class="feather icon-file"></i> Ver formulario (PDF)</button>
             </div>

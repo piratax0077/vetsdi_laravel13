@@ -824,6 +824,7 @@
     @yield('js-profesionales')
     <script src="{{ asset('js/validaRut.js') }}?t={{ time() }}"></script>
 
+@include('template.include.selector_fechas')
 </body>
 
 </html>

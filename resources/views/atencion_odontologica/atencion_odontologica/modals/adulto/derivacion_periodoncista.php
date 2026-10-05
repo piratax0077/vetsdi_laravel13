@@ -96,7 +96,7 @@
                         <div class="col-sm-12 col-md-12 text-center mb-2">
                             <!--<p class="mb-2">Saluda atentamente</p>-->
                             <button type="button" class="btn btn-sm btn-primary">Ver documento en PDF</button>
-                            <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-sm btn-info">Enviar Interconsulta</button>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer pt-2 pb-0">
-                                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-sm btn-info">Enviar Respuesta</button>
                             </div>
                         </form>

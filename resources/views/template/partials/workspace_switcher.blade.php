@@ -1,99 +1,63 @@
 @php
+    use App\Http\Controllers\SeleccionCuentaController;
+    use App\Services\CuentasService;
+
+    /*
+     * Selector de cuenta del encabezado.
+     *
+     * Primero lista los roles del modelo de cuentas (tutor, profesional,
+     * asistente y clínica). Después agrega los escritorios antiguos que ese
+     * modelo todavía no cubre, para no dejar sin acceso a quien los usa.
+     * Cambiar de escritorio no vuelve a pedir la contraseña: el servidor igual
+     * revisa el rol y el perfil en cada ruta.
+     */
     $workspaceOptions = collect();
     $workspaceUser = Auth::user();
+    $rolActivo = session(SeleccionCuentaController::SESION_ROL_ACTIVO);
+    $nombreRolActivo = null;
 
     if ($workspaceUser) {
-        $professionalActiveContext = null;
-        $adminActiveContext = null;
+        $cuentas = app(CuentasService::class);
 
-        if (class_exists(\App\Support\UserCenterContext::class)) {
-            $professionalContext = \App\Support\UserCenterContext::forProfessional($workspaceUser, request());
-            $professionalActiveContext = $professionalContext['active'] ?? null;
+        foreach ($cuentas->rolesActivos($workspaceUser) as $rolCuenta) {
+            $esActivo = $rolActivo === $rolCuenta->tipo;
 
-            $adminContext = \App\Support\UserCenterContext::forAdmin($workspaceUser, request());
-            $adminActiveContext = $adminContext['active'] ?? null;
-        }
+            if ($esActivo) {
+                $nombreRolActivo = CuentasService::ETIQUETAS[$rolCuenta->tipo];
+            }
 
-        if (\Route::has('paciente.home')) {
             $workspaceOptions->push([
-                'key' => 'paciente',
-                'label' => 'Mis mascotas',
-                'url' => route('paciente.home'),
-                'note' => 'Escritorio de tutor',
-                'icon' => 'icon-heart',
+                'key' => $rolCuenta->tipo,
+                'label' => CuentasService::ETIQUETAS[$rolCuenta->tipo],
+                'url' => route('cuenta.entrar', ['tipo' => $rolCuenta->tipo]),
+                'note' => $rolCuenta->perfil_completo ? null : 'Perfil por completar',
+                'icon' => 'icon-user',
+                'activo' => $esActivo,
             ]);
         }
 
-        $hasProfessionalWorkspace = $workspaceUser->hasRole('Profesional')
-            || $workspaceUser->hasRole('Admin')
-            || \App\Models\Profesional::where('id_usuario', $workspaceUser->id)->exists();
+        // Escritorios antiguos que el modelo de cuentas todavía no representa.
+        $escritoriosAntiguos = [
+            ['rol' => 'AsistenteCaja', 'ruta' => 'asistentecm.home', 'label' => 'Escritorio Asistente Centro Veterinario'],
+            ['rol' => 'AsistenteLaboratorio', 'ruta' => 'asistente.lab.home', 'label' => 'Escritorio Asistente Laboratorio'],
+            ['rol' => 'AsistenteManejoAgenda', 'ruta' => 'asistentecm.ma.home', 'label' => 'Escritorio Asistente Manejo Agenda'],
+            ['rol' => 'AsistenteJefaCaja', 'ruta' => 'asistentejcm.home', 'label' => 'Escritorio Jefatura de Caja'],
+            ['rol' => 'AsistenteOnline', 'ruta' => 'asistenteon.home', 'label' => 'Escritorio Asistente Online'],
+            ['rol' => 'Contador', 'ruta' => 'contabilidad.home', 'label' => 'Escritorio Contabilidad'],
+            ['rol' => 'AdministradorLaboratorio', 'ruta' => 'laboratorio.adm_general.home', 'label' => 'Escritorio Laboratorio'],
+        ];
 
-        if ($hasProfessionalWorkspace && \Route::has('profesional.home')) {
-            $workspaceOptions->push([
-                'key' => 'profesional',
-                'label' => 'Escritorio profesional',
-                'url' => route('profesional.home', array_filter([
-                    'contexto' => $professionalActiveContext['key'] ?? null,
-                ])),
-                'note' => $professionalActiveContext['label'] ?? null,
-                'icon' => 'icon-briefcase',
-            ]);
-        }
-
-        if (($workspaceUser->hasRole('Asistente') || $workspaceUser->hasRole('Admin')) && \Route::has('asistente.home')) {
-            $workspaceOptions->push([
-                'key' => 'asistente',
-                'label' => 'Escritorio Asistente',
-                'url' => route('asistente.home'),
-                'note' => null,
-            ]);
-        }
-
-        if (($workspaceUser->hasRole('AsistenteCaja') || $workspaceUser->hasRole('AsistenteLaboratorio') || $workspaceUser->hasRole('Admin')) && \Route::has('asistentecm.home')) {
-            $workspaceOptions->push([
-                'key' => 'asistente_cm',
-                'label' => 'Escritorio Asistente Centro Veterinario',
-                'url' => route('asistentecm.home'),
-                'note' => null,
-            ]);
-        }
-
-        if (($workspaceUser->hasRole('AsistenteManejoAgenda') || $workspaceUser->hasRole('Admin')) && \Route::has('asistentecm.ma.home')) {
-            $workspaceOptions->push([
-                'key' => 'asistente_cm_ma',
-                'label' => 'Escritorio Asistente Manejo Agenda',
-                'url' => route('asistentecm.ma.home'),
-                'note' => null,
-            ]);
-        }
-
-        if (($workspaceUser->hasRole('AsistenteJefaCaja') || $workspaceUser->hasRole('Admin')) && \Route::has('asistentejcm.home')) {
-            $workspaceOptions->push([
-                'key' => 'asistente_jefa_caja',
-                'label' => 'Escritorio Jefatura de Caja',
-                'url' => route('asistentejcm.home'),
-                'note' => null,
-            ]);
-        }
-
-        if (($workspaceUser->hasRole('AsistenteOnline') || $workspaceUser->hasRole('Admin')) && \Route::has('asistenteon.home')) {
-            $workspaceOptions->push([
-                'key' => 'asistente_online',
-                'label' => 'Escritorio Asistente Online',
-                'url' => route('asistenteon.home'),
-                'note' => null,
-            ]);
-        }
-
-        if ($adminActiveContext && \Route::has('adm_cm.home')) {
-            $workspaceOptions->push([
-                'key' => 'adm_cm',
-                'label' => 'Escritorio Centro Veterinario',
-                'url' => route('adm_cm.home', array_filter([
-                    'contexto' => $adminActiveContext['key'] ?? null,
-                ])),
-                'note' => $adminActiveContext['label'] ?? null,
-            ]);
+        foreach ($escritoriosAntiguos as $escritorio) {
+            if ($workspaceUser->hasRole($escritorio['rol']) && \Route::has($escritorio['ruta'])) {
+                $workspaceOptions->push([
+                    'key' => $escritorio['ruta'],
+                    'label' => $escritorio['label'],
+                    'url' => route($escritorio['ruta']),
+                    'note' => null,
+                    'icon' => 'icon-grid',
+                    'activo' => false,
+                ]);
+            }
         }
 
         $workspaceOptions = $workspaceOptions->unique('key')->values();
@@ -103,26 +67,37 @@
 @if ($workspaceOptions->count() > 1)
     <li>
         <div class="dropdown drp-user">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Cambiar entre Veterinario y Tutor" data-placement="button" aria-label="Cambiar escritorio">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Cambiar de escritorio" data-placement="button" aria-label="Cambiar de escritorio">
                 <i class="feather icon-refresh-cw icono-header"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-notification">
                 <div class="pro-head font-weight-bold f-16 py-2">
-                    <span>Cambiar escritorio</span>
+                    <span>{{ $workspaceUser->nombreParaMostrar() }}</span>
+                    @if ($nombreRolActivo)
+                        <small class="d-block font-weight-normal">Estás en: {{ $nombreRolActivo }}</small>
+                    @endif
                 </div>
                 <ul></ul>
                 <ul class="pro-body">
                     @foreach ($workspaceOptions as $workspaceOption)
                         <li>
-                            <a href="{{ $workspaceOption['url'] }}" class="dropdown-item">
+                            <a href="{{ $workspaceOption['url'] }}" class="dropdown-item" @if($workspaceOption['activo']) aria-current="true" @endif>
                                 <i class="feather {{ $workspaceOption['icon'] ?? 'icon-user' }}"></i>
                                 {{ $workspaceOption['label'] }}
+                                @if ($workspaceOption['activo'])
+                                    <i class="feather icon-check text-success ml-1" aria-label="Escritorio actual"></i>
+                                @endif
                                 @if (!empty($workspaceOption['note']))
                                     <small class="d-block text-muted pl-4">{{ $workspaceOption['note'] }}</small>
                                 @endif
                             </a>
                         </li>
                     @endforeach
+                    <li>
+                        <a href="{{ route('cuenta.seleccion') }}" class="dropdown-item">
+                            <i class="feather icon-grid"></i> Cambiar de escritorio
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

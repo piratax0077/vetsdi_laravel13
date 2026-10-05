@@ -76,7 +76,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info" onclick="guardar_bodega()">Guardar Registro</button>
             </div>
         </div>
@@ -161,7 +161,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-warning" onclick="editar_registro_bodega()">Editar Registro</button>
             </div>
         </div>

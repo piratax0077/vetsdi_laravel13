@@ -4,70 +4,30 @@
 <div class="pcoded-main-container">
     <div class="pcoded-content">
         <!--Header-->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <div class="page-header-title">
-                            <h5 class="m-b-10 font-weight-bold">Mis Veterinarios</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{ ROUTE('paciente.home') }}" data-toggle="tooltip"
-                                    data-placement="top" title="Volver a mi escritorio"><i
-                                        class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Mis Veterinarios</li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-12">
+                <h6 class="font-weight-bold f-26">Mis Veterinarios</h6>
+                <p>Registro de profesionales que han atendido a {{ \Illuminate\Support\Str::ucfirst(trim($paciente->nombre ?? '')) }}</p>
             </div>
         </div>
         <!--Cierre: Header-->
         <div class="row">
             <div class="col-md-12">
-                <!--Card Nav Pills-->
-                <div class="card veterinarios-filtros-card">
-                    <div class="card-body py-2 px-3">
-                        <span class="veterinarios-filtros-label">Filtrar por especialidad</span>
-                        <ul class="nav nav-pills bg-white" id="myTab" role="tablist">
-                        @foreach( $lista_especialidad as $le)
-                            <li class="nav-item" onclick="active_e('{{$le}}')">
-                                <a class="btn btn-outline-info btn-sm mr-1 my-1" id="user2-tab" data-toggle="tab" href="#user2" role="tab" aria-controls="user2" aria-selected="false">{{$le}}</a>
-                            </li>
-                        @endforeach
-                            <li class="nav-item" onclick="active_e('all')">
-                                <a class="btn btn-outline-info btn-sm mr-1 my-1 active" id="user2-tab" data-toggle="tab" href="#user2" role="tab" aria-controls="user2" aria-selected="false">VER TODOS</a>
-                            </li>
-                            <!--<li class="nav-item">
-                                    <a class="btn btn-outline-info btn-sm mr-1 my-1" id="user1-tab" data-toggle="tab" href="#todos" role="tab" aria-controls="todos" aria-selected="true">Todos</a>
-                                </li>-->
-                                <!--
-                            <li class="nav-item">
-                                <a class="btn btn-outline-info btn-sm mr-1 my-1" id="user2-tab" data-toggle="tab"
-                                    href="#user2" role="tab" aria-controls="user2" aria-selected="false">Medicina
-                                    General</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn btn-outline-info btn-sm mr-1 my-1" id="user3-tab" data-toggle="tab"
-                                    href="#odontologia" role="tab" aria-controls="odontologia"
-                                    aria-selected="false">Odontología</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn btn-outline-info btn-sm mr-1 my-1" id="user4-tab" data-toggle="tab"
-                                    href="#user4" role="tab" aria-controls="user4" aria-selected="false">Psicología</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn btn-outline-info btn-sm mr-1 my-1" id="user5-tab" data-toggle="tab"
-                                    href="#user5" role="tab" aria-controls="user5" aria-selected="false">Cardiología</a>
-                            </li>
-                            -->
-                        </ul>
-                    </div>
-                </div>
-                <!--Cierre: Card Nav Pills-->
-                <div class="tab-content" id="myTabContent">
-                    <!--Pills Medicina General-->
-                    <div class="tab-pane fade active show" id="user2" role="tabpanel" aria-labelledby="user2-tab">
+                <!--Pestañas por especialidad: todas muestran el mismo panel y filtran las tarjetas-->
+                <ul class="nav nav-general mt-3" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation" onclick="active_e('all')">
+                        <a class="nav-link active" id="ver_todos-tab" data-toggle="tab" href="#user2" role="tab" aria-controls="user2" aria-selected="true">Ver todos</a>
+                    </li>
+                @foreach( $lista_especialidad as $le)
+                    <li class="nav-item" role="presentation" onclick="active_e('{{$le}}')">
+                        <a class="nav-link" id="especialidad_{{ $loop->index }}-tab" data-toggle="tab" href="#user2" role="tab" aria-controls="user2" aria-selected="false">{{$le}}</a>
+                    </li>
+                @endforeach
+                </ul>
+                <!--Cierre: Pestañas por especialidad-->
+                <div class="tab-content mt-4" id="myTabContent">
+                    <!--Listado de veterinarios-->
+                    <div class="tab-pane fade active show" id="user2" role="tabpanel" aria-labelledby="ver_todos-tab">
                         <div class="row mb-n4">
                             @if(isset($profesional))
                                 @foreach( $profesional as $p)
@@ -75,6 +35,10 @@
                                     @php
                                         $especialidad_profesional = optional($p->Especialidad()->first())->nombre ?? 'Veterinario';
                                         $nombre_profesional = trim(collect([$p->nombre, $p->apellido_uno, $p->apellido_dos])->filter()->implode(' '));
+                                        $rut_profesional = explode('-', (string) $p->rut)[0] ?? null;
+                                        $img_profesional = ($rut_profesional && file_exists(public_path('images/img_perfil/'.$rut_profesional.'.png')))
+                                            ? asset('images/img_perfil/'.$rut_profesional.'.png')
+                                            : asset('images/iconos/usuario_profesional.svg');
                                     @endphp
                                     <!--Card Tomar Hora Perfil Médico -->
                                     <div class="col-md-4 filtro_le le_{{ $especialidad_profesional }}">
@@ -85,7 +49,7 @@
                                                         <div class="col"></div>
                                                         <div class="col">
                                                             <div class="position-relative d-inline-block">
-                                                                <img class="img-radius img-fluid wid-80" src="{{ asset('images/iconos/usuario_profesional.svg') }}" alt="Mis médicos">
+                                                                <img class="img-radius img-fluid wid-80" src="{{ $img_profesional }}" alt="Mis médicos">
                                                             </div>
                                                         </div>
                                                         <div class="col text-right pb-3">
@@ -113,6 +77,7 @@
                                                         data-profesional-id="{{ $p->id }}"
                                                         data-profesional-nombre="{{ $nombre_profesional }}"
                                                         data-profesional-especialidad="{{ $especialidad_profesional }}"
+                                                        data-profesional-img="{{ $img_profesional }}"
                                                         onclick="abrirModalReservaVeterinaria(this);">
                                                         <i class="feather icon-calendar"></i> Agendar Hora
                                                     </button>
@@ -146,7 +111,7 @@
 <div class="modal fade" id="modal_reserva_veterinaria" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_reserva_veterinaria_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="modal_reserva_veterinaria_label">Agendar Hora Veterinaria</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -157,58 +122,155 @@
                 <input type="hidden" id="reserva_vet_lugar_id" value="">
                 <input type="hidden" id="reserva_vet_fecha" value="">
                 <input type="hidden" id="reserva_vet_hora" value="">
-                <div class="mb-3">
-                    <div class="small text-muted">Veterinario seleccionado</div>
-                    <div class="font-weight-bold" id="reserva_vet_profesional_nombre">-</div>
-                    <div class="text-muted small" id="reserva_vet_profesional_especialidad"></div>
+
+                <!--Veterinario al que se le pide la hora-->
+                <div class="reserva-vet-profesional">
+                    <img class="reserva-vet-profesional-icono" id="reserva_vet_profesional_img" src="{{ asset('images/iconos/usuario_profesional.svg') }}" alt="Foto del veterinario">
+                    <div class="reserva-vet-profesional-datos">
+                        <span class="reserva-vet-profesional-etiqueta">Agendando con</span>
+                        <span class="reserva-vet-profesional-nombre" id="reserva_vet_profesional_nombre">-</span>
+                    </div>
+                    <span class="reserva-vet-profesional-especialidad" id="reserva_vet_profesional_especialidad"></span>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="floating-label-activo-sm mb-0">Lugar de atención</label>
-                            <select class="form-control form-control-sm" id="reserva_vet_lugar_select" onchange="cambiarLugarReservaVeterinaria();">
-                                <option value="">Seleccione</option>
-                            </select>
-                        </div>
+
+                <!--Indicador de pasos-->
+                <ol class="reserva-vet-pasos" id="reserva_vet_pasos">
+                    <li class="reserva-vet-paso activo" data-paso="1">
+                        <button type="button" class="reserva-vet-paso-boton" onclick="irPasoReservaVeterinaria(1);">
+                            <span class="reserva-vet-paso-numero">1</span>
+                            <span class="reserva-vet-paso-texto">Lugar</span>
+                        </button>
+                    </li>
+                    <li class="reserva-vet-paso" data-paso="2">
+                        <button type="button" class="reserva-vet-paso-boton" onclick="irPasoReservaVeterinaria(2);" disabled>
+                            <span class="reserva-vet-paso-numero">2</span>
+                            <span class="reserva-vet-paso-texto">Fecha y hora</span>
+                        </button>
+                    </li>
+                    <li class="reserva-vet-paso" data-paso="3">
+                        <button type="button" class="reserva-vet-paso-boton" onclick="irPasoReservaVeterinaria(3);" disabled>
+                            <span class="reserva-vet-paso-numero">3</span>
+                            <span class="reserva-vet-paso-texto">Confirmar</span>
+                        </button>
+                    </li>
+                </ol>
+
+                <!--Paso 1: lugar de atención-->
+                <div class="reserva-vet-panel activo" data-paso="1">
+                    <div class="reserva-vet-panel-encabezado">
+                        <h6>¿Dónde quiere la atención?</h6>
+                        <p class="small text-muted mb-0">Elija uno de los lugares donde atiende este veterinario.</p>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="floating-label-activo-sm mb-0">Dirección</label>
-                            <div class="border rounded p-2 small bg-light min-vh-0 reserva-vet-direccion" id="reserva_vet_direccion">
-                                Seleccione un lugar de atención.
+
+                    <!--Cada lugar es una tarjeta que se marca con un clic; se llenan al abrir el modal-->
+                    <div class="reserva-vet-lugares" id="reserva_vet_lugares" role="radiogroup" aria-label="Lugar de atención"></div>
+                    <div class="reserva-vet-aviso d-none" id="reserva_vet_lugar_aviso"></div>
+
+                    <!--Contacto y horario del lugar elegido, solo informativos-->
+                    <div class="reserva-vet-lugar-vacio" id="reserva_vet_lugar_vacio">
+                        <i class="feather icon-clock"></i>
+                        <span>Al elegir un lugar verá aquí sus días y horario de atención.</span>
+                    </div>
+                    <div class="reserva-vet-lugar-detalle d-none" id="reserva_vet_lugar_info">
+                        <div class="reserva-vet-lugar-contacto" id="reserva_vet_lugar_contacto">
+                            <a class="reserva-vet-contacto d-none" href="#" id="reserva_vet_telefono">
+                                <i class="feather icon-phone" aria-hidden="true"></i>
+                                <span id="reserva_vet_telefono_texto">-</span>
+                            </a>
+                            <a class="reserva-vet-contacto d-none" href="#" id="reserva_vet_email">
+                                <i class="feather icon-mail" aria-hidden="true"></i>
+                                <span id="reserva_vet_email_texto">-</span>
+                            </a>
+                        </div>
+                        <span class="reserva-vet-etiqueta">Días y horario de atención</span>
+                        <div class="reserva-vet-horarios" id="reserva_vet_dias_horario"></div>
+                    </div>
+                </div>
+
+                <!--Paso 2: fecha y hora juntas-->
+                <div class="reserva-vet-panel" data-paso="2">
+                    <div class="reserva-vet-panel-encabezado">
+                        <h6>¿Qué día y a qué hora?</h6>
+                        <p class="small text-muted mb-0">Los días marcados tienen atención en los próximos 60 días.</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 mb-3 mb-lg-0">
+                            <!--flatpickr cambia el input a texto, por eso se oculta con d-none y se muestra solo el calendario-->
+                            <div class="reserva-vet-calendario">
+                                <input type="text" class="d-none" id="reserva_vet_fecha_input" value="" tabindex="-1" aria-hidden="true">
+                            </div>
+                            <div class="reserva-vet-leyenda" aria-hidden="true">
+                                <span><i class="reserva-vet-leyenda-disponible"></i>Disponible</span>
+                                <span><i class="reserva-vet-leyenda-elegido"></i>Elegido</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="reserva-vet-horas-caja" id="reserva_vet_horas_caja">
+                                <div class="reserva-vet-horas-cabecera">
+                                    <div class="reserva-vet-horas-titulo">Horas disponibles</div>
+                                    <span class="reserva-vet-horas-total d-none" id="reserva_vet_horas_total"></span>
+                                </div>
+                                <div class="reserva-vet-horas-fecha" id="reserva_vet_fecha_texto">Primero elija una fecha.</div>
+                                <div class="reserva-vet-horas" id="reserva_vet_horas" aria-live="polite"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="floating-label-activo-sm mb-0">Días de atención</label>
-                            <div class="border rounded p-2 small bg-light min-vh-0 reserva-vet-direccion" id="reserva_vet_dias">
-                                Seleccione un lugar de atención.
+                </div>
+
+                <!--Paso 3: resumen antes de confirmar-->
+                <div class="reserva-vet-panel" data-paso="3">
+                    <div class="reserva-vet-panel-encabezado">
+                        <h6>Revise su reserva</h6>
+                        <p class="small text-muted mb-0">Si todo está correcto, confirme para agendar la hora.</p>
+                    </div>
+                    <div class="reserva-vet-resumen">
+                        <!--Lo más importante primero: cuándo es la hora-->
+                        <div class="reserva-vet-resumen-cita">
+                            <span class="reserva-vet-resumen-cita-icono"><i class="feather icon-calendar"></i></span>
+                            <div class="reserva-vet-resumen-cita-datos">
+                                <span class="reserva-vet-resumen-fecha" id="reserva_vet_resumen_fecha">-</span>
+                                <span class="reserva-vet-resumen-hora">
+                                    <i class="feather icon-clock"></i>
+                                    <span id="reserva_vet_resumen_hora">-</span>
+                                </span>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="floating-label-activo-sm mb-0">Fecha</label>
-                            <input
-                                class="form-control form-control-sm"
-                                type="text"
-                                id="reserva_vet_fecha_input"
-                                placeholder="Seleccione una fecha"
-                                disabled>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="small font-weight-bold text-center mb-2" id="reserva_vet_fecha_texto"></div>
-                        <div class="row" id="reserva_vet_horas">
-                            <div class="col-12 text-center text-muted small">Seleccione lugar y fecha para ver horas disponibles.</div>
-                        </div>
+                        <ul class="reserva-vet-detalle">
+                            <li>
+                                <span class="reserva-vet-detalle-icono"><i class="fas fa-paw"></i></span>
+                                <div>
+                                    <span class="reserva-vet-detalle-titulo">Mascota</span>
+                                    <span class="reserva-vet-detalle-valor">{{ \Illuminate\Support\Str::ucfirst(trim($paciente->nombre ?? '')) ?: '-' }}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="reserva-vet-detalle-icono"><i class="feather icon-user"></i></span>
+                                <div>
+                                    <span class="reserva-vet-detalle-titulo">Veterinario</span>
+                                    <span class="reserva-vet-detalle-valor" id="reserva_vet_resumen_profesional">-</span>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="reserva-vet-detalle-icono"><i class="feather icon-map-pin"></i></span>
+                                <div>
+                                    <span class="reserva-vet-detalle-titulo">Lugar de atención</span>
+                                    <span class="reserva-vet-detalle-valor" id="reserva_vet_resumen_lugar">-</span>
+                                    <span class="reserva-vet-detalle-extra" id="reserva_vet_resumen_direccion"></span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-sm btn-info" id="btn_confirmar_reserva_vet" onclick="confirmarReservaVeterinaria();" disabled>
+            <div class="modal-footer reserva-vet-acciones">
+                <button type="button" class="btn btn-outline-dark btn-sm reserva-vet-volver" id="btn_cancelar_reserva_vet" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary reserva-vet-volver d-none" id="btn_anterior_reserva_vet" onclick="anteriorPasoReservaVeterinaria();">
+                    <i class="feather icon-chevron-left"></i> Anterior
+                </button>
+                <button type="button" class="btn btn-sm btn-info" id="btn_siguiente_reserva_vet" onclick="siguientePasoReservaVeterinaria();" disabled>
+                    Siguiente <i class="feather icon-chevron-right"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-info d-none" id="btn_confirmar_reserva_vet" onclick="confirmarReservaVeterinaria();" disabled>
                     <i class="feather icon-check"></i> Confirmar Reserva
                 </button>
             </div>
@@ -239,57 +301,7 @@
                     return;
                 }
 
-                const profesional = data.profesional;
-                const direccion = profesional.direccion || null;
-                const ciudad = direccion && direccion.ciudad ? direccion.ciudad : null;
-                const tipoEspecialidad = profesional.tipo_especialidad ? profesional.tipo_especialidad.nombre : (profesional.especialidad ? profesional.especialidad.nombre : 'Veterinario/a');
-                const subTipoEspecialidad = profesional.sub_tipo_especialidad ? profesional.sub_tipo_especialidad.nombre : '';
-                const direccionTexto = direccion
-                    ? [direccion.direccion, direccion.numero_dir ? '#' + direccion.numero_dir : ''].filter(Boolean).join(' ')
-                    : 'No informado';
-
-                $('#modal_info_pro_foto').attr('src', profesional.img_profesional);
-                $('#modal_info_pro_nombre').html((profesional.nombre || '') + ' ' + (profesional.apellido_uno || '') + ' ' + (profesional.apellido_dos || ''));
-                $('#modal_info_pro_tipo_especialidad').html(tipoEspecialidad);
-                $('#modalinfo_pro_sub_tipo_especialidad').html(subTipoEspecialidad !== '' ? ': ' + subTipoEspecialidad : '');
-                $('#modal_info_pro_rut').text(profesional.rut || 'No informado');
-                $('#modal_info_pro_email').text(profesional.email || 'No informado');
-                $('#modal_info_pro_telefono').text(profesional.telefono_uno || 'No informado');
-                $('#modal_info_pro_ciudad').text(ciudad ? ciudad.nombre : 'No informado');
-                $('#modal_info_pro_direccion').text(direccionTexto);
-
-                $('#modal_info_pro_academicos').html('');
-                $(profesional.antecedente_academico || []).each(function(_, value) {
-                    let html = '';
-                    html += '<div class="col-md-3" align="left">' + (value.tipo_antecedente_academico ? value.tipo_antecedente_academico.nombre : 'Antecedente') + '</div>';
-                    html += '<div class="col-md-4"><b>' + (value.nombre || 'No informado') + '</b></div>';
-                    html += '<div class="col-md-5"><b>' + (((value.ciudad_pais || '') + ' ' + (value.universidad || '')).trim()) + '</b>' + (value.anio || '') + '</div>';
-                    $('#modal_info_pro_academicos').append(html);
-                });
-                $('#modal_info_pro_academicos_vacio').toggle((profesional.antecedente_academico || []).length === 0);
-
-                if ($.fn.DataTable.isDataTable('#modal_info_pro_lugar_atencion')) {
-                    $('#modal_info_pro_lugar_atencion').DataTable().clear().destroy();
-                }
-
-                $('#modal_info_pro_lugar_atencion tbody').html('');
-                $.each(data.lugares_atencion || [], function(_, value) {
-                    const direccionLugar = value.direccion
-                        ? [value.direccion.direccion, value.direccion.numero_dir ? '#' + value.direccion.numero_dir : '', value.direccion.ciudad ? value.direccion.ciudad.nombre : ''].filter(Boolean).join(', ')
-                        : 'No informado';
-                    let html = '<tr>';
-                    html += '<td><span><strong>' + (value.nombre || 'Sin nombre') + ':</strong></span><br>' + direccionLugar + '</td>';
-                    html += '<td style="color:#666666;text-align:left">' + (value.convenio && value.convenio.convenios ? value.convenio.convenios : 'No informado') + '</td>';
-                    html += '<td style="text-align:left">' + (value.telefono || 'No informado') + '</td>';
-                    html += '</tr>';
-                    $('#modal_info_pro_lugar_atencion tbody').append(html);
-                });
-                $('#modal_info_pro_lugares_vacio').toggle((data.lugares_atencion || []).length === 0);
-
-                $('#modal_info_pro_lugar_atencion').DataTable({
-                    responsive: true,
-                });
-
+                pintarFichaProfesional(data);
                 $('#ficha_profesional').modal('show');
             }).fail(function() {
                 swal({
@@ -304,6 +316,41 @@
         const reservaVeterinariaState = {
             lugares: [],
             flatpickrInstance: null,
+            pasoActual: 1,
+            diasCargados: false,
+            textoFecha: '',
+        };
+
+        const TOTAL_PASOS_RESERVA_VET = 3;
+
+        const DIAS_SEMANA_RESERVA_VET = {
+            '1': 'Lunes',
+            '2': 'Martes',
+            '3': 'Miércoles',
+            '4': 'Jueves',
+            '5': 'Viernes',
+            '6': 'Sábado',
+            '7': 'Domingo'
+        };
+
+        // flatpickr no trae el español cargado en la plantilla, así que se deja acá
+        const localeCalendarioReservaVet = {
+            weekdays: {
+                shorthand: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+                longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            },
+            months: {
+                shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                longhand: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            },
+            ordinal: function() {
+                return 'º';
+            },
+            firstDayOfWeek: 1,
+            rangeSeparator: ' a ',
+            time_24hr: true,
+            yearAriaLabel: 'Año',
+            monthAriaLabel: 'Mes',
         };
 
         function active_e(tipo_esp){
@@ -332,10 +379,12 @@
             const profesionalId = $(button).data('profesional-id');
             const profesionalNombre = $(button).data('profesional-nombre');
             const profesionalEspecialidad = $(button).data('profesional-especialidad');
+            const profesionalImg = $(button).data('profesional-img');
 
             $('#reserva_vet_profesional_id').val(profesionalId);
             $('#reserva_vet_profesional_nombre').text(profesionalNombre || '-');
             $('#reserva_vet_profesional_especialidad').text(profesionalEspecialidad || '');
+            $('#reserva_vet_profesional_img').attr('src', profesionalImg || "{{ asset('images/iconos/usuario_profesional.svg') }}");
 
             resetearModalReservaVeterinaria();
             $('#modal_reserva_veterinaria').modal('show');
@@ -344,24 +393,330 @@
 
         function resetearModalReservaVeterinaria() {
             reservaVeterinariaState.lugares = [];
-            if (reservaVeterinariaState.flatpickrInstance) {
-                reservaVeterinariaState.flatpickrInstance.destroy();
-                reservaVeterinariaState.flatpickrInstance = null;
-            }
+            reservaVeterinariaState.diasCargados = false;
+            reservaVeterinariaState.textoFecha = '';
+            destruirCalendarioReservaVeterinaria();
 
             $('#reserva_vet_lugar_id').val('');
             $('#reserva_vet_fecha').val('');
             $('#reserva_vet_hora').val('');
-            $('#reserva_vet_lugar_select').html('<option value="">Seleccione</option>');
-            $('#reserva_vet_direccion').text('Seleccione un lugar de atención.');
-            $('#reserva_vet_dias').text('Seleccione un lugar de atención.');
-            $('#reserva_vet_fecha_input').val('').prop('disabled', true);
-            $('#reserva_vet_fecha_texto').text('');
-            $('#reserva_vet_horas').html('<div class="col-12 text-center text-muted small">Seleccione lugar y fecha para ver horas disponibles.</div>');
-            $('#btn_confirmar_reserva_vet').prop('disabled', true);
+            $('#reserva_vet_lugares').empty();
+            $('#reserva_vet_lugar_aviso').addClass('d-none').text('');
+            mostrarInfoLugarReservaVeterinaria(null);
+            $('#reserva_vet_fecha_input').val('');
+            limpiarHorasReservaVeterinaria();
+            $('#btn_anterior_reserva_vet').prop('disabled', false);
+
+            irPasoReservaVeterinaria(1);
+        }
+
+        // Muestra el contacto y horario del lugar, o el aviso vacío si no hay lugar elegido
+        function mostrarInfoLugarReservaVeterinaria(lugar) {
+            $('#reserva_vet_lugar_vacio').toggleClass('d-none', !!lugar);
+            $('#reserva_vet_lugar_info').toggleClass('d-none', !lugar);
+
+            if (!lugar) {
+                return;
+            }
+
+            $('#reserva_vet_lugar_contacto').toggleClass('d-none', !lugar.telefono && !lugar.email);
+
+            $('#reserva_vet_telefono').toggleClass('d-none', !lugar.telefono);
+            if (lugar.telefono) {
+                $('#reserva_vet_telefono').attr('href', 'tel:' + String(lugar.telefono).replace(/\s+/g, ''));
+                $('#reserva_vet_telefono_texto').text(lugar.telefono);
+            }
+
+            $('#reserva_vet_email').toggleClass('d-none', !lugar.email);
+            if (lugar.email) {
+                $('#reserva_vet_email').attr('href', 'mailto:' + lugar.email);
+                $('#reserva_vet_email_texto').text(lugar.email);
+            }
+
+            $('#reserva_vet_dias_horario').html('<span class="reserva-vet-cargando">Cargando horario...</span>');
+        }
+
+        // Tarjetas grises mientras llegan los lugares
+        function esqueletoLugaresReservaVeterinaria() {
+            const $lista = $('#reserva_vet_lugares').empty();
+
+            for (let i = 0; i < 2; i++) {
+                $lista.append(
+                    '<div class="reserva-vet-lugar-esqueleto" aria-hidden="true">' +
+                        '<span class="reserva-vet-lugar-icono"></span>' +
+                        '<span class="reserva-vet-lugar-datos"><span></span><span></span></span>' +
+                    '</div>'
+                );
+            }
+        }
+
+        function tarjetaLugarReservaVeterinaria(lugar) {
+            const $radio = $('<input type="radio" class="reserva-vet-lugar-radio" name="reserva_vet_lugar">')
+                .val(lugar.id)
+                .on('change', cambiarLugarReservaVeterinaria);
+
+            const $caja = $('<span class="reserva-vet-lugar-caja">')
+                .append('<span class="reserva-vet-lugar-icono"><i class="feather icon-map-pin"></i></span>')
+                .append(
+                    $('<span class="reserva-vet-lugar-datos">')
+                        .append($('<span class="reserva-vet-lugar-nombre">').text(lugar.nombre || 'Sin nombre'))
+                        .append($('<span class="reserva-vet-lugar-direccion">').text(formatearDireccionLugar(lugar)))
+                )
+                .append('<span class="reserva-vet-lugar-marca" aria-hidden="true"><i class="feather icon-check"></i></span>');
+
+            return $('<label class="reserva-vet-lugar">').append($radio, $caja);
+        }
+
+        function nombresDiasReservaVeterinaria(dias) {
+            const nombres = dias.map(function(dia) {
+                return DIAS_SEMANA_RESERVA_VET[dia] || dia;
+            });
+
+            if (nombres.length <= 1) {
+                return nombres.join('');
+            }
+
+            return nombres.slice(0, -1).join(', ') + ' y ' + nombres[nombres.length - 1];
+        }
+
+        // Junta los bloques que comparten días: una fila con los días y al lado sus rangos de hora
+        function pintarHorarioReservaVeterinaria(horarios) {
+            const $horario = $('#reserva_vet_dias_horario').empty();
+            const grupos = [];
+
+            $.each(horarios || [], function(_, bloque) {
+                if (!bloque.hora_inicio || !bloque.hora_termino) {
+                    return;
+                }
+
+                const dias = String(bloque.dia || '').split(',').map(function(dia) {
+                    return dia.trim();
+                }).filter(Boolean).sort();
+                const clave = dias.join(',');
+                const rango = moment(bloque.hora_inicio, 'HH:mm:ss').format('HH:mm') + ' – ' + moment(bloque.hora_termino, 'HH:mm:ss').format('HH:mm');
+
+                let grupo = grupos.find(function(item) {
+                    return item.clave === clave;
+                });
+                if (!grupo) {
+                    grupo = { clave: clave, dias: dias, rangos: [] };
+                    grupos.push(grupo);
+                }
+                if (grupo.rangos.indexOf(rango) === -1) {
+                    grupo.rangos.push(rango);
+                }
+            });
+
+            if (grupos.length === 0) {
+                $horario.html('<span class="ficha-profesional__sin-dato">No informado</span>');
+                return;
+            }
+
+            grupos.sort(function(a, b) {
+                return a.clave < b.clave ? -1 : 1;
+            });
+
+            $.each(grupos, function(_, grupo) {
+                const $rangos = $('<span class="reserva-vet-horario-rangos">');
+                $.each(grupo.rangos, function(_, rango) {
+                    $rangos.append($('<span class="reserva-vet-horario-rango">').text(rango));
+                });
+
+                $horario.append(
+                    $('<div class="reserva-vet-horario">')
+                        .append($('<span class="reserva-vet-horario-dias">').text(nombresDiasReservaVeterinaria(grupo.dias)))
+                        .append($rangos)
+                );
+            });
+        }
+
+        // Deja la caja de horas esperando que se elija una fecha
+        function limpiarHorasReservaVeterinaria() {
+            reservaVeterinariaState.textoFecha = '';
+            $('#reserva_vet_fecha_texto').text('Primero elija una fecha.');
+            mensajeHorasReservaVeterinaria('Las horas aparecerán aquí cuando elija un día en el calendario.', false);
+        }
+
+        function mensajeHorasReservaVeterinaria(texto, esError) {
+            const $mensaje = $('<div class="reserva-vet-horas-vacio">')
+                .toggleClass('text-danger', !!esError)
+                .append('<i class="feather icon-clock"></i>')
+                .append($('<span>').text(texto));
+
+            $('#reserva_vet_horas_total').addClass('d-none').text('');
+            $('#reserva_vet_horas').empty().append($mensaje);
+        }
+
+        // Separa las horas en mañana y tarde para que se ubiquen de un vistazo
+        function pintarHorasReservaVeterinaria(registros) {
+            const $horas = $('#reserva_vet_horas').empty();
+            const bloques = [
+                { titulo: 'Mañana', icono: 'icon-sun', horas: [] },
+                { titulo: 'Tarde', icono: 'icon-sunset', horas: [] },
+            ];
+
+            $.each(registros, function(_, registro) {
+                const hora = moment(registro.hora, 'HH:mm:ss');
+                bloques[hora.hour() < 12 ? 0 : 1].horas.push({ valor: registro.hora, texto: hora.format('HH:mm') });
+            });
+
+            $.each(bloques, function(_, bloque) {
+                if (bloque.horas.length === 0) {
+                    return;
+                }
+
+                const $grilla = $('<div class="reserva-vet-horas-grilla">');
+                $.each(bloque.horas, function(_, hora) {
+                    $grilla.append(
+                        $('<button type="button" class="reserva-vet-hora" aria-pressed="false">')
+                            .attr('data-hora', hora.valor)
+                            .text(hora.texto)
+                            .on('click', function() {
+                                seleccionarHoraReservaVeterinaria(this);
+                            })
+                    );
+                });
+
+                $horas.append(
+                    $('<div class="reserva-vet-horas-bloque">')
+                        .append(
+                            $('<span class="reserva-vet-horas-bloque-titulo">')
+                                .append($('<i class="feather">').addClass(bloque.icono))
+                                .append(document.createTextNode(bloque.titulo))
+                        )
+                        .append($grilla)
+                );
+            });
+
+            $('#reserva_vet_horas_total')
+                .text(registros.length === 1 ? '1 hora' : registros.length + ' horas')
+                .removeClass('d-none');
+        }
+
+        // En pantallas angostas las horas quedan bajo el calendario, así que se acercan a la vista
+        function acercarHorasReservaVeterinaria() {
+            if (!window.matchMedia || !window.matchMedia('(max-width: 991.98px)').matches) {
+                return;
+            }
+
+            const caja = document.getElementById('reserva_vet_horas_caja');
+            const sinAnimacion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (caja && caja.scrollIntoView) {
+                caja.scrollIntoView({ behavior: sinAnimacion ? 'auto' : 'smooth', block: 'nearest' });
+            }
+        }
+
+        function destruirCalendarioReservaVeterinaria() {
+            if (reservaVeterinariaState.flatpickrInstance) {
+                reservaVeterinariaState.flatpickrInstance.destroy();
+                reservaVeterinariaState.flatpickrInstance = null;
+            }
+        }
+
+        // Lo mínimo que necesita cada paso para poder avanzar
+        function pasoCompletoReservaVeterinaria(paso) {
+            switch (paso) {
+                case 1:
+                    return $('#reserva_vet_lugar_id').val() !== '' && reservaVeterinariaState.diasCargados;
+                case 2:
+                    return $('#reserva_vet_fecha').val() !== '' && $('#reserva_vet_hora').val() !== '';
+                default:
+                    return true;
+            }
+        }
+
+        // A un paso solo se llega si los anteriores ya están listos
+        function pasoDisponibleReservaVeterinaria(paso) {
+            for (let i = 1; i < paso; i++) {
+                if (!pasoCompletoReservaVeterinaria(i)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function irPasoReservaVeterinaria(paso) {
+            if (paso < 1 || paso > TOTAL_PASOS_RESERVA_VET || !pasoDisponibleReservaVeterinaria(paso)) {
+                return;
+            }
+
+            reservaVeterinariaState.pasoActual = paso;
+            $('#modal_reserva_veterinaria .reserva-vet-panel').removeClass('activo');
+            $('#modal_reserva_veterinaria .reserva-vet-panel[data-paso="' + paso + '"]').addClass('activo');
+
+            if (paso === TOTAL_PASOS_RESERVA_VET) {
+                llenarResumenReservaVeterinaria();
+            }
+
+            actualizarWizardReservaVeterinaria();
+
+            // En celular el modal puede quedar scrolleado, se vuelve arriba al cambiar de paso
+            $('#modal_reserva_veterinaria').scrollTop(0);
+        }
+
+        function siguientePasoReservaVeterinaria() {
+            const paso = reservaVeterinariaState.pasoActual;
+
+            if (!pasoCompletoReservaVeterinaria(paso)) {
+                return;
+            }
+
+            irPasoReservaVeterinaria(paso + 1);
+        }
+
+        function anteriorPasoReservaVeterinaria() {
+            irPasoReservaVeterinaria(reservaVeterinariaState.pasoActual - 1);
+        }
+
+        // Marca el indicador de pasos y deja los botones del pie según el paso en que se está
+        function actualizarWizardReservaVeterinaria() {
+            const pasoActual = reservaVeterinariaState.pasoActual;
+            const esUltimoPaso = pasoActual === TOTAL_PASOS_RESERVA_VET;
+
+            $('#reserva_vet_pasos .reserva-vet-paso').each(function() {
+                const paso = Number($(this).data('paso'));
+                const completado = paso !== pasoActual
+                    && paso < TOTAL_PASOS_RESERVA_VET
+                    && pasoDisponibleReservaVeterinaria(paso)
+                    && pasoCompletoReservaVeterinaria(paso);
+
+                $(this).toggleClass('activo', paso === pasoActual).toggleClass('completado', completado);
+                $(this).find('.reserva-vet-paso-numero').html(completado ? '<i class="feather icon-check"></i>' : paso);
+                $(this).find('.reserva-vet-paso-boton')
+                    .prop('disabled', !pasoDisponibleReservaVeterinaria(paso))
+                    .attr('aria-current', paso === pasoActual ? 'step' : null);
+            });
+
+            $('#btn_cancelar_reserva_vet').toggleClass('d-none', pasoActual > 1);
+            $('#btn_anterior_reserva_vet').toggleClass('d-none', pasoActual === 1);
+            $('#btn_siguiente_reserva_vet')
+                .toggleClass('d-none', esUltimoPaso)
+                .prop('disabled', !pasoCompletoReservaVeterinaria(pasoActual));
+            $('#btn_confirmar_reserva_vet')
+                .toggleClass('d-none', !esUltimoPaso)
+                .prop('disabled', !esUltimoPaso || !pasoDisponibleReservaVeterinaria(TOTAL_PASOS_RESERVA_VET));
+        }
+
+        function llenarResumenReservaVeterinaria() {
+            const lugar = obtenerLugarReservaSeleccionado();
+            const hora = $('#reserva_vet_hora').val();
+
+            $('#reserva_vet_resumen_profesional').text($('#reserva_vet_profesional_nombre').text() || '-');
+            $('#reserva_vet_resumen_lugar').text(lugar ? lugar.nombre : '-');
+            $('#reserva_vet_resumen_direccion').text(lugar ? formatearDireccionLugar(lugar) : '');
+            $('#reserva_vet_resumen_fecha').text(reservaVeterinariaState.textoFecha || $('#reserva_vet_fecha').val() || '-');
+            $('#reserva_vet_resumen_hora').text(hora ? moment(hora, 'HH:mm:ss').format('HH:mm') + ' hrs.' : '-');
+        }
+
+        function mostrarAvisoLugarReservaVeterinaria(mensaje) {
+            $('#reserva_vet_lugar_aviso').text(mensaje).removeClass('d-none');
         }
 
         function cargarLugaresReservaVeterinaria(idProfesional) {
+            const $lista = $('#reserva_vet_lugares');
+            esqueletoLugaresReservaVeterinaria();
+
             $.ajax({
                 url: "{{ route('profesional.lugaresAtencionProfesionalBuscador') }}",
                 type: 'GET',
@@ -370,25 +725,34 @@
                 },
             }).done(function(data) {
                 data = normalizarRespuestaAjax(data);
+                $lista.empty();
+
                 if (data.estado !== 1 || !Array.isArray(data.registros) || data.registros.length === 0) {
-                    $('#reserva_vet_horas').html('<div class="col-12 text-center text-danger small">Este veterinario no tiene lugares de atención disponibles.</div>');
+                    mostrarAvisoLugarReservaVeterinaria('Este veterinario no tiene lugares de atención disponibles.');
+                    $('#reserva_vet_lugar_vacio').addClass('d-none');
                     return;
                 }
 
                 reservaVeterinariaState.lugares = data.registros;
-                const $select = $('#reserva_vet_lugar_select');
-                $select.html('<option value="">Seleccione</option>');
 
                 $.each(data.registros, function(_, lugar) {
-                    $select.append('<option value="' + lugar.id + '">' + lugar.nombre + '</option>');
+                    $lista.append(tarjetaLugarReservaVeterinaria(lugar));
                 });
+
+                // Si atiende en un solo lugar se deja elegido para ahorrar un clic
+                if (data.registros.length === 1) {
+                    $lista.find('.reserva-vet-lugar-radio').prop('checked', true);
+                    cambiarLugarReservaVeterinaria();
+                }
             }).fail(function() {
-                $('#reserva_vet_horas').html('<div class="col-12 text-center text-danger small">No fue posible cargar los lugares de atención.</div>');
+                $lista.empty();
+                mostrarAvisoLugarReservaVeterinaria('No fue posible cargar los lugares de atención.');
+                $('#reserva_vet_lugar_vacio').addClass('d-none');
             });
         }
 
         function obtenerLugarReservaSeleccionado() {
-            const idLugar = $('#reserva_vet_lugar_select').val();
+            const idLugar = $('#reserva_vet_lugares .reserva-vet-lugar-radio:checked').val();
             return reservaVeterinariaState.lugares.find(function(lugar) {
                 return String(lugar.id) === String(idLugar);
             }) || null;
@@ -418,20 +782,16 @@
             const lugar = obtenerLugarReservaSeleccionado();
 
             $('#reserva_vet_lugar_id').val(lugar ? lugar.id : '');
-            $('#reserva_vet_direccion').text(formatearDireccionLugar(lugar));
             $('#reserva_vet_fecha').val('');
             $('#reserva_vet_hora').val('');
-            $('#btn_confirmar_reserva_vet').prop('disabled', true);
-            $('#reserva_vet_fecha_texto').text('');
-            $('#reserva_vet_horas').html('<div class="col-12 text-center text-muted small">Seleccione una fecha para ver horas disponibles.</div>');
+            $('#reserva_vet_fecha_input').val('');
+            limpiarHorasReservaVeterinaria();
+            reservaVeterinariaState.diasCargados = false;
+            destruirCalendarioReservaVeterinaria();
+            mostrarInfoLugarReservaVeterinaria(lugar);
+            actualizarWizardReservaVeterinaria();
 
             if (!lugar) {
-                $('#reserva_vet_dias').text('Seleccione un lugar de atención.');
-                $('#reserva_vet_fecha_input').val('').prop('disabled', true);
-                if (reservaVeterinariaState.flatpickrInstance) {
-                    reservaVeterinariaState.flatpickrInstance.destroy();
-                    reservaVeterinariaState.flatpickrInstance = null;
-                }
                 return;
             }
 
@@ -440,7 +800,7 @@
 
         function cargarDiasReservaVeterinaria() {
             const idProfesional = $('#reserva_vet_profesional_id').val();
-            const idLugar = $('#reserva_vet_lugar_select').val();
+            const idLugar = $('#reserva_vet_lugar_id').val();
 
             $.ajax({
                 url: "{{ route('profesional.DiasLaboralesProfesionaLugarAtencionBuscador') }}",
@@ -453,34 +813,27 @@
             }).done(function(data) {
                 data = normalizarRespuestaAjax(data);
 
-                if (data.estado !== 1 || !data.registros || !data.registros.horario_agenda_laboral) {
-                    $('#reserva_vet_dias').text('Sin días de atención informados.');
-                    $('#reserva_vet_fecha_input').val('').prop('disabled', true);
+                // Si mientras cargaba se cambió de lugar, esta respuesta ya no sirve
+                if (String(idLugar) !== String($('#reserva_vet_lugar_id').val())) {
                     return;
                 }
 
-                const diasActivos = data.registros.horario_agenda_laboral.split(',').filter(Boolean);
-                const diasTexto = {
-                    '1': 'Lunes',
-                    '2': 'Martes',
-                    '3': 'Miércoles',
-                    '4': 'Jueves',
-                    '5': 'Viernes',
-                    '6': 'Sábado',
-                    '7': 'Domingo'
-                };
-
-                $('#reserva_vet_dias').text(diasActivos.map(function(dia) {
-                    return diasTexto[dia] || dia;
-                }).join(' - '));
-
-                $('#reserva_vet_fecha_input').prop('disabled', false).val('');
-
-                if (reservaVeterinariaState.flatpickrInstance) {
-                    reservaVeterinariaState.flatpickrInstance.destroy();
+                if (data.estado !== 1 || !data.registros || !data.registros.horario_agenda_laboral) {
+                    $('#reserva_vet_dias_horario').html('<span class="ficha-profesional__sin-dato">Sin días de atención informados.</span>');
+                    return;
                 }
 
+                // El "0" no corresponde a ningún día de la semana, se descarta
+                const diasActivos = data.registros.horario_agenda_laboral.split(',').filter(function(dia) {
+                    return Boolean(dia) && Object.prototype.hasOwnProperty.call(DIAS_SEMANA_RESERVA_VET, dia);
+                });
+
+                pintarHorarioReservaVeterinaria(data.registros.horarios);
+
+                destruirCalendarioReservaVeterinaria();
+
                 reservaVeterinariaState.flatpickrInstance = flatpickr('#reserva_vet_fecha_input', {
+                    inline: true,
                     dateFormat: 'Y-m-d',
                     minDate: 'today',
                     maxDate: new Date().fp_incr(60),
@@ -490,29 +843,39 @@
                             return !diasActivos.includes(diaSemana);
                         }
                     ],
-                    locale: 'es',
-                    onChange: function(selectedDates, dateStr) {
+                    locale: localeCalendarioReservaVet,
+                    onChange: function(selectedDates, dateStr, instance) {
                         $('#reserva_vet_fecha').val(dateStr || '');
                         $('#reserva_vet_hora').val('');
-                        $('#btn_confirmar_reserva_vet').prop('disabled', true);
 
                         if (!dateStr) {
-                            $('#reserva_vet_fecha_texto').text('');
-                            $('#reserva_vet_horas').html('<div class="col-12 text-center text-muted small">Seleccione una fecha para ver horas disponibles.</div>');
+                            limpiarHorasReservaVeterinaria();
+                            actualizarWizardReservaVeterinaria();
                             return;
                         }
 
+                        // Queda como "Lunes 5 de octubre de 2026"
+                        const textoFecha = instance.formatDate(selectedDates[0], 'l j \\d\\e F \\d\\e Y').toLowerCase();
+                        reservaVeterinariaState.textoFecha = textoFecha.charAt(0).toUpperCase() + textoFecha.slice(1);
+
+                        actualizarWizardReservaVeterinaria();
                         cargarHorasReservaVeterinaria(dateStr);
                     }
                 });
+
+                reservaVeterinariaState.diasCargados = true;
+                actualizarWizardReservaVeterinaria();
             }).fail(function() {
-                $('#reserva_vet_dias').text('No fue posible cargar los días de atención.');
+                $('#reserva_vet_dias_horario').html('<span class="ficha-profesional__sin-dato text-danger">No fue posible cargar los días de atención.</span>');
             });
         }
 
         function cargarHorasReservaVeterinaria(fecha) {
             const idProfesional = $('#reserva_vet_profesional_id').val();
-            const idLugar = $('#reserva_vet_lugar_select').val();
+            const idLugar = $('#reserva_vet_lugar_id').val();
+
+            $('#reserva_vet_fecha_texto').text(reservaVeterinariaState.textoFecha);
+            mensajeHorasReservaVeterinaria('Buscando horas disponibles...', false);
 
             $.ajax({
                 url: "{{ route('profesional.HorasDisponiblesProfesionalLugarAtencionBuscador') }}",
@@ -525,44 +888,37 @@
                 },
             }).done(function(data) {
                 data = normalizarRespuestaAjax(data);
-                $('#reserva_vet_hora').val('');
-                $('#btn_confirmar_reserva_vet').prop('disabled', true);
 
-                if (data.estado !== 1 || !Array.isArray(data.registros) || data.registros.length === 0) {
-                    $('#reserva_vet_fecha_texto').text(data.text_fecha ? 'Horas disponibles para ' + data.text_fecha : '');
-                    $('#reserva_vet_horas').html('<div class="col-12 text-center text-muted small">Sin horas disponibles para la fecha seleccionada.</div>');
+                // Si mientras cargaba se eligió otra fecha, esta respuesta ya no sirve
+                if (fecha !== $('#reserva_vet_fecha').val()) {
                     return;
                 }
 
-                $('#reserva_vet_fecha_texto').text('Horas disponibles para ' + data.text_fecha);
-                $('#reserva_vet_horas').html('');
+                $('#reserva_vet_hora').val('');
+                actualizarWizardReservaVeterinaria();
 
-                $.each(data.registros, function(_, registro) {
-                    const horaVisible = moment(registro.hora, 'HH:mm:ss').format('HH:mm');
-                    const html = `
-                        <div class="col-sm-4 col-md-3 mb-2">
-                            <button
-                                type="button"
-                                class="btn btn-outline-primary btn-sm btn-block reserva-vet-hora"
-                                data-hora="${registro.hora}"
-                                onclick="seleccionarHoraReservaVeterinaria(this);">
-                                ${horaVisible}
-                            </button>
-                        </div>
-                    `;
+                if (data.estado !== 1 || !Array.isArray(data.registros) || data.registros.length === 0) {
+                    mensajeHorasReservaVeterinaria('No quedan horas disponibles este día. Elija otra fecha en el calendario.', false);
+                    acercarHorasReservaVeterinaria();
+                    return;
+                }
 
-                    $('#reserva_vet_horas').append(html);
-                });
+                pintarHorasReservaVeterinaria(data.registros);
+                acercarHorasReservaVeterinaria();
             }).fail(function() {
-                $('#reserva_vet_horas').html('<div class="col-12 text-center text-danger small">No fue posible cargar las horas disponibles.</div>');
+                if (fecha !== $('#reserva_vet_fecha').val()) {
+                    return;
+                }
+
+                mensajeHorasReservaVeterinaria('No fue posible cargar las horas disponibles.', true);
             });
         }
 
         function seleccionarHoraReservaVeterinaria(button) {
-            $('.reserva-vet-hora').removeClass('active btn-primary').addClass('btn-outline-primary');
-            $(button).removeClass('btn-outline-primary').addClass('active btn-primary');
+            $('.reserva-vet-hora').removeClass('active').attr('aria-pressed', 'false');
+            $(button).addClass('active').attr('aria-pressed', 'true');
             $('#reserva_vet_hora').val($(button).data('hora'));
-            $('#btn_confirmar_reserva_vet').prop('disabled', false);
+            actualizarWizardReservaVeterinaria();
         }
 
         function confirmarReservaVeterinaria() {
@@ -581,7 +937,8 @@
                 return;
             }
 
-            $('#btn_confirmar_reserva_vet').prop('disabled', true);
+            // Mientras se guarda no se puede volver atrás ni confirmar de nuevo
+            $('#btn_confirmar_reserva_vet, #btn_anterior_reserva_vet').prop('disabled', true);
 
             $.ajax({
                 url: "{{ route('paciente.solicitar.hora') }}",
@@ -615,7 +972,7 @@
                     return;
                 }
 
-                $('#btn_confirmar_reserva_vet').prop('disabled', false);
+                $('#btn_confirmar_reserva_vet, #btn_anterior_reserva_vet').prop('disabled', false);
                 swal({
                     title: 'No fue posible agendar la hora',
                     text: data.msj || 'Intente nuevamente.',
@@ -623,7 +980,7 @@
                     buttons: 'Aceptar',
                 });
             }).fail(function() {
-                $('#btn_confirmar_reserva_vet').prop('disabled', false);
+                $('#btn_confirmar_reserva_vet, #btn_anterior_reserva_vet').prop('disabled', false);
                 swal({
                     title: 'No fue posible agendar la hora',
                     text: 'Ocurrió un error al guardar la reserva.',
@@ -651,113 +1008,6 @@
 
         .page-header .breadcrumb-item + .breadcrumb-item::before {
             color: rgba(255, 255, 255, .65) !important;
-        }
-
-        .veterinarios-filtros-card {
-            margin-top: 18px;
-            margin-bottom: 18px;
-            border: 1px solid #e1e8ee;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(31, 45, 61, .06);
-        }
-
-        .veterinarios-filtros-card .card-body {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px 14px;
-            min-height: 58px;
-        }
-
-        .veterinarios-filtros-label {
-            color: #52606d;
-            font-size: 13px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .veterinarios-filtros-card .nav {
-            align-items: center;
-            margin: 0;
-        }
-
-        .veterinarios-filtros-card .btn {
-            margin-top: 0 !important;
-            margin-bottom: 0 !important;
-        }
-
-        @media (max-width: 575.98px) {
-            .veterinarios-filtros-card .card-body {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-        }
-
-        #modal_reserva_veterinaria {
-            font-size: 16px;
-        }
-
-        #modal_reserva_veterinaria .modal-title {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        #modal_reserva_veterinaria .small,
-        #modal_reserva_veterinaria small {
-            font-size: 14px !important;
-            line-height: 1.4;
-        }
-
-        #modal_reserva_veterinaria .floating-label-activo-sm,
-        #modal_reserva_veterinaria label {
-            font-size: 15px !important;
-            line-height: 1.3;
-        }
-
-        #modal_reserva_veterinaria .form-control,
-        #modal_reserva_veterinaria .form-control-sm,
-        #modal_reserva_veterinaria .custom-select,
-        #modal_reserva_veterinaria select,
-        #modal_reserva_veterinaria input {
-            font-size: 15px !important;
-            height: 48px;
-            line-height: 1.25;
-        }
-
-        #modal_reserva_veterinaria .form-group {
-            margin-bottom: 1rem;
-        }
-
-        #modal_reserva_veterinaria .border.rounded {
-            font-size: 15px;
-            line-height: 1.45;
-            color: #5f6c85;
-        }
-
-        #modal_reserva_veterinaria .modal-footer .btn {
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        #modal_reserva_veterinaria .reserva-vet-hora {
-            font-size: 14px !important;
-            font-weight: 600;
-            min-height: 38px;
-        }
-
-        #modal_reserva_veterinaria .flatpickr-calendar {
-            font-size: 14px;
-        }
-
-        #modal_reserva_veterinaria .flatpickr-day,
-        #modal_reserva_veterinaria .flatpickr-weekday,
-        #modal_reserva_veterinaria .flatpickr-current-month input.cur-year,
-        #modal_reserva_veterinaria .flatpickr-current-month .flatpickr-monthDropdown-months {
-            font-size: 14px;
-        }
-
-        .reserva-vet-direccion {
-            min-height: 64px;
         }
     </style>
 @endsection

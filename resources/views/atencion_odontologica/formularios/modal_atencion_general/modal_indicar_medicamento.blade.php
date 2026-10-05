@@ -211,7 +211,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="limpiar_modal_medicamentos();" class="btn btn-danger"
+                <button type="button" onclick="limpiar_modal_medicamentos();" class="btn btn-outline-dark"
                     data-dismiss="modal">Cancelar</button>
                 <button type="button" data-dismiss="modal" class="btn btn-info">
                     Guardar</button>

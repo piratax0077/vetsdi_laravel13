@@ -78,6 +78,11 @@ class Mascota extends Model
         'foto_url',
     ];
 
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = $value ? mb_strtoupper(mb_substr($value, 0, 1)).mb_substr($value, 1) : $value;
+    }
+
     public function getFotoUrlAttribute(): ?string
     {
         if (! empty($this->foto_perfil)) {
@@ -126,6 +131,27 @@ class Mascota extends Model
     public function genealogia()
     {
         return $this->hasOne(MascotaGenealogia::class, 'mascota_id', 'id');
+    }
+
+    public function hermanosRegistrados()
+    {
+        return $this->hasMany(MascotaHermano::class, 'mascota_id', 'id');
+    }
+
+    // Especie simplificada para el árbol genealógico: Canino, Felino o el nombre que tenga
+    public function getTipoEspecieAttribute(): string
+    {
+        $original = optional($this->especieMascota)->nombre ?: $this->otra_especie;
+        $normalizada = \Illuminate\Support\Str::lower(\Illuminate\Support\Str::ascii((string) $original));
+
+        if (\Illuminate\Support\Str::contains($normalizada, ['canin', 'perro'])) {
+            return 'Canino';
+        }
+        if (\Illuminate\Support\Str::contains($normalizada, ['felin', 'gato'])) {
+            return 'Felino';
+        }
+
+        return $original ?: 'Otro';
     }
 
     public function vincularLugarAtencion(?int $idLugarAtencion, ?int $idInstitucion = null, ?string $origen = null): void

@@ -5,14 +5,11 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-             <div class="page-header">
+             <div class="page-header encabezado-escritorio">
             <div class="page-block">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <div class="page-header-title mt-3">
-                            <h4 class="m-b-10  text-white">Hola, {{ $profesional->nombre }}</h4>
-                            <p class="text-white">Bienvenido/a a tu escritorio, todo lo que necesitas para tu práctica diaria.</p>
-                        </div>
+                        @include('template.include.saludo_escritorio', ['nombre_saludo' => $profesional->nombre, 'texto_saludo' => 'Bienvenido/a a tu escritorio, todo lo que necesitas para tu práctica diaria.'])
                         <!--<ul class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="{{ ROUTE('paciente.home') }}">Bienvenido/a a tu escritorio de cuidado de mascotas</a>

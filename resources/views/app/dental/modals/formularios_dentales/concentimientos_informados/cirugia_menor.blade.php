@@ -104,7 +104,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary">Ver documento en PDF</button>
-                <button type="button" onclick="reset_form('form_cirugia_menor')" class="btn btn-danger"
+                <button type="button" onclick="reset_form('form_cirugia_menor')" class="btn btn-outline-dark"
                     data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-info">Enviar y Adjuntar Dodumento</button>
             </div>

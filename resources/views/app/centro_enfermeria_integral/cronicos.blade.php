@@ -861,7 +861,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-success" id="confirmar_entrega_btn" onclick="confirmarEntregaFinal();">
                     <i class="feather icon-check"></i> Registrar Entrega
                 </button>

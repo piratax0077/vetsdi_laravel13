@@ -580,7 +580,7 @@
                 </div>
 
                 <div class="modal-footer bg-white">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
 
                     <button type="button" class="btn btn-primary" onclick="confirmar_pago_bono();">
                         <i class="feather icon-check-circle mr-1"></i> Confirmar pago
@@ -818,7 +818,7 @@
                 </div>
 
                 <div class="modal-footer bg-white d-flex justify-content-between">
-                    <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
 
                     <button type="button" id="btn_confirmar_editar_voucher" class="btn btn-info btn-sm" onclick="confirmarEditarLugarVoucher();">
                         <i class="feather icon-save mr-1"></i> Guardar cambios
@@ -926,7 +926,7 @@
                 </div>
 
                 <div class="modal-footer bg-white d-flex justify-content-between">
-                    <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
 
                     <button type="button" id="btn_confirmar_eliminar_voucher" class="btn btn-danger btn-sm" onclick="confirmarEliminarVoucher();">
                         <i class="feather icon-trash-2 mr-1"></i> Confirmar anulación

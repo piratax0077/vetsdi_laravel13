@@ -134,7 +134,7 @@
 <div id="form_enfermedad_cronica" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="form_enfermedad_cronica" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <div class="row w-100">
                     <div class="col-md-8">
                         <h5 class="modal-title">Control de enfermedades crónicas</h5>
@@ -1188,7 +1188,7 @@
             </div>
             <!--Cierre modal body
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
             </div>-->
         </div>
     </div>r
@@ -1198,7 +1198,7 @@
 <div id="m_agregar_antecedente" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="form_enfermedad_cronica" aria-hidden="true">
     <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <div class="row">
                     <div class="col-md-12">
                         <h5 class="modal-title">Añadir patologías crónicas</h5>
@@ -1230,7 +1230,7 @@
                                 <button type="button" class="btn btn-sm btn-info text-center" id="agregar-antecedente" onclick="agregarAntecedente()"><i class="feather icon-save"></i> Agregar antecedentes</button>
                                 <button type="button" class="btn btn-sm btn-info" id="modificar-antecedente" onclick="modificarAntecedente()"><i class="feather icon-edit"></i> Modificar antecedentes</button>
                                 <button type="button" class="btn btn-sm btn-danger" id="modificar-antecedente-cancelar" onclick="cancelarModificar()"><i class="feather icon-x"></i> Cancelar Modificar</button>
-                                {{-- <button type="button" class="btn btn-sm btn-danger-light-c" data-dismiss="modal" aria-label="Close"><i class="feather icon-x"></i> Cerrar</button> --}}
+                                {{-- <button type="button" class="btn btn-sm btn-danger-light-c" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cerrar</button> --}}
                                 {{-- <button type="button" class="btn btn-sm btn-danger-light-c" onclick="verModalAgregar('hide')"><i class="feather icon-x"></i> Cerrar</button> --}}
                             </div>
                             <div class="col-md-12 mt-3">
@@ -1267,7 +1267,7 @@
 <div class="modal" id="modal-confirmar" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title">Desactivar Antecedente</h5>
                 <button type="button" class="close" onclick="verModalDesactivar('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
 

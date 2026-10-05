@@ -1,9 +1,9 @@
  <div id="registro_acompanamiento" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="registro_acompanamiento" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Registrar Servicio Acompañamiento de Enfermos</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title text-white text-center">Registrar Servicio Acompaï¿½amiento de Enfermos</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">ï¿½</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -33,7 +33,7 @@
                             <div class="form-group">
                                 <label class="floating-label-activo-sm">Especialidad</label>
                                 <select class="form-control form-control-sm">
-                                    <option>Seleccione una opción</option>
+                                    <option>Seleccione una opciï¿½n</option>
                                     <option>Medicina General</option>
                                     <option>Medicina Interna</option>
                                     <option>Otorrinolaringologo</option>
@@ -43,7 +43,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="floating-label-activo-sm">Teléfono</label>
+                                <label class="floating-label-activo-sm">Telï¿½fono</label>
                                 <input class="form-control form-control-sm" name="telefono" id="telefono" type="phone" >
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="floating-label-activo-sm">Dirección / Calle N° Of</label>
+                                <label class="floating-label-activo-sm">Direcciï¿½n / Calle Nï¿½ Of</label>
                                 <input class="form-control form-control-sm" name="direccion_nuevo_lugar_atencion" id="direccion_nuevo_lugar_atencion" type="text">
                             </div>
                         </div>
@@ -66,9 +66,9 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="floating-label-activo-sm">Región</label>
+                                <label class="floating-label-activo-sm">Regiï¿½n</label>
                                 <select class="form-control form-control-sm">
-                                    <option>Seleccione una opción</option>
+                                    <option>Seleccione una opciï¿½n</option>
                                     <option>decimo quinta</option>
                                     <option>primera</option>
                                     <option>Segunda</option>
@@ -80,7 +80,7 @@
                             <div class="form-group">
                                 <label class="floating-label-activo-sm">Ciudad</label>
                                 <select class="form-control form-control-sm">
-                                    <option>Seleccione una opción</option>
+                                    <option>Seleccione una opciï¿½n</option>
                                     <option></option>
                                     <option></option>
                                     <option></option>
@@ -90,7 +90,7 @@
                         </div>
                     </div>
                     <div class="row">
-                         <div class="modal-header">
+                         <div class="modal-header modal-header-purple">
                             <h6 class="modal-title  text-center">Asignar Roles</h6>
                          </div>
                     </div>
@@ -153,8 +153,8 @@
 
                     </div>
                         <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-info">Registrar Profesional Médico</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
+                        <button type="submit" class="btn btn-info">Registrar Profesional Mï¿½dico</button>
                         </form>
                     </div>
                 </form>

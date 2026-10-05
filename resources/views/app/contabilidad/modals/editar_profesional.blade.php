@@ -327,7 +327,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-warning" onclick="modificar_registros_profesional();">Editar </button>
                 {{-- <button type="button" class="btn btn-primary">Ver formulario (PDF)</button> --}}
             </div>

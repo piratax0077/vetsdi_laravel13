@@ -4,7 +4,7 @@
 
         <div class="modal-content">
 
-			<div class="modal-header bg-info">
+			<div class="modal-header modal-header-purple">
 
 				<h5 class="modal-title text-center">Consentimiento informado para eutanasia</h5>
 

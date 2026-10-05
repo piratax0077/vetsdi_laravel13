@@ -755,6 +755,7 @@ function finalizar_atencion_ajax(destino){
     --}}
     @yield('page-script')
     @yield('js-profesionales')
+@include('template.include.selector_fechas')
 </body>
 
 </html>

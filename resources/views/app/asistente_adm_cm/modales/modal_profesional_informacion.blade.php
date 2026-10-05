@@ -3,9 +3,9 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="modal_pago_consulta_title">Información Profesional</h5>
-                <button type="button" class="close cerrar_modal_info_profesional" data-dismiss="modal" aria-label="Close"><span&time>×</span>
+                <button type="button" class="close cerrar_modal_info_profesional" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span&time>×</span>
                 </button>
 
             </div>

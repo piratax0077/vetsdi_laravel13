@@ -231,7 +231,7 @@
                      </div>
                      <div class="modal-footer">
                          <button type="button" onclick="reset_form('form_gastos_material_paciente')"
-                             class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                             class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                          <button type="submit" class="btn btn-info">Guardar</button>
                      </div>
                  </form>

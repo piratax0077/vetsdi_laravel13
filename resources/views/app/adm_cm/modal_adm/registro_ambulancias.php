@@ -1,9 +1,9 @@
 <div id="registro_ambulancias" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="registro_ambulancias" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-white text-center">Registrar Ambulancias</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">ï¿½</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -27,11 +27,11 @@
                                 <div class="form-group fill">
                                     <label class="floating-label-activo-sm">Tipo de Insumos</label>
                                     <select class="form-control form-control-sm">
-                                        <option>Seleccione  opción</option>
-                                        <option value="AL">Insumos Médicos</option>
+                                        <option>Seleccione  opciï¿½n</option>
+                                        <option value="AL">Insumos Mï¿½dicos</option>
                                         <option value="LA">Insumos Dentales</option>
                                         <option value="VA">Insumos en General</option>
-                                        <option value="VA">Instrumental Quirúrgico</option>
+                                        <option value="VA">Instrumental Quirï¿½rgico</option>
                                     </select>
                                 </div>
                             </div>
@@ -46,13 +46,13 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group fill">
-                                <label class="floating-label-activo-sm">Correo Electrónico</label>
+                                <label class="floating-label-activo-sm">Correo Electrï¿½nico</label>
                                 <input class="form-control form-control-sm" name="email" id="email" type="email" >
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group fill">
-                                <label class="floating-label-activo-sm">Teléfono</label>
+                                <label class="floating-label-activo-sm">Telï¿½fono</label>
                                 <input class="form-control form-control-sm" name="telefono" id="telefono" type="number" >
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label-activo-sm">Dirección / Calle /N° </label>
+                                <label class="floating-label-activo-sm">Direcciï¿½n / Calle /Nï¿½ </label>
                                 <input class="form-control form-control-sm" name="direccion_nuevo_lugar_atencion" id="direccion_nuevo_lugar_atencion" type="text">
                             </div>
                         </div>
@@ -71,13 +71,13 @@
                         <div class="col-sm-6">
                             <div class="form-group fill">
                                 <div class="form-group fill">
-                                    <label class="floating-label-activo-sm">Región</label>
+                                    <label class="floating-label-activo-sm">Regiï¿½n</label>
                                     <select class="form-control form-control-sm">
-                                        <option>Seleccione una opción</option>
-                                        <optgroup label="Valparaíso">
-                                            <option value="AL">Viña del Mar</option>
+                                        <option>Seleccione una opciï¿½n</option>
+                                        <optgroup label="Valparaï¿½so">
+                                            <option value="AL">Viï¿½a del Mar</option>
                                             <option value="LA">La Calera</option>
-                                            <option value="VA">Valparaíso</option>
+                                            <option value="VA">Valparaï¿½so</option>
                                         </optgroup>
                                     </select>
                                 </div>
@@ -88,11 +88,11 @@
                                 <div class="form-group fill">
                                     <label class="floating-label-activo-sm">Comuna</label>
                                     <select class="form-control form-control-sm">
-                                        <option>Seleccione una opción</option>
-                                        <optgroup label="Valparaíso">
-                                            <option value="AL">Viña del Mar</option>
+                                        <option>Seleccione una opciï¿½n</option>
+                                        <optgroup label="Valparaï¿½so">
+                                            <option value="AL">Viï¿½a del Mar</option>
                                             <option value="LA">La Calera</option>
-                                            <option value="VA">Valparaíso</option>
+                                            <option value="VA">Valparaï¿½so</option>
                                         </optgroup>
                                     </select>
                                 </div>
@@ -114,7 +114,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group fill">
-                                <label class="floating-label-activo-sm">Teléfono (contacto)</label>
+                                <label class="floating-label-activo-sm">Telï¿½fono (contacto)</label>
                                 <input class="form-control form-control-sm" name="telefono" id="telefono" type="number" >
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger mb-0" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark mb-0" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                 <button type="submit" class="btn btn-info mb-0" >Agregar Empresa</button>
             </div>
         </div>

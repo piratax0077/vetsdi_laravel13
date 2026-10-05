@@ -96,7 +96,7 @@
 <div id="modal_autorizacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Recepcion de bonos" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="modal_autorizacionLabel">Autorización</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_autorizacion();"><span aria-hidden="true">&times;</span></button>
             </div>
@@ -138,7 +138,7 @@
 <div id="modal_autorizacion_fmu" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Recepcion de bonos" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="modal_autorizacion_fmuLabel">Autorización FMU</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_autorizacion_fmu();"><span aria-hidden="true">&times;</span></button>
             </div>
@@ -180,7 +180,7 @@
 <div id="modal_tons_dental" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Registro de Tons" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="modal_autorizacion_fmuLabel">Registro de tons</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_autorizacion_fmu();"><span aria-hidden="true">&times;</span></button>
             </div>
@@ -329,7 +329,7 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-sm btn-danger" data-dismiss="modal">Cerrar</button>
+                                <button class="btn btn-sm btn-danger" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
                             </div>
                         </div>
                     </div>

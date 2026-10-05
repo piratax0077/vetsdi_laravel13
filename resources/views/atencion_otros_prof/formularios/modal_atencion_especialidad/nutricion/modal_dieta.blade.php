@@ -120,7 +120,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary" onclick="generar_pdf_dieta()">Generar PDF</button>
                 <button type="button" class="btn btn-info" onclick="guardarYEnviar()"> Guardar y enviar a paciente</button>
             </div>

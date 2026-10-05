@@ -106,9 +106,9 @@
 <div id="nueva_sucursal_cm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_nueva_sucursal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Agregar nueva sucursal</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -179,7 +179,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger mb-0" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark mb-0" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                         <button type="submit" class="btn btn-info mb-0" >Agregar nueva sucursal</button>
                     </div>
                 </form>
@@ -192,11 +192,11 @@
 <div id="editar_sucursal_cm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_editar_sucursal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">
                     Editar Sucursal
                 </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -267,7 +267,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                         <button type="submit" class="btn btn-info" >Guardar Cambios</button>
                     </div>
                 </form>
@@ -280,9 +280,9 @@
 <div id="agregar_desasociar_cm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_agregar_desasociar" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center" id="">Desasociar o Agregar sucursal existente</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -330,7 +330,7 @@
                 </div>
             </div>
             <div class="modal-footer mb-0 pb-0">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                 <button type="submit" class="btn btn-info" >Guardar Cambios</button>
             </div>
         </div>
@@ -341,9 +341,9 @@
 <div id="editar_asistentes_cm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editar_asistentes_cm" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Configurar Asistentes</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -400,7 +400,7 @@
                 </form>
             </div>
         <div class="modal-footer pt-2 mb-0 pb-0">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
             <button type="button" class="btn btn-info" >Guardar Cambios</button>
         </div>
      </div>
@@ -411,9 +411,9 @@
 <div id="horario_atencion_cm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_horario_atencion" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Configurar horario de atención</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form id="">
@@ -511,7 +511,7 @@
                             </div>
                         </div>
                         <div class="col-sm-12 mb-2 text-center">
-                            <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">Agregar horario de atención</button>
+                            <button type="button" class="btn btn-info btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Agregar horario de atención</button>
                             <button type="button" class="btn btn-danger btn-sm" >Cancelar</button>
                         </div>
                         <div class="col-sm-12 mt-2 mb-2">
@@ -549,7 +549,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                     <button type="button" class="btn btn-info" >Guardar Cambios</button>
                 </form>
             </div>
@@ -561,9 +561,9 @@
 <div id="convenios_cm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_convenios" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Convenios</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -624,7 +624,7 @@
                     </div>
                 </div>
                 <div class="modal-footer mb-0 pb-0">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                     <button type="button" class="btn btn-info" >Guardar Cambios</button>
                 </form>
             </div>

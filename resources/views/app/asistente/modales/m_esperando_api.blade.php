@@ -13,9 +13,9 @@
         <input type="hidden" name="id_profesional_fc" value="{{ $profesional->apellido_dos }}" id="apellido_uno_profesional_fc">
         @csrf  --}}
 		<div class="modal-content">
-			<div class="modal-header bg-info">
+			<div class="modal-header modal-header-purple">
 				<h5 class="modal-title text-center">Esperando autorización</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">
 				<span aria-hidden="true">&times;</span>
 				</button>
             </div>

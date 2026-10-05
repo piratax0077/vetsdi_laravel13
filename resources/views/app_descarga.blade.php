@@ -2,136 +2,120 @@
 <html lang="es">
 
 <head>
-	@include('auth/include/head')
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Descarga la app · VeterChile</title>
 
-	<link rel="stylesheet" href="{{ asset('css/form-registro.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/formulario_sm.css') }}">
+    <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
+
+    {{-- Tipografia de la marca --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('css/descarga_app.css') }}">
 </head>
 
 <body>
-    <style type="text/css">
-        .auth-wrapper {
-            background-size: cover;
-            background-image: url("{{ asset('images/background_1.jpg') }}");
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-        .es-invalido {
-            border-color: #ff5252;
-            padding-right: calc(1.5em + 1.25rem);
-            background-repeat: no-repeat;
-            background-position: right calc(0.375em + 0.3125rem) center;
-            background-size: calc(0.75em + 0.625rem) calc(0.75em + 0.625rem);
-        }
+    @php
+        // Enlace que se codifica en el QR: descarga directa del instalador.
+        $enlaceApp = asset('app/download/sdipass.apk');
+    @endphp
 
-        .error {
-            color: red;
-        }
-    </style>
+    <div class="descarga-pantalla">
+        <div class="descarga-tarjeta">
 
-    <div class="auth-wrapper">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-sm-6 col-md-6 mx-auto py-2">
-					<div class="card">
+            {{-- Panel izquierdo: presentacion de la marca --}}
+            <div class="descarga-marca">
+                <a href="{{ url()->previous() }}" class="descarga-volver">
+                    <span>&larr;</span> <span>Volver</span>
+                </a>
 
-						<div class="card-body text-center p-5">
-                            <h4 class="mb-4 f-20">Descarga nuestra aplicación para telefonos Android</h4>
-                            <div class="text-center">
-                                <a href="{{ asset('app/download/sdipass.apk') }}">
-                                    <img src="{{ asset('images/app_descarga/apk.png') }}" alt="logo_apk" class="img-fluid rounded" style="max-width: 160px;">
-                                </a>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-8 d-inline text-center mx-auto mt-5">
-                                    <div class="text-center d-inline">
-                                        <img src="{{ asset('images/app_descarga/google_play_logo.png') }}" alt="google_play_logo" class="img-fluid d-inline" width="150">
-                                    </div>
-                                    <div class="text-center d-inline">
-                                        <img src="{{ asset('images/app_descarga/app_store_logo.png') }}" alt="app_store_logo" class="img-fluid d-inline" width="150">
-                                    </div>
-                                </div>
-                            </div>
-                            <!--<div class="mt-5" style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-around; align-items: center;">
+                <div class="descarga-logo">
+                    <img src="{{ asset('images/logo_pais_vertical.png') }}" alt="VeterChile">
+                </div>
 
-                                <div class="ml-1 mr-1 ">
-                                    <div class="text-center">
-                                        <img src="{{ asset('images/app_descarga/google_play_logo.png') }}" alt="google_play_logo" class="img-fluid" width="180">
-                                    </div>
-                                </div>
-                                <div class="ml-1 mr-1">
-                                    <div class="text-center">
-                                        <img src="{{ asset('images/app_descarga/app_store_logo.png') }}" alt="app_store_logo" class="img-fluid" width="180">
-                                    </div>
-                                </div>
-                            </div>-->
-                        </div>
-                	</div>
-				</div>
-                <div class="col-sm-6 col-md-6 mx-auto py-2">
-					<div class="card">
+                <h1 class="descarga-marca-nombre">VeterChile</h1>
+                <p class="descarga-marca-texto">Gestiona a tus mascotas y accede al escritorio desde cualquier lugar.</p>
+                <p class="descarga-marca-lema">La salud de tu mascota, ahora en tu bolsillo.</p>
 
-						<div class="card-body text-center p-5">
-                            <h4 class="mb-4 f-20">Instrucciones de instalación</h4>
-                            <div>
-                                <ul style="text-align: left">
-                                    <li>Desde el computador:
-                                        <ol>
-                                            <li>Hacer click en "DESCARGAR".</li>
-                                            <li>Espere que se complete la descarga.</li>
-                                            <li>Debe abrir la carpeta donde se descargo el archivo.</li>
-                                            <li>Abra WhatsApp desde el navegador.</li>
-                                            <li>Envíe este archivo de WhatsApp a usted mismo o a otra persona.</li>
-                                            <li>Ya en el celular descargue la aplicación.</li>
-                                            <li>Al hacer click en ella se mostrará un mensaje de advertencia, confirme la apertura de la aplicación.</li>
-                                            <li>Iniciara la instalación, confirme con Instalar.</li>
-                                            <li>Su aplicación se encuentra lista para iniciar sesión.</li>
-                                        </ol>
+                {{-- Linea de pulso decorativa --}}
+                <div class="descarga-pulso" aria-hidden="true">
+                    <svg viewBox="0 0 420 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 20 H120 L135 20 L150 6 L168 34 L184 12 L198 26 L212 20 H420"
+                              stroke="rgba(255,255,255,.65)" stroke-width="2.5"
+                              stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+            </div>
 
-                                    </li>
-                                    <li>
-                                        Desde el celular:
-                                        <ol>
-                                            <li>Hacer click en "DESCARGAR".</li>
-                                            <li>Espere que se complete la descarga.</li>
-                                            <li>Debe abrir la carpeta donde se descargo el archivo.</li>
-                                            <li>Ya en el celular descargue la aplicación.</li>
-                                            <li>Al hacer click en ella se mostrará un mensaje de advertencia, confirme la apertura de la aplicación.</li>
-                                            <li>Iniciara la instalación, confirme con Instalar.</li>
-                                            <li>Su aplicación se encuentra lista para iniciar sesión.</li>
-                                        </ol>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                	</div>
-				</div>
-			</div>
-		</div>
-	</div>
-    <!--Cierre de Formulario-->
+            {{-- Panel derecho: descarga y pasos --}}
+            <div class="descarga-detalle">
+                <h2 class="descarga-titulo">Descarga la app</h2>
+                <p class="descarga-bajada">Escanea el código con la cámara de tu teléfono o descárgala directamente desde Google Play.</p>
 
-    @include('auth/include/nocomplatible')
+                <div class="descarga-medios">
+                    {{-- Codigo QR --}}
+                    <div class="descarga-qr-caja">
+                        <div class="descarga-qr" id="descargaQr"></div>
+                        <span class="descarga-qr-pie">Apunta la cámara de tu celular al código</span>
+                    </div>
 
-    <!--Cierre de Footer-->
-    <script src="{{ asset('js/vendor-all.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/ripple.js') }}"></script>
-    <script src="{{ asset('js/pcoded.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/jquery.bootstrap.wizard.min.js') }}"></script>
-    <script src="{{ asset('js/rut.js') }}"></script>
-    <script src="{{ asset('js/plugins/select2.full.min.js') }}"></script>
-    <script src="{{ asset('js/jquery-validation/jquery.validate.js') }}"></script>
-    <script src="{{ asset('js/plugins/sweetalert.min.js') }}"></script>
+                    {{-- Botones de tiendas --}}
+                    <div class="descarga-tiendas">
+                        <a href="{{ $enlaceApp }}" class="descarga-tienda descarga-tienda-activa">
+                            <svg class="descarga-tienda-icono" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path fill="#00d3ff" d="M47 30 296 256 47 482c-9 6-19 1-19-11V41c0-12 10-17 19-11z"/>
+                                <path fill="#00f076" d="M47 30c-4-2-8-2-11 0l224 214 40-40z"/>
+                                <path fill="#ff3a44" d="M47 482l253-174-40-40-224 214c3 2 7 2 11 0z"/>
+                                <path fill="#ffd500" d="M420 224l-60-33-60 65 60 65 60-33c17-10 17-54 0-64z"/>
+                            </svg>
+                            <span class="descarga-tienda-texto">
+                                <small>Disponible en</small>
+                                <strong>Google Play</strong>
+                            </span>
+                        </a>
 
-    <script src="{{ asset('js/login/registro.js') }}"></script>
+                        <span class="descarga-tienda descarga-tienda-inactiva">
+                            <svg class="descarga-tienda-icono" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="currentColor">
+                                <path d="M318 268c-1-58 47-86 49-88-27-39-68-45-83-45-35-4-68 21-86 21s-45-20-74-20c-38 1-73 22-93 56-40 68-10 170 28 226 19 27 41 58 70 57 28-1 39-18 73-18s44 18 74 17c30 0 49-28 68-55 21-31 30-61 30-63-1-1-58-22-59-88zM261 74c15-19 26-45 23-71-22 1-49 15-65 34-14 16-27 43-24 68 25 2 50-13 66-31z"/>
+                            </svg>
+                            <span class="descarga-tienda-texto">
+                                <small>Próximamente en</small>
+                                <strong>App Store</strong>
+                            </span>
+                        </span>
+                    </div>
+                </div>
 
+                {{-- Pasos de instalacion --}}
+                <ol class="descarga-pasos">
+                    <li class="descarga-paso">Escanea el código QR o pulsa Google Play desde tu celular.</li>
+                    <li class="descarga-paso">Instala la app VeterChile en tu dispositivo Android.</li>
+                    <li class="descarga-paso">Ábrela e inicia sesión con tu usuario y contraseña de siempre.</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+
+    {{-- Generacion del codigo QR --}}
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script>
-
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+        document.addEventListener('DOMContentLoaded', function () {
+            var contenedor = document.getElementById('descargaQr');
+            if (contenedor && window.QRCode) {
+                new QRCode(contenedor, {
+                    text: @json($enlaceApp),
+                    width: 300,
+                    height: 300,
+                    colorDark: '#272727',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
+        });
     </script>
 </body>
 

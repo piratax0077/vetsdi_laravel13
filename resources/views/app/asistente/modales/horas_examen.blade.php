@@ -2,7 +2,7 @@
 <div class="modal fade" id="m_hora_examen" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="m_hora_examen" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1">Agregar Horas Examen</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_m_hora_examen();"><span aria-hidden="true">×</span></button>
             </div>
@@ -89,7 +89,7 @@
                                         </tbody>
                                     </table>
                                     <div class="modal-footer">
-                                        <button type="button" onclick="cancelar_busqueda_horas_examen();"class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" onclick="cancelar_busqueda_horas_examen();"class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                         <button type="button" onclick="agendar_hex_ex();" class="btn btn-info">Agendar Hora examen</button>
                                     </div>
                                 </div>
@@ -211,7 +211,7 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" onclick="cancelar_busqueda_horas_examen();"class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" onclick="cancelar_busqueda_horas_examen();"class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                         <button type="button" onclick="agendar_hex_np();" class="btn btn-info">Registrar Paciente</button>
                                     </div>
                                 </div>

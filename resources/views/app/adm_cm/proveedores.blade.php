@@ -113,9 +113,9 @@
 <div id="agregar_proveedor_cm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="agregar_proveedor_cm" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Agregar proveedor</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -183,7 +183,7 @@
 					</div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger mb-0" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark mb-0" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                         <button type="submit" class="btn btn-info mb-0" >Agregar proveedor</button>
                     </div>
                 </form>
@@ -196,11 +196,11 @@
 <div id="editar_proveedor_cm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editar_proveedor_cm" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">
                     Editar proveedor
                 </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -256,7 +256,7 @@
                     </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger mb-0" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark mb-0" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                         <button type="submit" class="btn btn-info mb-0" >Guardar cambios</button>
                     </div>
                 </form>

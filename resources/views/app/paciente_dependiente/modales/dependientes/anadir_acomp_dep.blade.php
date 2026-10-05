@@ -4,7 +4,7 @@
 <div id="#" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="#" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-purple">
                    <h5 class="modal-title text-center">añadir </h5>
                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
@@ -12,7 +12,7 @@
                     >
                 </div>
                 <div class="modal-footer">
-                   <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                   <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                    <button type="submit" class="btn btn-info">Guardar Registro</button>
                 </div>
             </div>

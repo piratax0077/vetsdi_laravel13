@@ -5,7 +5,7 @@
             <input type="hidden" name="estado_id_profesional" id="estado_id_profesional" value="">
             <input type="hidden" name="estado_id_paciente" id="estado_id_paciente" value="">
             <input type="hidden" name="id_hora_medica" id="id_hora_medica" value="">
-            <div class="modal-header bg-info pt-3 pb-3">
+            <div class="modal-header pt-3 pb-3 modal-header-purple">
                 <h6 id="cabecera_hora_medica" class="text-white f-16 mb-0 mt-0">Información del paciente</h6>
             </div>
             <div class="modal-body">
@@ -297,7 +297,7 @@
                     <button type="submit" onclick="opcion_revisar_ficha()" id="hm_revisar_ficha" class="btn btn-success btn-sm"><i class="feather icon-check"></i> Revisar ficha
                         Hora
                     </button>
-                    <button type="button" id="cerrarModal" class="btn btn-secondary btn-sm" data-dismiss="modal"> <i class="feather icon-x"></i> Cerrar
+                    <button type="button" id="cerrarModal" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"> <i class="feather icon-x"></i> Cerrar
                     </button>
 
                 </div>
@@ -321,9 +321,9 @@
 <div id="modal_registrar_mascota_agenda" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalRegistrarMascotaAgendaLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1" id="modalRegistrarMascotaAgendaLabel">Agregar Mascota no registrada</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="agenda_mascota_id_paciente" value="">
@@ -424,7 +424,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cerrar</button>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cerrar</button>
                 <button type="button" class="btn btn-info btn-sm" id="btn_guardar_mascota_agenda"><i class="feather icon-check"></i> Registrar</button>
             </div>
         </div>

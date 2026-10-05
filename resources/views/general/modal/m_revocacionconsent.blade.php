@@ -1,7 +1,7 @@
 <div id="m_rev_cons" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="m_rev_cons" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Revocación consentimiento informado</h5>
                 <button type="button" class="close" onclick="$('#m_rev_cons').modal('hide')" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

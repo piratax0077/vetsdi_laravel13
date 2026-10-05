@@ -15,6 +15,7 @@ use App\Models\ProfesionalesLugaresAtencion;
 use App\Models\ProfesionalEspecialidad;
 use App\Models\ProfesionalInstitucionConvenio;
 use App\Models\Servicios;
+use App\Services\CuentasService;
 use App\Models\SubTipoEspecialidad;
 use App\Models\TipoEspecialidad;
 use App\Models\User;
@@ -43,8 +44,25 @@ class HomeController extends Controller
 
 		if(Auth::user()->id == 3)
 			return redirect('/Acceso');
-		else
-			$roles_principal = $usuario->roles()->orderBy('id', 'DESC')->first();
+
+        // Modelo nuevo de cuentas: tutor, profesional, asistente y clinica.
+        // Con varios roles se muestra "Elige tu perfil"; con uno solo se entra directo.
+        $rolesCuenta = app(CuentasService::class)->rolesActivos($usuario);
+
+        if ($rolesCuenta->count() === 1) {
+            return redirect()->route('cuenta.entrar', ['tipo' => $rolesCuenta->first()->tipo]);
+        }
+
+        if ($rolesCuenta->count() > 1) {
+            return redirect()->route('cuenta.seleccion');
+        }
+
+        // Cuentas que solo tienen roles antiguos (Admin, Contador, laboratorio, etc.).
+        $roles_principal = $usuario->roles()->orderBy('id', 'DESC')->first();
+
+        if (! $roles_principal) {
+            return redirect('/Acceso');
+        }
 
         switch ($roles_principal->name) {
             case 'Admin':

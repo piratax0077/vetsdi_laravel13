@@ -26,7 +26,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'nombres',
+        'apellido_uno',
+        'apellido_dos',
         'email',
+        'rut',
+        'telefono',
         'password',
     ];
 
@@ -59,6 +64,75 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+    /** Roles de cuenta de la persona: tutor, profesional, asistente o clínica. */
+    public function rolesCuenta()
+    {
+        return $this->hasMany(UsuarioRol::class, 'id_usuario');
+    }
+
+    public function verificacionesCorreo()
+    {
+        return $this->hasMany(VerificacionCorreo::class, 'id_usuario');
+    }
+
+    public function correoVerificado(): bool
+    {
+        return $this->email_verified_at !== null;
+    }
+
+    /** Nombre y apellido para saludar en la pantalla de selección de cuenta. */
+    public function nombreParaMostrar(): string
+    {
+        [$nombres, $apellidoUno] = $this->partesDelNombre();
+
+        $partes = array_filter([$nombres, $apellidoUno]);
+
+        return $partes !== [] ? implode(' ', $partes) : (string) $this->email;
+    }
+
+    /**
+     * Nombres y apellidos por separado.
+     *
+     * Las cuentas antiguas solo tienen el nombre completo en users.name, así que
+     * en ese caso se parte en nombre y apellidos para poder llenar los perfiles.
+     *
+     * @return array{0:string,1:string,2:string}
+     */
+    public function partesDelNombre(): array
+    {
+        $nombres = trim((string) $this->nombres);
+        $apellidoUno = trim((string) $this->apellido_uno);
+        $apellidoDos = trim((string) $this->apellido_dos);
+
+        if ($nombres !== '' && $apellidoUno !== '') {
+            return [$nombres, $apellidoUno, $apellidoDos];
+        }
+
+        $partes = preg_split('/\s+/', trim((string) $this->name), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+
+        if ($nombres === '') {
+            $nombres = (string) array_shift($partes);
+        }
+
+        if ($apellidoUno === '') {
+            $apellidoUno = (string) array_shift($partes);
+        }
+
+        if ($apellidoDos === '') {
+            $apellidoDos = implode(' ', $partes);
+        }
+
+        return [$nombres, $apellidoUno, $apellidoDos];
+    }
+
+    /** Nombre completo, con los dos apellidos, para los perfiles y documentos. */
+    public function nombreCompleto(): string
+    {
+        $partes = array_filter($this->partesDelNombre());
+
+        return $partes !== [] ? implode(' ', $partes) : trim((string) $this->name);
+    }
+
     public function profesional()
     {
         return $this->hasOne(Profesional::class, 'id_usuario');

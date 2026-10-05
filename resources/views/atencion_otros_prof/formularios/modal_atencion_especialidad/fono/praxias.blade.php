@@ -437,7 +437,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                 <button type="button" class="btn btn-info" onclick="registrar_m_praxias();">Guardar</button>
                             </div>
                         </div>

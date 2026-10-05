@@ -66,9 +66,9 @@
 <div id="modal_procedimiento" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 id="titulo_modal_procedimiento" class="modal-title">Agregar procedimiento</h5>
-                <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><span>×</span></button>
             </div>
             <form id="form_procedimiento">
                 @csrf
@@ -125,7 +125,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                     <button type="submit" class="btn btn-info">Guardar</button>
                 </div>
             </form>

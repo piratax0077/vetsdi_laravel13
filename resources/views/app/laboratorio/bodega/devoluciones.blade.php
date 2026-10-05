@@ -291,7 +291,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#modalRechazarProducto').modal('hide')">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#modalRechazarProducto').modal('hide')">Cancelar</button>
                 <button type="button" class="btn btn-primary" id="btn_confirmar_rechazo">Confirmar Rechazo</button>
             </div>
         </div>

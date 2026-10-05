@@ -145,7 +145,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger close_hex_agenda_agregar_paciente" onclick="$('#hex_agenda_agregar_paciente').modal('hide');" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark close_hex_agenda_agregar_paciente" onclick="$('#hex_agenda_agregar_paciente').modal('hide');" data-dismiss="modal">Cancelar</button>
                             <button type="button" onclick="agendar_hora_examen();" class="btn btn-info">Agendar Hora</button>
 
                         </div>

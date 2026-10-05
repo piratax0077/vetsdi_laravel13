@@ -1,9 +1,9 @@
 <div id="permisos_rol_admin" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="permisos_rol" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title">Permisos para Asistentes <br>(Agregar / Modificar / Eliminar) </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 <input type="hidden" name="permisos_rol_id" id="permisos_rol_id" value="">
             </div>
             <div class="modal-body">
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
             </div>
         </div>
     </div>

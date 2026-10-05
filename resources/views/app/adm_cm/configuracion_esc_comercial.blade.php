@@ -714,9 +714,9 @@
     {{--  <div id="a_sucursal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="a_sucursal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Añadir nueva sucursal</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 </div>
                 <form>
                     <div class="modal-body">
@@ -803,11 +803,11 @@
      {{--  <div id="e_sucursal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="e_sucursal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Editar sucursal ( Nombre de sucursal)
                         <!--Sin los parentesis, solo cargar el nombre de la sucursal-->
                     </h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -894,11 +894,11 @@
     {{--  <div id="asistentes_sucursal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="asistentes_sucursal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Asistentes de ( Nombre de sucursal)
                         <!--Sin los parentesis, solo cargar el nombre de la sucursal-->
                     </h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 </div>
                 <form>
                     <div class="modal-body">
@@ -951,11 +951,11 @@
     {{--  <div id="horario_sucursal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="horario_sucursal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Horario de ( Nombre de sucursal)
                         <!--Sin los parentesis, solo cargar el nombre de la sucursal-->
                     </h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -1060,9 +1060,9 @@
     <div id="permisos_rol" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="permisos_rol" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Desasociar Funcionario</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                 <div class="row">
@@ -1194,9 +1194,9 @@
     <div id="a_area" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="a_area" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Añadir área</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -1247,9 +1247,9 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <!--Header-->
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Agregar Cuenta Bancaria Institución</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <!--Body-->
             <div class="modal-body">

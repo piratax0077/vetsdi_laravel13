@@ -571,7 +571,7 @@
                                         <!--Cierre: Tabla-->
                                     </div>
                                     <div class="modal-footer">
-                                        {{--  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>  --}}
+                                        {{--  <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>  --}}
                                         {{--  <button type="button" onclick="alerta_registro_medicamento_sdi();" data-dismiss="modal" class="btn btn-info">Generar Receta</button>  --}}
                                         <button type="button" onclick="registrar_medicamentos_homeo();" data-dismiss="modal" class="btn btn-info">Generar Receta</button>
                                     </div>

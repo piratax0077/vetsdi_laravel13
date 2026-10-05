@@ -451,7 +451,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" onclick="cerrarModal()"; data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" onclick="cerrarModal()"; data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info">Guardar </button>
                 <button type="button" class="btn btn-primary" style="color: #3268bf;background-color: #cde0f6;border-color: #cde0f6;"><i class="feather icon-file"></i>Generar PDF</button>
             </div>

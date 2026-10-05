@@ -16,53 +16,6 @@
     #modal_ficha_mascota td:nth-child(1) {
         width: 120px;
     }
-    #card-lista-dependientes .card-mascota { height:calc(100% - 24px); margin-bottom:24px; overflow:hidden; border:0; border-radius:16px; box-shadow:0 7px 22px rgba(38,59,80,.1); transition:.2s ease; }
-    #card-lista-dependientes .card-mascota:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(38,59,80,.16); }
-    .mascota-card-profile { padding:22px 18px 15px; background:linear-gradient(145deg,#f7ffff 0%,#fff 65%); }
-    .mascota-card-photo { width:82px!important; height:82px; margin:0 auto; border:4px solid #fff; border-radius:50%; object-fit:cover; box-shadow:0 4px 14px rgba(18,139,130,.25); }
-    .mascota-card-species { color:#718096; font-size:13px; }
-    .mascota-action-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; padding:14px; border-top:1px solid #edf2f5; background:#fbfcfd; }
-    .mascota-action { display:flex; align-items:center; min-height:48px; padding:9px 10px; border:1px solid #dfe8ec; border-radius:10px; color:#34475a; background:#fff; font-size:11px; font-weight:600; line-height:1.2; text-align:left; white-space:normal; transition:.18s ease; }
-    .mascota-action:hover { border-color:#19aaa2; color:#128b82; background:#f0fbfa; transform:translateY(-1px); }
-    .mascota-action i { flex:0 0 28px; color:#17a69e; font-size:17px; text-align:center; }
-    .mascota-action.is-primary { grid-column:1/-1; justify-content:center; color:#fff; border-color:#168f87; background:linear-gradient(135deg,#1bb9b1,#168c83); font-size:12px; text-align:center; }
-    .mascota-action.is-primary i { color:#fff; }
-    #card-lista-dependientes .card-mascota .card-body { padding:22px 14px 14px; background:linear-gradient(145deg,#f7ffff 0%,#fff 62%); }
-    #card-lista-dependientes .card-mascota .card-body > img { width:82px!important; height:82px; border:4px solid #fff; object-fit:cover; box-shadow:0 4px 14px rgba(18,139,130,.25); }
-    #card-lista-dependientes .card-mascota .card-body > .mt-2.d-flex { display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; margin:16px -2px -2px!important; }
-    #card-lista-dependientes .card-mascota .card-body > .mt-2.d-flex .btn { display:flex; align-items:center; justify-content:flex-start; min-height:47px; margin:0!important; padding:8px 9px; border:1px solid #dfe8ec; border-radius:9px; color:#34475a; background:#fff; font-size:10px; font-weight:600; line-height:1.2; text-align:left; white-space:normal; box-shadow:none; }
-    #card-lista-dependientes .card-mascota .card-body > .mt-2.d-flex .btn:hover { border-color:#19aaa2; color:#128b82; background:#f0fbfa; transform:translateY(-1px); }
-    #card-lista-dependientes .card-mascota .card-body > .mt-2.d-flex .btn i { flex:0 0 25px; color:#17a69e; font-size:15px; text-align:center; }
-    #card-lista-dependientes .card-mascota .card-body > .mt-2.d-flex .btn-ver-mascota { grid-column:1/-1; grid-row:1; justify-content:center; color:#fff; border-color:#168f87; background:linear-gradient(135deg,#1bb9b1,#168c83); }
-    #card-lista-dependientes .card-mascota .card-body > .mt-2.d-flex > :nth-child(1) { grid-column:2; grid-row:2; }
-    #card-lista-dependientes .card-mascota .card-body > .mt-2.d-flex .btn-ver-ficha { grid-column:1; grid-row:2; }
-    #card-lista-dependientes .card-mascota .card-body > .mt-2.d-flex .btn-escritorio-mascota { grid-column:2; grid-row:3; }
-    #card-lista-dependientes .card-mascota .card-body > .mt-2.d-flex > :nth-child(5) { grid-column:1; grid-row:3; }
-    #card-lista-dependientes .card-mascota .card-body > .mt-2.d-flex .btn-ver-mascota i { color:#fff; }
-    #card-lista-dependientes .card-mascota-fallecida .card-body { background:linear-gradient(145deg,#f4f5f7 0%,#fff 62%); }
-    #card-lista-dependientes .card-mascota-fallecida .card-body > img { filter:grayscale(.85); opacity:.92; }
-    #card-lista-dependientes .mascota-badge-memoria {
-        display:inline-block;
-        margin-top:6px;
-        padding:3px 10px;
-        border-radius:20px;
-        background:#6c757d;
-        color:#fff;
-        font-size:10px;
-        font-weight:700;
-        letter-spacing:.04em;
-        text-transform:uppercase;
-    }
-    #card-lista-dependientes .btn-memorial-mascota,
-    #card-lista-dependientes .btn-registrar-fallecimiento {
-        grid-column:1/-1;
-        justify-content:center;
-    }
-    #card-lista-dependientes .btn-memorial-mascota { color:#fff!important; border-color:#5c6370!important; background:linear-gradient(135deg,#6c757d,#495057)!important; }
-    #card-lista-dependientes .btn-memorial-mascota i,
-    #card-lista-dependientes .btn-registrar-fallecimiento i { color:inherit!important; }
-    #card-lista-dependientes .btn-registrar-fallecimiento { color:#495057!important; border-color:#ced4da!important; background:#f8f9fa!important; }
-    @media (max-width:430px) { .mascota-action-grid{grid-template-columns:1fr}.mascota-action.is-primary{grid-column:auto} }
     #modal_detalle_mascota .modal-content {
         overflow: hidden;
         border: 0;
@@ -73,7 +26,7 @@
         align-items: center;
         padding: 17px 20px;
         border: 0;
-        background: linear-gradient(135deg, #12b8b4 0%, #168c83 100%) !important;
+        background: #6f42c1 !important;
     }
     #modal_detalle_mascota .modal-title {
         margin: 0 !important;
@@ -211,110 +164,50 @@
 
         <div class="pcoded-content">
 
-            <!--Header-->
 
-            <div class="page-header">
+            <!-- TABLA DE DEPENDIENTES-->
+                <div class="row">
 
-                <div class="page-block">
+                    <div class="col-md-12 mb-3">
 
-                    <div class="row align-items-center">
+                        <h5 class="f-26 d-inline">Mis Mascotas </h5>
 
-                        <div class="col-md-12">
-
-                            <div class="page-header-title">
-
-                                <h5 class="font-weight-bold mb-0">Mis Mascotas</h5>
-
-                            </div>
-
-                            <ul class="breadcrumb">
-
-                                <li class="breadcrumb-item">
-
-                                    <a href="{{ route('paciente.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-
-                                        <i class="feather icon-home"></i>
-
-                                    </a>
-
-                                </li>
-
-                                <li class="breadcrumb-item active" aria-current="page">Mis Mascotas</li>
-
-                            </ul>
-
+                        <div class="float-md-right">
+                            @if(($titulo ?? '') === 'Mascotas')
+                            <button type="button" class="btn btn-info btn-sm mr-1"
+                                id="btn-solicitud-apareamiento" name="btn-solicitud-apareamiento"
+                                onclick="return abrirModalSolicitudApareamiento(event);">
+                                <i class="feather icon-heart"></i> Solicitud de apareamiento
+                                <span class="badge badge-danger d-none" id="badge-apareamiento-nuevas">0</span>
+                            </button>
+                            <button type="button" class="btn btn-info btn-sm mr-1"
+                                id="btn-traspasar-mascota" name="btn-traspasar-mascota"
+                                onclick="return abrirModalTraspasoMascota(event);">
+                                <i class="feather icon-shuffle"></i> Traspasar mascota
+                            </button>
+                            <button type="button" class="btn btn-info btn-sm mr-1"
+                                id="btn-registrar-defuncion" name="btn-registrar-defuncion"
+                                onclick="return abrirModalSeleccionDefuncion(event);">
+                                <i class="feather icon-cloud"></i> Registrar defunción
+                            </button>
+                            @endif
+                            <button type="button" class="btn btn-purple btn-sm d-inline" id="btn-agregar-dep" name="btn-agregar-dep">
+                                <i class="fas fa-plus"></i> Agregar mascota
+                            </button>
                         </div>
+
+                        <input type="hidden" name="dependencia" id="dependencia" value="{{ $dependencia }}">
+
+                        <input type="hidden" name="tipo_dependencias" id="tipo_dependencias" value="{{ $tipo_dependencias }}">
 
                     </div>
 
                 </div>
 
-            </div>
-
-            <!--Cierre: Header-->
-
 
 
             <!-- TABLA DE DEPENDIENTES-->
-
-            <div class="row ">
-
-                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-
-                    <div class="card">
-
-                        <div class="card-body bg-info py-3 rounded-xl">
-
-                            <div class="row">
-
-                                <div class="col-md-12">
-
-                                    <h5 class="text-white f-20 d-inline">Mis Mascotas </h5>
-
-                                    <div class="float-md-right">
-                                        @if(($titulo ?? '') === 'Mascotas')
-                                        <button type="button" class="btn btn-outline-light btn-sm mr-1"
-                                            id="btn-solicitud-apareamiento" name="btn-solicitud-apareamiento"
-                                            onclick="return abrirModalSolicitudApareamiento(event);">
-                                            <i class="feather icon-heart"></i> Solicitud de apareamiento
-                                            <span class="badge badge-danger d-none" id="badge-apareamiento-nuevas">0</span>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-light btn-sm mr-1"
-                                            id="btn-traspasar-mascota" name="btn-traspasar-mascota"
-                                            onclick="return abrirModalTraspasoMascota(event);">
-                                            <i class="feather icon-shuffle"></i> Traspasar mascota
-                                        </button>
-                                        <button type="button" class="btn btn-outline-light btn-sm mr-1"
-                                            id="btn-registrar-defuncion" name="btn-registrar-defuncion"
-                                            onclick="return abrirModalSeleccionDefuncion(event);">
-                                            <i class="feather icon-cloud"></i> Registrar defunción
-                                        </button>
-                                        @endif
-                                        <button type="button" class="btn btn-light btn-sm d-inline" id="btn-agregar-dep" name="btn-agregar-dep">
-                                            <i class="fas fa-plus"></i> Agregar mascota
-                                        </button>
-                                    </div>
-
-                                    <input type="hidden" name="dependencia" id="dependencia" value="{{ $dependencia }}">
-
-                                    <input type="hidden" name="tipo_dependencias" id="tipo_dependencias" value="{{ $tipo_dependencias }}">
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- TABLA DE DEPENDIENTES-->
-             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 d-none" id="card-lista-dependientes">
+             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 d-none mt-2" id="card-lista-dependientes">
                 @if(isset($registros) && $registros && $registros->count() >0 )
                     @foreach ($registros as $registro)
                         @if ($registro->paciente)
@@ -322,11 +215,8 @@
                                 <div class="card">
                                     <a href="{{ ROUTE('paciente.dependiente.home',['id_dependiente_activo'=>$registro->paciente->id]) }}">
                                         <div class="card-body text-center" style="cursor:pointer">
-                                            @if($registro->paciente->sexo == 'M')
-                                                <img class="wid-60 text-center mt-1 rounded-circle" src="{{ asset('images/iconos/paciente-m.svg') }}">
-                                            @else
-                                                <img class="wid-60 text-center mt-1 rounded-circle" src="{{ asset('images/iconos/paciente-f.svg') }}">
-                                            @endif
+                                            <img class="wid-60 text-center mt-1 rounded-circle" src="{{ asset('images/iconos/mascotas.svg') }}">
+
                                             <h5 class="mt-2 mb-0 text-uppercase">{{ $registro->paciente->nombres.' '.$registro->paciente->apellido_uno. ' '.$registro->paciente->apellido_dos }}</h5>
                                         </div>
                                     </a>
@@ -335,7 +225,24 @@
                         @endif
                     @endforeach
                 @else
-                    <h5>Sin Mascotas Registradas</h5>
+                    <div class="col-12 mascotas-vacio-col">
+                        <div class="mascotas-vacio">
+                            <span class="mascotas-vacio-ilustracion">
+                                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <circle cx="20" cy="18" r="6" fill="#19aaa2"/>
+                                    <circle cx="44" cy="18" r="6" fill="#19aaa2"/>
+                                    <circle cx="11" cy="32" r="5.5" fill="#19aaa2"/>
+                                    <circle cx="53" cy="32" r="5.5" fill="#19aaa2"/>
+                                    <path d="M32 30c-8 0-14 7-14 14 0 5 4 8 9 8 2 0 3.5-1 5-1s3 1 5 1c5 0 9-3 9-8 0-7-6-14-14-14z" fill="#128b82"/>
+                                </svg>
+                            </span>
+                            <h4 class="mascotas-vacio-titulo">Aún no tienes mascotas registradas</h4>
+                            <p class="mascotas-vacio-texto">Agrega a tu primera mascota para llevar su ficha veterinaria, controles de salud y registros siempre al día.</p>
+                            <button type="button" class="mascotas-vacio-btn" onclick="document.getElementById('btn-agregar-dep').click();">
+                                <i class="fas fa-plus"></i> Agregar mascota
+                            </button>
+                        </div>
+                    </div>
                 @endif
             </div>
 
@@ -362,7 +269,7 @@
             aria-labelledby="modalSeleccionarDefuncionLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-header bg-secondary">
+                    <div class="modal-header modal-header-purple">
                         <h5 class="modal-title" id="modalSeleccionarDefuncionLabel">
                             <i class="feather icon-cloud"></i> Registrar defunción
                         </h5>
@@ -382,7 +289,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
                         <button type="button" class="btn btn-secondary btn-sm" onclick="return continuarRegistroDefuncion(event);">
                             <i class="feather icon-arrow-right"></i> Continuar
                         </button>
@@ -395,7 +302,7 @@
     <div class="modal fade" id="modal_detalle_mascota" tabindex="-1" role="dialog" aria-labelledby="modalDetalleMascota" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title mt-1" id="modalDetalleMascota">Información de la mascota </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
@@ -460,7 +367,7 @@
     <div class="modal fade" id="modal_ficha_mascota" tabindex="-1" role="dialog" aria-labelledby="modalFichaMascota" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title mt-1" id="modalFichaMascota">Ficha Médica <span id="modal_ficha_mascota_nombre"></span></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
@@ -1277,8 +1184,7 @@
 
         function obtenerImagenMascota(mascota)
         {
-            var img_m = '{{ asset('images/iconos/paciente-m.svg') }}';
-            var img_f = '{{ asset('images/iconos/paciente-f.svg') }}';
+            var img_patita = '{{ asset('images/iconos/mascotas.svg') }}';
             if(mascota.foto_url)
             {
                 return mascota.foto_url;
@@ -1291,8 +1197,8 @@
             {
                 return normalizarRutaImagen(mascota.galeria.ven_pre[0][0]);
             }
-            if(mascota.sexo === 'M') return img_m;
-            return img_f;
+            // Sin foto cargada: se usa la patita por defecto
+            return img_patita;
         }
 
         function mostrarDetalleMascota(idMascota)
@@ -1442,6 +1348,13 @@
         var plantillaRutaFvu = '';
         @endif
         var traspasoTutorEncontrado = null;
+        // Estado del wizard de traspaso: paso abierto, si el resumen ya se cargó
+        // para la mascota y tutor elegidos, y el RUT con que se buscó al tutor
+        var TOTAL_PASOS_TRASPASO = 3;
+        var traspasoPasoActual = 1;
+        var traspasoResumenListo = false;
+        var traspasoRutBuscado = '';
+        var traspasoCargando = false;
 
         function abrirModalTraspasoMascota(event)
         {
@@ -1489,28 +1402,52 @@
 
         function resetTraspasoModal()
         {
-            traspasoTutorEncontrado = null;
+            traspasoCargando = false;
             $('#traspaso_mascota_id').val('');
             $('#traspaso_situacion').val('');
             $('#traspaso_rut_tutor').val('');
+            limpiarTutorTraspaso();
+            $('#traspaso_paso1_error').addClass('d-none').text('');
+            $('#traspaso_mascota_resumen').addClass('d-none');
+            $('#traspaso_tutor_actual, #traspaso_tutor_nuevo_resumen, #traspaso_resumen_mascota, #traspaso_resumen_motivo').text('-');
+            $('#traspaso_tutor_actual_rut, #traspaso_tutor_nuevo_rut').text('');
+            $('#traspaso_total_fvu, #traspaso_total_vacunas, #traspaso_total_desparasitaciones').text('0');
+            $('#btn_traspaso_buscar_tutor, #btn_traspaso_siguiente, #btn_traspaso_confirmar').each(function(){
+                botonTraspasoCargando($(this), false);
+            });
+            irPasoTraspaso(1);
+        }
+
+        // Borra el tutor buscado; se usa al cambiar el RUT o al hacer una búsqueda nueva
+        function limpiarTutorTraspaso()
+        {
+            traspasoTutorEncontrado = null;
+            traspasoResumenListo = false;
+            traspasoRutBuscado = '';
             $('#traspaso_tutor_id').val('');
-            $('#traspaso_tutor_nombres').val('');
-            $('#traspaso_tutor_apellido_uno').val('');
-            $('#traspaso_tutor_apellido_dos').val('');
-            $('#traspaso_tutor_email').val('');
-            $('#traspaso_tutor_telefono').val('');
-            $('#traspaso_tutor_direccion').val('');
-            $('#traspaso_tutor_resultado').addClass('d-none');
-            $('#traspaso_tutor_formulario').addClass('d-none');
-            $('#traspaso_tutor_alerta').addClass('d-none').text('');
+            $('#traspaso_tutor_nombre, #traspaso_tutor_rut').text('-');
+            $('#traspaso_tutor_formulario input').val('');
+            $('#traspaso_tutor_resultado, #traspaso_tutor_formulario, #traspaso_tutor_alerta').addClass('d-none');
+            $('#traspaso_tutor_alerta_texto').text('');
             $('#traspaso_tutor_error').addClass('d-none').text('');
-            $('#traspaso_resumen_bloque').addClass('d-none');
-            $('#traspaso_tutor_actual').text('-');
-            $('#traspaso_tutor_nuevo_resumen').text('-');
-            $('#traspaso_total_fvu').text('0');
-            $('#traspaso_total_vacunas').text('0');
-            $('#traspaso_total_desparasitaciones').text('0');
-            $('#btn_traspaso_confirmar').prop('disabled', true);
+        }
+
+        // Deja el botón en espera mientras responde el servidor y después le devuelve su texto
+        function botonTraspasoCargando($boton, cargando, texto)
+        {
+            if (cargando) {
+                if (!$boton.data('html-original')) {
+                    $boton.data('html-original', $boton.html());
+                }
+                $boton.prop('disabled', true)
+                    .html('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>' + texto);
+                return;
+            }
+
+            if ($boton.data('html-original')) {
+                $boton.html($boton.data('html-original')).removeData('html-original');
+            }
+            $boton.prop('disabled', false);
         }
 
         function poblarSelectTraspasoMascotas()
@@ -1548,6 +1485,30 @@
             }
         }
 
+        // Foto, nombre y datos básicos de la mascota elegida en el paso 1
+        function actualizarMascotaTraspaso()
+        {
+            var id = $('#traspaso_mascota_id').val();
+            var mascota = id ? mascotasCache[id] : null;
+
+            if (!mascota) {
+                $('#traspaso_mascota_resumen').addClass('d-none');
+                return;
+            }
+
+            var detalle = [];
+            var especie = obtenerLabelEspecie(mascota.especie_id || mascota.especie, mascota.otra_especie);
+            var raza = obtenerLabelRaza(mascota);
+            if (especie && especie !== '-') detalle.push(especie);
+            if (raza && raza !== '-') detalle.push(raza);
+            if (mascota.sexo === 'M' || mascota.sexo === 'F') detalle.push(sexoMascotaTexto(mascota.sexo));
+
+            $('#traspaso_mascota_img').attr('src', obtenerImagenMascota(mascota));
+            $('#traspaso_mascota_nombre').text(mascota.nombre || '-');
+            $('#traspaso_mascota_detalle').text(detalle.join(' · '));
+            $('#traspaso_mascota_resumen').removeClass('d-none');
+        }
+
         function obtenerDatosFormularioTutorTraspaso()
         {
             return {
@@ -1560,18 +1521,6 @@
             };
         }
 
-        function sincronizarLabelsFlotantesTraspaso()
-        {
-            $('#traspaso_tutor_formulario input, #traspaso_rut_tutor').each(function(){
-                var $input = $(this);
-                var $group = $input.closest('.form-group.fill');
-                if (!$group.length) return;
-                if (($input.val() || '').trim() !== '') {
-                    $group.addClass('fill');
-                }
-            });
-        }
-
         function llenarFormularioTutorTraspaso(tutor)
         {
             tutor = tutor || {};
@@ -1581,7 +1530,6 @@
             $('#traspaso_tutor_email').val(tutor.email || '');
             $('#traspaso_tutor_telefono').val(tutor.telefono_uno || '');
             $('#traspaso_tutor_direccion').val(tutor.direccion || '');
-            sincronizarLabelsFlotantesTraspaso();
         }
 
         function tutorTraspasoListo()
@@ -1598,21 +1546,128 @@
             return datos.tutor_nombres.length > 0 && datos.tutor_apellido_uno.length > 0;
         }
 
-        function actualizarBotonTraspaso()
+        // Devuelve el motivo por el que no se puede salir del paso 1, o vacío si está todo bien
+        function errorPasoUnoTraspaso()
         {
-            var mascotaId = $('#traspaso_mascota_id').val();
-            var situacion = ($('#traspaso_situacion').val() || '').trim();
-            var puedeConfirmar = !!mascotaId
-                && situacion.length >= 5
-                && tutorTraspasoListo()
-                && !$('#traspaso_resumen_bloque').hasClass('d-none');
-            $('#btn_traspaso_confirmar').prop('disabled', !puedeConfirmar);
+            if (!$('#traspaso_mascota_id').val()) {
+                return 'Seleccione la mascota que va a traspasar.';
+            }
+            if (($('#traspaso_situacion').val() || '').trim().length < 5) {
+                return 'Indique el motivo del traspaso (mínimo 5 caracteres).';
+            }
+            return '';
+        }
+
+        function pasoTraspasoCompleto(paso)
+        {
+            if (paso === 1) {
+                return errorPasoUnoTraspaso() === '';
+            }
+            if (paso === 2) {
+                return tutorTraspasoListo() && traspasoResumenListo;
+            }
+            return false;
+        }
+
+        // Un paso solo se puede abrir si los anteriores están completos
+        function pasoTraspasoDisponible(paso)
+        {
+            for (var anterior = 1; anterior < paso; anterior++) {
+                if (!pasoTraspasoCompleto(anterior)) return false;
+            }
+            return true;
+        }
+
+        // Marca el indicador de pasos y deja los botones del pie según el paso abierto
+        function actualizarWizardTraspaso()
+        {
+            var esUltimoPaso = traspasoPasoActual === TOTAL_PASOS_TRASPASO;
+
+            $('#traspaso_pasos .traspaso-paso').each(function(){
+                var paso = Number($(this).data('paso'));
+                var completado = paso !== traspasoPasoActual
+                    && paso < TOTAL_PASOS_TRASPASO
+                    && pasoTraspasoDisponible(paso)
+                    && pasoTraspasoCompleto(paso);
+
+                $(this).toggleClass('activo', paso === traspasoPasoActual).toggleClass('completado', completado);
+                $(this).find('.traspaso-paso-numero').html(completado ? '<i class="feather icon-check"></i>' : paso);
+                $(this).find('.traspaso-paso-boton')
+                    .prop('disabled', traspasoCargando || !pasoTraspasoDisponible(paso))
+                    .attr('aria-current', paso === traspasoPasoActual ? 'step' : null);
+            });
+
+            $('#btn_traspaso_cancelar').toggleClass('d-none', traspasoPasoActual > 1);
+            $('#btn_traspaso_anterior').toggleClass('d-none', traspasoPasoActual === 1);
+            $('#btn_traspaso_siguiente').toggleClass('d-none', esUltimoPaso);
+            $('#btn_traspaso_confirmar').toggleClass('d-none', !esUltimoPaso);
+
+            // Mientras hay una consulta en curso los botones quedan como los dejó botonTraspasoCargando
+            if (traspasoCargando) {
+                $('#btn_traspaso_anterior').prop('disabled', true);
+                return;
+            }
+
+            $('#btn_traspaso_anterior').prop('disabled', false);
+            $('#btn_traspaso_siguiente').prop('disabled', false);
+            $('#btn_traspaso_confirmar').prop('disabled', !esUltimoPaso || !pasoTraspasoCompleto(2));
+        }
+
+        function irPasoTraspaso(paso)
+        {
+            if (paso < 1 || paso > TOTAL_PASOS_TRASPASO || traspasoCargando || !pasoTraspasoDisponible(paso)) {
+                return;
+            }
+
+            traspasoPasoActual = paso;
+            $('#modal_traspasar_mascota .traspaso-panel').removeClass('activo');
+            $('#modal_traspasar_mascota .traspaso-panel[data-paso="' + paso + '"]').addClass('activo');
+
+            if (paso === TOTAL_PASOS_TRASPASO) {
+                llenarConfirmacionTraspaso();
+            }
+
+            actualizarWizardTraspaso();
+
+            // El cuerpo del modal tiene scroll propio; se vuelve arriba al cambiar de paso
+            $('#modal_traspasar_mascota .modal-body').scrollTop(0);
+        }
+
+        function siguientePasoTraspaso()
+        {
+            if (traspasoCargando) return;
+
+            if (traspasoPasoActual === 1) {
+                var error = errorPasoUnoTraspaso();
+                if (error) {
+                    $('#traspaso_paso1_error').removeClass('d-none').text(error);
+                    return;
+                }
+                $('#traspaso_paso1_error').addClass('d-none').text('');
+                irPasoTraspaso(2);
+                return;
+            }
+
+            if (traspasoPasoActual === 2) {
+                validarTutorTraspaso();
+            }
+        }
+
+        function anteriorPasoTraspaso()
+        {
+            irPasoTraspaso(traspasoPasoActual - 1);
+        }
+
+        function mostrarErrorTutorTraspaso(mensaje)
+        {
+            $('#traspaso_tutor_error').removeClass('d-none').text(mensaje);
         }
 
         function mostrarTutorTraspasoEncontrado(tutor, mensaje)
         {
             tutor = tutor || {};
             traspasoTutorEncontrado = tutor;
+            traspasoResumenListo = false;
 
             if (tutor.requiere_formulario) {
                 $('#traspaso_tutor_resultado').addClass('d-none');
@@ -1626,23 +1681,32 @@
                 $('#traspaso_tutor_resultado').removeClass('d-none');
             }
 
-            if (mensaje) {
-                $('#traspaso_tutor_alerta').removeClass('d-none').text(mensaje);
-            } else {
-                $('#traspaso_tutor_alerta').addClass('d-none').text('');
-            }
-
+            $('#traspaso_tutor_alerta').toggleClass('d-none', !mensaje);
+            $('#traspaso_tutor_alerta_texto').text(mensaje || '');
             $('#traspaso_tutor_error').addClass('d-none').text('');
-            actualizarBotonTraspaso();
+            actualizarWizardTraspaso();
         }
 
         function buscarTutorTraspaso()
         {
+            if (traspasoCargando) return;
+
             var rutTutor = ($('#traspaso_rut_tutor').val() || '').trim();
             if (!rutTutor) {
-                $('#traspaso_tutor_error').removeClass('d-none').text('Ingrese el RUT del nuevo tutor.');
+                mostrarErrorTutorTraspaso('Ingrese el RUT del nuevo tutor.');
                 return;
             }
+
+            var $boton = $('#btn_traspaso_buscar_tutor');
+            var terminarBusqueda = function(){
+                traspasoCargando = false;
+                botonTraspasoCargando($boton, false);
+            };
+
+            limpiarTutorTraspaso();
+            traspasoCargando = true;
+            botonTraspasoCargando($boton, true, 'Buscando');
+            actualizarWizardTraspaso();
 
             $.ajax({
                 url: rutaTraspasoBuscarTutor,
@@ -1650,74 +1714,68 @@
                 data: { rut: rutTutor },
             })
             .done(function(data){
+                terminarBusqueda();
+
                 if (data.estado != 1 || !data.tutor) {
-                    $('#traspaso_tutor_error').removeClass('d-none').text(data.msj || 'No se pudo buscar el tutor.');
-                    traspasoTutorEncontrado = null;
-                    $('#traspaso_resumen_bloque').addClass('d-none');
-                    actualizarBotonTraspaso();
+                    mostrarErrorTutorTraspaso(data.msj || 'No se pudo buscar el tutor.');
+                    actualizarWizardTraspaso();
                     return;
                 }
 
+                traspasoRutBuscado = rutTutor;
                 mostrarTutorTraspasoEncontrado(data.tutor, data.msj);
-
-                if (!data.tutor.requiere_formulario) {
-                    cargarResumenTraspaso($('#traspaso_mascota_id').val(), rutTutor);
-                } else {
-                    $('#traspaso_resumen_bloque').addClass('d-none');
-                    actualizarBotonTraspaso();
-                }
             })
             .fail(function(jqXHR){
+                terminarBusqueda();
                 var msj = (jqXHR.responseJSON && jqXHR.responseJSON.msj)
                     ? jqXHR.responseJSON.msj
                     : 'No se pudo buscar el tutor.';
-                $('#traspaso_tutor_error').removeClass('d-none').text(msj);
-                traspasoTutorEncontrado = null;
-                $('#traspaso_resumen_bloque').addClass('d-none');
-                actualizarBotonTraspaso();
+                mostrarErrorTutorTraspaso(msj);
+                actualizarWizardTraspaso();
             });
         }
 
+        // Al pulsar "Siguiente" en el paso 2: revisa el tutor y trae el resumen antes de pasar a confirmar
         function validarTutorTraspaso()
         {
             var mascotaId = $('#traspaso_mascota_id').val();
             var rutTutor = ($('#traspaso_rut_tutor').val() || '').trim();
 
-            if (!mascotaId) {
-                swal({
-                    title: 'Seleccione mascota',
-                    text: 'Primero debe seleccionar la mascota a traspasar.',
-                    icon: 'warning',
+            if (!traspasoTutorEncontrado || !rutTutor) {
+                mostrarErrorTutorTraspaso('Busque al nuevo tutor por su RUT antes de continuar.');
+                return;
+            }
+
+            if (traspasoTutorEncontrado.requiere_formulario) {
+                var datos = obtenerDatosFormularioTutorTraspaso();
+                if (!datos.tutor_nombres || !datos.tutor_apellido_uno) {
+                    mostrarErrorTutorTraspaso('Nombre y apellido paterno son obligatorios.');
+                    return;
+                }
+
+                traspasoTutorEncontrado = Object.assign({}, traspasoTutorEncontrado, datos, {
+                    rut: rutTutor,
+                    nombre: [datos.tutor_nombres, datos.tutor_apellido_uno, datos.tutor_apellido_dos].filter(Boolean).join(' '),
+                    requiere_formulario: true,
                 });
+            }
+
+            if (traspasoResumenListo) {
+                irPasoTraspaso(3);
                 return;
             }
 
-            if (!rutTutor) {
-                $('#traspaso_tutor_error').removeClass('d-none').text('Ingrese el RUT del nuevo tutor.');
-                return;
-            }
-
-            var datos = obtenerDatosFormularioTutorTraspaso();
-            if (!datos.tutor_nombres || !datos.tutor_apellido_uno) {
-                $('#traspaso_tutor_error').removeClass('d-none').text('Nombre y apellido paterno son obligatorios.');
-                return;
-            }
-
-            traspasoTutorEncontrado = Object.assign({}, traspasoTutorEncontrado || {}, datos, {
-                rut: rutTutor,
-                nombre: [datos.tutor_nombres, datos.tutor_apellido_uno, datos.tutor_apellido_dos].filter(Boolean).join(' '),
-                requiere_formulario: true,
+            cargarResumenTraspaso(mascotaId, rutTutor, function(){
+                irPasoTraspaso(3);
             });
-
-            cargarResumenTraspaso(mascotaId, rutTutor);
         }
 
         function mostrarResumenTraspaso(data)
         {
             if(!data || data.estado != 1)
             {
-                $('#traspaso_resumen_bloque').addClass('d-none');
-                actualizarBotonTraspaso();
+                traspasoResumenListo = false;
+                actualizarWizardTraspaso();
                 return;
             }
 
@@ -1725,25 +1783,32 @@
             var tutorNuevo = data.tutor_nuevo || {};
             var resumen = data.resumen || {};
 
-            $('#traspaso_tutor_actual').text(
-                (tutorActual.nombre || '-') + (tutorActual.rut ? ' (' + tutorActual.rut + ')' : '')
-            );
-            $('#traspaso_tutor_nuevo_resumen').text(
-                (tutorNuevo.nombre || '-') + (tutorNuevo.rut ? ' (' + tutorNuevo.rut + ')' : '')
-            );
+            $('#traspaso_tutor_actual').text(tutorActual.nombre || '-');
+            $('#traspaso_tutor_actual_rut').text(tutorActual.rut ? 'RUT ' + tutorActual.rut : '');
+            $('#traspaso_tutor_nuevo_resumen').text(tutorNuevo.nombre || '-');
+            $('#traspaso_tutor_nuevo_rut').text(tutorNuevo.rut ? 'RUT ' + tutorNuevo.rut : '');
             $('#traspaso_total_fvu').text(resumen.fvu || 0);
             $('#traspaso_total_vacunas').text(resumen.vacunas || 0);
             $('#traspaso_total_desparasitaciones').text(resumen.desparasitaciones || 0);
-            $('#traspaso_resumen_bloque').removeClass('d-none');
-            actualizarBotonTraspaso();
+            traspasoResumenListo = true;
+            actualizarWizardTraspaso();
         }
 
-        function cargarResumenTraspaso(mascotaId, rutTutor)
+        // Mascota y motivo del paso 3; el resto lo llena mostrarResumenTraspaso
+        function llenarConfirmacionTraspaso()
+        {
+            var mascota = mascotasCache[$('#traspaso_mascota_id').val()];
+
+            $('#traspaso_resumen_mascota').text(mascota && mascota.nombre ? mascota.nombre : '-');
+            $('#traspaso_resumen_img').attr('src', mascota ? obtenerImagenMascota(mascota) : $('#traspaso_mascota_img').attr('src'));
+            $('#traspaso_resumen_motivo').text(($('#traspaso_situacion').val() || '').trim() || '-');
+        }
+
+        function cargarResumenTraspaso(mascotaId, rutTutor, alTerminar)
         {
             if(!mascotaId)
             {
-                $('#traspaso_resumen_bloque').addClass('d-none');
-                actualizarBotonTraspaso();
+                mostrarResumenTraspaso(null);
                 return;
             }
 
@@ -1754,15 +1819,27 @@
                 params.rut_tutor = rutTutor;
             }
 
+            var $boton = $('#btn_traspaso_siguiente');
+            var terminarCarga = function(){
+                traspasoCargando = false;
+                botonTraspasoCargando($boton, false);
+            };
+
+            traspasoCargando = true;
+            botonTraspasoCargando($boton, true, 'Revisando');
+            actualizarWizardTraspaso();
+
             $.ajax({
                 url: url,
                 type: 'GET',
                 data: params,
             })
             .done(function(data){
+                terminarCarga();
+
                 if(data.estado != 1)
                 {
-                    $('#traspaso_tutor_error').removeClass('d-none').text(data.msj || 'No se pudo cargar el resumen.');
+                    mostrarErrorTutorTraspaso(data.msj || 'No se pudo cargar el resumen.');
                     mostrarResumenTraspaso(null);
                     return;
                 }
@@ -1781,13 +1858,17 @@
                 }
 
                 mostrarResumenTraspaso(data);
+
+                if (traspasoResumenListo && typeof alTerminar === 'function') {
+                    alTerminar();
+                }
             })
             .fail(function(jqXHR){
+                terminarCarga();
                 var msj = (jqXHR.responseJSON && jqXHR.responseJSON.msj)
                     ? jqXHR.responseJSON.msj
                     : 'No se pudo cargar el resumen del traspaso.';
-                $('#traspaso_tutor_error').removeClass('d-none').text(msj);
-                traspasoTutorEncontrado = null;
+                mostrarErrorTutorTraspaso(msj);
                 mostrarResumenTraspaso(null);
             });
         }
@@ -1798,7 +1879,9 @@
             var situacion = ($('#traspaso_situacion').val() || '').trim();
             var rutTutor = ($('#traspaso_rut_tutor').val() || '').trim();
 
-            if(!mascotaId || situacion.length < 5 || !tutorTraspasoListo())
+            if(traspasoCargando) return;
+
+            if(!mascotaId || situacion.length < 5 || !tutorTraspasoListo() || !traspasoResumenListo)
             {
                 swal({
                     title: 'Traspaso incompleto',
@@ -1823,6 +1906,17 @@
             }).then(function(confirmado){
                 if(!confirmado) return;
 
+                var $boton = $('#btn_traspaso_confirmar');
+                var terminarTraspaso = function(){
+                    traspasoCargando = false;
+                    botonTraspasoCargando($boton, false);
+                    actualizarWizardTraspaso();
+                };
+
+                traspasoCargando = true;
+                botonTraspasoCargando($boton, true, 'Traspasando');
+                actualizarWizardTraspaso();
+
                 $.ajax({
                     url: rutaTraspasoEjecutar.replace('__ID__', mascotaId),
                     type: 'POST',
@@ -1834,6 +1928,8 @@
                     }, obtenerDatosFormularioTutorTraspaso()),
                 })
                 .done(function(data){
+                    terminarTraspaso();
+
                     if(data.estado == 1)
                     {
                         $('#modal_traspasar_mascota').modal('hide');
@@ -1854,6 +1950,7 @@
                     }
                 })
                 .fail(function(jqXHR){
+                    terminarTraspaso();
                     var msj = (jqXHR.responseJSON && jqXHR.responseJSON.msj)
                         ? jqXHR.responseJSON.msj
                         : 'No se pudo completar el traspaso.';
@@ -2109,9 +2206,9 @@
             var html = '';
             recibidas.forEach(function(item){
                 var esNueva = (item.estado || '') === 'nueva';
-                html += '<div class="apareamiento-section mb-2">';
-                html += '  <div class="apareamiento-section-body">';
-                html += '    <div class="d-flex justify-content-between align-items-start">';
+                html += '<div class="apareamiento-tarjeta' + (esNueva ? ' apareamiento-tarjeta-nueva' : '') + '">';
+                html += '  <div>';
+                html += '    <div class="apareamiento-tarjeta-fila">';
                 html += '      <div>';
                 if (esNueva) {
                     html += '        <span class="badge badge-danger mb-1">Nueva</span><br>';
@@ -2135,7 +2232,7 @@
                 html += '        </div>';
                 html += '      </div>';
                 if (esNueva) {
-                    html += '      <button type="button" class="btn btn-outline-primary btn-xs btn-apareamiento-marcar-leida"';
+                    html += '      <button type="button" class="btn btn-outline-secondary btn-sm btn-apareamiento-marcar-leida"';
                     html += ' data-mascota="' + (item.mascota_destino_id || '') + '" data-solicitud="' + (item.id || '') + '">';
                     html += '        Marcar leída</button>';
                 }
@@ -2243,6 +2340,7 @@
         {
             $('#fallecimiento_mascota_id').val('');
             $('#fallecimiento_mascota_nombre').text('—');
+            $('#fallecimiento_mascota_foto').attr('src', '{{ asset('images/iconos/mascotas.svg') }}');
             $('#fallecimiento_fecha').val('');
             $('#fallecimiento_causa').val('');
             $('#fallecimiento_mensaje').val('');
@@ -2310,6 +2408,7 @@
             resetModalFallecimientoMascota();
             $('#fallecimiento_mascota_id').val(mascota.id);
             $('#fallecimiento_mascota_nombre').text(mascota.nombre || '—');
+            $('#fallecimiento_mascota_foto').attr('src', obtenerImagenMascota(mascota));
             $('#modal_detalle_mascota').modal('hide');
 
             if ($modal.parent().length && !$modal.parent().is('body')) {
@@ -2397,35 +2496,13 @@
                     return;
                 }
 
-                $('#modal_fallecimiento_mascota').modal('hide');
-                swal({
-                    title: 'Registro guardado',
-                    text: data.msj || 'Se registró el fallecimiento de la mascota.',
-                    icon: 'success',
-                }).then(function() {
-                    if (data.memorial_path) {
-                        window.location.href = urlAppRuta(data.memorial_path);
-                    } else {
-                        cargarDependientes();
-                    }
-                });
+                fallecimientoRegistrado(mascotaId, fecha, data);
             })
             .fail(function(jqXHR, textStatus) {
                 var data = jqXHR.responseJSON || parsearRespuestaAjax(jqXHR.responseText);
 
                 if (esRespuestaExitosa(data)) {
-                    $('#modal_fallecimiento_mascota').modal('hide');
-                    swal({
-                        title: 'Registro guardado',
-                        text: data.msj || 'Se registró el fallecimiento de la mascota.',
-                        icon: 'success',
-                    }).then(function() {
-                        if (data.memorial_path) {
-                            window.location.href = urlAppRuta(data.memorial_path);
-                        } else {
-                            cargarDependientes();
-                        }
-                    });
+                    fallecimientoRegistrado(mascotaId, fecha, data);
                     return;
                 }
 
@@ -2446,6 +2523,67 @@
                 $btn.data('guardando', false).prop('disabled', false);
             });
         }
+        // Cierra el modal, muestra la despedida y luego sigue al memorial
+        function fallecimientoRegistrado(mascotaId, fechaFallecimiento, data)
+        {
+            var mascota = obtenerMascotaPorId(mascotaId) || {};
+            $('#modal_fallecimiento_mascota').modal('hide');
+
+            mostrarDespedidaMascota(mascota, fechaFallecimiento, function() {
+                if (data.memorial_path) {
+                    window.location.href = urlAppRuta(data.memorial_path);
+                } else {
+                    cargarDependientes();
+                }
+            });
+        }
+
+        // Foto con alitas sobre fondo borroso; se va sola o al tocarla
+        function mostrarDespedidaMascota(mascota, fechaFallecimiento, alTerminar)
+        {
+            var ala = '<svg viewBox="0 0 100 100" aria-hidden="true">' +
+                '<path d="M96 60C80 30 50 12 8 14c10 8 16 14 20 22-10-2-18 0-24 4 12 4 20 10 24 18-8 0-14 3-18 8 18 2 34 4 50 2 14-2 26-4 36-8z" fill="#fff"/>' +
+                '<path d="M92 60C72 42 46 30 20 28M88 62C68 52 44 46 22 46M84 64C66 60 48 58 28 60" stroke="#e6ddf7" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+                '</svg>';
+
+            var nacimiento = mascota.fecha_nacimiento ? formatearFecha(mascota.fecha_nacimiento) : '';
+            var partida = formatearFecha(fechaFallecimiento);
+            var fechas = nacimiento ? nacimiento + ' — ' + partida : partida;
+
+            var $despedida = $(
+                '<div class="despedida-mascota" role="dialog" aria-live="polite">' +
+                '    <div class="despedida-mascota-contenido">' +
+                '        <div class="despedida-mascota-angel">' +
+                '            <span class="despedida-mascota-ala izquierda">' + ala + '</span>' +
+                '            <span class="despedida-mascota-foto"><img src="' + escaparTextoMascota(obtenerImagenMascota(mascota)) + '" alt=""></span>' +
+                '            <span class="despedida-mascota-ala derecha">' + ala + '</span>' +
+                '        </div>' +
+                '        <h3 class="despedida-mascota-nombre">' + escaparTextoMascota(mascota.nombre || '') + '</h3>' +
+                '        <span class="despedida-mascota-fechas">' + escaparTextoMascota(fechas) + '</span>' +
+                '        <span class="despedida-mascota-frase">Siempre en nuestro corazón</span>' +
+                '    </div>' +
+                '</div>'
+            );
+
+            var cerrado = false;
+            function cerrar() {
+                if (cerrado) return;
+                cerrado = true;
+                $despedida.removeClass('visible');
+                setTimeout(function() {
+                    $despedida.remove();
+                    if (typeof alTerminar === 'function') alTerminar();
+                }, 600);
+            }
+
+            $('body').append($despedida);
+            // Se fuerza un reflow para que la transición de entrada se note
+            $despedida[0].offsetWidth;
+            $despedida.addClass('visible');
+            $despedida.on('click', cerrar);
+            setTimeout(cerrar, 4300);
+        }
+
         window.abrirModalFallecimientoMascota = abrirModalFallecimientoMascota;
         window.abrirModalFallecimientoDesdeDetalle = abrirModalFallecimientoDesdeDetalle;
         window.confirmarFallecimientoMascota = confirmarFallecimientoMascota;
@@ -2520,48 +2658,65 @@
                     });
                     $rut.data('traspaso-rut-init', true);
                 }
-                sincronizarLabelsFlotantesTraspaso();
             });
 
+            // El tutor no depende de la mascota, pero el resumen sí: se vuelve a pedir al avanzar
             $('#traspaso_mascota_id').on('change', function(){
-                traspasoTutorEncontrado = null;
-                $('#traspaso_tutor_resultado').addClass('d-none');
-                $('#traspaso_tutor_formulario').addClass('d-none');
-                $('#traspaso_tutor_alerta').addClass('d-none').text('');
-                $('#traspaso_tutor_error').addClass('d-none').text('');
-                $('#traspaso_resumen_bloque').addClass('d-none');
-                actualizarBotonTraspaso();
+                traspasoResumenListo = false;
+                $('#traspaso_paso1_error').addClass('d-none').text('');
+                actualizarMascotaTraspaso();
+                actualizarWizardTraspaso();
             });
 
             $('#traspaso_situacion').on('input', function(){
-                actualizarBotonTraspaso();
+                $('#traspaso_paso1_error').addClass('d-none').text('');
+                actualizarWizardTraspaso();
+            });
+
+            // Los motivos frecuentes llenan el campo y dejan el cursor al final para completar
+            $('#modal_traspasar_mascota').on('click', '.traspaso-motivo', function(){
+                var $situacion = $('#traspaso_situacion');
+                $situacion.val($(this).data('motivo')).trigger('input').trigger('focus');
+                var largo = $situacion.val().length;
+                if ($situacion[0].setSelectionRange) {
+                    $situacion[0].setSelectionRange(largo, largo);
+                }
+            });
+
+            // Si cambia el RUT ya no sirve el tutor encontrado
+            $('#traspaso_rut_tutor').on('input', function(){
+                $('#traspaso_tutor_error').addClass('d-none').text('');
+                if (traspasoTutorEncontrado && ($(this).val() || '').trim() !== traspasoRutBuscado) {
+                    limpiarTutorTraspaso();
+                    actualizarWizardTraspaso();
+                }
+            }).on('keydown', function(e){
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    e.preventDefault();
+                    buscarTutorTraspaso();
+                }
             });
 
             $('#traspaso_tutor_formulario').on('input change', 'input', function(){
-                if (traspasoTutorEncontrado && traspasoTutorEncontrado.requiere_formulario) {
-                    $('#traspaso_resumen_bloque').addClass('d-none');
-                }
-                actualizarBotonTraspaso();
+                traspasoResumenListo = false;
+                $('#traspaso_tutor_error').addClass('d-none').text('');
+                actualizarWizardTraspaso();
             });
 
             $('#btn_traspaso_buscar_tutor').on('click', function(){
-                var mascotaId = $('#traspaso_mascota_id').val();
-
-                if(!mascotaId)
-                {
-                    swal({
-                        title: 'Seleccione mascota',
-                        text: 'Primero debe seleccionar la mascota a traspasar.',
-                        icon: 'warning',
-                    });
-                    return;
-                }
-
                 buscarTutorTraspaso();
             });
 
-            $('#btn_traspaso_validar_tutor').on('click', function(){
-                validarTutorTraspaso();
+            $('#traspaso_pasos').on('click', '.traspaso-paso-boton', function(){
+                irPasoTraspaso(Number($(this).data('paso')));
+            });
+
+            $('#btn_traspaso_siguiente').on('click', function(){
+                siguientePasoTraspaso();
+            });
+
+            $('#btn_traspaso_anterior').on('click', function(){
+                anteriorPasoTraspaso();
             });
 
             $('#btn_traspaso_confirmar').on('click', function(){
@@ -3483,15 +3638,46 @@
         }
         window.registrar_dep_nuevo = registrar_dep_nuevo;
 
+        // Evita que un nombre con < > " & rompa el HTML de la card
+        function escaparTextoMascota(texto)
+        {
+            return String(texto == null ? '' : texto)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         function pintarTarjetasMascotas(registros)
         {
             var html = '';
             var img_m = '{{ asset('images/iconos/paciente-m.svg') }}';
             var img_f = '{{ asset('images/iconos/paciente-f.svg') }}';
+            var img_patita = '{{ asset('images/iconos/mascotas.svg') }}';
             var $lista = $('#card-lista-dependientes');
 
             if (!Array.isArray(registros) || !registros.length) {
-                $lista.html('<h4 class="">Sin Mascotas Registradas</h4>');
+                $lista.html(
+                    '<div class="col-12 mascotas-vacio-col">' +
+                    '    <div class="mascotas-vacio">' +
+                    '        <span class="mascotas-vacio-ilustracion">' +
+                    '            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+                    '                <circle cx="20" cy="18" r="6" fill="#19aaa2"/>' +
+                    '                <circle cx="44" cy="18" r="6" fill="#19aaa2"/>' +
+                    '                <circle cx="11" cy="32" r="5.5" fill="#19aaa2"/>' +
+                    '                <circle cx="53" cy="32" r="5.5" fill="#19aaa2"/>' +
+                    '                <path d="M32 30c-8 0-14 7-14 14 0 5 4 8 9 8 2 0 3.5-1 5-1s3 1 5 1c5 0 9-3 9-8 0-7-6-14-14-14z" fill="#128b82"/>' +
+                    '            </svg>' +
+                    '        </span>' +
+                    '        <h4 class="mascotas-vacio-titulo">Aún no tienes mascotas registradas</h4>' +
+                    '        <p class="mascotas-vacio-texto">Agrega a tu primera mascota para llevar su ficha veterinaria, controles de salud y registros siempre al día.</p>' +
+                    '        <button type="button" class="mascotas-vacio-btn" onclick="document.getElementById(\'btn-agregar-dep\').click();">' +
+                    '            <i class="fas fa-plus"></i> Agregar mascota' +
+                    '        </button>' +
+                    '    </div>' +
+                    '</div>'
+                );
                 return;
             }
 
@@ -3505,10 +3691,9 @@
                     img = normalizarRutaImagen(value.foto_perfil);
                 } else if (value.galeria && value.galeria.ven_pre && value.galeria.ven_pre.length > 0 && value.galeria.ven_pre[0][0]) {
                     img = normalizarRutaImagen(value.galeria.ven_pre[0][0]);
-                } else if (value.sexo == 'M') {
-                    img = img_m;
                 } else {
-                    img = img_f;
+                    // Sin foto cargada: se usa la patita por defecto
+                    img = img_patita;
                 }
 
                 var especie_label = obtenerLabelEspecie(value.especie_id || value.especie, value.otra_especie);
@@ -3518,32 +3703,44 @@
                 var memorial_url = urlMascotaDesdePlantilla(rutaMemorialMascota, value.id);
                 var esFallecida = mascotaEstaFallecida(value);
                 var cardClass = 'card card-mascota' + (esFallecida ? ' card-mascota-fallecida' : '');
+                var fotoClass = 'card-mascota-foto' + (img === img_patita ? ' card-mascota-foto-vacia' : '');
+                var nombre = escaparTextoMascota(value.nombre);
 
                 html += '<div class="col">';
                 html += '    <div class="'+cardClass+'" data-id="'+value.id+'">';
-                html += '        <div class="card-body text-center" style="cursor:pointer">';
-                html += '            <img class="wid-60 text-center mt-1 rounded-circle" src="'+img+'">';
-                html += '            <h5 class="mt-2 mb-0">'+value.nombre+'</h5>';
-                html += '            <p class="mb-0">'+especie_label+'</p>';
+                html += '        <div class="card-body">';
                 if (esFallecida) {
                     html += '            <span class="mascota-badge-memoria">En memoria</span>';
                 }
-                html += '            <div class="mt-2 d-flex justify-content-center flex-wrap">';
+                html += '            <div class="card-mascota-perfil">';
+                html += '                <span class="'+fotoClass+'"><img src="'+img+'" alt="Foto de '+nombre+'"></span>';
+                html += '                <h5 class="card-mascota-nombre">'+nombre+'</h5>';
+                html += '                <span class="card-mascota-especie"><i class="fas fa-paw"></i> '+escaparTextoMascota(especie_label)+'</span>';
+                html += '            </div>';
+
+                // Acciones principales
+                html += '            <div class="card-mascota-principal">';
                 if (esFallecida) {
-                    html += '                <a class="btn btn-secondary btn-xxs btn-memorial-mascota" href="'+memorial_url+'"><i class="feather icon-image"></i> Álbum de recuerdos</a>';
-                    html += '                <button type="button" class="btn btn-info btn-xxs mr-1 btn-ver-mascota" data-id="'+value.id+'"><i class="feather icon-eye"></i> Ver ficha</button>';
-                    html += '                <a class="btn btn-primary mr-1 btn-xxs btn-ver-ficha" href="'+fvu_url+'" title="Ficha Veterinaria Única"><i class="feather icon-file-plus"></i> FVU</a>';
-                    html += '                <a class="btn btn-warning btn-xxs mr-1" href="'+carnet_sanitario_url+'"><i class="fas fa-syringe"></i> Carné vacunas/desp.</a>';
-                    html += '                <a class="btn btn-warning btn-xxs ml-1" href="'+genealogia_url+'"><i class="fas fa-sitemap"></i> Mi genealogía</a>';
+                    html += '                <a class="card-mascota-boton btn-memorial-mascota" href="'+memorial_url+'"><i class="feather icon-image"></i> Álbum de recuerdos</a>';
+                    html += '                <button type="button" class="card-mascota-boton card-mascota-boton-suave btn-ver-mascota" data-id="'+value.id+'"><i class="feather icon-eye"></i> Ver ficha</button>';
                 } else {
-                    html += '                <a class="btn btn-warning btn-xxs mr-1" href="'+carnet_sanitario_url+'"><i class="fas fa-syringe"></i> Carné vacunas/desp.</a>';
-                    html += '                <button type="button" class="btn btn-info btn-xxs mr-1 btn-ver-mascota" data-id="'+value.id+'"><i class="feather icon-eye"></i> Ficha mascota</button>';
-                    html += '                <a class="btn btn-primary mr-1 btn-xxs btn-ver-ficha" href="'+fvu_url+'" title="Ficha Veterinaria Única"><i class="feather icon-file-plus"></i> FVU</a>';
-                    html += '                <button type="button" class="btn btn-purple btn-xxs btn-escritorio-mascota" data-id="'+value.id+'"><i class="feather icon-monitor"></i> Escritorio</button>';
-                    html += '                <a class="btn btn-warning btn-xxs ml-1" href="'+genealogia_url+'"><i class="fas fa-sitemap"></i> Mi genealogía</a>';
-                    html += '                <button type="button" class="btn btn-light btn-xxs btn-registrar-fallecimiento" data-id="'+value.id+'" onclick="return abrirModalFallecimientoMascota('+value.id+', event);"><i class="feather icon-cloud"></i> Registrar fallecimiento</button>';
+                    html += '                <button type="button" class="card-mascota-boton btn-ver-mascota" data-id="'+value.id+'"><i class="feather icon-eye"></i> Ficha mascota</button>';
+                    html += '                <button type="button" class="card-mascota-boton card-mascota-boton-morado btn-escritorio-mascota" data-id="'+value.id+'"><i class="feather icon-monitor"></i> Escritorio</button>';
                 }
                 html += '            </div>';
+
+                // Accesos rápidos a los registros de la mascota
+                html += '            <div class="card-mascota-accesos">';
+                html += '                <a class="card-mascota-acceso btn-ver-ficha" href="'+fvu_url+'" title="Ficha Veterinaria Única"><span class="card-mascota-acceso-icono"><i class="feather icon-file-plus"></i></span>FVU</a>';
+                html += '                <a class="card-mascota-acceso" href="'+carnet_sanitario_url+'" title="Carné de vacunas y desparasitación"><span class="card-mascota-acceso-icono"><i class="fas fa-syringe"></i></span>Carné vacunas/desp.</a>';
+                html += '                <a class="card-mascota-acceso" href="'+genealogia_url+'" title="Mi genealogía"><span class="card-mascota-acceso-icono"><i class="fas fa-sitemap"></i></span>Mi genealogía</a>';
+                html += '            </div>';
+
+                if (!esFallecida) {
+                    html += '            <div class="card-mascota-pie">';
+                    html += '                <button type="button" class="btn-registrar-fallecimiento" data-id="'+value.id+'" onclick="return abrirModalFallecimientoMascota('+value.id+', event);"><i class="feather icon-cloud"></i> Registrar fallecimiento</button>';
+                    html += '            </div>';
+                }
                 html += '        </div>';
                 html += '    </div>';
                 html += '</div>';

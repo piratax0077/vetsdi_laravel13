@@ -186,7 +186,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                       <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#agregar_producto').modal('hide')">Cancelar</button>
+                       <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#agregar_producto').modal('hide')">Cancelar</button>
                         <button type="submit" class="btn btn-info mb-0" >Agregar producto</button>
                     </div>
                 </form>
@@ -226,7 +226,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#quitar_producto').modal('hide')">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#quitar_producto').modal('hide')">Cancelar</button>
                         <button type="submit" class="btn btn-info">Quitar productos</button>
                     </div>
                 </form>
@@ -296,7 +296,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#editar_producto').modal('hide')">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#editar_producto').modal('hide')">Cancelar</button>
                         <button type="submit" class="btn btn-info mb-0">Guardar cambios</button>
                     </div>
                 </form>
@@ -458,7 +458,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info" onclick="guardar_bodega()">Guardar Registro</button>
             </div>
         </div>
@@ -581,7 +581,7 @@
                 <input type="hidden" id="solic_tipo_pedido" value="">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-warning text-white" id="btn_confirmar_solicitud" onclick="confirmar_solicitud_proveedor()" disabled>
                     <i class="feather icon-send mr-1"></i>Enviar solicitud
                 </button>

@@ -1,14 +1,4 @@
 <header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue">
-    @php
-        $perfilMascota = $mascota ?? $paciente ?? null;
-        $nombreMascota = trim(($perfilMascota->nombre ?? $perfilMascota->nombres ?? '') . ' ' . ($perfilMascota->apellido_uno ?? ''));
-        $nombreMascota = $nombreMascota !== '' ? $nombreMascota : (@Auth::user()->name ?? 'Mascota');
-        $nombreResponsable = @Auth::user()->name ?? 'Sin responsable';
-        if (!empty($responsable)) {
-            $nombreResponsable = trim(($responsable->nombres ?? '') . ' ' . ($responsable->apellido_uno ?? '') . ' ' . ($responsable->apellido_dos ?? ''));
-        }
-    @endphp
-
 	<div class="m-header">
 
 			<a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
@@ -40,49 +30,7 @@
             @include('template.partials.workspace_switcher')
 			<li>
 
-                <div class="dropdown drp-user">
-
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
-                        <i class="feather icon-user icono-header"></i>
-
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right profile-notification">
-
-                        <div class="pro-head">
-
-                            <span style="font-weight: 700;">{{ $nombreMascota }}</span>
-
-                            <br/><span>Dueño: {{ $nombreResponsable }}</span>
-
-                        </div>
-
-                        {{--  <ul></ul>  --}}
-
-                        <ul class="pro-body">
-
-                            <li>
-
-                                <form action="{{ ROUTE('logout') }}" method="post" id="closeSession">
-
-                                    @csrf
-
-                                    <a data-toggle="tooltip" title="Cerrar sesión" class="text-danger" href="javascript:{}" onclick="document.getElementById('closeSession').submit();">
-
-                                        <i class="feather icon-power" style="font-size: 1.2rem;"></i> Cerrar sesión
-
-                                    </a>
-
-                                </form>
-
-                            </li>
-
-                        </ul>
-
-                    </div>
-
-                </div>
+                @include('template.partials.perfil_encabezado', ['tipoPerfil' => 'tutor'])
 
             </li>
 

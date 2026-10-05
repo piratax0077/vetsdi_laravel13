@@ -19,14 +19,7 @@
                                 <!--<h5 class="font-weight-bolder">Editar perfil</h5>-->
                             </div>
                             <ul class="breadcrumb mb-4">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ ROUTE('paciente.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                        <i class="feather icon-home"></i>
-                                    </a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a href="#">Mi cuenta</a>
-                                </li>
+                              
                             </ul>
                         </div>
                     </div>

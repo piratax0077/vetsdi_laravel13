@@ -1326,7 +1326,7 @@
                         </div>
 
                         <div class="modal-footer mb-0 pt-1 pb-0 paciente_view">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" onclick="$('#agenda_agregar_paciente').modal('hide');"><i
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal" aria-label="Close" onclick="$('#agenda_agregar_paciente').modal('hide');"><i
                                     class="feather icon-x"></i> Cancelar</button>
                             <button type="button" onclick="agendar_hora();" class="btn btn-info"><i
                                     class="feather icon-check"></i> Agendar hora</button>
@@ -1821,7 +1821,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger"
+                                        <button type="button" class="btn btn-outline-dark"
                                             id="cerrar_registro_paciente_hora" data-dismiss="modal"><i
                                                 class="feather icon-x"></i> Cancelar</button>
                                         <button type="button" id="guardar_reserva_paciente"
@@ -1884,7 +1884,7 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger"
+                                        <button type="button" class="btn btn-outline-dark"
                                             id="cerrar_registro_paciente_hora" data-dismiss="modal">
                                             <i class="feather icon-x"></i> Cancelar</button>
                                         <button type="button" id="guardar_prereserva_paciente"
@@ -1940,7 +1940,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal"
                     onclick="cancelarautorizacionMenorEdad();">Cancelar</button>
             </div>
         </div>

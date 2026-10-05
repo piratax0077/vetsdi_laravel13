@@ -242,7 +242,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-danger" id="btnIniciarEmergencia" onclick="iniciarEmergencia()">
                     <i class="feather icon-video mr-1"></i> Iniciar Videollamada de Emergencia
                 </button>

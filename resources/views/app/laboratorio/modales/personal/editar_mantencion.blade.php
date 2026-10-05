@@ -325,7 +325,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
                 <button type="button" class="btn btn-info btn-sm" onclick="editar_nuevo_empleado_mantencion();"><i class="feather icon-edit"></i> Guardar cambios</button>
                 {{--  <button type="button" class="btn btn-primary">Ver formulario (PDF)</button>  --}}
 

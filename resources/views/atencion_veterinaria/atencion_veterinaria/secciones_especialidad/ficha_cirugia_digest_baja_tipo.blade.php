@@ -47,7 +47,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-danger">Cancelar</button>
+                        <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-outline-dark">Cancelar</button>
                         <button type="button" class="btn btn-primary" onclick="guardar_tipo_ficha_cda();">Registrar</button>
                     </div>
                 </div>

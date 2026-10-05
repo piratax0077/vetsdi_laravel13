@@ -1,14 +1,14 @@
 /**======================================================================
 =========================================================================
-Template Name: VET-SDI
+ VET-SDI
 =========================================================================
 =================================================================================== */
-/* cyrillic-ext */
+/* Animacion */
 @import url(plugins/animate.min.css);
 
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght@0,6..12,75..125,200..1000;1,6..12,75..125,200..1000&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght@0,6..12,75..125,200..1000;1,6..12,75..125,200..1000&family=JetBrains+Mono:wght@500;600&display=swap');
 
 // <uniquifier>: Use a unique and descriptive class name
 // <weight>: Use a value from 200 to 1000
@@ -270,7 +270,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p {
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: 'Nunito', sans-serif;
     margin-top: 0;
     margin-bottom: 0;
 }
@@ -295,7 +295,7 @@ address {
 ol,
 ul,
 dl {
-    margin-top: 0;
+    margin-top: 5px;
     margin-bottom: 1rem;
 }
 
@@ -3592,35 +3592,35 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-dark {
-    color: #ff5252;
-    border-color: #ff5252;
+    color: #272727;
+    border-color: #272727;
 }
 
 .btn-outline-dark:hover {
     color: #fff;
-    background-color: #ff5252;
-    border-color: #ff5252;
+    background-color: #272727;
+    border-color: #272727;
 }
 
 .btn-outline-dark:focus, .btn-outline-dark.focus {
-    box-shadow: 0 0 0 0rem rgba(255, 82, 82, 0.5);
+    box-shadow: 0 0 0 0rem rgba(39, 39, 39, 0.5);
 }
 
 .btn-outline-dark.disabled, .btn-outline-dark:disabled {
-    color: #ff5252;
+    color: #272727;
     background-color: transparent;
 }
 
 .btn-outline-dark:not(:disabled):not(.disabled):active, .btn-outline-dark:not(:disabled):not(.disabled).active,
   .show > .btn-outline-dark.dropdown-toggle {
     color: #fff;
-    background-color: #ff5252;
-    border-color: #ff5252;
+    background-color: #272727;
+    border-color: #272727;
 }
 
 .btn-outline-dark:not(:disabled):not(.disabled):active:focus, .btn-outline-dark:not(:disabled):not(.disabled).active:focus,
     .show > .btn-outline-dark.dropdown-toggle:focus {
-    box-shadow: 0 0 0 0rem rgba(255, 82, 82, 0.5);
+    box-shadow: 0 0 0 0rem rgba(39, 39, 39, 0.5);
 }
 
 /* Cerrar y cancelar en footers de modal y card: se ven como btn-outline-dark */
@@ -3629,9 +3629,9 @@ fieldset:disabled a.btn {
 .modal-footer .btn-danger-light-c,
 .card-footer .btn-danger-light,
 .card-footer .btn-danger-light-c {
-    color: #ff5252;
+    color: #272727;
     background-color: transparent;
-    border-color: #ff5252;
+    border-color: #272727;
 }
 
 .modal-footer [data-dismiss="modal"]:not(.btn-success):not(.btn-primary):not(.btn-info):hover,
@@ -3640,8 +3640,8 @@ fieldset:disabled a.btn {
 .card-footer .btn-danger-light:hover,
 .card-footer .btn-danger-light-c:hover {
     color: #fff;
-    background-color: #ff5252;
-    border-color: #ff5252;
+    background-color: #272727;
+    border-color: #272727;
 }
 
 .modal-footer [data-dismiss="modal"]:not(.btn-success):not(.btn-primary):not(.btn-info):focus,
@@ -3649,7 +3649,7 @@ fieldset:disabled a.btn {
 .modal-footer .btn-danger-light-c:focus,
 .card-footer .btn-danger-light:focus,
 .card-footer .btn-danger-light-c:focus {
-    box-shadow: 0 0 0 0rem rgba(255, 82, 82, 0.5);
+    box-shadow: 0 0 0 0rem rgba(39, 39, 39, 0.5);
 }
 
 .modal-footer [data-dismiss="modal"]:not(.btn-success):not(.btn-primary):not(.btn-info):not(:disabled):not(.disabled):active,
@@ -3658,8 +3658,8 @@ fieldset:disabled a.btn {
 .card-footer .btn-danger-light:not(:disabled):not(.disabled):active,
 .card-footer .btn-danger-light-c:not(:disabled):not(.disabled):active {
     color: #fff;
-    background-color: #ff5252;
-    border-color: #ff5252;
+    background-color: #272727;
+    border-color: #272727;
 }
 
 .btn-link {
@@ -5795,12 +5795,12 @@ a.badge-success:focus, a.badge-success.focus {
 
 .badge-purple {
     color: #fff;
-   background-color: #A06CC1;
+   background-color: #8864c9;
 }
 
 .badge-purple-light {
-    color: #872098;
-    background-color: #e7d5f2;
+    color: #6f42c1;
+    background-color: #f0e9ff;
 }
 
 a.badge-info:hover, a.badge-info:focus {
@@ -11105,7 +11105,7 @@ button.bg-dark:focus {
 }
 
 .font-weight-bold {
-    font-weight: 700 !important;
+    font-weight: 800 !important;
 }
 
 .font-weight-bolder {
@@ -20989,25 +20989,22 @@ f-w-800 {
 
 .page-header {
     background: transparent;
-    margin-top: -140px;
+    margin-top: -40px;
     margin-bottom: 30px;
 }
 
 .page-header h5 {
     margin-bottom: 15px;
     font-weight: 700;
-    color: #fff !important;
-    text-shadow: 0 1px 2px rgba(0, 66, 63, 0.18);
 }
 
-.page-header .page-header-title h3,
 .page-header .page-header-title h4,
 .page-header .page-header-title h5,
 .page-header .breadcrumb-item,
 .page-header .breadcrumb-item.active,
 .page-header .breadcrumb-item a,
 .page-header .breadcrumb-item i {
-    color: #fff !important;
+    
 }
 
 .page-header .breadcrumb-item:last-child,
@@ -21122,6 +21119,31 @@ f-w-800 {
     .page-header.breadcumb-sticky .breadcrumb {
         display: flex;
         float: none;
+    }
+}
+
+/* Encabezado de los escritorios: "Hola," oscuro, nombre en morado y texto de bienvenida debajo.
+   El margen negativo compensa el margin-top de .pcoded-content para que el saludo
+   quede a la misma altura que en el escritorio del tutor. */
+.page-header.encabezado-escritorio {
+    margin-top: -11px;
+}
+
+.page-header.encabezado-escritorio .page-header-title h3 {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700 !important;
+    text-shadow: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.page-header.encabezado-escritorio .page-header-title p {
+    color: rgba(39, 39, 39, .65) !important;
+}
+
+@media only screen and (max-width: 575px) {
+    .page-header.encabezado-escritorio .page-header-title h3 {
+        font-size: 1.5rem;
     }
 }
 
@@ -23720,6 +23742,12 @@ pre[class*=language-]:before {
     margin-left: 10px;
 }
 
+/* Se oculta la cabecera del menu lateral con la foto, el nombre y los accesos de perfil/salir */
+.pcoded-navbar .main-menu-header,
+.pcoded-navbar #nav-user-link {
+    display: none;
+}
+
 .pcoded-navbar .main-menu-header {
     position: relative;
     padding: 25px 25px 10px;
@@ -23727,7 +23755,6 @@ pre[class*=language-]:before {
     text-align: center;
      font-family: Nunito, sans-serif;
     font-weight:700;
-}
 }
 
 .pcoded-navbar .main-menu-header .user-details {
@@ -24596,7 +24623,8 @@ pre[class*=language-]:before {
     position: relative;
     display: block;
     padding: 22px;
-    margin-top: 120px;
+    /* Las vistas con .page-header compensan este margen con su margin-top negativo */
+    margin-top: 20px;
 }
 
 .pcoded-main-container {
@@ -24604,7 +24632,7 @@ pre[class*=language-]:before {
     position: relative;
     margin: 0 auto;
     padding-top: 0;
-    display: block;
+    display: flow-root;
     clear: both;
     float: unset;
     right: 0;
@@ -34033,7 +34061,9 @@ font-family: 'Nunito', sans-serif;
 }
 
 
-
+.color-purple {
+    color: #6F42C1;
+}
 
 /**BOTONES XS**/
 
@@ -36377,9 +36407,22 @@ transition: 0.2s!important;
 }
 
 .btn-outline-header:hover {
-    color: #08776f;
+    color: #6f42c1;
     background-color: #fff;
     border-color: #fff;
+}
+
+.btn-outline-header:hover i,
+.btn-outline-header:hover .feather {
+    color: #6f42c1;
+}
+
+/* El encabezado morado fuerza el texto de sus enlaces en blanco, así que
+   subimos la especificidad para que el texto quede morado en hover */
+.pcoded-header.header-blue a.btn-outline-header:hover,
+.pcoded-header.header-blue a.btn-outline-header:hover i,
+.pcoded-header.header-blue a.btn-outline-header:hover .feather {
+    color: #6f42c1;
 }
 
 .btn-outline-header:focus, .btn-outline-header.focus {
@@ -36395,7 +36438,7 @@ transition: 0.2s!important;
 .btn-outline-header:not(:disabled):not(.disabled):active,
 .btn-outline-header:not(:disabled):not(.disabled).active,
 .show > .btn-outline-header.dropdown-toggle {
-    color: #08776f;
+    color: #6f42c1;
     background-color: #fff;
     border-color: #fff;
 }
@@ -36404,4 +36447,4722 @@ transition: 0.2s!important;
 .btn-outline-header:not(:disabled):not(.disabled).active:focus,
 .show > .btn-outline-header.dropdown-toggle:focus {
     box-shadow: 0 0 0 0rem rgba(255, 255, 255, 0.5);
+}
+
+/*****ENCABEZADO MORADO Y MENU LATERAL DEL ESCRITORIO DE TUTORES**/
+
+/* El encabezado ya no depende del morado del body: lleva su propio
+   degrade para verse igual con o sin scroll, en cualquier navegador */
+.pcoded-header.header-blue,
+.pcoded-header.header-blue:not(.headerpos-fixed) {
+    background: linear-gradient(120deg, #6f42c1 0%, #59339c 100%);
+    box-shadow: 0 2px 14px rgba(89, 51, 156, .28);
+}
+
+.pcoded-header.header-blue .navbar-collapse,
+.pcoded-header.header-blue .navbar-nav {
+    align-items: center;
+}
+
+.pcoded-header.header-blue .navbar-nav > li {
+    display: flex;
+    align-items: center;
+}
+
+/* Insignia circular para los iconos de accion del encabezado (perfil, cambio de escritorio) */
+.pcoded-header.header-blue .drp-user .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    transition: background-color .2s ease-in-out;
+}
+
+.pcoded-header.header-blue .drp-user .dropdown-toggle:hover,
+.pcoded-header.header-blue .drp-user .dropdown-toggle:focus {
+    background-color: rgba(255, 255, 255, .16);
+}
+
+/* Perfil del usuario en el encabezado: nombre, rol y foto redonda.
+   Todo cabe en los 50px del encabezado y queda centrado en alto */
+.pcoded-header .perfil-desplegable {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    line-height: normal;
+}
+
+.pcoded-header.header-blue .drp-user .dropdown-toggle.perfil-encabezado {
+    display: flex;
+    width: auto;
+    height: 42px;
+    gap: 10px;
+    padding: 2px 2px 2px 12px;
+    border-radius: 21px;
+    line-height: 1.15;
+    color: #fff;
+    text-decoration: none;
+}
+
+.pcoded-header .dropdown-toggle.perfil-encabezado:after {
+    display: none;
+}
+
+/* El perfil no lleva el fondo claro al pasar el mouse */
+.pcoded-header.header-blue .drp-user .dropdown-toggle.perfil-encabezado:hover,
+.pcoded-header.header-blue .drp-user .dropdown-toggle.perfil-encabezado:focus {
+    background-color: transparent;
+}
+
+.perfil-encabezado-datos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.perfil-encabezado-nombre {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #fff;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.perfil-encabezado-rol {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, .9);
+}
+
+.perfil-encabezado-foto {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, .85);
+    background-color: #fff;
+}
+
+/* En pantallas chicas solo queda la foto */
+@media (max-width: 575.98px) {
+    .perfil-encabezado-datos {
+        display: none;
+    }
+
+    .pcoded-header.header-blue .drp-user .dropdown-toggle.perfil-encabezado {
+        padding: 2px;
+    }
+
+    .perfil-encabezado-foto {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+    }
+}
+
+/* Iconos de cada opcion del menu, sin fondo: morado si esta activo, oscuro si no */
+.pcoded-navbar.menu-light .pcoded-inner-navbar > li > a > .pcoded-micon {
+    border-radius: 50%;
+    background-color: transparent;
+    color: #272727;
+    transition: background-color .2s ease-in-out, color .2s ease-in-out;
+}
+
+.pcoded-navbar.menu-light .pcoded-inner-navbar > li.active > a > .pcoded-micon,
+.pcoded-navbar.menu-light .pcoded-inner-navbar > li.pcoded-trigger > a > .pcoded-micon,
+.pcoded-navbar.menu-light .pcoded-inner-navbar > li:hover > a > .pcoded-micon {
+    background-color: transparent;
+    color: #6f42c1;
+}
+
+/* Opcion activa o abierta del menu, en morado corporativo */
+.pcoded-navbar.menu-light .pcoded-inner-navbar > li.active > a,
+.pcoded-navbar.menu-light .pcoded-inner-navbar > li.pcoded-trigger > a {
+    background-color: rgba(111, 66, 193, .1);
+    color: #6f42c1;
+    font-weight: 700;
+    box-shadow: none;
+}
+
+.pcoded-navbar.menu-light .pcoded-inner-navbar > li:hover > a {
+    background-color: rgba(111, 66, 193, .1);
+    color: #6f42c1;
+}
+
+.pcoded-navbar.menu-light .pcoded-inner-navbar li.pcoded-hasmenu .pcoded-submenu li.active > a:before,
+.pcoded-navbar.menu-light .pcoded-inner-navbar li.pcoded-hasmenu .pcoded-submenu li.pcoded-trigger > a:before,
+.pcoded-navbar.menu-light .pcoded-inner-navbar li.pcoded-hasmenu .pcoded-submenu li:hover > a:before {
+    color: #6f42c1;
+}
+
+.pcoded-navbar.menu-light .pcoded-inner-navbar li.pcoded-hasmenu .pcoded-submenu li.active > a,
+.pcoded-navbar.menu-light .pcoded-inner-navbar li.pcoded-hasmenu .pcoded-submenu li.pcoded-trigger > a,
+.pcoded-navbar.menu-light .pcoded-inner-navbar li.pcoded-hasmenu .pcoded-submenu li:hover > a {
+    color: #6f42c1;
+    font-weight: 700;
+}
+
+/*****ENCABEZADO MORADO Y MENU LATERAL DEL ESCRITORIO DE TUTORES**/
+
+/* Encabezados de modal celeste, morado y rojo: título blanco, sin ícono */
+.modal-header.modal-header-celeste,
+.modal-header.modal-header-purple,
+.modal-header.modal-header-danger {
+    border-bottom: 0;
+}
+
+.modal-header.modal-header-celeste {
+    background: #31bebe !important;
+}
+
+.modal-header.modal-header-purple {
+    background: #6f42c1 !important;
+}
+
+.modal-header.modal-header-danger {
+    background: #e05260 !important;
+}
+
+.modal-header.modal-header-celeste h5,
+.modal-header.modal-header-celeste .modal-title,
+.modal-header.modal-header-purple h5,
+.modal-header.modal-header-purple .modal-title,
+.modal-header.modal-header-danger h5,
+.modal-header.modal-header-danger .modal-title {
+    color: #fff !important;
+    font-size: 1.2rem !important;
+    text-shadow: none !important;
+}
+
+.modal-header.modal-header-celeste .modal-title i,
+.modal-header.modal-header-purple .modal-title i,
+.modal-header.modal-header-danger .modal-title i {
+    display: none;
+}
+
+.modal-header.modal-header-celeste .close,
+.modal-header.modal-header-purple .close,
+.modal-header.modal-header-danger .close {
+    color: #fff !important;
+    text-shadow: none !important;
+    opacity: .9;
+}
+
+.modal-header.modal-header-celeste .close:hover,
+.modal-header.modal-header-purple .close:hover,
+.modal-header.modal-header-danger .close:hover {
+    opacity: 1;
+}
+
+/* Color de los encabezados de todas las tablas */
+table thead th,
+.table thead th {
+    color: #242323 !important;
+}
+
+/* ==========================================================================
+   Estado vacío de "Mis Mascotas" (sin mascotas registradas)
+   ========================================================================== */
+/* Ocupa el ancho completo aunque el contenedor tenga row-cols-* */
+#card-lista-dependientes .mascotas-vacio-col {
+    flex: 0 0 100%;
+    max-width: 100%;
+    width: 100%;
+}
+
+.mascotas-vacio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 24px 0;
+    padding: 72px 32px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #ecf0f3;
+    border-radius: 22px;
+    box-shadow: 0 12px 34px rgba(38, 59, 80, .08);
+}
+
+/* Círculo con la ilustración de la patita */
+.mascotas-vacio-ilustracion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 140px;
+    margin-bottom: 26px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #eafaf8 0%, #f4fbff 100%);
+    box-shadow: inset 0 0 0 7px #ffffff, 0 8px 22px rgba(18, 139, 130, .14);
+}
+
+.mascotas-vacio-ilustracion svg {
+    width: 74px;
+    height: 74px;
+}
+
+.mascotas-vacio-titulo {
+    margin: 0 0 12px;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 23px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.mascotas-vacio-texto {
+    max-width: 440px;
+    margin: 0 0 28px;
+    color: #6b7a8d;
+    font-family: 'Nunito Sans', 'Nunito', sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+/* Botón para agregar la primera mascota */
+.mascotas-vacio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 26px;
+    color: #ffffff;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    background: linear-gradient(135deg, #7c4dcb 0%, #6f42c1 100%);
+    border: 0;
+    border-radius: 30px;
+    box-shadow: 0 8px 20px rgba(111, 66, 193, .28);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.mascotas-vacio-btn:hover,
+.mascotas-vacio-btn:focus {
+    color: #ffffff;
+    background: linear-gradient(135deg, #8a5bd6 0%, #7a4bcf 100%);
+    box-shadow: 0 12px 26px rgba(111, 66, 193, .34);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.mascotas-vacio-btn i {
+    font-size: 13px;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 575.98px) {
+    .mascotas-vacio {
+        margin: 16px auto;
+        padding: 36px 20px;
+        border-radius: 16px;
+    }
+    .mascotas-vacio-ilustracion {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 18px;
+    }
+    .mascotas-vacio-ilustracion svg {
+        width: 52px;
+        height: 52px;
+    }
+    .mascotas-vacio-titulo {
+        font-size: 18px;
+    }
+}
+
+/* ==========================================================================
+   Cards de "Mis Mascotas"
+   ========================================================================== */
+#card-lista-dependientes .card-mascota {
+    height: calc(100% - 24px);
+    margin-bottom: 24px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #ffffff;
+    border: 1px solid #ecf0f3;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(38, 59, 80, .08);
+    -webkit-transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+#card-lista-dependientes .card-mascota:hover {
+    border-color: #cfeeed;
+    box-shadow: 0 14px 34px rgba(38, 59, 80, .14);
+    -webkit-transform: translateY(-3px);
+    transform: translateY(-3px);
+}
+
+#card-lista-dependientes .card-mascota .card-body {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100%;
+    padding: 24px 18px 16px;
+}
+
+.card-mascota-perfil {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+}
+
+.card-mascota-foto {
+    display: block;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 5px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 8px 20px rgba(18, 139, 130, .25);
+    -webkit-transition: transform .25s ease;
+    transition: transform .25s ease;
+}
+
+.card-mascota-foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+/* Sin foto: la patita se muestra completa sobre un fondo suave */
+.card-mascota-foto-vacia {
+    background: #eafaf8;
+}
+
+.card-mascota-foto-vacia img {
+    padding: 18px;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+
+#card-lista-dependientes .card-mascota:hover .card-mascota-foto {
+    -webkit-transform: scale(1.04);
+    transform: scale(1.04);
+}
+
+.card-mascota-nombre {
+    max-width: 100%;
+    margin: 12px 0 6px;
+    overflow: hidden;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.card-mascota-especie {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 4px 12px;
+    color: #128b82;
+    font-size: 12px;
+    font-weight: 700;
+    background: #eafaf8;
+    border-radius: 999px;
+}
+
+.card-mascota-especie i {
+    margin-right: 6px;
+    font-size: 11px;
+}
+
+/* Va fijo en la esquina superior derecha de la tarjeta */
+#card-lista-dependientes .mascota-badge-memoria {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    display: inline-block;
+    padding: 3px 10px;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    background: #6c757d;
+    border-radius: 20px;
+}
+
+/* Botones principales: Ficha mascota y Escritorio */
+.card-mascota-principal {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.card-mascota-boton {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 8px 10px;
+    color: #ffffff;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    background: #19aaa2;
+    background: -webkit-linear-gradient(135deg, #1bb9b1 0%, #168c83 100%);
+    background: linear-gradient(135deg, #1bb9b1 0%, #168c83 100%);
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(22, 140, 131, .25);
+    -webkit-transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.card-mascota-boton i {
+    margin-right: 7px;
+    font-size: 15px;
+}
+
+.card-mascota-boton:hover,
+.card-mascota-boton:focus {
+    color: #ffffff;
+    text-decoration: none;
+    box-shadow: 0 9px 18px rgba(22, 140, 131, .32);
+    -webkit-transform: translateY(-1px);
+    transform: translateY(-1px);
+}
+
+/* Botón Escritorio en morado */
+.card-mascota-boton-morado {
+    background: #6f42c1;
+    background: -webkit-linear-gradient(135deg, #7c4dcb 0%, #6f42c1 100%);
+    background: linear-gradient(135deg, #7c4dcb 0%, #6f42c1 100%);
+    box-shadow: 0 6px 14px rgba(111, 66, 193, .28);
+}
+
+.card-mascota-boton-morado:hover,
+.card-mascota-boton-morado:focus {
+    background: #5e35b1;
+    box-shadow: 0 9px 18px rgba(111, 66, 193, .34);
+}
+
+/* Accesos rápidos: FVU, carné y genealogía */
+.card-mascota-accesos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.card-mascota-acceso {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 12px 6px 10px;
+    color: #34475a;
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e3ebef;
+    border-radius: 12px;
+    -webkit-transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
+    transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.card-mascota-acceso-icono {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 4px;
+    color: #17a69e;
+    font-size: 20px;
+    -webkit-transition: color .18s ease;
+    transition: color .18s ease;
+}
+
+.card-mascota-acceso:hover,
+.card-mascota-acceso:focus {
+    color: #128b82;
+    text-decoration: none;
+    background: #f5fcfb;
+    border-color: #19aaa2;
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+}
+
+.card-mascota-acceso:hover .card-mascota-acceso-icono,
+.card-mascota-acceso:focus .card-mascota-acceso-icono {
+    color: #128b82;
+}
+
+/* Pie con la opción de fallecimiento, más discreta */
+.card-mascota-pie {
+    margin-top: auto;
+    padding-top: 12px;
+}
+
+.card-mascota-pie .btn-registrar-fallecimiento {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 4px;
+    padding: 9px 10px;
+    color: #7a8594;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-top: 1px dashed #e3e8ed;
+    border-radius: 0 0 10px 10px;
+    -webkit-transition: color .18s ease, background .18s ease;
+    transition: color .18s ease, background .18s ease;
+}
+
+.card-mascota-pie .btn-registrar-fallecimiento i {
+    margin-right: 6px;
+    font-size: 14px;
+}
+
+.card-mascota-pie .btn-registrar-fallecimiento:hover,
+.card-mascota-pie .btn-registrar-fallecimiento:focus {
+    color: #495057;
+    background: #f5f6f8;
+}
+
+/* Foco visible al navegar con teclado */
+.card-mascota-boton:focus-visible,
+.card-mascota-acceso:focus-visible,
+.card-mascota-pie .btn-registrar-fallecimiento:focus-visible {
+    outline: 3px solid rgba(111, 66, 193, .4);
+    outline-offset: 2px;
+}
+
+/* Mascota fallecida: todo en grises */
+.card-mascota-fallecida .card-mascota-foto {
+    box-shadow: 0 8px 20px rgba(73, 80, 87, .25);
+}
+
+.card-mascota-fallecida .card-mascota-foto img {
+    -webkit-filter: grayscale(.85);
+    filter: grayscale(.85);
+    opacity: .92;
+}
+
+.card-mascota-fallecida .card-mascota-especie {
+    color: #5c6370;
+    background: #f1f3f5;
+}
+
+.card-mascota-fallecida .card-mascota-acceso-icono {
+    color: #5c6370;
+}
+
+.card-mascota-fallecida .card-mascota-boton {
+    background: #6c757d;
+    background: -webkit-linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    box-shadow: 0 6px 14px rgba(73, 80, 87, .22);
+}
+
+.card-mascota-fallecida .card-mascota-boton-suave {
+    color: #495057;
+    background: #f1f3f5;
+    box-shadow: none;
+}
+
+.card-mascota-fallecida .card-mascota-boton-suave:hover,
+.card-mascota-fallecida .card-mascota-boton-suave:focus {
+    color: #ffffff;
+    background: #495057;
+}
+
+.card-mascota-fallecida .card-mascota-accesos {
+    margin-bottom: 4px;
+}
+
+/* Celular */
+@media (max-width: 575.98px) {
+    #card-lista-dependientes .card-mascota {
+        border-radius: 16px;
+    }
+    .card-mascota-foto {
+        width: 88px;
+        height: 88px;
+    }
+    .card-mascota-nombre {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 360px) {
+    .card-mascota-principal {
+        grid-template-columns: 1fr;
+    }
+    .card-mascota-acceso {
+        font-size: 10.5px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #card-lista-dependientes .card-mascota,
+    .card-mascota-foto,
+    .card-mascota-boton,
+    .card-mascota-acceso {
+        -webkit-transition: none;
+        transition: none;
+    }
+}
+
+/* ==========================================================================
+   Modal "Agregar Mascota no registrada" — ajustes puntuales
+   (se conservan el cuerpo blanco y los inputs form-control form-control-sm)
+   ========================================================================== */
+
+/* Halo morado suave al enfocar los campos */
+#modal_agregar_dep_nuevo .form-control:focus,
+#modal_solicitud_apareamiento .form-control:focus {
+    border-color: #b9a3e3;
+    box-shadow: 0 0 0 2px rgb(124 77 203 / 11%);
+    outline: none;
+}
+
+/* Ícono pequeño a la derecha de los selects */
+#modal_agregar_dep_nuevo select.form-control,
+#modal_solicitud_apareamiento select.form-control,
+#modal_traspasar_mascota select.form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 28px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237c4dcb' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+/* Título de cada ítem o sección dentro de modales y formularios.
+   Sirve en cualquier vista: <div class="titulo-item">Datos</div> */
+.titulo-item,
+#modal_agregar_dep_nuevo .t-aten {
+    display: flex;
+    align-items: center;
+    margin: 22px 0 14px;
+    padding-bottom: 2px;
+    color: #6f42c1;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .2px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #e7dbfe;
+}
+
+/* Zona de carga de fotos */
+#modal_agregar_dep_nuevo .dropzone {
+    min-height: 120px;
+    padding: 18px;
+    background: #ffffff;
+    border: 2px dashed #cbd4e1;
+    border-radius: 14px;
+    transition: border-color .18s ease, background .18s ease;
+}
+
+#modal_agregar_dep_nuevo .dropzone:hover {
+    border-color: #7c4dcb;
+    background: #faf7ff;
+}
+
+/* ==========================================================================
+   Modal "Solicitud de apareamiento"
+   ========================================================================== */
+
+#modal_solicitud_apareamiento .modal-content {
+    border: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 22px 55px rgba(25, 43, 65, .28);
+}
+
+#modal_solicitud_apareamiento .apareamiento-subtitulo {
+    color: rgba(255, 255, 255, .85);
+}
+
+#modal_solicitud_apareamiento .modal-body {
+    padding: 18px 22px;
+}
+
+/* Pestañas tipo selector, ocupan todo el ancho */
+.apareamiento-pestanas {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 4px;
+    margin-bottom: 18px;
+    padding: 4px;
+    background: #f4f1fa;
+    border-radius: 12px;
+}
+
+.apareamiento-pestanas .nav-item {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.apareamiento-pestanas .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 10px;
+    color: #5b4e75;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 9px;
+    transition: background .18s ease, color .18s ease;
+}
+
+.apareamiento-pestanas .nav-link:hover {
+    color: #6f42c1;
+}
+
+.apareamiento-pestanas .nav-link.active,
+.apareamiento-pestanas .show > .nav-link {
+    color: #6f42c1;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(111, 66, 193, .15);
+}
+
+.apareamiento-pestanas .badge {
+    font-size: 10px;
+}
+
+/* Aviso informativo */
+.apareamiento-aviso,
+.traspaso-aviso {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    color: #4a3f63;
+    font-size: 12.5px;
+    line-height: 1.5;
+    background: #f9f7fd;
+    border: 1px solid #e5ddf5;
+    border-left: 3px solid #6f42c1;
+    border-radius: 10px;
+}
+
+.apareamiento-aviso .feather,
+.traspaso-aviso .feather {
+    margin-top: 2px;
+    color: #6f42c1;
+    font-size: 15px;
+}
+
+/* Resumen de la mascota elegida */
+.apareamiento-resumen {
+    margin-bottom: 6px;
+    padding: 12px 14px;
+    background: #faf8fe;
+    border: 1px solid #e5ddf5;
+    border-radius: 12px;
+}
+
+.apareamiento-resumen-nombre {
+    display: block;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.apareamiento-resumen-datos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.apareamiento-resumen-datos span {
+    padding: 3px 10px;
+    color: #5b4e75;
+    font-size: 12px;
+    background: #fff;
+    border: 1px solid #e5ddf5;
+    border-radius: 20px;
+}
+
+.apareamiento-resumen-datos b {
+    color: #272727;
+    font-weight: 700;
+}
+
+.apareamiento-resumen-companero {
+    margin-top: 10px;
+    padding-top: 10px;
+    font-size: 12.5px;
+    border-top: 1px dashed #e0d6f2;
+}
+
+.apareamiento-resumen-alerta {
+    margin-top: 10px;
+    padding: 8px 10px;
+    color: #8a5a00;
+    font-size: 12px;
+    background: #fff7e6;
+    border-radius: 8px;
+}
+
+/* Tarjetas de solicitudes recibidas */
+.apareamiento-tarjeta {
+    margin-top: 12px;
+    padding: 14px;
+    font-size: 13px;
+    background: #fff;
+    border: 1px solid #e6eaf0;
+    border-radius: 12px;
+}
+
+.apareamiento-tarjeta-nueva {
+    border-left: 3px solid #e05260;
+}
+
+.apareamiento-tarjeta-fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.apareamiento-tarjeta-fila .btn {
+    flex-shrink: 0;
+}
+
+/* Celular */
+@media (max-width: 575.98px) {
+    #modal_solicitud_apareamiento .modal-body {
+        padding: 14px 16px;
+    }
+    .apareamiento-pestanas .nav-link {
+        flex-direction: column;
+        gap: 2px;
+        font-size: 12px;
+    }
+    .apareamiento-tarjeta-fila {
+        flex-direction: column;
+    }
+    #modal_solicitud_apareamiento .modal-footer {
+        flex-wrap: wrap;
+    }
+    #modal_solicitud_apareamiento .modal-footer .btn {
+        flex: 1 1 auto;
+    }
+}
+
+/* ==========================================================================
+   Tablas — diseño unificado para todas las tablas del proyecto
+   (mismo look que la ficha veterinaria única: envoltura con borde,
+   encabezado gris claro en mayúsculas y filas con hover suave)
+   ========================================================================== */
+
+.table-responsive {
+    border: 1px solid #e6eaf0;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.table:not(.table-dark) {
+    border-collapse: separate;
+    border-spacing: 0;
+    background: transparent;
+}
+
+.table:not(.table-dark) thead th {
+    padding: 11px 16px;
+    border: 0;
+    border-bottom: 1px solid #e6eaf0;
+    background: #f8f9fc;
+    color: #242323;
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.table:not(.table-dark) tbody td {
+    padding: 12px 16px;
+    border: 0;
+    border-top: 1px solid #eff1f5;
+    color: #4a5568;
+    vertical-align: middle;
+    background: transparent;
+}
+
+.table:not(.table-dark) tbody tr:first-child td {
+    border-top: 0;
+}
+
+.table:not(.table-dark) tbody tr {
+    transition: background-color .15s ease;
+}
+
+.table:not(.table-dark) tbody tr:hover {
+    background: #faf8fe;
+}
+
+.table:not(.table-dark) tbody td[colspan] {
+    padding: 26px 16px;
+    text-align: center;
+    color: #778296;
+    font-weight: 600;
+}
+
+.table:not(.table-dark) tbody tr:hover td[colspan] {
+    background: #fff;
+}
+
+/* ==========================================================================
+   Pestañas generales (.nav-general)
+   Mismo diseño que las pestañas de la ficha veterinaria única,
+   un poco más angostas y sin iconos. Se usan con .nav-link de Bootstrap.
+   ========================================================================== */
+
+.nav-general {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    gap: 3px;
+    margin: 0 0 16px;
+    padding: 10px;
+    list-style: none;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px -1px rgba(69, 90, 100, 0.3);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.nav-general::-webkit-scrollbar {
+    display: none;
+}
+
+.nav-general .nav-item {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+}
+
+.nav-general .nav-link {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 9px 12px;
+    border: 0;
+    border-radius: 8px;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    line-height: 1.3;
+    color: #778296 !important;
+    background: transparent;
+    white-space: nowrap;
+    text-decoration: none !important;
+    -webkit-transition: background-color .18s ease, color .18s ease, box-shadow .18s ease;
+    transition: background-color .18s ease, color .18s ease, box-shadow .18s ease;
+}
+
+.nav-general .nav-link:hover {
+    color: var(--purple) !important;
+    background: rgba(111, 66, 193, .06);
+}
+
+.nav-general .nav-link:focus-visible {
+    outline: 2px solid rgba(111, 66, 193, .35);
+    outline-offset: 1px;
+}
+
+.nav-general .nav-link.active {
+    background: #f0e9ff;
+    color: var(--purple) !important;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, .15), 0 5px 9px rgba(16, 24, 40, .06);
+}
+
+/* En celular pasan a dos columnas para que se vean todas sin deslizar */
+@media (max-width: 575.98px) {
+    .nav-general {
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        overflow: visible;
+    }
+
+    .nav-general .nav-item {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 calc(50% - 3px);
+        flex: 1 1 calc(50% - 3px);
+        min-width: 0;
+    }
+
+    .nav-general .nav-link {
+        padding: 7px 8px;
+        font-size: 12px !important;
+        white-space: normal;
+        text-align: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-general .nav-link {
+        -webkit-transition: none;
+        transition: none;
+    }
+}
+
+/* ==========================================================================
+   Modal ficha del profesional (#ficha_profesional)
+   Se usa en Mis veterinarios, el buscador y Profesionales del centro.
+   ========================================================================== */
+
+.ficha-profesional .modal-content {
+    border: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 45px -12px rgba(31, 45, 61, .35);
+}
+
+.ficha-profesional__cabecera {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    gap: 16px;
+    padding: 24px 56px 24px 24px;
+    background: #6f42c1;
+    background: -webkit-linear-gradient(315deg, #6f42c1 0%, #8a63d2 100%);
+    background: linear-gradient(135deg, #6f42c1 0%, #8a63d2 100%);
+    color: #fff;
+}
+
+.ficha-profesional__foto {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, .85);
+    background: #fff;
+    -o-object-fit: cover;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+}
+
+.ficha-profesional__identidad {
+    min-width: 0;
+}
+
+.ficha-profesional__nombre {
+    margin: 0 0 6px;
+    color: #fff !important;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.25;
+    word-break: break-word;
+}
+
+.ficha-profesional__registro {
+    display: block;
+    margin: -2px 0 8px;
+    color: rgba(255, 255, 255, .85);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.ficha-profesional__especialidad {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .18);
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 700;
+}
+
+.ficha-profesional__cerrar {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .15);
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    -webkit-transition: background-color .18s ease;
+    transition: background-color .18s ease;
+}
+
+.ficha-profesional__cerrar:hover,
+.ficha-profesional__cerrar:focus-visible {
+    background: rgba(255, 255, 255, .3);
+    outline: none;
+}
+
+.ficha-profesional__cuerpo {
+    padding: 22px 24px 8px;
+    background: #f7f8fb;
+}
+
+.ficha-profesional__seccion {
+    margin-bottom: 22px;
+}
+
+.ficha-profesional__titulo {
+    margin: 0 0 10px;
+    color: #272727;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.ficha-profesional__etiqueta {
+    display: block;
+    color: #778296;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+}
+
+.ficha-profesional__vacio {
+    padding: 14px 16px;
+    border: 1px dashed #d9dee7;
+    border-radius: 12px;
+    background: #fff;
+    color: #778296;
+    font-size: 13.5px;
+    text-align: center;
+}
+
+/* Datos de contacto */
+.ficha-profesional__datos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.ficha-profesional__dato {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid #e6eaf0;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.ficha-profesional__dato > div {
+    min-width: 0;
+}
+
+.ficha-profesional__dato--ancho {
+    grid-column: 1 / -1;
+}
+
+.ficha-profesional__icono {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f0e9ff;
+    color: var(--purple);
+    font-size: 16px;
+}
+
+.ficha-profesional__valor {
+    display: block;
+    color: #272727;
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.ficha-profesional__valor a,
+.ficha-profesional__lugar-linea a {
+    color: var(--purple);
+}
+
+/* Lugares de atención */
+.ficha-profesional__lugares {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.ficha-profesional__lugares:empty {
+    display: none;
+}
+
+.ficha-profesional__lugar {
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid #e6eaf0;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.ficha-profesional__lugar-nombre {
+    margin: 0 0 8px;
+    color: #272727;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.ficha-profesional__lugar-linea {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0 0 6px;
+    color: #4a5568;
+    font-size: 13.5px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.ficha-profesional__lugar-linea i {
+    margin-top: 2px;
+    color: #778296;
+}
+
+.ficha-profesional__convenios {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eff1f5;
+}
+
+.ficha-profesional__convenios .ficha-profesional__etiqueta {
+    width: 100%;
+}
+
+.ficha-profesional__convenio {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #f0e9ff;
+    color: var(--purple);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.ficha-profesional__sin-dato {
+    color: #778296;
+    font-size: 13px;
+}
+
+/* Formación profesional */
+.ficha-profesional__formacion {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid #e6eaf0;
+    border-radius: 12px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.ficha-profesional__formacion:empty {
+    display: none;
+}
+
+.ficha-profesional__formacion-item {
+    padding: 12px 16px;
+    border-top: 1px solid #eff1f5;
+}
+
+.ficha-profesional__formacion-item:first-child {
+    border-top: 0;
+}
+
+.ficha-profesional__formacion-nombre {
+    display: block;
+    margin: 2px 0;
+    color: #272727;
+    font-size: 14px;
+}
+
+.ficha-profesional__formacion-detalle {
+    color: #778296;
+    font-size: 13px;
+}
+
+/* Tablet y celular: todo a una columna */
+@media (max-width: 767.98px) {
+    .ficha-profesional__datos,
+    .ficha-profesional__lugares {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .ficha-profesional .modal-dialog {
+        margin: 8px;
+    }
+
+    .ficha-profesional__cabecera {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding: 22px 16px 18px;
+        text-align: center;
+    }
+
+    .ficha-profesional__foto {
+        width: 68px;
+        height: 68px;
+    }
+
+    .ficha-profesional__nombre {
+        font-size: 18px;
+    }
+
+    .ficha-profesional__cuerpo {
+        padding: 18px 14px 4px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ficha-profesional__cerrar {
+        -webkit-transition: none;
+        transition: none;
+    }
+}
+
+/* ==========================================================================
+   Modal "Agendar Hora Veterinaria" (Mis Veterinarios): reserva por pasos
+   ========================================================================== */
+#modal_reserva_veterinaria {
+    font-size: 16px;
+}
+
+#modal_reserva_veterinaria .small,
+#modal_reserva_veterinaria small {
+    font-size: 14px !important;
+    line-height: 1.4;
+}
+
+#modal_reserva_veterinaria .modal-body {
+    padding: 20px 24px 24px;
+    background: #fcfcfe;
+}
+
+/* Veterinario elegido, queda arriba en todos los pasos */
+/* Foto, nombre y especialidad; en celular la especialidad baja bajo el nombre */
+.reserva-vet-profesional {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "foto datos especialidad";
+    align-items: center;
+    gap: 6px 14px;
+    margin-bottom: 22px;
+    padding: 12px 16px;
+    border: 1px solid #ebe4fb;
+    border-radius: 14px;
+    background: #f8f5ff;
+    background: -webkit-linear-gradient(315deg, #f6f1ff 0%, #eff9f9 100%);
+    background: linear-gradient(135deg, #f6f1ff 0%, #eff9f9 100%);
+}
+
+.reserva-vet-profesional-icono {
+    grid-area: foto;
+    width: 46px;
+    height: 46px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #fff;
+    -webkit-box-shadow: 0 0 0 1px #e3d8fb, 0 2px 6px rgba(111, 66, 193, .12);
+    box-shadow: 0 0 0 1px #e3d8fb, 0 2px 6px rgba(111, 66, 193, .12);
+    object-fit: cover;
+}
+
+.reserva-vet-profesional-datos {
+    grid-area: datos;
+    min-width: 0;
+}
+
+.reserva-vet-profesional-etiqueta {
+    display: block;
+    color: #7a8397;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.reserva-vet-profesional-nombre {
+    display: block;
+    color: #272727;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.reserva-vet-profesional-especialidad {
+    grid-area: especialidad;
+    justify-self: end;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 4px 12px;
+    text-overflow: ellipsis;
+    border-radius: 999px;
+    background: #fff;
+    -webkit-box-shadow: inset 0 0 0 1px #e3d8fb;
+    box-shadow: inset 0 0 0 1px #e3d8fb;
+    color: var(--purple);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.reserva-vet-profesional-especialidad:empty {
+    display: none;
+}
+
+/* Indicador de pasos (también lo usa el modal de traspaso de mascota) */
+.reserva-vet-pasos,
+.traspaso-pasos {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0 0 22px;
+    padding: 0;
+    list-style: none;
+}
+
+.reserva-vet-paso,
+.traspaso-paso {
+    position: relative;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 0%;
+    flex: 1 1 0%;
+    min-width: 0;
+    text-align: center;
+}
+
+/* Línea que une cada paso con el anterior */
+.reserva-vet-paso + .reserva-vet-paso::before,
+.traspaso-paso + .traspaso-paso::before {
+    content: "";
+    position: absolute;
+    top: 17px;
+    left: calc(-50% + 24px);
+    right: calc(50% + 24px);
+    height: 2px;
+    border-radius: 2px;
+    background: #e3e6ee;
+    -webkit-transition: background-color .25s ease;
+    transition: background-color .25s ease;
+}
+
+.reserva-vet-paso.completado + .reserva-vet-paso::before,
+.traspaso-paso.completado + .traspaso-paso::before {
+    background: #40abaf;
+}
+
+.reserva-vet-paso-boton,
+.traspaso-paso-boton {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    max-width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #8a93a6;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.reserva-vet-paso-boton:disabled,
+.traspaso-paso-boton:disabled {
+    cursor: default;
+}
+
+/* Sin contorno al hacer clic, pero con anillo visible al navegar con teclado */
+.reserva-vet-paso-boton:focus:not(:focus-visible),
+.traspaso-paso-boton:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.reserva-vet-paso-boton:focus-visible,
+.traspaso-paso-boton:focus-visible {
+    outline: none;
+}
+
+.reserva-vet-paso-boton:focus-visible .reserva-vet-paso-numero,
+.traspaso-paso-boton:focus-visible .traspaso-paso-numero {
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .35);
+}
+
+.reserva-vet-paso-numero,
+.traspaso-paso-numero {
+    position: relative;
+    z-index: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 2px solid #d8dce6;
+    border-radius: 50%;
+    background: #fff;
+    color: #8a93a6;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+    -webkit-transition: background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+    transition: background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+
+.reserva-vet-paso-texto,
+.traspaso-paso-texto {
+    max-width: 100%;
+    margin-top: 6px;
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.reserva-vet-paso.activo .reserva-vet-paso-numero,
+.traspaso-paso.activo .traspaso-paso-numero {
+    border-color: var(--purple);
+    background: var(--purple);
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(111, 66, 193, .15);
+}
+
+.reserva-vet-paso.activo .reserva-vet-paso-texto,
+.traspaso-paso.activo .traspaso-paso-texto {
+    color: var(--purple);
+}
+
+.reserva-vet-paso.completado .reserva-vet-paso-numero,
+.traspaso-paso.completado .traspaso-paso-numero {
+    border-color: #40abaf;
+    background: #40abaf;
+    color: #fff;
+}
+
+.reserva-vet-paso.completado .reserva-vet-paso-texto,
+.traspaso-paso.completado .traspaso-paso-texto {
+    color: #2f8f93;
+}
+
+.reserva-vet-paso.completado .reserva-vet-paso-boton:hover .reserva-vet-paso-numero,
+.traspaso-paso.completado .traspaso-paso-boton:hover .traspaso-paso-numero {
+    box-shadow: 0 0 0 4px rgba(64, 171, 175, .2);
+}
+
+/* Contenido de cada paso: solo se ve el activo */
+.reserva-vet-panel,
+.traspaso-panel {
+    display: none;
+}
+
+.reserva-vet-panel.activo,
+.traspaso-panel.activo {
+    display: block;
+    -webkit-animation: reserva-vet-aparecer .25s ease;
+    animation: reserva-vet-aparecer .25s ease;
+}
+
+@-webkit-keyframes reserva-vet-aparecer {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(6px);
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+@keyframes reserva-vet-aparecer {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(6px);
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+.reserva-vet-panel-encabezado,
+.traspaso-panel-encabezado {
+    margin-bottom: 16px;
+}
+
+.reserva-vet-panel-encabezado h6,
+.traspaso-panel-encabezado h6 {
+    margin-bottom: 2px;
+    color: #272727;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.reserva-vet-aviso {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    border: 1px solid #fbd5d9;
+    border-radius: 12px;
+    background: #fff5f6;
+    color: #b4323f;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Tarjetas de lugar: el radio queda oculto y la tarjeta hace de botón */
+.reserva-vet-lugares {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.reserva-vet-lugares:empty {
+    display: none;
+}
+
+#modal_reserva_veterinaria .reserva-vet-lugar {
+    position: relative;
+    display: block;
+    min-width: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.reserva-vet-lugar-radio {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.reserva-vet-lugar-caja,
+.reserva-vet-lugar-esqueleto {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 100%;
+    padding: 14px;
+    border: 1.5px solid #e7e9f0;
+    border-radius: 14px;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    -webkit-transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+    transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+}
+
+.reserva-vet-lugar:hover .reserva-vet-lugar-caja {
+    border-color: #cdbdf5;
+    -webkit-box-shadow: 0 4px 12px rgba(111, 66, 193, .08);
+    box-shadow: 0 4px 12px rgba(111, 66, 193, .08);
+}
+
+.reserva-vet-lugar-radio:checked + .reserva-vet-lugar-caja {
+    border-color: var(--purple);
+    background: #faf7ff;
+    -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
+}
+
+.reserva-vet-lugar-radio:focus-visible + .reserva-vet-lugar-caja {
+    -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .35);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .35);
+}
+
+.reserva-vet-lugar-icono {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    border-radius: 12px;
+    background: #f4effe;
+    color: var(--purple);
+    font-size: 18px;
+    -webkit-transition: background-color .15s ease, color .15s ease;
+    transition: background-color .15s ease, color .15s ease;
+}
+
+.reserva-vet-lugar-radio:checked + .reserva-vet-lugar-caja .reserva-vet-lugar-icono {
+    background: var(--purple);
+    color: #fff;
+}
+
+.reserva-vet-lugar-datos {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 0%;
+    flex: 1 1 0%;
+    min-width: 0;
+}
+
+.reserva-vet-lugar-nombre {
+    display: block;
+    color: #272727;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.reserva-vet-lugar-direccion {
+    display: block;
+    margin-top: 2px;
+    color: #7a8397;
+    font-size: 13.5px;
+    font-weight: 400;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+/* Círculo de la derecha: vacío y al marcar muestra el check */
+.reserva-vet-lugar-marca {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin-left: 10px;
+    border: 2px solid #d5d9e3;
+    border-radius: 50%;
+    background: #fff;
+    color: transparent;
+    font-size: 12px;
+    -webkit-transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.reserva-vet-lugar-radio:checked + .reserva-vet-lugar-caja .reserva-vet-lugar-marca {
+    border-color: var(--purple);
+    background: var(--purple);
+    color: #fff;
+}
+
+/* Mientras cargan los lugares */
+.reserva-vet-lugar-esqueleto .reserva-vet-lugar-icono,
+.reserva-vet-lugar-esqueleto .reserva-vet-lugar-datos span {
+    background: #eef0f5;
+    background: -webkit-linear-gradient(left, #eef0f5 25%, #f7f8fb 50%, #eef0f5 75%);
+    background: linear-gradient(90deg, #eef0f5 25%, #f7f8fb 50%, #eef0f5 75%);
+    background-size: 200% 100%;
+    -webkit-animation: reserva-vet-brillo 1.2s ease-in-out infinite;
+    animation: reserva-vet-brillo 1.2s ease-in-out infinite;
+}
+
+.reserva-vet-lugar-esqueleto .reserva-vet-lugar-datos span {
+    display: block;
+    width: 70%;
+    height: 12px;
+    border-radius: 6px;
+}
+
+.reserva-vet-lugar-esqueleto .reserva-vet-lugar-datos span + span {
+    width: 45%;
+    margin-top: 8px;
+}
+
+@-webkit-keyframes reserva-vet-brillo {
+    from {
+        background-position: 100% 0;
+    }
+    to {
+        background-position: -100% 0;
+    }
+}
+
+@keyframes reserva-vet-brillo {
+    from {
+        background-position: 100% 0;
+    }
+    to {
+        background-position: -100% 0;
+    }
+}
+
+/* Aviso del paso 1 antes de elegir lugar */
+.reserva-vet-lugar-vacio {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 14px 16px;
+    border: 1.5px dashed #e0e3eb;
+    border-radius: 14px;
+    color: #7a8397;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.reserva-vet-lugar-vacio .feather {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-right: 12px;
+    color: #b9a6e8;
+    font-size: 20px;
+}
+
+/* Contacto y horario del lugar elegido */
+.reserva-vet-lugar-detalle {
+    padding: 16px;
+    border: 1px solid #e7e9f0;
+    border-radius: 14px;
+    background: #fff;
+    -webkit-animation: reserva-vet-aparecer .25s ease;
+    animation: reserva-vet-aparecer .25s ease;
+}
+
+.reserva-vet-lugar-contacto {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.reserva-vet-contacto {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #f4f5f9;
+    color: #4a5568;
+    font-size: 13.5px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.reserva-vet-contacto:hover,
+.reserva-vet-contacto:focus {
+    background: #f4effe;
+    color: var(--purple);
+    text-decoration: none;
+}
+
+.reserva-vet-contacto .feather {
+    color: var(--purple);
+}
+
+.reserva-vet-etiqueta {
+    display: block;
+    margin-bottom: 8px;
+    color: #7a8397;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+/* Cada fila: días a la izquierda y sus rangos de hora a la derecha */
+.reserva-vet-horario {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    gap: 6px 12px;
+    padding: 10px 0;
+}
+
+.reserva-vet-horario + .reserva-vet-horario {
+    border-top: 1px solid #f0f1f5;
+}
+
+.reserva-vet-horario:first-child {
+    padding-top: 0;
+}
+
+.reserva-vet-horario:last-child {
+    padding-bottom: 0;
+}
+
+.reserva-vet-horario-dias {
+    color: #272727;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.reserva-vet-horario-rangos {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.reserva-vet-horario-rango {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #eaf7f7;
+    color: #2f8f93;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.reserva-vet-cargando {
+    color: #8a93a6;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* Calendario en línea: ocupa el ancho disponible y se achica en celular */
+.reserva-vet-calendario {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+#modal_reserva_veterinaria .flatpickr-calendar.inline {
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    padding: 8px 8px 10px;
+    border: 1px solid #e7e9f0;
+    border-radius: 14px;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    font-size: 14px;
+}
+
+#modal_reserva_veterinaria .flatpickr-rContainer,
+#modal_reserva_veterinaria .flatpickr-days {
+    width: 100%;
+}
+
+#modal_reserva_veterinaria .dayContainer {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+/* El borde transparente con background-clip deja un espacio entre días, como baldosas */
+#modal_reserva_veterinaria .flatpickr-day {
+    max-width: none;
+    height: 44px;
+    border: 3px solid transparent;
+    border-radius: 12px;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    line-height: 38px;
+    font-size: 14px;
+}
+
+#modal_reserva_veterinaria .flatpickr-weekday,
+#modal_reserva_veterinaria .flatpickr-current-month input.cur-year,
+#modal_reserva_veterinaria .flatpickr-current-month .flatpickr-monthDropdown-months {
+    font-size: 15px;
+}
+
+#modal_reserva_veterinaria .flatpickr-weekday {
+    color: #9aa2b4;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+#modal_reserva_veterinaria .flatpickr-current-month {
+    font-weight: 800;
+}
+
+#modal_reserva_veterinaria .flatpickr-months .flatpickr-prev-month,
+#modal_reserva_veterinaria .flatpickr-months .flatpickr-next-month {
+    border-radius: 10px;
+}
+
+#modal_reserva_veterinaria .flatpickr-months .flatpickr-prev-month:hover,
+#modal_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover {
+    background: #f4effe;
+}
+
+#modal_reserva_veterinaria .flatpickr-months .flatpickr-prev-month:hover svg,
+#modal_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover svg {
+    fill: var(--purple);
+}
+
+/* Días con atención: se pintan para que se vean de un vistazo */
+#modal_reserva_veterinaria .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):not(.selected) {
+    background-color: #f4effe;
+    color: var(--purple);
+    font-weight: 700;
+}
+
+/* Días del mes siguiente que igual tienen atención: más suaves, pero no grises */
+#modal_reserva_veterinaria .flatpickr-day.prevMonthDay:not(.flatpickr-disabled):not(.selected),
+#modal_reserva_veterinaria .flatpickr-day.nextMonthDay:not(.flatpickr-disabled):not(.selected) {
+    background-color: #faf8ff;
+    color: rgba(111, 66, 193, .55);
+    font-weight: 700;
+}
+
+#modal_reserva_veterinaria .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):hover,
+#modal_reserva_veterinaria .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):focus {
+    border-color: transparent;
+    background-color: #e6dcfb;
+    color: var(--purple);
+}
+
+/* Hoy se marca con un punto bajo el número */
+#modal_reserva_veterinaria .flatpickr-day.today {
+    border-color: transparent;
+}
+
+#modal_reserva_veterinaria .flatpickr-day.today::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    border-radius: 50%;
+    background: #40abaf;
+}
+
+#modal_reserva_veterinaria .flatpickr-day.selected,
+#modal_reserva_veterinaria .flatpickr-day.selected:hover,
+#modal_reserva_veterinaria .flatpickr-day.selected:focus {
+    border-color: transparent;
+    background-color: var(--purple);
+    color: #fff;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#modal_reserva_veterinaria .flatpickr-day.selected.today::after {
+    background: #fff;
+}
+
+#modal_reserva_veterinaria .flatpickr-day.flatpickr-disabled,
+#modal_reserva_veterinaria .flatpickr-day.flatpickr-disabled:hover {
+    border-color: transparent;
+    background: transparent;
+    color: rgba(57, 57, 57, .25);
+}
+
+.reserva-vet-leyenda {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 10px;
+    color: #7a8397;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.reserva-vet-leyenda span {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.reserva-vet-leyenda i {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 6px;
+    border-radius: 4px;
+}
+
+.reserva-vet-leyenda-disponible {
+    background: #f4effe;
+    -webkit-box-shadow: inset 0 0 0 1px #cdbdf5;
+    box-shadow: inset 0 0 0 1px #cdbdf5;
+}
+
+.reserva-vet-leyenda-elegido {
+    background: var(--purple);
+}
+
+/* Horas disponibles, junto al calendario en escritorio y debajo en celular */
+.reserva-vet-horas-caja {
+    height: 100%;
+    padding: 16px 16px 8px;
+    border: 1px solid #e7e9f0;
+    border-radius: 14px;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+}
+
+.reserva-vet-horas-cabecera {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.reserva-vet-horas-titulo {
+    color: #272727;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.reserva-vet-horas-total {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: #eaf7f7;
+    color: #2f8f93;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.reserva-vet-horas-fecha {
+    margin: 2px 0 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f1f5;
+    color: #7a8397;
+    font-size: 14px;
+}
+
+.reserva-vet-horas-vacio {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    min-height: 140px;
+    padding: 16px 10px 24px;
+    color: #8a93a6;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.reserva-vet-horas-vacio .feather {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    background: #f4effe;
+    color: #a58ae0;
+    font-size: 22px;
+}
+
+.reserva-vet-horas-vacio.text-danger .feather {
+    background: #fff5f6;
+    color: inherit;
+}
+
+/* Bloques Mañana / Tarde */
+.reserva-vet-horas-bloque + .reserva-vet-horas-bloque {
+    margin-top: 14px;
+}
+
+.reserva-vet-horas-bloque-titulo {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 8px;
+    color: #7a8397;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.reserva-vet-horas-bloque-titulo .feather {
+    margin-right: 6px;
+    color: #a58ae0;
+    font-size: 15px;
+}
+
+.reserva-vet-horas-grilla {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 8px;
+    padding-bottom: 8px;
+}
+
+#modal_reserva_veterinaria .reserva-vet-hora {
+    min-height: 42px;
+    padding: 0 6px;
+    border: 1.5px solid #e3d8fb;
+    border-radius: 10px;
+    background: #fff;
+    color: var(--purple);
+    font-family: inherit;
+    font-size: 14px !important;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease, -webkit-transform .15s ease;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+#modal_reserva_veterinaria .reserva-vet-hora:hover {
+    border-color: var(--purple);
+    background: #f4effe;
+    -webkit-transform: translateY(-1px);
+    transform: translateY(-1px);
+}
+
+#modal_reserva_veterinaria .reserva-vet-hora:focus {
+    outline: none;
+}
+
+#modal_reserva_veterinaria .reserva-vet-hora:focus-visible {
+    -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .3);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .3);
+}
+
+#modal_reserva_veterinaria .reserva-vet-hora.active {
+    border-color: var(--purple);
+    background: var(--purple);
+    color: #fff;
+    -webkit-box-shadow: 0 4px 12px rgba(111, 66, 193, .28);
+    box-shadow: 0 4px 12px rgba(111, 66, 193, .28);
+    -webkit-transform: none;
+    transform: none;
+}
+
+/* Resumen del último paso: arriba la cita destacada y debajo el detalle */
+.reserva-vet-resumen {
+    overflow: hidden;
+    border: 1px solid #e7e9f0;
+    border-radius: 16px;
+    background: #fff;
+    -webkit-box-shadow: 0 4px 16px rgba(16, 24, 40, .06);
+    box-shadow: 0 4px 16px rgba(16, 24, 40, .06);
+}
+
+.reserva-vet-resumen-cita {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 18px 20px;
+    border-bottom: 1.5px dashed #e3d8fb;
+    background: #f8f5ff;
+    background: -webkit-linear-gradient(315deg, #f6f1ff 0%, #eff9f9 100%);
+    background: linear-gradient(135deg, #f6f1ff 0%, #eff9f9 100%);
+}
+
+.reserva-vet-resumen-cita-icono {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    margin-right: 16px;
+    border-radius: 14px;
+    background: var(--purple);
+    -webkit-box-shadow: 0 6px 14px rgba(111, 66, 193, .28);
+    box-shadow: 0 6px 14px rgba(111, 66, 193, .28);
+    color: #fff;
+    font-size: 22px;
+}
+
+.reserva-vet-resumen-cita-datos {
+    min-width: 0;
+}
+
+.reserva-vet-resumen-fecha {
+    display: block;
+    color: #272727;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.reserva-vet-resumen-hora {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    background: #fff;
+    -webkit-box-shadow: inset 0 0 0 1px #e3d8fb;
+    box-shadow: inset 0 0 0 1px #e3d8fb;
+    color: var(--purple);
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.reserva-vet-detalle {
+    margin: 0;
+    padding: 6px 0;
+    list-style: none;
+}
+
+.reserva-vet-detalle li {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    padding: 12px 20px;
+}
+
+.reserva-vet-detalle li + li {
+    border-top: 1px solid #f0f1f5;
+}
+
+.reserva-vet-detalle li > div {
+    min-width: 0;
+}
+
+.reserva-vet-detalle-icono {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    margin-right: 14px;
+    border-radius: 10px;
+    background: #f4effe;
+    color: var(--purple);
+    font-size: 16px;
+}
+
+.reserva-vet-detalle-titulo {
+    display: block;
+    margin-bottom: 1px;
+    color: #7a8397;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.reserva-vet-detalle-valor {
+    display: block;
+    color: #272727;
+    font-size: 15px;
+    font-weight: 700;
+    word-break: break-word;
+}
+
+.reserva-vet-detalle-extra {
+    display: block;
+    margin-top: 2px;
+    color: #7a8397;
+    font-size: 13.5px;
+}
+
+/* En escritorio el alto lo pone el calendario: la caja de horas lo iguala y hace scroll si hay muchas.
+   La columna ya es position: relative y tiene 15px de padding (grilla de bootstrap) */
+@media (min-width: 992px) {
+    .reserva-vet-horas-caja {
+        position: absolute;
+        top: 0;
+        right: 15px;
+        bottom: 0;
+        left: 15px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .reserva-vet-horas {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        -ms-flex-line-pack: start;
+        align-content: flex-start;
+        min-height: 0;
+        padding-top: 2px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .reserva-vet-horas-vacio {
+        min-height: 0;
+        height: 100%;
+    }
+}
+
+/* Pie: volver a la izquierda, avanzar a la derecha */
+#modal_reserva_veterinaria .reserva-vet-acciones,
+#modal_traspasar_mascota .traspaso-acciones {
+    padding: 12px 16px;
+}
+
+.reserva-vet-acciones > .btn,
+.traspaso-acciones > .btn {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.reserva-vet-acciones > .reserva-vet-volver,
+.traspaso-acciones > .traspaso-volver {
+    margin-right: auto;
+}
+
+/* En escritorio se reserva alto para que el modal no salte entre pasos */
+@media (min-width: 576px) {
+    .reserva-vet-panel.activo,
+    .traspaso-panel.activo {
+        min-height: 320px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .reserva-vet-paso + .reserva-vet-paso::before,
+    .traspaso-paso + .traspaso-paso::before {
+        top: 15px;
+        left: calc(-50% + 20px);
+        right: calc(50% + 20px);
+    }
+
+    .reserva-vet-paso-numero,
+    .traspaso-paso-numero {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .reserva-vet-paso-texto,
+    .traspaso-paso-texto {
+        font-size: 12px;
+    }
+
+    #modal_reserva_veterinaria .modal-body {
+        padding: 16px;
+    }
+
+    .reserva-vet-profesional {
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+            "foto datos"
+            "foto especialidad";
+    }
+
+    .reserva-vet-profesional-especialidad {
+        justify-self: start;
+    }
+
+    #modal_reserva_veterinaria .flatpickr-day {
+        height: 42px;
+        line-height: 36px;
+    }
+
+    .reserva-vet-resumen-cita {
+        padding: 16px;
+    }
+
+    .reserva-vet-detalle li {
+        padding: 12px 16px;
+    }
+
+    .reserva-vet-acciones > .btn,
+    .traspaso-acciones > .btn {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 0%;
+        flex: 1 1 0%;
+        white-space: normal;
+    }
+
+    .reserva-vet-acciones > .reserva-vet-volver,
+    .traspaso-acciones > .traspaso-volver {
+        margin-right: 8px;
+    }
+}
+
+@media (max-width: 420px) {
+    #modal_reserva_veterinaria .modal-body {
+        padding: 16px 12px;
+    }
+
+    .reserva-vet-profesional {
+        padding: 10px 12px;
+    }
+
+    .reserva-vet-profesional-icono {
+        width: 40px;
+        height: 40px;
+    }
+
+    .reserva-vet-lugar-caja {
+        padding: 12px;
+    }
+
+    #modal_reserva_veterinaria .flatpickr-calendar.inline {
+        padding: 4px 4px 6px;
+    }
+
+    #modal_reserva_veterinaria .flatpickr-day {
+        height: 40px;
+        border-width: 2px;
+        border-radius: 10px;
+        line-height: 36px;
+    }
+
+    .reserva-vet-horas-grilla {
+        grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+    }
+
+    .reserva-vet-resumen-cita-icono {
+        width: 44px;
+        height: 44px;
+        margin-right: 12px;
+        font-size: 19px;
+    }
+
+    .reserva-vet-resumen-fecha {
+        font-size: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reserva-vet-panel.activo,
+    .traspaso-panel.activo,
+    .reserva-vet-lugar-detalle,
+    .reserva-vet-lugar-esqueleto .reserva-vet-lugar-icono,
+    .reserva-vet-lugar-esqueleto .reserva-vet-lugar-datos span {
+        -webkit-animation: none;
+        animation: none;
+    }
+
+    .reserva-vet-paso + .reserva-vet-paso::before,
+    .traspaso-paso + .traspaso-paso::before,
+    .reserva-vet-paso-numero,
+    .traspaso-paso-numero,
+    .reserva-vet-lugar-caja,
+    .reserva-vet-lugar-icono,
+    .reserva-vet-lugar-marca,
+    #modal_reserva_veterinaria .reserva-vet-hora {
+        -webkit-transition: none;
+        transition: none;
+    }
+
+    #modal_reserva_veterinaria .reserva-vet-hora:hover {
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+/* ==========================================================================
+   Modal "Registrar fallecimiento" de mascota
+   ========================================================================== */
+
+#modal_fallecimiento_mascota .modal-content,
+#modal_traspasar_mascota .modal-content {
+    border: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    -webkit-box-shadow: 0 22px 55px rgba(25, 43, 65, .28);
+    box-shadow: 0 22px 55px rgba(25, 43, 65, .28);
+}
+
+#modal_fallecimiento_mascota .modal-header small,
+#modal_traspasar_mascota .modal-header small {
+    color: rgba(255, 255, 255, .85);
+}
+
+/* Tarjeta con la foto y el nombre de la mascota */
+.fallecimiento-mascota-resumen,
+.traspaso-mascota {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: #faf7ff;
+    border: 1px solid #ece6f7;
+    border-radius: 14px;
+}
+
+.fallecimiento-mascota-foto,
+.traspaso-mascota-foto {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background: #f1ecfb;
+    -webkit-box-shadow: 0 4px 12px rgba(111, 66, 193, .18);
+    box-shadow: 0 4px 12px rgba(111, 66, 193, .18);
+}
+
+.fallecimiento-mascota-foto img,
+.traspaso-mascota-foto img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.fallecimiento-mascota-nombre,
+.traspaso-mascota-nombre {
+    display: block;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+/* El nombre siempre parte con mayúscula aunque se haya guardado en minúscula */
+.fallecimiento-mascota-nombre::first-letter,
+.traspaso-mascota-nombre::first-letter {
+    text-transform: uppercase;
+}
+
+.fallecimiento-mascota-aviso,
+.traspaso-mascota-detalle {
+    display: block;
+    margin-top: 3px;
+    color: #778296;
+    font-size: 12.5px;
+    line-height: 1.4;
+}
+
+#modal_fallecimiento_mascota .form-control:focus,
+#modal_traspasar_mascota .form-control:focus {
+    border-color: #b9a3e3;
+    -webkit-box-shadow: 0 0 0 2px rgba(124, 77, 203, .11);
+    box-shadow: 0 0 0 2px rgba(124, 77, 203, .11);
+    outline: none;
+}
+
+#modal_fallecimiento_mascota .dropzone {
+    min-height: 120px;
+    padding: 18px;
+    background: #fff;
+    border: 2px dashed #cbd4e1;
+    border-radius: 14px;
+    -webkit-transition: border-color .18s ease, background .18s ease;
+    transition: border-color .18s ease, background .18s ease;
+}
+
+#modal_fallecimiento_mascota .dropzone:hover {
+    border-color: #7c4dcb;
+    background: #faf7ff;
+}
+
+#modal_fallecimiento_mascota .modal-footer,
+#modal_traspasar_mascota .modal-footer {
+    border-top: 1px solid #f0edf6;
+}
+
+@media (max-width: 575.98px) {
+    .fallecimiento-mascota-resumen,
+    .traspaso-mascota {
+        padding: 12px;
+    }
+
+    .fallecimiento-mascota-foto,
+    .traspaso-mascota-foto {
+        width: 54px;
+        height: 54px;
+    }
+
+    #modal_fallecimiento_mascota .modal-footer .btn {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 0%;
+        flex: 1 1 0%;
+    }
+}
+
+/* ==========================================================================
+   Despedida: foto con alitas que sube y se desvanece sola
+   ========================================================================== */
+
+.despedida-mascota {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 16px;
+    /* Sin soporte de desenfoque el fondo queda oscuro y se lee igual */
+    background: rgba(35, 22, 60, .78);
+    opacity: 0;
+    cursor: pointer;
+    -webkit-transition: opacity .6s ease;
+    transition: opacity .6s ease;
+}
+
+@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px))) {
+    .despedida-mascota {
+        background: rgba(35, 22, 60, .45);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+    }
+}
+
+.despedida-mascota.visible {
+    opacity: 1;
+}
+
+.despedida-mascota-contenido {
+    text-align: center;
+    color: #fff;
+    -webkit-animation: despedida-subir 4.6s ease-in-out forwards;
+    animation: despedida-subir 4.6s ease-in-out forwards;
+}
+
+/* Foto con las alas a los lados */
+.despedida-mascota-angel {
+    position: relative;
+    display: inline-block;
+    margin: 26px auto 18px;
+    -webkit-animation: despedida-flotar 2.4s ease-in-out infinite;
+    animation: despedida-flotar 2.4s ease-in-out infinite;
+}
+
+.despedida-mascota-foto {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border: 4px solid #fff;
+    border-radius: 50%;
+    background: #f1ecfb;
+    -webkit-box-shadow: 0 0 0 6px rgba(255, 255, 255, .18), 0 0 40px rgba(255, 236, 170, .55);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, .18), 0 0 40px rgba(255, 236, 170, .55);
+}
+
+.despedida-mascota-foto img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+/* Aureola */
+.despedida-mascota-angel::before {
+    content: '';
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    z-index: 3;
+    width: 74px;
+    height: 16px;
+    margin-left: -37px;
+    border: 4px solid #ffe39a;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 14px rgba(255, 227, 154, .9);
+    box-shadow: 0 0 14px rgba(255, 227, 154, .9);
+}
+
+.despedida-mascota-ala {
+    position: absolute;
+    top: 18px;
+    z-index: 1;
+    width: 96px;
+    height: 96px;
+}
+
+.despedida-mascota-ala svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    -webkit-filter: drop-shadow(0 0 8px rgba(255, 255, 255, .6));
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, .6));
+}
+
+.despedida-mascota-ala.izquierda {
+    right: 100%;
+    margin-right: -26px;
+    -webkit-transform-origin: 100% 60%;
+    transform-origin: 100% 60%;
+    -webkit-animation: despedida-aleteo-izq .9s ease-in-out infinite;
+    animation: despedida-aleteo-izq .9s ease-in-out infinite;
+}
+
+/* El ala derecha es la misma, volteada */
+.despedida-mascota-ala.derecha {
+    left: 100%;
+    margin-left: -26px;
+    -webkit-transform-origin: 0 60%;
+    transform-origin: 0 60%;
+    -webkit-animation: despedida-aleteo-der .9s ease-in-out infinite;
+    animation: despedida-aleteo-der .9s ease-in-out infinite;
+}
+
+.despedida-mascota-ala.derecha svg {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+.despedida-mascota-nombre {
+    margin: 0 0 4px;
+    color: #fff;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, .3);
+}
+
+.despedida-mascota-fechas {
+    display: block;
+    color: rgba(255, 255, 255, .92);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .4px;
+}
+
+.despedida-mascota-frase {
+    display: block;
+    margin-top: 10px;
+    color: rgba(255, 255, 255, .75);
+    font-size: 13px;
+    font-style: italic;
+}
+
+@-webkit-keyframes despedida-subir {
+    0%   { opacity: 0; -webkit-transform: translateY(40px) scale(.9); }
+    15%  { opacity: 1; -webkit-transform: translateY(0) scale(1); }
+    75%  { opacity: 1; -webkit-transform: translateY(-10px) scale(1); }
+    100% { opacity: 0; -webkit-transform: translateY(-120px) scale(.95); }
+}
+
+@keyframes despedida-subir {
+    0%   { opacity: 0; transform: translateY(40px) scale(.9); }
+    15%  { opacity: 1; transform: translateY(0) scale(1); }
+    75%  { opacity: 1; transform: translateY(-10px) scale(1); }
+    100% { opacity: 0; transform: translateY(-120px) scale(.95); }
+}
+
+@-webkit-keyframes despedida-flotar {
+    0%, 100% { -webkit-transform: translateY(0); }
+    50%      { -webkit-transform: translateY(-8px); }
+}
+
+@keyframes despedida-flotar {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+}
+
+@-webkit-keyframes despedida-aleteo-izq {
+    0%, 100% { -webkit-transform: rotate(8deg); }
+    50%      { -webkit-transform: rotate(-14deg); }
+}
+
+@keyframes despedida-aleteo-izq {
+    0%, 100% { transform: rotate(8deg); }
+    50%      { transform: rotate(-14deg); }
+}
+
+@-webkit-keyframes despedida-aleteo-der {
+    0%, 100% { -webkit-transform: rotate(-8deg); }
+    50%      { -webkit-transform: rotate(14deg); }
+}
+
+@keyframes despedida-aleteo-der {
+    0%, 100% { transform: rotate(-8deg); }
+    50%      { transform: rotate(14deg); }
+}
+
+@media (max-width: 575.98px) {
+    .despedida-mascota-foto {
+        width: 112px;
+        height: 112px;
+    }
+
+    .despedida-mascota-ala {
+        top: 10px;
+        width: 72px;
+        height: 72px;
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+
+    .despedida-mascota-nombre {
+        font-size: 21px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .despedida-mascota-angel,
+    .despedida-mascota-ala.izquierda,
+    .despedida-mascota-ala.derecha {
+        -webkit-animation: none;
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   Modal "Traspasar mascota" (Mis Mascotas): traspaso en 3 pasos
+   El indicador de pasos, los paneles y el pie se comparten con la reserva
+   veterinaria; la tarjeta de la mascota, con el modal de fallecimiento
+   ========================================================================== */
+
+/* Se abre sobre otros modales de la página */
+#modal_traspasar_mascota {
+    z-index: 1060;
+}
+
+.modal-backdrop.traspaso-mascota-backdrop {
+    z-index: 1055;
+}
+
+#modal_traspasar_mascota .modal-body {
+    padding: 20px 24px 24px;
+}
+
+/* Un poco más de aire para las etiquetas flotantes */
+#modal_traspasar_mascota .form-group {
+    margin-bottom: 20px;
+}
+
+#modal_traspasar_mascota textarea.form-control {
+    min-height: 84px;
+    resize: vertical;
+}
+
+/* Paso 1: mascota elegida */
+#modal_traspasar_mascota .traspaso-mascota {
+    margin-bottom: 24px;
+}
+
+.traspaso-mascota-datos {
+    min-width: 0;
+}
+
+/* Motivos frecuentes, se ven como chips */
+.traspaso-motivos {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.traspaso-motivos-titulo {
+    margin: 0 8px 6px 0;
+    color: #778296;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.traspaso-motivo {
+    margin: 0 6px 6px 0;
+    padding: 4px 12px;
+    border: 1px solid #e5ddf5;
+    border-radius: 999px;
+    background: #fff;
+    color: #5b4e75;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    -webkit-transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.traspaso-motivo:hover,
+.traspaso-motivo:focus {
+    border-color: #cdbdf5;
+    background: #faf7ff;
+    color: var(--purple);
+    outline: none;
+}
+
+.traspaso-motivo:focus-visible {
+    -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .25);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .25);
+}
+
+.traspaso-error {
+    display: block;
+    margin-top: 8px;
+    color: #d64545;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+/* Paso 2: RUT y botón de búsqueda en la misma línea */
+.traspaso-buscador {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+
+#modal_traspasar_mascota .traspaso-buscador .form-group {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0 8px 0 0;
+}
+
+.traspaso-buscador .btn {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin: 0;
+    padding-right: 16px;
+    padding-left: 16px;
+}
+
+#modal_traspasar_mascota .traspaso-aviso {
+    margin-top: 14px;
+}
+
+/* Variante amarilla para el aviso antes de confirmar */
+.traspaso-aviso.traspaso-aviso-alerta {
+    border-color: #f6e2b5;
+    border-left-color: #f0a92e;
+    background: #fff9ec;
+    color: #6b4b00;
+}
+
+.traspaso-aviso.traspaso-aviso-alerta .feather {
+    color: #e09a1f;
+}
+
+/* Tutor encontrado */
+.traspaso-tutor {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-top: 14px;
+    padding: 12px 14px;
+    border: 1px solid #cdeceb;
+    border-radius: 12px;
+    background: #f3fbfb;
+}
+
+.traspaso-tutor-avatar {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    margin-right: 12px;
+    border-radius: 50%;
+    background: #40abaf;
+    color: #fff;
+    font-size: 18px;
+}
+
+.traspaso-tutor-datos {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.traspaso-tutor-nombre {
+    display: block;
+    color: #272727;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.traspaso-tutor-rut {
+    display: block;
+    color: #778296;
+    font-size: 12.5px;
+}
+
+.traspaso-tutor-estado {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-left: 10px;
+    padding: 3px 10px;
+    border: 1px solid #cdeceb;
+    border-radius: 999px;
+    background: #fff;
+    color: #2f8f93;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+#traspaso_tutor_formulario .titulo-item {
+    margin-bottom: 22px;
+}
+
+/* Paso 3: tutor actual -> mascota -> nuevo tutor */
+.traspaso-cambio {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid #ebe4fb;
+    border-radius: 14px;
+    background: #f8f5ff;
+    background: -webkit-linear-gradient(315deg, #f6f1ff 0%, #eff9f9 100%);
+    background: linear-gradient(135deg, #f6f1ff 0%, #eff9f9 100%);
+}
+
+.traspaso-cambio-tutor {
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid #ece6f7;
+    border-radius: 12px;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+}
+
+.traspaso-cambio-nuevo {
+    border-color: #b8e2e3;
+    -webkit-box-shadow: 0 0 0 3px rgba(64, 171, 175, .12);
+    box-shadow: 0 0 0 3px rgba(64, 171, 175, .12);
+}
+
+.traspaso-etiqueta {
+    display: block;
+    margin-bottom: 2px;
+    color: #7a8397;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.traspaso-cambio-nuevo .traspaso-etiqueta {
+    color: #2f8f93;
+}
+
+.traspaso-cambio-nombre {
+    display: block;
+    color: #272727;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.traspaso-cambio-rut {
+    display: block;
+    color: #778296;
+    font-size: 12.5px;
+}
+
+.traspaso-cambio-mascota {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    max-width: 130px;
+    text-align: center;
+}
+
+.traspaso-cambio-mascota .traspaso-mascota-foto {
+    width: 72px;
+    height: 72px;
+}
+
+.traspaso-cambio-mascota .traspaso-mascota-nombre {
+    max-width: 100%;
+    margin-top: 6px;
+    overflow: hidden;
+    font-size: 14px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.traspaso-cambio-flecha {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    margin-top: 6px;
+    border-radius: 50%;
+    background: var(--purple);
+    color: #fff;
+    font-size: 15px;
+    -webkit-box-shadow: 0 0 0 4px rgba(111, 66, 193, .15);
+    box-shadow: 0 0 0 4px rgba(111, 66, 193, .15);
+}
+
+.traspaso-motivo-resumen {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border: 1px dashed #e0d6f2;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.traspaso-motivo-resumen p {
+    margin: 0;
+    color: #3d3d3d;
+    font-size: 13.5px;
+    line-height: 1.5;
+    white-space: pre-line;
+    word-break: break-word;
+}
+
+/* Documentos que acompañan a la mascota */
+.traspaso-documentos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.traspaso-documento {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #e7e9f0;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.traspaso-documento > div {
+    min-width: 0;
+}
+
+.traspaso-documento-icono {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background: #f4effe;
+    color: var(--purple);
+    font-size: 17px;
+}
+
+.traspaso-documento-total {
+    display: block;
+    color: #272727;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.traspaso-documento-nombre {
+    display: block;
+    color: #272727;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.traspaso-documento small {
+    display: block;
+    color: #778296;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+@media (max-width: 767.98px) {
+    .traspaso-documentos {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .traspaso-documento {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: 575.98px) {
+    #modal_traspasar_mascota .modal-body {
+        padding: 16px;
+    }
+
+    /* En celular el cambio de tutor se lee de arriba hacia abajo */
+    .traspaso-cambio {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .traspaso-cambio-mascota {
+        -webkit-box-orient: horizontal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        max-width: none;
+    }
+
+    .traspaso-cambio-mascota .traspaso-mascota-foto {
+        width: 48px;
+        height: 48px;
+    }
+
+    .traspaso-cambio-mascota .traspaso-mascota-nombre {
+        margin: 0 10px;
+    }
+
+    .traspaso-cambio-flecha {
+        margin-top: 0;
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+    .traspaso-tutor {
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+
+    .traspaso-tutor-estado {
+        margin: 8px 0 0 54px;
+    }
+}
+
+@media (max-width: 420px) {
+    #modal_traspasar_mascota .modal-body {
+        padding: 16px 12px;
+    }
+
+    .traspaso-buscador {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    #modal_traspasar_mascota .traspaso-buscador .form-group {
+        margin: 0 0 10px;
+    }
+
+    .traspaso-buscador .btn {
+        width: 100%;
+        min-height: 34px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .traspaso-motivo {
+        -webkit-transition: none;
+        transition: none;
+    }
+}
+
+/* ==========================================================================
+   Campos de fecha con calendario moderno (public/js/selector_fechas.js)
+   ========================================================================== */
+
+/* Campo visible: ícono de calendario a la derecha */
+input.fecha-moderna {
+    padding-right: 36px !important;
+    cursor: pointer;
+    caret-color: transparent;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236f42c1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 11px center;
+    background-size: 16px 16px;
+}
+
+/* El ícono mantiene su tamaño y su lugar en cualquier estado del campo:
+   .form-control:focus y las clases de validación cambian el background-size
+   y lo estiraban al centro del input */
+input.fecha-moderna,
+input.fecha-moderna:focus,
+input.fecha-moderna:hover,
+input.fecha-moderna.active,
+input.fecha-moderna.form-control,
+input.fecha-moderna.form-control:focus,
+input.fecha-moderna.is-valid,
+input.fecha-moderna.is-invalid,
+.was-validated input.fecha-moderna:valid,
+.was-validated input.fecha-moderna:invalid {
+    background-repeat: no-repeat !important;
+    background-position: right 11px center !important;
+    -webkit-background-size: 16px 16px !important;
+    background-size: 16px 16px !important;
+    -webkit-transition: border-color .15s ease, box-shadow .15s ease;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+input.fecha-moderna:focus,
+input.fecha-moderna.active {
+    border-color: #b9a3e3;
+    -webkit-box-shadow: 0 0 0 2px rgba(124, 77, 203, .12);
+    box-shadow: 0 0 0 2px rgba(124, 77, 203, .12);
+    outline: none;
+}
+
+input.fecha-moderna:disabled,
+input.fecha-moderna[readonly] {
+    cursor: not-allowed;
+    background-color: #f3f4f7;
+}
+
+/* Calendario */
+.flatpickr-calendar.calendario-moderno {
+    border: 1px solid #ece6f7;
+    border-radius: 16px;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    -webkit-box-shadow: 0 18px 40px rgba(38, 30, 70, .18);
+    box-shadow: 0 18px 40px rgba(38, 30, 70, .18);
+}
+
+.flatpickr-calendar.calendario-moderno.open {
+    z-index: 2100;
+}
+
+.flatpickr-calendar.calendario-moderno.arrowTop::before,
+.flatpickr-calendar.calendario-moderno.arrowTop::after {
+    border-bottom-color: #6f42c1;
+}
+
+.flatpickr-calendar.calendario-moderno.arrowBottom::after {
+    border-top-color: #fff;
+}
+
+/* Encabezado morado con mes y año */
+.flatpickr-calendar.calendario-moderno .flatpickr-months {
+    padding: 6px 4px;
+    background: #6f42c1;
+    border-radius: 15px 15px 0 0;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-month {
+    height: 38px;
+    color: #fff;
+    fill: #fff;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-prev-month,
+.flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-next-month {
+    top: 6px;
+    height: 38px;
+    padding: 11px 12px;
+    color: #fff;
+    fill: #fff;
+    border-radius: 10px;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-prev-month:hover,
+.flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-next-month:hover {
+    background: rgba(255, 255, 255, .15);
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-next-month:hover svg {
+    fill: #fff;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-prev-month.flatpickr-disabled,
+.flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-next-month.flatpickr-disabled {
+    display: none;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-current-month {
+    padding-top: 8px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-calendar.calendario-moderno .flatpickr-current-month input.cur-year {
+    font-family: inherit;
+    font-weight: 800;
+    color: #fff;
+    border-radius: 8px;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-current-month .flatpickr-monthDropdown-months:hover,
+.flatpickr-calendar.calendario-moderno .flatpickr-current-month .numInputWrapper:hover {
+    background: rgba(255, 255, 255, .15);
+}
+
+/* Las opciones del desplegable de meses se ven sobre fondo blanco */
+.flatpickr-calendar.calendario-moderno .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+    color: #272727;
+    background: #fff;
+}
+
+.flatpickr-calendar.calendario-moderno .numInputWrapper span.arrowUp::after {
+    border-bottom-color: #fff;
+}
+
+.flatpickr-calendar.calendario-moderno .numInputWrapper span.arrowDown::after {
+    border-top-color: #fff;
+}
+
+/* Días de la semana */
+.flatpickr-calendar.calendario-moderno .flatpickr-weekdays {
+    height: 34px;
+    margin-top: 6px;
+}
+
+.flatpickr-calendar.calendario-moderno span.flatpickr-weekday {
+    color: #8a93a6;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+/* Días */
+.flatpickr-calendar.calendario-moderno .flatpickr-days {
+    padding-bottom: 6px;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-day {
+    color: #272727;
+    font-weight: 600;
+    border-radius: 10px;
+    -webkit-transition: background-color .12s ease, color .12s ease;
+    transition: background-color .12s ease, color .12s ease;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-day:hover,
+.flatpickr-calendar.calendario-moderno .flatpickr-day:focus {
+    background: #f4effe;
+    border-color: #f4effe;
+    color: #6f42c1;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-day.today {
+    border-color: #b9a3e3;
+    color: #6f42c1;
+    font-weight: 800;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-day.today:hover {
+    background: #f4effe;
+    border-color: #6f42c1;
+    color: #6f42c1;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-day.selected,
+.flatpickr-calendar.calendario-moderno .flatpickr-day.selected:hover,
+.flatpickr-calendar.calendario-moderno .flatpickr-day.selected:focus,
+.flatpickr-calendar.calendario-moderno .flatpickr-day.startRange,
+.flatpickr-calendar.calendario-moderno .flatpickr-day.endRange {
+    background: #6f42c1;
+    border-color: #6f42c1;
+    color: #fff;
+    -webkit-box-shadow: 0 4px 10px rgba(111, 66, 193, .3);
+    box-shadow: 0 4px 10px rgba(111, 66, 193, .3);
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-day.inRange {
+    background: #f4effe;
+    border-color: #f4effe;
+    -webkit-box-shadow: -5px 0 0 #f4effe, 5px 0 0 #f4effe;
+    box-shadow: -5px 0 0 #f4effe, 5px 0 0 #f4effe;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-day.prevMonthDay,
+.flatpickr-calendar.calendario-moderno .flatpickr-day.nextMonthDay {
+    color: #c3c8d4;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-day.flatpickr-disabled,
+.flatpickr-calendar.calendario-moderno .flatpickr-day.flatpickr-disabled:hover {
+    background: transparent;
+    border-color: transparent;
+    color: #d5d9e2;
+    cursor: not-allowed;
+}
+
+/* Hora (campos con fecha y hora) */
+.flatpickr-calendar.calendario-moderno.hasTime .flatpickr-time {
+    border-top: 1px solid #f0edf6;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-time input,
+.flatpickr-calendar.calendario-moderno .flatpickr-time .flatpickr-time-separator,
+.flatpickr-calendar.calendario-moderno .flatpickr-time .flatpickr-am-pm {
+    color: #272727;
+    font-family: inherit;
+    font-weight: 700;
+}
+
+.flatpickr-calendar.calendario-moderno .flatpickr-time input:hover,
+.flatpickr-calendar.calendario-moderno .flatpickr-time input:focus,
+.flatpickr-calendar.calendario-moderno .flatpickr-time .flatpickr-am-pm:hover {
+    background: #f4effe;
+}
+
+/* En pantallas muy angostas el calendario ocupa casi todo el ancho */
+@media (max-width: 340px) {
+    .flatpickr-calendar.calendario-moderno {
+        max-width: calc(100vw - 16px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .flatpickr-calendar.calendario-moderno.animate.open {
+        -webkit-animation: none;
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   Módulo de Aranceles (public/js/aranceles.js)
+   Vista: resources/views/app/profesional/aranceles_veterinaria_general.blade.php
+   ========================================================================== */
+
+.arv-page {
+    background: #eef3f7;
+    min-height: 100vh;
+    padding-bottom: 45px;
+}
+
+.arv-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    background: linear-gradient(135deg, #147c70, #15b8b5);
+    color: #fff;
+    border-radius: 16px;
+    padding: 22px 26px;
+    box-shadow: 0 8px 25px rgba(20, 124, 112, .18);
+}
+
+.arv-hero-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.arv-hero-acciones .btn {
+    margin: 0;
+}
+
+.arv-card {
+    border: 0;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(29, 48, 71, .09);
+}
+
+.arv-card .card-header {
+    background: #fff;
+    border: 0;
+    border-bottom: 1px solid #e3eaef;
+    border-radius: 16px 16px 0 0;
+    padding: 14px 20px 0;
+}
+
+.arv-card .card-body {
+    padding: 20px;
+}
+
+/* Pestañas */
+.arv-tabs {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.arv-tab {
+    flex: 0 0 auto;
+    background: transparent;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    padding: 10px 16px 12px;
+    color: #5b6b7d;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.arv-tab:hover {
+    color: #147c70;
+}
+
+.arv-tab:focus {
+    outline: none;
+}
+
+.arv-tab:focus-visible {
+    outline: 2px solid #15b8b5;
+    outline-offset: -2px;
+}
+
+.arv-tab.active {
+    color: #147c70;
+    border-bottom-color: #15b8b5;
+}
+
+.arv-tab-contador {
+    display: inline-block;
+    min-width: 22px;
+    margin-left: 4px;
+    padding: 1px 7px;
+    border-radius: 20px;
+    background: #e9eff4;
+    color: #435268;
+    font-size: 11px;
+    text-align: center;
+}
+
+.arv-tab-contador:empty {
+    display: none;
+}
+
+.arv-tab.active .arv-tab-contador {
+    background: #d5f3f1;
+    color: #147c70;
+}
+
+/* Buscador, filtros y botón nuevo */
+.arv-toolbar {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 190px auto auto;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.arv-toolbar .btn {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.arv-buscador {
+    position: relative;
+}
+
+.arv-buscador i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8a97a6;
+    pointer-events: none;
+}
+
+.arv-buscador .form-control {
+    padding-left: 36px;
+}
+
+.arv-filtro-varia {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0;
+    padding: 8px 12px;
+    border: 1px solid #d7e2e8;
+    border-radius: 8px;
+    color: #435268;
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.arv-filtro-varia input {
+    margin: 0;
+}
+
+/* Tabla */
+.arv-tabla-contenedor {
+    border: 1px solid #e3eaef;
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.arv-tabla th {
+    background: #e9eff4;
+    color: #34455a;
+    border: 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.arv-tabla td {
+    vertical-align: middle;
+    border-top: 1px solid #edf1f5;
+}
+
+.arv-fila {
+    cursor: pointer;
+}
+
+.arv-fila:hover,
+.arv-fila:focus {
+    background: #f4fbfb;
+    outline: none;
+}
+
+.arv-fila-inactiva .arv-codigo,
+.arv-fila-inactiva .arv-celda-nombre,
+.arv-fila-inactiva .arv-precio {
+    opacity: .55;
+}
+
+.arv-codigo {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #eef3f7;
+    color: #34455a;
+    font-family: Consolas, Menlo, monospace;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.arv-celda-nombre {
+    font-weight: 600;
+    color: #272727;
+}
+
+.arv-precio {
+    font-weight: 700;
+    color: #147c70;
+    white-space: nowrap;
+}
+
+.arv-precio-varia {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    text-align: left;
+    cursor: pointer;
+}
+
+.arv-precio-varia:focus {
+    outline: none;
+}
+
+.arv-precio-varia:focus-visible {
+    outline: 2px solid #15b8b5;
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+.arv-etiqueta {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 20px;
+    background: #f1ebfa;
+    color: #6f42c1;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.arv-precio-varia:hover .arv-etiqueta {
+    background: #e4d8f6;
+}
+
+.arv-estado {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.arv-estado-activo {
+    background: #dcf5ea;
+    color: #0b7a4f;
+}
+
+.arv-estado-inactivo {
+    background: #eceff3;
+    color: #6b7785;
+}
+
+.arv-acciones {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.arv-acciones .btn {
+    margin: 0;
+}
+
+/* Detalle de precios por tamaño dentro de la lista */
+.arv-detalle > td {
+    background: #f7fafc;
+    padding: 0 !important;
+}
+
+.arv-detalle-caja {
+    padding: 12px 18px 14px;
+    overflow-x: auto;
+}
+
+.arv-detalle-tabla {
+    width: 100%;
+    max-width: 620px;
+    font-size: 13px;
+}
+
+.arv-detalle-tabla th {
+    padding: 4px 10px;
+    color: #6b7785;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.arv-detalle-tabla td {
+    padding: 5px 10px;
+    border-top: 1px solid #e3eaef;
+    white-space: nowrap;
+}
+
+.arv-detalle-inactivo td {
+    color: #9aa5b1;
+}
+
+/* Estados vacíos y de carga */
+.arv-vacio {
+    padding: 40px 16px;
+    text-align: center;
+    color: #7b8794;
+}
+
+.arv-vacio > i {
+    font-size: 30px;
+    color: #15b8b5;
+}
+
+.arv-vacio p {
+    margin: 10px 0 14px;
+    font-size: 15px;
+}
+
+.arv-resumen {
+    margin-top: 10px;
+    color: #7b8794;
+    font-size: 12px;
+}
+
+/* Modales */
+.arv-modal label {
+    color: #435268;
+    font-weight: 600;
+}
+
+.arv-seccion {
+    margin: 18px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #d7e2e8;
+    color: #129e9d;
+    font-weight: 700;
+}
+
+.arv-seccion:first-child {
+    margin-top: 0;
+}
+
+.arv-opcional {
+    color: #8a97a6;
+    font-weight: 400;
+}
+
+.arv-error {
+    display: block;
+    margin-top: 4px;
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.arv-error:empty {
+    display: none;
+}
+
+.arv-ayuda {
+    display: block;
+    margin-top: 6px;
+    color: #7b8794;
+}
+
+.arv-modal .input-group-text {
+    background: #e9eff4;
+    color: #34455a;
+}
+
+.arv-modal .arv-solo-lectura {
+    background: #f1f5f8;
+    color: #147c70;
+    font-weight: 700;
+}
+
+.arv-switch-linea,
+.arv-switch-campo {
+    display: flex;
+    align-items: center;
+}
+
+.arv-switch-linea > label,
+.arv-switch-campo > label {
+    margin-bottom: 0;
+}
+
+/* Alinea el interruptor con los campos que tienen etiqueta arriba */
+.arv-switch-campo {
+    min-height: 43px;
+    margin-top: 28px;
+}
+
+.arv-tamanos-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.arv-tamanos-acciones .btn {
+    margin: 0;
+}
+
+.arv-escalon {
+    width: auto;
+    flex-wrap: nowrap;
+}
+
+.arv-escalon .form-control {
+    width: 70px;
+    flex: 0 0 70px;
+}
+
+.arv-tabla-tamanos {
+    min-width: 600px;
+}
+
+.arv-tabla-tamanos th,
+.arv-tabla-config th {
+    background: #e9eff4;
+    color: #34455a;
+    border: 0;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 8px 10px;
+    white-space: nowrap;
+}
+
+.arv-tabla-tamanos td,
+.arv-tabla-config td {
+    vertical-align: middle;
+    padding: 7px 10px;
+}
+
+.arv-tabla-tamanos td small {
+    display: block;
+    color: #7b8794;
+}
+
+.arv-tabla-tamanos input[type=number] {
+    min-width: 110px;
+}
+
+.arv-tabla-tamanos input[type=checkbox] {
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+}
+
+.arv-tamano-final {
+    font-weight: 700;
+    color: #147c70;
+    white-space: nowrap;
+}
+
+.arv-tamano-inactivo td {
+    background: #f7f9fb;
+}
+
+.arv-tamano-inactivo strong,
+.arv-tamano-inactivo .arv-tamano-final {
+    color: #9aa5b1;
+    font-weight: 400;
+}
+
+.arv-tabla-config {
+    min-width: 420px;
+}
+
+.arv-tabla-config .btn {
+    margin: 0;
+}
+
+/* Tablet */
+@media (max-width: 1199px) {
+    .arv-toolbar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .arv-buscador {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Celular: cada fila de la tabla se muestra como una tarjeta */
+@media (max-width: 767px) {
+    .arv-hero {
+        padding: 18px;
+    }
+
+    .arv-card .card-header {
+        padding: 10px 10px 0;
+    }
+
+    .arv-card .card-body {
+        padding: 14px;
+    }
+
+    .arv-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .arv-filtro-varia {
+        white-space: normal;
+    }
+
+    .arv-tabla-contenedor {
+        border: 0;
+        border-radius: 0;
+        overflow: visible;
+    }
+
+    .arv-tabla thead {
+        display: none;
+    }
+
+    .arv-tabla,
+    .arv-tabla tbody,
+    .arv-tabla tr,
+    .arv-tabla td {
+        display: block;
+        width: 100%;
+    }
+
+    .arv-fila {
+        margin-bottom: 12px;
+        padding: 6px 14px;
+        border: 1px solid #e3eaef;
+        border-radius: 12px;
+        background: #fff;
+    }
+
+    .arv-fila td {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 0;
+        border-top: 1px solid #edf1f5;
+        text-align: right;
+    }
+
+    .arv-fila td:first-child {
+        border-top: 0;
+    }
+
+    .arv-fila td[data-label]:before {
+        content: attr(data-label);
+        flex: 0 0 auto;
+        color: #6b7785;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .arv-precio-varia {
+        align-items: flex-end;
+    }
+
+    .arv-acciones {
+        justify-content: flex-end !important;
+    }
+
+    .arv-detalle {
+        margin: -6px 0 12px;
+        border: 1px solid #e3eaef;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .arv-detalle-caja {
+        padding: 10px;
+    }
+
+    .arv-fila-mensaje td {
+        border: 0;
+    }
+
+    .arv-switch-campo {
+        min-height: 0;
+        margin-top: 0;
+    }
+
+    .arv-modal .modal-footer .btn {
+        flex: 1 1 0;
+    }
+}
+
+/* Aranceles: cuerpo del modal sin desborde horizontal y grupo "% por escalón" en una línea */
+.arv-modal .modal-body {
+    padding: 20px 24px;
+    overflow-x: hidden;
+}
+
+.arv-escalon,
+.arv-escalon .input-group-append {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    width: auto;
+}
+
+.arv-escalon .input-group-text,
+.arv-escalon .btn {
+    flex: 0 0 auto;
+    width: auto;
+    white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+    .arv-modal .modal-body {
+        padding: 16px;
+    }
+}
+
+/* Aranceles en celular: la tarjeta no se sale del ancho y los botones no se deforman */
+@media (max-width: 767px) {
+    .arv-tabla .arv-fila,
+    .arv-tabla .arv-detalle {
+        width: auto;
+        box-sizing: border-box;
+    }
+
+    .arv-fila td {
+        box-sizing: border-box;
+        word-break: break-word;
+    }
+
+    .arv-acciones .btn {
+        flex: 0 0 auto;
+    }
+}
+
+/* Aranceles en celular: el detalle por tamaño sigue siendo una tabla normal dentro de la tarjeta */
+@media (max-width: 767px) {
+    .arv-tabla .arv-detalle-tabla {
+        display: table;
+        width: 100%;
+    }
+
+    .arv-tabla .arv-detalle-tabla thead {
+        display: table-header-group;
+    }
+
+    .arv-tabla .arv-detalle-tabla tbody {
+        display: table-row-group;
+    }
+
+    .arv-tabla .arv-detalle-tabla tr {
+        display: table-row;
+    }
+
+    .arv-tabla .arv-detalle-tabla th,
+    .arv-tabla .arv-detalle-tabla td {
+        display: table-cell;
+        width: auto;
+        padding: 5px 8px;
+    }
+}
+
+/* Aranceles: etiquetas flotantes (floating-label-activo-sm) y campos pequeños en los modales */
+.arv-modal .form-group {
+    position: relative;
+    margin-bottom: 1.25rem;
+}
+
+.arv-modal .floating-label-activo-sm {
+    left: 10px !important;
+    background-color: #fff;
+    z-index: 4;
+}
+
+.arv-modal .row > [class*="col-"] > .form-group > .floating-label-activo-sm {
+    left: 10px !important;
+}
+
+.arv-modal .arv-seccion {
+    margin-bottom: 22px;
+}
+
+.arv-modal .arv-switch-campo {
+    min-height: 31px;
+    margin-top: 0;
+}
+
+.arv-modal .arv-switch-linea {
+    margin-bottom: 1.5rem;
+}
+
+.arv-modal .arv-switch-linea.mb-0 {
+    margin-bottom: 0;
+}
+
+.arv-buscador .form-control-sm {
+    padding-left: 34px;
+}
+
+.arv-modal .modal-body .row {
+    padding-top: 8px;
+}
+
+/* Aranceles: campos de precio con el signo $ gris dentro del input (sin input-group) */
+.arv-modal input.arv-monto,
+.arv-modal input.arv-monto.is-invalid {
+    padding-left: 22px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='16'%3E%3Ctext x='0' y='12.5' font-family='Arial, sans-serif' font-size='13' fill='%238a97a6'%3E%24%3C/text%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 9px center;
+    background-size: 10px 16px;
+}
+
+/* Tablas: el contenido de cada celda del cuerpo parte con mayúscula.
+   Para códigos (o cualquier dato que deba verse tal cual) se usa la clase
+   .codigo en la celda, en la fila o en la tabla. */
+tbody td:not(.codigo)::first-letter,
+tbody th:not(.codigo)::first-letter {
+    text-transform: uppercase;
+}
+
+table.codigo tbody td::first-letter,
+table.codigo tbody th::first-letter,
+tbody tr.codigo td::first-letter,
+tbody tr.codigo th::first-letter {
+    text-transform: none;
+}
+
+/* Encabezado de página: título a la izquierda y botones de acción a la derecha,
+   sobre el fondo de la página (sin card-header). */
+.row > .encabezado-pagina {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.encabezado-pagina h5 {
+    margin-bottom: 4px;
 }

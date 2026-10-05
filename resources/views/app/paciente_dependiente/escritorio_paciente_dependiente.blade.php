@@ -20,7 +20,7 @@
 
                             <h4 class="font-weight-bold text-white mb-0">Escritorio de <span class="text-capitalize">{{ $mascota->nombres ?? $mascota->nombre }}</span></h4>
                             <p class="text-white">Toda su información veterinaria en un solo lugar</p>
-                              <a class="d-inline-flex align-items-center justify-content-center mt-3 text-white" style="padding:6px;border:0;background:transparent;font-size:22px;line-height:1" href="{{ ROUTE('paciente.home') }}" title="Volver al inicio" aria-label="Volver al inicio"><i class="feather icon-home" aria-hidden="true"></i></a>
+                        
 
                         </div>
 
@@ -275,31 +275,35 @@
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4 mt-4 mt-md-0">
 
-                <div class="card subir text-center h-100">
+                <!-- Acceso a atención con profesional que no está en la plataforma -->
+                <div class="card subir h-100 tarjeta-atencion-externa">
 
-                    <img class="img-fluid card-img-top" src="{{ asset('images/iconos/profesional_no_inscrito.svg') }}"
+                    <a href="{{ ROUTE('paciente.acceso_pni') }}" class="card-body">
 
-                        alt="Flujo de caja">
+                        <span class="tarjeta-atencion-externa-etiqueta">Atención externa</span>
 
-                    <a href="{{ ROUTE('paciente.acceso_pni') }}" class="btn  btn-arrastre"
+                        <span class="tarjeta-atencion-externa-icono" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 2v2" />
+                                <path d="M5 2v2" />
+                                <path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1" />
+                                <path d="M8 15a6 6 0 0 0 12 0v-3" />
+                                <circle cx="20" cy="10" r="2" />
+                            </svg>
+                        </span>
 
-                        type="button">
+                        <h5 class="tarjeta-atencion-externa-titulo">Atención por profesional no registrado</h5>
 
-                        <div class="card-body">
+                        <p class="tarjeta-atencion-externa-texto">
+                            ¿Lo atendió un veterinario que no está en la plataforma? Los datos de la atención
+                            quedarán registrados en su Ficha Veterinaria Única.
+                        </p>
 
-                            <h5 style="font-size: 1.1rem;" class="card-title pt-2">Atención por profesional no registrado</h5>
-
-                            <p class="card-text">
-
-                                Haga click acá para ser atendido, los datos de su atención quedarán
-
-                                registrados en su Ficha Veterinaria Única
-
-                            </p>
-
-                        </div>
+                        <span class="tarjeta-atencion-externa-accion">
+                            Ingresar atención <i class="feather icon-arrow-right"></i>
+                        </span>
 
                     </a>
 

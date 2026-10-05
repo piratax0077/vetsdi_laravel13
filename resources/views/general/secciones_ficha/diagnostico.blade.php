@@ -78,11 +78,11 @@
 <div class="modal fade" id="modal_agendar_proximo_control" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="titulo_agendar_proximo_control" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width:900px;width:calc(100% - 30px);">
         <div class="modal-content">
-            <div class="modal-header bg-info py-2">
+            <div class="modal-header py-2 modal-header-purple">
                 <h5 class="modal-title" id="titulo_agendar_proximo_control">
                     <i class="feather icon-calendar mr-2"></i>Agendar próximo control
                 </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

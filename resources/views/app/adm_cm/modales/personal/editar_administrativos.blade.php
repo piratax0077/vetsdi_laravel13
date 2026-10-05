@@ -2,9 +2,9 @@
 <div id="modal_editar_personal_administrativo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_editar_personal_administrativo" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1 f-18" id="eco_gine"> Editar empleado Administrativo</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -313,7 +313,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
                 <button type="button" class="btn btn-info btn-sm" onclick="editar_nuevo_empleado_administrativo();"><i class="feather icon-save"></i> Guardar cambios</button>
                 {{--  <button type="button" class="btn btn-primary">Ver formulario (PDF)</button>  --}}
                 </form>

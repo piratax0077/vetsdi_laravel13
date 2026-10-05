@@ -287,7 +287,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#modal_ficha_cliente').modal('hide')">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#modal_ficha_cliente').modal('hide')">Cancelar</button>
             </div>
         </div>
     </div>
@@ -461,7 +461,7 @@
                     <i class="fas fa-arrow-left mr-1"></i> Anterior
                 </button>
                 <div class="ml-auto">
-                    <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark mr-2" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" id="btn_siguiente_transporte" onclick="pasoTransporte('siguiente')" disabled>
                         Siguiente <i class="fas fa-arrow-right ml-1"></i>
                     </button>
@@ -558,7 +558,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#modal_verPedido_cliente').modal('hide')">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#modal_verPedido_cliente').modal('hide')">Cancelar</button>
             </div>
         </div>
     </div>

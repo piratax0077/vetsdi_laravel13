@@ -211,7 +211,7 @@
 
                     <div class="modal-footer">
                         
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                         <button type="button" class="btn btn-info" onclick="guardar_trabajo_mayor_dental()">Guardar</button>
                     </div>
                 </form>

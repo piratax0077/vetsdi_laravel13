@@ -266,7 +266,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary btn-sm" onclick="transfer()">Guardar</button>
             </div>
         </div>

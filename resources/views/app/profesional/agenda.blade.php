@@ -408,26 +408,9 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--HEADER-->
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <div class="page-header-title">
-                                <h5 class="m-b-10">Mi agenda</h5>
-                            </div>
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('profesional.home') }}" data-toggle="tooltip"
-                                        data-placement="top" title="Volver a mi escritorio">
-                                        <i class="feather icon-home"></i>
-                                    </a>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page">
-                                    <span>{{ $lugar_atencion_nombre }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <h5 class="f-26 d-inline">Mi agenda</h5>
                 </div>
             </div>
             <!--CIERRE: HEADER-->
@@ -546,9 +529,9 @@
         aria-labelledby="agregar_paciente_asistente" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info pt-3 pb-2">
+                <div class="modal-header pt-3 pb-2 modal-header-purple">
                     <h5 class="modal-title text-center">Tomar horas</h5>
-                    <button id="cerrar_tomar_hora" type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button id="cerrar_tomar_hora" type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     {{--  BUSCADOR DE RUT  --}}
@@ -862,7 +845,7 @@
                                 <button type="button" class="btn btn-warning" id="btn_registrar_mascota_desde_tomar_hora" style="display:none;">
                                     <i class="feather icon-plus"></i> Agregar mascota no registrada
                                 </button>
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i
+                                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"><i
                                         class="feather icon-x"></i> Cancelar</button>
                                 <button type="button" onclick="agendar_hora();" class="btn btn-info"><i
                                         class="feather icon-check"></i> Agendar hora</button>
@@ -1068,8 +1051,8 @@
                                         <textarea class="form-control form-control-sm" id="reserva_mascota_nueva_enfermedad_cronica" rows="2"></textarea>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-danger" id="cerrar_registro_paciente_hora"
-                                    data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                                <button type="button" class="btn btn-outline-dark" id="cerrar_registro_paciente_hora"
+                                    data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
                                 <button type="button" id="guardar_reserva_paciente"
                                     onclick="agendar_hora_paciente_nuevo();" class="btn btn-info" disabled="disabled">
                                     <i class="feather icon-check"></i> Tomar Hora
@@ -1088,9 +1071,9 @@
         <div class="modal fade" id="modal_recepcion_bonos_api" tabindex="-1" aria-labelledby="modal_recepcion_bonos_apiLabel" aria-hidden="true">
             <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="modal_pago_consulta_title">Recepción de pago atención</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
@@ -1266,7 +1249,7 @@
             aria-labelledby="Recepcion de bonos" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-header bg-info">
+                    <div class="modal-header modal-header-purple">
                         <h5 class="modal-title" id="modal_pago_consulta_title">Recepción de pago de atención</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             onclick="$('#modal_recepcion_bonos_api').modal('hide');"><span
@@ -1453,7 +1436,7 @@
     <div id="modal_lector_qr_bono" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title"><i class="fas fa-qrcode"></i> Recibir QR de pago</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar"
                         onclick="detenerRecepcionQr()"><span aria-hidden="true">&times;</span></button>
@@ -1464,7 +1447,7 @@
                     <div id="mensaje_lector_qr_bono" class="small text-muted mt-2">Apunte la cámara al QR del bono.</div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="detenerRecepcionQr()">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="detenerRecepcionQr()">Cancelar</button>
                 </div>
             </div>
         </div>

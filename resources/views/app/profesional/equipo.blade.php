@@ -17,39 +17,18 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-<ul class="breadcrumb mt-2">
-                                <li class="breadcrumb-item"><a href="{{ route('profesional.home') }}" data-toggle="tooltip"
-                                        data-placement="top" title="Volver a mi escritorio"><i
-                                            class="feather icon-home"></i></a></li>
-                                <li class="breadcrumb-item">
-                                    <a href="#">Mantención de equipo</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-12 mb-2 encabezado-pagina">
+                    <h5 class="f-26 d-inline">Mantención de equipo</h5>
+                    <button type="button" class="btn btn-info btn-sm mb-1" onclick="sol_pabellon()">
+                        <i class="feather icon-plus"></i> Crear nuevo equipo
+                    </button>
                 </div>
             </div>
             <!--Cierre: Header-->
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
-                        <div class="card-header bg-info">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-12 align-botton">
-                                        <h4 class="text-white f-20 d-inline ml-4 mt-1 float-left">Equipos de trabajo</h4>
-                                        <button type="button"
-                                            class="btn btn-outline-light btn-sm d-inline float-right mr-4" onclick="sol_pabellon()">
-                                            <i class="feather icon-plus"></i> Crear nuevo equipo
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6 col-md-12">
@@ -105,7 +84,7 @@
     <div id="ingreso_sol_pab_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ingreso_sol_pab_modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title mt-1 f-18" id="eco_gine"> Registro de nuevo equipo quirúrgico - <script>
                             var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
@@ -184,7 +163,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -193,7 +172,7 @@
     <div id="equipo_pab_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="equipo_pab_modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title mt-1 f-18" id="eco_gine"> Ver equipo<script>
                             var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
@@ -206,7 +185,7 @@
                     <div class="row" id="lista_profesionales_equipo"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" onclick="$('#equipo_pab_modal').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$('#equipo_pab_modal').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
                 </div>
             </div>
         </div>
@@ -214,7 +193,7 @@
     <div id="equipo_pab_modal_editar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="equipo_pab_modal_editar" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title mt-1 f-18" id="title_modal"> Modificar equipo<script>
                             var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
@@ -265,7 +244,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal" ><i class="feather icon-x"></i> Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" ><i class="feather icon-x"></i> Cancelar</button>
                     <button type="button" class="btn btn-sm btn-info" onclick="modificar_equipo();"><i class="feather icon-save" ></i> Guardar</button>
                 </div>
             </div>

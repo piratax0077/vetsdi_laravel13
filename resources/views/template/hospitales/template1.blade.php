@@ -750,6 +750,7 @@
     --}}
     @yield('page-script')
     @yield('js-profesionales')
+@include('template.include.selector_fechas')
 </body>
 
 </html>

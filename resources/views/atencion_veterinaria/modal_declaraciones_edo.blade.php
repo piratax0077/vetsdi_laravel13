@@ -69,14 +69,14 @@
     aria-labelledby="modal_edo_titulo" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
                 <div>
                     <h5 class="modal-title mb-1" id="modal_edo_titulo">
                         <i class="feather icon-alert-triangle"></i> Enfermedades de Denuncia Obligatoria (EDO)
                     </h5>
                     <small>Registro veterinario de sospecha para notificación al SAG</small>
                 </div>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -203,7 +203,7 @@
                     </section>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                     <button type="button" class="btn btn-info" id="edo_btn_guardar">
                         <i class="feather icon-save"></i> Guardar
                     </button>

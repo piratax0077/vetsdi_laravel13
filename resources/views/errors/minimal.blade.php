@@ -42,7 +42,7 @@
                         <div class=" text-gray-900 uppercase tracking-wider f-20">
                             @yield('message')
                         </div>
-                        <a type="button" class="btn btn-primary mt-2" href="https://www.med-sdi.cl/Ingreso">Volver a la página principal</a>
+                        <a type="button" class="btn btn-primary mt-2" href="https://veterchile.cl/Ingreso">Volver a la página principal</a>
                 </div>
             </div>
         </div>

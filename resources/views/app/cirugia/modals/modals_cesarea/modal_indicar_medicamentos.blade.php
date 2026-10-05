@@ -6,7 +6,7 @@
 
     <div class="modal-dialog modal-dialog-centered modal-lg" data-backdrop="static" tabindex="-1" aria-labelledby="staticBackdropLabel" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1">Indicar Medicamento</h5>
                 <input type="hidden" id="id_profesional" value="{{ @Auth::user()->id }}">
                 <button type="button" class="close" aria-label="Close" onclick="cerrarModalMedicamentosFicha();">
@@ -177,7 +177,7 @@
                     <!--Cierre: Tabla-->
                 </div>
                 <div class="modal-footer">
-                    {{--  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>  --}}
+                    {{--  <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>  --}}
                     {{--  <button type="button" onclick="alerta_registro_medicamento();" data-dismiss="modal" class="btn btn-info">Generar Receta</button>  --}}
                     <button type="button" onclick="registrar_medicamentos_ficha();" data-dismiss="modal" class="btn btn-info">Generar Receta</button>
                 </div>

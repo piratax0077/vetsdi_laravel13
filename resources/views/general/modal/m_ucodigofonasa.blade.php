@@ -1,7 +1,7 @@
 <div id="modal_codfonasa" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_codfonasa" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Buscador de código FONASA</h5>
                 <button type="button" class="close"  data-bs-dismiss="modal" aria-label="Close"  onclick="cerrarfonasa();"><span aria-hidden="true">×</span></button>
             </div>

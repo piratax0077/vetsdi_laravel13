@@ -345,7 +345,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger"
+                                                    <button type="button" class="btn btn-outline-dark"
                                                         data-dismiss="modal">Cancelar</button>
                                                     <button type="button" class="btn btn-info">
                                                         Guardar</button>
@@ -453,7 +453,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger"
+                                                    <button type="button" class="btn btn-outline-dark"
                                                         data-dismiss="modal">Cancelar</button>
                                                     <button type="button" class="btn btn-info">
                                                         Guardar</button>
@@ -2802,7 +2802,7 @@
                                             </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                         <button type="submit" class="btn btn-info">
                                             Guardar</button>
                                     </div>
@@ -3406,7 +3406,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-info">Guardar</button>
                         </div>
                     </form>
@@ -3508,7 +3508,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer pt-2 pb-0">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                     <button type="submit" class="btn btn-info">Guardar</button>
                                 </div>
                             </form>
@@ -3555,7 +3555,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer pt-2 pb-0">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                     <button type="submit" class="btn btn-info">Guardar Respuesta</button>
                                 </div>
                             </form>
@@ -3642,7 +3642,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-info">Guardar</button>
                         </div>
                     </form>
@@ -3687,7 +3687,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-info">Guardar</button>
                 </div>
             </div>
@@ -3874,7 +3874,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-info">Guardar</button>
                     </div>
                 </form>
@@ -4262,7 +4262,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-info">Guardar</button>
                     </div>
                 </form>
@@ -4762,7 +4762,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-info">Guardar</button>
                 </div>
             </div>
@@ -5327,7 +5327,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-info">Guardar</button>
                 </div>
             </div>
@@ -5444,7 +5444,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success">Autoentificación</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-info">Guardar</button>
                 </div>
             </div>

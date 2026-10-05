@@ -402,9 +402,9 @@
 <div id="agregar_contacto_emergencia" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="agregar_contacto_emergencia" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-danger">
+            <div class="modal-header modal-header-purple">
                <h5 class="modal-title text-center">Agregar contacto de emergencia</h5>
-               <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+               <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -506,7 +506,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+               <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                <button type="submit" class="btn btn-info">Guardar Contacto</button>
             </div>
         </div>
@@ -517,9 +517,9 @@
 <div id="info_contacto_emergencia" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="info_contacto_emergencia" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                <h5 class="modal-title text-center">Información de contacto</h5>
-               <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+               <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -555,7 +555,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-               <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+               <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
             </div>
         </div>
    </div>
@@ -565,9 +565,9 @@
 <div id="editar_contacto_emergencia" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editar_contacto_emergencia" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-danger">
+            <div class="modal-header modal-header-purple">
                <h5 class="modal-title text-center">Editar contacto de emergencia</h5>
-               <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+               <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -662,7 +662,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+               <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                <button type="submit" class="btn btn-info">Guardar Cambios</button>
             </div>
         </div>

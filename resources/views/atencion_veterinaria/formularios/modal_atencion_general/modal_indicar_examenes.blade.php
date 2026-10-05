@@ -95,7 +95,7 @@
                 <button type="button" onclick="registro_examen_ficha();" data-dismiss="modal" class="btn btn-info">Generar Orden de Examen</button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#indicar_examenes').modal('hide')">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#indicar_examenes').modal('hide')">Cancelar</button>
                 <button type="button" data-dismiss="modal" class="btn btn-info" onclick="$('#indicar_examenes').modal('hide')">Guardar</button>
             </div>
         </div>

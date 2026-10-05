@@ -179,7 +179,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger mb-0" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark mb-0" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-info mb-0" >Agregar nueva sucursal</button>
                     </div>
                 </form>
@@ -267,7 +267,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-info" >Guardar Cambios</button>
                     </div>
                 </form>
@@ -330,7 +330,7 @@
                 </div>
             </div>
             <div class="modal-footer mb-0 pb-0">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-info" >Guardar Cambios</button>
             </div>
         </div>
@@ -400,7 +400,7 @@
                 </form>
             </div>
         <div class="modal-footer pt-2 mb-0 pb-0">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
             <button type="button" class="btn btn-info" >Guardar Cambios</button>
         </div>
      </div>
@@ -549,7 +549,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-info" >Guardar Cambios</button>
                 </form>
             </div>
@@ -624,7 +624,7 @@
                     </div>
                 </div>
                 <div class="modal-footer mb-0 pb-0">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-info" >Guardar Cambios</button>
                 </form>
             </div>

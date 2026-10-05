@@ -1,9 +1,9 @@
 <div id="liq_prof_institucion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="liq_prof_institucion" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1 f-18" id="title_">Registro Convenio Profesional:</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span onclick="cerrarModal()"; aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span onclick="cerrarModal()"; aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -383,7 +383,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" onclick="cerrarModal()"; data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" onclick="cerrarModal()"; data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info" onclick="registrar_convenio_profesional()">Guardar </button>
                 <button type="button" class="btn btn-primary" style="color: #3268bf;background-color: #cde0f6;border-color: #cde0f6;"><i class="feather icon-file"></i>Generar PDF</button>
             </div>

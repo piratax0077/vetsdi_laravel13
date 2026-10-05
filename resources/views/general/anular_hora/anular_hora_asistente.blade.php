@@ -98,7 +98,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-success" onclick="devolver_bono()">Confirmar devolución y anular hora</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>
         </form>

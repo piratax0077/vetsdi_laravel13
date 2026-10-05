@@ -478,6 +478,7 @@
         });
     </script>
     @yield('page-scripts')
+@include('template.include.selector_fechas')
 </body>
 
 </html>

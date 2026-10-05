@@ -217,7 +217,7 @@
                     </form>
                 </div>
                 <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">
                         <i class="feather icon-x"></i> Cancelar
                     </button>
                     <button type="button" class="btn btn-primary" onclick="guardar_nuevo_convenio()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">
@@ -324,7 +324,7 @@
                     </form>
                 </div>
                 <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">
                         <i class="feather icon-x"></i> Cancelar
                     </button>
                     <button type="button" class="btn btn-warning" onclick="actualizar_convenio()" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border: none; color: white;">

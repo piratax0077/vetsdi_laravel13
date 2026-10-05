@@ -80,7 +80,7 @@
                                         <label class="col-sm-12 col-form-label"></label>
                                         <div class="col-sm-12 d-flex justify-content-end">
                                             <button type="button" onclick="reset_form('form_antecedente_fractura')"
-                                                data-dismiss="modal" class="btn btn-danger mr-2">Cancelar</button>
+                                                data-dismiss="modal" class="btn btn-outline-dark mr-2">Cancelar</button>
                                             <input type="submit" class="btn btn-info" value="Guardar Incidente">
                                         </div>
                                     </div>

@@ -8,34 +8,16 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <div class="page-header-title">
-                                <h5 class="m-b-10 font-weight-bold">Mis mensajes</h5>
-                            </div>
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ route('profesional.home') }}" data-toggle="tooltip"
-                                        data-placement="top" title="Volver a mi escritorio"><i
-                                            class="feather icon-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('profesional.index_receta_online') }}"
-                                        data-toggle="tooltip" data-placement="top"
-                                        title="Volver a inicio de receta online">Receta Online</a></li>
-                                <li class="breadcrumb-item"><a href="#">Mis mensajes</a></li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-12 mb-2 encabezado-pagina">
+                    <h5 class="f-26 d-inline">Mis mensajes</h5>
+                    <button class="btn btn-info btn-sm mb-1" onclick="enviar_mensaje_a_profesional()"><i class="feather icon-mail"></i> Enviar mensaje</button>
                 </div>
             </div>
             <!--Cierre: Header-->
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <div class="card">
-                        <div class="card-header bg-light d-flex justify-content-between">
-                            <h4 class="text-c-blue f-22">Mis mensajes</h4>
-                            <button class="btn btn-primary btn-sm float-right" onclick="enviar_mensaje_a_profesional()"><i class="feather icon-mail"></i> Enviar mensaje</button>
-                        </div>
                         <div class="card-body">
                             <table id="historial_mensajes"
                                 class="display table table-striped dt-responsive nowrap table-xs"
@@ -94,7 +76,7 @@
     <div class="modal fade" id="modal_mensaje_a_profesional" tabindex="-1" role="dialog" aria-labelledby="modal_mensaje_a_profesional" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title">Mensaje</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_modal_mensaje()">
                         <span aria-hidden="true">&times;</span>
@@ -167,7 +149,7 @@
     <div class="modal fade" id="modal_mensaje_a_profesional_de_profesional" tabindex="-1" role="dialog" aria-labelledby="modal_mensaje_a_profesional_de_profesional" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title">Mensaje</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_modal_mensaje_de_profesional()">
                         <span aria-hidden="true">&times;</span>

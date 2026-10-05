@@ -1,12 +1,32 @@
 @extends('template.usuario.template')
+
+@section('page-styles')
+    <link rel="stylesheet" href="{{ asset('css/suscripcion_servicios.css') }}?t={{ time() }}">
+@endsection
+
 @section('content')
+    {{-- Pantalla de carga al entrar a la sección --}}
+    <div class="servicios-cargando" id="serviciosCargando" role="status" aria-live="polite">
+        <div class="servicios-cargando-contenido">
+            <div class="servicios-cargando-pin">
+                <span class="servicios-cargando-onda"></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                </svg>
+                <span class="servicios-cargando-sombra"></span>
+            </div>
+            <p>Buscando servicios cercanos</p>
+            <span class="servicios-cargando-puntos"><i></i><i></i><i></i></span>
+        </div>
+    </div>
+
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <div class="page-header">
                 <div class="page-block">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-<ul class="breadcrumb">
+                            <ul class="breadcrumb">
                                 <li class="breadcrumb-item">
                                     <a href="{{ ROUTE('paciente.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
                                         <i class="feather icon-home"></i>
@@ -20,12 +40,21 @@
             </div>
         </div>
 
-        <div class="row mt-n5 mx-1">
-            <div class="col-sm-12 mt-n5">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-row align-items-end">
-                            <div class="form-group col-md-3">
+        <div class="servicios-cercanos">
+            {{-- Buscador principal --}}
+            <div class="row mt-n5 mx-1">
+                <div class="col-sm-12 mt-n5">
+                    <section class="servicios-tarjeta servicios-buscador">
+                        <div class="servicios-cabecera">
+                            <span class="servicios-icono"><i class="fas fa-map-marked-alt"></i></span>
+                            <div class="servicios-cabecera-texto">
+                                <h4>Encuentra servicios para tu mascota</h4>
+                                <p>Centros veterinarios, farmacias, pet shops, peluquerías y hoteles adheridos cerca de ti.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-row servicios-filtros">
+                            <div class="form-group col-md-4">
                                 <label class="floating-label-activo-sm">Mascota</label>
                                 <select class="custom-select" id="selectedPet">
                                     <option value="">Seleccione mascota</option>
@@ -36,7 +65,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label class="floating-label-activo-sm">¿Qué buscas?</label>
                                 <select class="custom-select" id="searchCategory">
                                     <option value="">Seleccione servicio</option>
@@ -48,7 +77,7 @@
                                     <option value="hotel_mascotas">Hotel de mascotas</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label class="floating-label-activo-sm">Ubicación manual</label>
                                 <select class="custom-select" id="manualLocation">
                                     <option value="">Seleccione ciudad o comuna</option>
@@ -61,121 +90,186 @@
                                     <option value="las_condes">Las Condes</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-3">
-                                <div class="d-flex">
-                                    <button type="button" class="btn btn-info mr-2" id="btnBuscarServicio">
-                                        <i class="feather icon-search"></i> Buscar
-                                    </button>
-                                    <button type="button" class="btn btn-outline-info" id="btnUseGeolocation">
-                                        <i class="fas fa-map-marker-alt"></i> Mi ubicación
-                                    </button>
-                                </div>
+                        </div>
+
+                        <div class="servicios-buscador-pie">
+                            <div class="servicios-estado-ubicacion">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="locationStatus">Seleccione una ubicación manual o use la geolocalización automática para buscar servicios cercanos.</span>
+                            </div>
+                            <div class="servicios-acciones">
+                                <button type="button" class="btn btn-outline-info servicios-btn-secundario" id="btnUseGeolocation">
+                                    <i class="fas fa-location-arrow"></i> Mi ubicación
+                                </button>
+                                <button type="button" class="btn btn-info servicios-btn-principal" id="btnBuscarServicio">
+                                    <i class="feather icon-search"></i> Buscar
+                                </button>
                             </div>
                         </div>
-                        <div class="small text-muted" id="locationStatus">
-                            Seleccione una ubicación manual o use la geolocalización automática para buscar servicios cercanos.
-                        </div>
-                    </div>
+                    </section>
                 </div>
             </div>
-        </div>
 
-        @if(($comerciosIntegrados ?? collect())->isNotEmpty())
-        <div class="row mx-1 mb-3">
-            <div class="col-12"><div class="card"><div class="card-header bg-info text-white"><strong>Central de alimentos y farmacias integrada</strong></div><div class="card-body"><div class="row">
-                @foreach($comerciosIntegrados as $comercio)
-                    <div class="col-md-6 col-lg-4 mb-2"><div class="border rounded p-3 h-100"><strong>{{ $comercio->nombre }}</strong><br><span class="badge badge-info">{{ ucfirst(str_replace('_',' ',$comercio->tipo ?: 'tienda')) }}</span><br><small>{{ $comercio->direccion }} {{ $comercio->comuna }}</small><br><small>{{ $comercio->telefono }}</small></div></div>
-                @endforeach
-            </div><small class="text-muted">Los productos del comercio aparecen automáticamente al buscar alimentos o farmacia.</small></div></div></div>
-        </div>
-        @endif
-
-        <div class="row mx-1">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-white border-bottom">
-                        <h4 class="f-20 text-dark pt-2">Lugares adheridos a nuestra comunidad</h4>
-                        <div class="small text-muted" id="searchSummary">Aún no se ha realizado una búsqueda.</div>
-                    </div>
-                    <div class="card-body">
+            @if(($comerciosIntegrados ?? collect())->isNotEmpty())
+            <div class="row mx-1">
+                <div class="col-12">
+                    <section class="servicios-tarjeta">
+                        <div class="servicios-cabecera">
+                            <span class="servicios-icono"><i class="fas fa-store"></i></span>
+                            <div class="servicios-cabecera-texto">
+                                <h4>Central de alimentos y farmacias integrada</h4>
+                                <p>Los productos del comercio aparecen automáticamente al buscar alimentos o farmacia.</p>
+                            </div>
+                        </div>
                         <div class="row">
-                            <div class="col-lg-7">
-                                <div id="map" style="height: 540px;"></div>
+                            @foreach($comerciosIntegrados as $comercio)
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <article class="servicios-comercio">
+                                        <span class="servicios-comercio-avatar"><i class="fas fa-store-alt"></i></span>
+                                        <div class="servicios-comercio-datos">
+                                            <strong>{{ $comercio->nombre }}</strong>
+                                            <span class="servicios-chip">{{ ucfirst(str_replace('_',' ',$comercio->tipo ?: 'tienda')) }}</span>
+                                            @if($comercio->direccion || $comercio->comuna)
+                                                <small><i class="feather icon-map-pin"></i> {{ $comercio->direccion }} {{ $comercio->comuna }}</small>
+                                            @endif
+                                            @if($comercio->telefono)
+                                                <small><i class="feather icon-phone"></i> {{ $comercio->telefono }}</small>
+                                            @endif
+                                        </div>
+                                    </article>
+                                </div>
+                            @endforeach
+                        </div>
+                    </section>
+                </div>
+            </div>
+            @endif
+
+            {{-- Mapa y ficha del lugar --}}
+            <div class="row mx-1">
+                <div class="col-md-12">
+                    <section class="servicios-tarjeta">
+                        <div class="servicios-cabecera servicios-cabecera-mapa">
+                            <span class="servicios-icono"><i class="fas fa-paw"></i></span>
+                            <div class="servicios-cabecera-texto">
+                                <h4>Lugares adheridos a nuestra comunidad</h4>
+                                <p id="searchSummary">Aún no se ha realizado una búsqueda.</p>
+                            </div>
+                            <div class="servicios-leyenda">
+                                <span><i class="servicios-punto servicios-punto-usuario"></i> Tu ubicación</span>
+                                <span><i class="servicios-punto servicios-punto-lugar"></i> Establecimiento</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-7 mb-4 mb-lg-0">
+                                <div class="servicios-mapa">
+                                    <div id="map"></div>
+                                </div>
                             </div>
                             <div class="col-lg-5">
-                                <div class="card-lineal">
-                                    <div class="card-header-lineal">
-                                        <h4 class="f-18 text-dark">Información del lugar seleccionado</h4>
-                                    </div>
-                                    <div class="card-body-lineal p-4">
-                                        <div class="text-center mb-3">
-                                            <img class="wid-120 text-center mt-1 mb-3" id="selectedPlaceLogo" src="{{ asset('images/otroslogos/logo-local.png') }}">
+                                <aside class="servicios-ficha">
+                                    <div class="servicios-ficha-cabecera">
+                                        <div class="servicios-ficha-logo">
+                                            <img id="selectedPlaceLogo" src="{{ asset('images/otroslogos/logo-local.png') }}" alt="Logo del lugar">
                                         </div>
-                                        <div class="small text-muted text-uppercase">Institución</div>
-                                        <h5 class="f-18 text-dark mb-1" id="selectedInstitutionName">Sin selección</h5>
-                                        <div class="small text-muted text-uppercase mt-3">Sucursal</div>
-                                        <p class="mb-1 font-weight-bold" id="selectedPlaceName">Seleccione un marcador en el mapa</p>
-                                        <p class="mb-3" id="selectedPlaceAddress">La información del lugar aparecerá aquí.</p>
+                                        <div class="servicios-ficha-titulo">
+                                            <span class="servicios-etiqueta">Institución</span>
+                                            <h5 id="selectedInstitutionName">Sin selección</h5>
+                                        </div>
+                                    </div>
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="small text-muted text-uppercase">Tipo sede</div>
-                                                <p class="mb-3" id="selectedPlaceType">-</p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="small text-muted text-uppercase">Distancia aprox.</div>
-                                                <p class="mb-3" id="selectedPlaceDistance">-</p>
-                                            </div>
+                                    <div class="servicios-ficha-cuerpo">
+                                        <div class="servicios-bloque">
+                                            <span class="servicios-etiqueta">Sucursal</span>
+                                            <p class="servicios-sucursal" id="selectedPlaceName">Seleccione un marcador en el mapa</p>
+                                            <p class="servicios-direccion">
+                                                <i class="feather icon-map-pin"></i>
+                                                <span id="selectedPlaceAddress">La información del lugar aparecerá aquí.</span>
+                                            </p>
                                         </div>
 
-                                        <div class="small text-muted text-uppercase">Horario</div>
-                                        <div id="selectedPlaceSchedule" class="mb-3">-</div>
+                                        <div class="servicios-metricas">
+                                            <div class="servicios-metrica">
+                                                <i class="feather icon-home"></i>
+                                                <div>
+                                                    <span class="servicios-etiqueta">Tipo sede</span>
+                                                    <p id="selectedPlaceType">-</p>
+                                                </div>
+                                            </div>
+                                            <div class="servicios-metrica">
+                                                <i class="feather icon-navigation"></i>
+                                                <div>
+                                                    <span class="servicios-etiqueta">Distancia aprox.</span>
+                                                    <p id="selectedPlaceDistance">-</p>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                        <div class="small text-muted text-uppercase">Servicios disponibles</div>
-                                        <div id="selectedPlaceServices" class="mb-3">-</div>
+                                        <div class="servicios-bloque">
+                                            <span class="servicios-etiqueta"><i class="feather icon-clock"></i> Horario</span>
+                                            <div id="selectedPlaceSchedule" class="servicios-horario">-</div>
+                                        </div>
 
-                                        <div class="small text-muted text-uppercase">Sucursales de la institución</div>
-                                        <div id="selectedInstitutionBranches" class="mb-0">-</div>
+                                        <div class="servicios-bloque">
+                                            <span class="servicios-etiqueta"><i class="feather icon-grid"></i> Servicios disponibles</span>
+                                            <div id="selectedPlaceServices" class="servicios-chips">-</div>
+                                        </div>
+
+                                        <div class="servicios-bloque mb-0">
+                                            <span class="servicios-etiqueta"><i class="feather icon-git-branch"></i> Sucursales de la institución</span>
+                                            <div id="selectedInstitutionBranches" class="servicios-sucursales">-</div>
+                                        </div>
                                     </div>
-                                </div>
+                                </aside>
                             </div>
                         </div>
 
-                        <div class="row mt-4">
-                            <div class="col-md-12">
-                                <div class="border rounded p-3 bg-light">
-                                    <div class="small text-muted text-uppercase mb-2">Resultados de la búsqueda</div>
-                                    <div id="searchResultsList" class="text-muted">Sin resultados todavía.</div>
+                        <div class="servicios-resultados">
+                            <div class="servicios-subtitulo">
+                                <i class="feather icon-list"></i> Resultados de la búsqueda
+                            </div>
+                            <div id="searchResultsList" class="text-muted">
+                                <div class="servicios-vacio">
+                                    <i class="fas fa-search-location"></i>
+                                    <p>Sin resultados todavía.</p>
+                                    <small>Elige un servicio y una ubicación, luego presiona Buscar.</small>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
             </div>
-        </div>
 
-        <div class="row mx-1 d-none" id="subscriptionSection">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="alert alert-info pt-1 pb-0" role="alert">
-                            <p class="p-13 pb-0 mb-1" id="subscriptionHelpText">Indique los productos que desea registrar para recibir de forma mensual.</p>
+            {{-- Suscripción mensual (alimentos, farmacia y pet shop) --}}
+            <div class="row mx-1 d-none" id="subscriptionSection">
+                <div class="col-md-12">
+                    <section class="servicios-tarjeta">
+                        <div class="servicios-cabecera">
+                            <span class="servicios-icono"><i class="fas fa-sync-alt"></i></span>
+                            <div class="servicios-cabecera-texto">
+                                <h4>Suscripción mensual</h4>
+                                <p id="subscriptionHelpText">Indique los productos que desea registrar para recibir de forma mensual.</p>
+                            </div>
                         </div>
-                        <div class="form-row mb-0">
+
+                        <div class="form-row servicios-formulario">
                             <div class="form-group col-md-12 d-none" id="prescriptionSelectorGroup">
-                                <label class="floating-label-activo-sm mb-0">Relacionar con receta veterinaria</label>
-                                <select class="form-control form-control-sm" id="prescriptionSelector">
-                                    <option value="">Agregar otro producto de farmacia</option>
-                                </select>
-                                <small class="text-muted">Sólo se muestran recetas de la mascota seleccionada.</small>
-                                <div class="custom-control custom-checkbox mt-2 d-none" id="attachPrescriptionGroup">
-                                    <input type="checkbox" class="custom-control-input" id="attachPrescription" checked>
-                                    <label class="custom-control-label" for="attachPrescription">Adjuntar esta receta al pedido</label>
+                                <div class="servicios-receta">
+                                    <label class="floating-label-activo-sm mb-0">Relacionar con receta veterinaria</label>
+                                    <select class="form-control form-control-sm" id="prescriptionSelector">
+                                        <option value="">Agregar otro producto de farmacia</option>
+                                    </select>
+                                    <small class="text-muted"><i class="feather icon-info"></i> Sólo se muestran recetas de la mascota seleccionada.</small>
+                                    <div class="custom-control custom-checkbox mt-2 d-none" id="attachPrescriptionGroup">
+                                        <input type="checkbox" class="custom-control-input" id="attachPrescription" checked>
+                                        <label class="custom-control-label" for="attachPrescription">Adjuntar esta receta al pedido</label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-md-9">
                                 <label class="floating-label-activo-sm mb-0" id="subscriptionItemLabel">Producto</label>
-                                <input type="text" id="subscriptionItemName" class="form-control form-control-sm ui-autocomplete-input" autocomplete="off">
+                                <input type="text" id="subscriptionItemName" class="form-control form-control-sm ui-autocomplete-input" autocomplete="off" placeholder="Escribe al menos 2 letras para buscar">
                                 <input type="hidden" id="subscriptionItemId" value="">
                                 <input type="hidden" id="subscriptionPrescriptionId" value="">
                             </div>
@@ -190,102 +284,108 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
-                                <label></label>
-                                <button type="button" class="btn btn-info btn-sm btn-block mt-n3" id="addSubscriptionItem">
-                                    <i class="feather icon-check"></i> Añadir
+                                <button type="button" class="btn btn-info btn-block servicios-btn-principal" id="addSubscriptionItem">
+                                    <i class="feather icon-plus"></i> Añadir
                                 </button>
                             </div>
                         </div>
 
-                        <table class="table table-sm table-bordered">
-                            <thead>
-                                <tr class="text-center">
-                                    <th class="align-middle">Producto</th>
-                                    <th class="align-middle">Cantidad</th>
-                                    <th class="align-middle">Presentación</th>
-                                    <th class="align-middle">Quitar</th>
-                                </tr>
-                            </thead>
-                            <tbody id="subscriptionItemsTable">
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted">No hay elementos agregados.</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive servicios-tabla">
+                            <table class="table table-sm mb-0">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th class="align-middle">Producto</th>
+                                        <th class="align-middle">Cantidad</th>
+                                        <th class="align-middle">Presentación</th>
+                                        <th class="align-middle">Quitar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="subscriptionItemsTable">
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">No hay elementos agregados.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                        <div class="text-right">
-                            <button type="button" class="btn btn-info" id="saveSubscription">
+                        <div class="servicios-pie">
+                            <button type="button" class="btn btn-info servicios-btn-principal" id="saveSubscription">
                                 <i class="feather icon-save"></i> Guardar suscripción
                             </button>
                         </div>
-                    </div>
+                    </section>
                 </div>
             </div>
-        </div>
 
-        <div class="row mx-1 d-none" id="bookingSection">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="alert alert-warning mb-4" role="alert">
-                            <p class="mb-0" id="bookingMessage">Este servicio se gestiona mediante sistema de reserva.</p>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Sucursal</label>
-                                    <select class="form-control form-control-sm" id="bookingBranch">
-                                        <option value="">Seleccione</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Fecha</label>
-                                    <input type="date" class="form-control form-control-sm" id="bookingDate">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Horario disponible</label>
-                                    <select class="form-control form-control-sm" id="bookingTime">
-                                        <option value="">Seleccione</option>
-                                        <option value="10:00">10:00</option>
-                                        <option value="11:00">11:00</option>
-                                        <option value="12:00">12:00</option>
-                                        <option value="15:00">15:00</option>
-                                        <option value="16:00">16:00</option>
-                                    </select>
-                                </div>
+            {{-- Reserva (peluquería y hotel) --}}
+            <div class="row mx-1 d-none" id="bookingSection">
+                <div class="col-md-12">
+                    <section class="servicios-tarjeta">
+                        <div class="servicios-cabecera">
+                            <span class="servicios-icono servicios-icono-reserva"><i class="feather icon-calendar"></i></span>
+                            <div class="servicios-cabecera-texto">
+                                <h4>Reserva de hora</h4>
+                                <p id="bookingMessage">Este servicio se gestiona mediante sistema de reserva.</p>
                             </div>
                         </div>
-                        <div class="text-right">
-                            <button type="button" class="btn btn-info btn-sm px-4" id="submitBooking">Solicitar reserva</button>
+                        <div class="form-row servicios-formulario">
+                            <div class="form-group col-md-4">
+                                <label class="floating-label-activo-sm">Sucursal</label>
+                                <select class="form-control form-control-sm" id="bookingBranch">
+                                    <option value="">Seleccione</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="floating-label-activo-sm">Fecha</label>
+                                <input type="date" class="form-control form-control-sm" id="bookingDate">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="floating-label-activo-sm">Horario disponible</label>
+                                <select class="form-control form-control-sm" id="bookingTime">
+                                    <option value="">Seleccione</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                        <div class="servicios-pie">
+                            <button type="button" class="btn btn-info servicios-btn-principal" id="submitBooking">
+                                <i class="feather icon-check-circle"></i> Solicitar reserva
+                            </button>
+                        </div>
+                    </section>
                 </div>
             </div>
-        </div>
 
-        <div class="row mx-1 d-none" id="pendingSection">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body py-5">
-                        <p class="text-muted mb-0">Centro Veterinario quedará sin formulario inferior por ahora. Puede buscar lugares en el mapa y revisar la información del establecimiento.</p>
-                    </div>
+            {{-- Centro veterinario, sin formulario por ahora --}}
+            <div class="row mx-1 d-none" id="pendingSection">
+                <div class="col-md-12">
+                    <section class="servicios-tarjeta">
+                        <div class="servicios-vacio">
+                            <i class="fas fa-clinic-medical"></i>
+                            <p>Centro Veterinario</p>
+                            <small>Centro Veterinario quedará sin formulario inferior por ahora. Puede buscar lugares en el mapa y revisar la información del establecimiento.</small>
+                        </div>
+                    </section>
                 </div>
             </div>
-        </div>
 
-        <div class="row mx-1 mt-3" id="historySection">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-white border-bottom">
-                        <h4 class="f-18 text-dark pt-2">Solicitudes guardadas para la mascota</h4>
-                    </div>
-                    <div class="card-body">
+            {{-- Historial de solicitudes --}}
+            <div class="row mx-1" id="historySection">
+                <div class="col-md-12">
+                    <section class="servicios-tarjeta">
+                        <div class="servicios-cabecera">
+                            <span class="servicios-icono"><i class="feather icon-clock"></i></span>
+                            <div class="servicios-cabecera-texto">
+                                <h4>Solicitudes guardadas para la mascota</h4>
+                                <p>Suscripciones y reservas registradas según el servicio seleccionado.</p>
+                            </div>
+                        </div>
                         <div id="serviceHistoryContent" class="text-muted">Seleccione una mascota y un servicio para ver registros.</div>
-                    </div>
+                    </section>
                 </div>
             </div>
         </div>
@@ -1306,6 +1406,21 @@
         $('#submitBooking').on('click', function () {
             saveBooking();
         });
+    });
+</script>
+<script>
+    // Se quita la pantalla de carga cuando termina de cargar la página
+    window.addEventListener('load', function () {
+        var cargando = document.getElementById('serviciosCargando');
+        if (!cargando) {
+            return;
+        }
+        cargando.classList.add('oculto');
+        setTimeout(function () {
+            if (cargando.parentNode) {
+                cargando.parentNode.removeChild(cargando);
+            }
+        }, 600);
     });
 </script>
 @endsection

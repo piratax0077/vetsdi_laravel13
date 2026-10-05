@@ -2,7 +2,7 @@
 @section('page-styles')
 <style>
     #modalMascotaDetalle .modal-content{border:0;border-radius:18px;overflow:hidden;box-shadow:0 24px 65px rgba(10,45,58,.3)}
-    #modalMascotaDetalle .modal-header{padding:16px 22px;background:linear-gradient(120deg,#147a70,#12b8b6)!important;border:0}
+    #modalMascotaDetalle .modal-header{padding:16px 22px;background:#6f42c1!important;border:0}
     #modalMascotaDetalle .modal-title{font-weight:700;letter-spacing:.1px}
     #modalMascotaDetalle .close{color:#fff;opacity:1;text-shadow:none;background:rgba(0,74,76,.38);border-radius:50%;width:38px;height:38px;padding:0;margin:-2px -4px -2px auto;display:flex;align-items:center;justify-content:center}
     .pet-detail-hero{display:flex;align-items:center;padding:22px;background:linear-gradient(135deg,#eefafa,#f8fbfd);border-bottom:1px solid #e1ecef}
@@ -21,7 +21,7 @@
     .pet-gallery-list{display:flex;flex-wrap:wrap;gap:10px}
     .pet-gallery-thumb{width:88px;height:88px;object-fit:cover;border-radius:12px;border:2px solid #fff;box-shadow:0 3px 12px rgba(30,55,75,.16);cursor:pointer}
     #modalResumenContacto .modal-content{border:0;border-radius:18px;overflow:hidden;box-shadow:0 24px 65px rgba(10,45,58,.3)}
-    #modalResumenContacto .modal-header{align-items:center;padding:16px 20px;background:linear-gradient(120deg,#147a70,#12b8b6)!important;border:0}
+    #modalResumenContacto .modal-header{align-items:center;padding:16px 20px;background:#6f42c1!important;border:0}
     #modalResumenContacto .modal-title{font-weight:700;letter-spacing:.1px}
     #modalResumenContacto .close{display:flex;align-items:center;justify-content:center;width:38px;height:38px;padding:0;margin:-3px -3px -3px auto;color:#fff;opacity:1;text-shadow:none;background:rgba(0,69,72,.4);border-radius:50%}
     #modalResumenContacto .modal-body{padding:0;background:#f5f9fa}
@@ -52,40 +52,21 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
 
-            <!--Header-->
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-<ul class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('profesional.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio"><i class="feather icon-home"></i></a>
-                                </li>
-                                <li class="breadcrumb-item"><a href="#">Mascotas y responsables</a></li>
-                            </ul>
-                        </div>
+            <div class="row">
+                <div class="col-md-12 mb-2 encabezado-pagina">
+                    <div>
+                        <h5 class="f-26 d-block mb-0">Mascotas y tutores</h5>
+                    </div>
+                    <div class="ml-auto">
+                        <button class="btn btn-purple" onclick="enviar_difusion_pacientes()"><i class="feather icon-mail"></i> Enviar mensaje de difusión</button>
                     </div>
                 </div>
             </div>
-            <!--Cierre: Header-->
 
             <!-- Tabla mis clientes -->
             <!--Este formulario muestra los pacientes que alguna vez atendió el profesional (relacion: id_paciente/id_profesional)-->
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header text-center bg-info">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12 col-lg mb-1 align-botton d-flex justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <a href="{{ route('profesional.home') }}" class="btn btn-light btn-sm mr-2" title="Volver al escritorio">
-                                        <i class="feather icon-arrow-left"></i> Volver
-                                    </a>
-                                    <h4 class="text-white f-20 mb-0">Mascotas y responsables</h4>
-                                </div>
-                                <button class="btn btn-purple btn-sm d-inline float-md-right" onclick="enviar_difusion_pacientes()"><i class="feather icon-mail"></i> Enviar mensaje de difusión</button>
-                            </div>
-                        </div>
-                    </div>
                     <div class="card-body">
                         <form method="GET" action="{{ route('profesional.pacientes') }}" class="mb-4">
                             <div class="form-row align-items-end">
@@ -118,14 +99,14 @@
                             </div>
                         </form>
                         <div class="row">
-                            <div class="col-md-12 mb-3">
+                            <div class="col-md-12 mb-2">
                                 <div class="table-responsive">
                                     <table id="" class="display table table-striped dt-responsive nowrap table-xs"
                                         style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Mascota</th>
-                                                <th>Responsable</th>
+                                                <th>Tutor</th>
                                                 <th>Especie</th>
                                                 <th>Raza</th>
                                                 <th>Convenio</th>
@@ -232,9 +213,9 @@
     <div class="modal fade" id="modalResumenContacto" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title"><i class="feather icon-user-check mr-2"></i>Resumen y contacto</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="contact-summary-hero">
@@ -264,7 +245,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light px-4" data-dismiss="modal"><i class="feather icon-x mr-1"></i>Cerrar</button>
+                    <button type="button" class="btn btn-light px-4" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x mr-1"></i>Cerrar</button>
                 </div>
             </div>
         </div>
@@ -275,9 +256,9 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info text-center">
+                <div class="modal-header text-center modal-header-purple">
                     <h4 class="modal-title w-100 font-weight-bold">Nuevo Correo</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body mx-3">
                     <div class="md-form mb-5">
@@ -326,9 +307,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title mt-1" id="modalMascotaDetalleLabel">Información de la mascota</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body p-0">
@@ -361,9 +342,9 @@
     <div class="modal fade" id="modalPresupuestos" tabindex="-1" role="dialog" aria-labelledby="modalPresupuestosLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title">Historial de Presupuestos</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -393,7 +374,7 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h4 class="modal-title w-100 font-weight-bold">Emitir documentos</h4>
                     <button type="button" class="close" onclick="cerrar_cta_banco_m();" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

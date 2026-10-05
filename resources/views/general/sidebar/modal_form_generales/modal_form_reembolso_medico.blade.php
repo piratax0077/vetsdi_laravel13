@@ -2,9 +2,9 @@
     aria-labelledby="modal_reembolso_medico" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Reembolso de gastos médicos</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                         aria-hidden="true">×</span></button>
             </div>
 
@@ -490,7 +490,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="reset_form('form_gastos_medicos')" class="btn btn-danger"
+                    <button type="button" onclick="reset_form('form_gastos_medicos')" class="btn btn-outline-dark"
                         data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-info">Guardar</button>
                 </div>

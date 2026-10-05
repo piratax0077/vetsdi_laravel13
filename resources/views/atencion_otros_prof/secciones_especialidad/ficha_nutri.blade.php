@@ -2476,7 +2476,7 @@
                        <hr>
 
                                <div class="col-12 text-center">
-                                    <!--<button type="button" class="btn btn-danger close_agenda_agregar_paciente" onclick="$('#agenda_agregar_paciente').modal('hide');" data-dismiss="modal">Cancelar</button>-->
+                                    <!--<button type="button" class="btn btn-outline-dark close_agenda_agregar_paciente" onclick="$('#agenda_agregar_paciente').modal('hide');" data-dismiss="modal">Cancelar</button>-->
                                     <button type="button" onclick="agendar_hora();" class="btn btn-info"><i class="feather icon-check"></i> Agendar Hora</button>
                                 </div>
 
@@ -2636,7 +2636,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger close_agenda_agregar_paciente"  onclick="$('#agenda_agregar_paciente').modal('hide');">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark close_agenda_agregar_paciente"  onclick="$('#agenda_agregar_paciente').modal('hide');">Cancelar</button>
                             <button type="button" id="guardar_reserva_paciente" onclick="agendar_hora_paciente_nuevo();" class="btn btn-info">
                                 Tomar Hora
                             </button>
@@ -2714,7 +2714,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+        <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
         <button type="button" class="btn btn-info" onclick="confirmar_agregar_sesiones()"><i class="feather icon-save"></i> Guardar</button>
       </div>
 

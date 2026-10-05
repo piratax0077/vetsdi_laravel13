@@ -3,7 +3,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content ">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="modal_pago_consulta_title">Detalle Rendición</h5>
                 <button type="button" class="close cerrar_modal_detalle_rendicion" data-dismiss="modal" aria-label="Close" onclick="$('#detalle_rendicion').modal('hide')"><span>×</span></button>
 

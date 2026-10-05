@@ -233,7 +233,7 @@
                 <p>¿Esta seguro que desea continuar?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-danger" onclick="menuContinuar();">Continuar</button>
             </div>
         </div>

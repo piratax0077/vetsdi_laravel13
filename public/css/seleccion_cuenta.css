@@ -1,0 +1,251 @@
+/*
+ * Pantalla "Elige tu perfil".
+ *
+ * Es la primera pantalla despues de ingresar cuando la persona tiene mas de un
+ * rol. Las tarjetas se adaptan solas al ancho disponible, asi funciona igual en
+ * un celular que en un monitor grande.
+ */
+
+:root {
+    --seleccion-morado: #6f42c1;
+    --seleccion-morado-oscuro: #4b2a8a;
+    --seleccion-titulo: #272727;
+    --seleccion-texto: #7b8190;
+}
+
+.pagina-seleccion {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0 0 60px;
+    background: linear-gradient(135deg, #eef2fb 0%, #f3f5fc 38%, #e6f4f6 100%);
+    background-attachment: fixed;
+    font-family: "Nunito", "Nunito Sans", sans-serif;
+    color: var(--seleccion-titulo);
+}
+
+/* Barra discreta con la salida de sesion */
+.seleccion-barra {
+    display: flex;
+    justify-content: flex-end;
+    padding: 14px 24px 0;
+}
+
+.seleccion-salir {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 1px solid rgba(111, 66, 193, 0.35);
+    border-radius: 50px;
+    background: transparent;
+    color: var(--seleccion-morado);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease;
+}
+
+.seleccion-salir:hover,
+.seleccion-salir:focus-visible {
+    background: var(--seleccion-morado);
+    color: #fff;
+}
+
+.seleccion-contenido {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 10px 24px 0;
+}
+
+/* Logo de la plataforma */
+.seleccion-marca {
+    text-align: center;
+}
+
+.seleccion-logo {
+    display: block;
+    width: 190px;
+    height: auto;
+    margin: 20px auto 26px;
+}
+
+.seleccion-aviso {
+    max-width: 680px;
+    margin: 0 auto 20px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: #fff4e0;
+    color: #8a5a00;
+    font-size: 14px;
+    text-align: center;
+}
+
+.seleccion-saludo {
+    max-width: 860px;
+    margin: 0 auto 40px;
+    font-size: 19px;
+    line-height: 1.55;
+    text-align: center;
+    color: var(--seleccion-morado);
+}
+
+.seleccion-saludo strong {
+    font-weight: 800;
+}
+
+/* Grilla de tarjetas */
+.seleccion-grilla {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.seleccion-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 270px;
+    padding: 28px 26px 24px;
+    /* El borde existe siempre, transparente, para que al pasar el mouse no salte */
+    border: 1px solid transparent;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(39, 61, 110, 0.08);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.seleccion-card:hover,
+.seleccion-card:focus-within {
+    transform: translateY(-4px);
+    border-color: var(--seleccion-morado);
+    box-shadow: 0 16px 36px rgba(39, 61, 110, 0.14);
+}
+
+/* La tarjeta activa queda marcada al volver desde un escritorio */
+.seleccion-card.es-activa {
+    border-color: var(--seleccion-morado);
+    box-shadow: 0 0 0 1px var(--seleccion-morado), 0 10px 28px rgba(39, 61, 110, 0.1);
+}
+
+.seleccion-card-icono {
+    width: 46px;
+    height: 46px;
+    margin-bottom: 22px;
+}
+
+.seleccion-card-titulo {
+    margin: 0 0 10px;
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--seleccion-titulo);
+}
+
+.seleccion-card-texto {
+    margin: 0 0 20px;
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--seleccion-texto);
+}
+
+/* Aviso para el rol al que todavia le falta el perfil */
+.seleccion-etiqueta {
+    display: inline-block;
+    align-self: flex-start;
+    margin-bottom: 10px;
+    padding: 3px 10px;
+    border-radius: 50px;
+    background: #fff1d6;
+    color: #9a6400;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.seleccion-card-enlace {
+    margin-top: auto;
+    color: var(--seleccion-morado);
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* Toda la tarjeta queda clickeable sin agregar otro elemento enfocable */
+.seleccion-card-enlace::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+}
+
+.seleccion-card-enlace:hover {
+    color: var(--seleccion-morado-oscuro);
+    text-decoration: none;
+}
+
+.seleccion-card-enlace:focus-visible {
+    outline: 2px solid var(--seleccion-morado);
+    outline-offset: 4px;
+}
+
+/* Texto solo para lectores de pantalla */
+.seleccion-card .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+    .seleccion-logo {
+        width: 160px;
+    }
+
+    .seleccion-saludo {
+        font-size: 17px;
+        margin-bottom: 30px;
+    }
+}
+
+/* Celular */
+@media (max-width: 575px) {
+    .seleccion-contenido {
+        padding: 10px 16px 0;
+    }
+
+    .seleccion-grilla {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .seleccion-card {
+        min-height: 0;
+        padding: 22px 20px;
+    }
+
+    .seleccion-saludo {
+        font-size: 16px;
+    }
+}
+
+/* Quien prefiere menos movimiento no ve el desplazamiento al pasar el mouse */
+@media (prefers-reduced-motion: reduce) {
+    .seleccion-card {
+        transition: border-color .2s ease;
+    }
+
+    .seleccion-card:hover,
+    .seleccion-card:focus-within {
+        transform: none;
+    }
+}

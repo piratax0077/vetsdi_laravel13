@@ -3206,9 +3206,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Desasociar Funcionario</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -3363,9 +3363,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Agregar Empleado Nuevo</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -3561,9 +3561,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Añadir o editar Administradores del centro</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -3615,9 +3615,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Añadir servicio</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -3735,9 +3735,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Añadir especialidad</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -3790,9 +3790,9 @@
         aria-labelledby="editar_especialidad" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Editar especialidad</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -3845,7 +3845,7 @@
     <div id="modal_editar_horario_atencion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editar_horario_atencion" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Configurar horario de atenci&oacute;n</h5>
                 <button type="button" id="cerrar_modal_editar_horario_atencion" class="close text-white" onclick="" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
@@ -4031,9 +4031,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Editar área</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -4106,9 +4106,9 @@
         aria-labelledby="a_otra_especialidad" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Añadir otra especialidad</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -4146,9 +4146,9 @@
         aria-labelledby="asociar_profesionales_area" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Asociar profesionales a área</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -4188,9 +4188,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Laboratorios</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -4312,9 +4312,9 @@
         aria-labelledby="editar_laboratorio" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Editar laboratorio</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -4437,9 +4437,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Editar box</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">

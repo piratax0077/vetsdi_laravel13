@@ -33,7 +33,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="reset_form('form_uso_personal')" class="btn btn-danger"
+                <button type="button" onclick="reset_form('form_uso_personal')" class="btn btn-outline-dark"
                     data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-info">Guardar</button>
             </div>

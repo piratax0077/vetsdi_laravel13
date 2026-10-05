@@ -104,7 +104,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" onclick="sol_rx_bronco();" data-bs-dismiss="modal" >Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" onclick="sol_rx_bronco();" data-bs-dismiss="modal" >Cancelar</button>
                 <button type="submit" class="btn btn-info btn-sm"> Guardar</button>
             </div>
         </div>

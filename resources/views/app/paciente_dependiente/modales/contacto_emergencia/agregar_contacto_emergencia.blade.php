@@ -139,7 +139,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" onclick="cerrar_agregar_contacto_emergencia();" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="cerrar_agregar_contacto_emergencia();" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                         <button type="button" onclick="registrar_contacto_emergencia();" class="btn btn-info">Guardar Contacto</button>
                     </div>
                 </form>

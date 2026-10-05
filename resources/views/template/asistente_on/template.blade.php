@@ -61,5 +61,6 @@
 
 
     @yield('page-script')
+@include('template.include.selector_fechas')
 </body>
 </html>

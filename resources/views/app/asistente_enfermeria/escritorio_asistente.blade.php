@@ -291,7 +291,7 @@
     <div class="modal fade" id="modal_reservar_hora_enf" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h6 class="modal-title f-18"><i class="feather icon-calendar"></i> Agendar Hora Médica</h6>
                     <button type="button" class="close text-white" onclick="$('#modal_reservar_hora_enf').modal('hide');">
                         <span aria-hidden="true">&times;</span>
@@ -357,7 +357,7 @@
     <div id="modal_confirmar_cita_enf" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info pt-3 pb-2">
+                <div class="modal-header pt-3 pb-2 modal-header-purple">
                     <h5 class="modal-title text-center">Confirmar Cita</h5>
                     <button type="button" class="close text-white" onclick="$('#modal_confirmar_cita_enf').modal('hide');">
                         <span aria-hidden="true">&times;</span>

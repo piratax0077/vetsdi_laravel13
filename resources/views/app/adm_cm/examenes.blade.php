@@ -101,11 +101,11 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">
                         Agregar nuevo examen
                     </h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -187,7 +187,7 @@
                             </div>
                         </div>
                         <div class="modal-footer mb-0 pb-0">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                             <button type="submit" class="btn btn-info">Agregar examen</button>
                         </div>
                     </form>
@@ -201,11 +201,11 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">
                         Agregar nuevo examen
                     </h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -287,7 +287,7 @@
                             </div>
                         </div>
                         <div class="modal-footer mb-0 pb-0">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                             <button type="submit" class="btn btn-info">Guardar cambios</button>
                         </div>
                     </form>
@@ -301,9 +301,9 @@
         aria-labelledby="sucursal_toma_muestras" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Lugares para toma de muestras</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -346,8 +346,8 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-info" data-dismiss="modal">Guardar cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
+                    <button type="submit" class="btn btn-info" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Guardar cambios</button>
                     </form>
                 </div>
             </div>
@@ -360,9 +360,9 @@
         aria-labelledby="sucursal_analisis_muestra" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Lugares para analizar muestra</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -405,8 +405,8 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-info" data-dismiss="modal">Guardar cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
+                    <button type="submit" class="btn btn-info" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Guardar cambios</button>
                     </form>
                 </div>
             </div>

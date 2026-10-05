@@ -53,30 +53,28 @@
                 @endif
                 @if (Auth::user())
 
+                    @php
+                        // El botón lleva al escritorio que el profesional tiene activo en la sesión
+                        $rolEscritorioActivo = session(\App\Http\Controllers\SeleccionCuentaController::SESION_ROL_ACTIVO);
+                        $rutaEscritorioActivo = \App\Services\CuentasService::esTipoValido($rolEscritorioActivo)
+                            ? \App\Services\CuentasService::RUTAS_ESCRITORIO[$rolEscritorioActivo]
+                            : 'profesional.home';
+
+                        if (! \Route::has($rutaEscritorioActivo)) {
+                            $rutaEscritorioActivo = 'profesional.home';
+                        }
+                    @endphp
+
+                    <li class="d-flex align-items-center mr-2">
+                        <a href="{{ route($rutaEscritorioActivo) }}" class="btn btn-outline-header btn-xxs d-inline-flex align-items-center" style="white-space:nowrap;" data-toggle="tooltip" data-placement="bottom" title="Volver a mi escritorio">
+                            <i class="feather icon-home mr-1"></i>Mi escritorio
+                        </a>
+                    </li>
+
                     @include('template.partials.workspace_switcher')
 
                     <li>
-                        <div class="dropdown drp-user">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="feather icon-user icono-header"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right profile-notification">
-                                <div class="pro-head font-weight-bold f-16 py-2">
-                                    <span>{{  @Auth::user()->name }}</span>
-                                </div>
-                                {{--  <ul></ul>  --}}
-                                <ul class="pro-body">
-                                    <li>
-                                        <form action="{{ ROUTE('logout') }}" method="post" id="closeSession">
-                                            @csrf
-                                            <a data-toggle="tooltip" title="Cerrar sesión" class="text-danger font-weight-bold" href="javascript:{}" onclick="document.getElementById('closeSession').submit();">
-                                                <i class="feather icon-power"></i> Cerrar sesión
-                                            </a>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        @include('template.partials.perfil_encabezado', ['tipoPerfil' => 'profesional'])
                     </li>
 
                 @endif

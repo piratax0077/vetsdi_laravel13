@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" onclick="cerrarsol_examen_cd();" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" onclick="cerrarsol_examen_cd();" data-dismiss="modal">Cancelar</button>
                 <button type="button" data-dismiss="modal" class="btn btn-info">Guardar</button>
             </div>
         </div>

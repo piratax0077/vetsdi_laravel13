@@ -2,7 +2,7 @@
 <div class="modal fade" id="modal_agendar_lista_espera" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_agendar_lista_espera" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1">Agendar de Lista de Espera</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_modal_agendar();"><span aria-hidden="true">×</span></button>
             </div>
@@ -59,7 +59,7 @@
 <div id="le_agenda_agregar_paciente" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="agregar_paciente_asistente" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info pt-3 pb-2">
+            <div class="modal-header pt-3 pb-2 modal-header-purple">
                 <h5 class="modal-title text-center">Tomar hora</h5>
                 <button id="le_cerrar_tomar_hora" type="button" class="close text-white close_le_agenda_agregar_paciente" onclick="$('#le_agenda_agregar_paciente').modal('hide');" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
@@ -138,7 +138,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger close_le_agenda_agregar_paciente" onclick="$('#le_agenda_agregar_paciente').modal('hide');" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark close_le_agenda_agregar_paciente" onclick="$('#le_agenda_agregar_paciente').modal('hide');" data-dismiss="modal">Cancelar</button>
                             <button type="button" onclick="agendar_hora_lista_espera();" class="btn btn-info">Agendar Hora</button>
 
                         </div>

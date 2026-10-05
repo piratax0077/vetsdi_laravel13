@@ -202,6 +202,7 @@
     @yield('js-lic')
     @yield('page-script-btn-autorizacion')
 
+@include('template.include.selector_fechas')
 </body>
 
 </html>

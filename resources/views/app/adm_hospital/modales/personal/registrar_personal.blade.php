@@ -302,7 +302,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm mx-auto" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm mx-auto" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info btn-sm mx-auto" onclick="registrar_nuevo_empleado();">Añadir al Equipo</button>
                 {{--  <button type="button" class="btn btn-primary">Ver formulario (PDF)</button>  --}}
                 </form>

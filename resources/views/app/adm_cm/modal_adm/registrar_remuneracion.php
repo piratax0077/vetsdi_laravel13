@@ -1,9 +1,9 @@
 <div id="registrar_remuneracion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="registrar_remuneracion" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-white text-center">Registrar remuneracion</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">ï¿½</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -40,36 +40,36 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group fill">
-                            <label class="floating-label">Correo Electrónico</label>
+                            <label class="floating-label">Correo Electrï¿½nico</label>
                             <input class="form-control form-control-sm" name="email" id="email" type="email" >
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group fill">
-                            <label class="floating-label">Teléfono</label>
+                            <label class="floating-label">Telï¿½fono</label>
                             <input class="form-control form-control-sm" name="telefono" id="telefono" type="number" >
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group fill">
-                            <label class="floating-label">Teléfono (opcional)</label>
+                            <label class="floating-label">Telï¿½fono (opcional)</label>
                             <input class="form-control form-control-sm" name="telefono" id="telefono" type="number" >
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="floating-label">Dirección / Calle / Número</label>
+                            <label class="floating-label">Direcciï¿½n / Calle / Nï¿½mero</label>
                             <input class="form-control form-control-sm" name="direccion_asist" id="direccion_asist" type="text">
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group fill">
-                            <label class="floating-label">Región</label>
+                            <label class="floating-label">Regiï¿½n</label>
                             <select class="form-control form-control-sm">
-                                <option>Seleccione una opción</option>
-                                <option value="AL">Viña del Mar</option>
+                                <option>Seleccione una opciï¿½n</option>
+                                <option value="AL">Viï¿½a del Mar</option>
                                 <option value="LA">La Calera</option>
-                                <option value="VA">Valparaíso</option>
+                                <option value="VA">Valparaï¿½so</option>
                             </select>
                         </div>
                     </div>
@@ -77,10 +77,10 @@
                         <div class="form-group fill">
                             <label class="floating-label">Comuna</label>
                             <select class="form-control form-control-sm">
-                                <option>Seleccione una opción</option>
-                                <option value="AL">Viña del Mar</option>
+                                <option>Seleccione una opciï¿½n</option>
+                                <option value="AL">Viï¿½a del Mar</option>
                                 <option value="LA">La Calera</option>
-                                <option value="VA">Valparaíso</option>
+                                <option value="VA">Valparaï¿½so</option>
                             </select>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                         <div class="form-group fill">
                             <label class="floating-label">Rol</label>
                             <select class="form-control form-control-sm">
-                                <option>Seleccione opción</option>
+                                <option>Seleccione opciï¿½n</option>
                                 <option>Venta de Bonos</option>
                                 <option>Agenda</option>
                             </select>
@@ -110,13 +110,13 @@
                                 <input type="checkbox" id="correo-1" checked="">
                                 <label for="correo-1" class="cr"></label>
                             </div>
-                            <label>Notificar por correo electrónico</label>
+                            <label>Notificar por correo electrï¿½nico</label>
                         </div>
                     </div>
                 </div>
             </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                 <button type="submit" class="btn btn-info">Registrar </button>
                 </form>
             </div>

@@ -4,14 +4,11 @@
     <div class="pcoded-content">
         <!--Header-->
   
-        <div class="page-header">
+        <div class="page-header encabezado-escritorio">
             <div class="page-block">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <div class="page-header-title">
-                            <h4 class="m-b-10  text-white">Hola, {{ $paciente->nombres }}</h4>
-                            <p class="text-white">Bienvenido/a a tu escritorio de cuidado de mascotas</p>
-                        </div>
+                        @include('template.include.saludo_escritorio', ['nombre_saludo' => $paciente->nombres, 'texto_saludo' => 'Bienvenido/a a tu escritorio de cuidado de mascotas'])
                         <!--<ul class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="{{ ROUTE('paciente.home') }}">Bienvenido/a a tu escritorio de cuidado de mascotas</a>
@@ -22,16 +19,8 @@
             </div>
         </div>
         <!--Cierre: Header-->
-        @if(($mascotasIncompletas ?? collect())->isNotEmpty())
-        <div class="alert alert-warning d-flex justify-content-between align-items-center"><div><strong>Completa la ficha de {{ $mascotasIncompletas->pluck('nombre')->join(', ') }}</strong><br><small>La inscripción rápida desde Veterfarma guardó los datos esenciales. Faltan antecedentes para completar su ficha.</small></div><a href="{{ route('paciente.mis_mascotas') }}" class="btn btn-warning btn-sm">Completar ahora</a></div>
-        @endif
-        <section class="card mb-4" id="vouchers-veterfarma-card">
-            <div class="card-header" style="background:#08776f;color:#fff"><h5 class="mb-0 text-white" style="color:#fff!important"><i class="feather icon-tag mr-2" style="color:#fff!important"></i>Beneficios para tu mascota</h5></div>
-            <div class="card-body"><p class="text-muted mb-2">Vouchers disponibles en Veterfarma y Alimentos.</p><div class="row" id="vouchers-veterfarma-list"><div class="col-12 text-muted">Consultando beneficios…</div></div></div>
-        </section>
-        <!--Botones superiores-->
 
-        <div class="row m-b-30 mt-n2">
+        <div class="form-row m-b-30 mt-n2">
             <div class="col-md-12">
                 <div class="card-deck">
                     <div class="card subir">
@@ -118,6 +107,10 @@
                 </div>
             </div>
         </div>
+        @if(($mascotasIncompletas ?? collect())->isNotEmpty())
+        <div class="alert alert-warning d-flex justify-content-between align-items-center"><div><strong>Completa la ficha de {{ $mascotasIncompletas->pluck('nombre')->join(', ') }}</strong><br><small>La inscripción rápida desde Veterfarma guardó los datos esenciales. Faltan antecedentes para completar su ficha.</small></div><a href="{{ route('paciente.mis_mascotas') }}" class="btn btn-warning btn-sm">Completar ahora</a></div>
+        @endif
+
         <!--PROX CITAS DE MASCOTAS-->
         <div class="row m-b-30" >
             <div class="col-md-8">
@@ -212,19 +205,34 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card subir text-center h-100" >
-                        <a href="{{ ROUTE('paciente.mascotas.promociones_especiales') }}" >
-                            <img class="img-fluid card-img-top" src="{{ asset('images/iconos/publicidad.png') }}"
-                            alt="Flujo de caja"style="height:290px;">    
-                        </a>
-                        <div class="card-body"> 
-                            <a href="{{ ROUTE('paciente.mascotas.promociones_generales') }}" class="btn  btn-arrastre">
-                                <h5 style="font-size: 1.1rem;" class="card-title pt-2">Visitar Espacios Promocionales</h5>
-                              
-                            </a>
+            <div class="col-md-4 columna-beneficios">
+                <!-- Vouchers de Veterfarma y Alimentos, se cargan por ajax -->
+                <section class="card beneficios-mascota" id="vouchers-veterfarma-card">
+                    <div class="card-header beneficios-mascota-encabezado">
+                        <span class="beneficios-mascota-icono"><i class="feather icon-tag"></i></span>
+                        <div class="beneficios-mascota-titulos">
+                            <h5>Beneficios para tu mascota</h5>
+                            <small>Veterfarma y Alimentos</small>
                         </div>
-                   
+                        <span class="beneficios-mascota-contador d-none" id="vouchers-veterfarma-contador"></span>
+                        <button type="button" class="beneficios-mascota-recargar" id="vouchers-veterfarma-recargar" title="Actualizar beneficios" aria-label="Actualizar beneficios">
+                            <i class="feather icon-refresh-cw"></i>
+                        </button>
+                    </div>
+                    <div class="beneficios-mascota-cuerpo" id="vouchers-veterfarma-list" aria-live="polite">
+                        <div class="beneficios-mascota-cargando" aria-label="Consultando beneficios"><span></span><span></span></div>
+                    </div>
+                </section>
+
+                <div class="card subir text-center espacio-promocional">
+                    <a href="{{ ROUTE('paciente.mascotas.promociones_especiales') }}" class="espacio-promocional-imagen">
+                        <img src="{{ asset('images/iconos/publicidad.png') }}" alt="Espacios promocionales">
+                    </a>
+                    <div class="card-body espacio-promocional-pie">
+                        <a href="{{ ROUTE('paciente.mascotas.promociones_generales') }}" class="btn btn-arrastre">
+                            <h5 class="card-title mb-0">Visitar Espacios Promocionales</h5>
+                        </a>
+                    </div>
                 </div>
             </div>
             <!-- AGREGAR GEOLOCALIZACION -->
@@ -532,49 +540,161 @@
             });
         }
 
+        // Nombre visible de cada tienda que responde el endpoint de vouchers
+        const nombresTiendasBeneficios = { veterfarma: 'Veterfarma', alimentos: 'Alimentos' };
+
+        function tiendasBeneficiosCaidas(data) {
+            return Object.keys(data.fuentes || {})
+                .filter(function(fuente) { return !data.fuentes[fuente]; })
+                .map(function(fuente) { return nombresTiendasBeneficios[fuente] || fuente; });
+        }
+
+        // ["Veterfarma", "Alimentos"] -> "Veterfarma y Alimentos"
+        function unirNombresTiendas(nombres) {
+            return nombres.length > 1
+                ? nombres.slice(0, -1).join(', ') + ' y ' + nombres[nombres.length - 1]
+                : nombres.join('');
+        }
+
+        // "2026-10-31" -> "31 oct" (con año solo si no es el actual)
+        function formatearFechaVoucher(fecha) {
+            const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+            const partes = String(fecha).slice(0, 10).split('-');
+            const mes = meses[parseInt(partes[1], 10) - 1];
+            if (partes.length !== 3 || !mes) return String(fecha);
+
+            const anio = parseInt(partes[0], 10) !== new Date().getFullYear() ? ' ' + partes[0] : '';
+            return parseInt(partes[2], 10) + ' ' + mes + anio;
+        }
+
+        function estadoBeneficios(icono, titulo, detalle, tipo, conReintento) {
+            const textos = $('<div>').append(
+                $('<strong>', {text: titulo}),
+                $('<small>', {text: detalle})
+            );
+
+            if (conReintento) {
+                textos.append($('<button>', {type: 'button', class: 'beneficios-mascota-reintentar', text: 'Reintentar'}));
+            }
+
+            return $('<div>', {class: 'beneficios-mascota-estado ' + (tipo || '')}).append(
+                $('<span>', {class: 'beneficios-mascota-estado-icono'}).append($('<i>', {class: 'feather ' + icono})),
+                textos
+            );
+        }
+
+        function cuponVoucher(voucher) {
+            const valor = voucher.discount_type === 'percent'
+                ? voucher.value + '%'
+                : '$' + Number(voucher.value).toLocaleString('es-CL');
+            const destino = voucher.scope === 'product' && voucher.product
+                ? 'En ' + voucher.product.name
+                : voucher.scope === 'client' ? 'Beneficio exclusivo para ti' : 'En toda tu compra';
+            const vence = voucher.expires_at ? 'Vence ' + formatearFechaVoucher(voucher.expires_at) : 'Sin vencimiento';
+
+            const acciones = $('<div>', {class: 'cupon-beneficio-fila'});
+            if (voucher.code) {
+                acciones.append(
+                    $('<button>', {type: 'button', class: 'cupon-beneficio-codigo', title: 'Copiar código', 'data-codigo': voucher.code}).append(
+                        $('<span>', {text: voucher.code}),
+                        $('<i>', {class: 'feather icon-copy'})
+                    )
+                );
+            }
+            acciones.append(
+                $('<a>', {class: 'cupon-beneficio-usar', href: voucher.store_url || '#', target: '_blank', rel: 'noopener', text: 'Usar'})
+                    .append($('<i>', {class: 'feather icon-arrow-right'}))
+            );
+
+            return $('<article>', {class: 'cupon-beneficio ' + (voucher.provider === 'alimentos' ? 'alimentos' : 'veterfarma')}).append(
+                $('<div>', {class: 'cupon-beneficio-valor'}).append(
+                    $('<strong>', {text: valor, class: valor.length > 7 ? 'largo' : ''}),
+                    $('<small>', {text: 'dcto.'})
+                ),
+                $('<div>', {class: 'cupon-beneficio-detalle'}).append(
+                    $('<div>', {class: 'cupon-beneficio-fila'}).append(
+                        $('<span>', {class: 'cupon-beneficio-tienda', text: voucher.provider_name || 'Beneficio'}),
+                        $('<span>', {class: 'cupon-beneficio-vence', text: vence})
+                    ),
+                    $('<p>', {class: 'cupon-beneficio-destino', text: destino, title: destino}),
+                    acciones
+                )
+            );
+        }
+
+        function copiarCodigoVoucher(boton) {
+            const codigo = String(boton.attr('data-codigo') || '');
+            const avisar = function() {
+                boton.addClass('copiado').attr('title', 'Código copiado').find('i').attr('class', 'feather icon-check');
+                setTimeout(function() {
+                    boton.removeClass('copiado').attr('title', 'Copiar código').find('i').attr('class', 'feather icon-copy');
+                }, 1800);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codigo).then(avisar);
+                return;
+            }
+
+            // Respaldo para sitios en http o navegadores antiguos
+            const campo = $('<textarea>', {readonly: true, css: {position: 'fixed', top: 0, left: '-9999px'}}).val(codigo).appendTo('body');
+            campo[0].select();
+            try {
+                if (document.execCommand('copy')) avisar();
+            } catch (e) {}
+            campo.remove();
+        }
+
         function cargarVouchersVeterfarma() {
+            const contenedor = $('#vouchers-veterfarma-list');
+            const contador = $('#vouchers-veterfarma-contador').addClass('d-none');
+            const recargar = $('#vouchers-veterfarma-recargar').prop('disabled', true).addClass('girando');
+
+            contenedor.html('<div class="beneficios-mascota-cargando" aria-label="Consultando beneficios"><span></span><span></span></div>');
+
             $.get(@json(route('paciente.vouchers_veterfarma'))).done(function(data) {
-                const contenedor = $('#vouchers-veterfarma-list').empty();
                 const vouchers = Array.isArray(data.vouchers) ? data.vouchers : [];
+                const caidas = tiendasBeneficiosCaidas(data);
+                contenedor.empty();
+
                 if (!vouchers.length) {
-                    const caidas = Object.keys(data.fuentes || {}).filter(function(fuente) { return !data.fuentes[fuente]; });
-                    const mensaje = caidas.length
-                        ? 'No hay vouchers disponibles. No se pudo consultar: ' + caidas.join(', ') + '.'
-                        : 'No tienes vouchers vigentes por el momento.';
-                    contenedor.append($('<div>', {class:'col-12 ' + (caidas.length ? 'text-warning' : 'text-muted'), text:mensaje}));
+                    contenedor.append(caidas.length
+                        ? estadoBeneficios('icon-wifi-off', 'No pudimos consultar ' + unirNombresTiendas(caidas) + '.', 'Intenta de nuevo en unos minutos.', 'aviso', true)
+                        : estadoBeneficios('icon-gift', 'Sin vouchers vigentes por ahora.', 'Cuando tengas uno nuevo aparecerá aquí.'));
                     return;
                 }
+
+                contador
+                    .text(vouchers.length)
+                    .attr('title', vouchers.length === 1 ? '1 voucher disponible' : vouchers.length + ' vouchers disponibles')
+                    .removeClass('d-none');
+
+                const lista = $('<div>', {class: 'beneficios-mascota-lista'});
                 vouchers.forEach(function(voucher) {
-                    const beneficio = voucher.discount_type === 'percent'
-                        ? voucher.value + '% de descuento'
-                        : '$' + Number(voucher.value).toLocaleString('es-CL') + ' de descuento';
-                    const destino = voucher.scope === 'product' && voucher.product
-                        ? 'En ' + voucher.product.name
-                        : voucher.scope === 'client' ? 'Beneficio exclusivo para ti' : 'En tu compra ' + (voucher.provider_name || '');
-                    const tarjeta = $('<div>', {class:'col-md-4 mb-3'}).append(
-                        $('<div>', {class:'border rounded h-100 p-3', css:{borderColor:'#b8ddd5',background:'#f2faf8'}}).append(
-                            $('<small>', {class:'d-block text-uppercase font-weight-bold mb-1',css:{color:'#08776f'},text:voucher.provider_name || 'Beneficio'}),
-                            $('<span>', {class:'badge badge-danger mb-2', text:voucher.code}),
-                            $('<h6>', {class:'font-weight-bold mb-1', text:beneficio}),
-                            $('<small>', {class:'d-block text-muted mb-2', text:destino}),
-                            $('<small>', {class:'text-success', text:voucher.expires_at ? 'Vigente hasta '+String(voucher.expires_at).slice(0,10) : 'Sin fecha de vencimiento'}),
-                            $('<a>', {class:'btn btn-sm btn-outline-success btn-block mt-3',href:voucher.store_url || '#',target:'_blank',rel:'noopener',text:'Usar en '+(voucher.provider_name || 'tienda')})
-                        )
-                    );
-                    contenedor.append(tarjeta);
+                    lista.append(cuponVoucher(voucher));
                 });
-                const caidas = Object.keys(data.fuentes || {}).filter(function(fuente) { return !data.fuentes[fuente]; });
+                contenedor.append(lista);
+
                 if (caidas.length) {
-                    contenedor.append($('<div>', {class:'col-12 small text-warning', text:'Temporalmente no se pudo consultar: '+caidas.join(', ')+'.'}));
+                    contenedor.append($('<small>', {class: 'beneficios-mascota-nota', text: 'No se pudo consultar ' + unirNombresTiendas(caidas) + ' por ahora.'}));
                 }
             }).fail(function() {
-                $('#vouchers-veterfarma-list').html('<div class="col-12 text-danger">No fue posible consultar los beneficios.</div>');
+                contenedor.empty().append(
+                    estadoBeneficios('icon-alert-circle', 'No fue posible consultar los beneficios.', 'Revisa tu conexión e intenta otra vez.', 'error', true)
+                );
+            }).always(function() {
+                recargar.prop('disabled', false).removeClass('girando');
             });
         }
 
         $(document).ready(function() {
             cargar_horas_medicas();
             cargarVouchersVeterfarma();
+
+            $(document).on('click', '#vouchers-veterfarma-recargar, .beneficios-mascota-reintentar', cargarVouchersVeterfarma);
+            $(document).on('click', '.cupon-beneficio-codigo', function() {
+                copiarCodigoVoucher($(this));
+            });
         });
     </script>
 @endsection

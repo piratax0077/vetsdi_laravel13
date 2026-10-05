@@ -4,25 +4,10 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <div class="page-header-title">
-                                <h5 class="m-b-10 font-weight-bold">Mis documentos e indicaciones</h5>
-                            </div>
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ ROUTE('profesional.home') }}" data-toggle="tooltip"
-                                        data-placement="top" title="Volver a mi escritorio"><i
-                                            class="feather icon-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{{ ROUTE('profesional.index_receta_online') }}" data-toggle="tooltip"
-                                        data-placement="top" title="Volver a inicio de receta online">Receta Online</a></li>
-                                <li class="breadcrumb-item"><a href="#">Mis documentos e indicaciones</a></li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <h5 class="f-26 d-inline">Mis documentos e indicaciones</h5>
+                </div>
             </div>
             <!--Cierre: Header-->
             <div class="row">

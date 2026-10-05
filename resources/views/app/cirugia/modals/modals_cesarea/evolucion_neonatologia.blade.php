@@ -153,7 +153,7 @@
 
 
                 <div class="modal-footer pt-2 pb-0">
-                    <button type="button" onclick="reset_evaluacion_neonatologia();" class="btn btn-danger btn-sm"
+                    <button type="button" onclick="reset_evaluacion_neonatologia();" class="btn btn-outline-dark btn-sm"
                         data-dismiss="modal">Cancelar</button>
                     <button type="button" onclick="alerta_evolucion_neonatologia();" class="btn btn-info btn-sm">
                         Guardar evolución

@@ -11,7 +11,7 @@
                         <div class="col-sm-6">
                             <div class="form-group fill">
                                 <label class="floating-label-activo-sm">Fecha</label>
-                                <input class="form-control form-control-sm" name="f_pedido" id="f_pedido" type="date"><!--fecha en que llegó el pedidoa bodega-->
+                                <input class="form-control form-control-sm" name="f_pedido" id="f_pedido" type="date"><!--fecha en que llegï¿½ el pedidoa bodega-->
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -110,7 +110,7 @@
                     </div>
                 </form>
                 <div class="modal-footer">
-                        <button type="button" class="btn btn-danger mb-0" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark mb-0" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-info mb-0" >Ingresar Pendientes</button>
                 </div>
             </div>

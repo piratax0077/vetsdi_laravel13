@@ -89,6 +89,7 @@
         <script>window.code = null;</script>
     @endif
 
+@include('template.include.selector_fechas')
 </body>
 <script>
     /** METODO PARA ENVIO DE INDICACIONES MEDICAS PDF */

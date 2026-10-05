@@ -3,9 +3,9 @@
      aria-labelledby="editar_contacto_emergencia" aria-hidden="true">
      <div class="modal-dialog modal-dialog-centered" role="document">
          <div class="modal-content">
-             <div class="modal-header bg-danger">
+             <div class="modal-header modal-header-purple">
                  <h5 class="modal-title text-center">Editar contacto de emergencia</h5>
-                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                          aria-hidden="true">×</span></button>
              </div>
              <div class="modal-body">
@@ -135,7 +135,7 @@
                  </form>
              </div>
              <div class="modal-footer">
-                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                 <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                  <button type="button" onclick="editar_contacto_emergencia();" class="btn btn-info">Guardar
                      Cambios</button>
              </div>

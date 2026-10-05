@@ -3,7 +3,7 @@
         <input type="hidden" name="hora_medica" id="hora_medica" value="{{ $hora_medica->id }}">
         @csrf
 		<div class="modal-content">
-			<div class="modal-header bg-info">
+			<div class="modal-header modal-header-purple">
 				<h5 class="modal-title text-center">Sugerencias al Software</h5>
 				<button type="button" class="close"  data-bs-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>

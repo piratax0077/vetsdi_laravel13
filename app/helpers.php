@@ -638,4 +638,97 @@ if (! function_exists('es_profesional_odontologico')) {
     }
 }
 
+if (! function_exists('rut_normalizar')) {
+    /**
+     * Deja el RUT en el formato que guarda la base: 12345678-K.
+     * Sin puntos, con guion y con el digito verificador en mayuscula.
+     */
+    function rut_normalizar(?string $rut): ?string
+    {
+        $limpio = strtoupper((string) preg_replace('/[^0-9kK]/', '', (string) $rut));
 
+        if (strlen($limpio) < 7 || strlen($limpio) > 9) {
+            return null;
+        }
+
+        return substr($limpio, 0, -1).'-'.substr($limpio, -1);
+    }
+}
+
+if (! function_exists('rut_formatear')) {
+    /** Version para mostrar en pantalla, con puntos: 12.345.678-K. */
+    function rut_formatear(?string $rut): ?string
+    {
+        $normalizado = rut_normalizar($rut);
+
+        if ($normalizado === null) {
+            return null;
+        }
+
+        [$cuerpo, $dv] = explode('-', $normalizado);
+
+        return number_format((int) $cuerpo, 0, '', '.').'-'.$dv;
+    }
+}
+
+if (! function_exists('rut_es_valido')) {
+    /** Valida el digito verificador con el modulo 11. */
+    function rut_es_valido(?string $rut): bool
+    {
+        $normalizado = rut_normalizar($rut);
+
+        if ($normalizado === null) {
+            return false;
+        }
+
+        [$cuerpo, $dv] = explode('-', $normalizado);
+
+        $suma = 0;
+        $multiplo = 2;
+
+        for ($i = strlen($cuerpo) - 1; $i >= 0; $i--) {
+            $suma += ((int) $cuerpo[$i]) * $multiplo;
+            $multiplo = $multiplo < 7 ? $multiplo + 1 : 2;
+        }
+
+        $resto = 11 - ($suma % 11);
+
+        $esperado = match ($resto) {
+            11 => '0',
+            10 => 'K',
+            default => (string) $resto,
+        };
+
+        return $esperado === $dv;
+    }
+}
+
+if (! function_exists('correo_normalizar')) {
+    /** El correo se guarda y se compara siempre sin espacios y en minusculas. */
+    function correo_normalizar(?string $correo): string
+    {
+        return mb_strtolower(trim((string) $correo));
+    }
+}
+
+if (! function_exists('telefono_normalizar')) {
+    /** Deja el telefono chileno como +56 9 1234 5678 cuando se puede. */
+    function telefono_normalizar(?string $telefono): ?string
+    {
+        $digitos = preg_replace('/\D/', '', (string) $telefono);
+
+        if ($digitos === '') {
+            return null;
+        }
+
+        // Quita el 56 del pais y el 0 de larga distancia si vienen incluidos.
+        $digitos = preg_replace('/^56/', '', $digitos);
+        $digitos = preg_replace('/^0/', '', $digitos);
+
+        if (strlen($digitos) !== 9) {
+            return null;
+        }
+
+        return '+56 '.substr($digitos, 0, 1).' '.substr($digitos, 1, 4).' '.substr($digitos, 5, 4);
+    }
+}

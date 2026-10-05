@@ -1,7 +1,7 @@
 <div class="modal fade" id="m_lista_espera" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="m_lista_espera" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1">Lista de Espera profesional....</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrarModal();"><span aria-hidden="true">×</span></button>
             </div>
@@ -156,7 +156,7 @@
                                                 </tbody>
                                             </table>
                                             <div class="modal-footer">
-                                                <button type="button" onclick="cancelar_busqueda();"class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                                <button type="button" onclick="cancelar_busqueda();"class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                                 <button type="button" onclick="registrar_le_ex();" class="btn btn-info">Registrar</button>
                                             </div>
                                         </div>
@@ -283,7 +283,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" onclick="cancelar_busqueda();"class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                                <button type="button" onclick="cancelar_busqueda();"class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                                 <button type="button" onclick="registrar_le_np();" class="btn btn-info">Registrar</button>
                                             </div>
                                         </div>

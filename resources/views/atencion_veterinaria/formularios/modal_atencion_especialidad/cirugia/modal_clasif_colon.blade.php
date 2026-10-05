@@ -1,9 +1,9 @@
 <div class="modal fade" id="m_clasificacion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="clasif" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
       <div class="modal-content">
-              <div class="modal-header bg-info">
+              <div class="modal-header modal-header-purple">
                   <h5 class="modal-title mt-1">Clasificaciones colonoscopía</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
               </div>
               <div class="modal-body">
                   <div class="row">

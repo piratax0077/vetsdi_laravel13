@@ -11,9 +11,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('razas_mascotas', function (Blueprint $table) {
-            $table->string('slug', 190)
-                ->nullable()
-                ->after('nombre');
+            // La columna ya puede venir creada en bases anteriores a esta migracion.
+            if (! Schema::hasColumn('razas_mascotas', 'slug')) {
+                $table->string('slug', 190)
+                    ->nullable()
+                    ->after('nombre');
+            }
         });
 
         DB::table('razas_mascotas')

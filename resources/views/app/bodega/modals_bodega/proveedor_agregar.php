@@ -64,10 +64,10 @@
                             <label class="floating-label-activo-sm">Regi&oacute;n</label>
                             <select class="form-control form-control-sm">
                                 <option>Seleccione una opci&oacute;n</option>
-                                <optgroup label="Valparaíso">
-                                    <option value="AL">Viña del Mar</option>
+                                <optgroup label="Valparaï¿½so">
+                                    <option value="AL">Viï¿½a del Mar</option>
                                     <option value="LA">La Calera</option>
-                                    <option value="VA">Valparaíso</option>
+                                    <option value="VA">Valparaï¿½so</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -77,17 +77,17 @@
                             <label class="floating-label-activo-sm">Comuna</label>
                             <select class="form-control form-control-sm">
                                 <option>Seleccione una opci&oacute;n</option>
-                                <optgroup label="Valparaíso">
-                                    <option value="AL">Viña del Mar</option>
+                                <optgroup label="Valparaï¿½so">
+                                    <option value="AL">Viï¿½a del Mar</option>
                                     <option value="LA">La Calera</option>
-                                    <option value="VA">Valparaíso</option>
+                                    <option value="VA">Valparaï¿½so</option>
                                 </optgroup>
                             </select>
                         </div>
                     </div>
                 </form>
                 <div class="modal-footer">
-                        <button type="button" class="btn btn-danger mb-0" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark mb-0" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-info mb-0" >Agregar proveedor</button>
                 </div>
             </div>

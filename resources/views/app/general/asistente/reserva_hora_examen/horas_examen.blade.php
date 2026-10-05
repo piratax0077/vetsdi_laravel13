@@ -101,7 +101,7 @@
                                         </tbody>
                                     </table>
                                     <div class="modal-footer">
-                                        <button type="button" onclick="cancelar_busqueda_horas_examen();"class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" onclick="cancelar_busqueda_horas_examen();"class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                         <button type="button" onclick="agendar_hex_ex();" class="btn btn-info">Agendar Hora examen</button>
                                     </div>
                                 </div>
@@ -223,7 +223,7 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" onclick="cancelar_busqueda_horas_examen();"class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" onclick="cancelar_busqueda_horas_examen();"class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                         <button type="button" onclick="agendar_hex_np();" class="btn btn-info">Registrar Paciente</button>
                                     </div>
                                 </div>

@@ -354,7 +354,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
                 <button type="button" class="btn btn-info btn-sm" onclick="registrar_nuevo_profesional()"><i class="feather icon-check"></i> Registrar profesional</button>
             </div>
         </div>

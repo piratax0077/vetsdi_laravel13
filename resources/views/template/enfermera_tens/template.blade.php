@@ -261,6 +261,7 @@
         @yield('page-script-med-exa') {{--  seccion receta y exmaenes --}}
         @yield('page-script-med-exa-esp') {{-- seccion receta y exmaenes especiales --}}
         @yield('js-sidebar') {{-- seccion js side bar --}}
+    @include('template.include.selector_fechas')
     </body>
 
     </html>

@@ -353,9 +353,9 @@
 		<div id="ver_pedido" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ver_pedido" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
-					<div class="modal-header bg-info">
+					<div class="modal-header modal-header-purple">
 						<h5 class="modal-title text-center">Ficha Informaci&oacute;n del Pedido</h5>
-						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">x</span></button>
 					</div>
 					<div class="modal-body">
 						<div class="row">
@@ -382,9 +382,9 @@
 		<div id="ficha_retira" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ficha_retira" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
-					<div class="modal-header bg-info">
+					<div class="modal-header modal-header-purple">
 						<h5 class="modal-title text-center">Ficha Informaci&oacute;n del Retiro</h5>
-						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#88;</span></button>
+						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&#88;</span></button>
 					</div>
 					<div class="modal-body">
 						<div class="row">
@@ -428,9 +428,9 @@
 		<div id="solicita_pedido" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="solicita_pedido" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 				<div class="modal-content">
-					<div class="modal-header bg-info">
+					<div class="modal-header modal-header-purple">
 						<h5 class="modal-title text-center">Solicitud de Pedidos a Bodega</h5>
-						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#88;</span></button>
+						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&#88;</span></button>
 					</div>
 					<div class="modal-body">
 						<form>
@@ -506,7 +506,7 @@
 							</div>
 						</form>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-danger mb-0" data-dismiss="modal">Cancelar</button>
+							<button type="button" class="btn btn-outline-dark mb-0" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
 							<button type="submit" class="btn btn-info mb-0" >Enviar Pedido</button>
 						</div>
 					</div>
@@ -518,9 +518,9 @@
 		<div id="solicita_incluir" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="solicita_incluir" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 				<div class="modal-content">
-					<div class="modal-header bg-info">
+					<div class="modal-header modal-header-purple">
 						<h5 class="modal-title text-center">Solicitud de Inclusi&oacute;n Producto a Stock</h5>
-						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#88;</span></button>
+						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&#88;</span></button>
 					</div>
 					<div class="modal-body">
 						<form>
@@ -648,7 +648,7 @@
 							</div>
 						</form>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-danger"  data-dismiss="modal">Cancelar</button>
+							<button type="button" class="btn btn-outline-dark"  data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
 							<button type="submit" class="btn btn-info mb-0" >Entregar Pedido</button>
 						</div>
 					</div>

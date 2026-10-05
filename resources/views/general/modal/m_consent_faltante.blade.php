@@ -3,7 +3,7 @@
         <input type="hidden" name="hora_medica" id="hora_medica" value="{{ $hora_medica->id }}">
         @csrf
 		<div class="modal-content">
-			<div class="modal-header bg-info">
+			<div class="modal-header modal-header-purple">
 				<h5 class="modal-title text-center">Solicitud de Inclusión Consentimiento Faltante </h5>
 				<button type="button" class="close"  data-bs-dismiss="modal"  aria-label="Close">
 				<span aria-hidden="true">&times;</span>
@@ -46,7 +46,7 @@
                         <button type="button" onclick="registrar_sol_consentimiento();" class="btn btn-info">Solicitar incorporación</button>
                     </div>
                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                     </div>
                 </div>
 

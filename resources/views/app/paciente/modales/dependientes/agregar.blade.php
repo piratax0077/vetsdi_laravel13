@@ -63,7 +63,7 @@
 
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center mt-2">
 
-                        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" aria-label="Close"><i class="feather icon-x"></i> Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close"><i class="feather icon-x"></i> Cancelar</button>
 
                         <button type="button" class="btn btn-info btn-sm" onclick="buscar_rut_dep();"><i class="feather icon-search"></i> Buscar</button>
 
@@ -97,7 +97,7 @@
 
         <div class="modal-content">
 
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
 
                 <h5 class="modal-title mt-1" id="modal_indicar_examen">Agregar Dependiente</h5>
 
@@ -249,7 +249,7 @@
 
     <div class="modal-content">
 
-        <div class="modal-header">
+        <div class="modal-header modal-header-purple">
 
             <h5 class="modal-title mt-1" id="modal_indicar_examen">Agregar Mascota no registrada</h5>
 
@@ -356,7 +356,7 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <h6 class="t-aten mt-2">Antecedentes veterinarios</h6>
+                    <div class="titulo-item">Antecedentes veterinarios</div>
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div class="form-group">
@@ -436,7 +436,7 @@
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <h6 class="t-aten">Fotos</h6>
+                                <div class="titulo-item">Fotos</div>
                                 <input type="hidden" name="input_lista_ven_imagenes" id="input_lista_ven_imagenes" value="">
                             </div>
                         </div>

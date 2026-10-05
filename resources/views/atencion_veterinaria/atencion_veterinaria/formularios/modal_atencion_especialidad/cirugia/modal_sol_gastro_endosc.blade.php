@@ -112,7 +112,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success btn-sm" onclick="enviar_examenes_paciente(3)"><i class="fas fa-email"></i>Enviar a paciente</button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="cerrarsol_examen_endoscopia();"
+                <button type="button" class="btn btn-outline-dark btn-sm" onclick="cerrarsol_examen_endoscopia();"
                     data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info btn-sm"> Guardar</button>
             </div>

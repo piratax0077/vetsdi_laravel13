@@ -162,7 +162,7 @@
                             onclick="agregar_sala_espera();">Guardar</button>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <button type="button" class="btn btn-danger btn-sm btn-block"
+                        <button type="button" class="btn btn-outline-dark btn-sm btn-block"
                             onclick="$('#moda_agregar_sala_espera').modal('hide');">Cancelar</button>
                     </div>
                 </div>
@@ -244,7 +244,7 @@
                             onclick="modificar_sala_espera();">Guardar</button>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <button type="button" class="btn btn-danger btn-sm btn-block"
+                        <button type="button" class="btn btn-outline-dark btn-sm btn-block"
                             onclick="$('#moda_editar_sala_espera').modal('hide');">Cancelar</button>
                     </div>
                 </div>

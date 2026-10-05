@@ -82,7 +82,7 @@
 
                          <div class="modal-footer pt-2 pb-0">
                              <button type="button" onclick="reset_form('form_pedido_insumos_materiales')"
-                                 class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                 class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                              <button type="button" onclick="guardar_solicitud_insumos()" class="btn btn-info">Guardar</button>
                          </div>
                      </div>

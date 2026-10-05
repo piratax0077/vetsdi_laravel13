@@ -6,7 +6,7 @@
 
         <div class="modal-content">
 
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
 
                 <h5 class="modal-title mt-1" id="modal_indicar_examen">Ver acompañantes de dependiente</h5>
 

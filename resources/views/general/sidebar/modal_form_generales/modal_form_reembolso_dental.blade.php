@@ -2,9 +2,9 @@
     aria-labelledby="modal_reembolso_dental" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Reembolso de gastos dentales</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                         aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -551,7 +551,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                 <button type="submit" class="btn btn-info">Guardar</button>
             </div>
         </div>

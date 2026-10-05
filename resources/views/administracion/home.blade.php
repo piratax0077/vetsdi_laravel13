@@ -5,13 +5,11 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-            <div class="page-header">
+            <div class="page-header encabezado-escritorio">
                 <div class="page-block">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <div class="page-header-title">
-                                <h5 class=" font-weight-bold">Administrador general </h5>
-                            </div>
+                            @include('template.include.saludo_escritorio', ['texto_saludo' => 'Bienvenido/a a tu escritorio de administrador general'])
                         </div>
                     </div>
                 </div>

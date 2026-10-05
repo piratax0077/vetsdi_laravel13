@@ -8,7 +8,7 @@
 
       <div class="modal-content">
 
-        <div class="modal-header">
+        <div class="modal-header modal-header-purple">
 
           <h5 class="modal-title" id="modalMensajeDifusionPacientesLabel">Mensaje difusión a responsables</h5>
           <button type="button" class="close"data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>

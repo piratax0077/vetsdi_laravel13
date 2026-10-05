@@ -1,10 +1,15 @@
-body {
+/*body {
        background: #0F6B62; 
     background: -webkit-linear-gradient(90deg, #0F6B62 0%, #178F80 100%);
     background: -moz-linear-gradient(90deg, #0F6B62 0%, #178F80 100%);
     background: -o-linear-gradient(90deg, #0F6B62 0%, #178F80 100%);
     background: linear-gradient(90deg, #0F6B62 0%, #178F80 100%);
+}*/
+
+body {
+       background: #6f42c1; 
 }
+
 
 .bg-c-info {
 	background-color: #1CBEBE;  
@@ -19,9 +24,22 @@ body {
 }
 
 .subir:hover {
-      
+
   transform: translateY(-10px);
   transition: 0.5s;
+}
+
+/* Borde morado al pasar el mouse por las tarjetas del escritorio
+   (Mis mascotas, Servicios cercanos, Alimentos, Farmacia).
+   El borde arranca transparente para que no se mueva el contenido. */
+.card.subir {
+  border: 2px solid transparent;
+  transition: transform 0.5s, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card.subir:hover {
+  border-color: #6f42c1;
+  box-shadow: 0 10px 24px rgba(111, 66, 193, .18);
 }
 
 .opacidad {
@@ -105,13 +123,24 @@ td{
 
 
 
-/* Encabezados del escritorio de tutores y mascotas: contraste uniforme */
+/* Encabezado del escritorio de tutor */
+.pcoded-main-container .page-header {
+    margin-top: 0;
+}
+
+.pcoded-content {
+    margin-top: 9px;
+}
+
 .pcoded-main-container .page-header .page-header-title h5,
 .pcoded-main-container .page-header .page-header-title h4,
 .pcoded-main-container .page-header .page-header-title h3 {
-    color: #fff !important;
+    color: #272727 !important;
     font-weight: 700 !important;
-    text-shadow: 0 1px 2px rgba(0, 66, 63, .18);
+}
+
+.pcoded-main-container .page-header .page-header-title p {
+    color: rgba(39, 39, 39, .65) !important;
 }
 
 .pcoded-main-container .page-header .breadcrumb,
@@ -119,15 +148,1233 @@ td{
 .pcoded-main-container .page-header .breadcrumb-item.active,
 .pcoded-main-container .page-header .breadcrumb-item a,
 .pcoded-main-container .page-header .breadcrumb-item i {
-    color: rgba(255, 255, 255, .94) !important;
+    color: rgba(39, 39, 39, .65) !important;
 }
 
 .pcoded-main-container .page-header .breadcrumb-item:last-child,
 .pcoded-main-container .page-header .breadcrumb-item:last-child a {
-    color: #fff !important;
+    color: #272727 !important;
     font-weight: 700 !important;
 }
 
 .pcoded-main-container .page-header .breadcrumb-item + .breadcrumb-item::before {
-    color: rgba(255, 255, 255, .62) !important;
+    color: rgba(39, 39, 39, .4) !important;
+}
+
+}
+/* Fin del @media (min-width: 992px) que se abre arriba */
+
+
+/* Card de atención por profesional no registrado (escritorio de la mascota) */
+.tarjeta-atencion-externa {
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.tarjeta-atencion-externa > .card-body {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    height: 100%;
+    padding: 28px 26px 26px;
+    color: inherit;
+    text-decoration: none;
+    background: #fff;
+    background: -webkit-linear-gradient(160deg, rgba(28, 190, 190, .10) 0%, #fff 55%);
+    background: linear-gradient(160deg, rgba(28, 190, 190, .10) 0%, #fff 55%);
+}
+
+/* Círculos de fondo, solo decorativos */
+.tarjeta-atencion-externa > .card-body::before,
+.tarjeta-atencion-externa > .card-body::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.tarjeta-atencion-externa > .card-body::before {
+    top: -60px;
+    right: -60px;
+    width: 180px;
+    height: 180px;
+    background: rgba(28, 190, 190, .10);
+}
+
+.tarjeta-atencion-externa > .card-body::after {
+    top: 40px;
+    right: 30px;
+    width: 46px;
+    height: 46px;
+    border: 2px solid rgba(111, 66, 193, .15);
+}
+
+.tarjeta-atencion-externa-etiqueta {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    margin-bottom: 18px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(111, 66, 193, .10);
+    color: var(--purple);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.tarjeta-atencion-externa-icono {
+    position: relative;
+    z-index: 1;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 18px;
+    border-radius: 18px;
+    background: #1CBEBE;
+    background: -webkit-linear-gradient(135deg, #1CBEBE 0%, #0f9a9a 100%);
+    background: linear-gradient(135deg, #1CBEBE 0%, #0f9a9a 100%);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(28, 190, 190, .35);
+    -webkit-transition: -webkit-transform .3s ease;
+    transition: transform .3s ease;
+}
+
+.tarjeta-atencion-externa-icono svg {
+    width: 32px;
+    height: 32px;
+}
+
+.tarjeta-atencion-externa-titulo {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 10px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.tarjeta-atencion-externa-texto {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 22px;
+    color: #6c757d;
+    font-size: .92rem;
+    line-height: 1.55;
+}
+
+/* Botón al pie: el margin-top auto lo deja siempre abajo */
+.tarjeta-atencion-externa-accion {
+    position: relative;
+    z-index: 1;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-top: auto;
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: rgba(28, 190, 190, .14);
+    color: #0b7c7c;
+    font-size: .88rem;
+    font-weight: 700;
+    -webkit-transition: background-color .25s ease, color .25s ease;
+    transition: background-color .25s ease, color .25s ease;
+}
+
+.tarjeta-atencion-externa-accion i {
+    margin-left: 8px;
+    -webkit-transition: -webkit-transform .25s ease;
+    transition: transform .25s ease;
+}
+
+.tarjeta-atencion-externa > .card-body:hover .tarjeta-atencion-externa-accion,
+.tarjeta-atencion-externa > .card-body:focus .tarjeta-atencion-externa-accion {
+    background: #0b7c7c;
+    color: #fff;
+}
+
+.tarjeta-atencion-externa > .card-body:hover .tarjeta-atencion-externa-accion i,
+.tarjeta-atencion-externa > .card-body:focus .tarjeta-atencion-externa-accion i {
+    -webkit-transform: translateX(4px);
+    transform: translateX(4px);
+}
+
+.tarjeta-atencion-externa > .card-body:hover .tarjeta-atencion-externa-icono {
+    -webkit-transform: rotate(-6deg) scale(1.05);
+    transform: rotate(-6deg) scale(1.05);
+}
+
+.tarjeta-atencion-externa > .card-body:focus-visible {
+    outline: 3px solid rgba(111, 66, 193, .45);
+    outline-offset: -3px;
+}
+
+@media (max-width: 575px) {
+    .tarjeta-atencion-externa > .card-body {
+        padding: 22px 18px 20px;
+    }
+
+    .tarjeta-atencion-externa-icono {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+    }
+
+    .tarjeta-atencion-externa-icono svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .tarjeta-atencion-externa-titulo {
+        font-size: 1.05rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .tarjeta-atencion-externa-accion {
+        width: 100%;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tarjeta-atencion-externa-icono,
+    .tarjeta-atencion-externa-accion,
+    .tarjeta-atencion-externa-accion i {
+        -webkit-transition: none;
+        transition: none;
+    }
+}
+
+
+/* Columna derecha del escritorio del tutor: beneficios arriba y espacio promocional abajo */
+.columna-beneficios {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.beneficios-mascota {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.card .card-header.beneficios-mascota-encabezado {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.beneficios-mascota-icono {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    margin-right: 12px;
+    border-radius: 12px;
+    background: #6f42c1;
+    color: #fff;
+    font-size: 17px;
+    box-shadow: 0 6px 14px rgba(111, 66, 193, .25);
+}
+
+.beneficios-mascota-titulos {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.card .beneficios-mascota-encabezado h5 {
+    display: block;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.25;
+}
+
+.beneficios-mascota-titulos small {
+    display: block;
+    margin-top: 2px;
+    color: rgba(39, 39, 39, .55);
+    font-size: .78rem;
+    font-weight: 600;
+}
+
+.beneficios-mascota-contador {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    min-width: 24px;
+    height: 24px;
+    margin-left: 8px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: rgba(111, 66, 193, .12);
+    color: var(--purple);
+    font-size: .78rem;
+    font-weight: 800;
+    line-height: 24px;
+    text-align: center;
+}
+
+.beneficios-mascota-recargar {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    margin-left: 4px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: rgba(39, 39, 39, .5);
+    font-size: 15px;
+    cursor: pointer;
+    -webkit-transition: background-color .2s ease, color .2s ease;
+    transition: background-color .2s ease, color .2s ease;
+}
+
+.beneficios-mascota-recargar:hover {
+    background: rgba(111, 66, 193, .10);
+    color: var(--purple);
+}
+
+.beneficios-mascota-recargar:focus-visible {
+    outline: 2px solid rgba(111, 66, 193, .45);
+    outline-offset: 2px;
+}
+
+.beneficios-mascota-recargar:disabled {
+    cursor: default;
+}
+
+.beneficios-mascota-recargar i {
+    display: inline-block;
+}
+
+.beneficios-mascota-recargar.girando i {
+    -webkit-animation: beneficios-girar 1s linear infinite;
+    animation: beneficios-girar 1s linear infinite;
+}
+
+.beneficios-mascota-cuerpo {
+    padding: 14px 16px 16px;
+}
+
+/* Esqueleto mientras responde el endpoint */
+.beneficios-mascota-cargando span {
+    display: block;
+    height: 52px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background: #eef0f4;
+    background: -webkit-linear-gradient(left, #eef0f4 25%, #f7f8fa 50%, #eef0f4 75%);
+    background: linear-gradient(90deg, #eef0f4 25%, #f7f8fa 50%, #eef0f4 75%);
+    background-size: 200% 100%;
+    -webkit-animation: beneficios-brillo 1.2s ease-in-out infinite;
+    animation: beneficios-brillo 1.2s ease-in-out infinite;
+}
+
+.beneficios-mascota-cargando span:last-child {
+    width: 60%;
+    height: 12px;
+    margin-bottom: 0;
+}
+
+/* Sin vouchers, tiendas sin respuesta o error */
+.beneficios-mascota-estado {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.beneficios-mascota-estado-icono {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    border-radius: 50%;
+    background: rgba(28, 190, 190, .12);
+    color: #0b7c7c;
+    font-size: 18px;
+}
+
+.beneficios-mascota-estado.aviso .beneficios-mascota-estado-icono {
+    background: rgba(255, 182, 64, .18);
+    color: #b7791f;
+}
+
+.beneficios-mascota-estado.error .beneficios-mascota-estado-icono {
+    background: rgba(255, 82, 82, .12);
+    color: #d63b3b;
+}
+
+.beneficios-mascota-estado strong {
+    display: block;
+    color: #272727;
+    font-size: .88rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.beneficios-mascota-estado small {
+    display: block;
+    margin-top: 2px;
+    color: rgba(39, 39, 39, .6);
+    font-size: .78rem;
+}
+
+.beneficios-mascota-reintentar {
+    margin-top: 4px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--purple);
+    font-size: .8rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.beneficios-mascota-reintentar:hover {
+    text-decoration: underline;
+}
+
+.beneficios-mascota-nota {
+    display: block;
+    margin-top: 10px;
+    color: #b7791f;
+    font-size: .75rem;
+}
+
+/* Lista de cupones: se ven dos y el resto con scroll */
+.beneficios-mascota-lista {
+    max-height: 196px;
+    margin-right: -6px;
+    padding-right: 6px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(111, 66, 193, .3) transparent;
+}
+
+.beneficios-mascota-lista::-webkit-scrollbar {
+    width: 6px;
+}
+
+.beneficios-mascota-lista::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: rgba(111, 66, 193, .3);
+}
+
+.cupon-beneficio {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    background: #f1faf9;
+    overflow: hidden;
+}
+
+.cupon-beneficio:last-child {
+    margin-bottom: 0;
+}
+
+.cupon-beneficio-valor {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex: 0 0 84px;
+    flex: 0 0 84px;
+    padding: 10px 6px;
+    border-right: 2px dashed rgba(255, 255, 255, .6);
+    background: #0b7c7c;
+    background: -webkit-linear-gradient(290deg, #1CBEBE 0%, #0b7c7c 100%);
+    background: linear-gradient(160deg, #1CBEBE 0%, #0b7c7c 100%);
+    color: #fff;
+    text-align: center;
+}
+
+/* Muescas del cupón sobre la línea punteada */
+.cupon-beneficio-valor::before,
+.cupon-beneficio-valor::after {
+    content: "";
+    position: absolute;
+    right: -8px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.cupon-beneficio-valor::before {
+    top: -7px;
+}
+
+.cupon-beneficio-valor::after {
+    bottom: -7px;
+}
+
+.cupon-beneficio-valor strong {
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+/* Montos como $150.000 */
+.cupon-beneficio-valor strong.largo {
+    font-size: .85rem;
+}
+
+.cupon-beneficio-valor small {
+    margin-top: 2px;
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    opacity: .85;
+}
+
+.cupon-beneficio-detalle {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 9px 12px 10px 14px;
+}
+
+.cupon-beneficio-fila {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.cupon-beneficio-tienda {
+    margin-right: 8px;
+    color: #0b7c7c;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.cupon-beneficio-vence {
+    color: rgba(39, 39, 39, .55);
+    font-size: .7rem;
+    white-space: nowrap;
+}
+
+.cupon-beneficio-destino {
+    margin: 3px 0 8px;
+    overflow: hidden;
+    color: #272727;
+    font-size: .84rem;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cupon-beneficio-codigo {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    max-width: 100%;
+    margin-right: 8px;
+    padding: 3px 8px;
+    border: 1px dashed rgba(11, 124, 124, .45);
+    border-radius: 6px;
+    background: #fff;
+    color: #272727;
+    font-size: .74rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    cursor: pointer;
+    -webkit-transition: background-color .2s ease, border-color .2s ease;
+    transition: background-color .2s ease, border-color .2s ease;
+}
+
+.cupon-beneficio-codigo span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cupon-beneficio-codigo i {
+    margin-left: 6px;
+    color: #0b7c7c;
+    font-size: 12px;
+}
+
+.cupon-beneficio-codigo:hover {
+    border-style: solid;
+}
+
+.cupon-beneficio-codigo:focus-visible,
+.cupon-beneficio-usar:focus-visible {
+    outline: 2px solid rgba(111, 66, 193, .45);
+    outline-offset: 2px;
+}
+
+.cupon-beneficio-codigo.copiado {
+    border-style: solid;
+    border-color: #6ac000;
+}
+
+.cupon-beneficio-codigo.copiado i {
+    color: #6ac000;
+}
+
+.cupon-beneficio-usar {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-left: auto;
+    color: #0b7c7c;
+    font-size: .8rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.cupon-beneficio-usar i {
+    display: inline-block;
+    margin-left: 4px;
+    -webkit-transition: -webkit-transform .2s ease;
+    transition: transform .2s ease;
+}
+
+.cupon-beneficio-usar:hover {
+    color: #075e5e;
+}
+
+.cupon-beneficio-usar:hover i {
+    -webkit-transform: translateX(3px);
+    transform: translateX(3px);
+}
+
+/* Los cupones de Alimentos van en morado para distinguirlos de Veterfarma */
+.cupon-beneficio.alimentos {
+    background: #f6f2fd;
+}
+
+.cupon-beneficio.alimentos .cupon-beneficio-valor {
+    background: #6f42c1;
+    background: -webkit-linear-gradient(290deg, #8a63d2 0%, #5a32a3 100%);
+    background: linear-gradient(160deg, #8a63d2 0%, #5a32a3 100%);
+}
+
+.cupon-beneficio.alimentos .cupon-beneficio-tienda,
+.cupon-beneficio.alimentos .cupon-beneficio-usar,
+.cupon-beneficio.alimentos .cupon-beneficio-codigo i {
+    color: #6f42c1;
+}
+
+.cupon-beneficio.alimentos .cupon-beneficio-usar:hover {
+    color: #5a32a3;
+}
+
+.cupon-beneficio.alimentos .cupon-beneficio-codigo {
+    border-color: rgba(111, 66, 193, .45);
+}
+
+/* Espacio promocional: la imagen llena lo que queda de la columna */
+.espacio-promocional {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
+.espacio-promocional-imagen {
+    position: relative;
+    display: block;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 150px;
+    background: #000;
+}
+
+.espacio-promocional-imagen img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+
+.card-body.espacio-promocional-pie {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    padding: 12px 16px;
+}
+
+.espacio-promocional-pie h5 {
+    font-size: 1.05rem;
+}
+
+@-webkit-keyframes beneficios-girar {
+    to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@keyframes beneficios-girar {
+    to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-webkit-keyframes beneficios-brillo {
+    from { background-position: 100% 0; }
+    to { background-position: -100% 0; }
+}
+
+@keyframes beneficios-brillo {
+    from { background-position: 100% 0; }
+    to { background-position: -100% 0; }
+}
+
+/* Tablet y notebook: con el menú lateral la columna queda angosta */
+@media (min-width: 768px) and (max-width: 1439px) {
+    .card .card-header.beneficios-mascota-encabezado {
+        padding: 12px 14px;
+    }
+
+    .beneficios-mascota-icono {
+        width: 34px;
+        height: 34px;
+        margin-right: 10px;
+        border-radius: 10px;
+        font-size: 15px;
+    }
+
+    .beneficios-mascota-titulos small {
+        display: none;
+    }
+
+    .beneficios-mascota-cuerpo {
+        padding: 12px 14px 14px;
+    }
+
+    .cupon-beneficio-valor {
+        -ms-flex-preferred-size: 70px;
+        flex-basis: 70px;
+        padding: 8px 4px;
+    }
+
+    .cupon-beneficio-valor strong {
+        font-size: .95rem;
+    }
+
+    .cupon-beneficio-valor strong.largo {
+        font-size: .76rem;
+    }
+
+    .cupon-beneficio-detalle {
+        padding: 8px 10px 9px 12px;
+    }
+
+    .cupon-beneficio-destino {
+        margin-bottom: 6px;
+        font-size: .8rem;
+    }
+
+    .cupon-beneficio-codigo {
+        margin-right: 6px;
+        padding: 2px 6px;
+        font-size: .7rem;
+    }
+}
+
+/* Celular: las columnas se apilan y la imagen vuelve a su proporción */
+@media (max-width: 767px) {
+    .beneficios-mascota-lista {
+        max-height: none;
+        margin-right: 0;
+        padding-right: 0;
+    }
+
+    .espacio-promocional-imagen {
+        min-height: 0;
+    }
+
+    .espacio-promocional-imagen img {
+        position: static;
+        height: auto;
+    }
+}
+
+@media (max-width: 420px) {
+    .card .card-header.beneficios-mascota-encabezado,
+    .beneficios-mascota-cuerpo {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .beneficios-mascota-recargar.girando i,
+    .beneficios-mascota-cargando span {
+        -webkit-animation: none;
+        animation: none;
+    }
+
+    .cupon-beneficio-usar i {
+        -webkit-transition: none;
+        transition: none;
+    }
+}
+
+
+/* Referidos del tutor (Paciente/Referidos) */
+.referidos {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.referidos-portada {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding: 26px 30px;
+    border-radius: 16px;
+    background: #1CBEBE;
+    background: -webkit-linear-gradient(315deg, #1CBEBE 0%, #6f42c1 100%);
+    background: linear-gradient(135deg, #1CBEBE 0%, #6f42c1 100%);
+    box-shadow: 0 10px 26px rgba(111, 66, 193, .2);
+    color: #fff;
+}
+
+.referidos-portada-texto {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-right: 24px;
+}
+
+.referidos-portada h3 {
+    margin-bottom: 8px;
+    color: #fff;
+    font-size: 1.6rem;
+}
+
+.referidos-portada h3 i {
+    margin-right: 6px;
+}
+
+.referidos-portada p {
+    max-width: 720px;
+    color: rgba(255, 255, 255, .92);
+}
+
+.referidos-volver {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #fff;
+    font-size: .85rem;
+    font-weight: 700;
+    opacity: .9;
+}
+
+.referidos-volver:hover,
+.referidos-volver:focus {
+    color: #fff;
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.referidos-codigo {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .16);
+    text-align: center;
+}
+
+.referidos-codigo > span {
+    display: block;
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+.referidos-codigo strong {
+    display: block;
+    margin: 2px 0 10px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+}
+
+.card.referidos-dato {
+    margin-bottom: 24px;
+    padding: 16px 18px;
+    border: 0;
+}
+
+.referidos-dato-icono {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background: rgba(111, 66, 193, .12);
+    color: var(--purple);
+    font-size: 16px;
+}
+
+.referidos-dato strong {
+    display: block;
+    color: #272727;
+    font-size: 1.7rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.referidos-dato > span:last-child {
+    color: rgba(39, 39, 39, .6);
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+/* Las dos tarjetas de la fila quedan del mismo alto */
+.referidos .row > [class*="col-"] > .referidos-tarjeta {
+    height: calc(100% - 24px);
+}
+
+.card.referidos-tarjeta {
+    margin-bottom: 24px;
+    border: 0;
+}
+
+.card.referidos-tarjeta .card-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.referidos-pasos {
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+    counter-reset: paso;
+}
+
+.referidos-pasos li {
+    position: relative;
+    min-height: 30px;
+    margin-bottom: 16px;
+    padding-left: 44px;
+    counter-increment: paso;
+}
+
+.referidos-pasos li:before {
+    content: counter(paso);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(28, 190, 190, .16);
+    color: #147d72;
+    font-weight: 800;
+    line-height: 30px;
+    text-align: center;
+}
+
+.referidos-pasos strong,
+.referidos-pasos small,
+.referidos-tabla td small {
+    display: block;
+}
+
+.referidos-pasos small,
+.referidos-tabla td small {
+    color: rgba(39, 39, 39, .6);
+}
+
+.referidos-tabla {
+    min-width: 760px;
+    margin-bottom: 0;
+}
+
+.referidos-tabla th,
+.referidos-tabla td {
+    padding-right: 10px;
+    padding-left: 10px;
+    vertical-align: middle;
+}
+
+/* Nombre y tipo pueden partirse en dos líneas para que la tabla entre sin scroll */
+.referidos-tabla td:first-child,
+.referidos-tabla td:nth-child(2) {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.referidos-acciones {
+    white-space: nowrap;
+}
+
+.referidos-acciones form {
+    display: inline-block;
+}
+
+.referidos-vacio {
+    padding: 28px 12px;
+    color: rgba(39, 39, 39, .55);
+    text-align: center;
+}
+
+.referidos-vacio i {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 32px;
+}
+
+/* Formulario de nueva invitación */
+.referidos-ayuda {
+    margin-bottom: 26px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(111, 66, 193, .07);
+    color: rgba(39, 39, 39, .75);
+    font-size: .85rem;
+}
+
+.referidos-ayuda i {
+    margin-right: 4px;
+    color: var(--purple);
+}
+
+.referidos-formulario .form-group {
+    margin-bottom: 24px;
+}
+
+.referidos-formulario .floating-label-activo-sm {
+    left: 12px !important;
+    margin: 0;
+    z-index: 4;
+}
+
+.referidos-formulario .form-control:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
+}
+
+/* Prefijo fijo del WhatsApp, pegado al campo */
+.referidos-telefono .input-group-text {
+    padding: 0 10px;
+    border-color: #ced4da;
+    border-radius: 8px 0 0 8px;
+    background: rgba(111, 66, 193, .1);
+    color: var(--purple);
+    font-size: .9rem;
+    font-weight: 800;
+}
+
+.referidos-telefono > .form-control:not(:first-child) {
+    border-radius: 0 8px 8px 0;
+    letter-spacing: .04em;
+}
+
+.referidos-telefono .invalid-feedback {
+    width: 100%;
+}
+
+/* Select2 sin buscador, a la medida de form-control-sm */
+.referidos-formulario .select2-container--default .select2-selection--single {
+    height: calc(1.5em + .7rem + 2px);
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    outline: 0;
+}
+
+.referidos-formulario .select2-container--default .select2-selection--single .select2-selection__rendered {
+    padding-left: 10px;
+    color: #495057;
+    font-size: .9rem;
+    line-height: calc(1.5em + .7rem);
+}
+
+.referidos-formulario .select2-container--default .select2-selection--single .select2-selection__arrow {
+    right: 6px;
+    height: calc(1.5em + .7rem);
+}
+
+.referidos-formulario .select2-container--default.select2-container--focus .select2-selection--single,
+.referidos-formulario .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
+}
+
+.referidos-formulario .select2-dropdown {
+    overflow: hidden;
+    border-color: var(--purple);
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(39, 39, 39, .12);
+    font-size: .9rem;
+}
+
+.referidos-formulario .select2-container--default .select2-results__option {
+    padding: 8px 12px;
+}
+
+.referidos-formulario .select2-container--default .select2-results__option[aria-selected=true],
+.referidos-formulario .select2-container--default .select2-results__option--selected {
+    background: rgba(111, 66, 193, .1);
+    color: #272727;
+}
+
+.referidos-formulario .select2-container--default .select2-results__option--highlighted[aria-selected],
+.referidos-formulario .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background: var(--purple);
+    color: #fff;
+}
+
+.referidos-formulario-pie {
+    padding-top: 18px;
+    border-top: 1px solid #f1f1f1;
+    text-align: right;
+}
+
+.referidos-copia-auxiliar {
+    position: absolute;
+    left: -9999px;
+}
+
+@media (max-width: 575px) {
+    .referidos-formulario-pie .btn {
+        display: block;
+        width: 100%;
+    }
+}
+
+/* Tablet y celular: el código baja y las tarjetas dejan de igualar su alto */
+@media (max-width: 991px) {
+    .referidos .row > [class*="col-"] > .referidos-tarjeta {
+        height: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .referidos-portada {
+        display: block;
+        padding: 20px;
+    }
+
+    .referidos-portada-texto {
+        margin-right: 0;
+        margin-bottom: 16px;
+    }
+
+    .referidos-portada h3 {
+        font-size: 1.3rem;
+    }
+
+    .referidos-codigo {
+        text-align: left;
+    }
+
+    .referidos-dato strong {
+        font-size: 1.4rem;
+    }
 }

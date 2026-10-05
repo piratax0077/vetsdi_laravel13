@@ -506,7 +506,7 @@
 							</div>
 						</form>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-danger mb-0" data-dismiss="modal">Cancelar</button>
+							<button type="button" class="btn btn-outline-dark mb-0" data-dismiss="modal">Cancelar</button>
 							<button type="submit" class="btn btn-info mb-0" >Enviar Pedido</button>
 						</div>
 					</div>
@@ -648,7 +648,7 @@
 							</div>
 						</form>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-danger"  data-dismiss="modal">Cancelar</button>
+							<button type="button" class="btn btn-outline-dark"  data-dismiss="modal">Cancelar</button>
 							<button type="submit" class="btn btn-info mb-0" >Entregar Pedido</button>
 						</div>
 					</div>

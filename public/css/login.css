@@ -342,3 +342,455 @@ transform: scale(.75) translateY(-39px) translateX(-60px)!important;
         border-radius: 50%;
     }
 }
+
+/* ===== Registro dentro de la misma tarjeta del ingreso ===== */
+
+/* Campo con error y su mensaje */
+.es-invalido {
+    border-color: #ff5252 !important;
+}
+
+.mensaje-error {
+    display: block;
+    margin-top: 4px;
+    padding-left: 4px;
+    text-align: left;
+    font-size: 12px;
+    color: #d6312b;
+}
+
+.texto-opcional {
+    font-weight: 400;
+    color: #6c757d;
+}
+
+/* Avance del registro: tres pasos unidos por una linea */
+.registro-avance {
+    display: flex;
+    margin: 0 0 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.registro-avance-paso {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+/* Linea que une cada paso con el anterior, de centro a centro */
+.registro-avance-paso + .registro-avance-paso::before {
+    content: "";
+    position: absolute;
+    top: 13px;
+    left: -50%;
+    width: 100%;
+    height: 2px;
+    background: #d8d8e3;
+    transition: background-color .2s ease;
+}
+
+.registro-avance-paso.esta-activo::before,
+.registro-avance-paso.esta-listo::before {
+    background: var(--purple);
+}
+
+.registro-avance-boton {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.registro-avance-boton:disabled {
+    cursor: default;
+}
+
+.registro-avance-boton:focus {
+    outline: 0;
+}
+
+.registro-avance-boton:focus .registro-avance-numero {
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.25);
+}
+
+.registro-avance-numero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 2px solid #d8d8e3;
+    border-radius: 50%;
+    background: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    color: #8a8a99;
+    transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.registro-avance-nombre {
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #6c757d;
+}
+
+.registro-avance-paso.esta-activo .registro-avance-numero {
+    border-color: var(--purple);
+    background: var(--purple);
+    color: #fff;
+}
+
+.registro-avance-paso.esta-activo .registro-avance-nombre {
+    font-weight: 700;
+    color: #272727;
+}
+
+/* Paso completado: el numero se cambia por un visto bueno */
+.registro-avance-paso.esta-listo .registro-avance-numero {
+    border-color: var(--purple);
+    background: #f4f1fa;
+    font-size: 0;
+    color: var(--purple);
+}
+
+.registro-avance-paso.esta-listo .registro-avance-numero::after {
+    content: "\2713";
+    font-size: 14px;
+}
+
+.registro-avance-paso.esta-listo .registro-avance-nombre {
+    color: var(--purple);
+}
+
+/* Cada paso del registro */
+.registro-paso {
+    min-width: 0;
+    margin: 0 0 18px;
+    padding: 0;
+    border: 0;
+    text-align: left;
+}
+
+/* Botones para moverse entre los pasos y crear la cuenta */
+.registro-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.registro-acciones .btn {
+    min-width: 110px;
+    margin: 0;
+}
+
+/* Celular: los botones comparten la fila completa en vez de saltar de linea */
+@media (max-width: 420px) {
+    .registro-acciones {
+        flex-wrap: nowrap;
+    }
+
+    .registro-acciones .btn {
+        flex: 1 1 auto;
+        min-width: 0;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+}
+
+/* La etiqueta flotante queda por encima del borde del campo */
+.registro-paso .floating-label-activo-sm {
+    z-index: 1;
+}
+
+/* Contrasena con su boton para verla u ocultarla */
+.campo-clave {
+    position: relative;
+}
+
+.campo-clave .form-control {
+    padding-right: 36px;
+}
+
+.campo-clave-ver {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 15px;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+.campo-clave-ver:hover,
+.campo-clave-ver:focus {
+    outline: 0;
+    color: var(--purple);
+}
+
+/* El correo de destino puede ser largo: se corta antes de salirse de la tarjeta */
+.registro-resena strong {
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.registro-paso-titulo {
+    width: auto;
+    margin-bottom: 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #272727;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+/* Tipos de cuenta: cuatro opciones que se eligen con un clic */
+.registro-tipos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.registro-tipo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    margin: 0;
+    padding: 8px 10px;
+    border: 1px solid #d8d8e3;
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+    text-align: center;
+    transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+}
+
+.registro-tipo:hover {
+    border-color: var(--purple);
+}
+
+/* El radio se oculta a la vista pero sigue existiendo para el teclado */
+.registro-tipo input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.registro-tipo-nombre {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #272727;
+}
+
+.registro-tipo.esta-elegido {
+    border-color: var(--purple);
+    background: rgba(127, 73, 184, 0.08);
+}
+
+.registro-tipo.esta-elegido .registro-tipo-nombre {
+    color: var(--purple);
+}
+
+/* Foco visible al navegar con el teclado */
+.registro-tipo input[type="radio"]:focus + .registro-tipo-nombre {
+    outline: 2px solid var(--purple);
+    outline-offset: 3px;
+}
+
+.registro-resena {
+    margin: 10px 0 0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #f4f1fa;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #4b4b57;
+}
+
+/* Celular: las opciones de tipo de cuenta pasan a una sola columna */
+@media (max-width: 420px) {
+    .registro-tipos {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Select de tipo de cuenta (select2 sin buscador): mismo alto, borde y letra que los form-control-sm */
+.registro-paso .select2-container--default .select2-selection--single {
+    height: calc(1.5em + .7rem + 2px);
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: .9rem;
+    text-align: left;
+    outline: 0;
+}
+
+.registro-paso .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: calc(1.5em + .7rem);
+    padding-left: 10px;
+    padding-right: 30px;
+    color: #495057;
+}
+
+.registro-paso .select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 0;
+    right: 6px;
+    height: 100%;
+}
+
+.registro-paso .select2-container--default.select2-container--focus .select2-selection--single,
+.registro-paso .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: #613584;
+}
+
+/*
+ * La lista de opciones se dibuja suelta al final del body. La hoja del plugin le
+ * da a todo .select2-container un ancho del 100%, asi que esa caja quedaba tan
+ * ancha como la pagina pero corrida hacia la derecha, y al abrir el select
+ * aparecia una barra de desplazamiento horizontal. Aqui vuelve a su ancho natural.
+ */
+body > .select2-container {
+    width: auto !important;
+}
+
+/* Abierto conserva las esquinas del lado que no toca la lista */
+.registro-paso .select2-container--default.select2-container--open.select2-container--below .select2-selection--single {
+    border-radius: 8px 8px 0 0;
+}
+
+.registro-paso .select2-container--default.select2-container--open.select2-container--above .select2-selection--single {
+    border-radius: 0 0 8px 8px;
+}
+
+.registro-paso select.es-invalido + .select2-container .select2-selection--single {
+    border-color: #ff5252;
+}
+
+/* ===== Recuperacion de contrasena ===== */
+
+/* Boton principal en el morado de la marca */
+.auth-wrapper .boton-morado {
+    border-color: var(--purple);
+    background-color: var(--purple);
+    color: #fff;
+}
+
+.auth-wrapper .boton-morado:hover,
+.auth-wrapper .boton-morado:focus {
+    border-color: #4b2a8a;
+    background-color: #4b2a8a;
+    color: #fff;
+}
+
+.auth-wrapper .boton-morado:disabled {
+    opacity: .65;
+}
+
+/* Selector de camino: por correo o por celular */
+.recuperar-opciones {
+    display: flex;
+    gap: 4px;
+    margin: 0 0 24px;
+    padding: 4px;
+    border-radius: 10px;
+    background: #f4f1fa;
+}
+
+.recuperar-opcion {
+    display: inline-flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    padding: 7px 8px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+    color: #6c757d;
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+
+.recuperar-opcion:hover {
+    color: var(--purple);
+}
+
+.recuperar-opcion:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px rgba(111, 66, 193, 0.35);
+}
+
+.recuperar-opcion.esta-activa {
+    background: #fff;
+    color: var(--purple);
+    box-shadow: 0 1px 4px rgba(60, 30, 120, 0.18);
+}
+
+.recuperar-texto {
+    margin: 0 0 22px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #4b4b57;
+}
+
+.recuperar-texto strong {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    color: #272727;
+}
+
+/* Codigo de seis digitos, grande y espaciado para leerlo de un vistazo */
+.auth-wrapper .form-group .campo-codigo {
+    padding-left: .5em;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: .5em;
+    color: #272727;
+}
+
+.recuperar-reenvio {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #6c757d;
+}
+
+.recuperar-reenvio .btn-link {
+    font-size: inherit;
+    vertical-align: baseline;
+}

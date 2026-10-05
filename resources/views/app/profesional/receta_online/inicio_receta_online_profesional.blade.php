@@ -11,10 +11,11 @@
     .doc-unread{display:inline-block;background:#ff5964;color:#fff;border-radius:20px;padding:3px 9px;font-size:11px;margin-top:5px}
 </style>
 <div class="pcoded-main-container"><div class="pcoded-content">
-    <div class="page-header"><div class="page-block"><div class="row align-items-center"><div class="col-md-12">
-        <div class="page-header-title"><h5 class="m-b-10 font-weight-bold">Mis documentos profesionales</h5></div>
-        <ul class="breadcrumb"><li class="breadcrumb-item"><a href="{{ route('profesional.home') }}"><i class="feather icon-home"></i></a></li><li class="breadcrumb-item">Archivo profesional</li></ul>
-    </div></div></div></div>
+    <div class="row">
+        <div class="col-md-12 mb-2">
+            <h5 class="f-26 d-inline">Mis documentos profesionales</h5>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-lg-6 mb-4"><div class="card doc-card"><a href="{{ route('profesional.mis_recetas') }}"><div class="doc-card-body">

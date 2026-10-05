@@ -2,9 +2,6 @@
 
 @section('page-styles')
 <style>
-    .promos-heading{display:flex;align-items:center;justify-content:flex-start;gap:14px}
-    .promos-home{display:inline-flex;align-items:center;justify-content:center;padding:6px;border:0;color:#fff!important;background:transparent;font-size:24px;line-height:1;transition:.2s ease}
-    .promos-home:hover{color:#d9fffc!important;background:transparent;transform:translateY(-1px) scale(1.08)}
     .promos-intro{margin-bottom:20px;padding:20px 22px;border:1px solid #dce8eb;border-radius:15px;background:linear-gradient(135deg,#fff,#eefafa);box-shadow:0 5px 18px rgba(31,55,75,.08)}
     .promos-intro h3{margin:0 0 6px;color:#263b50;font-weight:700}
     .promos-intro p{margin:0;color:#6b7d8f}
@@ -23,29 +20,13 @@
     .promo-card-body .btn-info{background:#18a9a2}
     .promo-card-body .btn-purple{color:#fff;background:#7252b8}
     .promo-note{margin-top:15px;padding:11px 13px;border-radius:10px;color:#496170;background:#f2f7f8;font-size:12px}
-    @media(max-width:575.98px){.promos-heading{align-items:flex-start}.promo-card{grid-template-columns:76px minmax(0,1fr)}.promo-card img{width:76px}}
+    @media(max-width:575.98px){.promo-card{grid-template-columns:76px minmax(0,1fr)}.promo-card img{width:76px}}
 </style>
 @endsection
 
 @section('content')
 <div class="pcoded-main-container">
     <div class="pcoded-content">
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <div class="page-header-title promos-heading">
-                            <a href="{{ route('paciente.home') }}" class="promos-home" title="Volver al inicio" aria-label="Volver al inicio"><i class="feather icon-home" aria-hidden="true"></i></a>
-                            <div>
-                                <h5 class="m-b-5 font-weight-bold text-white">Promociones y beneficios</h5>
-                                <span class="text-white">Opciones para el cuidado y bienestar de tus mascotas</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="promos-intro">
             <h3>Beneficios disponibles para ti</h3>
             <p>Accede con tu cuenta VET SDI. La tienda reconocerá automáticamente tus mascotas, direcciones y beneficios vigentes.</p>

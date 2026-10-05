@@ -1,0 +1,711 @@
+/* Genealogía de mascotas: árbol, formulario y visor de fotos */
+
+.genealogy-shell {
+    --arbol-principal: #178b82;
+    --arbol-acento: #12b8ba;
+    --arbol-linea: #b7c6d3;
+    --arbol-espacio: 20px;
+    --arbol-macho: #3f7fd6;
+    --arbol-hembra: #d9588f;
+}
+
+/* Patita del botón "Escritorio" de la mascota en el header */
+.icono-patita {
+    flex: 0 0 auto;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* en celular el botón cede espacio y corta el nombre largo con "…" */
+.elemento-escritorio-mascota,
+.boton-escritorio-mascota {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.boton-escritorio-mascota-texto {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* el menú del header en celular no debe pasar del ancho de la pantalla */
+@media (max-width: 991px) {
+    .pcoded-header .navbar-collapse,
+    .pcoded-header .navbar-nav {
+        min-width: 0;
+        max-width: 100%;
+    }
+}
+
+/* Árbol */
+.arbol-genealogico {
+    margin: 8px 0 28px;
+}
+
+.arbol-vacio {
+    max-width: 420px;
+    margin: 16px auto 0;
+    text-align: center;
+    color: #6c7a86;
+}
+
+.arbol-familia {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--arbol-espacio);
+    gap: var(--arbol-espacio);
+}
+
+/* con una sola línea familiar se centra con el ancho de media columna */
+.arbol-familia.una-linea {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 50%;
+    margin: 0 auto;
+}
+
+.arbol-rama {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.arbol-rama-titulo {
+    display: block;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #6c7a86;
+}
+
+.arbol-pareja {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--arbol-espacio);
+    gap: var(--arbol-espacio);
+}
+
+.arbol-progenitor {
+    display: flex;
+    justify-content: center;
+}
+
+.arbol-progenitor .arbol-ficha,
+.arbol-pareja.una-ficha .arbol-ficha {
+    width: calc(50% - var(--arbol-espacio) / 2);
+}
+
+.arbol-pareja.una-ficha {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+/* Progenitor que falta cuando sí hay abuelos */
+.arbol-sin-registrar {
+    display: inline-block;
+    padding: 7px 14px;
+    border: 1px dashed #aebfcc;
+    border-radius: 20px;
+    background: #fff;
+    color: #6c7a86;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color .15s ease, border-color .15s ease;
+}
+
+.arbol-sin-registrar:hover,
+.arbol-sin-registrar:focus {
+    color: var(--arbol-principal);
+    border-color: var(--arbol-principal);
+    outline: 0;
+}
+
+.arbol-sin-registrar i { margin-right: 4px; }
+
+/* Línea que baja de cada ficha y se abre hacia sus dos progenitores */
+.arbol-union {
+    position: relative;
+    height: 36px;
+}
+
+.arbol-union::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    left: calc(25% - var(--arbol-espacio) / 4);
+    right: calc(25% - var(--arbol-espacio) / 4);
+    height: 18px;
+    border: 2px solid var(--arbol-linea);
+    border-bottom: 0;
+    border-radius: 12px 12px 0 0;
+}
+
+.arbol-union::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 18px;
+    margin-left: -1px;
+    background: var(--arbol-linea);
+}
+
+/* un solo familiar abajo: línea recta sin horquilla */
+.arbol-union.es-recta::before { display: none; }
+.arbol-union.es-recta::after { height: 100%; }
+
+/* Fichas */
+.arbol-ficha {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 190px;
+    margin: 0 auto;
+    padding: 14px 10px 12px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #e3eaf0;
+    border-radius: 14px;
+    box-shadow: 0 6px 16px rgba(30, 51, 70, .08);
+}
+
+.arbol-ficha.es-editable {
+    cursor: pointer;
+    transition: box-shadow .18s ease, transform .18s ease;
+}
+
+.arbol-ficha.es-editable:hover,
+.arbol-ficha.es-editable:focus {
+    outline: 0;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(30, 51, 70, .16);
+}
+
+.arbol-ficha.es-editable:focus { box-shadow: 0 0 0 3px rgba(18, 184, 186, .35); }
+
+.arbol-ficha-lapiz {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #eef4f7;
+    color: #7b8a97;
+    font-size: 11px;
+}
+
+.arbol-ficha.es-editable:hover .arbol-ficha-lapiz {
+    background: var(--arbol-acento);
+    color: #fff;
+}
+
+.arbol-nota {
+    margin-top: 6px;
+    font-size: 11px;
+    color: #8a99a6;
+}
+
+.arbol-foto {
+    display: block;
+    width: 72px;
+    height: 72px;
+    margin-bottom: 8px;
+    border-radius: 50%;
+    border: 3px solid #eef4f7;
+    background: #eef4f7;
+    object-fit: cover;
+}
+
+img.arbol-foto {
+    cursor: zoom-in;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+img.arbol-foto:hover {
+    transform: scale(1.06);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, .18);
+}
+
+.arbol-foto-vacia {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    color: #9aaebe;
+}
+
+.arbol-etiqueta {
+    margin-bottom: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #7b8a97;
+}
+
+.arbol-etiqueta i { margin-right: 3px; }
+.arbol-ficha-macho .arbol-etiqueta i { color: var(--arbol-macho); }
+.arbol-ficha-hembra .arbol-etiqueta i { color: var(--arbol-hembra); }
+
+.arbol-nombre {
+    display: block;
+    max-width: 100%;
+    font-size: 15px;
+    line-height: 1.25;
+    color: #272727;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.arbol-especie {
+    display: inline-block;
+    margin-top: 7px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: #e6f6f5;
+    color: #167c75;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* Mascota principal y sus hermanos */
+.arbol-centro-lista {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
+}
+
+/* flex-wrap con margen en vez de gap para navegadores antiguos */
+.con-hermanos .arbol-ficha {
+    width: 160px;
+    margin: 6px;
+}
+
+.con-hermanos .arbol-ficha.es-principal {
+    width: 220px;
+}
+
+.arbol-ficha.es-principal {
+    max-width: 260px;
+    padding: 18px 14px 16px;
+    border: 0;
+    color: #fff;
+    background: var(--arbol-principal);
+    background: linear-gradient(135deg, var(--arbol-principal) 0%, var(--arbol-acento) 100%);
+    box-shadow: 0 10px 24px rgba(23, 139, 130, .30);
+}
+
+.es-principal .arbol-foto {
+    width: 104px;
+    height: 104px;
+    border-color: rgba(255, 255, 255, .75);
+}
+
+.es-principal .arbol-etiqueta { color: #dff7f4; }
+.es-principal .arbol-nombre { font-size: 19px; color: #fff; }
+.es-principal .arbol-especie { background: rgba(255, 255, 255, .22); color: #fff; }
+
+/* Crías */
+.arbol-crias {
+    margin-top: 32px;
+}
+
+.arbol-crias-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 170px));
+    grid-gap: 14px;
+    gap: 14px;
+    justify-content: center;
+}
+
+/* Formulario */
+.genealogy-card { border: 0; border-radius: 14px; overflow: hidden; box-shadow: 0 7px 18px rgba(30, 51, 70, .10); }
+.genealogy-form .card-header { padding: 14px 18px; }
+.genealogy-form label { font-weight: 600; }
+.photo-preview { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; background: #edf2f5; border: 2px solid #dfe6ec; }
+.photo-preview.empty { display: flex; align-items: center; justify-content: center; color: #8797a7; }
+.main-photo-box { display: flex; align-items: center; padding: 14px; border: 1px dashed #15aeb0; border-radius: 12px; background: #f2ffff; }
+.main-photo-box .photo-preview { flex: 0 0 auto; width: 86px; height: 86px; margin-right: 16px; }
+
+/* Modal de familiares */
+.modal-familiar .modal-content { border: 0; border-radius: 16px; overflow: hidden; box-shadow: 0 22px 55px rgba(25, 43, 65, .28); }
+.modal-familiar .modal-header { border: 0; color: #fff; background: #178b82; background: linear-gradient(135deg, #178b82 0%, #12b8ba 100%); }
+.modal-familiar .modal-title { color: #fff; }
+.modal-familiar .close { color: #fff; opacity: .85; text-shadow: none; }
+.modal-familiar label { font-weight: 600; color: #272727; }
+
+/* el form envuelve cabecera, cuerpo y pie: debe dejar que el cuerpo haga scroll */
+.modal-familiar-form { display: flex; flex-direction: column; min-height: 0; max-height: 100%; overflow: hidden; }
+.modal-familiar .modal-body { overflow-y: auto; }
+
+.familiar-pregunta { display: block; margin-bottom: 8px; font-weight: 700; color: #272727; }
+.familiar-paso { margin-bottom: 18px; }
+.familiar-bloque { margin-top: 16px; }
+.familiar-aviso { display: block; margin-top: 6px; color: #b76e00; }
+
+.opcion-origen { display: flex; margin: 0 -5px; }
+.opcion-origen-item { position: relative; flex: 1 1 0; margin: 0 5px; cursor: pointer; }
+.opcion-origen-item input { position: absolute; opacity: 0; pointer-events: none; }
+.opcion-origen-item span {
+    display: block;
+    height: 100%;
+    padding: 12px 10px;
+    text-align: center;
+    border: 2px solid #dfe6ec;
+    border-radius: 12px;
+    background: #fbfcfd;
+    color: #4b5a66;
+    font-weight: 700;
+    transition: border-color .15s ease, background .15s ease;
+}
+.opcion-origen-item span i { display: block; margin-bottom: 4px; font-size: 18px; color: #8a99a6; }
+.opcion-origen-item input:checked + span { border-color: #12b8ba; background: #ecfbfb; color: #127d78; }
+.opcion-origen-item input:checked + span i { color: #12b8ba; }
+.opcion-origen-item input:focus + span { box-shadow: 0 0 0 3px rgba(18, 184, 186, .3); }
+
+.familiar-foto { display: flex; align-items: center; margin-top: 18px; padding: 12px; border: 1px dashed #c9dbe0; border-radius: 12px; background: #fbfcfd; }
+.familiar-foto .photo-preview { flex: 0 0 auto; width: 64px; height: 64px; margin-right: 14px; }
+.familiar-foto-texto { min-width: 0; }
+.familiar-foto-mensaje { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #4b5a66; }
+.familiar-foto input { max-width: 100%; font-size: 12px; }
+
+/* opciones del buscador con foto */
+.familiar-opcion { display: flex; align-items: center; }
+.familiar-opcion-foto { flex: 0 0 auto; width: 30px; height: 30px; margin-right: 10px; border-radius: 50%; object-fit: cover; background: #eef4f7; }
+.familiar-opcion-foto.es-vacia { display: flex; align-items: center; justify-content: center; font-size: 13px; color: #9aaebe; }
+.familiar-opcion-texto { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; }
+.familiar-opcion-texto small { color: #7b8a97; }
+.modal-familiar .select2-container .select2-selection--single { height: auto; min-height: 42px; padding: 5px 4px; }
+.modal-familiar .select2-container--default .select2-selection--single .select2-selection__arrow { top: 50%; margin-top: -13px; }
+
+/* Avisos flotantes: fondo oscuro, ícono de color y texto blanco, sin borde */
+.notificaciones {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1090;
+    width: 360px;
+    max-width: calc(100vw - 32px);
+    pointer-events: none;
+}
+
+.notificacion {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 10px;
+    padding: 14px 14px 14px 16px;
+    border: 0;
+    border-radius: 12px;
+    background: #1f2933;
+    color: #fff;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .28);
+    opacity: 0;
+    -webkit-transform: translateY(14px);
+    transform: translateY(14px);
+    transition: opacity .3s ease, -webkit-transform .3s ease;
+    transition: opacity .3s ease, transform .3s ease;
+    pointer-events: auto;
+}
+
+.notificacion.visible {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+}
+
+.notificacion-icono {
+    flex: 0 0 auto;
+    margin: 1px 12px 0 0;
+    font-size: 20px;
+}
+
+.notificacion.es-exito .notificacion-icono { color: #34d399; }
+.notificacion.es-error .notificacion-icono { color: #f87171; }
+
+.notificacion-texto {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #fff;
+}
+
+.notificacion-texto ul { margin: 0; padding-left: 18px; }
+.notificacion-texto li + li { margin-top: 3px; }
+
+.notificacion-cerrar {
+    flex: 0 0 auto;
+    margin: -4px -4px 0 12px;
+    padding: 0 6px;
+    border: 0;
+    background: none;
+    color: rgba(255, 255, 255, .6);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.notificacion-cerrar:hover,
+.notificacion-cerrar:focus { color: #fff; outline: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+    .notificacion { transition: none; }
+}
+
+/* Visor de fotos */
+.genealogy-viewer { display: none; position: fixed; z-index: 1080; top: 0; right: 0; bottom: 0; left: 0; background: rgba(8, 20, 29, .9); align-items: center; justify-content: center; padding: 28px; }
+.genealogy-viewer.open { display: flex; }
+.genealogy-viewer-dialog { position: relative; width: 92vw; max-width: 940px; text-align: center; }
+.genealogy-viewer-image { display: block; max-width: 100%; max-height: 76vh; margin: auto; border-radius: 12px; object-fit: contain; background: #fff; }
+.genealogy-viewer-caption { color: #fff; font-size: 17px; font-weight: 600; margin-top: 13px; }
+.genealogy-viewer-close,
+.genealogy-viewer-nav { position: absolute; border: 0; color: #fff; background: rgba(16, 164, 163, .88); cursor: pointer; box-shadow: 0 3px 12px rgba(0, 0, 0, .25); }
+.genealogy-viewer-close { right: -14px; top: -14px; width: 42px; height: 42px; border-radius: 50%; font-size: 25px; }
+.genealogy-viewer-nav { top: 45%; width: 46px; height: 58px; border-radius: 9px; font-size: 26px; }
+.genealogy-viewer-prev { left: -60px; }
+.genealogy-viewer-next { right: -60px; }
+.genealogy-viewer-counter { display: block; color: #cce9e7; font-size: 12px; margin-top: 4px; }
+
+/* Tablet y celular: cada línea familiar va en su propio bloque */
+@media screen and (max-width: 767px) {
+    .arbol-familia { grid-template-columns: 1fr; grid-gap: 28px; gap: 28px; }
+    .arbol-familia.una-linea { max-width: none; }
+
+    .arbol-union-padres::before { display: none; }
+    .arbol-union-padres::after { top: 0; height: 100%; }
+
+    .genealogy-form .btn { margin-bottom: 8px; }
+    .genealogy-viewer-prev { left: 4px; }
+    .genealogy-viewer-next { right: 4px; }
+    .genealogy-viewer-close { right: 4px; }
+}
+
+@media screen and (max-width: 575px) {
+    .genealogy-shell { --arbol-espacio: 12px; }
+
+    .arbol-foto { width: 58px; height: 58px; }
+    .arbol-nombre { font-size: 14px; }
+    .es-principal .arbol-foto { width: 88px; height: 88px; }
+
+    .main-photo-box { flex-direction: column; align-items: flex-start; }
+    .main-photo-box .photo-preview { margin: 0 0 12px; }
+
+    .notificaciones { right: 16px; left: 16px; bottom: 16px; width: auto; max-width: none; }
+
+    .modal-familiar .modal-dialog { margin: 8px; }
+    .opcion-origen { flex-direction: column; margin: 0; }
+    .opcion-origen-item { margin: 0 0 8px; }
+}
+
+@media screen and (max-width: 420px) {
+    .arbol-ficha { padding: 12px 6px 10px; }
+    .arbol-foto { width: 50px; height: 50px; }
+    .arbol-etiqueta { font-size: 10px; }
+    .arbol-nombre { font-size: 13px; }
+    .arbol-especie { padding: 2px 8px; font-size: 10px; }
+    .arbol-crias-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .con-hermanos .arbol-ficha { width: calc(50% - 12px); }
+    .con-hermanos .arbol-ficha.es-principal { width: calc(100% - 12px); }
+}
+
+/* ===== Certificado genealógico (página imprimible) ===== */
+.certificado-pagina {
+    margin: 0;
+    background: #edf2f5;
+    color: #272727;
+    font-family: "Nunito", sans-serif;
+}
+
+.certificado-pagina p { font-family: "Nunito Sans", "Nunito", sans-serif; }
+
+.certificado {
+    max-width: 1060px;
+    margin: 24px auto;
+    padding: 32px 36px;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(30, 51, 70, .08);
+}
+
+.certificado-cabecera {
+    padding-bottom: 16px;
+    text-align: center;
+    border-bottom: 1px solid #e3eaf0;
+}
+
+.certificado-marca {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #178b82;
+}
+
+.certificado-cabecera h1 {
+    margin: 6px 0 4px;
+    font-size: 28px;
+    font-weight: 800;
+    color: #272727;
+}
+
+.certificado-cabecera p { margin: 0; color: #6c7a86; }
+
+.certificado-datos {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-gap: 12px;
+    gap: 12px;
+    margin: 20px 0 26px;
+}
+
+.certificado-datos div {
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #f4f8fa;
+}
+
+.certificado-datos span {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #7b8a97;
+}
+
+.certificado-datos strong {
+    display: block;
+    margin-top: 2px;
+    font-size: 15px;
+    color: #272727;
+    overflow-wrap: break-word;
+}
+
+/* en el certificado las fichas van sin sombra y la mascota con un tono suave para imprimir */
+.certificado .arbol-ficha { box-shadow: none; }
+
+.certificado .arbol-ficha.es-principal {
+    border: 1px solid #cde8e5;
+    background: #eaf7f6;
+    color: #272727;
+    box-shadow: none;
+}
+
+.certificado .es-principal .arbol-foto { border-color: #fff; }
+.certificado .es-principal .arbol-etiqueta { color: #178b82; }
+.certificado .es-principal .arbol-nombre { color: #272727; }
+.certificado .es-principal .arbol-especie { background: #d3eeeb; color: #146f69; }
+
+.arbol-sin-registrar.es-fija,
+.arbol-sin-registrar.es-fija:hover {
+    cursor: default;
+    color: #6c7a86;
+    border-color: #aebfcc;
+}
+
+.certificado-observaciones {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #e3eaf0;
+}
+
+.certificado-observaciones h2 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #272727;
+}
+
+.certificado-observaciones p { margin: 0; white-space: pre-wrap; color: #4b5a66; }
+
+.certificado-pie {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #7b8a97;
+}
+
+.certificado-acciones { margin: 0 0 28px; text-align: center; }
+
+.certificado-boton {
+    display: inline-block;
+    margin: 4px;
+    padding: 10px 18px;
+    border: 0;
+    border-radius: 8px;
+    background: #6c7a86;
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.certificado-boton.es-destacado { background: #12b8ba; }
+.certificado-boton:hover,
+.certificado-boton:focus { color: #fff; opacity: .9; }
+.certificado-boton i { margin-right: 6px; }
+
+@media screen and (max-width: 767px) {
+    .certificado { margin: 8px; padding: 22px 14px; }
+    .certificado-cabecera h1 { font-size: 22px; }
+    .certificado-datos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Impresión en A4: todo en una hoja y con los colores suaves */
+@media print {
+    @page { size: A4 portrait; margin: 8mm; }
+
+    .certificado-pagina { background: #fff; }
+    .certificado-pagina * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .no-imprimir { display: none !important; }
+
+    .certificado { --arbol-espacio: 12px; max-width: none; margin: 0; padding: 6px 10px; border-radius: 0; box-shadow: none; }
+    .certificado-cabecera { padding-bottom: 8px; }
+    .certificado-marca { font-size: 10px; }
+    .certificado-cabecera h1 { margin: 3px 0 2px; font-size: 20px; }
+    .certificado-cabecera p { font-size: 11px; }
+
+    .certificado-datos { grid-gap: 8px; gap: 8px; margin: 10px 0 14px; }
+    .certificado-datos div { padding: 6px 8px; border-radius: 8px; }
+    .certificado-datos span { font-size: 8px; }
+    .certificado-datos strong { font-size: 12px; }
+
+    .certificado .arbol-genealogico { margin: 0; }
+    .certificado .arbol-ficha { max-width: 150px; padding: 8px 6px; border-radius: 10px; break-inside: avoid; page-break-inside: avoid; }
+    .certificado .arbol-foto { width: 46px; height: 46px; margin-bottom: 4px; border-width: 2px; }
+    .certificado .es-principal .arbol-foto { width: 64px; height: 64px; }
+    .certificado .arbol-etiqueta { font-size: 8px; }
+    .certificado .arbol-nombre { font-size: 12px; }
+    .certificado .es-principal .arbol-nombre { font-size: 14px; }
+    .certificado .arbol-especie { margin-top: 4px; padding: 2px 7px; font-size: 8px; }
+    .certificado .arbol-nota { font-size: 8px; }
+    .certificado .arbol-rama-titulo { margin-bottom: 6px; font-size: 9px; }
+    .certificado .con-hermanos .arbol-ficha { width: 120px; margin: 4px; }
+    .certificado .con-hermanos .arbol-ficha.es-principal { width: 160px; }
+
+    .certificado .arbol-union { height: 24px; }
+    .certificado .arbol-union::before { top: 12px; height: 12px; }
+    .certificado .arbol-union::after { height: 12px; }
+    .certificado .arbol-union.es-recta::after { height: 100%; }
+    .certificado .arbol-sin-registrar { padding: 4px 10px; font-size: 9px; }
+
+    .certificado-observaciones { margin-top: 12px; padding-top: 8px; }
+    .certificado-observaciones h2 { margin-bottom: 3px; font-size: 12px; }
+    .certificado-observaciones p { font-size: 10px; line-height: 1.3; }
+    .certificado-pie { margin-top: 10px; font-size: 9px; }
+}

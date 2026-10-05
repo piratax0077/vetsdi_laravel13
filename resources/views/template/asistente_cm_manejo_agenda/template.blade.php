@@ -250,5 +250,6 @@
     @yield('page-script')
     @yield('btn-script-agenda')
 
+@include('template.include.selector_fechas')
 </body>
 </html>

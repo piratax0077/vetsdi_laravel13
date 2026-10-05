@@ -590,7 +590,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius:16px; border:none; overflow:hidden;">
 
-            <div class="modal-header" style="border-bottom:1px solid #E4EAE7;">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" style="font-family:'Nunito',sans-serif;">Tarjeta de pago</h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>

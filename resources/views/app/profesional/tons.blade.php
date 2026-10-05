@@ -5,44 +5,9 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-xxxl-12">
-                            <div class="page-header-title">
-                                <h5 class="m-b-10 font-weight-bold">Tons</h5>
-                            </div>
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    @if(Auth::user()->hasRole('Profesional'))
-                                        <a href="{{ route('profesional.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                            <i class="feather icon-home"></i>
-                                        </a>
-                                    @elseif(Auth::user()->hasRole('Asistente'))
-                                        <a href="{{ route('asistente.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                            <i class="feather icon-home"></i>
-                                        </a>
-                                    @elseif(Auth::user()->hasRole('Institucion'))
-                                        <a href="{{ route('institucion.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                            <i class="feather icon-home"></i>
-                                        </a>
-                                    @elseif(Auth::user()->hasRole('Servicio'))
-                                        <a href="{{ route('servicio.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                            <i class="feather icon-home"></i>
-                                        </a>
-                                    {{--  @elseif(Auth::user()->hasRole('AsistenCaja'))
-                                        <a href="{{ route('asistente_adm.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                            <i class="feather icon-home"></i>
-                                        </a>  --}}
-                                    @endif
-                                    {{--  <a href="{{ route('profesional.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                        <i class="feather icon-home"></i>
-                                    </a>  --}}
-                                </li>
-                                <li class="breadcrumb-item"><a href="#">Tons</a></li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <h5 class="f-26 d-inline">Tons</h5>
                 </div>
             </div>
             <div class="row">
@@ -128,9 +93,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center" id="nueva_tons_titulo">Agregar nueva TONS&nbsp;</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -325,7 +290,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
                     <button type="submit" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
                 </div>
 

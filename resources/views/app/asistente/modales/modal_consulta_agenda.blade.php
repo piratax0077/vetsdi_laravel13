@@ -5,7 +5,7 @@
             <input type="hidden" name="estado_id_profesional" id="estado_id_profesional" value="">
             <input type="hidden" name="estado_id_paciente" id="estado_id_paciente" value="">
             <input type="hidden" name="id_hora_medica" id="id_hora_medica" value="">
-            <div class="modal-header bg-info pt-3 pb-3">
+            <div class="modal-header pt-3 pb-3 modal-header-purple">
                 <h6 id="cabecera_hora_medica" class="text-white f-16 mb-0 mt-0">Información del paciente</h6>
             </div>
             <div class="modal-body">
@@ -153,7 +153,7 @@
                 </div>
 
                 <div>
-                    <button type="button" id="cerrarModal" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar
+                    <button type="button" id="cerrarModal" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar
                     </button>
                 </div>
                 <div>
@@ -180,9 +180,9 @@
 <div id="modal_recepcion_bonos_api" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Recepcion de bonos" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="modal_pago_consulta_title">Pago Consulta</h5>
-                <button type="button" class="close close_modal_recepcion_bonos_api" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close close_modal_recepcion_bonos_api" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body pb-0">
                 {{--  BOTONES  --}}
@@ -368,13 +368,13 @@
                             <div class="col-sm-6">
                                 <div class="form-group fill">
                                     <button type="submit" class="btn btn-info btn-sm has-ripple left-0">Pagar Atención Médica</button>
-                                    {{--  <button type="button" class="btn btn-danger btn-sm has-ripple " data-dismiss="modal">Cerrar</button>  --}}
+                                    {{--  <button type="button" class="btn btn-danger btn-sm has-ripple " data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>  --}}
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group fill text-left">
                                     {{--  <button type="submit" class="btn btn-info btn-sm has-ripple">Pagar Atención Médica</button>  --}}
-                                    <button type="button" class="btn btn-danger btn-sm has-ripple " data-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-danger btn-sm has-ripple " data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
                                 </div>
                             </div>
                         </div>
@@ -390,9 +390,9 @@
 <div id="agenda_agregar_paciente" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="agregar_paciente_asistente" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info pt-3 pb-2">
+            <div class="modal-header pt-3 pb-2 modal-header-purple">
                 <h5 class="modal-title text-center">Tomar hora</h5>
-                <button id="cerrar_tomar_hora" type="button" class="close text-white close_agenda_agregar_paciente" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button id="cerrar_tomar_hora" type="button" class="close text-white close_agenda_agregar_paciente" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
 
@@ -491,7 +491,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger close_agenda_agregar_paciente" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark close_agenda_agregar_paciente" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                             <button type="button" onclick="agendar_hora();" class="btn btn-info">Agendar Hora</button>
 
                         </div>
@@ -651,7 +651,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger close_agenda_agregar_paciente"  data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark close_agenda_agregar_paciente"  data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                             <button type="button" id="guardar_reserva_paciente" onclick="agendar_hora_paciente_nuevo();" class="btn btn-info">
                                 Tomar Hora
                             </button>

@@ -58,30 +58,7 @@
             </li>
         @endif
         <li>
-            <div class="dropdown drp-user">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="feather icon-user "></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right profile-notification">
-                    <div class="pro-head">
-                        <span>{{  @Auth::user()->name }}</span>
-
-                    </div>
-                    <div class="pro-body">
-                        <ul class="pro-body">
-                            <li><a href="{{ route('profesional.mi_perfil') }}" class="dropdown-item"><i class="feather icon-user"></i> Mi perfil</a></li>
-                            <li ><a href="#" class="dropdown-item"><i class="far fa-envelope"></i>  Mis Mensajes</a></li>
-                            <li> <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-lock"></i>  Cerrar sesión</a></i>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    class="d-none">
-                                    @csrf
-                                </form>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            @include('template.partials.perfil_encabezado', ['tipoPerfil' => 'profesional'])
         </li>
     </ul>
     </div>

@@ -34,7 +34,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-danger">Cancelar</button>
+                        <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-outline-dark">Cancelar</button>
                         <!-- <button type="button" class="btn btn-primary" id="btn_modal_registrar_ficha_tipo_dg" onclick="guardar_tipo_ficha_cg();">Registrar</button> -->
                         <button type="button" class="btn btn-primary" id="btn_modal_registrar_ficha_tipo_dg" >Registrar</button>
                     </div>

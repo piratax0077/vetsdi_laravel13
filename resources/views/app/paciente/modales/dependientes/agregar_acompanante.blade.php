@@ -2,7 +2,7 @@
 <div class="modal fade" id="modal_agregar_acompanante" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1" id="modal_indicar_examen">Agregar acompañante de dependiente</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>

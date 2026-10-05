@@ -744,7 +744,15 @@ class EscritorioGeneral extends Controller
         $datos['msj'] = 'registros';
         $datos['registros'] = array(
             'horario_agenda_laboral' => $horario_agenda_laboral,
-            'horario_agenda_no_laboral' => $horario_agenda_no_laboral
+            'horario_agenda_no_laboral' => $horario_agenda_no_laboral,
+            // rango de horas de cada bloque de días, para mostrarlo como información al tutor
+            'horarios' => $horario->map(function ($hor) {
+                return array(
+                    'dia' => $hor->dia,
+                    'hora_inicio' => $hor->hora_inicio,
+                    'hora_termino' => $hor->hora_termino,
+                );
+            })->values(),
         );
 
         return $datos;

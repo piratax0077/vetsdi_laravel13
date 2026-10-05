@@ -166,9 +166,9 @@
 <div class="modal fade" id="exampleModalMascota" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title">Simbología del odontograma</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -228,11 +228,11 @@
     aria-labelledby="modalDetallePiezaMascotaTitulo" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content odonto-mascota-detail-modal">
-            <div class="modal-header bg-purple">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="modalDetallePiezaMascotaTitulo">
                     Detalle de la pieza
                 </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

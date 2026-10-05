@@ -407,7 +407,7 @@
 <div id="modal_ver_rayo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_ver_rayo" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1" id="modal_eval_hab_preart">Exámenes radiológicos</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modal_ver_rayo').modal('hide');"><span aria-hidden="true">×</span>
                 </button>

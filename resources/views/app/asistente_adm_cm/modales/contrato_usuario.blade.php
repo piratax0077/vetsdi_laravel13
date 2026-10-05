@@ -2,9 +2,9 @@
 <div id="ver_contrato_usuario" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="a_rol" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Agregar Empleado Nuevo</h5>
-                <button type="button" class="close text-white cerrar_modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white cerrar_modal" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <table id="tabla_ver_contrato" class="display table-bordered table table-striped dt-responsive nowrap table-xs" >
@@ -118,7 +118,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm mx-auto cerrar_modal" data-dismiss="modal" aria-label="Close">Cerrar</button>
+                <button type="button" class="btn btn-danger btn-sm mx-auto cerrar_modal" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
             </div>
         </div>
     </div>

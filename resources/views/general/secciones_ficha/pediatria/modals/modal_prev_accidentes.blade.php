@@ -10,7 +10,7 @@
               </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('modal_prev_acc');">Enviar al Paciente</button>
             </div>
         </div>

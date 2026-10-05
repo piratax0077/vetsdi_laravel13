@@ -986,7 +986,7 @@ function guardar_reparacion_reclamo() {
 
             <!-- Footer -->
             <div class="modal-footer border-top p-3">
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">
                     <i class="feather icon-x mr-1"></i>Cancelar
                 </button>
                 <button type="button" class="btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;" onclick="guardar_reparacion_reclamo()">

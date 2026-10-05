@@ -71,9 +71,9 @@
 <div id="modal_registrar_otro_acompanante" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_registrar_otro_acompanante" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info pt-3 pb-2">
+            <div class="modal-header pt-3 pb-2 modal-header-purple">
                 <h5 class="modal-title text-center">Registrar otro acompañante</h5>
-                <button id="btn_cerrar_otro_acompanante_x" type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button id="btn_cerrar_otro_acompanante_x" type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -118,7 +118,7 @@
             </div>
             <div class="modal-footer">
                 <button id="btn_guardar_otro_acompanante" type="button" class="btn btn-sm btn-success-light" onclick="registrar_otro_acompananate();">Guardar</button>
-                <button id="btn_cerrar_otro_acompanante" type="button" class="btn btn-sm btn-danger-light" data-dismiss="modal" aria-label="Close">Cerrar</button>
+                <button id="btn_cerrar_otro_acompanante" type="button" class="btn btn-sm btn-danger-light" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
             </div>
 
         </div>

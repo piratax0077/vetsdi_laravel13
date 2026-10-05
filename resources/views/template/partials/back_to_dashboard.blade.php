@@ -4,7 +4,8 @@
     $showDashboardBack = $dashboardRoute
         && \Illuminate\Support\Facades\Route::has($dashboardRoute)
         && ! request()->routeIs(...$homeRouteNames)
-        && ! request()->routeIs('paciente.dependiente.mis_profesionales');
+        && ! request()->routeIs('paciente.dependiente.mis_profesionales')
+        && ! request()->routeIs('paciente.perfil');
 @endphp
 
 @if($showDashboardBack)

@@ -1,7 +1,7 @@
 <div id="modal_interconsulta" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_interconsulta" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Interconsulta</h5>
                 <button type="button"
                         class="close text-white"
@@ -85,7 +85,7 @@
                             </div>
                         </div>
                         <div class="modal-footer pt-2 pb-0">
-                            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#modal_interconsulta').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$('#modal_interconsulta').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
                             <button type="button" onclick="registrar_interconsulta();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar</button>
                         </div>
                     </form>

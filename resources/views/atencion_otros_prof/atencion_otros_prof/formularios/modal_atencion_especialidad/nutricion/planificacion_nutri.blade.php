@@ -48,7 +48,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-shadow btn-warning has-ripple" onclick="agendar_planificacion_nutri()" >Agendar</button>
                 <button type="button" class="btn btn-info" onclick="guardar_planificacion_nutri()">Guardar</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>

@@ -95,7 +95,7 @@
                 </form>
             </div> <!--AGREGAR  SALUDA ATTE, FIRMA DIGITAL DEL DR, CODIGO QR Y COD VERIFICACION SDI-->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-info btn-sm">Guardar</button>
                 </div>
             </div>

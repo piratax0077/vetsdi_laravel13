@@ -310,5 +310,6 @@
         /** FIN METODO PARA ENVIO DE INDICACIONES MEDICAS PDF */
     </script>
     @yield('page-script')
+@include('template.include.selector_fechas')
 </body>
 </html>

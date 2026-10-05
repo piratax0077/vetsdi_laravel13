@@ -1,9 +1,9 @@
 <div id="m_clasificacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="m_clasificacion" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
 		<div class="modal-content" >
-			<div class="modal-header bg-info">
+			<div class="modal-header modal-header-purple">
 				<h5 class="modal-title mt-1">Clasificaciones colonoscopía</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
 			</div>
 			<div class="modal-body">
 				<div class="row">
@@ -180,7 +180,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
 				<button type="submit" class="btn btn-success btn-info btn-sm">Guardar</button>
 			</div>
 		</div>

@@ -12,27 +12,7 @@
 			<ul class="navbar-nav ml-auto">
             @include('template.partials.workspace_switcher')
 			<li>
-				<div class="dropdown drp-user pt-3">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="feather icon-user fa-2x"></i>
-					</a>
-					<div class="dropdown-menu dropdown-menu-right profile-notification">
-						<div class="pro-head">
-							<span>{{ @Auth::user()->name }}</span>
-						</div>
-						<ul class="pro-body">
-							<form id="close" action="{{ ROUTE('logout') }}" method="POST">
-								@csrf
-								<li>
-									<a href="javascript:{}" onclick="document.getElementById('close').submit();" class="dropdown-item">
-										<i class="feather icon-log-out"></i>
-										Cerrar sesión
-									</a>
-								</li>
-							</form>
-						</ul>
-					</div>
-				</div>
+				@include('template.partials.perfil_encabezado', ['tipoPerfil' => 'asistente'])
 			</li>
 		</ul>
 	</div>

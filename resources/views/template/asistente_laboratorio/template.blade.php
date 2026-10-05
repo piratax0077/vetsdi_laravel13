@@ -353,5 +353,6 @@
 
     @yield('modales')
     <script src="{{ asset('js/validaRut.js') }}"></script>
+@include('template.include.selector_fechas')
 </body>
 </html>

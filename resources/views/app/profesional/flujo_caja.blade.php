@@ -6,45 +6,13 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content m-top">
             <!--Header-->
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-xxxl-12 mt-2">
-<ul class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    @if(Auth::user()->hasRole('Profesional'))
-                                        <a href="{{ route('profesional.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                            <i class="feather icon-home"></i>
-                                        </a>
-                                    @elseif(Auth::user()->hasRole('Asistente'))
-                                        <a href="{{ route('asistente.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                            <i class="feather icon-home"></i>
-                                        </a>
-                                    @elseif(Auth::user()->hasRole('Institucion'))
-                                        <a href="{{ route('institucion.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                            <i class="feather icon-home"></i>
-                                        </a>
-                                    @elseif(Auth::user()->hasRole('Servicio'))
-                                        <a href="{{ route('servicio.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                            <i class="feather icon-home"></i>
-                                        </a>
-                                    {{--  @elseif(Auth::user()->hasRole('AsistenCaja'))
-                                        <a href="{{ route('asistente_adm.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                            <i class="feather icon-home"></i>
-                                        </a>  --}}
-                                    @endif
-                                    {{--  <a href="{{ route('profesional.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                        <i class="feather icon-home"></i>
-                                    </a>  --}}
-                                </li>
-                                <li class="breadcrumb-item"><a href="#">Flujo de Caja</a></li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <h5 class="f-26 d-inline">Flujo de Caja</h5>
                 </div>
             </div>
             <!--Cierre: Header-->
-              <div class="row  mt-n3">
+              <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-xxxl-12">
                     <div class="user-profile user-card pt-0 mt-2">
                         <div class="card-body py-0">

@@ -3,28 +3,14 @@
 <!--Container Completo-->
 <div class="pcoded-main-container">
     <div class="pcoded-content m-top">
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 mt-4 pb-4">
-<ul class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('profesional.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio"><i class="feather icon-home"></i></a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('profesional.configuracion') }}" data-toggle="tooltip" data-placement="top" title="Volver a panel de configuración">Panel de Configuración</a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a href="#">Mis Procedimientos</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <h5 class="f-26 d-inline">Mis Procedimientos</h5>
             </div>
         </div>
         <div class="row bg-gris">
             <div class="col-sm-12">
-                <div class="card mt-n4">
+                <div class="card">
                     <div class="card-header-principal bg-white">
                         <h5 class="font-weight-bolder d-inline"><i class="feather icon-plus-circle icono-primary"></i> Mis Procedimientos (Exámenes)</h5>
                         <button class="btn btn-info d-inline float-md-right" data-toggle="modal" data-target="#nuevoProcedimientoProfesional"><i class="fa fa-plus" aria-hidden="true"></i> Registrar nuevo procedimiento</button>
@@ -85,9 +71,9 @@
         <div class="modal-content">
             <form id="form-nuevo-procedimiento">
                 @csrf
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title" id="nuevoProcedimientoProfesionalLabel">Registrar procedimiento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -125,7 +111,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
                     <button type="submit" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar procedimiento</button>
                 </div>
             </form>
@@ -140,9 +126,9 @@
             <form id="form-cargar-procedimiento">
                 @csrf
                 <input type="hidden" id="id_procedimiento_profesional" name="id_procedimiento_profesional">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title" id="cargarProcedimientoProfesionalLabel">Editar procedimiento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -188,7 +174,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
                     <button type="button" class="btn btn-info btn-sm" id="btn-actualizar-procedimiento" onclick="actualizarProcedimiento()"><i class="feather icon-save"></i> Guardar cambios</button>
                 </div>
             </form>

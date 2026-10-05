@@ -193,7 +193,7 @@
                     <div class="form-row">
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
-                                <button type="button" class="btn btn-danger-light btn-sm btn-block" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm btn-block" data-dismiss="modal">Cancelar</button>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-6">

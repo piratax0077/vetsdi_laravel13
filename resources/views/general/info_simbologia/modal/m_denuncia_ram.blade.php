@@ -99,7 +99,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="$('#modal_ram').modal('hide');">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$('#modal_ram').modal('hide');">
                         <i class="feather icon-x"></i> Cancelar
                     </button>
                     <button type="button" class="btn btn-danger btn-sm" onclick="guardar_ram()">

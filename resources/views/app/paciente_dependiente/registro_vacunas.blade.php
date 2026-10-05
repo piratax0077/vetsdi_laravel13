@@ -80,7 +80,7 @@
 <div class="modal fade" id="modal_vacuna" tabindex="-1" role="dialog" aria-labelledby="modal_vacuna_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="modal_vacuna_label"><i class="fas fa-syringe mr-2"></i>Añadir vacuna</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
             </div>
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                     <div class="text-right pt-2">
-                        <button type="button" class="btn btn-light rounded-pill px-4" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark rounded-pill px-4" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-info rounded-pill px-4" id="btn_guardar_vacuna">
                             <i class="feather icon-check"></i> Guardar vacuna
                         </button>

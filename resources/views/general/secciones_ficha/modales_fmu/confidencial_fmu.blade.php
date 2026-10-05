@@ -1,7 +1,7 @@
 <div id="confidencial_fmu" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confidencial_fmu" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
 		<div class="modal-content" >
-			<div class="modal-header bg-light">
+			<div class="modal-header modal-header-purple">
 				<h5 class="modal-title text-c-blue mt-1">Información Confidencial</h5>
 				<button type="button" class="btn btn-primary btn-icon" data-dismiss="modal" aria-label="Close" onclick="confidencia_fmu_cancelar();"><span aria-hidden="true">×</span></button>
                 <input type="hidden" id="confidencial_fmu_id_paciente" value="{{ $paciente->id }}">

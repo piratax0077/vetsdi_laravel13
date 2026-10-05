@@ -1,9 +1,9 @@
 <div id="mensaje_profesional" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header">
+			<div class="modal-header modal-header-purple">
 				<h4 class="modal-title">Mensaje Profesional</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="$(this).closest('.modal').modal('hide');">&times;</button>
 			</div>
 			<div class="modal-body">
                 <div class="form-group fill">
@@ -44,7 +44,7 @@
                 </div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
 				<button type="button" id="submit-all-profesional" class="btn btn-primary" onclick="enviar_mensaje_a_profesional()">Enviar</button>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 <div id="m_gastroenterologia_end" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="#m_gastroenterologia_end" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Solicitud Exámenes Endoscópicos</h5>
                 <button type="button" class="close text-white" onclick="$('#m_gastroenterologia_end').modal('hide')" data-dismiss="modal"><span
                         aria-hidden="true">×</span></button>
@@ -112,7 +112,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success btn-sm" onclick="enviar_examenes_paciente(3)"><i class="fas fa-email"></i>Enviar a paciente</button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="cerrarsol_examen_endoscopia();"
+                <button type="button" class="btn btn-outline-dark btn-sm" onclick="cerrarsol_examen_endoscopia();"
                     data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info btn-sm"> Guardar</button>
             </div>

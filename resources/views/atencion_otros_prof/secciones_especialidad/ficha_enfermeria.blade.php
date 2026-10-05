@@ -5402,7 +5402,7 @@
                                                             <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=2;"></textarea>
                                                         </div>
                                                     </div>
-                                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                                                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
                                                 <button type="submit" class="btn btn-info btn-sm">Guardar</button>
                                                 </form>
                                             </div>
@@ -5478,7 +5478,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i>  Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i>  Cancelar</button>
                 <button type="button" class="btn btn-info" onclick="guardar_edicion_suero_venoso()"><i class="feather icon-save"></i>  Guardar Cambios</button>
             </div>
         </div>
@@ -5507,7 +5507,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i>  Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i>  Cancelar</button>
                 <button type="button" class="btn btn-info" onclick="guardar_edicion_nutricion_parenteral()"><i class="feather icon-save"></i> Guardar Cambios</button>
             </div>
         </div>
@@ -5536,7 +5536,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
                 <button type="button" class="btn btn-info" onclick="guardar_edicion_curacion()"><i class="feather icon-save"></i> Guardar Cambios</button>
             </div>
         </div>
@@ -5608,7 +5608,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
                 <button type="button" class="btn btn-info" onclick="guardar_edicion_otro_procedimiento()"><i class="feather icon-save"></i> Guardar Cambios</button>
             </div>
         </div>

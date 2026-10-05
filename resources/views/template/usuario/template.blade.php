@@ -395,6 +395,7 @@
         /** FIN METODO PARA ENVIO DE INDICACIONES MEDICAS PDF */
     </script>
     @yield('script-veneria')
+@include('template.include.selector_fechas')
 </body>
 
 </html>

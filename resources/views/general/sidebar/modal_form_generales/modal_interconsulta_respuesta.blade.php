@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
 
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Respuesta Interconsulta</h5>
                 <button type="button" class="close text-white" onclick="$('#modal_interconsulta_respuesta').modal('hide')"  data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer pt-2 pb-0">
-                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#modal_interconsulta_respuesta').modal('hide')" ><i class="feather icon-x"></i> Cancelar</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$('#modal_interconsulta_respuesta').modal('hide')" ><i class="feather icon-x"></i> Cancelar</button>
                                 @if(!isset($interconsulta) )
                                 <button type="button" onclick="registrar_interconsulta();" class="btn btn-info btn-sm"><i class="feather icon-check"></i> Guardar</button>
                                 @endif
@@ -130,7 +130,7 @@
                                 </div>  --}}
                             </div>
                             <div class="modal-footer pt-2 pb-0">
-                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#modal_interconsulta_respuesta').modal('hide')" ><i class="feather icon-x"></i> Cancelar</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$('#modal_interconsulta_respuesta').modal('hide')" ><i class="feather icon-x"></i> Cancelar</button>
                                 <button type="button" class="btn btn-info btn-sm" onclick="enviar_respuesta_interconsulta();"><i class="feather icon-check"></i> Enviar Respuesta</button>
                             </div>
                         </form>

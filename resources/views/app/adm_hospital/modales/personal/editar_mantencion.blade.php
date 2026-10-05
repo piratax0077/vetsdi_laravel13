@@ -322,7 +322,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm mx-auto" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm mx-auto" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-warning btn-sm mx-auto" onclick="editar_nuevo_empleado_mantencion();">Editar</button>
                 {{--  <button type="button" class="btn btn-primary">Ver formulario (PDF)</button>  --}}
 

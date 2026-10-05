@@ -1,9 +1,9 @@
 <div id="m_consultaant_fmu" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="m_consultaant_fmuLabel" aria-hidden="true">
     <div class="modal-dialog  modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="m_consultaant_fmuLabel" onclick="('#m_consultaant_fmu').modal('hide'); ">Datos de consulta de: </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">
                      <span aria-hidden="true">&times;</span>
                 </button>
             </div>

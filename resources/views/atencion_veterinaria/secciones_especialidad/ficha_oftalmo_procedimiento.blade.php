@@ -22,7 +22,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-danger">Cancelar</button>
+                        <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-outline-dark">Cancelar</button>
                         <button type="button" class="btn btn-primary" id="btn_modal_procedimiento_oft" >Registrar</button>
                     </div>
                 </div>

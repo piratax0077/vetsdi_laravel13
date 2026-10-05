@@ -293,7 +293,7 @@
     aria-labelledby="tutorialSdiTitulo" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
-            <div class="modal-header tutorial-sdi-header">
+            <div class="modal-header tutorial-sdi-header modal-header-purple">
                 <div>
                     <h5 class="modal-title mb-0" id="tutorialSdiTitulo">
                         <i class="feather icon-play-circle mr-2"></i>Academia VET SDI
@@ -353,9 +353,9 @@
 <div class="modal fade" id="confirmLogoutModal" tabindex="-1" role="dialog" aria-labelledby="confirmLogoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="confirmLogoutModalLabel">Confirmar</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -366,7 +366,7 @@
                 <p>¿Esta seguro que desea continuar?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="feather icon-x"></i>Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i>Cancelar</button>
                 <button type="button" class="btn btn-danger" onclick="menuContinuar();"><i class="feather icon-check"></i>Continuar</button>
             </div>
         </div>

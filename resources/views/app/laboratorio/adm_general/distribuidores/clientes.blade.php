@@ -207,7 +207,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#modal_agregar_cliente).modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$('#modal_agregar_cliente).modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
                 <button type="button" class="btn btn-info btn-sm" onclick="guardar_cliente();"><i class="feather icon-save"></i> Guardar cliente</button>
 
             </div>
@@ -316,7 +316,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#modal_editar_cliente').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$('#modal_editar_cliente').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
                 <button type="button" class="btn btn-info btn-sm" onclick="guardar_edicion_cliente();"><i class="feather icon-save"></i> Guardar cliente</button>
 
             </div>

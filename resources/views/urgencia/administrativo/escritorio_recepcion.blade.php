@@ -413,7 +413,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger close_agenda_agregar_paciente"  data-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-outline-dark close_agenda_agregar_paciente"  data-dismiss="modal">Cancelar</button>
                                     <button type="button" id="guardar_reserva_paciente" onclick="agendar_hora_paciente_nuevo();" class="btn btn-info">
                                         Tomar Hora
                                     </button>
@@ -883,7 +883,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger close_agenda_agregar_paciente" data-dismiss="modal">Cancelar</button>
+                                                    <button type="button" class="btn btn-outline-dark close_agenda_agregar_paciente" data-dismiss="modal">Cancelar</button>
                                                     <button type="button" onclick="agendar_hora();" class="btn btn-info">Agendar Hora</button>
 
                                                 </div>
@@ -1043,7 +1043,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger close_agenda_agregar_paciente"  data-dismiss="modal">Cancelar</button>
+                                                    <button type="button" class="btn btn-outline-dark close_agenda_agregar_paciente"  data-dismiss="modal">Cancelar</button>
                                                     <button type="button" id="guardar_reserva_paciente" onclick="agendar_hora_paciente_nuevo();" class="btn btn-info">
                                                         Tomar Hora
                                                     </button>

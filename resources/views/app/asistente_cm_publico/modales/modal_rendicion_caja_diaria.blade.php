@@ -1,7 +1,7 @@
 <div id="rendicion_caja_diaria" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="rendicion_caja_diaria" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title d-inline mt-1">Rendición Caja Diaria</h5>
                 <button type="button" class="close text-white" aria-label="Close" onclick="cerrarModalRendicion();"><span aria-hidden="true">×</span></button>
             </div>

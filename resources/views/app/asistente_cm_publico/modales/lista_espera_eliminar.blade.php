@@ -1,7 +1,7 @@
 <div class="modal fade" id="modal_eliminar_lista_espera" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_eliminar_lista_espera" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1">Eliminar de Lista de Espera</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_modal_eliminar();"><span aria-hidden="true">×</span></button>
             </div>

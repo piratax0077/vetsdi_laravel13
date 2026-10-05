@@ -1566,7 +1566,7 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                             <button type="button" class="btn btn-success has-ripple">Guardar<span class="ripple ripple-animate" style="height: 94.375px; width: 94.375px; animation-duration: 0.7s; animation-timing-function: linear; background: rgb(255, 255, 255); opacity: 0.4; top: -33.6875px; left: -14.3125px;"></span></button>
                                             <button class="btn btn-primary" align:center>Ver formulario PDF</button>
                                         </div>
@@ -1725,7 +1725,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-info"> Guardar</button>
             </div>
         </div>
@@ -1844,7 +1844,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-info">Guardar</button>
             </div>
         </div>

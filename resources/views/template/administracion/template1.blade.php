@@ -86,6 +86,7 @@
     <script src="{{ asset('js/pages/data-responsive-custom.js') }}"></script>
     <script src="{{ asset('js/pages/data-basic-custom.js') }}"></script>
 
+@include('template.include.selector_fechas')
 </body>
 
 </html>

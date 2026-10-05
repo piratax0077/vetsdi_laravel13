@@ -88,7 +88,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" onclick="cerrarsol_examen_cardiologia();" data-dismiss="modal"><i class="feather icon-x"></i>Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" onclick="cerrarsol_examen_cardiologia();" data-dismiss="modal"><i class="feather icon-x"></i>Cancelar</button>
                 <button type="submit" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar</button>
             </div>
         </div>

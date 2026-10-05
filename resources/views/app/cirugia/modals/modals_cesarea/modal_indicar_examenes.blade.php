@@ -6,7 +6,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg"  data-backdrop="static" tabindex="-1" aria-labelledby="staticBackdropLabel" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1" id="modal_indicar_examen">Indicar Examen</h5>
                 <button type="button" class="close" aria-label="Close"  onclick="cerrarModalExamenesFicha();">
                     <span aria-hidden="true">x</span>
@@ -129,8 +129,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                {{--  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>  --}}
-                {{--  <button type="button" data-dismiss="modal" class="btn btn-info">Guardar</button>  --}}
+                {{--  <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>  --}}
+                {{--  <button type="button" data-dismiss="modal" class="btn btn-info" onclick="$(this).closest('.modal').modal('hide');">Guardar</button>  --}}
                 {{--  <button type="button" onclick="alerta_registro_examen();" data-dismiss="modal" class="btn btn-info">Generar Orden de Examen</button>  --}}
                 <button type="button" onclick="registro_examen_ficha();" data-dismiss="modal" class="btn btn-info">Generar Orden de Examen</button>
             </div>
