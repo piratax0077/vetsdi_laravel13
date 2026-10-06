@@ -49,7 +49,7 @@
 
                             <div class="card-body text-center" style="cursor:pointer">
 
-                                <img class="wid-60 text-center mt-1" src="{{ asset('images/iconos/agenda.svg') }}">
+                                <img class="wid-50 text-center mt-1" src="{{ asset('images/iconos/agenda.svg') }}">
 
                                 <h5 class="mt-2"> Reservar Cita Veterinaria</h5>
 
@@ -65,7 +65,7 @@
 
                             <div class="card-body text-center" style="cursor:pointer">
 
-                                <img class="wid-60 text-center" src="{{ asset('images/iconos/profesionales.svg') }}">
+                                <img class="wid-50 text-center" src="{{ asset('images/iconos/profesionales.svg') }}">
 
                                 <h5 class="mt-2"> Mis Veterinarios </h5>
 
@@ -80,7 +80,7 @@
 
                             <div class="card-body text-center" style="cursor:pointer">
 
-                                <img class="wid-60 text-center" src="{{ asset('images/iconos/vacunas.svg') }}">
+                                <img class="wid-50 text-center" src="{{ asset('images/iconos/vacunas.svg') }}">
 
                                 <h5 class="mt-2"> Mis vacunas</h5>
 
@@ -97,7 +97,7 @@
 
                             <div class="card-body text-center" style="cursor:pointer">
 
-                                <img class="wid-60 text-center" src="{{ asset('images/iconos/desparasitacion.svg') }}">
+                                <img class="wid-50 text-center" src="{{ asset('images/iconos/desparasitacion.svg') }}">
 
                                 <h5 class="mt-2"> Registro de desparasitación</h5>
 
@@ -114,7 +114,7 @@
 
                             <div class="card-body text-center" style="cursor:pointer">
 
-                                <img class="wid-60 text-center" src="{{ asset('images/iconos/fvu.svg') }}">
+                                <img class="wid-50 text-center" src="{{ asset('images/iconos/fvu.svg') }}">
 
                                 <h5 class="mt-1"> Mi Ficha Veterinaria Única</h5>
 
@@ -130,7 +130,7 @@
 
                             <div class="card-body text-center" style="cursor:pointer">
 
-                                <img class="wid-60 text-center" src="{{ asset('images/iconos/docs.svg') }}">
+                                <img class="wid-50 text-center" src="{{ asset('images/iconos/docs.svg') }}">
 
                                 <h5 class="mt-2">Documentos </h5>
 

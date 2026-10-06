@@ -5,7 +5,7 @@
 <div class="modal fade" id="modal_bloqueo_hora" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_bloqueo_hora" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header bg-info">
+      <div class="modal-header modal-header-purple">
         <h5 class="modal-title" id="modal_bloqueo_horaLabel">Configuración de agenda</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modal_bloqueo_hora').modal('hide');">
           <span aria-hidden="true">&times;</span>

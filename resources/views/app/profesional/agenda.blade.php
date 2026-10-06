@@ -318,11 +318,6 @@
             overflow: hidden;
         }
 
-        .modal-header.bg-info {
-            background: linear-gradient(120deg, var(--agenda-primary-dark), var(--agenda-primary)) !important;
-            border: none;
-        }
-
         .form-control-sm {
             border-radius: 8px;
         }
@@ -407,15 +402,6 @@
 
     <div class="pcoded-main-container">
         <div class="pcoded-content">
-            <!--HEADER-->
-            <div class="row">
-                <div class="col-md-12 mb-2">
-                    <h5 class="f-26 d-inline">Mi agenda</h5>
-                </div>
-            </div>
-            <!--CIERRE: HEADER-->
-
-
             <div class="row user-profile user-card  align-items-center py-1 pb-3 px-4" style="background-color:#ecf0f5;">
                 <div class="col-md-12 d-inline pt-3">
                     <h5 class="titulo-agenda d-inline mt-2 t-tipo-agenda" id="titulo_tipo_agenda"></h5>

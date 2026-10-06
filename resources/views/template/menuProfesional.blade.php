@@ -66,24 +66,31 @@
                 <div id="info_cliente" class="ficha-resumen">
                     @if(isset($mascota) && $mascota)
                         <div class="ficha-resumen-cabecera">
-                            <span class="ficha-resumen-icono"><i class="feather icon-heart"></i></span>
                             <div class="ficha-resumen-titulo">
                                 <span class="ficha-resumen-etiqueta">Información de la mascota</span>
-                                <strong class="ficha-resumen-nombre">{{ $mascota->nombre }}</strong>
+                                <strong class="ficha-resumen-nombre">{{ $mascota->nombre ?: '-' }}</strong>
                             </div>
                         </div>
                         <dl class="ficha-resumen-datos">
                             <div class="ficha-resumen-dato">
-                                <dt>Edad</dt>
-                                <dd>{{ $mascota_edad ?? '' }} años</dd>
+                                <dt>Especie</dt>
+                                <dd>{{ ($mascota->especieMascota->nombre ?? $mascota->especie) ?: '-' }}</dd>
+                            </div>
+                            <div class="ficha-resumen-dato">
+                                <dt>Raza</dt>
+                                <dd>{{ optional($mascota->razaMascota)->nombre ?: '-' }}</dd>
                             </div>
                             <div class="ficha-resumen-dato">
                                 <dt>Sexo</dt>
-                                <dd>{{ $mascota->sexo }}</dd>
+                                <dd>{{ $mascota->sexo ?: '-' }}</dd>
                             </div>
                             <div class="ficha-resumen-dato">
-                                <dt>Especie</dt>
-                                <dd>{{ $mascota->especieMascota->nombre ?? $mascota->especie }}</dd>
+                                <dt>Edad</dt>
+                                <dd>{{ isset($mascota_edad) && $mascota_edad !== '' ? $mascota_edad . ' años' : '-' }}</dd>
+                            </div>
+                            <div class="ficha-resumen-dato">
+                                <dt>Esterilización</dt>
+                                <dd>{{ is_null($mascota->esterilizado) ? '-' : ($mascota->esterilizado ? 'Sí' : 'No') }}</dd>
                             </div>
                         </dl>
                     @else
@@ -111,13 +118,13 @@
                     @endif
 
                     <div class="ficha-resumen-seccion">Patologías crónicas</div>
-                    <ul id="listado_patologias_paciente" class="ficha-resumen-lista">
-                        @foreach ($antecedentes as $a)
-                        @if($a->estado == 1 && $a->id_tipo_antecedente == 1)
-                            <li>{{ $a->antecedente_data->nombre }}</li>
-                        @endif
-                         @endforeach
-                    </ul>
+                    @php
+                        $patologiasCronicas = collect($antecedentes)->filter(function ($a) {
+                            return $a->estado == 1 && $a->id_tipo_antecedente == 1;
+                        });
+                    @endphp
+                    {{-- En una sola línea a propósito: si no hay patologías la lista queda vacía y el CSS muestra un guion --}}
+                    <ul id="listado_patologias_paciente" class="ficha-resumen-lista">@foreach ($patologiasCronicas as $a)<li>{{ $a->antecedente_data->nombre }}</li>@endforeach</ul>
                 </div>
 
             </div>
@@ -191,24 +198,31 @@
                 <div id="info_cliente" class="ficha-resumen">
                     @if(isset($mascota) && $mascota)
                         <div class="ficha-resumen-cabecera">
-                            <span class="ficha-resumen-icono"><i class="feather icon-heart"></i></span>
                             <div class="ficha-resumen-titulo">
                                 <span class="ficha-resumen-etiqueta">Información de la mascota</span>
-                                <strong class="ficha-resumen-nombre">{{ $mascota->nombre }}</strong>
+                                <strong class="ficha-resumen-nombre">{{ $mascota->nombre ?: '-' }}</strong>
                             </div>
                         </div>
                         <dl class="ficha-resumen-datos">
                             <div class="ficha-resumen-dato">
-                                <dt>Edad</dt>
-                                <dd>{{ $mascota_edad ?? '' }}</dd>
+                                <dt>Especie</dt>
+                                <dd>{{ ($mascota->especieMascota->nombre ?? $mascota->otra_especie) ?: '-' }}</dd>
+                            </div>
+                            <div class="ficha-resumen-dato">
+                                <dt>Raza</dt>
+                                <dd>{{ optional($mascota->razaMascota)->nombre ?: '-' }}</dd>
                             </div>
                             <div class="ficha-resumen-dato">
                                 <dt>Sexo</dt>
-                                <dd>{{ $mascota->sexo }}</dd>
+                                <dd>{{ $mascota->sexo ?: '-' }}</dd>
                             </div>
                             <div class="ficha-resumen-dato">
-                                <dt>Especie</dt>
-                                <dd>{{ $mascota->especieMascota->nombre ?? $mascota->otra_especie }}</dd>
+                                <dt>Edad</dt>
+                                <dd>{{ isset($mascota_edad) && $mascota_edad !== '' ? $mascota_edad : '-' }}</dd>
+                            </div>
+                            <div class="ficha-resumen-dato">
+                                <dt>Esterilización</dt>
+                                <dd>{{ is_null($mascota->esterilizado) ? '-' : ($mascota->esterilizado ? 'Sí' : 'No') }}</dd>
                             </div>
                         </dl>
                     @else
@@ -236,13 +250,13 @@
                     @endif
 
                     <div class="ficha-resumen-seccion">Patologías crónicas</div>
-                    <ul id="listado_patologias_paciente" class="ficha-resumen-lista">
-                        @foreach ($antecedentes as $a)
-                        @if($a->estado == 1 && $a->id_tipo_antecedente == 1)
-                            <li>{{ $a->antecedente_data->nombre }}</li>
-                        @endif
-                         @endforeach
-                    </ul>
+                    @php
+                        $patologiasCronicas = collect($antecedentes)->filter(function ($a) {
+                            return $a->estado == 1 && $a->id_tipo_antecedente == 1;
+                        });
+                    @endphp
+                    {{-- En una sola línea a propósito: si no hay patologías la lista queda vacía y el CSS muestra un guion --}}
+                    <ul id="listado_patologias_paciente" class="ficha-resumen-lista">@foreach ($patologiasCronicas as $a)<li>{{ $a->antecedente_data->nombre }}</li>@endforeach</ul>
                 </div>
             </div>
         </div>

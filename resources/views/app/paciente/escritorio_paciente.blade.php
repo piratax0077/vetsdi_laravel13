@@ -226,7 +226,7 @@
 
                 <div class="card subir text-center espacio-promocional">
                     <a href="{{ ROUTE('paciente.mascotas.promociones_especiales') }}" class="espacio-promocional-imagen">
-                        <img src="{{ asset('images/iconos/publicidad.png') }}" alt="Espacios promocionales">
+                        <img src="{{ asset('images/iconos/publicidad.jpg') }}" alt="Espacios promocionales">
                     </a>
                     <div class="card-body espacio-promocional-pie">
                         <a href="{{ ROUTE('paciente.mascotas.promociones_generales') }}" class="btn btn-arrastre">
@@ -247,16 +247,16 @@
 					<div class="card social-widget-card opacidad px-0 bg-info">
 						<a href="{{ route('paciente.referidos.index') }}" class="btn" type="button">
 							<div class="card-body">
-								<i class="feather icon-gift text-white mb-3" style="font-size:30px"></i>
-								<h5 class="my-auto text-white">Invita y gana con vet sdi</h5>
+								<img class="wid-40 mb-2" src="{{ asset('images/iconos/referidos.svg') }}">
+								<h6 class="my-auto text-white f-18">Invita y gana con Veterchile</h6>
 							</div>
 						</a>
 					</div>
-                  	<div class="card social-widget-card  opacidad px-0 bg-purple">
+                  	<div class="card social-widget-card  opacidad px-0 bg-info">
 						<a href="{{ route('app.descarga') }}" class="btn" type="button" target="_blank">
 							<div class="card-body">
-								<img class="wid-30 mb-3" src="{{ asset('images/iconos/lock.svg') }}">
-								<h5 class="my-auto text-white">Descarga VetPass</h5>
+								<img class="wid-40 mb-2" src="{{ asset('images/iconos/descargar-app.svg') }}">
+								<h6 class="my-auto text-white f-18">Descarga VetPass</h6>
 							</div>
 						</a>
 					</div>

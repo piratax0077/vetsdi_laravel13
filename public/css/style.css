@@ -21154,6 +21154,13 @@ f-w-800 {
     }
 }
 
+/* Filtros de "Mi agenda" en el escritorio del profesional (lugar y fecha):
+   solo estos dos llevan el contorno morado. */
+.filtros-agenda .form-control {
+    border-color: #6f42c1;
+    border-color: var(--purple);
+}
+
 /* Franja del título en las fichas de atención: lleva el mismo morado del encabezado
    y va de borde a borde, para que el título y la fecha en blanco se lean bien.
    Los márgenes negativos compensan el margin-top y el padding de .pcoded-content. */
@@ -37470,13 +37477,11 @@ table thead th,
 }
 
 /* ==========================================================================
-   Tablas — diseño unificado para todas las tablas del proyecto
-   (mismo look que la ficha veterinaria única: envoltura con borde,
-   encabezado gris claro en mayúsculas y filas con hover suave)
+   Tablas 
    ========================================================================== */
 
 .table-responsive {
-    border: 1px solid #e6eaf0;
+
     border-radius: 12px;
     background: #fff;
 }
@@ -41311,12 +41316,19 @@ tbody tr.codigo th::first-letter {
    Modal "Significado de los estados de la agenda"
    ========================================================================== */
 #modal_simbologia_agenda .modal-body {
-    padding: 8px 20px 16px;
+    padding: 18px 20px 8px;
+    font-family: 'Nunito Sans', 'Nunito', sans-serif;
 }
 
+/* Los estados van en dos columnas; en celular bajan a una */
 .simbologia-agenda-lista {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
     list-style: none;
-    margin: 0;
+    margin: 0 -6px;
     padding: 0;
 }
 
@@ -41327,28 +41339,61 @@ tbody tr.codigo th::first-letter {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    padding: 12px 4px;
-    border-bottom: 1px solid #eee9f5;
+    width: calc(50% - 12px);
+    margin: 0 6px 12px;
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid #eee9f5;
+    border-radius: 10px;
 }
 
-.simbologia-agenda-item:last-child {
-    border-bottom: 0;
-}
-
+/* El punto toma el mismo color con que se pinta la hora en la agenda */
 .simbologia-agenda-punto {
     -ms-flex-negative: 0;
     flex-shrink: 0;
-    font-size: 1.35rem;
-    line-height: 1;
-    margin-right: 14px;
+    width: 16px;
+    height: 16px;
+    margin-right: 12px;
+    border-radius: 50%;
+    background-color: #dcdcdc;
+}
+
+.simbologia-agenda-item--pre-reservada .simbologia-agenda-punto { background-color: #3a85c9; }
+.simbologia-agenda-item--reservada .simbologia-agenda-punto { background-color: #feaa32; }
+.simbologia-agenda-item--confirmada .simbologia-agenda-punto { background-color: #94bf61; }
+.simbologia-agenda-item--en-espera .simbologia-agenda-punto { background-color: #a06cc1; }
+.simbologia-agenda-item--realizando .simbologia-agenda-punto { background-color: #edbb99; }
+.simbologia-agenda-item--realizada .simbologia-agenda-punto { background-color: #17c1c1; }
+.simbologia-agenda-item--no-disponible .simbologia-agenda-punto { background-color: #dcdcdc; }
+.simbologia-agenda-item--bloqueado .simbologia-agenda-punto { background-color: #f57777; }
+
+.simbologia-agenda-texto {
+    min-width: 0;
+}
+
+.simbologia-agenda-nombre,
+.simbologia-agenda-detalle {
+    display: block;
+    margin: 0;
+    line-height: 1.3;
 }
 
 .simbologia-agenda-nombre {
-    margin: 0;
-    font-family: 'Nunito Sans', 'Nunito', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: .92rem;
+    font-weight: 700;
     color: #272727;
+}
+
+.simbologia-agenda-detalle {
+    font-size: .8rem;
+    color: rgba(39, 39, 39, .65);
+}
+
+@media (max-width: 575.98px) {
+    .simbologia-agenda-item {
+        width: calc(100% - 12px);
+        margin-bottom: 8px;
+    }
 }
 
 /*****RESUMEN DE LA MASCOTA O DEL PACIENTE EN EL MENU LATERAL DE LA FICHA**/
@@ -41508,7 +41553,147 @@ tbody tr.codigo th::first-letter {
     overflow-wrap: break-word;
 }
 
+/* Sin patologías registradas se muestra un guion */
+.ficha-resumen-lista:empty::before {
+    content: "-";
+    font-size: .82rem;
+    font-weight: 700;
+    color: #272727;
+}
+
+/* Cada patología parte con mayúscula, venga como venga escrita */
+.ficha-resumen-lista li::first-letter {
+    text-transform: uppercase;
+}
+
 /* Con el menú angosto la tarjeta no cabe; vuelve al pasar el mouse y expandirse */
 .pcoded-navbar.navbar-collapsed:not(:hover) .ficha-resumen {
     display: none;
+}
+
+/*****FICHA CLINICA DE UNA ATENCION ANTERIOR (MODAL DEL HISTORIAL DE CONSULTAS)**/
+
+/* Los títulos de cada sección son .titulo-item; acá va solo la lista de datos */
+.ficha-previa {
+    padding: 0 12px 6px;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    color: #272727;
+}
+
+.ficha-previa-seccion:first-child .titulo-item {
+    margin-top: 6px;
+}
+
+.ficha-previa-datos {
+    margin: 0;
+    padding: 0 16px;
+    background: #fff;
+    border: 1px solid #ebe6f5;
+    border-radius: 12px;
+}
+
+/* Etiqueta a la izquierda y el texto a la derecha */
+.ficha-previa-dato {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: baseline;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid #f5f2fa;
+}
+
+.ficha-previa-dato:last-child {
+    border-bottom: 0;
+}
+
+.ficha-previa-dato dt {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 190px;
+    flex: 0 0 190px;
+    max-width: 190px;
+    margin: 0;
+    padding-right: 16px;
+    font-size: .86rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #272727;
+}
+
+/* pre-line respeta los saltos de línea con que se escribió la ficha */
+.ficha-previa-dato dd {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 0%;
+    flex: 1 1 0%;
+    min-width: 0;
+    margin: 0;
+    font-family: 'Nunito Sans', 'Nunito', sans-serif;
+    font-size: .9rem;
+    line-height: 1.55;
+    color: #4a4f5c;
+    white-space: pre-line;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Un dato que no se llenó no queda como un espacio en blanco */
+.ficha-previa-dato dd:empty::before {
+    content: "Sin registro";
+    font-style: italic;
+    color: #7c7f8a;
+}
+
+/* Nombre de cada medición dentro del examen físico (peso, pulso, etc.) */
+.ficha-previa-etiqueta {
+    font-weight: 700;
+    color: #59339c;
+}
+
+/* Imágenes y exámenes de especialidad: solo ocupan lugar si traen algo */
+.ficha-previa-anexo {
+    margin-top: 14px;
+    padding: 0 15px;
+}
+
+.ficha-previa-anexo:empty {
+    display: none;
+}
+
+/* Los exámenes llegan como columnas sueltas: se alinean con el texto de arriba */
+.ficha-previa-anexo > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 2px;
+}
+
+/* Tablet: el modal es más angosto, la etiqueta cede espacio al texto */
+@media (max-width: 991.98px) {
+    .ficha-previa-dato dt {
+        -ms-flex: 0 0 150px;
+        flex: 0 0 150px;
+        max-width: 150px;
+    }
+}
+
+/* Celular: la etiqueta pasa arriba del texto */
+@media (max-width: 575.98px) {
+    .ficha-previa {
+        padding: 0 4px 4px;
+    }
+
+    .ficha-previa-datos {
+        padding: 0 12px;
+    }
+
+    .ficha-previa-dato {
+        display: block;
+        padding: 10px 0;
+    }
+
+    .ficha-previa-dato dt {
+        max-width: none;
+        margin-bottom: 2px;
+        padding-right: 0;
+        font-size: .8rem;
+    }
 }

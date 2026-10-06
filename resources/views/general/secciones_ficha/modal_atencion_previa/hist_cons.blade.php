@@ -8,108 +8,63 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!--ANAMNESIS-->
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <h6 class="t-aten">Anamnesis</h6>
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <div class="card-informacion">
-                            <div class="card-body">
-                                <div class="row">
-                                    <h6 class="col-sm-12 col-md-12 col-lg-3 col-xl-3">Motivo de consulta</h6>
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9 text-justify">
-                                        <p id="texto_motivo"></p>
-                                    </div>
-                                </div>
+                <div class="ficha-previa">
+                    <!--ANAMNESIS-->
+                    <div class="ficha-previa-seccion">
+                        <div class="titulo-item">Anamnesis</div>
+                        <dl class="ficha-previa-datos">
+                            <div class="ficha-previa-dato">
+                                <dt>Motivo de consulta</dt>
+                                <dd id="texto_motivo"></dd>
                             </div>
-                        </div>
+                        </dl>
                     </div>
-                </div>
 
-                <!--EX.FISICO-->
-                <div class="row mt-2">
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <h6 class="t-aten">Exámen físico</h6>
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <div class="card-informacion">
-                            <div class="card-body">
-                                <div class="row">
-                                    <h6 class="col-sm-12 col-md-12 col-lg-3 col-xl-3">Examen físico</h6>
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9 text-justify mb-2">
-                                        <p id="texto_ficha"></p>
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9 text-justify mb-2">
-                                        <p id="ficha_imagenes"></p>
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9 text-justify">
-                                        <p id="ficha_examenes_espec"></p>
-                                    </div>
-                                </div>
+                    <!--EX.FISICO-->
+                    <div class="ficha-previa-seccion">
+                        <div class="titulo-item">Examen físico</div>
+                        <dl class="ficha-previa-datos">
+                            <div class="ficha-previa-dato">
+                                <dt>Examen físico</dt>
+                                <dd id="texto_ficha"></dd>
                             </div>
-                        </div>
+                        </dl>
+                        <div class="ficha-previa-anexo" id="ficha_imagenes"></div>
+                        <div class="ficha-previa-anexo" id="ficha_examenes_espec"></div>
                     </div>
-                </div>
 
-
-
-
-                <!--DIAGNÓSTICO-->
-                <div class="row mt-2">
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <h6 class="t-aten">Diagnóstico</h6>
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <div class="card-informacion">
-                            <div class="card-body">
-                                <div class="row mb-2">
-                                    <h6 class="col-sm-12 col-md-12 col-lg-3 col-xl-3">Diagnóstico</h6>
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9 text-justify">
-                                        <p id="texto_diagnostico"></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <h6 class="col-sm-12 col-md-12 col-lg-3 col-xl-3">Diagnóstico CIE-10</h6>
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9 text-justify">
-                                        <p id="texto_cie_10"></p>
-                                    </div>
-                                </div>
+                    <!--DIAGNÓSTICO-->
+                    <div class="ficha-previa-seccion">
+                        <div class="titulo-item">Diagnóstico</div>
+                        <dl class="ficha-previa-datos">
+                            <div class="ficha-previa-dato">
+                                <dt>Diagnóstico</dt>
+                                <dd id="texto_diagnostico"></dd>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!--INDICACIONES-->
-                <div class="row mt-2">
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <h6 class="t-aten">Indicaciones</h6>
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <div class="card-informacion">
-                            <div class="card-body">
-                                <div class="row mb-2">
-                                    <h6 class="col-sm-12 col-md-12 col-lg-3 col-xl-3">Indicaciones</h6>
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9 text-justify">
-                                        <p id="texto_indicaciones"></p>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <h6 class="col-sm-12 col-md-12 col-lg-3 col-xl-3">Recetas</h6>
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9 text-justify">
-                                        <p id="texto_receta"></p>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <h6 class="col-sm-12 col-md-12 col-lg-3 col-xl-3">Exámenes</h6>
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9 text-justify">
-                                        <p id="texto_examen"></p>
-                                    </div>
-                                </div>
+                            <div class="ficha-previa-dato">
+                                <dt>Diagnóstico CIE-10</dt>
+                                <dd id="texto_cie_10"></dd>
                             </div>
-                        </div>
+                        </dl>
+                    </div>
+
+                    <!--INDICACIONES-->
+                    <div class="ficha-previa-seccion">
+                        <div class="titulo-item">Indicaciones</div>
+                        <dl class="ficha-previa-datos">
+                            <div class="ficha-previa-dato">
+                                <dt>Indicaciones</dt>
+                                <dd id="texto_indicaciones"></dd>
+                            </div>
+                            <div class="ficha-previa-dato">
+                                <dt>Recetas</dt>
+                                <dd id="texto_receta"></dd>
+                            </div>
+                            <div class="ficha-previa-dato">
+                                <dt>Exámenes</dt>
+                                <dd id="texto_examen"></dd>
+                            </div>
+                        </dl>
                     </div>
                 </div>
 
@@ -208,6 +163,9 @@
                         </table>
                     </div>
                 </div>-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger-light-c btn-sm" data-dismiss="modal" onclick="$('#m_consultaant').modal('hide');">Cerrar</button>
             </div>
         </div>
     </div>
@@ -329,26 +287,26 @@
         var ficha_antecedentes = data.registros.antecedentes;
         if(ficha_antecedentes != '' && ficha_antecedentes != '0' && ficha_antecedentes != 'null' && ficha_antecedentes != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Antecedentes:</span> '+ficha_antecedentes+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Antecedentes:</span> '+ficha_antecedentes+',  ')
         }
 
         var ficha_examen_fisico = data.registros.examen_fisico;
         if(ficha_examen_fisico != '' && ficha_examen_fisico != '0' && ficha_examen_fisico != 'null' && ficha_examen_fisico != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Examen Fisico:</span> '+ficha_examen_fisico+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Examen Fisico:</span> '+ficha_examen_fisico+',  ')
         }
 
 
         var ficha_cronico = data.registros.cronico;
         if(ficha_cronico != '' && ficha_cronico != '0' && ficha_cronico != 'null' && ficha_cronico != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Cronico:</span> '+ficha_cronico+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Cronico:</span> '+ficha_cronico+',  ')
         }
 
         var ficha_ges = data.registros.ges;
         if(ficha_ges != '' && ficha_ges != '0' && ficha_ges != 'null' && ficha_ges != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">GES:</span> '+ficha_ges+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">GES:</span> '+ficha_ges+',  ')
         }
 
         // var ficha_confidencial = data.registros.confidencial;
@@ -366,85 +324,85 @@
         var ficha_temperatura = data.registros.temperatura;
         if(ficha_temperatura != '' && ficha_temperatura != '0' && ficha_temperatura != 'null' && ficha_temperatura != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Temperatura:</span> '+ficha_temperatura+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Temperatura:</span> '+ficha_temperatura+',  ')
         }
 
         var ficha_pulso = data.registros.pulso;
         if(ficha_pulso != '' && ficha_pulso != '0' && ficha_pulso != 'null' && ficha_pulso != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Pulso:</span> '+ficha_pulso+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Pulso:</span> '+ficha_pulso+',  ')
         }
 
         var ficha_frecuencia_reposo = data.registros.frecuencia_reposo;
         if(ficha_frecuencia_reposo != '' && ficha_frecuencia_reposo != '0' && ficha_frecuencia_reposo != 'null' && ficha_frecuencia_reposo != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Frecuencia Reposo:</span> '+ficha_frecuencia_reposo+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Frecuencia Reposo:</span> '+ficha_frecuencia_reposo+',  ')
         }
 
         var ficha_peso = data.registros.peso;
         if(ficha_peso != '' && ficha_peso != '0' && ficha_peso != 'null' && ficha_peso != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Peso:</span> '+ficha_peso+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Peso:</span> '+ficha_peso+',  ')
         }
 
         var ficha_talla = data.registros.talla;
         if(ficha_talla != '' && ficha_talla != '0' && ficha_talla != 'null' && ficha_talla != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Talla:</span> '+ficha_talla+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Talla:</span> '+ficha_talla+',  ')
         }
 
         var ficha_imc = data.registros.imc;
         if(ficha_imc != '' && ficha_imc != '0' && ficha_imc != 'null' && ficha_imc != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">IMC:</span> '+ficha_imc+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">IMC:</span> '+ficha_imc+',  ')
         }
 
         var ficha_estado_nutricional = data.registros.estado_nutricional;
         if(ficha_estado_nutricional != '' && ficha_estado_nutricional != '0' && ficha_estado_nutricional != 'null' && ficha_estado_nutricional != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Estado Nutricional:</span> '+ficha_estado_nutricional+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Estado Nutricional:</span> '+ficha_estado_nutricional+',  ')
         }
 
         var ficha_presion_bi = data.registros.presion_bi;
         if(ficha_presion_bi != '' && ficha_presion_bi != '0' && ficha_presion_bi != 'null' && ficha_presion_bi != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Presion BI:</span> '+ficha_presion_bi+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Presion BI:</span> '+ficha_presion_bi+',  ')
         }
 
         var ficha_presion_bd = data.registros.presion_bd;
         if(ficha_presion_bd != '' && ficha_presion_bd != '0' && ficha_presion_bd != 'null' && ficha_presion_bd != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Presion BD:</span> '+ficha_presion_bd+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Presion BD:</span> '+ficha_presion_bd+',  ')
         }
 
         var ficha_presion_de_pie = data.registros.presion_de_pie;
         if(ficha_presion_de_pie != '' && ficha_presion_de_pie != '0' && ficha_presion_de_pie != 'null' && ficha_presion_de_pie != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Presion de pie:</span> '+ficha_presion_de_pie+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Presion de pie:</span> '+ficha_presion_de_pie+',  ')
         }
 
         var ficha_presion_sentado = data.registros.presion_sentado;
         if(ficha_presion_sentado != '' && ficha_presion_sentado != '0' && ficha_presion_sentado != 'null' && ficha_presion_sentado != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Presion sentado:</span> '+ficha_presion_sentado+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Presion sentado:</span> '+ficha_presion_sentado+',  ')
         }
 
         var ficha_ct_estado_conciencia = data.registros.ct_estado_conciencia;
         if(ficha_ct_estado_conciencia != '' && ficha_ct_estado_conciencia != '0' && ficha_ct_estado_conciencia != 'null' && ficha_ct_estado_conciencia != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Estado Conciencia:</span> '+ficha_ct_estado_conciencia+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Estado Conciencia:</span> '+ficha_ct_estado_conciencia+',  ')
         }
 
         var ficha_ct_lenguaje = data.registros.ct_lenguaje;
         if(ficha_ct_lenguaje != '' && ficha_ct_lenguaje != '0' && ficha_ct_lenguaje != 'null' && ficha_ct_lenguaje != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Lenguaje:</span> '+ficha_ct_lenguaje+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Lenguaje:</span> '+ficha_ct_lenguaje+',  ')
         }
 
         var ficha_ct_traslado = data.registros.ct_traslado;
         if(ficha_ct_traslado != '' && ficha_ct_traslado != '0' && ficha_ct_traslado != 'null' && ficha_ct_traslado != null)
         {
-            $('#texto_ficha').append('<span style="color: #4984f1;">Traslado:</span> '+ficha_ct_traslado+',  ')
+            $('#texto_ficha').append('<span class="ficha-previa-etiqueta">Traslado:</span> '+ficha_ct_traslado+',  ')
         }
 
 
@@ -480,10 +438,10 @@
                                 value_q = $('#'+keyq+' option[value=2]').text();
                             }
                             // var temp_key = keyq.replaceAll('_', ' ');
-                            // $('#texto_ficha_esp').append('<span style="color: #4984f1;">'+toTitleCase(temp_key)+':</span> '+value_q+',  ');
+                            // $('#texto_ficha_esp').append('<span class="ficha-previa-etiqueta">'+toTitleCase(temp_key)+':</span> '+value_q+',  ');
                             var titulo = $('label[for="' + $('#'+keyq).attr('id') + '"]').text();
                             if(titulo != '' && value_q != '')
-                                $('#texto_ficha_esp').append('<span style="color: #4984f1;">'+titulo+':</span> '+value_q+',  ');
+                                $('#texto_ficha_esp').append('<span class="ficha-previa-etiqueta">'+titulo+':</span> '+value_q+',  ');
                         }
                     }
                 });
@@ -520,10 +478,10 @@
                             }
 
                             // var temp_key = key2.replaceAll('_', ' ');
-                            // $('#texto_ficha_esp').append('<span style="color: #4984f1;">'+toTitleCase(temp_key)+':</span> '+value+',  ');
+                            // $('#texto_ficha_esp').append('<span class="ficha-previa-etiqueta">'+toTitleCase(temp_key)+':</span> '+value+',  ');
                             var titulo = $('label[for="' + $('#'+key2).attr('id') + '"]').text();
                             if(titulo != '')
-                                $('#texto_ficha_esp').append('<span style="color: #4984f1;">'+titulo+':</span> '+value+',  ');
+                                $('#texto_ficha_esp').append('<span class="ficha-previa-etiqueta">'+titulo+':</span> '+value+',  ');
                         }
                     }
 
@@ -582,7 +540,7 @@
                             //     }
 
                             //     if(titulo != '' && value_ex_det != '')
-                            //         $('#ficha_examenes_espec').append('<span style="color: #4984f1;">'+titulo+': </span> '+value_ex_det+',  ');
+                            //         $('#ficha_examenes_espec').append('<span class="ficha-previa-etiqueta">'+titulo+': </span> '+value_ex_det+',  ');
                             //     // $('#ficha_examenes_espec').append(html);
                             // });
                             $('#ficha_examenes_espec').append('</div>');
@@ -705,7 +663,7 @@
                             //         //     }
 
                             //         //     if(titulo != '' && value_ex_det != '')
-                            //         //         $('#ficha_examenes_espec').append('<span style="color: #4984f1;">'+titulo+': </span> '+value_ex_det+',  ');
+                            //         //         $('#ficha_examenes_espec').append('<span class="ficha-previa-etiqueta">'+titulo+': </span> '+value_ex_det+',  ');
                             //         //     // $('#ficha_examenes_espec').append(html);
                             //         // });
                             //         $('#ficha_examenes_espec').append('</div>');

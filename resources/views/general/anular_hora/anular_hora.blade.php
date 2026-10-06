@@ -3,7 +3,7 @@
 <div class="modal fade" id="modal_anular_hora" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_anular_hora" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header bg-info">
+      <div class="modal-header modal-header-purple">
         <h5 class="modal-title" id="modal_anular_horaLabel">Anular hora médica</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modal_anular_hora').modal('hide');">
           <span aria-hidden="true">&times;</span>
@@ -45,7 +45,7 @@
 <div class="modal fade" id="modal_anular_hora_comentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_anular_hora_comentario" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header bg-info">
+        <div class="modal-header modal-header-purple">
           <h5 class="modal-title" id="modal_anular_hora_comentarioLabel">Anular hora médica comentario</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modal_anular_hora_comentario').modal('hide');">
             <span aria-hidden="true">&times;</span>

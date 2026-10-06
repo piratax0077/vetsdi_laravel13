@@ -6,7 +6,7 @@
         <input type="hidden" name="m_modificar_box_prf_id_profesional" id="m_modificar_box_prf_id_profesional" value="">
         @csrf
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Asigancion de Box</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
                     onclick="$('#m_modificar_box_prf').modal('hide');"><span aria-hidden="true">&times;</span></button>
