@@ -11,7 +11,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger-light-c btn-sm" data-dismiss="modal" onclick="$('#m_eval_espec').modal('hide'); ">Cerrar</button>
+                <button type="button" class="btn btn-danger-light-c" data-dismiss="modal" onclick="$('#m_eval_espec').modal('hide'); ">Cerrar</button>
             </div>
         </div>
     </div>

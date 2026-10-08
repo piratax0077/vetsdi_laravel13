@@ -4,7 +4,7 @@
         @include('atencion_veterinaria.include.head_veter_general')
 
         <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=20261005-1">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=20261007-1">
         <link rel="stylesheet" href="{{ asset('css/style_index.css') }}?v=20260728-3">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -89,7 +89,7 @@
         <script src="{{ asset('js/vendor-all.min.js') }}"></script>
         <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/ripple.js') }}"></script>
-        <script src="{{ asset('js/pcoded.min.js') }}"></script>
+        <script src="{{ asset('js/pcoded.min.js') }}?v=20261007-3"></script>
         <script src="{{ asset('js/documentos.js') }}?upd={{ random_int(1111,9999) }}"></script>
 
         <!-- datatable Js -->

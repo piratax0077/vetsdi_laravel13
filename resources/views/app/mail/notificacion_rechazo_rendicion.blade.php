@@ -130,7 +130,7 @@
         </div>
 
         <div class="email-footer">
-            <p><strong>{{ config('app.name', 'MediChile Sistema') }}</strong></p>
+            <p><strong>{{ config('app.name', 'Veterchile') }}</strong></p>
             <p>Este es un correo automático, por favor no responder.</p>
             <p>© {{ date('Y') }} Todos los derechos reservados</p>
         </div>

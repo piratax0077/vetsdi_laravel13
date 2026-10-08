@@ -1315,13 +1315,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="$('#val_func_equil').modal('hide')">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#val_func_equil').modal('hide')">
                     <i class="feather icon-x"></i> Cerrar
                 </button>
-                <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" onclick="generarPDFValoracionEquilibrio()">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="generarPDFValoracionEquilibrio()">
                     <i class="feather icon-file-text"></i> Generar PDF
                 </button>
-                <button type="button" class="btn btn-primary btn-sm" onclick="guardarValoracionEquilibrio()">
+                <button type="button" class="btn btn-primary" onclick="guardarValoracionEquilibrio()">
                     <i class="feather icon-save"></i> Guardar
                 </button>
             </div>

@@ -7949,6 +7949,22 @@ return $ficha;
         return 'failed';
     }
 
+    // Descifra un dato de liquidacion_recibo; si no se puede, devuelve vacío.
+    private function descifrar_dato_liquidacion($valor)
+    {
+        if($valor === null || $valor === '')
+            return '';
+
+        try
+        {
+            return decrypt($valor);
+        }
+        catch (\Illuminate\Contracts\Encryption\DecryptException $e)
+        {
+            return '';
+        }
+    }
+
     public function mi_perfil()
     {
         $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
@@ -8025,21 +8041,17 @@ return $ficha;
         if($liquidacion)
         foreach ($liquidacion as $key => $value)
         {
-            $id_banco = decrypt($value->casa);
-            $banco = Bancos::select('id', 'nombre')->where('id',$id_banco)->first();
-            $liquidacion[$key]->banco = $banco;
-            if($value->serie!='')
-                $liquidacion[$key]->serie  = decrypt($value->serie);
-            if($value->autor!='')
-                $liquidacion[$key]->autor = decrypt($value->autor);
-            if($value->casa!='')
-                $liquidacion[$key]->casa = decrypt($value->casa);
-            if($value->numero_control!='')
-                $liquidacion[$key]->numero_control = decrypt($value->numero_control);
-            if($value->email!='')
-                $liquidacion[$key]->email = decrypt($value->email);
-            if($value->otro!='')
-                $liquidacion[$key]->otro = decrypt($value->otro);
+            // Si un dato bancario no se puede descifrar (por ejemplo, fue guardado
+            // con otra APP_KEY) se muestra vacío en vez de botar todo el perfil.
+            $id_banco = $this->descifrar_dato_liquidacion($value->casa);
+            $banco = $id_banco != '' ? Bancos::select('id', 'nombre')->where('id',$id_banco)->first() : null;
+            $liquidacion[$key]->banco = $banco ?: ['id' => '', 'nombre' => 'Cuenta bancaria (datos no disponibles)'];
+            $liquidacion[$key]->serie  = $this->descifrar_dato_liquidacion($value->serie);
+            $liquidacion[$key]->autor = $this->descifrar_dato_liquidacion($value->autor);
+            $liquidacion[$key]->casa = $id_banco;
+            $liquidacion[$key]->numero_control = $this->descifrar_dato_liquidacion($value->numero_control);
+            $liquidacion[$key]->email = $this->descifrar_dato_liquidacion($value->email);
+            $liquidacion[$key]->otro = $this->descifrar_dato_liquidacion($value->otro);
             if($liqui_principal == 0 && $value->principal == 1)
                 $liqui_principal = 1;
         }

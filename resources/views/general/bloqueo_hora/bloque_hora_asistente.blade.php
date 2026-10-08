@@ -107,7 +107,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger-light btn-sm" onclick="$('#modal_bloqueo_hora').modal('hide');">Cerrar</button>
+        <button type="button" class="btn btn-danger-light" onclick="$('#modal_bloqueo_hora').modal('hide');">Cerrar</button>
       </div>
 
 

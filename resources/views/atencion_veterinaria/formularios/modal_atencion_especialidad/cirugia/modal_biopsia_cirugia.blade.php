@@ -143,8 +143,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="guardar_biopsia()"><i class="fa fa-save"></i> Guardar Solicitud</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
+                <button type="button" class="btn btn-info" onclick="guardar_biopsia()"><i class="fa fa-save"></i> Guardar Solicitud</button>
             </div>
         </div>
     </div>

@@ -46,7 +46,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-6">
-                        <button class="btn btn-sm btn-danger" type="button" onclick="cerrarModalRendicion();">Cancelar</button>
+                        <button class="btn btn-danger" type="button" onclick="cerrarModalRendicion();">Cancelar</button>
                     </div>
                 </div>
             </div>

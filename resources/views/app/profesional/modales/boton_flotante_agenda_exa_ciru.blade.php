@@ -166,6 +166,44 @@
                                         });
                                     },
 
+                                    // Solo presentación: dibuja la cita con un icono para el tutor y otro
+                                    // para la mascota. Lo arma el propio calendario en cada redibujado,
+                                    // así el texto nunca se duplica. Bloqueos y vista de lista quedan igual.
+                                    eventContent: function(info) {
+                                        var tutorEvento = info.event.extendedProps.tutor;
+                                        var estadoEvento = info.event.extendedProps.estado;
+                                        if ((!tutorEvento && !estadoEvento) || info.view.type.indexOf('timeGrid') !== 0) {
+                                            return true;
+                                        }
+
+                                        var escapar = function(texto) {
+                                            return $('<div>').text(texto == null ? '' : texto).html();
+                                        };
+                                        var mascotaEvento = info.event.extendedProps.mascota;
+
+                                        // Los bloqueos no tienen tutor: conservan su texto tal cual.
+                                        var titulo = escapar(info.event.title);
+                                        if (tutorEvento) {
+                                            titulo = '<span class="evento-agenda-tipo">' + escapar(info.event.extendedProps.tipo_hora) + ' -</span>' +
+                                                '<span class="evento-agenda-dato"><i class="fas fa-user"></i>' + escapar(tutorEvento) + '</span>';
+                                        }
+                                        if (tutorEvento && mascotaEvento) {
+                                            titulo += '<span class="evento-agenda-dato"><i class="fas fa-paw"></i>' + escapar(mascotaEvento) + '</span>';
+                                        }
+
+                                        return {
+                                            html: '<div class="fc-event-main-frame">' +
+                                                    '<div class="evento-agenda-cabecera">' +
+                                                        '<div class="fc-event-time">' + escapar(info.timeText) + '</div>' +
+                                                        (estadoEvento ? '<span class="evento-agenda-estado">' + escapar(estadoEvento) + '</span>' : '') +
+                                                    '</div>' +
+                                                    '<div class="fc-event-title-container">' +
+                                                        '<div class="fc-event-title fc-sticky evento-agenda-titulo">' + titulo + '</div>' +
+                                                    '</div>' +
+                                                  '</div>'
+                                        };
+                                    },
+
                                     events: function(start, end, callback){
                                             var arrayTemp = [];
                                             let url = "{{ route('hora_medica.ver') }}";
@@ -200,6 +238,7 @@
                                                                                     description: descripcion ,
                                                                                     start: element.fecha_consulta + 'T' + element.hora_inicio,
                                                                                     end: element.fecha_consulta + 'T' + element.hora_termino,
+                                                                                    estado: element.estado.valor,
                                                                                     backgroundColor: element.estado.color
                                                                     });
                                                                 }
@@ -216,9 +255,14 @@
                                                                     arrayTemp.push({
                                                                                     id: element.id,
                                                                                     title: element.tipo_hora_medica+' - '+element.descripcion + mascotaNombre,
+                                                                                    // Datos separados para mostrar los iconos de tutor y mascota.
+                                                                                    tipo_hora: element.tipo_hora_medica,
+                                                                                    tutor: element.descripcion,
+                                                                                    mascota: (element.mascota && element.mascota.nombre) ? element.mascota.nombre : '',
                                                                                     description: descripcion ,
                                                                                     start: element.fecha_consulta + 'T' + element.hora_inicio,
                                                                                     end: element.fecha_consulta + 'T' + element.hora_termino,
+                                                                                    estado: element.estado.valor,
                                                                                     backgroundColor: element.estado.color
                                                                     });
                                                                 }
@@ -333,7 +377,7 @@
                                                         $('#confirmacion_hora').hide();
                                                         $('#hm_revisar_ficha').hide();
 
-                                                        $('#cabecera_hora_medica').text('Datos Del Paciente');
+                                                        $('#cabecera_hora_medica').text('Confirmar información');
                                                         $('#consulta').modal('show');
 
                                                     }
@@ -397,7 +441,7 @@
                                                         $('#confirmacion_hora').hide();
                                                         $('#hm_revisar_ficha').hide();
 
-                                                        $('#cabecera_hora_medica').text('Datos Del Paciente');
+                                                        $('#cabecera_hora_medica').text('Confirmar información');
                                                         $('#consulta').modal('show');
 
                                                     }
@@ -418,7 +462,7 @@
                                                         $('#confirmacion_hora').hide();
                                                         $('#hm_revisar_ficha').hide();
 
-                                                        $('#cabecera_hora_medica').text('Datos Del Paciente');
+                                                        $('#cabecera_hora_medica').text('Confirmar información');
                                                         $('#consulta').modal('show');
 
                                                     }
@@ -461,7 +505,7 @@
                                                         $('#confirmacion_hora').hide();
                                                         $('#hm_revisar_ficha').show();
 
-                                                        $('#cabecera_hora_medica').text('Datos Del Paciente');
+                                                        $('#cabecera_hora_medica').text('Confirmar información');
                                                         $('#consulta').modal('show');
 
                                                     }
@@ -480,7 +524,7 @@
                                                         $('#confirmacion_hora').hide();
                                                         $('#hm_revisar_ficha').hide();
 
-                                                        $('#cabecera_hora_medica').text('Datos Del Paciente');
+                                                        $('#cabecera_hora_medica').text('Confirmar información');
                                                         $('#consulta').modal('show');
                                                     }
 

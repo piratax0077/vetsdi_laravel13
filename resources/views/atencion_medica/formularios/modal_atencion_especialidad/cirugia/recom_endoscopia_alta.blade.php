@@ -13,8 +13,8 @@
                     data-documento="gastroscopía.pdf" data-url="documentos/cirugia/gastroscopía.pdf" width="100%"
                     height="750px" />
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-info btn-sm"
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-info"
                         onclick="envio_indicaciones_pdf('m_ind_endosc_alta');">Enviar al Paciente</button>
                 </div>
             </div>

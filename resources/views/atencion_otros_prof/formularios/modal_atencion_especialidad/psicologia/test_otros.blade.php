@@ -164,8 +164,8 @@
     			</div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close"><i class="feather icon-x"></i> Cancelar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="registrar_psi_ot_test();"><i class="feather icon-save"></i> Guardar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" aria-label="Close"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-info" onclick="registrar_psi_ot_test();"><i class="feather icon-save"></i> Guardar</button>
             </div>
 		</div>
 	</div>

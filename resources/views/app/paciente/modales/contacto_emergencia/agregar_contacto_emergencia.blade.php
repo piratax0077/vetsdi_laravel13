@@ -144,7 +144,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="cerrar_agregar_contacto_emergencia();" class="btn btn-outline-dark btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" onclick="cerrar_agregar_contacto_emergencia();" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
             </div>
         </div>
     </div>

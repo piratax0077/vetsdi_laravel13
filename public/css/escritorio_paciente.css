@@ -1094,45 +1094,6 @@ td{
     letter-spacing: .04em;
 }
 
-.card.referidos-dato {
-    margin-bottom: 24px;
-    padding: 16px 18px;
-    border: 0;
-}
-
-.referidos-dato-icono {
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    background: rgba(111, 66, 193, .12);
-    color: var(--purple);
-    font-size: 16px;
-}
-
-.referidos-dato strong {
-    display: block;
-    color: #272727;
-    font-size: 1.7rem;
-    font-weight: 800;
-    line-height: 1.1;
-}
-
-.referidos-dato > span:last-child {
-    color: rgba(39, 39, 39, .6);
-    font-size: .85rem;
-    font-weight: 600;
-}
-
 /* Las dos tarjetas de la fila quedan del mismo alto */
 .referidos .row > [class*="col-"] > .referidos-tarjeta {
     height: calc(100% - 24px);
@@ -1371,9 +1332,5 @@ td{
 
     .referidos-codigo {
         text-align: left;
-    }
-
-    .referidos-dato strong {
-        font-size: 1.4rem;
     }
 }

@@ -9,8 +9,8 @@
               <embed src="{{ asset('documentos/pediatria/Indic_lactancia.pdf') }}" type="application/pdf" data-documento="Indic_lactancia.pdf" data-url="documentos/pediatria/Indic_lactancia.pdf" width="100%" height="800px"/>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('modal_ilactancia');">Enviar al Paciente</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('modal_ilactancia');">Enviar al Paciente</button>
             </div>
         </div>
     </div>

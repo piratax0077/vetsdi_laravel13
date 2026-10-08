@@ -118,7 +118,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm mx-auto cerrar_modal" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
+                <button type="button" class="btn btn-danger mx-auto cerrar_modal" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
             </div>
         </div>
     </div>

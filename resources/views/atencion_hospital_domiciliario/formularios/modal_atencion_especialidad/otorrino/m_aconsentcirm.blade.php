@@ -96,8 +96,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn  btn-danger btn-sm" data-dismiss="modal">Cerrar </button>
-				<button type="button" class="btn  btn-info btn-sm">Guardar </button><!--le llega al paciente y profesional a Recetaonline en certificados-->
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar </button>
+				<button type="button" class="btn btn-info">Guardar </button><!--le llega al paciente y profesional a Recetaonline en certificados-->
 			</div>
 		</div>
 	</div>

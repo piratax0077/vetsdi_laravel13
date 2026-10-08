@@ -188,8 +188,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                 <button type="button" class="btn btn-danger btn-sm" onclick="$('#postura_mot').modal('hide')" data-bs-dismiss="modal"> <i class="feather icon-x"></i> Cerrar</button>
-                <button type="button" class="btn btn-info-light-c btn-sm"><i class="feather icon-save"></i> Guardar</button>
+                 <button type="button" class="btn btn-danger" onclick="$('#postura_mot').modal('hide')" data-bs-dismiss="modal"> <i class="feather icon-x"></i> Cerrar</button>
+                <button type="button" class="btn btn-info-light-c"><i class="feather icon-save"></i> Guardar</button>
             </div>
         </div>
     </div>

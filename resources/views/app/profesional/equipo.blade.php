@@ -238,7 +238,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-info" onclick="modificar_equipo();"><i class="feather icon-save" ></i> Guardar cambios</button>
+                    <button type="button" class="btn btn-info" onclick="modificar_equipo();"><i class="feather icon-save" ></i> Guardar cambios</button>
                 </div>
             </div>
         </div>

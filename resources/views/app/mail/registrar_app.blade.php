@@ -14,12 +14,12 @@
                     <table style="width: 100%px; max-width: 600px;" border="0" width="100%" cellspacing="0" cellpadding="0">
                         <tbody>
                             <tr>
-                                <tdstyle="height: 11px; background-color: rgb(51,102,204); background: -moz-linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%); background: -webkit-linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%); background: linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%);">
+                                <tdstyle="height: 11px; background-color: rgb(111,66,193); background: -moz-linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%); background: -webkit-linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%); background: linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%);">
                                 </td>
                             </tr>
                             <tr>
                                 <td style="text-align: center;">
-                                    <img style="width: 95px; margin-bottom: 20px; margin-top: 20px;" src="https://www.med-sdi.cl/images/logo_pais_vertical.png" alt="Medichile">
+                                    <img style="width: 170px; margin-bottom: 20px; margin-top: 20px;" src="https://veterchile.cl/images/vet-color-h.svg" alt="Veterchile">
                                 </td>
                             </tr>
                             <tr>
@@ -28,7 +28,7 @@
                                         Sr./Sra {{ $detalle['body']['NOMBRE_CLIENTE'] }}
                                     </p>
                                     <p style="font-family: Helvetica, Arial, sans-serif; font-size: 17px; line-height: 20px; color: #424242; text-align: center;">
-                                        Para poder registrar su nuevo equipo debe ingresar <a href="{{ $detalle['body']['URL'] }}" style=" margin-left: 15px; padding: 8px 15px; border: solid 1px; color: #fff; background-color: #1CBEBE; border-color: #1CBEBE; text-decoration: none;border-radius: 6px;">Aquí</a>
+                                        Para poder registrar su nuevo equipo debe ingresar <a href="{{ $detalle['body']['URL'] }}" style=" margin-left: 15px; padding: 8px 15px; border: solid 1px; color: #fff; background-color: #31bebe; border-color: #31bebe; text-decoration: none;border-radius: 6px;">Aquí</a>
                                     </p>
                                     <br>
                                     <p style="font-family: Helvetica, Arial, sans-serif; font-size: 17px; line-height: 20px; color: #424242; text-align: center;">
@@ -49,12 +49,11 @@
                             </tr>
                             <tr>
                                 <td inline-block style="text-align: center;">
-                                    <img style="width: 50px; margin-bottom: 5px; margin-top: 50px; margin-right: 10px;" src="https://www.med-sdi.cl/images/logo_pais_vertical.png" alt="Medichile">
-                                    <img style="width: 90px; margin-bottom: 5px; margin-top: 50px;" src="https://www.med-sdi.cl/images/logo.png" alt="Medichile">
+                                    <img style="width: 130px; margin-bottom: 5px; margin-top: 50px;" src="https://veterchile.cl/images/vet-color-h.svg" alt="Veterchile">
                                 </td>
                             </tr>
                             <tr>
-                                <td style="height: 11px; background-color: rgb(51,102,204); background: -moz-linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%); background: -webkit-linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%); background: linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%);"></td>
+                                <td style="height: 11px; background-color: rgb(111,66,193); background: -moz-linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%); background: -webkit-linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%); background: linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%);"></td>
                             </tr>
                             <td style="text-align: center;" align="center">
                                 <table border="0" width="95%" cellspacing="0" cellpadding="0" align="center">
@@ -65,8 +64,8 @@
                                                 <p
                                                     style="text-align: center; color: #999999; font-size: 12px; font-weight: normal; line-height: 20px;">
                                                     Este correo electrónico fue enviado por <a style="color: #000;"
-                                                        href="https://www.med-sdi.cl">Salud Digital Integrada</a> <br>
-                                                    Salud Digital Integrada <b>Todos los Derechos Reservados. ©2023</b>
+                                                        href="https://veterchile.cl/">Veterchile</a> <br>
+                                                    Veterchile <b>Todos los Derechos Reservados. ©2023</b>
                                                 </p>
                                             </td>
                                             <td width="30"> </td>

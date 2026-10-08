@@ -291,9 +291,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
-                <button type="button" class="btn btn-sm btn-primary" onclick="generar_pdf_pabellon()"><i class="feather icon-file"></i> PDF</button>
-                <button type="button" class="btn btn-sm btn-info" onclick="registrar_solicitud_pabellon();"><i class="feather icon-save" ></i> Guardar y enviar solicitud</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="generar_pdf_pabellon()"><i class="feather icon-file"></i> PDF</button>
+                <button type="button" class="btn btn-info" onclick="registrar_solicitud_pabellon();"><i class="feather icon-save" ></i> Guardar y enviar solicitud</button>
             </div>
         </div>
     </div>

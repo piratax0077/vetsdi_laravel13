@@ -6,210 +6,123 @@
             <input type="hidden" name="estado_id_paciente" id="estado_id_paciente" value="">
             <input type="hidden" name="id_hora_medica" id="id_hora_medica" value="">
             <div class="modal-header pt-3 pb-3 modal-header-purple">
-                <h6 id="cabecera_hora_medica" class="text-white f-16 mb-0 mt-0">Información del paciente</h6>
+                <h6 id="cabecera_hora_medica" class="text-white f-16 mb-0 mt-0">Confirmar información</h6>
             </div>
             <div class="modal-body">
 
                 <form id="datos_hora_medica">
-                    <div class="row">
-                        <div class="col-12">
-                            <button type="button" onclick="editar_info_paciente_asistente();" class="btn btn-sm btn-info-light-c float-right d-inline paciente_view_asistente has-ripple" style="">
-                                <i class="feather icon-edit"></i> Editar
-                            <span class="ripple ripple-animate"></span></button>
-                        </div>
-                        <input type="hidden" name="modificando_paciente_asistente" id="modificando_paciente_asistente" value="0">
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12">
-                            <table class="table table-borderless table-xs text-break table-responsive modal-agenda">
-                                <tbody>
-                                    <tr>
-                                        <th><strong class="f-18 text-purple">Información de la mascota</strong></th>
-                                    </tr>
-                                     <tr>
-                                        <th scope="row">
-                                            <strong>Nombre mascota</strong>
-                                        <td>
-                                            <span id="datos_consulta_mascota_nombre"></span>
-                                        </td>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <strong>Especie</strong>
-                                        <td>
-                                            <span id="datos_consulta_mascota_raza"></span>
-                                        </td>
-                                        </th>
-                                    </tr>
-                                     <tr>
-                                        <th scope="row">
-                                            <strong>Estirilizado</strong>
-                                        <td>
-                                            <span id="datos_consulta_mascota_esterilizado"></span>
-                                        </td>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <strong>Última consulta</strong>
-                                        <td>
-                                            <span id="datos_consulta_mascota_ultima_consulta"></span>
-                                        </td>
-                                        </th>
-                                    </tr>
-                                     <!-- <tr>
-                                        <th scope="row">
-                                            <strong class="f-18 text-purple">Fecha última consulta</strong>
-                                        <td>
-                                            <span id="datos_consulta_mascota_fecha_ultima"></span>
-                                        </td>
-                                        </th>
-                                    </tr> -->
+                    <div class="row reserva-hora-datos">
+                        {{-- TUTOR --}}
+                        <div class="col-12 mb-3">
+                            <div class="reserva-hora-cabecera">
+                                <h6 class="titulo-item"><i class="feather icon-user mr-2"></i>Información del tutor</h6>
+                                <button type="button" onclick="editar_info_paciente_asistente();" class="btn btn-xxs btn-info paciente_view_asistente">
+                                    <i class="feather icon-edit"></i> Editar
+                                </button>
+                                <input type="hidden" name="modificando_paciente_asistente" id="modificando_paciente_asistente" value="0">
+                            </div>
 
-                                    <tr>
-                                        <th><strong class="f-18 text-purple">Información del responsable</strong></th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <strong>Rut</strong>
-                                            <td>
-                                                <span id="datos_consulta_rut"></span>
-                                            </td>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <strong>Nombre</strong>
-                                        <td>
-                                            <div class="paciente_view_asistente">
-                                                <span id="datos_consulta_nombre"></span>
-                                            </div>
+                            <dl class="ficha-previa-datos reserva-hora-filas">
+                                <div class="ficha-previa-dato reserva-hora-dato-mitad reserva-hora-dato-angosto reserva-hora-dato-fijo">
+                                    <dt>Rut</dt>
+                                    <dd><span id="datos_consulta_rut"></span></dd>
+                                </div>
+                                <div class="ficha-previa-dato reserva-hora-dato-mitad reserva-hora-dato-amplio">
+                                    <dt>Nombre</dt>
+                                    <dd>
+                                        <div class="paciente_view_asistente">
+                                            <span id="datos_consulta_nombre"></span>
+                                        </div>
 
-                                            <div class="paciente_edit_asistente" style="display:none">
-                                                <div class="form-row">
-                                                    <div class="col-sm-12 col-md-4">
+                                        <div class="paciente_edit_asistente" style="display:none">
+                                            <div class="form-row">
+                                                <div class="col-12 col-sm-4 mb-3 mb-sm-0">
+                                                    <div class="form-group mb-0">
+                                                        <label class="floating-label-activo-sm" for="input_reserva_hora_nombre_asistente">Nombres</label>
                                                         <input type="text" class="form-control form-control-sm" id="input_reserva_hora_nombre_asistente" value="">
                                                     </div>
-                                                        <div class="col-sm-12 col-md-4">
-                                                            <input type="text" class="form-control form-control-sm" id="input_reserva_hora_apellido_uno_asistente" value="">
+                                                </div>
+                                                <div class="col-12 col-sm-4 mb-3 mb-sm-0">
+                                                    <div class="form-group mb-0">
+                                                        <label class="floating-label-activo-sm" for="input_reserva_hora_apellido_uno_asistente">Primer apellido</label>
+                                                        <input type="text" class="form-control form-control-sm" id="input_reserva_hora_apellido_uno_asistente" value="">
                                                     </div>
-                                                    <div class="col-sm-12 col-md-4">
+                                                </div>
+                                                <div class="col-12 col-sm-4">
+                                                    <div class="form-group mb-0">
+                                                        <label class="floating-label-activo-sm" for="input_reserva_hora_apellido_dos_asistente">Segundo apellido</label>
                                                         <input type="text" class="form-control form-control-sm" id="input_reserva_hora_apellido_dos_asistente" value="">
                                                     </div>
                                                 </div>
                                             </div>
-                                        </td>
-                                        </th>
-                                    </tr>
-                                    <!--<tr>
-                                        <th scope="row">
-                                            <strong>Fecha Nacimiento</strong>
-                                        <td>
-                                            <div class="paciente_view_asistente">
-                                                <span id="datos_consulta_edad"></span>
-                                            </div>
-                                            <div class="paciente_edit_asistente" style="display:none">
-                                                <input type="text" class="mask_date form-control form-control-sm"
-                                                    name="input_reserva_fecha_nacimiento_asistente" id="input_reserva_fecha_nacimiento_asistente"
-                                                    onchange="evaluar_edad();"
-                                                    maxlength="10" placeholder="dd/mm/aaaa"
-                                                    autocomplete="off"
-                                                    data-mask="00/00/0000"
-                                                />
-                                            </div>
-
-                                        </td>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <strong>Sexo</strong>
-                                        <td>
-                                            <div class="paciente_view_asistente">
-                                                <span id="datos_consulta_sexo"></span>
-                                            </div>
-                                            <div class="paciente_edit_asistente" style="display:none">
-                                                <select id="input_reserva_sexo_asistente" class="form-control form-control-sm">
-                                                    <option value="M">Masculino</option>
-                                                    <option value="F">Femenino</option>
-                                                </select>
-                                            </div>
-
-                                        </td>
-                                        </th>
-                                    </tr>-->
-                                    <tr>
-                                        <th scope="row">
-                                            <strong>Email</strong>
-                                        <td>
-
-                                            <div class="paciente_view_asistente">
-                                                <span id="datos_consulta_email"></span>
-                                            </div>
-                                            <div class="paciente_edit_asistente" style="display:none">
-                                                <div class="form-row">
-                                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                        <input type="text" class="form-control form-control-sm" id="input_reserva_hora_email_asistente" value="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <strong>Telefono</strong>
-                                        <td>
-
-                                            <div class="paciente_view_asistente">
-                                                <span id="datos_consulta_telefono"></span>
-                                            </div>
-                                            <div class="paciente_edit_asistente" style="display:none">
-                                                <div class="form-row">
-                                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                        <input type="text" class="form-control form-control-sm" id="input_reserva_hora_telefono_asistente" value="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        </th>
-                                    </tr>
-                                    {{-- direccion --}}
-                                     <tr>
-                                        <th scope="row">
-                                            <strong>Dirección</strong>
-                                        </th>
-                                        <td>
-                                            Marcela Paz 1520, Los Andes. Región de Valparaíso. <!--QUE LA DIRECCION APAREZCA EN UNA O MAXIMO DOS LINEAS PERO TODA JUNTA NO POR SEPARADO-->
-                                        </td>
-                                    </tr>
-                                    <tr class="paciente_edit_asistente" style="display:none">
-
-                                        <td>
-                                            <button type="button" id="cancelar_modifcar_paciente" onclick="cancelar_modificacion_paciente_asistente();" class="btn btn-sm btn-danger has-ripple">
-                                                <i class="feather icon-x"></i> Cancelar actualización
-                                            <span class="ripple ripple-animate" style="height: 181.038px; width: 181.038px; animation-duration: 0.7s; animation-timing-function: linear; background: rgb(255, 255, 255); opacity: 0.4; top: -74.4315px; left: 20.481px;"></span></button>
-                                        </td>
-                                        <td>
-                                            <button type="button" id="actualizar_modificar_paciente" onclick="actualizar_paciente_asistente();" class="btn btn-sm btn-info">
-                                                <i class="feather icon-check"></i> Actualizar paciente
-                                            </button>
-
-                                        </td>
-                                    </tr>
-                                    <!--<tr>
-                                        <th scope="row">
-                                            <strong>Observaciones</strong>
-                                        <td>
-                                            <span id="datos_consulta_observaciones"></span>
-                                        </td>
-                                        </th>
-                                    </tr>-->
-                                   
-                                </tbody>
-                            </table>
+                                        </div>
+                                    </dd>
+                                </div>
+                                <div class="ficha-previa-dato reserva-hora-dato-mitad">
+                                    <dt>Correo electrónico</dt>
+                                    <dd>
+                                        <div class="paciente_view_asistente">
+                                            <span id="datos_consulta_email"></span>
+                                        </div>
+                                        <div class="paciente_edit_asistente form-group mb-0" style="display:none">
+                                            <label class="floating-label-activo-sm" for="input_reserva_hora_email_asistente">Correo electrónico</label>
+                                            <input type="text" class="form-control form-control-sm" id="input_reserva_hora_email_asistente" value="">
+                                        </div>
+                                    </dd>
+                                </div>
+                                <div class="ficha-previa-dato reserva-hora-dato-mitad">
+                                    <dt>Teléfono</dt>
+                                    <dd>
+                                        <div class="paciente_view_asistente">
+                                            <span id="datos_consulta_telefono"></span>
+                                        </div>
+                                        <div class="paciente_edit_asistente form-group mb-0" style="display:none">
+                                            <label class="floating-label-activo-sm" for="input_reserva_hora_telefono_asistente">Teléfono</label>
+                                            <input type="text" class="form-control form-control-sm" id="input_reserva_hora_telefono_asistente" value="">
+                                        </div>
+                                    </dd>
+                                </div>
+                                {{-- La dirección se arma en una sola línea con los datos que carga la agenda --}}
+                                <div class="ficha-previa-dato reserva-hora-dato-fijo">
+                                    <dt>Dirección</dt>
+                                    <dd class="reserva-hora-direccion"><span id="datos_consulta_direcion"></span> <span id="datos_consulta_numero"></span><span class="reserva-hora-direccion-parte" id="datos_consulta_ciudad"></span><span class="reserva-hora-direccion-parte" id="datos_consulta_region"></span></dd>
+                                </div>
+                            </dl>
                         </div>
+
+                        {{-- MASCOTA --}}
+                        <div class="col-12 mb-2">
+                            <div class="reserva-hora-cabecera">
+                                <h6 class="titulo-item"><i class="fas fa-paw mr-2"></i>Información de la mascota</h6>
+                            </div>
+                            <dl class="ficha-previa-datos reserva-hora-dos-columnas">
+                                <div class="ficha-previa-dato">
+                                    <dt>Nombre</dt>
+                                    <dd id="datos_consulta_mascota_nombre"></dd>
+                                </div>
+                                <div class="ficha-previa-dato">
+                                    <dt>Especie</dt>
+                                    <dd id="datos_consulta_mascota_raza"></dd>
+                                </div>
+                                <div class="ficha-previa-dato">
+                                    <dt>Esterilizado</dt>
+                                    <dd id="datos_consulta_mascota_esterilizado"></dd>
+                                </div>
+                                <div class="ficha-previa-dato">
+                                    <dt>Última consulta</dt>
+                                    <dd id="datos_consulta_mascota_ultima_consulta"></dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="reserva-hora-acciones paciente_edit_asistente" style="display:none">
+                        <button type="button" id="cancelar_modifcar_paciente" onclick="cancelar_modificacion_paciente_asistente();" class="btn btn-sm btn-outline-dark">
+                            <i class="feather icon-x"></i> Cancelar
+                        </button>
+                        <button type="button" id="actualizar_modificar_paciente" onclick="actualizar_paciente_asistente();" class="btn btn-sm btn-info">
+                            <i class="feather icon-check"></i> Guardar cambios
+                        </button>
                     </div>
                 </form>
 
@@ -254,17 +167,17 @@
 
                 <div>
                     <button type="button" onclick="opcion_cancelar_hora();" id="hm_anular_hora"
-                        class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i>  Anular
+                        class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i>  Anular
                         Hora
                     </button>
                 </div>
                 <div>
-                    <button type="submit" onclick="opcion_confirmar_hora()" id="hm_confirmar_hora" class="btn btn-success btn-sm"><i class="feather icon-check"></i> Confirmar
+                    <button type="submit" onclick="opcion_confirmar_hora()" id="hm_confirmar_hora" class="btn btn-success"><i class="feather icon-check"></i> Confirmar
                         Hora
                     </button>
                 </div>
                 <div>
-                    <button type="submit" id="hm_ver_hora" class="btn btn-info btn-sm"><i class="feather icon-file"></i> Ver Atención</button>
+                    <button type="submit" id="hm_ver_hora" class="btn btn-info"><i class="feather icon-file"></i> Ver Atención</button>
                 </div>
 
                 <div>
@@ -274,11 +187,11 @@
                         <input type="hidden" name="lugar_atencion_id" id="lugar_atencion_id" value="{{ $lugar_atencion }}">
                         <input type="hidden" name="id_mascota" id="id_mascota" value="">
 
-                        <button type="submit" id="hm_atender_hora" class="btn btn-info btn-sm"><i class="feather icon-check"></i> Atender</button>
+                        <button type="submit" id="hm_atender_hora" class="btn btn-info"><i class="feather icon-check"></i> Atender</button>
                     </form>
                 </div>
                 <div>
-                    <button type="button" id="hm_registrar_mascota" class="btn btn-warning btn-sm" style="display:none;" onclick="abrirModalRegistroMascotaAgenda();">
+                    <button type="button" id="hm_registrar_mascota" class="btn btn-warning" style="display:none;" onclick="abrirModalRegistroMascotaAgenda();">
                         <i class="feather icon-plus"></i> Registrar mascota
                     </button>
                 </div>
@@ -288,28 +201,28 @@
                         @csrf
                         <input type="hidden" name="id_hora_realizar" id="id_hora_realizar" val="">
 
-                        <button type="submit" id="hm_espera_paciente_hora" class="btn btn-info btn-sm"
+                        <button type="submit" id="hm_espera_paciente_hora" class="btn btn-info"
                             onclick="paciente_esperando();">Esperando</button>
                     </form>
                 </div>
 
                 <div>
-                    <button type="submit" onclick="opcion_revisar_ficha()" id="hm_revisar_ficha" class="btn btn-success btn-sm"><i class="feather icon-check"></i> Revisar ficha
+                    <button type="submit" onclick="opcion_revisar_ficha()" id="hm_revisar_ficha" class="btn btn-success"><i class="feather icon-check"></i> Revisar ficha
                         Hora
                     </button>
-                    <button type="button" id="cerrarModal" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"> <i class="feather icon-x"></i> Cerrar
+                    <button type="button" id="cerrarModal" class="btn btn-secondary" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"> <i class="feather icon-x"></i> Cerrar
                     </button>
 
                 </div>
                 <div>
                     <button type="button" id="confirmar_anulacion_hora" onclick="cancelar_hora();"
-                        class="btn btn-danger btn-sm"><i class="feather icon-x"></i> Anular
+                        class="btn btn-danger"><i class="feather icon-x"></i> Anular
                         Hora
                     </button>
                 </div>
                 <div>
                     <button type="button" id="confirmacion_hora" onclick="confirmar_hora();"
-                        class="btn btn-success btn-sm"><i class="feather icon-check"></i> Confirmar
+                        class="btn btn-success"><i class="feather icon-check"></i> Confirmar
                         Hora
                     </button>
                 </div>
@@ -319,7 +232,7 @@
 </div>
 
 <div id="modal_registrar_mascota_agenda" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalRegistrarMascotaAgendaLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
                 <h5 class="modal-title mt-1" id="modalRegistrarMascotaAgendaLabel">Agregar Mascota no registrada</h5>
@@ -424,8 +337,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" id="btn_guardar_mascota_agenda"><i class="feather icon-check"></i> Registrar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cerrar</button>
+                <button type="button" class="btn btn-info" id="btn_guardar_mascota_agenda"><i class="feather icon-check"></i> Registrar</button>
             </div>
         </div>
     </div>

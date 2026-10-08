@@ -72,8 +72,8 @@
                 </div>-->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="registrar_acompanante();"><i class="feather icon-check"></i> Registrar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i> Cerrar</button>
+                <button type="button" class="btn btn-info" onclick="registrar_acompanante();"><i class="feather icon-check"></i> Registrar</button>
             </div>
         </div>
     </div>

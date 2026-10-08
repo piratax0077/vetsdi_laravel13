@@ -12,7 +12,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-6">
-                        <button class="btn btn-outline-dark btn-sm" type="button" data-dismiss="modal" onclick="cerrar_modal_rendicion()">Cancelar</button>
+                        <button class="btn btn-outline-dark" type="button" data-dismiss="modal" onclick="cerrar_modal_rendicion()">Cancelar</button>
                     </div>
                 </div>
             </div>

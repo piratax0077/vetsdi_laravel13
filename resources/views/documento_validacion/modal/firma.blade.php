@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger-light-c btn-sm" data-dismiss="modal" aria-label="Close"> Cerrar</button>
+                <button type="button" class="btn btn-danger-light-c" data-dismiss="modal" aria-label="Close"> Cerrar</button>
             </div>
         </div>
     </div>

@@ -41,9 +41,9 @@
 
             <div class="modal-footer">
 
-            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('##modal_ipostcir').modal('hide');">Cerrar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('##modal_ipostcir').modal('hide');">Cerrar</button>
 
-                <button type="submit" class="btn btn-info btn-sm">Enviar</button>
+                <button type="submit" class="btn btn-info">Enviar</button>
 
             </div>
 

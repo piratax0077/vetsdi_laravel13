@@ -8,8 +8,8 @@
             <div class="modal-body">
                 <embed src="{{ asset('documentos/traumato/usodemuletas.pdf') }}" type="application/pdf" data-documento="usodemuletas.pdf" data-url="documentos/traumato/usodemuletas.pdf" width="100%" height="750px"/>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('m_ind_traumato_usomuletas');">Enviar al Paciente</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('m_ind_traumato_usomuletas');">Enviar al Paciente</button>
             </div>
         </div>
     </div>

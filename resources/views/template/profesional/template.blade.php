@@ -2538,8 +2538,8 @@
                                 $('#reserva_hora_id_paciente').val(data.id);
                                 $('#reserva_rut_paciente').text(data.rut);
 
-                                $('#reserva_hora_nombre').text(data.nombres + ' ' + data.apellido_uno + ' ' + data
-                                    .apellido_dos);
+                                // En el modal se muestra solo nombre y primer apellido.
+                                $('#reserva_hora_nombre').text(data.nombres + ' ' + data.apellido_uno);
                                 $('#input_reserva_hora_nombre').val(data.nombres);
                                 $('#input_reserva_hora_apellido_uno').val(data.apellido_uno);
                                 $('#input_reserva_hora_apellido_dos').val(data.apellido_dos);

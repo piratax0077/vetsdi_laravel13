@@ -388,9 +388,9 @@
                 <input type="hidden" value="{{$userData['nombre']}} {{$userData['apellido_uno']}} {{$userData['apellido_dos']}}" id="user-profesional">
                 @endif
                 <input type="hidden" value="{{Auth::user()->id}}" id="user-id">
-                <button type="button" class="btn btn-sm btn-info" id="agregar-antecedente" onclick="guardarAntecedenteVeterinario()"><i class="feather icon-save"></i> Guardar antecedente</button>
-                <button type="button" class="btn btn-sm btn-info" id="modificar-antecedente" onclick="modificarAntecedenteVeterinario()"><i class="feather icon-edit"></i> Guardar cambios</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="verModalAgregar('hide')"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-info" id="agregar-antecedente" onclick="guardarAntecedenteVeterinario()"><i class="feather icon-save"></i> Guardar antecedente</button>
+                <button type="button" class="btn btn-info" id="modificar-antecedente" onclick="modificarAntecedenteVeterinario()"><i class="feather icon-edit"></i> Guardar cambios</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="verModalAgregar('hide')"><i class="feather icon-x"></i> Cancelar</button>
             </div>
             </div>
         </div>

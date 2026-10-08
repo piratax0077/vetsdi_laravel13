@@ -59,9 +59,9 @@
                         </form>
 			</div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-sm"><i class="feather icon-file-text"></i>  Ver PDF</button>
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i>  Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar</button>
+                <button type="button" class="btn btn-primary"><i class="feather icon-file-text"></i>  Ver PDF</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i>  Cerrar</button>
+                <button type="button" class="btn btn-info"><i class="feather icon-save"></i> Guardar</button>
             </div>
 		</div>
 	</div>

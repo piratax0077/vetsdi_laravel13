@@ -111,8 +111,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark btn-sm" onclick="cerrarsol_rx_cardio();" data-bs-dismiss="modal" >Cancelar</button>
-                <button type="submit" class="btn btn-info btn-sm"> Guardar</button>
+                <button type="button" class="btn btn-outline-dark" onclick="cerrarsol_rx_cardio();" data-bs-dismiss="modal" >Cancelar</button>
+                <button type="submit" class="btn btn-info"> Guardar</button>
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@
 <script src="{{ asset('js/vendor-all.min.js') }}"></script>
 <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/ripple.js') }}"></script>
-<script src="{{ asset('js/pcoded.min.js') }}"></script>
+<script src="{{ asset('js/pcoded.min.js') }}?v=20261007-3"></script>
 <!--<script src="../assets/js/menu-setting.min.js"></script>-->
 <!-- datatable Js -->
 <script src="{{ asset('js/plugins/jquery.dataTables.min.js') }}"></script>

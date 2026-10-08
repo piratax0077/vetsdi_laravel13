@@ -121,10 +121,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark btn-sm"
+                <button type="button" class="btn btn-outline-dark"
                     onclick="cerrarsol_examen_broncoscopia();"
                     data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success btn-sm float-right" onclick="guardar_examenes(3)">Guardar</button>
+                <button type="button" class="btn btn-success float-right" onclick="guardar_examenes(3)">Guardar</button>
             </div>
         </div>
     </div>

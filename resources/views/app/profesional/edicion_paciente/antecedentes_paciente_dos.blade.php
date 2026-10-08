@@ -909,9 +909,9 @@
                 <input type="hidden" value="{{$userData['profesion']}}" id="user-profesion">
                 <input type="hidden" value="{{$userData['nombre']}} {{$userData['apellido_uno']}} {{$userData['apellido_dos']}}" id="user-profesional">
                 <input type="hidden" value="{{Auth::user()->id}}" id="user-id">
-                <button type="button" class="btn btn-sm btn-primary-light-c" id="agregar-antecedente" onclick="agregarAntecedente()"><i class="feather icon-save"></i> Agregar antecedentes</button>
-                <button type="button" class="btn btn-sm btn-primary-light-c" id="modificar-antecedente" onclick="modificarAntecedente()"><i class="feather icon-edit"></i> Modificar antecedentes</button>
-                <button type="button" class="btn btn-sm btn-danger-light-c" onclick="verModalAgregar('hide')"><i class="feather icon-x"></i> Cerrar</button>
+                <button type="button" class="btn btn-primary-light-c" id="agregar-antecedente" onclick="agregarAntecedente()"><i class="feather icon-save"></i> Agregar antecedentes</button>
+                <button type="button" class="btn btn-primary-light-c" id="modificar-antecedente" onclick="modificarAntecedente()"><i class="feather icon-edit"></i> Modificar antecedentes</button>
+                <button type="button" class="btn btn-danger-light-c" onclick="verModalAgregar('hide')"><i class="feather icon-x"></i> Cerrar</button>
             </div>
             </div>
         </div>

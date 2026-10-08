@@ -21,12 +21,12 @@
         }
         .header {
             text-align: center;
-            border-bottom: 2px solid #1a49a3;
+            border-bottom: 2px solid #59339c;
             padding-bottom: 20px;
             margin-bottom: 30px;
         }
         .header h1 {
-            color: #1a49a3;
+            color: #59339c;
             margin: 0;
             font-size: 18px;
         }
@@ -40,8 +40,8 @@
             color: #333;
         }
         .info-box {
-            background-color: #eaf1fb;
-            border-left: 4px solid #1a49a3;
+            background-color: #f1eafa;
+            border-left: 4px solid #59339c;
             padding: 15px;
             margin: 20px 0;
             border-radius: 0 4px 4px 0;
@@ -52,7 +52,7 @@
         }
         .label {
             font-weight: bold;
-            color: #1a49a3;
+            color: #59339c;
         }
         .footer {
             margin-top: 30px;
@@ -72,7 +72,7 @@
     <div class="container">
         <div class="header">
             <h1>Informe de Nutrición</h1>
-            <!--<p>MED-SDI - Sistema de Informacion Medica</p>-->
+            <!--<p>Veterchile - Sistema de Informacion Medica</p>-->
         </div>
 
         <div class="content">
@@ -107,7 +107,7 @@
 
         <div class="footer">
               <p style="margin:0;font-size:11px;color:#64748b;line-height:16px;">
-                                        Este correo fue enviado por <strong>SDI</strong><br>
+                                        Este correo fue enviado por <strong>Veterchile</strong><br>
                                         &copy; {{ date('Y') }} &middot; Todos los derechos reservados
                 </p>
         </div>

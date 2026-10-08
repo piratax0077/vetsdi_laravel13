@@ -181,9 +181,9 @@
                     </div>
           </div>
           <div class="modal-footer">
-               <button type="button" class="btn btn-warning btn-sm" onclick="editar_insumo_confirmar()"><i class="fas fa-edit"></i> + Guardar editado</button>
+               <button type="button" class="btn btn-warning" onclick="editar_insumo_confirmar()"><i class="fas fa-edit"></i> + Guardar editado</button>
 
-            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
           </div>
         </div>
     </div>

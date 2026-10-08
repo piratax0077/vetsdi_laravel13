@@ -119,8 +119,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
-                <button type="submit" class="btn btn-info-light-c btn-sm"><i class="feather icon-save"></i> Guardar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="submit" class="btn btn-info-light-c"><i class="feather icon-save"></i> Guardar</button>
             </div>
         </div>
     </div>

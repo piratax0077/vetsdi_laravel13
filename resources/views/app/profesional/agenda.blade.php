@@ -88,6 +88,144 @@
             font-weight: 600;
         }
 
+        /* Encabezado de la agenda: a la izquierda el tipo de agenda y el lugar,
+           a la derecha el selector de box y las acciones */
+        .encabezado-agenda {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px 16px;
+            padding-top: 5px;
+        }
+
+        .encabezado-agenda-lugar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .encabezado-agenda-icono {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            color: #fff;
+            font-size: 1.3rem;
+            background: #6f42c1;
+            border-radius: 50%;
+        }
+
+        .encabezado-agenda-textos {
+            min-width: 0;
+        }
+
+        /* El tipo de agenda queda como rótulo menor; el lugar es el dato principal */
+        #titulo_tipo_agenda {
+            display: block;
+            margin: 0 0 2px;
+            font-size: .72rem !important;
+            font-weight: 800;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            color: #6f42c1;
+        }
+
+        .lugar-atencion-agenda {
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #272727;
+            word-break: break-word;
+        }
+
+        .encabezado-agenda-acciones {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Selector de box */
+        .select-box-agenda {
+            height: 34px;
+            max-width: 100%;
+            padding: 4px 10px;
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: .8rem;
+            font-weight: 700;
+            color: #6f42c1;
+            background-color: #fff;
+            border: 1px solid #6f42c1;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .select-box-agenda:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(111, 66, 193, .25);
+        }
+
+        /* Los botones redondos traen float y márgenes propios desde sus parciales;
+           aquí se alinean en fila conservando el orden en que se veían. */
+        .botones-encabezado-agenda {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .botones-encabezado-agenda > .btn.btn-agenda {
+            float: none !important;
+            flex-shrink: 0;
+            margin: 0 !important;
+        }
+
+        @media (max-width: 767.98px) {
+            .encabezado-agenda-icono {
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
+            }
+
+            .lugar-atencion-agenda {
+                font-size: 1.1rem;
+            }
+
+            .encabezado-agenda-acciones {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        /* Título de la cita: tutor y mascota con su icono */
+        .evento-agenda-titulo {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2px 10px;
+        }
+
+        .evento-agenda-dato {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px; 
+        }
+
+        .evento-agenda-dato i {
+            flex-shrink: 0;
+            font-size: 0.95em;
+        }
+
+        /* Se oculta el botón "Agenda" (vista de lista); queda solo la vista por día */
+        .fc .fc-listDay-button {
+            display: none !important;
+        }
+
         .agenda-box-info {
             display: inline-flex;
             align-items: center;
@@ -131,9 +269,21 @@
         .fc-scroller,
         .fc-day-grid-container,
         .fc-time-grid-container {
-            overflow-x: hidden;
+            overflow-x: hidden !important;
             overflow-y: auto !important;
             height: auto !important;
+        }
+
+        /* El calendario fija en píxeles el ancho de sus tablas al dibujarse.
+           Se dejan al 100% para que acompañen al contenedor cuando se abre
+           o se comprime el menú lateral. */
+        .fc .fc-col-header,
+        .fc .fc-timegrid-body,
+        .fc .fc-timegrid-slots > table,
+        .fc .fc-timegrid-cols > table,
+        .fc .fc-daygrid-body,
+        .fc .fc-scrollgrid-sync-table {
+            width: 100% !important;
         }
 
         .fc {
@@ -146,10 +296,12 @@
 
         .fc-timegrid-event .fc-event-time{
             font-size: 1rem!important;
+            font-weight: 700;
         }
 
         .fc-v-event .fc-event-title{
             font-size: 0.9rem!important;
+            font-weight: 600;
         }
 
         .fc-event, .fc-v-event, .fc-h-event {
@@ -195,8 +347,21 @@
             font-weight: 700;
         }
 
+        /* En pantallas grandes la fecha se lee con el mes en letras;
+           en tablet y celular se mantiene la fecha numérica original. */
+        @media (min-width: 1025px) {
+            .fc .fc-toolbar-title[data-fecha-larga] {
+                font-size: 0;
+            }
+
+            .fc .fc-toolbar-title[data-fecha-larga]::after {
+                content: attr(data-fecha-larga);
+                font-size: 1.2rem;
+            }
+        }
+
         .fc .fc-toolbar.fc-header-toolbar {
-            margin-bottom: 14px!important;
+            margin-bottom: 0px!important;
         }
 
         /* ================= BUTTONS / TOOLBAR ================= */
@@ -222,7 +387,7 @@
         .fc .fc-toolbar-chunk:first-child {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
         }
 
         .fc .fc-toolbar-chunk:first-child > .fc-button,
@@ -250,60 +415,82 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 38px;
-            height: 38px;
+            width: 32px;
+            height: 32px;
             margin: 0 !important;
             padding: 0 !important;
-            color: #fff !important;
-            background: var(--agenda-primary) !important;
-            border: 1px solid var(--agenda-primary) !important;
-            border-radius: 9px !important;
-            box-shadow: 0 3px 8px rgba(31, 139, 136, .2);
+            border-radius: 8px !important;
+        }
+
+        /* Anterior, siguiente y "Día": borde morado con fondo blanco */
+        .fc .fc-prev-button,
+        .fc .fc-next-button,
+        .fc .fc-timeGridDay-button {
+            color: #8b52c2 !important;
+            background: #fff !important;
+            border: 1px solid #8b52c2 !important;
+            box-shadow: none !important;
+            opacity: 1 !important;
+            transition: background-color .15s ease, color .15s ease, transform .1s ease;
+        }
+
+        .fc .fc-timeGridDay-button {
+            height: 32px;
+            padding: 4px 12px !important;
+            font-size: .8rem;
+            font-weight: 800;
         }
 
         .fc .fc-prev-button:hover,
-        .fc .fc-next-button:hover {
-            background: var(--agenda-primary-dark) !important;
-            border-color: var(--agenda-primary-dark) !important;
+        .fc .fc-next-button:hover,
+        .fc .fc-timeGridDay-button:hover {
+            color: #fff !important;
+            background: #8b52c2 !important;
+            border-color: #8b52c2 !important;
             transform: translateY(-1px);
         }
 
+        .fc .fc-prev-button:focus,
+        .fc .fc-next-button:focus,
+        .fc .fc-timeGridDay-button:focus {
+            box-shadow: 0 0 0 3px rgba(139, 82, 194, .25) !important;
+        }
+
         .fc .fc-today-button {
-            min-width: 68px;
-            height: 38px;
+            min-width: 56px;
+            height: 32px;
             margin: 0 !important;
-            padding: 6px 16px !important;
+            padding: 4px 12px !important;
             color: #fff !important;
-            font-size: .86rem;
+            font-size: .8rem;
             font-weight: 800;
             letter-spacing: .2px;
-            background: #f26b4a !important;
-            border: 1px solid #f26b4a !important;
-            border-radius: 9px !important;
-            box-shadow: 0 4px 10px rgba(242, 107, 74, .28);
+            background: #31bebe !important;
+            border: 1px solid #31bebe !important;
+            border-radius: 8px !important;
+            box-shadow: 0 3px 8px rgba(49, 190, 190, .28);
             opacity: 1 !important;
         }
 
         .fc .fc-today-button:hover:not(:disabled) {
-            background: #dc5738 !important;
-            border-color: #dc5738 !important;
+            background: #28a5a5 !important;
+            border-color: #28a5a5 !important;
             transform: translateY(-1px);
         }
 
         .fc .fc-today-button:disabled {
             color: #fff !important;
-            background: #d65c40 !important;
-            border-color: #d65c40 !important;
+            background: #31bebe !important;
+            border-color: #31bebe !important;
             opacity: 1 !important;
         }
 
         .btn.btn-agenda {
-            width: 38px !important;
-            height: 38px !important;
-            font-size: 22px !important;
+            width: 32px !important;
+            height: 32px !important;
+            font-size: 16px !important;
             padding: 0px;
             border-radius: 50%!important;
-            box-shadow: 0 4px 10px rgba(30, 43, 58, 0.18);
             transition: transform .12s ease;
         }
 
@@ -402,12 +589,35 @@
 
     <div class="pcoded-main-container">
         <div class="pcoded-content">
-            <div class="row user-profile user-card  align-items-center py-1 pb-3 px-4" style="background-color:#ecf0f5;">
-                <div class="col-md-12 d-inline pt-3">
-                    <h5 class="titulo-agenda d-inline mt-2 t-tipo-agenda" id="titulo_tipo_agenda"></h5>
-                    @include('general.info_simbologia.simbologia_agenda')
-                    @include('general.anular_hora.anular_hora')
-                    @include('general.bloqueo_hora.bloque_hora')
+            <div class="row user-profile user-card  align-items-center pt-0 pb-3 px-4" style="background-color:#ecf0f5;">
+                <div class="col-md-12 mb-3">
+                    <div class="encabezado-agenda">
+                        <div class="encabezado-agenda-lugar">
+                            <span class="encabezado-agenda-icono"><i class="feather icon-calendar"></i></span>
+                            <div class="encabezado-agenda-textos">
+                                <h5 class="titulo-agenda" id="titulo_tipo_agenda"></h5>
+                                @if (!empty($lugar_atencion_nombre))
+                                    <div class="lugar-atencion-agenda">{{ $lugar_atencion_nombre }}</div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="encabezado-agenda-acciones">
+                            {{-- Selector solo visual por ahora: todavía no tiene acción asociada --}}
+                            <select class="select-box-agenda" id="select_box_agenda" aria-label="Seleccionar box">
+                                <option value="">Seleccionar box</option>
+                                @foreach ($boxes as $box_agenda)
+                                    <option value="{{ $box_agenda->id }}" {{ ($lug_prof_box && $lug_prof_box->id_box == $box_agenda->id) ? 'selected' : '' }}>{{ $box_agenda->tipo_box.' - '.$box_agenda->numero_box }}</option>
+                                @endforeach
+                            </select>
+
+                            <div class="botones-encabezado-agenda">
+                                @include('general.info_simbologia.simbologia_agenda')
+                                @include('general.anular_hora.anular_hora')
+                                @include('general.bloqueo_hora.bloque_hora')
+                            </div>
+                        </div>
+                    </div>
 
 
                     @if ($boxes->count() > 0)
@@ -431,6 +641,40 @@
                 </div>
                 <div class="col-md-12 mr-5 px-4 card">
                     <div id='agenda'></div>
+                    <script>
+                        // Solo presentación: toma la fecha numérica que escribe el calendario
+                        // (día/mes/año) y deja preparada su versión con el mes en letras.
+                        // El CSS decide cuál se muestra según el ancho de la pantalla.
+                        (function () {
+                            var contenedorAgenda = document.getElementById('agenda');
+                            if (!contenedorAgenda || !window.MutationObserver) return;
+
+                            var meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
+                                'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+                            function actualizarFechaLarga() {
+                                var titulo = contenedorAgenda.querySelector('.fc-toolbar-title');
+                                if (!titulo) return;
+
+                                var partes = /^\s*(\d{1,2})\/(\d{1,2})\/(\d{4})\s*$/.exec(titulo.textContent);
+                                if (partes && meses[partes[2] - 1]) {
+                                    var fechaLarga = parseInt(partes[1], 10) + ' de ' + meses[partes[2] - 1] + ' de ' + partes[3];
+                                    if (titulo.getAttribute('data-fecha-larga') !== fechaLarga) {
+                                        titulo.setAttribute('data-fecha-larga', fechaLarga);
+                                    }
+                                } else {
+                                    titulo.removeAttribute('data-fecha-larga');
+                                }
+                            }
+
+                            new MutationObserver(actualizarFechaLarga).observe(contenedorAgenda, {
+                                childList: true,
+                                subtree: true,
+                                characterData: true
+                            });
+                            actualizarFechaLarga();
+                        })();
+                    </script>
                 </div>
             </div>
         </div>
@@ -516,24 +760,22 @@
         <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header pt-3 pb-2 modal-header-purple">
-                    <h5 class="modal-title text-center">Tomar horas</h5>
+                    <h5 class="modal-title text-center"><i class="feather icon-calendar mr-2"></i>Agendar hora</h5>
                     <button id="cerrar_tomar_hora" type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     {{--  BUSCADOR DE RUT  --}}
                     <div class="form-row div_rut_buscar">
                          <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <div class="form-group">
-                                <h6 class="text-c-blue f-14">Ingrese el RUT del Tutor</h6>
-                            </div>
+                            <h6 class="text-c-blue f-16 mb-2">Ingrese el RUT del Tutor</h6>
                         </div>
                         <div class="col-sm-9 col-md-9">
                             <form id="validacion_rut_form" onsubmit="event.preventDefault(); buscar_paciente();">
                                 <div class="form-group" id="validacion_rut_div">
                                     <input type="text" id="rut_paciente_reserva" name="rut_paciente_reserva"
                                         class="form-control form-control-sm" placeholder="RUT del tutor"
-                                        aria-label="RUT del tutor" aria-describedby="button-addon2" required
-                                        oninput="formatoRut(this)">
+                                        aria-label="RUT sin puntos ni gión" aria-describedby="button-addon2" required
+                                        oninput="formatoRut(this)"><small><i class="feather icon-info mr-2"></i>Ingrese RUT sin puntos ni guión</small>
                                 </div>
                             </form>
                         </div>
@@ -573,7 +815,7 @@
                         <div id="examenes" class="d-none">
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <div class="form-group">
-                                    <label class="floating-label-activo-sm">Examenes</label>
+                                    <label class="floating-label-activo-sm">Exámenes</label>
                                     <select class="form-control form-control-sm" name="form_reseva_de_horas_id_examen" id="form_reseva_de_horas_id_examen">
 
                                     </select>
@@ -602,17 +844,22 @@
                                 <tbody>
                                     <tr>
                                         <td class="align-top">
-                                            <h6 class="text-c-blue f-16 mb-3">Seleccione mascota para agendar cita</h6>
+                                            <div class="reserva-hora-cabecera reserva-hora-cabecera--inicial">
+                                                <h6 class="titulo-item"><i class="feather icon-calendar mr-2"></i>Seleccione mascota para agendar cita</h6>
+                                                <button type="button" class="btn btn-xxs btn-warning" id="btn_registrar_mascota_desde_tomar_hora" style="display:none;">
+                                                    <i class="feather icon-plus"></i> Agregar mascota no registrada
+                                                </button>
+                                            </div>
                                             <div class="form-row">
-                                                <div class="form-group col-12">
+                                                <div class="form-group col-12 col-sm-6">
                                                     <label class="floating-label-activo-sm">Mascota</label>
                                                     <select class="form-control form-control-sm" id="reserva_hora_mascota_id" name="reserva_hora_mascota_id">
                                                         <option value="">Seleccione mascota</option>
                                                     </select>
                                                 </div>
-                                                <div class="form-group col-12">
+                                                <div class="form-group col-12 col-sm-6">
                                                     <label class="floating-label-activo-sm">Motivo de la consulta</label>
-                                                    <select class="form-control form-control-sm">
+                                                    <select class="form-control form-control-sm" id="reserva_motivo_consulta">
                                                         <option value="">Seleccione</option>
                                                         <option value="urgencia">Urgencia</option>
                                                         <option value="consulta-general">Consulta general</option>
@@ -621,206 +868,223 @@
                                                         <option value="desparacation-externa">Desparacitación Externa</option>
                                                         <option value="desparacation-interna">Desparacitación Interna</option>
                                                         <option value="plan-geriatrico">Plan geriátrico</option>
+                                                        <option value="otro-motivo-consulta">Otro motivo</option>
                                                     </select>
                                                 </div>
+                                                {{-- Solo aparece al elegir "Otro motivo" --}}
+                                                <div class="form-group col-12 reserva-hora-otro-motivo" id="reserva_otro_motivo_contenedor">
+                                                    <label class="floating-label-activo-sm" for="reserva_otro_motivo">Indique el motivo</label>
+                                                    <input type="text" class="form-control form-control-sm" id="reserva_otro_motivo" maxlength="150" placeholder="Escriba el motivo de la consulta" autocomplete="off">
+                                                </div>
                                             </div>
-                                            <div class="row">
-                                              <div class="col-md-7">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-2">
-                                                <h6 class="text-c-blue f-16 d-inline">Información del cliente</h6>
-                                                <button type="button" onclick="editar_info_paciente();" class="btn btn-sm btn-info-light-c float-right d-inline paciente_view">
-                                                    <i class="feather icon-edit"></i> Editar
-                                                </button>
-                                                <input type="hidden" name="modificando_paciente" id="modificando_paciente" value="0">
+                                            <script>
+                                                // Marca cada bloque de datos mientras se edita al tutor, para que el CSS
+                                                // cambie las etiquetas fijas por las flotantes de cada campo. Sirve para
+                                                // "Agendar hora" y para "Confirmar información".
+                                                document.addEventListener('DOMContentLoaded', function () {
+                                                    if (!window.MutationObserver) return;
+
+                                                    Array.prototype.forEach.call(document.querySelectorAll('.reserva-hora-acciones'), function (acciones) {
+                                                        var datos = acciones.previousElementSibling;
+                                                        if (!datos || !datos.classList.contains('reserva-hora-datos')) return;
+
+                                                        var marcarEdicion = function () {
+                                                            datos.classList.toggle('reserva-hora-editando', acciones.style.display !== 'none');
+                                                        };
+                                                        new MutationObserver(marcarEdicion).observe(acciones, { attributes: true, attributeFilter: ['style'] });
+                                                        marcarEdicion();
+                                                    });
+                                                });
+
+                                                // Muestra el campo de texto cuando el motivo elegido es "Otro motivo".
+                                                document.addEventListener('change', function (evento) {
+                                                    if (!evento.target || evento.target.id !== 'reserva_motivo_consulta') return;
+
+                                                    var contenedor = document.getElementById('reserva_otro_motivo_contenedor');
+                                                    var campo = document.getElementById('reserva_otro_motivo');
+                                                    var esOtro = evento.target.value === 'otro-motivo-consulta';
+
+                                                    contenedor.classList.toggle('reserva-hora-otro-motivo--visible', esOtro);
+                                                    if (esOtro) {
+                                                        campo.focus();
+                                                    } else {
+                                                        campo.value = '';
+                                                    }
+                                                });
+                                            </script>
+                                            <div class="row reserva-hora-datos">
+                                              <div class="col-lg-7 mb-3">
+                                                <div class="reserva-hora-cabecera">
+                                                    <h6 class="titulo-item"><i class="feather icon-user mr-2"></i>Información del tutor</h6>
+                                                    <button type="button" onclick="editar_info_paciente();" class="btn btn-xxs btn-info paciente_view">
+                                                        <i class="feather icon-edit"></i> Editar
+                                                    </button>
+                                                    <input type="hidden" name="modificando_paciente" id="modificando_paciente" value="0">
                                                 </div>
 
-                                                <table class="table table-borderless table-xs mb-0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                              <div><b>Rut</b></div>
-                                                              <span id="reserva_rut_paciente"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                              <div><b>Nombre</b></div>
-                                                                <div class="paciente_view">
-                                                                    <span id="reserva_hora_nombre"></span>
-                                                                </div>
+                                                <dl class="ficha-previa-datos reserva-hora-filas">
+                                                    <div class="ficha-previa-dato reserva-hora-dato-mitad reserva-hora-dato-angosto reserva-hora-dato-fijo">
+                                                        <dt>Rut</dt>
+                                                        <dd><span id="reserva_rut_paciente"></span></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato reserva-hora-dato-mitad reserva-hora-dato-amplio">
+                                                        <dt>Nombre</dt>
+                                                        <dd>
+                                                            <div class="paciente_view">
+                                                                <span id="reserva_hora_nombre"></span>
+                                                            </div>
 
-                                                                <div class="paciente_edit" style="display:none">
-                                                                    <div class="form-row">
-                                                                        <div class="col-sm-12 col-md-4">
+                                                            <div class="paciente_edit" style="display:none">
+                                                                <div class="form-row">
+                                                                    <div class="col-12 col-sm-6 mb-3 mb-sm-0">
+                                                                        <div class="form-group mb-0">
+                                                                            <label class="floating-label-activo-sm" for="input_reserva_hora_nombre">Nombres</label>
                                                                             <input type="text" class="form-control form-control-sm" id="input_reserva_hora_nombre" value="">
                                                                         </div>
-                                                                        <div class="col-sm-12 col-md-4">
+                                                                    </div>
+                                                                    <div class="col-12 col-sm-6">
+                                                                        <div class="form-group mb-0">
+                                                                            <label class="floating-label-activo-sm" for="input_reserva_hora_apellido_uno">Primer apellido</label>
                                                                             <input type="text" class="form-control form-control-sm" id="input_reserva_hora_apellido_uno" value="">
                                                                         </div>
-                                                                        <div class="col-sm-12 col-md-4">
-                                                                            <input type="text" class="form-control form-control-sm" id="input_reserva_hora_apellido_dos" value="">
+                                                                    </div>
+                                                                    <div class="d-none">
+                                                                        <input type="text" class="form-control form-control-sm" id="input_reserva_hora_apellido_dos" value="" placeholder="Segundo apellido" aria-label="Segundo apellido">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato reserva-hora-dato-mitad">
+                                                        <dt>Correo electrónico</dt>
+                                                        <dd>
+                                                            <div class="paciente_view">
+                                                                <span id="reserva_hora_email"></span>
+                                                            </div>
+                                                            <div class="paciente_edit form-group mb-0" style="display:none">
+                                                                <label class="floating-label-activo-sm" for="input_reserva_hora_email">Correo electrónico</label>
+                                                                <input type="text" class="form-control form-control-sm" id="input_reserva_hora_email" value="">
+                                                            </div>
+                                                        </dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato reserva-hora-dato-mitad">
+                                                        <dt>Teléfono</dt>
+                                                        <dd>
+                                                            <div class="paciente_view">
+                                                                <span id="reserva_hora_telefono"></span>
+                                                            </div>
+                                                            <div class="paciente_edit form-group mb-0" style="display:none">
+                                                                <label class="floating-label-activo-sm" for="input_reserva_hora_telefono">Teléfono</label>
+                                                                <input type="text" class="form-control form-control-sm" id="input_reserva_hora_telefono" value="">
+                                                            </div>
+                                                        </dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Dirección</dt>
+                                                        <dd>
+                                                            <div class="paciente_view">
+                                                                <span id="reserva_direccion"></span>
+                                                            </div>
+                                                            <div class="paciente_edit" style="display:none">
+                                                                <div class="form-row">
+                                                                    <div class="col-12">
+                                                                        <div class="form-group">
+                                                                            <label class="floating-label-activo-sm" for="input_reserva_direccion_direccion">Dirección</label>
+                                                                            <input type="address" class="form-control form-control-sm" name="input_reserva_direccion_direccion" id="input_reserva_direccion_direccion" value="">
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                              <div><b>Dirección</b></div>
-                                                                <div class="paciente_view">
-                                                                    <span id="reserva_direccion"></span>
-                                                                </div>
-                                                                <div class="paciente_edit" style="display:none">
-                                                                    <div class="form-row">
-                                                                        <div class="col-sm-12 col-md-9">
-                                                                            <div class="form-group">
-                                                                                <input type="address" class="form-control form-control-sm" name="input_reserva_direccion_direccion" id="input_reserva_direccion_direccion" value="">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-12 col-md-3">
-                                                                            <div class="form-group">
-                                                                                <input type="address" class="form-control form-control-sm" name="input_reserva_direccion_numero_dir" id="input_reserva_direccion_numero_dir" value="">
-                                                                            </div>
+                                                                <div class="form-row">
+                                                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                                        <div class="form-group">
+                                                                            <label class="floating-label-activo-sm">Región</label>
+                                                                            <select id="input_reserva_direccion_region" onchange="buscar_ciudad_general('input_reserva_direccion_region', 'input_reserva_direccion_ciudad', 0);" name="input_reserva_direccion_region" class="form-control form-control-sm">
+                                                                                <option value="0">Seleccione</option>
+                                                                                @if (isset($region))
+                                                                                    @foreach ($region as $reg)
+                                                                                        <option value="{{ $reg->id }}">{{ $reg->nombre }} </option>
+                                                                                    @endforeach
+                                                                                @endif
+                                                                            </select>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="form-row">
-                                                                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                                            <div class="form-group">
-                                                                                <label class="floating-label-activo-sm">Región</label>
-                                                                                <select id="input_reserva_direccion_region" onchange="buscar_ciudad_general('input_reserva_direccion_region', 'input_reserva_direccion_ciudad', 0);" name="input_reserva_direccion_region" class="form-control form-control-sm">
-                                                                                    <option value="0">Seleccione</option>
-                                                                                    @if (isset($region))
-                                                                                        @foreach ($region as $reg)
-                                                                                            <option value="{{ $reg->id }}">{{ $reg->nombre }} </option>
-                                                                                        @endforeach
-                                                                                    @endif
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                                            <div class="form-group">
-                                                                                <label class="floating-label-activo-sm">Ciudad</label>
-                                                                                <select id="input_reserva_direccion_ciudad" name="input_reserva_direccion_ciudad" class="form-control form-control-sm">
-                                                                                    <option value="0">Seleccione</option>
-                                                                                </select>
-                                                                            </div>
+                                                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                                        <div class="form-group mb-0">
+                                                                            <label class="floating-label-activo-sm">Ciudad</label>
+                                                                            <select id="input_reserva_direccion_ciudad" name="input_reserva_direccion_ciudad" class="form-control form-control-sm">
+                                                                                <option value="0">Seleccione</option>
+                                                                            </select>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                              <div><b>Correo Electrónico</b></div>
-                                                                <div class="paciente_view">
-                                                                    <span id="reserva_hora_email"></span>
-                                                                </div>
-                                                                <div class="paciente_edit" style="display:none">
-                                                                    <div class="form-row">
-                                                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                                            <input type="text" class="form-control form-control-sm" id="input_reserva_hora_email" value="">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                              <div><b>Teléfono</b></div>
-                                                                <div class="paciente_view">
-                                                                    <span id="reserva_hora_telefono"></span>
-                                                                </div>
-                                                                <div class="paciente_edit" style="display:none">
-                                                                    <div class="form-row">
-                                                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                                            <input type="text" class="form-control form-control-sm" id="input_reserva_hora_telefono" value="">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div><b>Convenio</b></div>
-                                                                <div class="paciente_view">
-                                                                    <span id="reserva_convenio"></span>
-                                                                </div>
-                                                                <div class="paciente_edit" style="display:none">
-                                                                    <select id="input_reserva_convenio" name="input_reserva_convenio" class="form-control form-control-sm">
-                                                                        <option value="0">Seleccione</option>
-                                                                        @if (isset($prevision))
-                                                                            @foreach ($prevision as $p)
-                                                                                <option value="{{ $p->id }}">{{ $p->nombre }}</option>
-                                                                            @endforeach
-                                                                        @endif
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
+                                                            </div>
+                                                        </dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Convenio</dt>
+                                                        <dd>
+                                                            <div class="paciente_view">
+                                                                <span id="reserva_convenio"></span>
+                                                            </div>
+                                                            <div class="paciente_edit form-group mb-0" style="display:none">
+                                                                <label class="floating-label-activo-sm" for="input_reserva_convenio">Convenio</label>
+                                                                <select id="input_reserva_convenio" name="input_reserva_convenio" class="form-control form-control-sm">
+                                                                    <option value="0">Seleccione</option>
+                                                                    @if (isset($prevision))
+                                                                        @foreach ($prevision as $p)
+                                                                            <option value="{{ $p->id }}">{{ $p->nombre }}</option>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </select>
+                                                            </div>
+                                                        </dd>
+                                                    </div>
+                                                </dl>
 
-                                                        <br>
-                                                        <tr class="paciente_edit">
-                                                          <td>
-                                                            <table>
-                                                              <tr>
-                                                                <td>
-                                                                    <button type="button" id="cancelar_modifcar_paciente" onclick="cancelar_modificacion_paciente();" class="btn btn-sm btn-danger">
-                                                                        <i class="feather icon-x"></i> Cancelar actualización
-                                                                    </button>
-                                                                </td>
-                                                                <td>
-                                                                    <button type="button" id="actualizar_modificar_paciente" onclick="actualizar_paciente();" class="btn btn-sm btn-info">
-                                                                        <i class="feather icon-check"></i> Actualizar paciente
-                                                                    </button>
-                                                                </td>
-                                                              </tr>
-                                                            </table>
-                                                          </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
                                               </div>
-                                              <div class="col-md-5">
-                                                <h6 class="text-c-blue f-16 d-inline mb-3">Información de la mascota</h6>
-                                                <table class="table table-borderless table-xs mb-0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                              <div><b>Nombre</b></div>
-                                                              <span id="reserva_mascota_nombre"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                              <div><b>Especie</b></div>
-                                                              <span id="reserva_mascota_especie"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                              <div><b>Tamaño</b></div>
-                                                              <span id="reserva_mascota_tamano"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                              <div><b>Sexo</b></div>
-                                                              <span id="reserva_mascota_sexo"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                              <div><b>Fecha nacimiento</b></div>
-                                                              <span id="reserva_mascota_fecha_nacimiento"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                              <div><b>Chip</b></div>
-                                                              <span id="reserva_mascota_chip"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                              <div><b>Esterilizado</b></div>
-                                                              <span id="reserva_mascota_esterilizado"></span></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                              <div class="col-lg-5 mb-3">
+                                                <div class="reserva-hora-cabecera">
+                                                    <h6 class="titulo-item"><i class="fas fa-paw mr-2"></i>Información de la mascota</h6>
+                                                </div>
+                                                <dl class="ficha-previa-datos reserva-hora-dos-columnas">
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Nombre</dt>
+                                                        <dd id="reserva_mascota_nombre"></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Especie</dt>
+                                                        <dd id="reserva_mascota_especie"></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Tamaño</dt>
+                                                        <dd id="reserva_mascota_tamano"></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Sexo</dt>
+                                                        <dd id="reserva_mascota_sexo"></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Fecha nacimiento</dt>
+                                                        <dd id="reserva_mascota_fecha_nacimiento"></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Chip</dt>
+                                                        <dd id="reserva_mascota_chip"></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Esterilizado</dt>
+                                                        <dd id="reserva_mascota_esterilizado"></dd>
+                                                    </div>
+                                                </dl>
                                               </div>
+                                            </div>
+                                            <div class="reserva-hora-acciones paciente_edit" style="display:none">
+                                                <button type="button" id="cancelar_modifcar_paciente" onclick="cancelar_modificacion_paciente();" class="btn btn-sm btn-outline-dark">
+                                                    <i class="feather icon-x"></i> Cancelar
+                                                </button>
+                                                <button type="button" id="actualizar_modificar_paciente" onclick="actualizar_paciente();" class="btn btn-sm btn-info">
+                                                    <i class="feather icon-check"></i> Guardar cambios
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -828,9 +1092,6 @@
                             </table>
 
                             <div class="modal-footer mb-0 pt-1 pb-0 paciente_view">
-                                <button type="button" class="btn btn-warning" id="btn_registrar_mascota_desde_tomar_hora" style="display:none;">
-                                    <i class="feather icon-plus"></i> Agregar mascota no registrada
-                                </button>
                                 <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"><i
                                         class="feather icon-x"></i> Cancelar</button>
                                 <button type="button" onclick="agendar_hora();" class="btn btn-info"><i
@@ -1041,7 +1302,7 @@
                                     data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
                                 <button type="button" id="guardar_reserva_paciente"
                                     onclick="agendar_hora_paciente_nuevo();" class="btn btn-info" disabled="disabled">
-                                    <i class="feather icon-check"></i> Tomar Hora
+                                    <i class="feather icon-check"></i> Agendar Hora
                                 </button>
                             </div>
                         </div>
@@ -1168,20 +1429,20 @@
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <div class="card border-info mb-3">
+                            <div class="recepcion-seccion">
                                 <div class="card-body">
-                                    <h6 class="text-info mb-2"><i class="fas fa-qrcode"></i> Recepción mediante QR</h6>
-                                    <p class="text-muted small mb-2">Escanee el QR emitido en Bonos Veterinaria o ingrese su código.</p>
+                                    <h6 class="titulo-item"><i class="fas fa-qrcode mr-2"></i>Recepción mediante QR</h6>
+                                    <p class="recepcion-seccion-ayuda">Escanee el QR emitido en Bonos Veterinaria o ingrese su código.</p>
                                     <div class="input-group">
                                         <input type="text" class="form-control form-control-sm bono_qr_recepcion"
                                             placeholder="Código u orden del bono" autocomplete="off">
                                         <div class="input-group-append">
-                                            <button type="button" class="btn btn-outline-info btn-sm" onclick="iniciarRecepcionQr(this)">
+                                            <button type="button" class="btn btn-purple btn-sm" onclick="iniciarRecepcionQr(this)">
                                                 <i class="fas fa-camera"></i> Escanear QR
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="bono_qr_estado small mt-2" aria-live="polite"></div>
+                                    <div class="bono_qr_estado small" aria-live="polite"></div>
                                 </div>
                             </div>
                         </div>
@@ -1347,28 +1608,28 @@
                             </div>
 
                             <div class="col-sm-12">
-                                <div class="card border-info mb-3">
+                                <div class="recepcion-seccion">
                                     <div class="card-body">
-                                        <h6 class="text-info mb-2"><i class="fas fa-qrcode"></i> Recepción mediante QR</h6>
-                                        <p class="text-muted small mb-2">Escanee el QR emitido en Bonos Veterinaria o ingrese su código.</p>
+                                        <h6 class="titulo-item"><i class="fas fa-qrcode mr-2"></i>Recepción mediante QR</h6>
+                                        <p class="recepcion-seccion-ayuda">Escanee el QR emitido en Bonos Veterinaria o ingrese su código.</p>
                                         <div class="input-group">
                                             <input type="text" class="form-control form-control-sm bono_qr_recepcion"
                                                 placeholder="Código u orden del bono" autocomplete="off">
                                             <div class="input-group-append">
-                                                <button type="button" class="btn btn-outline-info btn-sm" onclick="iniciarRecepcionQr(this)">
+                                                <button type="button" class="btn btn-purple btn-sm" onclick="iniciarRecepcionQr(this)">
                                                     <i class="fas fa-camera"></i> Escanear QR
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="bono_qr_estado small mt-2" aria-live="polite"></div>
+                                        <div class="bono_qr_estado small" aria-live="polite"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <div class="card border-primary mb-3">
+                                <div class="recepcion-seccion">
                                     <div class="card-body">
-                                        <h6 class="text-primary mb-2"><i class="fas fa-file-invoice-dollar"></i> Presupuesto N.º</h6>
-                                        <p class="text-muted small mb-2">Ingrese el número del presupuesto asociado a la atención.</p>
+                                        <h6 class="titulo-item"><i class="fas fa-file-invoice-dollar mr-2"></i>Presupuesto N.º</h6>
+                                        <p class="recepcion-seccion-ayuda">Ingrese el número del presupuesto asociado a la atención.</p>
                                         <input type="text" class="form-control form-control-sm bono_numero_presupuesto"
                                             placeholder="Número de presupuesto" autocomplete="off">
                                     </div>
@@ -1857,7 +2118,7 @@
             if(email === '')
             {
                 {
-                    var re = new RegExp(/^\x2b56[6-9][0-9]{8}$/i);
+                    var re = new RegExp(/^\x2b56 ?[6-9] ?[0-9]{4} ?[0-9]{4}$/i);
                     if( re.test(telefono) )
                         $('#btn_reserva_hora_representante_telefono_uno_validar').attr('disabled',false);
                     else
@@ -2054,7 +2315,7 @@
                     {
                         if (data.estado == 1)
                         {
-                            $('#reserva_hora_nombre').text(nombre_paciente + ' ' + apellido_uno_paciente + ' ' + apellido_dos_paciente);
+                            $('#reserva_hora_nombre').text(nombre_paciente + ' ' + apellido_uno_paciente);
                             $('#reserva_fecha_nacimiento').text(fecha_nacimiento);
                             if (sexo_paciente == 'M') {
                                 $('#reserva_sexo').text('Masculino');

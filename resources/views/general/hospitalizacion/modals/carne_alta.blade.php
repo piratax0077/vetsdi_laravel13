@@ -127,8 +127,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
-                <button type="button" class="btn btn-info btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Guardar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Guardar</button>
             </div>
         </div>
     </div>

@@ -14,13 +14,13 @@
                     <table style="width: 100%; max-width: 600px;" border="0" width="100%" cellspacing="0" cellpadding="0">
                         <tr style="background-color: #fff;">
                             <td style="text-align: center;" >
-                                <img style=" margin-bottom: 5px; margin-top: 0px; max-width: 100%;" src="https://med-sdi.cl/images/email/medichile-email.png" alt="Medichile">
+                                <img style=" margin-bottom: 5px; margin-top: 0px; max-width: 100%;" src="https://veterchile.cl/images/email/medichile-email.png" alt="Veterchile">
                             </td>
                         </tr>
                         <tr>
                             <td style="background-color: #fff; padding-top: 15px;" align="center">
-                                <p style="font-family: Helvetica, Arial, sans-serif; font-size: 20px; line-height: 10px; color: #3366cc; text-align: center; font-weight:600;">Estimado/a Paciente</p>
-                                <p style="font-family: Helvetica, Arial, sans-serif; font-size: 17px; line-height: 10px; color: #3366cc; text-align: center; font-weight:600;">{{ $detalle['body']['nombre_paciente'] }}</p>
+                                <p style="font-family: Helvetica, Arial, sans-serif; font-size: 20px; line-height: 10px; color: #6f42c1; text-align: center; font-weight:600;">Estimado/a Paciente</p>
+                                <p style="font-family: Helvetica, Arial, sans-serif; font-size: 17px; line-height: 10px; color: #6f42c1; text-align: center; font-weight:600;">{{ $detalle['body']['nombre_paciente'] }}</p>
                             </td>
                         </tr>
                         <tr>
@@ -34,7 +34,7 @@
                                     <tbody>
 
                                         <tr>
-                                            <td style="background: rgb(98,37,136); background: -moz-linear-gradient(108deg, rgba(98,37,136,1) 0%, rgba(160,108,193,1) 100%); background: -webkit-linear-gradient(108deg, rgba(98,37,136,1) 0%, rgba(160,108,193,1) 100%); background: linear-gradient(108deg, rgba(98,37,136,1) 0%, rgba(160,108,193,1) 100%);  padding: 15px 20px; -webkit-border-radius: 30px; font-family: Helvetica, Arial, sans-serif;" align="center" bgcolor="#289CDC">
+                                            <td style="background: rgb(98,37,136); background: -moz-linear-gradient(108deg, rgba(98,37,136,1) 0%, rgba(160,108,193,1) 100%); background: -webkit-linear-gradient(108deg, rgba(98,37,136,1) 0%, rgba(160,108,193,1) 100%); background: linear-gradient(108deg, rgba(98,37,136,1) 0%, rgba(160,108,193,1) 100%);  padding: 15px 20px; -webkit-border-radius: 30px; font-family: Helvetica, Arial, sans-serif;" align="center" bgcolor="#6f42c1">
                                                 <a target="_blank" href="{{ $detalle['body']['archivo_constancia']['url'] }}" style="color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600;">DESCARGAR CONSTANCIA GES</a>
                                             </td>
                                         </tr>
@@ -48,7 +48,7 @@
                                                 </tr>
 
                                                 <tr style="margin-bottom: 1rempx;">
-                                                    <td style=" background: rgb(49,190,190); background: -moz-linear-gradient(108deg, rgba(49,190,190,1) 0%, rgba(25,159,159,1) 100%); background: -webkit-linear-gradient(108deg, rgba(49,190,190,1) 0%, rgba(25,159,159,1) 100%); background: linear-gradient(108deg, rgba(49,190,190,1) 0%, rgba(25,159,159,1) 100%);padding: 15px 20px; -webkit-border-radius: 30px; font-family: Helvetica, Arial, sans-serif;" align="center" bgcolor="#289CDC">
+                                                    <td style=" background: rgb(49,190,190); background: -moz-linear-gradient(108deg, rgba(49,190,190,1) 0%, rgba(25,159,159,1) 100%); background: -webkit-linear-gradient(108deg, rgba(49,190,190,1) 0%, rgba(25,159,159,1) 100%); background: linear-gradient(108deg, rgba(49,190,190,1) 0%, rgba(25,159,159,1) 100%);padding: 15px 20px; -webkit-border-radius: 30px; font-family: Helvetica, Arial, sans-serif;" align="center" bgcolor="#6f42c1">
                                                         <a target="_blank" href="{{ $archivo['url'] }}" style="color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600;">DESCARGAR ARCHIVO: {{ $archivo['nombre'] }}</a>
                                                     </td>
                                                 </tr>
@@ -61,7 +61,7 @@
                         </tr>
                         <tr>
                             <td style="margin-top:50px; background-color: #fff;">
-                                <img style=" margin-bottom: 5px; margin-top: 50px; max-width: 100%;" src="https://med-sdi.cl/images/email/pie-email.png" alt="Medichile">
+                                <img style=" margin-bottom: 5px; margin-top: 50px; max-width: 100%;" src="https://veterchile.cl/images/email/pie-email.png" alt="Veterchile">
                             </td>
                         </tr>
                             <td style="text-align: center; background-color: #fff;" align="center">
@@ -69,7 +69,7 @@
                                     <tbody>
                                         <tr>
                                             <td style="font-family: Helvetica, Arial, sans-serif;" align="center" valign="top">
-                                                <p style="text-align: center; color: #999999; font-size: 10px; font-weight: normal; line-height: 15px;">Este correo electrónico fue enviado por <a style="color: #000;" href="https://www.medichile.cl">Salud Digital Integrada</a> <br> Salud Digital Integrada <b>Todos los Derechos Reservados. ©2023</b></p>
+                                                <p style="text-align: center; color: #999999; font-size: 10px; font-weight: normal; line-height: 15px;">Este correo electrónico fue enviado por <a style="color: #000;" href="https://veterchile.cl/">Veterchile</a> <br> Veterchile <b>Todos los Derechos Reservados. ©2023</b></p>
                                             </td>
                                             <td width="30"> </td>
                                             <td width="16"> </td>

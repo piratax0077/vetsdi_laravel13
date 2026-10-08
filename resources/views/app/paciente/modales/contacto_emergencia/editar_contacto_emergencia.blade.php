@@ -134,8 +134,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
-                <button type="button" onclick="editar_contacto_emergencia();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" onclick="editar_contacto_emergencia();" class="btn btn-info"><i class="feather icon-save"></i> Guardar
                     cambios</button>
             </div>
         </div>

@@ -696,9 +696,9 @@
 
         <div class="modal-footer">
 
-            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cerrar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i> Cerrar</button>
 
-            <button type="button" class="btn btn-info btn-sm" id="btn_registrar" onclick="registrar_dep_nuevo();"><i class="feather icon-check"></i> Registrar</button>
+            <button type="button" class="btn btn-info" id="btn_registrar" onclick="registrar_dep_nuevo();"><i class="feather icon-check"></i> Registrar</button>
 
         </div>
 

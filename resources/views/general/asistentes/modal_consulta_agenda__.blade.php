@@ -310,21 +310,21 @@
 
                 <div>
                     <button type="button" onclick="opcion_cancelar_hora();" id="hm_anular_hora"
-                        class="btn btn-danger btn-sm" data-dismiss="modal">
+                        class="btn btn-danger" data-dismiss="modal">
                         Anular Hora
                     </button>
                 </div>
 
                 <div>
                     <button type="button" onclick="opcion_confirmar_hora()" id="hm_confirmar_hora"
-                        class="btn btn-success btn-sm">
+                        class="btn btn-success">
                         Confirmar Hora
                     </button>
                 </div>
 
 
                 <div>
-                    <button type="submit" id="hm_ver_hora" class="btn btn-info btn-sm">Ver Atención</button>
+                    <button type="submit" id="hm_ver_hora" class="btn btn-info">Ver Atención</button>
                 </div>
 
 
@@ -336,7 +336,7 @@
                         <input type="hidden" name="lugar_atencion_id" id="lugar_atencion_id"
                             value="$('#agenda_lugar_atencion_asistente').val();">
 
-                        <button type="submit" id="hm_atender_hora" class="btn btn-info btn-sm">Atender</button>
+                        <button type="submit" id="hm_atender_hora" class="btn btn-info">Atender</button>
                     </form>
                 </div>
 
@@ -345,25 +345,25 @@
                         @csrf
                         <input type="hidden" name="id_hora_realizar" id="id_hora_realizar" val="">
 
-                        <button type="submit" id="hm_espera_paciente_hora" class="btn btn-info btn-sm"
+                        <button type="submit" id="hm_espera_paciente_hora" class="btn btn-info"
                             onclick="paciente_esperando();">Esperando</button>
                     </form>
                 </div>
 
                 <div>
-                    <button type="button" id="cerrarModal" class="btn btn-secondary btn-sm"
+                    <button type="button" id="cerrarModal" class="btn btn-secondary"
                         data-dismiss="modal">Cerrar
                     </button>
                 </div>
                 <div>
                     <button type="button" id="confirmar_anulacion_hora" onclick="cancelar_hora();"
-                        class="btn btn-danger btn-sm">Anular
+                        class="btn btn-danger">Anular
                         Hora
                     </button>
                 </div>
                 <div>
                     <button type="button" id="confirmacion_hora" onclick="confirmar_hora();"
-                        class="btn btn-success btn-sm">Confirmar
+                        class="btn btn-success">Confirmar
                         Hora
                     </button>
                 </div>
@@ -1953,7 +1953,7 @@
         if (email == '') {
             // if (telefono != '')
             {
-                var re = new RegExp(/^\x2b56[6-9][0-9]{8}$/i); //+56612341234
+                var re = new RegExp(/^\x2b56 ?[6-9] ?[0-9]{4} ?[0-9]{4}$/i); //+56612341234
                 if (re.test(telefono)) {
 
                     if (validarEdad($('#reserva_hora_fecha_nac').val())) {
@@ -1985,7 +1985,7 @@
         {
             // if (telefono != '')
             {
-                var re = new RegExp(/^\x2b56[6-9][0-9]{8}$/i); //+56612341234
+                var re = new RegExp(/^\x2b56 ?[6-9] ?[0-9]{4} ?[0-9]{4}$/i); //+56612341234
                 if (re.test(telefono)) {
 
                     if (validarEdad($('#reserva_hora_fecha_nac').val())) {
@@ -2029,7 +2029,7 @@
         if (email === '') {
             // if (telefono != '')
             {
-                var re = new RegExp(/^\x2b56[6-9][0-9]{8}$/i); //+56612341234
+                var re = new RegExp(/^\x2b56 ?[6-9] ?[0-9]{4} ?[0-9]{4}$/i); //+56612341234
                 if (re.test(telefono))
                     $('#btn_reserva_hora_representante_telefono_uno_validar').attr('disabled', false);
                 else

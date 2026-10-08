@@ -10,8 +10,8 @@
                 <embed src="{{ asset('img_dental\denticion_inf.png') }}" type="application/pdf" data-documento="IND_ODONTO.pdf" data-url="img_dental\denticion_inf.png" width="100%" height="650px"/>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('m_dent_inf');">Enviar al Paciente</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('m_dent_inf');">Enviar al Paciente</button>
             </div>
         </div>
     </div>

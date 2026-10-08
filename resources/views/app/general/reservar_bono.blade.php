@@ -654,11 +654,11 @@
                 </div>
 
                 <div class="modal-footer bg-white d-flex justify-content-between">
-                    <button type="button" class="btn btn-sm btn-success" onclick="enviarQrWhatsapp();">
+                    <button type="button" class="btn btn-success" onclick="enviarQrWhatsapp();">
                         <i class="feather icon-message-circle mr-1"></i> Enviar por WhatsApp
                     </button>
 
-                    <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -730,20 +730,20 @@
 
                 <div class="modal-footer bg-white d-flex justify-content-between">
                     <div>
-                        <button type="button" class="btn btn-sm btn-success" onclick="compartirVoucherWhatsapp();">
+                        <button type="button" class="btn btn-success" onclick="compartirVoucherWhatsapp();">
                             <i class="feather icon-message-circle mr-1"></i> WhatsApp
                         </button>
 
-                        <button type="button" class="btn btn-sm btn-primary" onclick="compartirVoucherEmail();">
+                        <button type="button" class="btn btn-primary" onclick="compartirVoucherEmail();">
                             <i class="feather icon-mail mr-1"></i> Email
                         </button>
 
-                        <button type="button" class="btn btn-sm btn-info" onclick="compartirVoucherApp();">
+                        <button type="button" class="btn btn-info" onclick="compartirVoucherApp();">
                             <i class="feather icon-smartphone mr-1"></i> App
                         </button>
                     </div>
 
-                    <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -818,9 +818,9 @@
                 </div>
 
                 <div class="modal-footer bg-white d-flex justify-content-between">
-                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
 
-                    <button type="button" id="btn_confirmar_editar_voucher" class="btn btn-info btn-sm" onclick="confirmarEditarLugarVoucher();">
+                    <button type="button" id="btn_confirmar_editar_voucher" class="btn btn-info" onclick="confirmarEditarLugarVoucher();">
                         <i class="feather icon-save mr-1"></i> Guardar cambios
                     </button>
                 </div>
@@ -926,9 +926,9 @@
                 </div>
 
                 <div class="modal-footer bg-white d-flex justify-content-between">
-                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
 
-                    <button type="button" id="btn_confirmar_eliminar_voucher" class="btn btn-danger btn-sm" onclick="confirmarEliminarVoucher();">
+                    <button type="button" id="btn_confirmar_eliminar_voucher" class="btn btn-danger" onclick="confirmarEliminarVoucher();">
                         <i class="feather icon-trash-2 mr-1"></i> Confirmar anulación
                     </button>
                 </div>

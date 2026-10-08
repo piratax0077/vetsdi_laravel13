@@ -38,7 +38,7 @@
                 </div>
 			</div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-danger" onclick="$('#cirugias_fmu').modal('hide');">Cerrar</button>
+                <button type="button" class="btn btn-danger" onclick="$('#cirugias_fmu').modal('hide');">Cerrar</button>
             </div>
 		</div>
 	</div>

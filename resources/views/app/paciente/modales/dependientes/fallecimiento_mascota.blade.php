@@ -60,8 +60,8 @@
                 <div class="dropzone" id="dropzone-memorial-mascota"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-purple btn-sm" id="btn_confirmar_fallecimiento" onclick="return confirmarFallecimientoMascota();">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-purple" id="btn_confirmar_fallecimiento" onclick="return confirmarFallecimientoMascota();">
                     <i class="feather icon-check"></i> Confirmar fallecimiento
                 </button>
             </div>

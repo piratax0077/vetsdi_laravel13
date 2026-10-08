@@ -9,7 +9,7 @@
         body {
             margin: 0;
             padding: 0;
-            background: #eef3f9;
+            background: #f1eafa;
             font-family: Arial, Helvetica, sans-serif;
             color: #0f172a;
         }
@@ -33,7 +33,7 @@
 
         .bar {
             height: 7px;
-            background: linear-gradient(90deg, #1a49a3, #31bebe);
+            background: linear-gradient(90deg, #59339c, #31bebe);
         }
 
         .content {
@@ -57,7 +57,7 @@
 
         h1 {
             margin: 0 0 10px 0;
-            color: #1a49a3;
+            color: #59339c;
             font-size: 26px;
             line-height: 34px;
         }
@@ -81,7 +81,7 @@
         .summary-title {
             font-size: 16px;
             font-weight: bold;
-            color: #1a49a3;
+            color: #59339c;
             margin-bottom: 14px;
         }
 
@@ -131,7 +131,7 @@
         .btn {
             margin-top: 24px;
             display: inline-block;
-            background: #1a49a3;
+            background: #59339c;
             color: #ffffff;
             text-decoration: none;
             padding: 13px 24px;
@@ -293,7 +293,7 @@
             </div>
 
             <div class="footer">
-                SDI · Salud Digital Integrada<br>
+                Veterchile<br>
                 &copy; {{ date('Y') }} · Todos los derechos reservados
             </div>
         </div>

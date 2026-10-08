@@ -10,8 +10,8 @@
                 <embed src="{{ asset('documentos/gine_obstetricia/Indic_lactancia.pdf') }}" type="application/pdf" data-documento="Indic_lactancia.pdf" data-url="documentos/gine_obstetricia/Indic_lactancia.pdf" width="100%" height="750px"/>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('m_ind_lactancia');">Enviar al Paciente</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('m_ind_lactancia');">Enviar al Paciente</button>
             </div>
         </div>
     </div>

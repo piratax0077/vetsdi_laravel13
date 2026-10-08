@@ -263,14 +263,14 @@
                 </div>
             </div>
             <div class="modal-footer reserva-vet-acciones">
-                <button type="button" class="btn btn-outline-dark btn-sm reserva-vet-volver" id="btn_cancelar_reserva_vet" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary reserva-vet-volver d-none" id="btn_anterior_reserva_vet" onclick="anteriorPasoReservaVeterinaria();">
+                <button type="button" class="btn btn-outline-dark reserva-vet-volver" id="btn_cancelar_reserva_vet" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-secondary reserva-vet-volver d-none" id="btn_anterior_reserva_vet" onclick="anteriorPasoReservaVeterinaria();">
                     <i class="feather icon-chevron-left"></i> Anterior
                 </button>
-                <button type="button" class="btn btn-sm btn-info" id="btn_siguiente_reserva_vet" onclick="siguientePasoReservaVeterinaria();" disabled>
+                <button type="button" class="btn btn-info" id="btn_siguiente_reserva_vet" onclick="siguientePasoReservaVeterinaria();" disabled>
                     Siguiente <i class="feather icon-chevron-right"></i>
                 </button>
-                <button type="button" class="btn btn-sm btn-info d-none" id="btn_confirmar_reserva_vet" onclick="confirmarReservaVeterinaria();" disabled>
+                <button type="button" class="btn btn-info d-none" id="btn_confirmar_reserva_vet" onclick="confirmarReservaVeterinaria();" disabled>
                     <i class="feather icon-check"></i> Confirmar Reserva
                 </button>
             </div>

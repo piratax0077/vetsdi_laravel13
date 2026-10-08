@@ -99,10 +99,10 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$('#modal_ram').modal('hide');">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#modal_ram').modal('hide');">
                         <i class="feather icon-x"></i> Cancelar
                     </button>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="guardar_ram()">
+                    <button type="button" class="btn btn-danger" onclick="guardar_ram()">
                         <i class="feather icon-save"></i> Registrar Denuncia RAM
                     </button>
                 </div>

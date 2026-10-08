@@ -5719,7 +5719,7 @@ function mostrar_resultado_paciente_cotiz(paciente) {
         {
             // if (telefono != '')
             {
-                var re = new RegExp(/^\x2b56[6-9][0-9]{8}$/i);//+56612341234
+                var re = new RegExp(/^\x2b56 ?[6-9] ?[0-9]{4} ?[0-9]{4}$/i);//+56612341234
                 if( re.test(telefono) )
                 {
 

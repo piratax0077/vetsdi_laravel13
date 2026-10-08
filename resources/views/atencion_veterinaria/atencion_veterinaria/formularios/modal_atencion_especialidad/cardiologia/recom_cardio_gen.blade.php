@@ -12,8 +12,8 @@
                     data-documento="recomgencvardio.pdf" data-url="documentos/cardiologia/recomgencardio.pdf" width="100%"
                     height="750px" />
                 <div class="modal-footer">
-                     <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#m_ind_gen_cardio').modal('hide')">Cerrar</button>
-                    <button type="button" class="btn btn-info btn-sm"
+                     <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#m_ind_gen_cardio').modal('hide')">Cerrar</button>
+                    <button type="button" class="btn btn-info"
                         onclick="envio_indicaciones_pdf('m_ind_gen_cardio');">Enviar al Paciente</button>
                 </div>
             </div>

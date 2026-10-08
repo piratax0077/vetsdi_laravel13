@@ -225,9 +225,9 @@
                 </form>
 			</div>
             <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary-light-c btn-sm"><i class="feather icon-file"></i>Ver PDF</button>
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#inf_rehab_vest').modal('hide')">Cerrar modal</button>
-                    <button type="button" class="btn btn-info-light-c btn-sm" onclick="inf_rehab_vest();"><i class="feather icon-save"></i> Guardar</button>
+                    <button type="button" class="btn btn-secondary-light-c"><i class="feather icon-file"></i>Ver PDF</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#inf_rehab_vest').modal('hide')">Cerrar modal</button>
+                    <button type="button" class="btn btn-info-light-c" onclick="inf_rehab_vest();"><i class="feather icon-save"></i> Guardar</button>
 
                 </div>
 		</div>

@@ -15,12 +15,12 @@
                         <tbody>
                             <tr>
                                 <td style="text-align: center;">
-                                    <img style="width: 95px; margin-bottom: 20px; margin-top: 20px;" src="{{ config('app.url') }}/images/logo_pais_vertical.png" alt="{{ config('app.name') }}">
+                                    <img style="width: 170px; margin-bottom: 20px; margin-top: 20px;" src="https://veterchile.cl/images/vet-color-h.svg" alt="{{ config('app.name') }}">
                                 </td>
                             </tr>
                             <tr>
                                 <td style="background-color: #fff; padding: 0 24px;" align="center">
-                                    <p style="font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: 600; color: #0071bc;">
+                                    <p style="font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: 600; color: #6f42c1;">
                                         Hola {{ $detalle['body']['nombre'] }}
                                     </p>
                                 </td>
@@ -40,7 +40,7 @@
                                                 <td height="20"> </td>
                                             </tr>
                                             <tr>
-                                                <td style="background: #0071bc; padding: 15px 28px; border-radius: 30px; font-family: Helvetica, Arial, sans-serif;" align="center" bgcolor="#0071bc">
+                                                <td style="background: #6f42c1; padding: 15px 28px; border-radius: 30px; font-family: Helvetica, Arial, sans-serif;" align="center" bgcolor="#6f42c1">
                                                     <a target="_blank" rel="noopener noreferrer" href="{{ $detalle['body']['enlace'] }}" style="color: #ffffff; text-decoration: none; font-size: 18px;">Confirmar mi cuenta</a>
                                                 </td>
                                             </tr>
@@ -56,7 +56,7 @@
                                     <p style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #6c757d; line-height: 1.5;">
                                         El enlace vence en {{ $detalle['body']['horas'] }} horas. Si el botón no funciona, copia y pega esta dirección en tu navegador:
                                     </p>
-                                    <p style="font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: #0071bc; word-break: break-all;">
+                                    <p style="font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: #6f42c1; word-break: break-all;">
                                         {{ $detalle['body']['enlace'] }}
                                     </p>
                                 </td>

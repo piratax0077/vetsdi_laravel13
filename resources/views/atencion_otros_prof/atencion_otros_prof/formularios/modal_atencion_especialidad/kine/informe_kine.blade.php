@@ -48,9 +48,9 @@
                 </form>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn btn-primary-light-c btn-sm"><i class="feather icon-file-text"></i> Ver PDF</button>
-				 <button type="button" class="btn btn-danger btn-sm" onclick="$('#informe_kine').modal('hide')" data-bs-dismiss="modal"> <i class="feather icon-x"></i> Cerrar</button>
-				<button type="button" class="btn btn-info-light-c btn-sm"><i class="feather icon-save"></i> Guardar</button>
+                <button type="button" class="btn btn-primary-light-c"><i class="feather icon-file-text"></i> Ver PDF</button>
+				 <button type="button" class="btn btn-danger" onclick="$('#informe_kine').modal('hide')" data-bs-dismiss="modal"> <i class="feather icon-x"></i> Cerrar</button>
+				<button type="button" class="btn btn-info-light-c"><i class="feather icon-save"></i> Guardar</button>
 			</div>
 		</div>
 	</div>

@@ -9,8 +9,8 @@
                 <embed src="{{ asset('documentos/orl/IND_OP_NASAL.pdf') }}" type="application/pdf" data-documento="IND_OP_NASAL.pdf" data-url="documentos/orl/IND_OP_NASAL.pdf" width="100%" height="750px"/>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('m_ind_rino');">Enviar al Paciente</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('m_ind_rino');">Enviar al Paciente</button>
             </div>
         </div>
     </div>

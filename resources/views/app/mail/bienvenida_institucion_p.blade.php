@@ -18,10 +18,10 @@
     <!-- HEADER -->
     <tr>
         <td style="padding:20px;">
-            <table width="100%" style="background: linear-gradient(152deg,rgba(26, 73, 163, 1) 27%, rgba(71, 117, 196, 1) 100%); border-radius:12px;">
+            <table width="100%" style="background: linear-gradient(152deg,rgba(89,51,156, 1) 27%, rgba(111,66,193, 1) 100%); border-radius:12px;">
                 <tr>
                     <td style="padding:20px; text-align:center;">
-                        <img src="https://www.med-sdi.cl/images/sdi-white-v.svg" width="100">
+                        <img src="https://veterchile.cl/images/vet-white-h.svg" width="150" alt="Veterchile">
                     </td>
                 </tr>
             </table>
@@ -37,7 +37,7 @@
                 <tr>
                     <td style="padding:25px 25px 10px 25px;">
                         <p style="margin:0; font-size:14px; color:#888;">Bienvenido/a</p>
-                        <h2 style="margin:5px 0 0 0; color:#1a49a3;">
+                        <h2 style="margin:5px 0 0 0; color:#59339c;">
                             {{ $detalle['body']['nombre'] }}
                         </h2>
                     </td>
@@ -48,7 +48,7 @@
                     <td style="padding:0 25px 15px 25px;">
                         <p style="margin:0; font-size:14px; color:#555; line-height:1.6;">
                             ¡Tu cuenta ya está lista! Ahora formas parte del equipo como 
-                            <strong style="color:#1a49a3;">Institución</strong>. 
+                            <strong style="color:#59339c;">Institución</strong>. 
                             Puedes ingresar cuando quieras usando tus credenciales.
                         </p>
                     </td>
@@ -93,8 +93,8 @@
                 <!-- BOTÓN -->
                 <tr>
                     <td align="center" style="padding:10px 25px 25px 25px;">
-                        <a href="https://www.med-sdi.cl/Ingreso"
-                           style="background:linear-gradient(148deg, rgba(0,147,147,1) 0%, rgba(28,190,190,1) 100%);
+                        <a href="https://veterchile.cl/"
+                           style="background:linear-gradient(148deg, rgba(0,147,147,1) 0%, rgba(49,190,190,1) 100%);
                                   color:#ffffff;
                                   padding:14px 30px;
                                   border-radius:8px;
@@ -122,7 +122,7 @@
     <tr>
         <td style="padding:10px 20px 30px 20px;">
             <p style="text-align:center; font-size:12px; color:#999;">
-                © {{ date('Y') }} Salud Digital Integrada<br>
+                © {{ date('Y') }} Veterchile<br>
                 Todos los derechos reservados
             </p>
         </td>

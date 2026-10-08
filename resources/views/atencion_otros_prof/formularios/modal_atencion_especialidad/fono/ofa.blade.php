@@ -653,10 +653,10 @@
                                 <button type="button" class="btn btn-info" onclick="registrar_est_ofa();">Guardar</button>
                             </div>  --}}
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#est_ofa').modal('hide')">Cerrar modal</button>
-                                <button type="button" class="btn btn-info-light-c btn-sm" onclick="registrar_est_ofa();"><i class="feather icon-save"></i> Guardar y enviar</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#est_ofa').modal('hide')">Cerrar modal</button>
+                                <button type="button" class="btn btn-info-light-c" onclick="registrar_est_ofa();"><i class="feather icon-save"></i> Guardar y enviar</button>
 
-                                {{--  <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('m_eval_espasmof');">Enviar al Paciente</button>  --}}
+                                {{--  <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('m_eval_espasmof');">Enviar al Paciente</button>  --}}
                             </div>
                         </div>
                     </div>

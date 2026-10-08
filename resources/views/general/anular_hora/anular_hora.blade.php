@@ -35,7 +35,7 @@
         </div>
       </div>
       <!--<div class="modal-footer">
-        <button type="button" class="btn btn-danger-light btn-sm" onclick="$('#modal_anular_hora').modal('hide');">Cerrar</button>
+        <button type="button" class="btn btn-danger-light" onclick="$('#modal_anular_hora').modal('hide');">Cerrar</button>
       </div>-->
     </div>
   </div>
@@ -65,7 +65,7 @@
         </div>
 
         <div class="modal-footer">
-          <!--<button type="button" class="btn btn-danger-light btn-sm" onclick="$('#modal_anular_hora_comentario').modal('hide');">Cerrar</button>-->
+          <!--<button type="button" class="btn btn-danger-light" onclick="$('#modal_anular_hora_comentario').modal('hide');">Cerrar</button>-->
           <button type="button" class="btn btn-danger-light-c btn-xxs" onclick="anular_horas();"><i class="feather icon-x"></i> Anular</button>
         </div>
 

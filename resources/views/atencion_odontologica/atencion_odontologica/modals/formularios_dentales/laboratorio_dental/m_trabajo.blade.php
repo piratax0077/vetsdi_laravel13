@@ -120,7 +120,7 @@
                      </div>
 
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-primary" onclick="generar_pdf_trabajo_menor_dental()">Ver documento en PDF</button>
+                    <button type="button" class="btn btn-primary" onclick="generar_pdf_trabajo_menor_dental()">Ver documento en PDF</button>
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                         <button type="button" class="btn btn-info" onclick="guardar_trabajo_menor_dental()"><i class="feather icon-shopping-cart"></i> Guardar</button>
                     </div>

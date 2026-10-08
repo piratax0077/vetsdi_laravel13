@@ -329,7 +329,7 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-sm btn-danger" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
+                                <button class="btn btn-danger" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
                             </div>
                         </div>
                     </div>

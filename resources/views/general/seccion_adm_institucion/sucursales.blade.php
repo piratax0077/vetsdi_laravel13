@@ -225,7 +225,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info btn-sm mx-auto" onclick="registrar_sucursal();">Añadir nueva sucursal</button>
+                <button type="button" class="btn btn-info mx-auto" onclick="registrar_sucursal();">Añadir nueva sucursal</button>
             </div>
         </div>
     </div>
@@ -318,7 +318,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info btn-sm mx-auto" onclick="modificar_sucursal();">Guardar cambios</button>
+                <button type="button" class="btn btn-info mx-auto" onclick="modificar_sucursal();">Guardar cambios</button>
             </div>
         </div>
     </div>
@@ -380,7 +380,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info btn-sm mx-auto">Guardar cambios</button>
+                    <button type="submit" class="btn btn-info mx-auto">Guardar cambios</button>
                 </div>
             </form>
         </div>
@@ -532,7 +532,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-info btn-sm mx-auto">Guardar cambios</button>
+                <button type="submit" class="btn btn-info mx-auto">Guardar cambios</button>
             </div>
         </div>
     </div>

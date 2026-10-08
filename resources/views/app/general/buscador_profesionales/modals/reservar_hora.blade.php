@@ -267,8 +267,8 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark btn-sm close_agenda_agregar_paciente" onclick="$('#agenda_agregar_paciente').modal('hide');" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
-                            <button type="button" onclick="agendar_hora();" class="btn btn-sm btn-info-light-c"><i class="feather icon-calendar"></i> Agendar Hora</button>
+                            <button type="button" class="btn btn-outline-dark close_agenda_agregar_paciente" onclick="$('#agenda_agregar_paciente').modal('hide');" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                            <button type="button" onclick="agendar_hora();" class="btn btn-info-light-c"><i class="feather icon-calendar"></i> Agendar Hora</button>
                         </div>
                     </div>
 

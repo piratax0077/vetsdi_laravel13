@@ -453,8 +453,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger-light-c btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cerrar</button>
-                <button type="button" class="btn btn-info-light-c btn-sm" onclick="guardar_fuerza_superior()"><i class="feather icon-save"></i> Guardar</button>
+                <button type="button" class="btn btn-danger-light-c" data-dismiss="modal"><i class="feather icon-x"></i> Cerrar</button>
+                <button type="button" class="btn btn-info-light-c" onclick="guardar_fuerza_superior()"><i class="feather icon-save"></i> Guardar</button>
             </div>
         </div>
     </div>

@@ -158,11 +158,11 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <button type="button" class="btn btn-success btn-sm btn-block"
+                        <button type="button" class="btn btn-success btn-block"
                             onclick="agregar_sala_espera();">Guardar</button>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <button type="button" class="btn btn-outline-dark btn-sm btn-block"
+                        <button type="button" class="btn btn-outline-dark btn-block"
                             onclick="$('#moda_agregar_sala_espera').modal('hide');">Cancelar</button>
                     </div>
                 </div>
@@ -240,11 +240,11 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <button type="button" class="btn btn-success btn-sm btn-block"
+                        <button type="button" class="btn btn-success btn-block"
                             onclick="modificar_sala_espera();">Guardar</button>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <button type="button" class="btn btn-outline-dark btn-sm btn-block"
+                        <button type="button" class="btn btn-outline-dark btn-block"
                             onclick="$('#moda_editar_sala_espera').modal('hide');">Cancelar</button>
                     </div>
                 </div>
@@ -359,7 +359,7 @@
                 <div class="modal-footer">
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <button type="button" class="btn btn-danger btn-sm btn-block"
+                            <button type="button" class="btn btn-danger btn-block"
                                 onclick="$('#moda_tv_sala_espera').modal('hide');">Cerrar</button>
                         </div>
                     </div>
@@ -457,7 +457,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <button type="button" class="btn btn-danger btn-sm btn-block"
+                        <button type="button" class="btn btn-danger btn-block"
                             onclick="$('#moda_box_sala_espera').modal('hide');">Cerrar</button>
                     </div>
                 </div>

@@ -111,8 +111,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
-                    <button type="submit" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar procedimiento</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
+                    <button type="submit" class="btn btn-info"><i class="feather icon-save"></i> Guardar procedimiento</button>
                 </div>
             </form>
         </div>
@@ -174,8 +174,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
-                    <button type="button" class="btn btn-info btn-sm" id="btn-actualizar-procedimiento" onclick="actualizarProcedimiento()"><i class="feather icon-save"></i> Guardar cambios</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
+                    <button type="button" class="btn btn-info" id="btn-actualizar-procedimiento" onclick="actualizarProcedimiento()"><i class="feather icon-save"></i> Guardar cambios</button>
                 </div>
             </form>
         </div>

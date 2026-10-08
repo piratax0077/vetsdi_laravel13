@@ -20,25 +20,15 @@
     .pet-gallery-title{color:#33445a;font-weight:700;margin-bottom:10px}
     .pet-gallery-list{display:flex;flex-wrap:wrap;gap:10px}
     .pet-gallery-thumb{width:88px;height:88px;object-fit:cover;border-radius:12px;border:2px solid #fff;box-shadow:0 3px 12px rgba(30,55,75,.16);cursor:pointer}
-    #modalResumenContacto .modal-content{border:0;border-radius:18px;overflow:hidden;box-shadow:0 24px 65px rgba(10,45,58,.3)}
-    #modalResumenContacto .modal-header{align-items:center;padding:16px 20px;background:#6f42c1!important;border:0}
-    #modalResumenContacto .modal-title{font-weight:700;letter-spacing:.1px}
-    #modalResumenContacto .close{display:flex;align-items:center;justify-content:center;width:38px;height:38px;padding:0;margin:-3px -3px -3px auto;color:#fff;opacity:1;text-shadow:none;background:rgba(0,69,72,.4);border-radius:50%}
-    #modalResumenContacto .modal-body{padding:0;background:#f5f9fa}
-    .contact-summary-hero{display:flex;align-items:center;padding:20px;background:linear-gradient(135deg,#e8f8f6,#f8fbfc);border-bottom:1px solid #dce9ec}
-    .contact-summary-avatar{display:flex;align-items:center;justify-content:center;width:58px;height:58px;flex:0 0 58px;margin-right:14px;color:#fff;font-size:25px;background:linear-gradient(135deg,#149187,#16bfbd);border-radius:17px;box-shadow:0 8px 20px rgba(20,145,135,.22)}
-    .contact-summary-hero h5{margin:0 0 4px;color:#26384d;font-weight:750}
-    .contact-summary-hero p{margin:0;color:#718092;font-size:.84rem}
-    .contact-summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;padding:18px 20px}
-    .contact-summary-item{display:flex;align-items:center;min-height:68px;padding:12px 13px;background:#fff;border:1px solid #e1e9ed;border-radius:12px;box-shadow:0 2px 8px rgba(34,61,78,.04)}
-    .contact-summary-item--wide{grid-column:1/-1}
-    .contact-summary-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex:0 0 36px;margin-right:11px;color:#168e87;font-size:16px;background:#e7f7f5;border-radius:10px}
-    .contact-summary-label{display:block;margin-bottom:3px;color:#8995a2;font-size:.69rem;font-weight:700;letter-spacing:.35px;text-transform:uppercase}
-    .contact-summary-value{display:block;color:#34465c;font-weight:650;line-height:1.25;word-break:break-word}
-    a.contact-summary-value:hover{color:#137f78;text-decoration:none}
-    #modalResumenContacto .modal-footer{padding:12px 20px;background:#fff;border-top:1px solid #e2e9ed}
+    .pet-detail-seccion{display:flex;align-items:center;margin:8px 22px 0;padding-top:16px;border-top:1px solid #e4eaef;color:#272727;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700}
+    .pet-detail-seccion i{margin-right:8px;color:#6f42c1}
+    .pet-detail-grid--tutor{padding-top:12px;padding-bottom:20px}
+    .pet-detail-item--ancho{grid-column:1/-1}
+    a.pet-detail-value:hover{color:#6f42c1;text-decoration:none}
+    .acciones-mascota{display:flex;flex-wrap:nowrap;margin:-3px}
+    .acciones-mascota .btn.btn-icon{margin:3px;flex:0 0 auto}
     @media(max-width:575.98px){.pet-detail-hero{align-items:flex-start;padding:18px}.pet-detail-photo{width:96px;height:96px;flex-basis:96px;border-radius:18px}.pet-detail-heading{margin-left:15px}.pet-detail-heading h4{font-size:1.25rem}.pet-detail-grid{grid-template-columns:1fr;padding:16px}}
-    @media(max-width:575.98px){.contact-summary-grid{grid-template-columns:1fr;padding:15px}.contact-summary-item--wide{grid-column:auto}.contact-summary-hero{padding:17px}}
+    @media(max-width:575.98px){.pet-detail-seccion{margin:8px 16px 0}.pet-detail-item--ancho{grid-column:auto}}
 </style>
 @endsection
 @section('content')
@@ -58,7 +48,10 @@
                         <h5 class="f-26 d-block mb-0">Mascotas y tutores</h5>
                     </div>
                     <div class="ml-auto">
-                        <button class="btn btn-purple" onclick="enviar_difusion_pacientes()"><i class="feather icon-mail"></i> Enviar mensaje de difusión</button>
+                        <button type="button" class="btn btn-icon btn-purple js-tooltip-accion" onclick="enviar_difusion_pacientes()"
+                            title="Enviar mensaje de difusión" aria-label="Enviar mensaje de difusión" data-placement="left">
+                            <i class="feather icon-mail"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -92,8 +85,8 @@
                                         placeholder="Buscar por responsable, RUT o nombre de mascota">
                                 </div>
                                 <div class="col-md-2 mb-2">
-                                    <button class="btn btn-info btn-sm btn-block" type="submit">
-                                        <i class="feather icon-search"></i> Buscar
+                                    <button class="btn btn-icon btn-info js-tooltip-accion" type="submit" title="Buscar" aria-label="Buscar">
+                                        <i class="feather icon-search"></i>
                                     </button>
                                 </div>
                             </div>
@@ -150,46 +143,48 @@
                                                     <td>{{ $convenio }}</td>
                                                     <td>{{ $chip }}</td>
                                                     <td>{{ $centroActivo }}</td>
-                                                    <td class="text-nowrap">
-                                                        <button type="button" class="btn btn-info btn-xxs js-ver-mascota"
-                                                            data-toggle="modal" data-target="#modalMascotaDetalle"
-                                                            data-nombre="{{ $mascota->nombre ?? 'Mascota' }}"
-                                                            data-especie="{{ $especie }}"
-                                                            data-tamano="{{ $tamanoMascota }}"
-                                                            data-sexo="{{ $sexoMascota }}"
-                                                            data-fecha="{{ $mascota->fecha_nacimiento ?? 'Sin registro' }}"
-                                                            data-chip="{{ $chip }}"
-                                                            data-esterilizado="{{ $mascota->esterilizado ? 'Si' : 'No' }}"
-                                                            data-esterilizacion="{{ $mascota->fecha_esterilizacion ?? 'Sin registro' }}"
-                                                            data-enfermedad="{{ $mascota->enfermedad_cronica ?? 'Sin registro' }}"
-                                                            data-foto="{{ $fotoMascota }}"
-                                                            data-foto-respaldo="{{ $fotoRespaldoMascota }}"
-                                                            data-galeria='@json($galeriaMascota)'>
-                                                            <i class="feather icon-eye"></i> Ver mascota
-                                                        </button>
-                                                        <a href="{{ route('profesional.mascota.ficha_veterinaria', ['mascota' => $mascota->id]) }}"
-                                                            class="btn btn-purple btn-xxs"><i class="feather icon-file-text"></i> Ver ficha veterinaria
-                                                        </a>
-                                                        <a href="{{ route('profesional.atenciones_previas_paciente', ['id' => $responsable->id, 'id_mascota' => $mascota->id]) }}"
-                                                            class="btn btn-primary btn-xxs" title="Revisar consultas anteriores">
-                                                            <i class="feather icon-clock"></i> Consultas anteriores
-                                                        </a>
-                                                        @if ($responsable)
-                                                            <button type="button" class="btn btn-warning btn-xxs"
-                                                                onclick="enviar_mensaje_paciente({{ $responsable->id }})" title="Enviar comunicación al responsable">
-                                                                <i class="feather icon-message-circle"></i> Comunicación
+                                                    <td>
+                                                        <div class="acciones-mascota">
+                                                            <button type="button" class="btn btn-icon btn-info js-ver-mascota js-tooltip-accion"
+                                                                data-toggle="modal" data-target="#modalMascotaDetalle"
+                                                                title="Ver mascota y tutor" aria-label="Ver mascota y tutor"
+                                                                data-nombre="{{ $mascota->nombre ?? 'Mascota' }}"
+                                                                data-especie="{{ $especie }}"
+                                                                data-tamano="{{ $tamanoMascota }}"
+                                                                data-sexo="{{ $sexoMascota }}"
+                                                                data-fecha="{{ $mascota->fecha_nacimiento ?? 'Sin registro' }}"
+                                                                data-chip="{{ $chip }}"
+                                                                data-esterilizado="{{ $mascota->esterilizado ? 'Si' : 'No' }}"
+                                                                data-esterilizacion="{{ $mascota->fecha_esterilizacion ?? 'Sin registro' }}"
+                                                                data-enfermedad="{{ $mascota->enfermedad_cronica ?? 'Sin registro' }}"
+                                                                data-foto="{{ $fotoMascota }}"
+                                                                data-foto-respaldo="{{ $fotoRespaldoMascota }}"
+                                                                data-galeria='@json($galeriaMascota)'
+                                                                data-tutor="{{ $nombreResponsable ?: '-' }}"
+                                                                data-tutor-rut="{{ $rutResponsable ?: '-' }}"
+                                                                data-tutor-email="{{ optional($responsable)->email ?: '-' }}"
+                                                                data-tutor-telefono="{{ optional($responsable)->telefono_uno ?: optional($responsable)->telefono_dos ?: '-' }}"
+                                                                data-tutor-convenio="{{ $convenio }}">
+                                                                <i class="fas fa-paw"></i>
                                                             </button>
-                                                        @endif
-                                                        <button type="button" class="btn btn-secondary btn-xxs js-resumen-contacto"
-                                                            data-toggle="modal" data-target="#modalResumenContacto"
-                                                            data-mascota="{{ $mascota->nombre ?? '-' }}"
-                                                            data-responsable="{{ $nombreResponsable ?: '-' }}"
-                                                            data-rut="{{ $rutResponsable ?: '-' }}"
-                                                            data-email="{{ optional($responsable)->email ?: '-' }}"
-                                                            data-telefono="{{ optional($responsable)->telefono_uno ?: optional($responsable)->telefono_dos ?: '-' }}"
-                                                            data-centro="{{ $centroActivo }}">
-                                                            <i class="feather icon-user-check"></i> Resumen y contacto
-                                                        </button>
+                                                            <a href="{{ route('profesional.mascota.ficha_veterinaria', ['mascota' => $mascota->id]) }}"
+                                                                class="btn btn-icon btn-purple js-tooltip-accion"
+                                                                title="Ver ficha veterinaria" aria-label="Ver ficha veterinaria">
+                                                                <i class="feather icon-file-text"></i>
+                                                            </a>
+                                                            @if ($responsable)
+                                                                <a href="{{ route('profesional.atenciones_previas_paciente', ['id' => $responsable->id, 'id_mascota' => $mascota->id]) }}"
+                                                                    class="btn btn-icon btn-primary js-tooltip-accion"
+                                                                    title="Revisar consultas anteriores" aria-label="Revisar consultas anteriores">
+                                                                    <i class="feather icon-clock"></i>
+                                                                </a>
+                                                                <button type="button" class="btn btn-icon btn-warning js-tooltip-accion"
+                                                                    onclick="enviar_mensaje_paciente({{ $responsable->id }})"
+                                                                    title="Envíe un mensaje al tutor" aria-label="Envíe un mensaje al tutor">
+                                                                    <i class="feather icon-mail"></i>
+                                                                </button>
+                                                            @endif
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             @empty
@@ -209,47 +204,6 @@
         <!-- Cierre: Tabla mis pacientes -->
     </div>
     <!--Cierre: Container Completo-->
-
-    <div class="modal fade" id="modalResumenContacto" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header modal-header-purple">
-                    <h5 class="modal-title"><i class="feather icon-user-check mr-2"></i>Resumen y contacto</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <div class="contact-summary-hero">
-                        <div class="contact-summary-avatar"><i class="feather icon-user-check"></i></div>
-                        <div>
-                            <h5 id="resumen-responsable">Responsable</h5>
-                            <p>Tutor y datos de contacto de <strong id="resumen-mascota">la mascota</strong></p>
-                        </div>
-                    </div>
-                    <div class="contact-summary-grid">
-                        <div class="contact-summary-item">
-                            <span class="contact-summary-icon"><i class="feather icon-credit-card"></i></span>
-                            <div><span class="contact-summary-label">RUT</span><span class="contact-summary-value" id="resumen-rut">-</span></div>
-                        </div>
-                        <div class="contact-summary-item">
-                            <span class="contact-summary-icon"><i class="feather icon-phone"></i></span>
-                            <div><span class="contact-summary-label">Teléfono</span><a class="contact-summary-value" id="resumen-telefono" href="#">-</a></div>
-                        </div>
-                        <div class="contact-summary-item contact-summary-item--wide">
-                            <span class="contact-summary-icon"><i class="feather icon-mail"></i></span>
-                            <div><span class="contact-summary-label">Correo electrónico</span><a class="contact-summary-value" id="resumen-email" href="#">-</a></div>
-                        </div>
-                        <div class="contact-summary-item contact-summary-item--wide">
-                            <span class="contact-summary-icon"><i class="feather icon-map-pin"></i></span>
-                            <div><span class="contact-summary-label">Centro de atención</span><span class="contact-summary-value" id="resumen-centro">-</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light px-4" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x mr-1"></i>Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!--Modal envio de correo-->
     <div class="modal fade" id="modal_correo" tabindex="-1" role="dialog" aria-labelledby="enviar_email"
@@ -327,7 +281,15 @@
                         <div class="pet-detail-item"><i class="far fa-calendar-alt"></i><div><span class="pet-detail-label">Fecha de nacimiento</span><span class="pet-detail-value" id="modal_mascota_fecha">-</span></div></div>
                         <div class="pet-detail-item"><i class="fas fa-microchip"></i><div><span class="pet-detail-label">Chip o tatuaje</span><span class="pet-detail-value" id="modal_mascota_chip">-</span></div></div>
                         <div class="pet-detail-item"><i class="fas fa-notes-medical"></i><div><span class="pet-detail-label">Esterilización</span><span class="pet-detail-value"><span id="modal_mascota_esterilizado">-</span> · <span id="modal_mascota_esterilizacion">-</span></span></div></div>
-                        <div class="pet-detail-item" style="grid-column:1/-1"><i class="fas fa-heartbeat"></i><div><span class="pet-detail-label">Enfermedad crónica</span><span class="pet-detail-value" id="modal_mascota_enfermedad">-</span></div></div>
+                        <div class="pet-detail-item pet-detail-item--ancho"><i class="fas fa-heartbeat"></i><div><span class="pet-detail-label">Enfermedad crónica</span><span class="pet-detail-value" id="modal_mascota_enfermedad">-</span></div></div>
+                    </div>
+                    <h6 class="pet-detail-seccion"><i class="fas fa-user"></i> Datos del tutor</h6>
+                    <div class="pet-detail-grid pet-detail-grid--tutor">
+                        <div class="pet-detail-item"><i class="fas fa-user"></i><div><span class="pet-detail-label">Nombre</span><span class="pet-detail-value" id="modal_tutor_nombre">-</span></div></div>
+                        <div class="pet-detail-item"><i class="fas fa-id-card"></i><div><span class="pet-detail-label">RUT</span><span class="pet-detail-value" id="modal_tutor_rut">-</span></div></div>
+                        <div class="pet-detail-item"><i class="fas fa-phone-alt"></i><div><span class="pet-detail-label">Teléfono</span><a class="pet-detail-value" id="modal_tutor_telefono" href="#">-</a></div></div>
+                        <div class="pet-detail-item"><i class="fas fa-shield-alt"></i><div><span class="pet-detail-label">Convenio</span><span class="pet-detail-value" id="modal_tutor_convenio">-</span></div></div>
+                        <div class="pet-detail-item pet-detail-item--ancho"><i class="fas fa-envelope"></i><div><span class="pet-detail-label">Correo electrónico</span><a class="pet-detail-value" id="modal_tutor_email" href="#">-</a></div></div>
                     </div>
                     <div class="pet-gallery" id="modal_mascota_galeria_wrapper" style="display:none;">
                         <div class="pet-gallery-title"><i class="far fa-images mr-1"></i> Galería de fotos</div>
@@ -441,16 +403,18 @@ $(document).ready(function() {
         $('#modalMensajeDifusionPacientes').modal('show');
     }
 
-    $(document).on('click', '.js-resumen-contacto', function () {
-        var $boton = $(this);
-        $('#resumen-mascota').text($boton.data('mascota') || '-');
-        $('#resumen-responsable').text($boton.data('responsable') || '-');
-        $('#resumen-rut').text($boton.data('rut') || '-');
-        var telefono = $boton.data('telefono') || '-';
-        var email = $boton.data('email') || '-';
-        $('#resumen-telefono').text(telefono).attr('href', telefono !== '-' ? 'tel:' + String(telefono).replace(/[^0-9+]/g, '') : '#');
-        $('#resumen-email').text(email).attr('href', email !== '-' ? 'mailto:' + email : '#');
-        $('#resumen-centro').text($boton.data('centro') || '-');
+    // Tooltips de los botones de icono: en pantallas táctiles se muestran al tocar y se ocultan solos
+    $(function () {
+        var $botones = $('.js-tooltip-accion');
+        $botones.tooltip({ container: 'body', trigger: 'hover focus', boundary: 'window' });
+        $botones.on('touchstart', function () {
+            var $boton = $(this);
+            $botones.not($boton).tooltip('hide');
+            $boton.tooltip('show');
+            clearTimeout($boton.data('temporizadorTooltip'));
+            $boton.data('temporizadorTooltip', setTimeout(function () { $boton.tooltip('hide'); }, 2500));
+        });
+        $botones.on('click', function () { $(this).tooltip('hide'); });
     });
 
     function emitir_doc(){
@@ -511,6 +475,15 @@ $(document).ready(function() {
         $('#modal_mascota_esterilizado').text($btn.data('esterilizado') || '-');
         $('#modal_mascota_esterilizacion').text($btn.data('esterilizacion') || '-');
         $('#modal_mascota_enfermedad').text($btn.data('enfermedad') || '-');
+
+        // Datos del tutor
+        var telefonoTutor = String($btn.data('tutor-telefono') || '-');
+        var emailTutor = String($btn.data('tutor-email') || '-');
+        $('#modal_tutor_nombre').text($btn.data('tutor') || '-');
+        $('#modal_tutor_rut').text($btn.data('tutor-rut') || '-');
+        $('#modal_tutor_convenio').text($btn.data('tutor-convenio') || '-');
+        $('#modal_tutor_telefono').text(telefonoTutor).attr('href', telefonoTutor !== '-' ? 'tel:' + telefonoTutor.replace(/[^0-9+]/g, '') : '#');
+        $('#modal_tutor_email').text(emailTutor).attr('href', emailTutor !== '-' ? 'mailto:' + emailTutor : '#');
 
         var fotoRespaldo = $btn.data('foto-respaldo') || '{{ asset('images/iconos/paciente-m.svg') }}';
         $('#modal_mascota_img')

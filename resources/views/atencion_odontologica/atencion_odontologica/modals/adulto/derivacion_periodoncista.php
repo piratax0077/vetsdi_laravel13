@@ -154,8 +154,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer pt-2 pb-0">
-                                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-sm btn-info">Enviar Respuesta</button>
+                                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-info">Enviar Respuesta</button>
                             </div>
                         </form>
                     </div>

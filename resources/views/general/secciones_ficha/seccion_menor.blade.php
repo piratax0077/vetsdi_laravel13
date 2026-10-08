@@ -117,8 +117,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn_guardar_otro_acompanante" type="button" class="btn btn-sm btn-success-light" onclick="registrar_otro_acompananate();">Guardar</button>
-                <button id="btn_cerrar_otro_acompanante" type="button" class="btn btn-sm btn-danger-light" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
+                <button id="btn_guardar_otro_acompanante" type="button" class="btn btn-success-light" onclick="registrar_otro_acompananate();">Guardar</button>
+                <button id="btn_cerrar_otro_acompanante" type="button" class="btn btn-danger-light" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
             </div>
 
         </div>

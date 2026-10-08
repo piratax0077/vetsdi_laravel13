@@ -245,8 +245,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" data-dismiss="modal"><i class="feather icon-save"></i> Guardar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i> Cerrar</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal"><i class="feather icon-save"></i> Guardar</button>
             </div>
         </div>
     </div>

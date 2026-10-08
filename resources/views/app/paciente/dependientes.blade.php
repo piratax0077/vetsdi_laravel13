@@ -289,8 +289,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="return continuarRegistroDefuncion(event);">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-secondary" onclick="return continuarRegistroDefuncion(event);">
                             <i class="feather icon-arrow-right"></i> Continuar
                         </button>
                     </div>
@@ -355,9 +355,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" id="btn_eliminar_mascota"><i class="feather icon-x"></i> Eliminar</button>
-                    <button type="button" class="btn btn-secondary btn-sm d-none" id="btn_registrar_fallecimiento_detalle" onclick="return abrirModalFallecimientoDesdeDetalle(event);"><i class="feather icon-cloud"></i> Registrar fallecimiento</button>
-                    <button type="button" class="btn btn-info btn-sm" id="btn_editar_mascota"><i class="feather icon-edit"></i> Editar</button>
+                    <button type="button" class="btn btn-danger" id="btn_eliminar_mascota"><i class="feather icon-x"></i> Eliminar</button>
+                    <button type="button" class="btn btn-secondary d-none" id="btn_registrar_fallecimiento_detalle" onclick="return abrirModalFallecimientoDesdeDetalle(event);"><i class="feather icon-cloud"></i> Registrar fallecimiento</button>
+                    <button type="button" class="btn btn-info" id="btn_editar_mascota"><i class="feather icon-edit"></i> Editar</button>
                     <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>-->
                 </div>
             </div>

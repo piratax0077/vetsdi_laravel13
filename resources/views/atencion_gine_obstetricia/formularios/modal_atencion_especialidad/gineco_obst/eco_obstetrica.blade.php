@@ -134,9 +134,9 @@
                 </div>
             </div>
             <div class="modal-footer text-center">
-                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-info btn-sm">Guardar</button>
-                <button type="button" class="btn btn-primary btn-sm">Ver formulario PDF</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-info">Guardar</button>
+                <button type="button" class="btn btn-primary">Ver formulario PDF</button>
             </div>
         </div>
     </div>

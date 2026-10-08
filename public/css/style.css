@@ -6021,7 +6021,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 
 .alert-danger {
     color: #852b2b;
-    background-color: #ffdcdc;
+    background-color: #fff2f2;
     border-color: #ffcfcf;
 }
 
@@ -41190,9 +41190,11 @@ input.fecha-moderna[readonly] {
 
 /* Tablas: el contenido de cada celda del cuerpo parte con mayúscula.
    Para códigos (o cualquier dato que deba verse tal cual) se usa la clase
-   .codigo en la celda, en la fila o en la tabla. */
-tbody td:not(.codigo)::first-letter,
-tbody th:not(.codigo)::first-letter {
+   .codigo en la celda, en la fila o en la tabla.
+   Los correos nunca se capitalizan: las celdas que parten con un correo
+   reciben la clase .correo de forma automática (ver js/pcoded.min.js). */
+tbody td:not(.codigo):not(.correo)::first-letter,
+tbody th:not(.codigo):not(.correo)::first-letter {
     text-transform: uppercase;
 }
 
@@ -41696,4 +41698,596 @@ tbody tr.codigo th::first-letter {
         padding-right: 0;
         font-size: .8rem;
     }
+}
+
+/*****MODAL AGENDAR HORA: DATOS DEL CLIENTE Y DE LA MASCOTA**/
+
+/* Reutiliza .titulo-item y la lista .ficha-previa-datos; acá va solo lo propio del modal */
+/* Primer título del modal: deja aire para la etiqueta flotante del campo de abajo.
+   Si el botón de agregar mascota no cabe al lado, baja a otra línea. */
+.reserva-hora-cabecera.reserva-hora-cabecera--inicial {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 4px 0 26px;
+}
+
+/* Las tablas que envuelven el formulario no deben pintarse al pasar el mouse */
+#agenda_agregar_paciente .table tbody tr:hover,
+#agenda_agregar_paciente .table tbody tr:hover > td {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Etiquetas flotantes: separadas del borde izquierdo del campo */
+#agenda_agregar_paciente .form-group > .floating-label-activo-sm {
+    top: -10px !important;
+    left: 10px !important;
+}
+
+/* Cuando el propio .form-group es la columna, se suma su relleno lateral */
+#agenda_agregar_paciente .form-row > .form-group[class*="col"] > .floating-label-activo-sm {
+    left: 15px !important;
+}
+
+#agenda_agregar_paciente .row > .form-group[class*="col"] > .floating-label-activo-sm {
+    left: 25px !important;
+}
+
+/* Título de la sección con su botón "Editar" al lado */
+.reserva-hora-cabecera {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 6px 0 12px;
+    border-bottom: 2px solid #e7dbfe;
+}
+
+.reserva-hora-cabecera .titulo-item {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    padding: 6px 0;
+    border-bottom: 0;
+}
+
+.reserva-hora-cabecera .btn {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin: 0 0 4px 10px;
+}
+
+.reserva-hora-datos {
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+}
+
+/* Si la etiqueta y el dato no caben en una línea, el dato baja a la siguiente */
+.reserva-hora-datos .ficha-previa-dato {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+/* Las dos columnas son angostas: la etiqueta ocupa menos que en la ficha
+   y puede partirse en dos líneas en vez de montarse sobre el dato */
+.reserva-hora-datos .ficha-previa-dato dt {
+    -ms-flex: 0 0 120px;
+    flex: 0 0 120px;
+    max-width: 120px;
+    padding-right: 12px;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* El dato puede traer campos de edición, no solo texto. Los textos largos
+   sin espacios (correos, direcciones) se parten dentro de la tarjeta */
+.reserva-hora-datos .ficha-previa-dato dd {
+    -ms-flex: 1 1 150px;
+    flex: 1 1 150px;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.reserva-hora-datos .ficha-previa-dato dd span {
+    white-space: normal;
+}
+
+.reserva-hora-datos .ficha-previa-datos {
+    overflow: hidden;
+}
+
+.reserva-hora-datos .ficha-previa-dato dd .form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Botones para guardar o cancelar la edición del cliente */
+.reserva-hora-acciones {
+    margin-top: 12px;
+    text-align: right;
+}
+
+.reserva-hora-acciones .btn {
+    margin: 0 0 6px 6px;
+}
+
+/* Campo para escribir el motivo: oculto hasta elegir "Otro motivo" */
+.reserva-hora-otro-motivo {
+    display: none;
+}
+
+.reserva-hora-otro-motivo--visible {
+    display: block;
+}
+
+@media (max-width: 575.98px) {
+    .reserva-hora-datos .ficha-previa-dato dt {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: none;
+    }
+
+    .reserva-hora-acciones {
+        text-align: left;
+    }
+
+    .reserva-hora-acciones .btn {
+        display: block;
+        width: 100%;
+        margin: 0 0 8px;
+    }
+}
+
+/*****AGENDA DEL PROFESIONAL: ESTADO DE LA HORA DENTRO DE LA CITA**/
+
+/* La hora a la izquierda y el nombre del estado, en letra pequeña, a la derecha */
+.evento-agenda-cabecera {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.evento-agenda-cabecera .fc-event-time {
+    min-width: 0;
+}
+
+/* Fijo en la esquina superior derecha del recuadro de la cita */
+.fc-timegrid-event .evento-agenda-estado {
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    z-index: 1;
+    max-width: 60%;
+    margin-left: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* La hora deja libre el espacio que ocupa el estado */
+.fc-timegrid-event .evento-agenda-cabecera .fc-event-time {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.evento-agenda-estado {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-left: 8px;
+    padding: 1px 8px;
+    font-family: 'Nunito Sans', 'Nunito', sans-serif;
+    font-size: .68rem;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: rgba(255, 255, 255, .28);
+    border-radius: 10px;
+}
+
+/* En celular el estado se acorta con puntos suspensivos si no cabe */
+@media (max-width: 575.98px) {
+    .evento-agenda-estado {
+        -ms-flex-negative: 1;
+        flex-shrink: 1;
+        max-width: 55%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: .62rem;
+    }
+}
+
+/* Datos de la mascota en dos columnas: la etiqueta va arriba de cada dato */
+.reserva-hora-datos .reserva-hora-dos-columnas {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.reserva-hora-datos .reserva-hora-dos-columnas .ficha-previa-dato {
+    display: block;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 10px 8px 10px 0;
+}
+
+.reserva-hora-datos .reserva-hora-dos-columnas .ficha-previa-dato dt {
+    max-width: none;
+    margin-bottom: 2px;
+    padding-right: 0;
+    font-size: .8rem;
+}
+
+/* Con dos columnas, las dos últimas casillas cierran la tarjeta sin línea */
+.reserva-hora-datos .reserva-hora-dos-columnas .ficha-previa-dato:nth-last-child(2):nth-child(odd) {
+    border-bottom: 0;
+}
+
+/* Datos del tutor: cada dato ocupa la fila completa, salvo los marcados como
+   "mitad" (correo y teléfono), que van lado a lado con la etiqueta arriba */
+.reserva-hora-datos .reserva-hora-filas {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.reserva-hora-datos .reserva-hora-filas .ficha-previa-dato {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.reserva-hora-datos .reserva-hora-filas .ficha-previa-dato.reserva-hora-dato-mitad {
+    display: block;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding-right: 10px;
+}
+
+.reserva-hora-datos .reserva-hora-filas .reserva-hora-dato-mitad dt {
+    max-width: none;
+    margin-bottom: 2px;
+    padding-right: 0;
+}
+
+/* El convenio cierra la tarjeta, así que conserva la línea de la fila anterior */
+.reserva-hora-datos .reserva-hora-filas .ficha-previa-dato:last-child {
+    border-bottom: 0;
+}
+
+/* Pie del modal: ocupa todo el ancho, con su línea superior y los botones a la derecha */
+#reserva_datos_paciente > .modal-footer {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 6px;
+    padding-top: 14px !important;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    border-top: 1px solid #e3e6ec;
+}
+
+@media (max-width: 575.98px) {
+    /* En celular el correo y el teléfono vuelven a ir uno bajo el otro */
+    .reserva-hora-datos .reserva-hora-filas .ficha-previa-dato.reserva-hora-dato-mitad {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding-right: 0;
+    }
+
+    #reserva_datos_paciente > .modal-footer .btn {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+    }
+}
+
+/* En la tarjeta del tutor todos los datos llevan la etiqueta arriba, así los
+   de media fila y los de fila completa se leen igual, también al editar */
+.reserva-hora-datos .reserva-hora-filas .ficha-previa-dato {
+    display: block;
+}
+
+.reserva-hora-datos .reserva-hora-filas .ficha-previa-dato dt {
+    max-width: none;
+    margin-bottom: 3px;
+    padding-right: 0;
+    font-size: .8rem;
+}
+
+/* --- Edición de los datos del tutor --- */
+.reserva-hora-datos .paciente_edit {
+    margin-top: 4px;
+}
+
+.reserva-hora-datos .paciente_edit .form-control {
+    width: 100%;
+    background-color: #fbfaff;
+    border-color: #d9cdf1;
+}
+
+.reserva-hora-datos .paciente_edit .form-control:focus {
+    background-color: #fff;
+    border-color: #6f42c1;
+    -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .15);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .15);
+}
+
+/* Región y ciudad traen etiqueta flotante: necesitan aire sobre el campo */
+.reserva-hora-datos .paciente_edit .form-row + .form-row {
+    margin-top: 4px;
+}
+
+/* Botones de la edición: a la derecha, del mismo tamaño y sin amontonarse */
+.reserva-hora-datos .reserva-hora-acciones {
+    margin-top: 14px;
+    text-align: right;
+}
+
+.reserva-hora-datos .reserva-hora-acciones .btn {
+    min-width: 130px;
+    margin: 0 0 6px 8px;
+}
+
+@media (max-width: 575.98px) {
+    .reserva-hora-datos .reserva-hora-acciones .btn {
+        min-width: 0;
+        margin: 0 0 8px;
+    }
+}
+
+/* Rut y nombre comparten fila: el rut ocupa poco y el nombre el resto, para que
+   al editar quepan nombres y apellidos en una sola línea */
+@media (min-width: 576px) {
+    .reserva-hora-datos .reserva-hora-filas .ficha-previa-dato.reserva-hora-dato-angosto {
+        -ms-flex: 0 0 32%;
+        flex: 0 0 32%;
+        max-width: 32%;
+    }
+
+    .reserva-hora-datos .reserva-hora-filas .ficha-previa-dato.reserva-hora-dato-amplio {
+        -ms-flex: 0 0 68%;
+        flex: 0 0 68%;
+        max-width: 68%;
+        padding-right: 0;
+    }
+}
+
+/* --- Tutor en edición: cada campo usa su etiqueta flotante --- */
+
+/* La etiqueta fija de arriba se oculta, salvo en el rut, que no se edita */
+.reserva-hora-editando .reserva-hora-filas .ficha-previa-dato:not(.reserva-hora-dato-fijo) dt {
+    display: none;
+}
+
+.reserva-hora-editando .reserva-hora-filas .ficha-previa-dato {
+    padding-top: 16px;
+    padding-bottom: 8px;
+    border-bottom: 0;
+}
+
+.reserva-hora-editando .reserva-hora-filas .paciente_edit {
+    margin-top: 0;
+}
+
+/* El rut se alinea con los campos que tiene al lado */
+.reserva-hora-editando .reserva-hora-filas .reserva-hora-dato-fijo {
+    padding-top: 6px;
+}
+
+/* Botones de la edición: van como pie del modal, a la derecha y con su línea superior */
+.reserva-hora-acciones {
+    margin-top: 6px;
+    padding-top: 14px;
+    text-align: right;
+    border-top: 1px solid #e3e6ec;
+}
+
+.reserva-hora-acciones .btn {
+    min-width: 130px;
+    margin: 0 0 6px 8px;
+}
+
+@media (max-width: 575.98px) {
+    .reserva-hora-acciones .btn {
+        min-width: 0;
+        margin: 0 0 8px;
+    }
+}
+
+/*****RECEPCIÓN DE PAGO: BLOQUES DE QR Y PRESUPUESTO**/
+
+/* Bloque plano, sin sombra: solo un borde suave para separar del formulario */
+.recepcion-seccion {
+    margin-bottom: 14px;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    background: #fff;
+    border: 1px solid #ebe6f5;
+    border-radius: 12px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.recepcion-seccion .card-body {
+    padding: 14px 16px;
+}
+
+/* Usa .titulo-item, pero sin la línea ni los márgenes de un título de sección */
+.recepcion-seccion .titulo-item {
+    margin: 0 0 4px;
+    padding: 0;
+    border-bottom: 0;
+}
+
+.recepcion-seccion-ayuda {
+    margin: 0 0 10px;
+    font-size: .82rem;
+    line-height: 1.4;
+    color: #6b7080;
+}
+
+/* Campo y botón de escanear unidos, a la misma altura */
+.recepcion-seccion .input-group {
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+}
+
+.recepcion-seccion .input-group .form-control {
+    min-width: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.recepcion-seccion .input-group-append .btn {
+    margin: 0;
+    white-space: nowrap;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* El mensaje del lector solo ocupa espacio cuando tiene texto */
+.recepcion-seccion .bono_qr_estado:not(:empty) {
+    margin-top: 8px;
+}
+
+/* Celular: el botón baja y ocupa todo el ancho */
+@media (max-width: 575.98px) {
+    .recepcion-seccion .input-group {
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+
+    .recepcion-seccion .input-group .form-control {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        border-radius: 8px;
+    }
+
+    .recepcion-seccion .input-group-append {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        margin: 8px 0 0;
+    }
+
+    .recepcion-seccion .input-group-append .btn {
+        width: 100%;
+        border-radius: 8px;
+    }
+}
+
+/*****MODAL CONFIRMAR INFORMACIÓN (CITA DE LA AGENDA)**/
+
+/* Usa las mismas tarjetas de "Agendar hora"; acá va lo que ese modal resolvía
+   con reglas propias: etiquetas flotantes y campos de la edición del tutor */
+.reserva-hora-datos .form-group {
+    position: relative;
+}
+
+.reserva-hora-datos .form-group > .floating-label-activo-sm {
+    top: -10px !important;
+    left: 10px !important;
+}
+
+.reserva-hora-datos .paciente_edit_asistente .form-control {
+    width: 100%;
+    background-color: #fbfaff;
+    border-color: #d9cdf1;
+}
+
+.reserva-hora-datos .paciente_edit_asistente .form-control:focus {
+    background-color: #fff;
+    border-color: #6f42c1;
+    -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .15);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .15);
+}
+
+/* La dirección va seguida, en una o dos líneas: calle y número, ciudad, región */
+.reserva-hora-direccion-parte:not(:empty)::before {
+    content: ", ";
+}
+
+/* Con la tarjeta a todo el ancho, los datos de la mascota caben en cuatro columnas */
+@media (min-width: 768px) {
+    #consulta .reserva-hora-dos-columnas .ficha-previa-dato {
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+        border-bottom: 0;
+    }
+}
+
+#consulta .modal-body {
+    padding-bottom: 8px;
+}
+
+
+/*****CAMPO DE CONTRASEÑA CON OJO (PERFILES)**/
+
+/* El ojo va dentro del campo, a la derecha, solo el ícono y sin fondo */
+.campo-clave {
+    position: relative;
+}
+
+.campo-clave .form-control {
+    padding-right: 36px;
+}
+
+.campo-clave-ver {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 34px;
+    padding: 0;
+    border: 0;
+    background: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    font-size: 15px;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+.campo-clave-ver:hover,
+.campo-clave-ver:focus {
+    outline: 0;
+    color: #613584;
+}
+
+/* Edge trae su propio ojo; se oculta para que no aparezcan dos */
+.campo-clave .form-control::-ms-reveal,
+.campo-clave .form-control::-ms-clear {
+    display: none;
 }

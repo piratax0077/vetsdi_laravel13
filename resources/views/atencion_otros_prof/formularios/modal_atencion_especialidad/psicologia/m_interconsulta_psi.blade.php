@@ -77,8 +77,8 @@
                             </div>
                         </div>
                         <div class="modal-footer pt-2 pb-0">
-                            <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
-                            <button type="button" onclick="registrar_interconsulta_sq();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar</button>
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                            <button type="button" onclick="registrar_interconsulta_sq();" class="btn btn-info"><i class="feather icon-save"></i> Guardar</button>
                         </div>
                     </form>
                 </div>

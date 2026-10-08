@@ -16,7 +16,7 @@
             <img src="https://cdn-icons-png.flaticon.com/512/845/845646.png" alt="Éxito" style="width: 80px; margin-bottom: 20px;">
             <p class="fs-5 mb-3">Tu consentimiento ha sido registrado exitosamente.<br>Gracias por tu confianza.</p>
             <p class="fs-5 mb-3">El documento quedará disponible y a disposición de tu equipo médico.</p>
-            <a href="http://med-sdi.cl/sdinicio" class="btn btn-success">Volver al inicio</a>
+            <a href="https://veterchile.cl/vetsdinicio" class="btn btn-success">Volver al inicio</a>
         </div>
     </div>
 </div>

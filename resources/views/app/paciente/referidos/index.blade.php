@@ -51,34 +51,20 @@
             @endif
 
             <div class="row">
-                <div class="col-6 col-lg-3">
-                    <div class="card referidos-dato">
-                        <span class="referidos-dato-icono"><i class="feather icon-mail" aria-hidden="true"></i></span>
-                        <strong>{{ $resumen['enviadas'] }}</strong>
-                        <span>Invitaciones</span>
+                @foreach ([
+                    ['icon-mail', $resumen['enviadas'], 'Invitaciones'],
+                    ['icon-user-check', $resumen['registradas'], 'Registrados'],
+                    ['icon-check-circle', $resumen['activadas'], 'Activados'],
+                    ['icon-award', $resumen['puntos'], 'Puntos obtenidos'],
+                ] as $indicador)
+                    <div class="col-6 col-lg-3 mb-4">
+                        <div class="tarjeta-indicador">
+                            <span class="tarjeta-indicador-icono"><i class="feather {{ $indicador[0] }}" aria-hidden="true"></i></span>
+                            <strong class="tarjeta-indicador-valor">{{ $indicador[1] }}</strong>
+                            <span class="tarjeta-indicador-etiqueta">{{ $indicador[2] }}</span>
+                        </div>
                     </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="card referidos-dato">
-                        <span class="referidos-dato-icono"><i class="feather icon-user-check" aria-hidden="true"></i></span>
-                        <strong>{{ $resumen['registradas'] }}</strong>
-                        <span>Registrados</span>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="card referidos-dato">
-                        <span class="referidos-dato-icono"><i class="feather icon-check-circle" aria-hidden="true"></i></span>
-                        <strong>{{ $resumen['activadas'] }}</strong>
-                        <span>Activados</span>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="card referidos-dato">
-                        <span class="referidos-dato-icono"><i class="feather icon-award" aria-hidden="true"></i></span>
-                        <strong>{{ $resumen['puntos'] }}</strong>
-                        <span>Puntos obtenidos</span>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <div class="row">

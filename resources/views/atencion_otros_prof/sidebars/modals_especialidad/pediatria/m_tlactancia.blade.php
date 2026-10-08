@@ -9,8 +9,8 @@
               <embed src="{{ asset('documentos/pediatria/tecn_lactancia.pdf') }}" type="application/pdf" width="100%" height="800px"/>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-info btn-sm">Enviar a paciente</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-info">Enviar a paciente</button>
             </div>
         </div>
     </div>

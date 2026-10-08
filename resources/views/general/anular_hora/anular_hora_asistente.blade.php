@@ -35,7 +35,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger-light btn-sm" onclick="$('#modal_anular_hora').modal('hide');">Cerrar</button>
+        <button type="button" class="btn btn-danger-light" onclick="$('#modal_anular_hora').modal('hide');">Cerrar</button>
       </div>
 
 
@@ -67,8 +67,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger-light btn-sm" onclick="$('#modal_anular_hora_comentario').modal('hide');">Cerrar</button>
-          <button type="button" class="btn btn-success-light btn-sm" onclick="anular_horas();">Anular</button>
+          <button type="button" class="btn btn-danger-light" onclick="$('#modal_anular_hora_comentario').modal('hide');">Cerrar</button>
+          <button type="button" class="btn btn-success-light" onclick="anular_horas();">Anular</button>
         </div>
 
       </div>

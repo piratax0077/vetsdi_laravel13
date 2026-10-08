@@ -8,8 +8,8 @@
             <div class="modal-body">
                 <embed src="{{ asset('documentos/traumato/cuidadodelasheridascerradas.pdf') }}" type="application/pdf" data-documento="cuidadodelasheridascerradas.pdf" data-url="documentos/traumato/cuidadodelasheridascerradas.pdf" width="100%" height="750px"/>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('m_ind_traumato_hcerradas');">Enviar al Paciente</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('m_ind_traumato_hcerradas');">Enviar al Paciente</button>
             </div>
         </div>
     </div>

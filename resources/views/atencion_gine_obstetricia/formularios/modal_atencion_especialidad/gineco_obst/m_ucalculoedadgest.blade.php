@@ -266,8 +266,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary btn-sm" onclick="transfer()">Guardar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="transfer()">Guardar</button>
             </div>
         </div>
     </div>

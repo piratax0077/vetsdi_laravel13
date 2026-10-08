@@ -18,8 +18,8 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-                     <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#m_recom_gen_period').modal('hide')">Cerrar</button>
-                    <button type="button" class="btn btn-info btn-sm"
+                     <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#m_recom_gen_period').modal('hide')">Cerrar</button>
+                    <button type="button" class="btn btn-info"
                         onclick="envio_indicaciones_pdf('m_recom_gen_period');">Enviar al Paciente</button>
                 </div>
             </div>

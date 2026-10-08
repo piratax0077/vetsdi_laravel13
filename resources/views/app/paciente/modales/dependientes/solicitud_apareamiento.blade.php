@@ -158,8 +158,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-purple btn-sm" id="btn_apareamiento_guardar">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-purple" id="btn_apareamiento_guardar">
                     <i class="feather icon-send"></i> Publicar solicitud
                 </button>
             </div>

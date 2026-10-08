@@ -18,7 +18,7 @@
     </noscript>
     <style>
         table {border-collapse:collapse;}
-        .fallback-gradient { background-color:#1a49a3 !important; }
+        .fallback-gradient { background-color:#59339c !important; }
     </style>
 <![endif]-->
 <style>
@@ -40,10 +40,10 @@
 </style>
 </head>
 
-<body style="margin:0; padding:0; background-color:#eef3f9;">
+<body style="margin:0; padding:0; background-color:#f1eafa;">
 
     <!-- PREHEADER -->
-    <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#eef3f9;">
+    <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#f1eafa;">
         Tu consulta de telemedicina fue confirmada para el {{ $detalle['body']['fecha'] }} a las {{ $detalle['body']['hora'] }}.
         &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
     </div>
@@ -66,7 +66,7 @@
 
                     <!-- TOP BAR -->
                     <tr>
-                        <td style="height:6px;background-color:#1a49a3;background-image:linear-gradient(90deg,#1a49a3,#31bebe);"></td>
+                        <td style="height:6px;background-color:#59339c;background-image:linear-gradient(90deg,#59339c,#31bebe);"></td>
                     </tr>
 
                     <!-- HEADER -->
@@ -79,9 +79,9 @@
                                     <!-- LOGO -->
                                     <td class="header-cell" align="left" valign="middle" width="130">
                                         <img
-                                        src="https://www.med-sdi.cl/images/sdi-color-h.svg"
+                                        src="https://veterchile.cl/images/vet-color-h.svg"
                                         width="100"
-                                        alt="Salud Digital Integrada"
+                                        alt="Veterchile"
                                         style="width:100px; display:block;">
                                     </td>
 
@@ -124,20 +124,20 @@
 
                                 <td class="stack-cell" align="center" style="padding:12px;border-right:1px solid #edf2f7;">
                                      <img style="width:35px;"
-                                                        src="https://www.med-sdi.cl/images/email/calendario_1.png"
+                                                        src="https://veterchile.cl/images/email/calendario_1.png"
                                                         alt="Día">
                                     <p style="margin:0;font-size:12px;color:#64748b;font-weight:700;">Fecha</p>
-                                    <p style="margin:3px 0 0 0;font-size:15px;color:#1a49a3;font-weight:700;">
+                                    <p style="margin:3px 0 0 0;font-size:15px;color:#59339c;font-weight:700;">
                                         {{ $detalle['body']['fecha'] }}
                                     </p>
                                 </td>
 
                                 <td class="stack-cell" align="center" style="padding:12px;">
                                      <img style="width:35px;"
-                                                        src="https://www.med-sdi.cl/images/email/reloj_1.png"
+                                                        src="https://veterchile.cl/images/email/reloj_1.png"
                                                         alt="Día">
                                     <p style="margin:0;font-size:12px;color:#64748b;font-weight:700;">Hora</p>
-                                    <p style="margin:3px 0 0 0;font-size:15px;color:#1a49a3;font-weight:700;">
+                                    <p style="margin:3px 0 0 0;font-size:15px;color:#59339c;font-weight:700;">
                                         {{ $detalle['body']['hora'] }}
                                     </p>
                                 </td>
@@ -156,8 +156,8 @@
                         style="border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;">
 
                         <tr>
-                            <td colspan="2" style="background:#f8fbff;padding:10px 16px;border-bottom:1px solid #e2e8f0;">
-                                <p style="margin:0;font-size:14px;font-weight:700;color:#1a49a3;">
+                            <td colspan="2" style="background:#f8f5fc;padding:10px 16px;border-bottom:1px solid #e2e8f0;">
+                                <p style="margin:0;font-size:14px;font-weight:700;color:#59339c;">
                                     Profesional
                                 </p>
                             </td>
@@ -166,7 +166,7 @@
                         @if (isset($detalle['body']['profesional_nombre']))
 
                         <tr>
-                            <td style="padding:9px 16px;font-size:13px;color:#1a49a3;font-weight:700;border-bottom:1px solid #f1f5f9;width:35%;">
+                            <td style="padding:9px 16px;font-size:13px;color:#59339c;font-weight:700;border-bottom:1px solid #f1f5f9;width:35%;">
                                 Nombre
                             </td>
                             <td style="padding:9px 16px;font-size:13px;color:#475569;border-bottom:1px solid #f1f5f9;">
@@ -175,7 +175,7 @@
                         </tr>
 
                         <tr>
-                            <td style="padding:9px 16px;font-size:13px;color:#1a49a3;font-weight:700;">
+                            <td style="padding:9px 16px;font-size:13px;color:#59339c;font-weight:700;">
                                 Especialidad
                             </td>
                             <td style="padding:9px 16px;font-size:13px;color:#475569;">
@@ -183,7 +183,7 @@
                             </td>
                         </tr>
                          <tr>
-                            <td style="padding:9px 16px;font-size:13px;color:#1a49a3;font-weight:700;">
+                            <td style="padding:9px 16px;font-size:13px;color:#59339c;font-weight:700;">
                                 Lugar
                             </td>
                             <td style="padding:9px 16px;font-size:13px;color:#475569;">
@@ -204,7 +204,7 @@
                 <td class="px-pad" style="padding:0 28px 12px 28px;">
 
                     <table width="100%" cellspacing="0" cellpadding="0" role="presentation"
-                    style="background-color:#1a49a3;background-image:linear-gradient(90deg,#1a49a3,#31bebe);border-radius:16px;">
+                    style="background-color:#59339c;background-image:linear-gradient(90deg,#59339c,#31bebe);border-radius:16px;">
 
                     <tr>
                         <td align="center" style="padding:16px;">
@@ -216,7 +216,7 @@
                             <!--[if mso]>
                             <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ $detalle['body']['link_consulta'] }}" style="height:44px;v-text-anchor:middle;width:220px;" arcsize="27%" strokecolor="#ffffff" fillcolor="#ffffff">
                             <w:anchorlock/>
-                            <center style="color:#1a49a3;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;">Ingresar a Telemedicina</center>
+                            <center style="color:#59339c;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;">Ingresar a Telemedicina</center>
                             </v:roundrect>
                             <![endif]-->
                             <!--[if !mso]><!-->
@@ -225,7 +225,7 @@
                             display:inline-block;
                             padding:10px 20px;
                             background:#ffffff;
-                            color:#1a49a3;
+                            color:#59339c;
                             font-weight:700;
                             font-size:14px;
                             border-radius:12px;
@@ -255,7 +255,7 @@
                                     <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="background:#f8fafc;border-radius:14px;">
                                         <tr>
                                             <td style="padding:12px 14px;font-size:12px;color:#64748b;line-height:18px;">
-                                                <strong style="color:#1a49a3;">Importante:</strong>
+                                                <strong style="color:#59339c;">Importante:</strong>
                                                 Tu atenci&oacute;n se realizar&aacute; completamente en l&iacute;nea. Asegura conexi&oacute;n estable a internet y audio funcional.
                                             </td>
                                         </tr>
@@ -269,7 +269,7 @@
                                 <td style="padding:16px;text-align:center;background:#f1f5f9;">
 
                                     <p style="margin:0;font-size:11px;color:#64748b;line-height:16px;">
-                                        Este correo fue enviado por <strong>SDI</strong><br>
+                                        Este correo fue enviado por <strong>Veterchile</strong><br>
                                         &copy; {{ date('Y') }} &middot; Todos los derechos reservados
                                     </p>
 

@@ -190,7 +190,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     <i class="feather icon-x mr-1"></i> Cerrar
                 </button>
             </div>

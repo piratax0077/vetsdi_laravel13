@@ -14,12 +14,12 @@
                     <table style="width: 100%; max-width: 600px;" border="0" width="100%" cellspacing="0" cellpadding="0">
                         <tr style="background-color: #fff;">
                             <td style="text-align: center;">
-                                <img style=" margin-bottom: 5px; margin-top: 0px; max-width: 100%;" src="https://www.med-sdi.cl/images/email/medichile-email.png" alt="Medichile">
+                                <img style=" margin-bottom: 5px; margin-top: 0px; max-width: 100%;" src="https://veterchile.cl/images/email/medichile-email.png" alt="Veterchile">
                             </td>
                         </tr>
                         <tr>
                             <td style="background-color: #fff; padding-top: 15px;" align="center">
-                                <p style="font-family: Helvetica, Arial, sans-serif; font-size: 20px; line-height: 20px; color: #3366cc; text-align: center; font-weight:600;">
+                                <p style="font-family: Helvetica, Arial, sans-serif; font-size: 20px; line-height: 20px; color: #6f42c1; text-align: center; font-weight:600;">
                                     Estimado/a paciente: {{ $detalle['body']['nombre_cliente'] }}
                                 </p>
                             </td>
@@ -36,7 +36,7 @@
                                 <table style="margin-top:40px;">
                                     <tbody>
                                         <tr>
-                                            <td style="background-color: rgb(51,102,204); background: -moz-linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%); background: -webkit-linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%); background: linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%); padding: 20px 20px; -webkit-border-radius: 30px;font-family: Helvetica, Arial, sans-serif;" align="center" bgcolor="#289CDC">
+                                            <td style="background-color: rgb(111,66,193); background: -moz-linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%); background: -webkit-linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%); background: linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%); padding: 20px 20px; -webkit-border-radius: 30px;font-family: Helvetica, Arial, sans-serif;" align="center" bgcolor="#6f42c1">
                                                 <a target="_blank" href="{{ $detalle['body']['url_documento'] }}" style="color: #ffffff; text-decoration: none; font-size: 18px; font-weight: 600;">DESCARGAR EXAMEN</a>
                                             </td>
                                         </tr>
@@ -46,7 +46,7 @@
                         </tr>
                         <tr>
                             <td style="margin-top:50px; background-color: #fff;">
-                                <img style=" margin-bottom: 5px; margin-top: 50px; max-width: 100%;" src="https://www.med-sdi.cl/images/email/pie-email.png" alt="Medichile">
+                                <img style=" margin-bottom: 5px; margin-top: 50px; max-width: 100%;" src="https://veterchile.cl/images/email/pie-email.png" alt="Veterchile">
                             </td>
                         </tr>
                         <tr>
@@ -57,8 +57,8 @@
                                             <td style="font-family: Helvetica, Arial, sans-serif;" align="center"
                                                 valign="top">
                                                 <p style="text-align: center; color: #999999; font-size: 10px; font-weight: normal; line-height: 15px;">
-                                                    Este correo electrónico fue enviado por  <a style="color: #000;" href="https://www.medichile.cl">Salud Digital Integrada</a> <br>
-                                                    Salud Digital Integrada <b>Todos los Derechos Reservados. ©2023</b>
+                                                    Este correo electrónico fue enviado por  <a style="color: #000;" href="https://veterchile.cl/">Veterchile</a> <br>
+                                                    Veterchile <b>Todos los Derechos Reservados. ©2023</b>
                                                 </p>
                                             </td>
                                         </tr>

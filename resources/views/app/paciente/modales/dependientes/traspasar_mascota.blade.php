@@ -222,14 +222,14 @@
                 </div>
             </div>
             <div class="modal-footer traspaso-acciones">
-                <button type="button" class="btn btn-outline-dark btn-sm traspaso-volver" id="btn_traspaso_cancelar" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-outline-secondary btn-sm traspaso-volver d-none" id="btn_traspaso_anterior">
+                <button type="button" class="btn btn-outline-dark traspaso-volver" id="btn_traspaso_cancelar" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-secondary traspaso-volver d-none" id="btn_traspaso_anterior">
                     <i class="feather icon-chevron-left"></i> Anterior
                 </button>
-                <button type="button" class="btn btn-info btn-sm" id="btn_traspaso_siguiente" disabled>
+                <button type="button" class="btn btn-info" id="btn_traspaso_siguiente" disabled>
                     Siguiente <i class="feather icon-chevron-right"></i>
                 </button>
-                <button type="button" class="btn btn-info btn-sm d-none" id="btn_traspaso_confirmar" disabled>
+                <button type="button" class="btn btn-info d-none" id="btn_traspaso_confirmar" disabled>
                     <i class="feather icon-check"></i> Confirmar traspaso
                 </button>
             </div>

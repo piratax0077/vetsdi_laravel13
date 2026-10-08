@@ -151,9 +151,9 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Cancelar</button>
-                {{-- <button type="button" class="btn btn-info btn-sm" onclick="registrar_examen_clinico_mama();">Guardar Examen Clínico</button> --}}
-                <button type="button" class="btn btn-info btn-sm" onclick="registrar_examen_clinico_mama();">Guardar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
+                {{-- <button type="button" class="btn btn-info" onclick="registrar_examen_clinico_mama();">Guardar Examen Clínico</button> --}}
+                <button type="button" class="btn btn-info" onclick="registrar_examen_clinico_mama();">Guardar</button>
             </div>
         </div>
     </div>

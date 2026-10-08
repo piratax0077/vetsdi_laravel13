@@ -95,7 +95,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">
                     <i class="feather icon-x mr-1"></i> Cerrar
                 </button>
             </div>

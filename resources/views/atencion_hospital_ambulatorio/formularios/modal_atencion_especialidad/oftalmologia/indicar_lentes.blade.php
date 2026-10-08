@@ -869,8 +869,8 @@
 
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-					<button type="submit" class="btn btn-success btn-info btn-sm">Guardar</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+					<button type="submit" class="btn btn-success btn-info">Guardar</button>
 				</div>
 			</div>	
 		</div>

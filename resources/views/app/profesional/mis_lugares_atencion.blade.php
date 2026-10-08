@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-md-12 mb-3 encabezado-pagina">
                     <h5 class="f-26 d-inline">Mis lugares de atención</h5>
-                    <button type="button" class="btn btn-info btn-sm mb-1" data-toggle="modal" data-target="#nuevo_lugar_atencion">
+                    <button type="button" class="btn btn-info mb-1" data-toggle="modal" data-target="#nuevo_lugar_atencion">
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Agregar nuevo lugar de atención
                     </button>
                 </div>
@@ -168,16 +168,10 @@
                                     <input class="form-control form-control-sm" name="rut_lugar_atencion" id="rut_lugar_atencion" type="text" onkeyup="formatoRut(this);">
                                 </div>
                             </div>
-                            <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                            <div class="col-12">
                                 <div class="form-group">
                                     <label class="floating-label-activo-sm">Direcci&oacute;n</label>
-                                    <input class="form-control form-control-sm" name="direccion_lugar_atencion" id="direccion_lugar_atencion" type="text">
-                                </div>
-                            </div>
-                            <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Nº</label>
-                                    <input class="form-control form-control-sm" name="numero_lugar_atencion" id="numero_lugar_atencion" type="text">
+                                    <input class="form-control form-control-sm" placeholder="Ej: Calle y N°" name="direccion_lugar_atencion" id="direccion_lugar_atencion" type="text">
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -235,8 +229,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
-                        <button type="submit" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
+                        <button type="submit" class="btn btn-info"><i class="feather icon-save"></i> Guardar cambios</button>
                     </div>
                 </form>
             </div>
@@ -264,16 +258,10 @@
                                 <input name="editar_nombre_lugar_atencion" id="editar_nombre_lugar_atencion" type="text" val="" class="form-control form-control-sm">
                             </div>
                         </div>
-                       <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                       <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                             <div class="form-group">
-                                <label class="floating-label-activo-sm">Direcci&oacute;n&nbsp;/&nbsp;Calle</label>
-                                <input name="editar_direccion_lugar_atencion" id="editar_direccion_lugar_atencion" type="text" class="form-control form-control-sm">
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                            <div class="form-group">
-                                <label class="floating-label-activo-sm">Nº</label>
-                                <input name="editar_numero_lugar_atencion" id="editar_numero_lugar_atencion" type="text" class="form-control form-control-sm">
+                                <label class="floating-label-activo-sm">Direcci&oacute;n</label>
+                                <input name="editar_direccion_lugar_atencion" id="editar_direccion_lugar_atencion" placeholder="Ej: Calle y N°" type="text" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -326,8 +314,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
-                        <button type="button" onclick="editar_lugar_atencion();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
+                        <button type="button" onclick="editar_lugar_atencion();" class="btn btn-info"><i class="feather icon-save"></i> Guardar cambios</button>
                     </div>
                 </form>
             </div>
@@ -487,8 +475,8 @@
                     </form>
                 </div>
                 <div class="modal-footer pt-2">
-                    <button type="button" class="btn btn-danger btn-sm" id="cerrar_editar_asistentes1"><i class="feather icon-x"></i> Cancelar</button>
-                    <button type="button" id="cerrar_editar_asistentes2" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
+                    <button type="button" class="btn btn-danger" id="cerrar_editar_asistentes1"><i class="feather icon-x"></i> Cancelar</button>
+                    <button type="button" id="cerrar_editar_asistentes2" class="btn btn-info"><i class="feather icon-save"></i> Guardar cambios</button>
                 </div>
             </div>
         </div>
@@ -710,64 +698,6 @@
                             <div class="form-group fill">
                                 <label class="floating-label-activo-sm">Valor</label>
                                 <input name="valor_convenio" id="valor_convenio" type="number" class="form-control form-control-sm">
-                            </div>
-                        </div>
-
-                        {{--  <div class="col-sm-12">
-                            <h6 class="t-aten mb-2">Convenios</h6>
-                        </div>
-                        <div class="col-sm-4 mb-3">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_1">
-                                <label class="custom-control-label" id="text_convenio_1" for="convenio_1">Particular</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_2">
-                                <label class="custom-control-label" id="text_convenio_2" for="convenio_2">Fonasa</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_3">
-                                <label class="custom-control-label" id="text_convenio_3" for="convenio_3">Todas las Isapres</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_4">
-                                <label class="custom-control-label" id="text_convenio_4" for="convenio_4">Banmédica</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 mb-3">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_5">
-                                <label class="custom-control-label" id="text_convenio_5" for="convenio_5">Colmena</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_6">
-                                <label class="custom-control-label" id="text_convenio_6" for="convenio_6">Nueva Masvida</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_7">
-                                <label class="custom-control-label" id="text_convenio_7" for="convenio_7">Consalud</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_8">
-                                <label class="custom-control-label" id="text_convenio_8" for="convenio_8">Cruz Blanca</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 mb-3">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_9">
-                                <label class="custom-control-label" id="text_convenio_9" for="convenio_9">Cruz del Norte</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_10">
-                                <label class="custom-control-label" id="text_convenio_10" for="convenio_10">Vida Tres</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_11">
-                                <label class="custom-control-label" id="text_convenio_11" for="convenio_11">Fundación </label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_12">
-                                <label class="custom-control-label" id="text_convenio_12" for="convenio_12">Isalud</label>
                             </div>
                         </div>
                         <div class="col-sm-12 mb-3 mt-2 text-center">

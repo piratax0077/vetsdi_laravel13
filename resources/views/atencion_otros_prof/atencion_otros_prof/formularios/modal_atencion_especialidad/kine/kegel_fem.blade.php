@@ -11,8 +11,8 @@
                 <embed src="{{ asset('documentos/kine/kegel_fem.pdf') }}" type="application/pdf" data-documento="kegel_fem.pdf" data-url="documentos/kine/kegel_fem.pdf" width="100%" height="750px"/>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('kegel_fem');">Enviar al Paciente</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('kegel_fem');">Enviar al Paciente</button>
             </div>
         </div>
     </div>
