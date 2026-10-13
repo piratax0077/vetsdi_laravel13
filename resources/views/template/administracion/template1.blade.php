@@ -38,6 +38,7 @@
     @include('template.administracion.header')
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
 
     @include('administracion.modales.modal_registrar_administrador')
 

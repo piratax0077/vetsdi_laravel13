@@ -27,9 +27,6 @@
                 </form>
                 <!--fin autollenado-->
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#m_cons_examen_fmu').modal('hide'); ">Cerrar</button>
-            </div>
         </div>
     </div>
 </div>

@@ -105,12 +105,12 @@
                                         @error('email_invitado')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label class="floating-label-activo-sm" for="telefono_numero">WhatsApp (opcional)</label>
+                                        <label class="floating-label-activo-sm" for="numero_invitado">WhatsApp (opcional)</label>
                                         <div class="input-group input-group-sm referidos-telefono">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">+569</span>
                                             </div>
-                                            <input type="tel" class="form-control form-control-sm @error('telefono_invitado') is-invalid @enderror" id="telefono_numero" inputmode="numeric" maxlength="8" pattern="[0-9]{8}" title="Escribe los 8 dígitos que van después del +569" placeholder="12345678" autocomplete="off">
+                                            <input type="tel" class="form-control form-control-sm @error('telefono_invitado') is-invalid @enderror" id="numero_invitado" inputmode="numeric" maxlength="8" pattern="[0-9]{8}" title="Escribe los 8 dígitos que van después del +569" placeholder="12345678" autocomplete="off">
                                             @error('telefono_invitado')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
                                         {{-- Lo que se envía es el número completo, con el +569 --}}
@@ -242,5 +242,5 @@
 @endsection
 
 @section('page-script')
-<script src="{{ asset('js/paciente/referidos.js') }}?t={{ time() }}"></script>
+<script src="{{ asset('js/referidos.js') }}?t={{ time() }}"></script>
 @endsection

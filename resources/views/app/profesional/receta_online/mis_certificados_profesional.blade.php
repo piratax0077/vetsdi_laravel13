@@ -20,7 +20,8 @@
                                     <thead>
                                         <tr>
                                             <th class="align-middle">Fecha</th>
-                                            <th class="text-center align-middle">Paciente</th>
+                                            <th class="text-center align-middle">Tutor</th>
+                                            <th class="text-center align-middle">Mascota</th>
                                             <th class="text-center align-middle">Tipo de certificado</th>
                                             <th class="text-center align-middle">Certificado</th>
                                         </tr>
@@ -29,12 +30,13 @@
                                         @if ($reposo)
                                             @foreach ($reposo as $rep)
                                                 <tr>
-                                                    <td class="text-wrap">{{ $rep->created_at }}
+                                                    <td class="text-wrap">{{ preg_replace('/(\d{2}:\d{2}):\d{2}(\.\d+)?/', '$1', (string) $rep->created_at) }}
                                                     </td>
                                                     <td>
                                                         {{ $rep->Paciente()->first()->nombres }}<br>
                                                         {{ $rep->Paciente()->first()->rut }}
                                                     </td>
+                                                    <td>{{ $rep->mascota_descripcion ?? '-' }}</td>
                                                     <td>Certificado Reposo</td>
                                                     <!--
                                                     <td class="align-middle text-center">
@@ -53,12 +55,13 @@
                                             @foreach ($interconsulta as $inter)
                                                 <tr>
                                                     <td class="text-wrap">
-                                                        {{ $inter->created_at }}
+                                                        {{ preg_replace('/(\d{2}:\d{2}):\d{2}(\.\d+)?/', '$1', (string) $inter->created_at) }}
                                                     </td>
                                                     <td class="">
                                                         {{ $inter->Paciente()->first()->nombres }}<br>
                                                         {{ $inter->Paciente()->first()->rut }}
                                                     </td>
+                                                    <td>{{ $inter->mascota_descripcion ?? '-' }}</td>
                                                     <td>Interconsulta</td>
                                                     <!--<td class="align-middle text-center">
                                                     <button type="button" class="btn  btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="Enviar Certificado a Paciente"><i class="feather icon-navigation"></i></button>
@@ -73,12 +76,13 @@
                                             @foreach ($informesMedicos as $informe)
                                                 <tr>
                                                     <td>
-                                                        {{ $informe->created_at }}
+                                                        {{ preg_replace('/(\d{2}:\d{2}):\d{2}(\.\d+)?/', '$1', (string) $informe->created_at) }}
                                                     </td>
                                                     <td>
                                                         {{ $informe->Paciente()->first()->nombres }}<br>
                                                         {{ $informe->Paciente()->first()->rut }}
                                                     </td>
+                                                    <td>{{ $informe->mascota_descripcion ?? '-' }}</td>
                                                     <td>Informe Medico</td>
                                                     <!--<td class="align-middle text-center">
                                                     <button type="button" class="btn  btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="Enviar Certificado a Paciente"><i class="feather icon-navigation"></i></button>
@@ -93,7 +97,7 @@
                                             @foreach ($controlObesidad as $obesidad)
                                                 <tr>
                                                     <td>
-                                                        {{ $obesidad->created_at }}
+                                                        {{ preg_replace('/(\d{2}:\d{2}):\d{2}(\.\d+)?/', '$1', (string) $obesidad->created_at) }}
                                                     </td>
                                                     <td>
                                                         {{ $obesidad->Paciente()->first()->nombres }}<br>
@@ -113,7 +117,7 @@
                                             @foreach ($hipertensiones as $hipertension)
                                                 <tr>
                                                     <td>
-                                                        {{ $hipertension->created_at }}
+                                                        {{ preg_replace('/(\d{2}:\d{2}):\d{2}(\.\d+)?/', '$1', (string) $hipertension->created_at) }}
                                                     </td>
                                                     <td>
                                                         {{ $hipertension->Paciente()->first()->nombres }}<br>

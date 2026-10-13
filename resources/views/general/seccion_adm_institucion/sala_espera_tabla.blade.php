@@ -1,11 +1,11 @@
 <!--sala de esperaa-->
 <div class="card">
-    <div class="card-header bg-info">
+    <div class="card-header bg-white">
         <div class="row">
             <div class="col-md-12">
-                <h6 class="f-18 d-inline mt-3 text-white ">Salas de Espera</h6>
+                <h5 class="mb-0 d-inline"><i class="feather icon-clock icono-purple"></i> Salas de espera</h5>
                 <div class="btn-group mr-2 d-inline float-md-right float-md-right ml-4">
-                    <button type="button" class="btn btn-sm btn-light" onclick="abrir_agregar_sala_espera();"><i
+                    <button type="button" class="btn btn-sm btn-info" onclick="abrir_agregar_sala_espera();"><i
                             class="feather icon-plus" aria-hidden="true"></i> Añadir</button>
                 </div>
             </div>

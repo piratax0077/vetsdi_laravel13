@@ -1,4 +1,5 @@
 @extends('template.adm_cm.template')
+@section('sin_boton_volver', '1')
 @section('content')
     @php
         $contextosCentro = $contextosCentro ?? collect();
@@ -35,24 +36,6 @@
     <!--Container Completo-->
     <div class="pcoded-main-container">
         <div class="pcoded-content">
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="page-header-title">
-                                <h5 class="font-weight-bolder">Configurar mi institución</h5>
-                            </div>
-                            <ul class="breadcrumb mb-4">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ ROUTE('adm_cm.home', ['contexto' => $contextoActivo['key'] ?? null]) }}" data-toggle="tooltip" data-placement="top"
-                                        title="Volver a mi escritorio">
-                                        <i class="feather icon-home"></i>
-                                    </a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a href="#">Configuración</a>
-                                </li>
-                            </ul>
                             @if (false && $contextosCentro->isNotEmpty())
                                 <form method="GET" action="{{ route('adm_cm.configuracion') }}" class="mb-3">
                                     <div class="form-row align-items-end">
@@ -75,10 +58,6 @@
                                     </div>
                                 </form>
                             @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <input type="hidden" name="id_institucion" id="id_institucion" value="{{ $institucion->id }}">
             <input type="hidden" name="tipo_institucion" id="tipo_institucion" value="{{ $tipo_institucion }}">
@@ -93,88 +72,58 @@
                 <div class="card-body py-0">
                     <div class="user-about-block m-0">
                         <div class="row">
-                            <div class="col-md-12 text-center mt-n3">
-                                <div class="change-profile text-center">
-                                    <div class="dropdown w-auto d-inline-block">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            <div class="profile-dp">
-                                                <div class="position-relative d-inline-block">
-                                                    <img class="img-radius img-fluid wid-100" id="profile-image"
-                                                        src="{{ $institucion->foto_perfil ? asset('storage/' . $institucion->foto_perfil) : asset('images/iconos/cm-perfiles.png') }}"
-                                                        alt="User image">
-                                                </div>
-                                                <div class="overlay">
-                                                    <span>Actualizar</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#" onclick="document.getElementById('foto-perfil-input').click()">
-                                                <i class="feather icon-upload-cloud mr-2"></i>Cambiar foto de perfil
-                                            </a>
-                                            <a class="dropdown-item" href="#" onclick="eliminar_foto_perfil()">
-                                                <i class="feather icon-trash-2 mr-2"></i>Eliminar fotografía
-                                            </a>
-                                        </div>
-                                        <!-- Input file oculto para seleccionar imagen -->
-                                    <input type="file" id="foto-perfil-input" accept="image/*" style="display: none;" onchange="cambiar_foto_perfil(this)">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12 mt-0">
-                                <!-- tab general -->
-
-                                <div class="user-about-block m-0">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <ul class="nav nav-tabs profile-tabs nav-fill mt-2" id="myTab"
-                                                role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="nav-link text-reset active" id="p-cm-tab" data-toggle="tab"
-                                                        href="#p-cm" role="tab" aria-controls="p-cm"
-                                                        aria-selected="false"><i class="feather icon-home mr-2"></i>Perfil
-                                                        de la Institución</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link text-reset " id="p-adm-tab" data-toggle="tab"
-                                                        href="#p-adm" role="tab" aria-controls="p-adm"
-                                                        aria-selected="true"><i class="feather icon-user mr-2"></i>Perfil
-                                                        administrador de la Institución</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link text-reset" id="rol-permiso-adm-med-tab"
-                                                        data-toggle="tab" href="#rol-permiso-adm-med" role="tab"
-                                                        aria-controls="rol-permiso-adm-med" aria-selected="false"><i
-                                                            class="feather  icon-lock mr-2"></i>Inscripción y manejo de
-                                                        administradores</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link text-reset" id="ar-dep-tab" data-toggle="tab"
-                                                        href="#ar-dep" role="tab" aria-controls="ar-dep"
-                                                        aria-selected="false"><i
-                                                            class="fa-solid fa-stethoscope mr-2"></i>Especialidades y
-                                                        áreas</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link text-reset" id="bodegas_serv-tab"
-                                                        data-toggle="tab" href="#bodegas_serv" role="tab"
-                                                        aria-controls="bodegas_serv" aria-selected="false"><i
-                                                            class="feather icon-home mr-2"></i>Bodegas</a>
-                                                </li>
-                                                @if ($institucion->sucursales == 1)
-                                                    <li class="nav-item">
-                                                        <a class="nav-link text-reset" id="sucursales-tab"
-                                                            data-toggle="tab" href="#sucursales" role="tab"
-                                                            aria-controls="sucursales" aria-selected="false"><i
-                                                                class="feather icon-home mr-2"></i>Sucursales</a>
-                                                    </li>
-                                                @endif
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
+                            <!-- Input file oculto para seleccionar imagen -->
+                            <input type="file" id="foto-perfil-input" accept="image/*" style="display: none;" onchange="cambiar_foto_perfil(this)">
+                            @include('template.partials.perfil_cabecera', [
+                                'nombre' => $institucion->nombre ?: $institucion->razon_social,
+                                'nombre_tal_cual' => true,
+                                'rol' => 'Institución',
+                                'foto' => $institucion->foto_perfil,
+                                'foto_base' => 'images/iconos/cm-perfiles.png',
+                                'al_cambiar' => "document.getElementById('foto-perfil-input').click()",
+                                'al_eliminar' => 'eliminar_foto_perfil()',
+                                'datos_perfil' => [
+                                    $institucion->rut, $institucion->razon_social, $institucion->nombre,
+                                    $institucion->email, $institucion->telefono, $institucion->foto_perfil,
+                                    $institucionRegion->nombre ?? '', $institucionCiudad->nombre ?? '',
+                                    $institucionDireccion->direccion ?? '',
+                                ],
+                            ])
+                            <div class="col-md-12 mt-md-2 m-0">
+                                <ul class="nav nav-tabs profile-tabs nav-fill mt-1" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-reset active" id="p-cm-tab" data-toggle="tab"
+                                            href="#p-cm" role="tab" aria-controls="p-cm"
+                                            aria-selected="true">Perfil de la institución</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-reset" id="p-adm-tab" data-toggle="tab"
+                                            href="#p-adm" role="tab" aria-controls="p-adm"
+                                            aria-selected="false">Perfil del administrador</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-reset" id="rol-permiso-adm-med-tab"
+                                            data-toggle="tab" href="#rol-permiso-adm-med" role="tab"
+                                            aria-controls="rol-permiso-adm-med" aria-selected="false">Administradores</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-reset" id="ar-dep-tab" data-toggle="tab"
+                                            href="#ar-dep" role="tab" aria-controls="ar-dep"
+                                            aria-selected="false">Especialidades y áreas</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-reset" id="bodegas_serv-tab"
+                                            data-toggle="tab" href="#bodegas_serv" role="tab"
+                                            aria-controls="bodegas_serv" aria-selected="false">Bodegas</a>
+                                    </li>
+                                    @if ($institucion->sucursales == 1)
+                                        <li class="nav-item">
+                                            <a class="nav-link text-reset" id="sucursales-tab"
+                                                data-toggle="tab" href="#sucursales" role="tab"
+                                                aria-controls="sucursales" aria-selected="false">Sucursales</a>
+                                        </li>
+                                    @endif
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -188,22 +137,13 @@
                         <!--PERFIL CENTRO MEDICO-->
                         <div class="tab-pane fade show active" id="p-cm" role="tabpanel"
                             aria-labelledby="p-cm-tab">
-                            <div class="row mb-3 mt-0">
-                                <div class="col-sm-12 col-md-12">
-                                    <div class="card mb-1">
-                                        <div class="card-body">
-                                            <h4 class="f-18 mb-0 text-info">Perfil de la Institución</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <!--Datos del centro médico-->
                                     <div class="card">
-                                        <div class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Datos de la Institución</h5>
-                                            <button type="button" class="btn btn-light btn-sm btn-icon m-0 float-right"
+                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-home icono-purple"></i> Datos de la Institución</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right"
                                                 data-toggle="collapse" data-target=".info_basica" aria-expanded="false"
                                                 aria-controls="info_basica-1 info_basica-2">
                                                 <i class="feather icon-edit"></i>
@@ -269,7 +209,7 @@
 
                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                         <div class=" d-flex justify-content-end">
-                                                            <button type="button" class="btn btn-sm btn-danger mr-2"
+                                                            <button type="button" class="btn btn-outline-dark btn-sm mr-2"
                                                                 data-toggle="collapse" data-target=".info_basica"
                                                                 aria-expanded="false"
                                                                 aria-controls="info_basica-1 info_basica-2"><i
@@ -289,9 +229,9 @@
                                 <div class="col-md-6">
                                     <!--Contacto-->
                                     <div class="card">
-                                        <div class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Datos de contacto</h5>
-                                            <button type="button" class="btn btn-light btn-sm btn-icon m-0 float-right"
+                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-phone icono-purple"></i> Datos de contacto</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right"
                                                 data-toggle="collapse" data-target=".info_contacto" aria-expanded="false"
                                                 aria-controls="info_contacto_1 info_contacto_2">
                                                 <i class="feather icon-edit"></i>
@@ -352,7 +292,7 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                         <div class="d-flex justify-content-end">
-                                                            <button type="button" class="btn btn-sm btn-danger mr-2"><i
+                                                            <button type="button" class="btn btn-outline-dark btn-sm mr-2"><i
                                                                     class="feather icon-x"></i> Cancelar</button>
                                                             <button type="button" class="btn btn-sm btn-info"
                                                                 onclick="editar_contacto_institucion();"><i
@@ -368,9 +308,9 @@
 
                                     <!--Ubicación-->
                                     <div class="card">
-                                        <div class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Ubicación (casa matriz)</h5>
-                                            <button type="button" class="btn btn-light btn-sm btn-icon m-0 float-right"
+                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-map-pin icono-purple"></i> Ubicación (casa matriz)</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right"
                                                 data-toggle="collapse" data-target=".info_residencial"
                                                 aria-expanded="false"
                                                 aria-controls="info_residencial_1 info_residencial_2">
@@ -482,8 +422,8 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                         <div class="d-flex justify-content-end">
-                                                            <button type="button" class="btn btn-sm btn-danger mr-2"><i
-                                                                    class="feather icon-save"></i> Cancelar</button>
+                                                            <button type="button" class="btn btn-outline-dark btn-sm mr-2"><i
+                                                                    class="feather icon-x"></i> Cancelar</button>
                                                             <button type="button" class="btn btn-sm btn-info"
                                                                 onclick="editar_direccion_institucion();"><i
                                                                     class="feather icon-save"></i> Guardar cambios</button>
@@ -502,24 +442,15 @@
 
                         <!--PERFIL ADMINISTRADOR-->
                         <div class="tab-pane fade" id="p-adm" role="tabpanel" aria-labelledby="p-adm-tab">
-                            <div class="row mb-3 mt-0">
-                                <div class="col-sm-12 col-md-12">
-                                    <div class="card mb-1">
-                                        <div class="card-body">
-                                            <h4 class="f-18 mb-0 text-info">Perfil administrador de la Institución</h4>
-                                            <input type="hidden" name="id_responsable" id="id_responsable"
-                                                value="{{ $responsable->id }}">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <input type="hidden" name="id_responsable" id="id_responsable"
+                                value="{{ $responsable->id }}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <!--Card Información Básica-->
                                     <div class="card">
-                                        <div class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Datos personales</h5>
-                                            <button type="button" class="btn btn-light btn-icon m-0 float-right"
+                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-user icono-purple"></i> Datos personales</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right"
                                                 data-toggle="collapse" data-target=".info_basica" aria-expanded="false"
                                                 aria-controls="info_basica-1 info_basica-2">
                                                 <i class="feather icon-edit"></i>
@@ -623,7 +554,7 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                         <div class="d-flex justify-content-end">
-                                                            <button type="button" class="btn btn-danger btn-sm mr-2"><i
+                                                            <button type="button" class="btn btn-outline-dark btn-sm mr-2"><i
                                                                     class="feather icon-x"></i> Cancelar</button>
                                                             <button type="button"
                                                                 onclick="editar_responsable_datos_personales();"
@@ -640,9 +571,9 @@
 
                                     <!--Contraseña-->
                                     <div class="card">
-                                        <div class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Cambiar contraseña</h5>
-                                            <button type="button" class="btn btn-light btn-icon m-0 float-right"
+                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-lock icono-purple"></i> Cambiar contraseña</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right"
                                                 data-toggle="collapse" data-target=".pass_personal" aria-expanded="false"
                                                 aria-controls="pass_personal_1 pass_personal_2">
                                                 <i class="feather icon-edit"></i>
@@ -673,23 +604,32 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo-sm">Contraseña actual</label>
-                                                        <input type="password" class="form-control form-control-sm"
-                                                            name="responsable_actual" id="responsable_actual">
+                                                        <div class="campo-clave">
+                                                            <input type="password" class="form-control form-control-sm"
+                                                                name="responsable_actual" id="responsable_actual">
+                                                            <button type="button" class="campo-clave-ver" data-ver-clave="responsable_actual" aria-label="Mostrar la contraseña" aria-pressed="false"><i class="feather icon-eye-off" aria-hidden="true"></i></button>
+                                                        </div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo-sm">Nueva contraseña</label>
-                                                        <input type="password" class="form-control form-control-sm"
-                                                            name="responsable_nueva" id="responsable_nueva">
+                                                        <div class="campo-clave">
+                                                            <input type="password" class="form-control form-control-sm"
+                                                                name="responsable_nueva" id="responsable_nueva">
+                                                            <button type="button" class="campo-clave-ver" data-ver-clave="responsable_nueva" aria-label="Mostrar la contraseña" aria-pressed="false"><i class="feather icon-eye-off" aria-hidden="true"></i></button>
+                                                        </div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo-sm">Repitir contraseña</label>
-                                                        <input type="password" class="form-control form-control-sm"
-                                                            name="responsable_validacion" id="responsable_validacion">
+                                                        <label class="floating-label-activo-sm">Repetir contraseña</label>
+                                                        <div class="campo-clave">
+                                                            <input type="password" class="form-control form-control-sm"
+                                                                name="responsable_validacion" id="responsable_validacion">
+                                                            <button type="button" class="campo-clave-ver" data-ver-clave="responsable_validacion" aria-label="Mostrar la contraseña" aria-pressed="false"><i class="feather icon-eye-off" aria-hidden="true"></i></button>
+                                                        </div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                         <div class="d-flex justify-content-end">
                                                             <button type="button"
-                                                                class="btn btn-sm btn-danger btn-sm mr-2"><i
+                                                                class="btn btn-outline-dark btn-sm mr-2"><i
                                                                     class="feather icon-x"></i> Cancelar</button>
                                                             <button type="submit" class="btn btn-sm btn-info btn-sm"><i
                                                                     class="feather icon-save"></i> Guardar cambios</button>
@@ -705,9 +645,9 @@
                                 <div class="col-md-6">
                                     <!--Card Contacto-->
                                     <div class="card">
-                                        <div class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Contacto</h5>
-                                            <button type="button" class="btn btn-light btn-icon m-0 float-right"
+                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-phone icono-purple"></i> Contacto</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right"
                                                 data-toggle="collapse" data-target=".info_contacto" aria-expanded="false"
                                                 aria-controls="info_contacto_1 info_contacto_2">
                                                 <i class="feather icon-edit"></i>
@@ -758,7 +698,7 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                         <div class="col-sm-12 d-flex justify-content-end">
-                                                            <button type="button" class="btn btn-danger btn-sm mr-2"><i
+                                                            <button type="button" class="btn btn-outline-dark btn-sm mr-2"><i
                                                                     class="feather icon-x"></i> Cancelar</button>
                                                             <button type="button"
                                                                 onclick="editar_responsable_datos_contacto()"
@@ -774,9 +714,9 @@
                                     <!--Cierre: Card Contacto-->
                                     <!--Card Residencia-->
                                     <div class="card">
-                                        <div class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Residencia</h5>
-                                            <button type="button" class="btn btn-light btn-icon m-0 float-right"
+                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-map-pin icono-purple"></i> Residencia</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right"
                                                 data-toggle="collapse" data-target=".info_residencial_"
                                                 aria-expanded="false"
                                                 aria-controls="info_residencial_1 info_residencial_2">
@@ -858,7 +798,7 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                         <div class="d-flex justify-content-end">
-                                                            <button type="button" class="btn btn-danger btn-sm mr-2"><i
+                                                            <button type="button" class="btn btn-outline-dark btn-sm mr-2"><i
                                                                     class="feather icon-x"></i> Cancelar</button>
                                                             <button type="button"
                                                                 onclick="editar_responsable_datos_residencia();"
@@ -881,15 +821,11 @@
                             aria-labelledby="rol-permiso-adm-med-tab">
                             <div class="row mb-0 mt-0">
                                 <div class="col-sm-12 col-md-12">
-                                    <div class="card mb-1">
-                                        <div class="card-body pb-2">
-                                            <h4 class="f-18 mb-0 text-info py-0 d-inline">Administradores veterinarios de
-                                                la Institución</h4>
-                                            <div class="d-inline float-md-right">
-                                                <button type="button" class="btn btn-sm btn-info"
-                                                    onclick="ag_area();"><i class="feather icon-plus"
-                                                        aria-hidden="true"></i> Administrar</button>
-                                            </div>
+                                    <div class="card mb-3">
+                                        <div class="card-header d-flex flex-wrap align-items-center justify-content-between bg-white border-bottom-0">
+                                            <h5 class="mb-0 mr-3"><i class="feather icon-users icono-purple"></i> Administradores veterinarios de la institución</h5>
+                                            <button type="button" class="btn btn-sm btn-info" onclick="ag_area();"><i class="feather icon-plus"
+                                                    aria-hidden="true"></i> Administrar</button>
                                             @if (isset($director_cm) && $director_cm != null)
                                                 <input type="hidden" name="id_responsable" id="id_director_cm"
                                                     value="{{ $director_cm->id }}">
@@ -933,19 +869,19 @@
                                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                                                     <div class="card">
                                                         <div
-                                                            class="card-header d-flex align-items-center justify-content-between bg-info">
-                                                            <h5 class="mb-0 text-white">Perfil Administrador Veterinario</h5>
+                                                            class="card-header d-flex align-items-center justify-content-between bg-white">
+                                                            <h5 class="mb-0"><i class="feather icon-user icono-purple"></i> Perfil Administrador Veterinario</h5>
                                                             <div class="float-md-right d-inline">
-                                                                <button type="button" class="btn btn-light btn-icon"
+                                                                <button type="button" class="btn btn-outline-purple btn-icon"
                                                                     data-toggle="collapse"
                                                                     data-target=".info_basica_director_cm"
                                                                     aria-expanded="false"
                                                                     aria-controls="info_basica-1_ info_basica-2">
                                                                     <i class="feather icon-edit"></i>
                                                                 </button>
-                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                <button type="button" class="btn btn-danger btn-icon"
                                                                     onclick="eliminar_admin_cm(1,{{ $institucion->id }})"><i
-                                                                        class="fas fa-trash"></i></button>
+                                                                        class="feather icon-x"></i></button>
                                                             </div>
                                                         </div>
                                                         <!--Datos Personales-->
@@ -1349,7 +1285,7 @@
                                                                     <label class="col-sm-12 col-form-label"></label>
                                                                     <div class="col-sm-12 d-flex justify-content-end">
                                                                         <button type="button"
-                                                                            class="btn btn-danger btn-sm mr-2"><i
+                                                                            class="btn btn-outline-dark btn-sm mr-2"><i
                                                                                 class="feather icon-x"></i>
                                                                             Cancelar</button>
                                                                         <button type="button"
@@ -1367,13 +1303,13 @@
                                             @else
                                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                                                     <div class="card">
-                                                        <div class="card-header d-flex align-items-center justify-content-between bg-info">
-                                                            <h5 class="mb-0 text-white">Inscripci&oacute;n Administrador Veterinario</h5>
+                                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
+                                                            <h5 class="mb-0"><i class="feather icon-user-plus icono-purple"></i> Inscripci&oacute;n Administrador Veterinario</h5>
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row align-items-center">
                                                                 <div class="col-md-8">
-                                                                    <h5 class="text-info mb-2">Administrador veterinario no inscrito</h5>
+                                                                    <h5 class="mb-2">Administrador veterinario no inscrito</h5>
                                                                     <p class="text-muted mb-md-0">Inscribe o asocia al profesional veterinario encargado de la administraci&oacute;n cl&iacute;nica de la instituci&oacute;n.</p>
                                                                 </div>
                                                                 <div class="col-md-4 text-md-right mt-3 mt-md-0">
@@ -1394,19 +1330,19 @@
                                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                                                     <div class="card">
                                                         <div
-                                                            class="card-header d-flex align-items-center justify-content-between bg-info">
-                                                            <h5 class="mb-0 text-white">Perfil Administrador Comercial</h5>
+                                                            class="card-header d-flex align-items-center justify-content-between bg-white">
+                                                            <h5 class="mb-0"><i class="feather icon-briefcase icono-purple"></i> Perfil Administrador Comercial</h5>
                                                             <div class="float-md-right d-inline">
-                                                                <button type="button" class="btn btn-light btn-icon m-0"
+                                                                <button type="button" class="btn btn-outline-purple btn-icon m-0"
                                                                     data-toggle="collapse"
                                                                     data-target=".info_basica_subdirector_cm"
                                                                     aria-expanded="false"
                                                                     aria-controls="info_basica-1 info_basica-2">
                                                                     <i class="feather icon-edit"></i>
                                                                 </button>
-                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                <button type="button" class="btn btn-danger btn-icon"
                                                                     onclick="eliminar_admin_cm(2,{{ $institucion->id }})"><i
-                                                                        class="fas fa-trash"></i></button>
+                                                                        class="feather icon-x"></i></button>
                                                             </div>
                                                         </div>
                                                         <!--Datos Personales-->
@@ -1818,7 +1754,7 @@
                                                                     <label class="col-sm-12 col-form-label"></label>
                                                                     <div class="col-sm-12 d-flex justify-content-end">
                                                                         <button type="button"
-                                                                            class="btn btn-danger btn-sm mr-2"><i
+                                                                            class="btn btn-outline-dark btn-sm mr-2"><i
                                                                                 class="feather icon-x"></i>
                                                                             Cancelar</button>
                                                                         <button type="button"
@@ -1843,19 +1779,18 @@
                                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                                                     <div class="card">
                                                         <div
-                                                            class="card-header d-flex align-items-center justify-content-between bg-info">
-                                                            <h5 class="mb-0 text-white">Perfil Administrador de Farmacia
-                                                            </h5>
+                                                            class="card-header d-flex align-items-center justify-content-between bg-white">
+                                                            <h5 class="mb-0"><i class="feather icon-package icono-purple"></i> Perfil Administrador de Farmacia</h5>
                                                             <div class="float-md-right d-inline">
-                                                                <button type="button" class="btn btn-light btn-icon"
+                                                                <button type="button" class="btn btn-outline-purple btn-icon"
                                                                     data-toggle="collapse" data-target=".info_basica"
                                                                     aria-expanded="false"
                                                                     aria-controls="info_basica-1 info_basica-2">
                                                                     <i class="feather icon-edit"></i>
                                                                 </button>
-                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                <button type="button" class="btn btn-danger btn-icon"
                                                                     onclick="eliminar_admin_cm(3,{{ $institucion->id }})"><i
-                                                                        class="fas fa-trash"></i></button>
+                                                                        class="feather icon-x"></i></button>
                                                             </div>
 
                                                         </div>
@@ -2272,7 +2207,7 @@
                                                                     <label class="col-sm-12 col-form-label"></label>
                                                                     <div class="col-sm-12 d-flex justify-content-end">
                                                                         <button type="button"
-                                                                            class="btn btn-danger btn-sm mr-2"><i
+                                                                            class="btn btn-outline-dark btn-sm mr-2"><i
                                                                                 class="feather icon-x"></i>
                                                                             Cancelar</button>
                                                                         <button type="button"
@@ -2305,11 +2240,10 @@
                                 <div class="col-md-12">
                                     <!--Contraseña-->
                                     <div class="card">
-                                        <div class="card-header pt-3 pb-2 bg-light">
+                                        <div class="card-header bg-white">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <h6 class="f-18 d-inline mt-3 text-info">Asignar y Desasociar Personal
-                                                        de La Institución</h6>
+                                                    <h5 class="mb-0 d-inline"><i class="feather icon-users icono-purple"></i> Asignar y desasociar personal de la institución</h5>
                                                     <div
                                                         class="btn-group mr-2 d-inline float-md-right float-md-right ml-4">
                                                         <button type="button" class="btn btn-sm btn-info"
@@ -2390,15 +2324,6 @@
 
                         <!--ESPECIALIDADES Y ÁREAS-->
                         <div class="tab-pane fade" id="ar-dep" role="tabpanel" aria-labelledby="ar-dep-tab">
-                            <div class="row mt-0">
-                                <div class="col-sm-12 col-md-12">
-                                    <div class="card mb-1">
-                                        <div class="card-body">
-                                            <h4 class="f-18 mb-0 text-info">Especialidades y áreas</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <ul class="nav nav-tabs-secciones-info" id="cm" role="tablist">
@@ -2444,19 +2369,18 @@
                                                 <div class="col-md-12">
                                                     <!--boxes-->
                                                     <div class="card">
-                                                        <div class="card-header bg-info">
+                                                        <div class="card-header bg-white">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <h6 class="f-18 d-inline mt-3 text-white ">Boxes de
-                                                                        Atención</h6>
+                                                                    <h5 class="mb-0 d-inline"><i class="feather icon-grid icono-purple"></i> Boxes de Atención</h5>
                                                                     <div
                                                                         class="btn-group mr-2 d-inline float-md-right float-md-right ml-4">
                                                                         <button type="button"
-                                                                            class="btn btn-sm btn-light"
+                                                                            class="btn btn-sm btn-info"
                                                                             onclick="agregar_box();"><i
                                                                                 class="feather icon-plus"
                                                                                 aria-hidden="true"></i> Añadir</button>
-                                                                        {{-- <button type="button" class="btn btn-sm btn-light" onclick="agregar_ambulancia()">Ambulancias</button> --}}
+                                                                        {{-- <button type="button" class="btn btn-sm btn-info" onclick="agregar_ambulancia()">Ambulancias</button> --}}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2707,14 +2631,13 @@
                                             aria-labelledby="esp-med-tab">
                                             <!--Especialidades-->
                                             <div class="card">
-                                                <div class="card-header bg-info">
+                                                <div class="card-header bg-white">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <h6 class="f-18 d-inline mt-3 text-white">Especialidades
-                                                                Médicas</h6>
+                                                            <h5 class="mb-0 d-inline"><i class="feather icon-activity icono-purple"></i> Especialidades Médicas</h5>
                                                             <div
                                                                 class="btn-group mr-2 d-inline float-md-right float-md-right ml-4">
-                                                                <button type="button" class="btn btn-sm btn-light"
+                                                                <button type="button" class="btn btn-sm btn-info"
                                                                     onclick="ag_especialidad();"><i
                                                                         class="feather icon-plus"
                                                                         aria-hidden="true"></i> Añadir</button>
@@ -2790,12 +2713,12 @@
                                             aria-labelledby="area-i-tab">
                                             <!--Área-->
                                             <div class="card">
-                                                <div class="card-header bg-info">
+                                                <div class="card-header bg-white">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <h6 class="f-18 d-inline mt-3 text-white">Áreas</h6>
+                                                            <h5 class="mb-0 d-inline"><i class="feather icon-layers icono-purple"></i> Áreas</h5>
                                                             <div class="btn-group mr-2 d-inline float-md-right  ml-4">
-                                                                <button type="button" class="btn btn-sm btn-light"
+                                                                <button type="button" class="btn btn-sm btn-info"
                                                                     onclick="ag_area_cm();"><i class="feather icon-plus"
                                                                         aria-hidden="true"></i> Añadir</button>
                                                             </div>
@@ -2891,13 +2814,12 @@
                                             aria-labelledby="asignacion-prof-tab">
                                             <!--Área-->
                                             <div class="card">
-                                                <div class="card-header bg-info">
+                                                <div class="card-header bg-white">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <h6 class="f-18 d-inline mt-3 text-white">Asignacion de
-                                                                Profesionales</h6>
+                                                            <h5 class="mb-0 d-inline"><i class="feather icon-users icono-purple"></i> Asignacion de Profesionales</h5>
                                                             <div class="btn-group mr-2 d-inline float-md-right  ml-4">
-                                                                <button type="button" class="btn btn-sm btn-light"
+                                                                <button type="button" class="btn btn-sm btn-info"
                                                                     onclick="ag_area_cm();"><i class="feather icon-plus"
                                                                         aria-hidden="true"></i> Añadir</button>
                                                             </div>
@@ -2985,12 +2907,12 @@
                                             aria-labelledby="laboratorio-i">
                                             <!--Laboratorios-->
                                             <div class="card">
-                                                <div class="card-header bg-info">
+                                                <div class="card-header bg-white">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <h6 class="f-18 d-inline mt-3 text-white">Laboratorio</h6>
+                                                            <h5 class="mb-0 d-inline"><i class="feather icon-droplet icono-purple"></i> Laboratorio</h5>
                                                             <div class="btn-group mr-2 d-inline float-md-right ml-4">
-                                                                <button type="button" class="btn btn-sm btn-light"
+                                                                <button type="button" class="btn btn-sm btn-info"
                                                                     onclick="ag_laboratorio();"><i
                                                                         class="feather icon-plus"
                                                                         aria-hidden="true"></i> Añadir</button>
@@ -3094,15 +3016,15 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="card">
-                                        <div class="card-header bg-info">
+                                        <div class="card-header bg-white">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <h6 class="f-18 d-inline mt-3 text-white pt-2">Bodegas</h6>
+                                                    <h5 class="mb-0 d-inline"><i class="feather icon-package icono-purple"></i> Bodegas</h5>
                                                     <div class="btn-group mb-2 mr-2 float-right">
-                                                        <button type="button" class="btn btn-light btn-sm mx-2"
+                                                        <button type="button" class="btn btn-info btn-sm mx-2"
                                                             onclick="añadir_bodega_nueva();"><i class="fa fa-plus"
                                                                 aria-hidden="true"></i>&nbsp;Añadir bodega</button>
-                                                        <button type="button" class="btn btn-light btn-sm"
+                                                        <button type="button" class="btn btn-info btn-sm"
                                                             onclick="añadir_bodega();"><i class="fa fa-plus"
                                                                 aria-hidden="true"></i>&nbsp;Añadir nuevo
                                                             responsable</button>

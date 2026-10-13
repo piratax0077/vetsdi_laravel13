@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon" />
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=20261005-4" />
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=20261013-1" />
     <link rel="stylesheet" href="{{ asset('css/escritorio_profesional.css') }}?v=20260819-2">
 
     <!-- select2 selectbonito css -->
@@ -100,6 +100,7 @@
     @include('template.profesional.header')
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
 
 
     {{--  <footer>
@@ -1279,7 +1280,7 @@
                             } else {
                                 lugares_atencion_agenda.val('0');
                             }
-                            buscar_hora_medica();
+                            buscar_hora_medica(true);
                             {{--  $('#modal_seleccionar_lugar_atencion').modal('show');  --}}
                         }
                     }
@@ -3075,6 +3076,8 @@
                                 .apellido_dos);
                             $('#datos_email_asistente').text(data.email);
                             $('#datos_telefono_asistente').text(data.telefono_uno);
+                            // Foto de la persona; si no tiene, queda la imagen base de asistente
+                            $('#datos_foto_asistente').attr('src', data.foto_url || $('#datos_foto_asistente').attr('data-base'));
 
                         }
 
@@ -3366,7 +3369,19 @@
         let agendaHorasRequest = null;
         let agendaHorasRequestSeq = 0;
 
-        function buscar_hora_medica() {
+        // La tabla de "Mi agenda" siempre se maneja como DataTable. Si todavía no está
+        // armada (data-basic-custom.js la inicia con un retardo) se arma aquí, para que
+        // las filas no queden por fuera de la tabla y se pierdan al ordenar o buscar.
+        function tablaAgendaEscritorio() {
+            if (!$('#simpletable').length) {
+                return null;
+            }
+            return $('#simpletable').DataTable();
+        }
+
+        // silencioso = true: refresco automático (cada minuto o al volver a la ventana).
+        // En ese caso se mantiene lo que ya está en pantalla hasta que llega la respuesta.
+        function buscar_hora_medica(silencioso) {
             let buscar_horas = $('#buscar_horas').val();
             if (buscar_horas == '') {
                 @if (isset($fecha_carga))
@@ -3377,14 +3392,13 @@
 
             let id_lugares_atencion = $('#lugares_atencion_agenda').val();
             let url = "{{ route('profesional.buscar_horas_medicas') }}";
-            let tabla = null;
             const currentRequestSeq = ++agendaHorasRequestSeq;
 
-            if ($.fn.DataTable.isDataTable('#simpletable')) {
-                tabla = $('#simpletable').DataTable();
-                tabla.clear().draw();
-            } else {
-                $('#simpletable tbody').empty();
+            if (silencioso !== true) {
+                let tablaActual = tablaAgendaEscritorio();
+                if (tablaActual) {
+                    tablaActual.clear().draw();
+                }
             }
 
             if (agendaHorasRequest && agendaHorasRequest.readyState !== 4) {
@@ -3404,43 +3418,39 @@
                         return;
                     }
 
-                    if (data != null) {
-
-                        console.log(data);
-                        data = JSON.parse(data);
-                        let filas = [];
-                        for (let i = 0; i < data.length; i++) {
-                            let pacienteHtml = obtenerHtmlPacienteEscritorio(data[i]);
-                            let lugarAtencion = data[i].lugar_atencion ? data[i].lugar_atencion.nombre : '';
-
-                            if (tabla) {
-                                filas.push([
-                                    '<span class="text-center align-left d-block">' + escapeHtml(data[i].hora_inicio) + '</span>',
-                                    '<div class="text-center align-left bg-estado-light-amarillo">' + pacienteHtml + '</div>',
-                                    '<span class="text-center align-left d-block">' + escapeHtml(lugarAtencion) + '</span>',
-                                ]);
-                            } else {
-                                let fila = '';
-                                fila += '<tr>';
-                                fila += '<td class="text-center align-left">' + escapeHtml(data[i].hora_inicio) + '</td>';
-                                fila += '<td class="text-center align-left bg-estado-light-amarillo">' + pacienteHtml + '</td>';
-                                fila += '<td class="text-center align-left">' + escapeHtml(lugarAtencion) + '</td>';
-                                fila += '</tr>';
-                                $('#simpletable tbody').append(fila);
-                            }
-                        }
-
-                        if (tabla) {
-                            tabla.clear();
-                            if (filas.length > 0) {
-                                tabla.rows.add(filas);
-                            }
-                            tabla.draw();
-                        }
-                    } else {
-                        //var fila = '<span><h5>no existen registros</h5></span>'
-                        //$('#tabla_receta tbody').append(fila);
+                    // Si la sesión venció llega el HTML del login y no un listado
+                    try {
+                        data = typeof data === 'string' ? JSON.parse(data) : data;
+                    } catch (e) {
+                        console.log('Mi agenda: respuesta no válida', e);
+                        return;
                     }
+
+                    if (!$.isArray(data)) {
+                        return;
+                    }
+
+                    let tabla = tablaAgendaEscritorio();
+                    if (!tabla) {
+                        return;
+                    }
+
+                    tabla.clear();
+                    for (let i = 0; i < data.length; i++) {
+                        let pacienteHtml = obtenerHtmlPacienteEscritorio(data[i]);
+                        let lugarAtencion = data[i].lugar_atencion ? data[i].lugar_atencion.nombre : '';
+
+                        let nodoFila = tabla.row.add([
+                            escapeHtml(String(data[i].hora_inicio || '').substring(0, 5)),
+                            pacienteHtml,
+                            escapeHtml(lugarAtencion),
+                        ]).node();
+
+                        // Mismas clases que las filas que pinta la vista al cargar
+                        $(nodoFila).children('td').addClass('text-center align-left')
+                            .eq(1).addClass('bg-estado-light-amarillo');
+                    }
+                    tabla.draw();
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
                     if (ajaxOptions === 'abort') {
@@ -4487,46 +4497,44 @@
                         for (let i = 0; i < data.length; i++) {
 
                             let id = data[i].id;
-                            let hora_inicio = data[i].hora_inicio;
-                            let hora_termino = data[i].hora_termino;
+                            // La base guarda las horas con segundos; aquí se muestran como HH:MM
+                            let hora_inicio = String(data[i].hora_inicio || '').substring(0, 5);
+                            let hora_termino = String(data[i].hora_termino || '').substring(0, 5);
+                            let nombres_dia = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
                             let dia = '';
                             let dias = String(data[i].dia || '').split(',');
+                            // Lunes primero y domingo al final
+                            dias.sort(function(a, b) {
+                                return ((parseInt(a, 10) + 6) % 7) - ((parseInt(b, 10) + 6) % 7);
+                            });
                             for (let i = 0; i < dias.length; i++) {
-                                if (dias[i] == 0) {
-                                    dia += 'Domingo '
-                                } else if (dias[i] == 1) {
-                                    dia += 'Lunes '
-                                } else if (dias[i] == 2) {
-                                    dia += 'Martes '
-                                } else if (dias[i] == 3) {
-                                    dia += 'Miercoles '
-                                } else if (dias[i] == 4) {
-                                    dia += 'Jueves '
-                                } else if (dias[i] == 5) {
-                                    dia += 'Viernes '
-                                } else if (dias[i] == 6) {
-                                    dia += 'Sabado '
+                                if (nombres_dia[dias[i]] !== undefined && dias[i] !== '') {
+                                    dia += '<span class="horario-fila-dia">' + nombres_dia[dias[i]] + '</span>';
                                 }
                             }
 
+                            // El nombre de la agenda se toma del selector del modal cuando existe
+                            let nombre_agenda = $.trim($('#tipo_agenda_medica option[value="' + data[i].tipo_agenda + '"]').first().text()) ||
+                                array_tipo_agenda[data[i].tipo_agenda] || '';
+
                             let fila = '';
                             fila += '<tr class="tr_horario" id="horario-' + id + '">';
-                            fila += '   <td class="text-center align-middle">';
-                            fila += array_tipo_agenda[data[i].tipo_agenda]
+                            fila += '   <td class="text-left align-middle">';
+                            fila += nombre_agenda
                             fila += '   </td>';
-                            fila += '   <td class="text-center align-middle">';
+                            fila += '   <td class="text-left align-middle"><span class="horario-fila-hora">';
                             fila += hora_inicio
-                            fila += '   </td>';
-                            fila += '   <td class="text-center align-middle">';
+                            fila += '   </span></td>';
+                            fila += '   <td class="text-left align-middle"><span class="horario-fila-hora">';
                             fila += hora_termino;
-                            fila += '   </td>';
-                            fila += '   <td class="text-center align-middle">';
+                            fila += '   </span></td>';
+                            fila += '   <td class="text-left align-middle">';
                             fila += dia;
                             fila += '   </td>';
-                            fila += '   <td class="text-center align-middle">';
+                            fila += '   <td class="text-left align-middle">';
                             fila +=
-                                '       <input class="btn btn-danger btn-sm btn-icon" title="Eliminar día" type="button" id="btn_eliminar_dia" name="btn_eliminar_dia" onclick="eliminar_dia_horario(' +
-                                id + ',' + id_lugar_atencion + ' );" value="X" >';
+                                '       <button class="btn btn-danger btn-sm btn-icon" title="Eliminar horario" aria-label="Eliminar horario" type="button" id="btn_eliminar_dia" name="btn_eliminar_dia" onclick="eliminar_dia_horario(' +
+                                id + ',' + id_lugar_atencion + ' );"><i class="feather icon-x"></i></button>';
                             fila += '   </td>';
                             fila += '</tr>';
 
@@ -4630,6 +4638,19 @@
 
         }
 
+        // Tooltip para los botones de ícono de las tablas: basta que el botón tenga title.
+        // Va delegado para que también funcione en filas que se cargan después.
+        $(document).ready(function() {
+            if ($.fn.tooltip) {
+                $('body').tooltip({
+                    selector: 'table .btn-icon[title]:not([data-toggle="tooltip"])',
+                    container: 'body',
+                    trigger: 'hover',
+                    placement: 'top'
+                });
+            }
+        });
+
         function mi_asistente_lugar_atencion(id) {
 
 
@@ -4663,13 +4684,13 @@
                             fila += '<tr class="tr_asistente" id="row' + j + '">';
                             fila += '    <td>';
                             fila += '       <div class="form-group">';
-                            fila += '           <div class="switch switch-success d-inline m-r-10">';
+                            fila += '           <div class="switch switch-success switch-estado d-inline m-r-10">';
                             if (data[i].estado == 0) checked = '';
                             else checked = 'checked';
                             fila +=
                                 '               <input type = "checkbox" id="estado_asistente" onclick="cambio_estado_asistente(' +
                                 id + ');" ' + checked + '> ';
-                            fila += '               <label for = "estado_asistente" class = "cr"> </label>';
+                            fila += '               <label for = "estado_asistente" class = "cr" data-activo="Habilitado" data-inactivo="Deshabilitado"> </label>';
                             fila += '           </div>';
                             fila += '      </div>';
                             fila += '   </td>';
@@ -6140,13 +6161,13 @@
 
             $(window).on('focus', function() {
                 if ($('#lugares_atencion_agenda').length) {
-                    buscar_hora_medica();
+                    buscar_hora_medica(true);
                 }
             });
 
             setInterval(function() {
                 if ($('#lugares_atencion_agenda').length) {
-                    buscar_hora_medica();
+                    buscar_hora_medica(true);
                 }
             }, 60000);
 

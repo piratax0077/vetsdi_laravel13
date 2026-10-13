@@ -41,6 +41,17 @@
                                 </div>
                             </a>
                         </div>
+                        {{-- Módulo opcional: más adelante se muestra solo si el profesional lo agrega a su escritorio --}}
+                        @if($modulo_hospitalizacion ?? false)
+                        <div class="card subir">
+                            <a href="{{ route('profesional.hospitalizacion') }}">
+                                <div class="card-body text-center px-2" style="cursor:pointer">
+                                    <img class="wid-40 text-center" src="{{ asset('images/iconos/hospitalizacion.svg') }}">
+                                    <h6 class="mt-1">Hospitalización</h6>
+                                </div>
+                            </a>
+                        </div>
+                        @endif
                         <div class="card subir">
                             <a href="{{ route('profesional.configuracion') }}">
                                 <div class="card-body text-center px-2" style="cursor:pointer">
@@ -115,7 +126,7 @@
                                         @if (isset($hora_dia))
                                             @foreach ($hora_dia as $hd)
                                                 <tr>
-                                                    <td class="text-center align-left">{{ $hd->hora_inicio }}</td>
+                                                    <td class="text-center align-left">{{ substr((string) $hd->hora_inicio, 0, 5) }}</td>
                                                     <td class="text-center align-left bg-estado-light-amarillo">
                                                         {!! $hd->paciente_escritorio_html !!}
                                                     </td>

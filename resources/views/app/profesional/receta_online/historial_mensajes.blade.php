@@ -42,7 +42,7 @@
                                             <tr>
                                                 {{--  <td class="text-wrap align-middle">{{ $mensaje->id }}</td>  --}}
                                                 <td class="text-wrap align-middle" style="font-size:12px">
-                                                    {{ $mensaje->created_at }}
+                                                    {{ preg_replace('/(\d{2}:\d{2}):\d{2}(\.\d+)?/', '$1', (string) $mensaje->created_at) }}
                                                 </td>
 
                                                 <td class="align-middle" style="font-size:12px">
@@ -294,7 +294,7 @@
                             mensajes.forEach(mensaje => {
                                 $('#tbody_mensajes_a_profesional').append(`
                                     <tr>
-                                        <td class="text-wrap text-center align-middle" style="font-size:12px">${mensaje.created_at}</td>
+                                        <td class="text-wrap text-center align-middle" style="font-size:12px">${String(mensaje.created_at || "").replace(/(\d{2}:\d{2}):\d{2}(\.\d+)?/, "$1")}</td>
                                         <td class="align-middle" style="font-size:12px">${mensaje.remitente}</td>
                                         <td class="align-middle text-wrap" style="font-size:10px"><label>${mensaje.datos_mensaje.mensaje}</label></td>
                                         <td class="align-middle text-wrap" style="font-size:10px"><label>${mensaje.tipo_mensaje}</label></td>

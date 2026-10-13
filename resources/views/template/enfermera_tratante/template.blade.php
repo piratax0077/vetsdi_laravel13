@@ -64,6 +64,7 @@
 
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
 
     <script src="{{ asset('js/vendor-all.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>

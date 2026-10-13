@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Requisitos de Ingreso Hospitalización</h5>
-                <button type="button" class="close text-white"  data-bs-dismiss="modal"aria-label="Close"><span
+                <button type="button" class="close text-white"  data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

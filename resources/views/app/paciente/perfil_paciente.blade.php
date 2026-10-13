@@ -1,77 +1,39 @@
 @extends('template.paciente.template')
+@section('sin_boton_volver', '1')
 @section('content')
-    @php
-        $fotoPerfilPaciente = asset('images/iconos/usuario.svg');
-        if (!empty($paciente->foto_perfil)) {
-            $fotoPerfilPaciente = \Illuminate\Support\Str::startsWith($paciente->foto_perfil, ['http://', 'https://', '/'])
-                ? $paciente->foto_perfil
-                : asset('storage/' . $paciente->foto_perfil);
-        }
-    @endphp
     <!--Container Completo-->
     <div class="pcoded-main-container">
         <div class="pcoded-content">
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row mt-2">
-                        <div class="col-md-12">
-                            <div class="page-header-title">
-                                <!--<h5 class="font-weight-bolder">Editar perfil</h5>-->
-                            </div>
-                            <ul class="breadcrumb mb-4">
-                              
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="user-profile user-card mb-4">
                 <div class="card-body py-0">
                     <div class="user-about-block m-0">
                         <div class="row">
-                            <div class="col-12">
-                                <div class="patient-profile-hero">
-                                    <div class="change-profile text-center flex-shrink-0">
-                                    <input type="file" id="foto_perfil_input" accept="image/png,image/jpeg,image/jpg,image/webp" class="d-none">
-                                    <div class="dropdown w-auto d-inline-block">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <div class="profile-dp">
-                                                <div class="position-relative d-inline-block">
-                                                    <img
-                                                        class="img-radius img-fluid wid-100 patient-profile-photo"
-                                                        id="patient-profile-image"
-                                                        src="{{ $fotoPerfilPaciente }}"
-                                                        alt="Imagen de perfil">
-                                                </div>
-                                                <div class="overlay">
-                                                    <span>Actualizar</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="javascript:void(0)" onclick="seleccionar_foto_perfil(); return false;"><i class="feather icon-upload-cloud mr-2"></i>Cambiar imagen de perfil</a>
-                                            <a class="dropdown-item" href="javascript:void(0)" onclick="eliminar_foto_perfil(); return false;"><i class="feather icon-trash-2 mr-2"></i>Eliminar imagen</a>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <div class="patient-profile-summary text-left">
-                                        <span class="patient-profile-eyebrow">Mi cuenta</span>
-                                        <h3 class="mb-1">Perfil del tutor</h3>
-                                        <p class="mb-1">{{ trim(collect([$paciente->nombres, $paciente->apellido_uno, $paciente->apellido_dos])->filter()->implode(' ')) }}</p>
-                                        <span>{{ $paciente->email }}</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <input type="file" id="foto_perfil_input" accept="image/png,image/jpeg,image/jpg,image/webp" class="d-none">
+                            @include('template.partials.perfil_cabecera', [
+                                'nombre' => trim(($paciente->nombres ?? '') . ' ' . ($paciente->apellido_uno ?? '') . ' ' . ($paciente->apellido_dos ?? '')),
+                                'rol' => 'Tutor',
+                                'foto' => $paciente->foto_perfil ?? null,
+                                'foto_base' => 'images/iconos/usuario.svg',
+                                'id_foto' => 'patient-profile-image',
+                                'al_cambiar' => 'seleccionar_foto_perfil()',
+                                'al_eliminar' => 'eliminar_foto_perfil()',
+                                'datos_perfil' => [
+                                    $paciente->rut, $paciente->nombres, $paciente->apellido_uno, $paciente->fecha_nac,
+                                    $paciente->email, $paciente->telefono_uno, $paciente->foto_perfil,
+                                    $direccion_txt_region_paciente ?? '', $direccion_txt_ciudad_paciente ?? '',
+                                    $direccion_paciente->direccion ?? '',
+                                ],
+                            ])
                             <div class="col-md-12 m-0">
                                 <ul class="nav nav-tabs profile-tabs nav-fill mt-1" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link text-reset active" id="personal-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="personal" aria-selected="true"><i class="feather icon-user"></i> Mi perfil</a>
+                                        <a class="nav-link text-reset active" id="personal-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="personal" aria-selected="true">Mi perfil</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-reset" id="seguridad-tab" data-toggle="tab" href="#seguridad" role="tab" aria-controls="seguridad" aria-selected="false"><i class="feather icon-lock"></i> Seguridad</a>
+                                        <a class="nav-link text-reset" id="seguridad-tab" data-toggle="tab" href="#seguridad" role="tab" aria-controls="seguridad" aria-selected="false">Seguridad</a>
                                     </li>
                                     <!--<li class="nav-item">
-                                        <a class="nav-link text-reset" id="emergencia-tab" data-toggle="tab" href="#facturacion" role="tab" aria-controls="facturacion" aria-selected="false"><i class="feather icon-credit-card"></i> Plan y facturación</a>
+                                        <a class="nav-link text-reset" id="emergencia-tab" data-toggle="tab" href="#facturacion" role="tab" aria-controls="facturacion" aria-selected="false">Plan y facturación</a>
                                     </li>-->
                                 </ul>
                             </div>
@@ -85,124 +47,72 @@
                         <!--MI PERFIL-->
                         <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-md-6">
+                                    <!--Card Datos personales-->
                                     <div class="card">
-                                        <div class="card-header-new d-flex align-items-center justify-content-between">
-                                            <h5 class="mb-0"><i class="feather icon-user icono-purple"></i> Perfil del tutor</h5>
-                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right" data-toggle="collapse" data-target=".info_basica" aria-expanded="false" aria-controls="info_basica-1 info_basica-2">
+                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-user icono-purple"></i> Datos personales</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right" data-toggle="collapse" data-target=".info_basica" aria-expanded="false" aria-controls="info_basica-1 pinfo_basica_2">
                                                 <i class="feather icon-edit"></i>
                                             </button>
                                         </div>
+                                        <!--Datos personales-->
                                         <div class="card-body info_basica collapse show" id="info_basica-1">
-                                            <form>
-                                                <!--INFO PERSONAL-->
-                                                <div class="form-row mb-4">
-                                                    <div class="col-12">
-                                                        <h6 class="titulo-sm">Información personal</h6>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
-                                                        <label class="font-weight-bolder ml-0 mb-0">RUT</label>
-                                                        <div> {{ $paciente->rut }} </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Nombre</label>
-                                                        <div> {{ $paciente->nombres }} </div>
-                                                    </div>
-                                     
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Primer
-                                                        Apellido</label>
-                                                        <div> {{ $paciente->apellido_uno }}</div>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Segundo
-                                                        Apellido</label>
-                                                        <div> {{ $paciente->apellido_dos }}
-                                                        </div>
-                                                    </div>
-                                           
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Sexo</label>
-                                                        <div>
-                                                            @if ($paciente->sexo == 'F')
-                                                                Mujer
-                                                            @elseif ($paciente->sexo == 'M')
-                                                                Hombre
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Nacimiento</label>
-                                                        <div>
-                                                            {{ \Carbon\Carbon::parse($paciente->fecha_nac)->format('d-m-Y') }}
-                                                        </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <label class="font-weight-bolder ml-0 mb-0">RUT</label>
+                                                    <div>{{ $paciente->rut }}</div>
+                                                </div>
+                                                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <label class="font-weight-bolder ml-0 mb-0">Nombres</label>
+                                                    <div>{{ $paciente->nombres }}</div>
+                                                </div>
+                                                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <label class="font-weight-bolder ml-0 mb-0">Primer Apellido</label>
+                                                    <div>{{ $paciente->apellido_uno }}</div>
+                                                </div>
+                                                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <label class="font-weight-bolder ml-0 mb-0">Segundo Apellido</label>
+                                                    <div>{{ $paciente->apellido_dos }}</div>
+                                                </div>
+                                                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <label class="font-weight-bolder ml-0 mb-0">Sexo</label>
+                                                    <div>
+                                                        @if ($paciente->sexo == 'F')
+                                                            Mujer
+                                                        @elseif ($paciente->sexo == 'M')
+                                                            Hombre
+                                                        @endif
                                                     </div>
                                                 </div>
- 
-                                                <!--CONTACTO-->
-                                                <div class="form-row mb-4">
-                                                     <div class="col-12">
-                                                        <h6 class="titulo-sm">Contacto</h6>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Correo electrónico</label>
-                                                        <div>{{ $paciente->email }}</div>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Celular</label>
-                                                        <div>{{ $paciente->telefono_uno }}</div>
-                                                    </div>
+                                                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <label class="font-weight-bolder ml-0 mb-0">Nacimiento</label>
+                                                    <div>{{ \Carbon\Carbon::parse($paciente->fecha_nac)->format('d-m-Y') }}</div>
                                                 </div>
-                                                <!--RESIDENCIA-->
-                                                <div class="form-row">
-                                                    <div class="col-12">
-                                                        <h6 class="titulo-sm">Residencia</h6>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-12 col-lg-4 col-xl-3">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Dirección</label>
-                                                        <div>
-                                                            @if ($direccion_paciente)
-                                                                {{ $direccion_paciente->direccion }}
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Región</label>
-                                                        <div>{{ $direccion_txt_region_paciente }}</div>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Comuna</label>
-                                                        <div>{{ $direccion_txt_ciudad_paciente }}</div>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                            </div>
                                         </div>
-                                       
-                                        <!--Cierre: Datos Personales-->
-                                        <!--(Editar)Datos Personales-->
+                                        <!--Cierre: Datos personales-->
+                                        <!--(Editar) Datos personales-->
                                         <div class="card-body info_basica collapse" id="pinfo_basica_2">
                                             <form>
-                                                <div class="form-row mb-3">
-                                                    <div class="col-12">
-                                                        <h6 class="titulo-sm mb-4">Información personal</h6>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
+                                                <div class="form-row">
+                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">RUT</label>
-                                                        <input type="text" class="form-control form-control-sm" placeholder="Rut" id="perfil_rut" name="perfil_rut" value="{{ $paciente->rut }}" disabled>
+                                                        <input type="text" class="form-control form-control-sm" placeholder="RUT" id="perfil_rut" name="perfil_rut" value="{{ $paciente->rut }}" disabled>
                                                     </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
-                                                        <label class="floating-label-activo">Nombre</label>
+                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                        <label class="floating-label-activo">Nombres</label>
                                                         <input type="text" class="form-control form-control-sm" placeholder="Nombre" id="perfil_nombre" name="perfil_nombre" value="{{ $paciente->nombres }}">
                                                     </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
+                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Primer Apellido</label>
                                                         <input type="text" class="form-control form-control-sm" id="perfil_apellido_uno" name="perfil_apellido_uno" placeholder="Primer Apellido" value="{{ $paciente->apellido_uno }}">
                                                     </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
+                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Segundo Apellido</label>
                                                         <input type="text" class="form-control form-control-sm" id="perfil_apellido_dos" name="perfil_apellido_dos" placeholder="Segundo Apellido" value="{{ $paciente->apellido_dos }}">
                                                     </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2 pt-2">
+                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-2">
                                                         <label class="floating-label-activo">Sexo</label>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" id="perfil_sexo" name="perfil_sexo" value="M" @if ($paciente->sexo == 'M') checked @endif>
@@ -213,37 +123,107 @@
                                                             <label class="form-check-label" for="inlineRadio2">Mujer</label>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
+                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Nacimiento</label>
                                                         <input type="date" class="form-control form-control-sm" id="perfil_nac" name="perfil_nac" value="{{ $paciente->fecha_nac }}">
                                                     </div>
                                                 </div>
-     
-                                                
-                                                <div class="form-row mb-3">
-                                                    <div class="col-12">
-                                                        <h6 class="titulo-sm mb-4">Contacto</h6>
+                                                <div class="form-row">
+                                                    <div class="col-sm-12 d-flex justify-content-end">
+                                                        <button type="reset" class="btn btn-outline-dark btn-sm mr-2"><i class="feather icon-x"></i> Cancelar</button>
+                                                        <button type="button" onclick="guardar_perfil_paciente();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
                                                     </div>
-                                                    <div class="form-group col-sm-6 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!--Cierre: (Editar) Datos personales-->
+                                    </div>
+                                    <!--Cierre: Card Datos personales-->
+                                </div>
+                                <div class="col-md-6">
+                                    <!--Card Contacto-->
+                                    <div class="card">
+                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-phone icono-purple"></i> Contacto</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right" data-toggle="collapse" data-target=".info_contacto" aria-expanded="false" aria-controls="info_contacto_1 info_contacto_2">
+                                                <i class="feather icon-edit"></i>
+                                            </button>
+                                        </div>
+                                        <!--Contacto-->
+                                        <div class="card-body info_contacto collapse show" id="info_contacto_1">
+                                            <div class="form-row">
+                                                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <label class="font-weight-bolder ml-0 mb-0">Correo electrónico</label>
+                                                    <div>{{ $paciente->email }}</div>
+                                                </div>
+                                                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <label class="font-weight-bolder ml-0 mb-0">Celular</label>
+                                                    <div>{{ $paciente->telefono_uno }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Cierre: Contacto-->
+                                        <!--(Editar) Contacto-->
+                                        <div class="card-body info_contacto collapse" id="info_contacto_2">
+                                            <form>
+                                                <div class="form-row">
+                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Correo electrónico</label>
                                                         <input type="text" class="form-control form-control-sm" id="Perfil_email" name="Perfil_email" placeholder="Correo Electrónico" value="{{ $paciente->email }}">
                                                     </div>
-                                                    <div class="form-group col-sm-6 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
+                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Celular</label>
                                                         <input type="text" class="form-control form-control-sm" placeholder="Teléfono" id="Perfil_fono" name="Perfil_fono" value="{{ $paciente->telefono_uno }}">
                                                     </div>
                                                 </div>
-                                         
-                                         
-                                                <div class="form-row mb-3">
-                                                    <div class="col-12">
-                                                        <h6 class="titulo-sm mb-4">Residencia</h6>
+                                                <div class="form-row">
+                                                    <div class="col-sm-12 d-flex justify-content-end">
+                                                        <button type="reset" class="btn btn-outline-dark btn-sm mr-2"><i class="feather icon-x"></i> Cancelar</button>
+                                                        <button type="button" onclick="guardar_perfil_paciente();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
                                                     </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!--Cierre: (Editar) Contacto-->
+                                    </div>
+                                    <!--Cierre: Card Contacto-->
+                                    <!--Card Residencia-->
+                                    <div class="card">
+                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-map-pin icono-purple"></i> Residencia</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right" data-toggle="collapse" data-target=".info_residencial" aria-expanded="false" aria-controls="info_residencial_1 info_residencial_2">
+                                                <i class="feather icon-edit"></i>
+                                            </button>
+                                        </div>
+                                        <!--Residencia-->
+                                        <div class="card-body info_residencial collapse show" id="info_residencial_1">
+                                            <div class="form-row">
+                                                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <label class="font-weight-bolder ml-0 mb-0">Región</label>
+                                                    <div>{{ $direccion_txt_region_paciente }}</div>
+                                                </div>
+                                                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <label class="font-weight-bolder ml-0 mb-0">Comuna</label>
+                                                    <div>{{ $direccion_txt_ciudad_paciente }}</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <label class="font-weight-bolder ml-0 mb-0">Dirección</label>
+                                                    <div>
+                                                        @if ($direccion_paciente)
+                                                            {{ $direccion_paciente->direccion }}
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Cierre: Residencia-->
+                                        <!--(Editar) Residencia-->
+                                        <div class="card-body info_residencial collapse" id="info_residencial_2">
+                                            <form>
+                                                <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Dirección</label>
-                                                        <input type="text" class="form-control form-control-sm" placeholder="Dirección" name="perfil_dire" id="perfil_dire" value="{{ optional($direccion_paciente)->direccion }}">
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3">
                                                         <label class="floating-label-activo">Región</label>
                                                         <select class="form-control form-control-sm" onchange="buscar_ciudad();" id="perfil_region" name="perfil_region">
                                                             <option value="">Seleccione</option>
@@ -263,7 +243,7 @@
                                                             @endif
                                                         </select>
                                                     </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3">
+                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Ciudad</label>
                                                         <select class="form-control form-control-sm" id="perfil_ciudad" name="perfil_ciudad">
                                                             <option value="">Seleccione su comuna</option>
@@ -282,23 +262,22 @@
                                                             @endif
                                                         </select>
                                                     </div>
-                                            
-                                                    
-                                                </div>
-                                                <hr>
-                                                <div class="form-row">
-                                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-end">
-                                                        <button type="button" class="btn btn-sm btn-danger mr-2" onclick="location.reload();"><i class="feather icon-x"></i> Cancelar</button>
-                                                        <button type="button" onclick="guardar_perfil_paciente();" class="btn btn-sm btn-info"><i class="feather icon-save"></i> Guardar cambios</button>
+                                                    <div class="form-group col-12">
+                                                        <label class="floating-label-activo">Dirección</label>
+                                                        <input type="text" class="form-control form-control-sm" placeholder="Dirección" name="perfil_dire" id="perfil_dire" value="{{ optional($direccion_paciente)->direccion }}">
                                                     </div>
-                                     
                                                 </div>
-                              
+                                                <div class="form-row">
+                                                    <div class="col-sm-12 d-flex justify-content-end">
+                                                        <button type="reset" class="btn btn-outline-dark btn-sm mr-2"><i class="feather icon-x"></i> Cancelar</button>
+                                                        <button type="button" onclick="guardar_perfil_paciente();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
+                                                    </div>
+                                                </div>
                                             </form>
                                         </div>
-                                        <!--Cierre: (Editar)Datos Personales-->
+                                        <!--Cierre: (Editar) Residencia-->
                                     </div>
-                                    <!--Cierre: Card Datos Personales-->
+                                    <!--Cierre: Card Residencia-->
                                 </div>
                                 {{--<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                     <!--Card Contacto-->
@@ -471,7 +450,7 @@
                                                 <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <!--CARD CONTRASEÑA PERSONAL-->
                                                     <div class="card">
-                                                        <div class="card-header-new d-flex align-items-center justify-content-between">
+                                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
                                                             <h5 class="mb-0"><i class="feather icon-lock icono-purple"></i> Contraseña</h5>
                                                             <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right" data-toggle="collapse" data-target=".pass_personal" aria-expanded="false" aria-controls="pass_personal_1 pass_personal_2">
                                                                 <i class="feather icon-edit"></i>
@@ -490,28 +469,37 @@
                                                         </div>
                                                         <!--CIERRE: CONTRASEÑA PERSONAL-->
                                                         <!--(EDITAR)CONTRASEÑA PERSONAL-->
-                                                        <div class="card-body border-top pass_personal collapse" id="pass_personal_2">
+                                                        <div class="card-body pass_personal collapse" id="pass_personal_2">
                                                             <form onsubmit="event.preventDefault(); cambiar_contrasena_perfil();">
                                                                 @csrf
                                                                 <input type="hidden" name="contrasena_mail" id="contrasena_mail" value="{{ Auth::user()->email }}">
                                                                 <div class="form-row">
                                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                         <label class="floating-label-activo">Contraseña actual</label>
-                                                                        <input type="password" class="form-control form-control-sm" id="contrasena_actual" name="contrasena_actual">
+                                                                        <div class="campo-clave">
+                                                                            <input type="password" class="form-control form-control-sm" id="contrasena_actual" name="contrasena_actual">
+                                                                            <button type="button" class="campo-clave-ver" data-ver-clave="contrasena_actual" aria-label="Mostrar la contraseña" aria-pressed="false"><i class="feather icon-eye-off" aria-hidden="true"></i></button>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                         <label class="floating-label-activo">Nueva contraseña</label>
-                                                                        <input type="password" class="form-control form-control-sm" id="password_registro" name="password_registro">
+                                                                        <div class="campo-clave">
+                                                                            <input type="password" class="form-control form-control-sm" id="password_registro" name="password_registro">
+                                                                            <button type="button" class="campo-clave-ver" data-ver-clave="password_registro" aria-label="Mostrar la contraseña" aria-pressed="false"><i class="feather icon-eye-off" aria-hidden="true"></i></button>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                         <label class="floating-label-activo">Repita nueva contraseña</label>
-                                                                        <input type="password" class="form-control form-control-sm" id="password_confirmacion_registro" name="password_confirmacion_registro">
+                                                                        <div class="campo-clave">
+                                                                            <input type="password" class="form-control form-control-sm" id="password_confirmacion_registro" name="password_confirmacion_registro">
+                                                                            <button type="button" class="campo-clave-ver" data-ver-clave="password_confirmacion_registro" aria-label="Mostrar la contraseña" aria-pressed="false"><i class="feather icon-eye-off" aria-hidden="true"></i></button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-row">
                                                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-end">
-                                                                        <button type="button" class="btn btn-sm btn-danger mr-2" onclick="$('#contrasena_actual, #password_registro, #password_confirmacion_registro').val('');"><i class="feather icon-x"></i> Cancelar</button>
-                                                                        <button type="submit" class="btn btn-sm btn-info"><i class="feather icon-save"></i> Guardar cambios</button>
+                                                                        <button type="button" class="btn btn-outline-dark btn-sm mr-2" onclick="$('#contrasena_actual, #password_registro, #password_confirmacion_registro').val('');"><i class="feather icon-x"></i> Cancelar</button>
+                                                                        <button type="submit" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
                                                                     </div>
                                                                 </div>
                                                             </form>
@@ -855,7 +843,7 @@
 
                     if (data == 'identicos') {
                         swal({
-                            title: "No puede ser registrado el rut del paciente como contacto",
+                            title: "No puede ser registrado el RUT del paciente como contacto",
                             icon: "error",
                             buttons: "Aceptar",
                             dangerMode: true,
@@ -937,13 +925,13 @@
 
 
                         swal({
-                            title: "Rut no encontrado en el sistema, complete registro",
+                            title: "RUT no encontrado en el sistema, complete registro",
                             icon: "warning",
                             buttons: "Aceptar",
                             //SuccessMode: true,
                         })
 
-                        // alert('Rut no encontrado en el sistema, complete registro');
+                        // alert('RUT no encontrado en el sistema, complete registro');
                         $('#form_contacto_nuevo').show();
 
                     }
@@ -2028,87 +2016,4 @@
 
 @section('page-styles')
     <link rel="stylesheet" href="{{ asset('css/perfiles_usuarios.css') }}">
-    <style>
-        .patient-profile-photo {
-            width: 88px;
-            height: 88px;
-            object-fit: cover;
-            aspect-ratio: 1 / 1;
-            border: 4px solid #fff;
-            box-shadow: 0 8px 24px rgba(31, 45, 61, 0.16);
-        }
-
-        .user-profile.user-card {
-            overflow: hidden;
-            border: 0;
-            border-radius: 14px;
-            box-shadow: 0 8px 28px rgba(31, 45, 61, 0.09);
-        }
-
-        .patient-profile-hero {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 22px;
-            padding: 24px 20px 18px;
-            background: linear-gradient(135deg, rgba(24, 187, 187, 0.11), rgba(111, 66, 193, 0.08));
-        }
-
-        .patient-profile-summary h3 {
-            color: #253858;
-            font-size: 1.45rem;
-            font-weight: 700;
-        }
-
-        .patient-profile-summary p {
-            color: #334e68;
-            font-weight: 600;
-        }
-
-        .patient-profile-summary > span:last-child {
-            color: #6b778c;
-            font-size: 0.86rem;
-        }
-
-        .patient-profile-eyebrow {
-            display: inline-block;
-            margin-bottom: 4px;
-            color: #6f42c1;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        #personal > .row > .col-12 > .card {
-            overflow: hidden;
-            border: 0;
-            border-radius: 14px;
-            box-shadow: 0 8px 28px rgba(31, 45, 61, 0.09);
-        }
-
-        #info_basica-1 .form-group {
-            min-height: 66px;
-            padding: 12px 14px;
-            border: 1px solid #edf0f5;
-            border-radius: 10px;
-            background: #fbfcfe;
-        }
-
-        #info_basica-1 .titulo-sm {
-            margin: 8px 0 12px;
-        }
-
-        @media (max-width: 575.98px) {
-            .patient-profile-hero {
-                flex-direction: column;
-                gap: 12px;
-                text-align: center;
-            }
-
-            .patient-profile-summary {
-                text-align: center !important;
-            }
-        }
-    </style>
 @endsection

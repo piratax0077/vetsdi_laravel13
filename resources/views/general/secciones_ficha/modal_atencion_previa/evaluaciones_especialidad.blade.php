@@ -10,9 +10,6 @@
             <div class="modal-body" id="eval_especialidad_contenido">
 
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger-light-c" data-dismiss="modal" onclick="$('#m_eval_espec').modal('hide'); ">Cerrar</button>
-            </div>
         </div>
     </div>
 </div>

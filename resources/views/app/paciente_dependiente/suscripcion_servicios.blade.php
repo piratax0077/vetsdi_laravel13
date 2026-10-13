@@ -742,7 +742,7 @@
         records.slice().reverse().forEach(function (record) {
             html += '<div class="border rounded p-3 mb-3">';
             html += '<div class="font-weight-bold text-dark">' + (SERVICE_LABELS[record.servicio] || record.servicio) + '</div>';
-            html += '<div class="small text-muted mb-2">Estado: ' + (record.estado || 'pendiente') + ' | Fecha registro: ' + (record.created_at || '-') + '</div>';
+            html += '<div class="small text-muted mb-2">Estado: ' + (record.estado || 'pendiente') + ' | Fecha registro: ' + (record.created_at ? String(record.created_at).replace(/(\d{2}:\d{2}):\d{2}(\.\d+)?/, '$1') : '-') + '</div>';
             html += '<div><strong>Lugar:</strong> ' + (record.lugar_nombre || '-') + '</div>';
 
             if (layout === 'subscription' && Array.isArray(record.items)) {
@@ -755,7 +755,7 @@
             }
 
             if (layout === 'booking') {
-                html += '<div class="mt-2"><strong>Fecha:</strong> ' + (record.fecha || '-') + ' <strong>Hora:</strong> ' + (record.hora || '-') + '</div>';
+                html += '<div class="mt-2"><strong>Fecha:</strong> ' + (record.fecha || '-') + ' <strong>Hora:</strong> ' + (record.hora ? String(record.hora).substring(0, 5) : '-') + '</div>';
             }
 
             html += '</div>';

@@ -4785,7 +4785,7 @@ input[type="button"].btn-block {
     display: block;
     padding: 0.5rem 0.2rem;
     color: #ff5252;
-    font-weight: 800;
+    font-weight: 500;
 
 }
 
@@ -5282,17 +5282,25 @@ input[type="button"].btn-block {
     border-radius: 0.25rem;
 }
 
+/* Recuadro de contenido: solo línea, con un borde que se distingue también sobre fondo blanco */
 .card-informacion {
     position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
     background-color: #fff;
     background-clip: border-box;
-    border-radius: 0.30rem;
-    box-shadow: 0px 0px 8px 1px rgb(71 81 130 / 25%), 0px 10px 9px -6px rgb(69 75 135 / 10%) !important;
-    margin:0px 5px 15px 0px;
+    border: 1px solid #c4cdda;
+    border-radius: 0.4rem;
+    -webkit-box-shadow: 0 1px 2px rgba(39, 39, 39, 0.05);
+    box-shadow: 0 1px 2px rgba(39, 39, 39, 0.05);
+    margin: 0px 5px 15px 0px;
 }
 
 .card > hr {
@@ -6491,7 +6499,6 @@ a.badge-dark:focus, a.badge-dark.focus {
 .close:hover {
     color: #fff!important;
     text-decoration: none!important;
-    float: right!important;
     font-size: 2rem!important;
     line-height: 1px!important;
     color: #fff!important;
@@ -20339,7 +20346,7 @@ a{
 .card .card-header h5 {
     margin-bottom: 0;
     font-size: 1.2rem;
-    font-weight: 800;
+    font-weight: 600;
     display: inline-block;
     margin-right: 10px;
     line-height: 1.1;
@@ -20897,12 +20904,12 @@ h4 {
 
 h5 {
     font-size: 1rem;
-    font-weight: 800;
+    font-weight: 600;
 }
 
 h6 {
     font-size: 0.875rem;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 p {
@@ -20996,13 +21003,14 @@ f-w-800 {
 
 .page-header {
     background: transparent;
-    margin-top: -40px;
+    /* Compensa el margen y el relleno superior de .pcoded-content */
+    margin-top: -25px;
     margin-bottom: 30px;
 }
 
 .page-header h5 {
     margin-bottom: 15px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .page-header .page-header-title h4,
@@ -24666,7 +24674,7 @@ pre[class*=language-]:before {
     display: block;
     padding: 22px;
     /* Las vistas con .page-header compensan este margen con su margin-top negativo */
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 .pcoded-main-container {
@@ -33509,6 +33517,225 @@ new-task label input[type=checkbox] {
     background: #fff;
 }
 
+/* Cabecera de "Mi perfil": foto redonda a la izquierda, nombre y rol al lado */
+.perfil-cabecera {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 24px 0 6px;
+}
+
+.perfil-cabecera .change-profile {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-right: 18px;
+}
+
+.perfil-cabecera .change-profile .dropdown-toggle {
+    position: relative;
+    display: block;
+    cursor: pointer;
+}
+
+/* Sin recorte, para que se vea la sombra de la foto */
+.perfil-cabecera .change-profile .profile-dp {
+    overflow: visible;
+}
+
+.user-card .user-about-block .perfil-cabecera-foto {
+    display: block;
+    width: 100px;
+    height: 100px;
+    background: #fff;
+    -o-object-fit: cover;
+    object-fit: cover;
+    box-shadow: 0 0 0 4px #fff, 0 8px 20px rgba(111, 66, 193, .25);
+}
+
+/* Camarita que avisa que la foto se puede cambiar */
+.perfil-cabecera-camara {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    z-index: 2;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    font-size: .85rem;
+    color: #fff;
+    background: #6f42c1;
+    background: var(--purple);
+    -webkit-transition: -webkit-transform .15s ease;
+    transition: transform .15s ease;
+}
+
+.perfil-cabecera .dropdown-toggle:hover .perfil-cabecera-camara {
+    -webkit-transform: scale(1.08);
+    -ms-transform: scale(1.08);
+    transform: scale(1.08);
+}
+
+.perfil-cabecera-datos {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    min-width: 0;
+    text-align: left;
+}
+
+.perfil-cabecera-nombre {
+    max-width: 100%;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #272727;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.perfil-cabecera-rol {
+    margin-top: 8px;
+    padding: 3px 14px;
+    border-radius: 50px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .88rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #6f42c1;
+    color: var(--purple);
+    background: rgba(111, 66, 193, .12);
+}
+
+/* Avance del perfil, al extremo derecho de la cabecera: medio círculo con la cifra adentro */
+.perfil-cabecera-avance {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-left: auto;
+    padding-left: 24px;
+}
+
+.perfil-cabecera-medidor {
+    position: relative;
+    width: 147px;
+}
+
+.perfil-cabecera-medidor svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.perfil-cabecera-medidor-fondo,
+.perfil-cabecera-medidor-avance {
+    fill: none;
+    stroke-width: 7;
+    stroke-linecap: round;
+}
+
+.perfil-cabecera-medidor-fondo {
+    stroke: #ece4f8;
+}
+
+.perfil-cabecera-medidor-avance {
+    stroke: #6f42c1;
+    stroke: var(--purple);
+}
+
+/* El texto y la cifra van dentro del medio círculo, apoyados en su base */
+.perfil-cabecera-medidor-texto {
+    position: absolute;
+    right: 0;
+    bottom: 4px;
+    left: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+}
+
+.perfil-cabecera-medidor-etiqueta {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .66rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #778296;
+}
+
+.perfil-cabecera-medidor-numero {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.47rem;
+    font-weight: 800;
+    line-height: 1.05;
+    color: #272727;
+}
+
+@media only screen and (max-width: 992px) {
+    .user-card .user-about-block .perfil-cabecera-foto {
+        width: 80px;
+        height: 80px;
+    }
+
+    .perfil-cabecera-camara {
+        width: 28px;
+        height: 28px;
+        font-size: .75rem;
+    }
+
+    .perfil-cabecera-nombre {
+        font-size: 1.25rem;
+    }
+}
+
+@media only screen and (max-width: 575.98px) {
+    .perfil-cabecera {
+        padding-top: 18px;
+    }
+
+    .perfil-cabecera .change-profile {
+        margin-right: 12px;
+    }
+
+    .perfil-cabecera-nombre {
+        font-size: 1.08rem;
+    }
+
+    .perfil-cabecera-rol {
+        margin-top: 6px;
+        font-size: .8rem;
+    }
+}
+
 .user-profile .card-body {
     position: relative;
     z-index: 1;
@@ -33543,8 +33770,11 @@ new-task label input[type=checkbox] {
     margin-bottom: -0px;
 }
 
+/* La línea turquesa de la pestaña activa se define aquí para que se vea igual en todos los perfiles */
 .user-profile .profile-tabs .nav-item .nav-link {
     position: relative;
+    background-image: -webkit-linear-gradient(bottom, #1CBEBE 2px, rgba(28, 190, 190, 0) 2px) !important;
+    background-image: linear-gradient(to top, #1CBEBE 2px, rgba(28, 190, 190, 0) 2px) !important;
 }
 
 .user-profile .profile-tabs .nav-item .nav-link:after {
@@ -33565,7 +33795,8 @@ new-task label input[type=checkbox] {
 .user-profile .profile-tabs .nav-item.show .nav-link,
     .user-profile .profile-tabs .nav-link.active {
     border-color: transparent;
-    color: #8A5CB0!important;
+    color: #272727!important;
+    font-weight: 600!important;
 }
 
 .user-profile .profile-tabs .nav-item.show .nav-link:after,
@@ -34552,20 +34783,6 @@ text-align: left;
     margin-right: 5px; 
     margin-left: 5px;
 }
-
-.card-informacion {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border-radius: 0.30rem;
-    box-shadow: 0px 0px 8px 1px rgb(111 111 111 / 25%), 0px 10px 9px -6px rgb(31 31 31 / 10%) !important;
-    margin:0px 5px 15px 0px;
-}
-
 
 /* CARDS DESPLEGABLE */
 .card-a {
@@ -35800,141 +36017,119 @@ margin-bottom: 0px;
 }
 
 
-.nav-secciones {
-    color: #C7C8C9;
-    font-size: 0.67rem!important;
-    background-color: #fff;
-    padding: 3px 6px!important;
-    border-radius: 0.2rem;
-    margin-bottom: 0.5rem!important;
-    margin-top: 0.5rem!important;
-    margin-left: 0rem!important;
-    margin-right:0.100rem!important;
-    line-height: 1.5;
-    border: 1px solid #d6d7db!important;
-    font-weight:600!important;
-    transition: 0.2s!important;
+/* Pestañas de secciones: fichas, modales y configuración.
+   nav-tabs-secciones es la principal; -info y -dos solo cambian el color de la pestaña activa. */
+.nav-tabs-secciones,
+.nav-tabs-secciones-info,
+.nav-tabs-secciones-dos {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    /* las vistas traen mb-3 mt-3 y quedaba demasiado aire */
+    margin: 0.5rem 0 0.45rem !important;
+    padding: 0;
+    border: 0;
+    font-size: 0.72rem;
+    list-style: none;
 }
 
+.nav-item-secciones,
+.nav-item-secciones-info,
+.nav-item-secciones-dos {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    max-width: 100%;
+    margin: 0;
+}
 
-.nav-secciones-info.active{
-    color: #1a93a3;
-    font-size: 0.75rem!important;
+.nav-secciones,
+.nav-secciones-info,
+.nav-secciones-dos {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    max-width: 100%;
+    margin: 0 0.3rem 0.3rem 0;
+    padding: 0.28rem 0.7rem;
+    border: 1px solid #dfe4ec;
+    border-radius: 2rem;
+    background-color: #fff;
+    color: #5f6b7c;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-secciones:hover,
+.nav-secciones-info:hover,
+.nav-secciones-dos:hover {
+    border-color: #cbd2dd;
+    background-color: #f5f6f9;
+    color: #272727;
+    text-decoration: none;
+}
+
+.nav-secciones:focus-visible,
+.nav-secciones-info:focus-visible,
+.nav-secciones-dos:focus-visible {
+    outline: 2px solid #b9a3e6;
+    outline-offset: 1px;
+}
+
+.nav-secciones.active,
+.nav-secciones.active:hover {
+    border-color: #d5c5f1;
+    background-color: #f3eefc;
+    color: var(--purple);
+}
+
+.nav-secciones-info.active,
+.nav-secciones-info.active:hover {
+    border-color: #a9dde8;
     background-color: #ebf9fc;
-    margin-bottom: 0.5rem!important;
-    margin-top: 0.5rem!important;
-    margin-left: 0rem!important;
-    margin-right: 0.100rem!important;
-    border: solid 1px #83cee1 !important;
-    font-weight:600!important;
-    transition: 0.3s!important;
+    color: #14717d;
 }
 
-.nav-secciones-info {
-    color: #C7C8C9;
-    border: solid 1px #dbdbdb!important;
-    font-size: 0.75rem!important;
-    background-color: #fff;
-    padding: 3px 6px!important;
-    border-radius: 0.2rem;
-    margin-bottom: 0.5rem!important;
-    margin-top: 0.5rem!important;
-    margin-left: 0rem!important;
-    margin-right:0.100rem!important;
-    line-height: 1.5;
-    font-weight:600!important;
-    transition: 0.2s!important;
-}
-
-.nav-secciones-info:hover{
-    color: #1a93a3;
-    font-size: 0.75rem!important;
-    background-color: #ebf9fc;
-    margin-bottom: 0.5rem!important;
-    margin-top: 0.5rem!important;
-    margin-left: 0rem!important;
-    margin-right: 0.100rem!important;
-    border: solid 1px #83cee1 !important;
-    font-weight:600!important;
-    transition: 0.2s!important;
-
-}
-
-.nav-tabs-secciones-info {
-    border-bottom: 0px solid #dee2e6!important;
-    font-size: 0.75rem!important;
-    margin-bottom: 0.5rem!important;
-    margin-top: 0.5rem!important;
-    margin-left: 0rem!important;
-    margin-right: 0.100rem!important;
-}
-
-.nav-tabs-secciones-info .nav-item-secciones-info {
-    font-size: 0.75rem!important;
-    margin-bottom: 0.5rem!important;
-    margin-top: 0.5rem!important;
-    margin-left: 0rem!important;
-    margin-right: 0.100rem!important;
-}
-
-.nav-secciones.active{
+.nav-secciones-dos.active,
+.nav-secciones-dos.active:hover {
+    border-color: #b9cbf1;
+    background-color: #edf2fd;
     color: #1a49a3;
-    font-size: 0.75rem!important;
-    background-color: #653a92;
-    margin-bottom: 0.5rem!important;
-    margin-top: 0.5rem!important;
-    margin-left: 0rem!important;
-    margin-right: 0.100rem!important;
-    border: solid 1px #83a7e1!important;
-    font-weight:600!important;
-    transition: 0.3s!important;
 }
 
-.nav-secciones {
-    color: #C7C8C9;
-    border: solid 1px #dbdbdb!important;
-    font-size: 0.75rem!important;
-    background-color: #fff;
-    padding: 3px 6px!important;
-    border-radius: 0.2rem;
-    margin-bottom: 0.5rem!important;
-    margin-top: 0.5rem!important;
-    margin-left: 0rem!important;
-    margin-right:0.100rem!important;
-    line-height: 1.5;
-    font-weight:600!important;
-    transition: 0.2s!important;
+/* la variante -dos reparte el ancho entre sus pestañas */
+.nav-item-secciones-dos,
+.nav-secciones-dos {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
 }
 
-.nav-secciones:hover{
-    color: #1a49a3;
-    font-size: 0.75rem!important;
-    background-color: #d0e0ff;
-    margin-bottom: 0.5rem!important;
-    margin-top: 0.5rem!important;
-    margin-left: 0rem!important;
-    margin-right: 0.100rem!important;
-    border: solid 1px #5f8dd7!important;
-    font-weight:600!important;
-    transition: 0.2s!important;
-
-}
-
-.nav-tabs-secciones {
-    border-bottom: 0px solid #dee2e6!important;
-    font-size: 0.75rem!important;
-    margin-bottom: 0.5rem!important;
-    margin-top: 0.5rem!important;
-    margin-left: 0rem!important;
-    margin-right: 0.100rem!important;
-}
-
-.nav-tabs-secciones .nav-item-secciones {
-    font-size: 0.75rem!important;
-    margin-bottom: 0.5rem!important;
-    margin-top: 0.5rem!important;
-    margin-left: 0rem!important;
-    margin-right: 0.100rem!important;
+/* en el teléfono un poco más de alto para el dedo y el texto largo puede bajar de línea */
+@media (max-width: 575.98px) {
+    .nav-secciones,
+    .nav-secciones-info,
+    .nav-secciones-dos {
+        padding: 0.4rem 0.75rem;
+        white-space: normal;
+    }
 }
 
 
@@ -36373,7 +36568,7 @@ transition: 0.2s!important;
 /*****ICONOS CON FONDO**/
 
 .icono-purple {
-    background-color: #613584;
+    background-color: #6f42c1;
     margin-right: 5px;
     color: #fff;
     padding: 5px;
@@ -36453,10 +36648,131 @@ transition: 0.2s!important;
     font-size: 1.2rem!important;
 }
 
+/* Icono de mensajes del encabezado con su contador de no leídos */
+.mensajes-encabezado {
+    position: relative;
+    display: inline-block;
+}
+
+.mensajes-encabezado-contador {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 18px;
+    padding: 3px 5px;
+    border-radius: 10px;
+    font-size: 10px;
+    line-height: 1;
+}
+
+/* Menú desplegable de mensajes: ancho fijo y sin barra horizontal */
+.pcoded-header .dropdown .mensajes-encabezado-menu {
+    width: 340px;
+    min-width: 0;
+    max-width: calc(100vw - 20px);
+    overflow: hidden;
+}
+
+.pcoded-header .dropdown .mensajes-encabezado-menu .pro-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-lista {
+    max-height: 60vh;
+    padding: 8px 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-lista > li {
+    margin: 0 8px;
+}
+
+.pcoded-header .dropdown .mensajes-encabezado-menu li a.mensajes-encabezado-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    white-space: normal;
+    border-radius: 6px;
+}
+
+/* Avatar con tamaño fijo para que no se estire con la imagen original */
+.mensajes-encabezado-avatar {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #f1ecf9;
+}
+
+.mensajes-encabezado-texto {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.mensajes-encabezado-lista .pro-title {
+    display: block;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.25;
+    color: #272727;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.mensajes-encabezado-lista .pro-date {
+    display: block;
+    margin: 2px 0 0;
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+.mensajes-encabezado-vacio {
+    padding: 12px 16px;
+    color: #6c757d;
+    text-align: center;
+}
+
+.pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-todos {
+    margin-top: 4px;
+    border-top: 1px solid #ececec;
+    border-radius: 0;
+}
+
+.pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-todos a {
+    font-weight: 700;
+    color: #6f42c1;
+}
+
 .btn-outline-header {
     color: #fff;
     background-color: transparent;
     border-color: #fff;
+}
+
+/* Se usa junto a btn-xxs, pero lo dejamos un poco más chico que un btn-xs
+   y con forma de píldora para que se lea bien sobre el encabezado */
+.btn.btn-outline-header {
+    padding: 0.28rem 0.9rem 0.22rem 0.9rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    -webkit-border-radius: 50rem;
+    border-radius: 50rem;
+}
+
+.btn.btn-outline-header i,
+.btn.btn-outline-header .feather {
+    font-size: 0.95rem;
 }
 
 .btn-outline-header:hover {
@@ -37538,6 +37854,20 @@ table thead th,
     background: #fff;
 }
 
+/* Las celdas con color de estado (agenda del escritorio, exámenes, radiología)
+   mantienen su fondo; sin esto el transparente general de las celdas lo tapa. */
+.table:not(.table-dark) tbody td.bg-estado-light-verde {
+    background-color: #94c55ee3;
+}
+
+.table:not(.table-dark) tbody td.bg-estado-light-amarillo {
+    background-color: #feaa32e6;
+}
+
+.table:not(.table-dark) tbody td.bg-estado-light-rojo {
+    background-color: #ff3d3dba;
+}
+
 /* ==========================================================================
    Pestañas generales (.nav-general)
    Mismo diseño que las pestañas de la ficha veterinaria única,
@@ -38008,19 +38338,29 @@ table thead th,
 }
 
 /* ==========================================================================
-   Modal "Agendar Hora Veterinaria" (Mis Veterinarios): reserva por pasos
+   Modal "Agendar Hora Veterinaria" (Mis Veterinarios): reserva por pasos.
+   "Agendar próximo control" de la ficha usa los mismos pasos y estilos.
+   La vista "Reservar hora veterinaria" (#vista_reserva_veterinaria) también,
+   pero dentro de la página en vez de un modal.
    ========================================================================== */
-#modal_reserva_veterinaria {
+#modal_reserva_veterinaria,
+#modal_agendar_proximo_control,
+#vista_reserva_veterinaria {
     font-size: 16px;
 }
 
 #modal_reserva_veterinaria .small,
-#modal_reserva_veterinaria small {
+#modal_agendar_proximo_control .small,
+#vista_reserva_veterinaria .small,
+#modal_reserva_veterinaria small,
+#modal_agendar_proximo_control small,
+#vista_reserva_veterinaria small {
     font-size: 14px !important;
     line-height: 1.4;
 }
 
-#modal_reserva_veterinaria .modal-body {
+#modal_reserva_veterinaria .modal-body,
+#modal_agendar_proximo_control .modal-body {
     padding: 20px 24px 24px;
     background: #fcfcfe;
 }
@@ -38330,7 +38670,9 @@ table thead th,
     display: none;
 }
 
-#modal_reserva_veterinaria .reserva-vet-lugar {
+#modal_reserva_veterinaria .reserva-vet-lugar,
+#modal_agendar_proximo_control .reserva-vet-lugar,
+#vista_reserva_veterinaria .reserva-vet-lugar {
     position: relative;
     display: block;
     min-width: 0;
@@ -38371,14 +38713,16 @@ table thead th,
     box-shadow: 0 4px 12px rgba(111, 66, 193, .08);
 }
 
-.reserva-vet-lugar-radio:checked + .reserva-vet-lugar-caja {
+.reserva-vet-lugar-radio:checked + .reserva-vet-lugar-caja,
+.reserva-vet-lugar-caja.active {
     border-color: var(--purple);
     background: #faf7ff;
     -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
     box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
 }
 
-.reserva-vet-lugar-radio:focus-visible + .reserva-vet-lugar-caja {
+.reserva-vet-lugar-radio:focus-visible + .reserva-vet-lugar-caja,
+button.reserva-vet-lugar-caja:focus-visible {
     -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .35);
     box-shadow: 0 0 0 3px rgba(111, 66, 193, .35);
 }
@@ -38406,7 +38750,8 @@ table thead th,
     transition: background-color .15s ease, color .15s ease;
 }
 
-.reserva-vet-lugar-radio:checked + .reserva-vet-lugar-caja .reserva-vet-lugar-icono {
+.reserva-vet-lugar-radio:checked + .reserva-vet-lugar-caja .reserva-vet-lugar-icono,
+.reserva-vet-lugar-caja.active .reserva-vet-lugar-icono {
     background: var(--purple);
     color: #fff;
 }
@@ -38462,7 +38807,8 @@ table thead th,
     transition: background-color .15s ease, border-color .15s ease, color .15s ease;
 }
 
-.reserva-vet-lugar-radio:checked + .reserva-vet-lugar-caja .reserva-vet-lugar-marca {
+.reserva-vet-lugar-radio:checked + .reserva-vet-lugar-caja .reserva-vet-lugar-marca,
+.reserva-vet-lugar-caja.active .reserva-vet-lugar-marca {
     border-color: var(--purple);
     background: var(--purple);
     color: #fff;
@@ -38662,7 +39008,9 @@ table thead th,
     justify-content: center;
 }
 
-#modal_reserva_veterinaria .flatpickr-calendar.inline {
+#modal_reserva_veterinaria .flatpickr-calendar.inline,
+#modal_agendar_proximo_control .flatpickr-calendar.inline,
+#vista_reserva_veterinaria .flatpickr-calendar.inline {
     width: 100%;
     max-width: 380px;
     margin: 0 auto;
@@ -38676,11 +39024,17 @@ table thead th,
 }
 
 #modal_reserva_veterinaria .flatpickr-rContainer,
-#modal_reserva_veterinaria .flatpickr-days {
+#modal_agendar_proximo_control .flatpickr-rContainer,
+#vista_reserva_veterinaria .flatpickr-rContainer,
+#modal_reserva_veterinaria .flatpickr-days,
+#modal_agendar_proximo_control .flatpickr-days,
+#vista_reserva_veterinaria .flatpickr-days {
     width: 100%;
 }
 
-#modal_reserva_veterinaria .dayContainer {
+#modal_reserva_veterinaria .dayContainer,
+#modal_agendar_proximo_control .dayContainer,
+#vista_reserva_veterinaria .dayContainer {
     width: 100%;
     min-width: 0;
     max-width: none;
@@ -38689,7 +39043,9 @@ table thead th,
 }
 
 /* El borde transparente con background-clip deja un espacio entre días, como baldosas */
-#modal_reserva_veterinaria .flatpickr-day {
+#modal_reserva_veterinaria .flatpickr-day,
+#modal_agendar_proximo_control .flatpickr-day,
+#vista_reserva_veterinaria .flatpickr-day {
     max-width: none;
     height: 44px;
     border: 3px solid transparent;
@@ -38701,39 +39057,63 @@ table thead th,
 }
 
 #modal_reserva_veterinaria .flatpickr-weekday,
+#modal_agendar_proximo_control .flatpickr-weekday,
+#vista_reserva_veterinaria .flatpickr-weekday,
 #modal_reserva_veterinaria .flatpickr-current-month input.cur-year,
-#modal_reserva_veterinaria .flatpickr-current-month .flatpickr-monthDropdown-months {
+#modal_agendar_proximo_control .flatpickr-current-month input.cur-year,
+#vista_reserva_veterinaria .flatpickr-current-month input.cur-year,
+#modal_reserva_veterinaria .flatpickr-current-month .flatpickr-monthDropdown-months,
+#modal_agendar_proximo_control .flatpickr-current-month .flatpickr-monthDropdown-months,
+#vista_reserva_veterinaria .flatpickr-current-month .flatpickr-monthDropdown-months {
     font-size: 15px;
 }
 
-#modal_reserva_veterinaria .flatpickr-weekday {
+#modal_reserva_veterinaria .flatpickr-weekday,
+#modal_agendar_proximo_control .flatpickr-weekday,
+#vista_reserva_veterinaria .flatpickr-weekday {
     color: #9aa2b4;
     font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
 }
 
-#modal_reserva_veterinaria .flatpickr-current-month {
+#modal_reserva_veterinaria .flatpickr-current-month,
+#modal_agendar_proximo_control .flatpickr-current-month,
+#vista_reserva_veterinaria .flatpickr-current-month {
     font-weight: 800;
 }
 
 #modal_reserva_veterinaria .flatpickr-months .flatpickr-prev-month,
-#modal_reserva_veterinaria .flatpickr-months .flatpickr-next-month {
+#modal_agendar_proximo_control .flatpickr-months .flatpickr-prev-month,
+#vista_reserva_veterinaria .flatpickr-months .flatpickr-prev-month,
+#modal_reserva_veterinaria .flatpickr-months .flatpickr-next-month,
+#modal_agendar_proximo_control .flatpickr-months .flatpickr-next-month,
+#vista_reserva_veterinaria .flatpickr-months .flatpickr-next-month {
     border-radius: 10px;
 }
 
 #modal_reserva_veterinaria .flatpickr-months .flatpickr-prev-month:hover,
-#modal_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover {
+#modal_agendar_proximo_control .flatpickr-months .flatpickr-prev-month:hover,
+#vista_reserva_veterinaria .flatpickr-months .flatpickr-prev-month:hover,
+#modal_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover,
+#modal_agendar_proximo_control .flatpickr-months .flatpickr-next-month:hover,
+#vista_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover {
     background: #f4effe;
 }
 
 #modal_reserva_veterinaria .flatpickr-months .flatpickr-prev-month:hover svg,
-#modal_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover svg {
+#modal_agendar_proximo_control .flatpickr-months .flatpickr-prev-month:hover svg,
+#vista_reserva_veterinaria .flatpickr-months .flatpickr-prev-month:hover svg,
+#modal_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover svg,
+#modal_agendar_proximo_control .flatpickr-months .flatpickr-next-month:hover svg,
+#vista_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover svg {
     fill: var(--purple);
 }
 
 /* Días con atención: se pintan para que se vean de un vistazo */
-#modal_reserva_veterinaria .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):not(.selected) {
+#modal_reserva_veterinaria .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):not(.selected),
+#modal_agendar_proximo_control .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):not(.selected),
+#vista_reserva_veterinaria .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):not(.selected) {
     background-color: #f4effe;
     color: var(--purple);
     font-weight: 700;
@@ -38741,25 +39121,37 @@ table thead th,
 
 /* Días del mes siguiente que igual tienen atención: más suaves, pero no grises */
 #modal_reserva_veterinaria .flatpickr-day.prevMonthDay:not(.flatpickr-disabled):not(.selected),
-#modal_reserva_veterinaria .flatpickr-day.nextMonthDay:not(.flatpickr-disabled):not(.selected) {
+#modal_agendar_proximo_control .flatpickr-day.prevMonthDay:not(.flatpickr-disabled):not(.selected),
+#vista_reserva_veterinaria .flatpickr-day.prevMonthDay:not(.flatpickr-disabled):not(.selected),
+#modal_reserva_veterinaria .flatpickr-day.nextMonthDay:not(.flatpickr-disabled):not(.selected),
+#modal_agendar_proximo_control .flatpickr-day.nextMonthDay:not(.flatpickr-disabled):not(.selected),
+#vista_reserva_veterinaria .flatpickr-day.nextMonthDay:not(.flatpickr-disabled):not(.selected) {
     background-color: #faf8ff;
     color: rgba(111, 66, 193, .55);
     font-weight: 700;
 }
 
 #modal_reserva_veterinaria .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):hover,
-#modal_reserva_veterinaria .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):focus {
+#modal_agendar_proximo_control .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):hover,
+#vista_reserva_veterinaria .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):hover,
+#modal_reserva_veterinaria .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):focus,
+#modal_agendar_proximo_control .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):focus,
+#vista_reserva_veterinaria .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):focus {
     border-color: transparent;
     background-color: #e6dcfb;
     color: var(--purple);
 }
 
 /* Hoy se marca con un punto bajo el número */
-#modal_reserva_veterinaria .flatpickr-day.today {
+#modal_reserva_veterinaria .flatpickr-day.today,
+#modal_agendar_proximo_control .flatpickr-day.today,
+#vista_reserva_veterinaria .flatpickr-day.today {
     border-color: transparent;
 }
 
-#modal_reserva_veterinaria .flatpickr-day.today::after {
+#modal_reserva_veterinaria .flatpickr-day.today::after,
+#modal_agendar_proximo_control .flatpickr-day.today::after,
+#vista_reserva_veterinaria .flatpickr-day.today::after {
     content: "";
     position: absolute;
     bottom: 4px;
@@ -38772,8 +39164,14 @@ table thead th,
 }
 
 #modal_reserva_veterinaria .flatpickr-day.selected,
+#modal_agendar_proximo_control .flatpickr-day.selected,
+#vista_reserva_veterinaria .flatpickr-day.selected,
 #modal_reserva_veterinaria .flatpickr-day.selected:hover,
-#modal_reserva_veterinaria .flatpickr-day.selected:focus {
+#modal_agendar_proximo_control .flatpickr-day.selected:hover,
+#vista_reserva_veterinaria .flatpickr-day.selected:hover,
+#modal_reserva_veterinaria .flatpickr-day.selected:focus,
+#modal_agendar_proximo_control .flatpickr-day.selected:focus,
+#vista_reserva_veterinaria .flatpickr-day.selected:focus {
     border-color: transparent;
     background-color: var(--purple);
     color: #fff;
@@ -38781,12 +39179,18 @@ table thead th,
     box-shadow: none;
 }
 
-#modal_reserva_veterinaria .flatpickr-day.selected.today::after {
+#modal_reserva_veterinaria .flatpickr-day.selected.today::after,
+#modal_agendar_proximo_control .flatpickr-day.selected.today::after,
+#vista_reserva_veterinaria .flatpickr-day.selected.today::after {
     background: #fff;
 }
 
 #modal_reserva_veterinaria .flatpickr-day.flatpickr-disabled,
-#modal_reserva_veterinaria .flatpickr-day.flatpickr-disabled:hover {
+#modal_agendar_proximo_control .flatpickr-day.flatpickr-disabled,
+#vista_reserva_veterinaria .flatpickr-day.flatpickr-disabled,
+#modal_reserva_veterinaria .flatpickr-day.flatpickr-disabled:hover,
+#modal_agendar_proximo_control .flatpickr-day.flatpickr-disabled:hover,
+#vista_reserva_veterinaria .flatpickr-day.flatpickr-disabled:hover {
     border-color: transparent;
     background: transparent;
     color: rgba(57, 57, 57, .25);
@@ -38960,7 +39364,9 @@ table thead th,
     padding-bottom: 8px;
 }
 
-#modal_reserva_veterinaria .reserva-vet-hora {
+#modal_reserva_veterinaria .reserva-vet-hora,
+#modal_agendar_proximo_control .reserva-vet-hora,
+#vista_reserva_veterinaria .reserva-vet-hora {
     min-height: 42px;
     padding: 0 6px;
     border: 1.5px solid #e3d8fb;
@@ -38975,23 +39381,31 @@ table thead th,
     transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease, transform .15s ease;
 }
 
-#modal_reserva_veterinaria .reserva-vet-hora:hover {
+#modal_reserva_veterinaria .reserva-vet-hora:hover,
+#modal_agendar_proximo_control .reserva-vet-hora:hover,
+#vista_reserva_veterinaria .reserva-vet-hora:hover {
     border-color: var(--purple);
     background: #f4effe;
     -webkit-transform: translateY(-1px);
     transform: translateY(-1px);
 }
 
-#modal_reserva_veterinaria .reserva-vet-hora:focus {
+#modal_reserva_veterinaria .reserva-vet-hora:focus,
+#modal_agendar_proximo_control .reserva-vet-hora:focus,
+#vista_reserva_veterinaria .reserva-vet-hora:focus {
     outline: none;
 }
 
-#modal_reserva_veterinaria .reserva-vet-hora:focus-visible {
+#modal_reserva_veterinaria .reserva-vet-hora:focus-visible,
+#modal_agendar_proximo_control .reserva-vet-hora:focus-visible,
+#vista_reserva_veterinaria .reserva-vet-hora:focus-visible {
     -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .3);
     box-shadow: 0 0 0 3px rgba(111, 66, 193, .3);
 }
 
-#modal_reserva_veterinaria .reserva-vet-hora.active {
+#modal_reserva_veterinaria .reserva-vet-hora.active,
+#modal_agendar_proximo_control .reserva-vet-hora.active,
+#vista_reserva_veterinaria .reserva-vet-hora.active {
     border-color: var(--purple);
     background: var(--purple);
     color: #fff;
@@ -39188,6 +39602,7 @@ table thead th,
 
 /* Pie: volver a la izquierda, avanzar a la derecha */
 #modal_reserva_veterinaria .reserva-vet-acciones,
+#modal_agendar_proximo_control .reserva-vet-acciones,
 #modal_traspasar_mascota .traspaso-acciones {
     padding: 12px 16px;
 }
@@ -39232,7 +39647,8 @@ table thead th,
         font-size: 12px;
     }
 
-    #modal_reserva_veterinaria .modal-body {
+    #modal_reserva_veterinaria .modal-body,
+    #modal_agendar_proximo_control .modal-body {
         padding: 16px;
     }
 
@@ -39247,7 +39663,9 @@ table thead th,
         justify-self: start;
     }
 
-    #modal_reserva_veterinaria .flatpickr-day {
+    #modal_reserva_veterinaria .flatpickr-day,
+    #modal_agendar_proximo_control .flatpickr-day,
+    #vista_reserva_veterinaria .flatpickr-day {
         height: 42px;
         line-height: 36px;
     }
@@ -39275,7 +39693,8 @@ table thead th,
 }
 
 @media (max-width: 420px) {
-    #modal_reserva_veterinaria .modal-body {
+    #modal_reserva_veterinaria .modal-body,
+    #modal_agendar_proximo_control .modal-body {
         padding: 16px 12px;
     }
 
@@ -39292,11 +39711,15 @@ table thead th,
         padding: 12px;
     }
 
-    #modal_reserva_veterinaria .flatpickr-calendar.inline {
+    #modal_reserva_veterinaria .flatpickr-calendar.inline,
+    #modal_agendar_proximo_control .flatpickr-calendar.inline,
+    #vista_reserva_veterinaria .flatpickr-calendar.inline {
         padding: 4px 4px 6px;
     }
 
-    #modal_reserva_veterinaria .flatpickr-day {
+    #modal_reserva_veterinaria .flatpickr-day,
+    #modal_agendar_proximo_control .flatpickr-day,
+    #vista_reserva_veterinaria .flatpickr-day {
         height: 40px;
         border-width: 2px;
         border-radius: 10px;
@@ -39336,14 +39759,157 @@ table thead th,
     .reserva-vet-lugar-caja,
     .reserva-vet-lugar-icono,
     .reserva-vet-lugar-marca,
-    #modal_reserva_veterinaria .reserva-vet-hora {
+    #modal_reserva_veterinaria .reserva-vet-hora,
+    #modal_agendar_proximo_control .reserva-vet-hora,
+    #vista_reserva_veterinaria .reserva-vet-hora {
         -webkit-transition: none;
         transition: none;
     }
 
-    #modal_reserva_veterinaria .reserva-vet-hora:hover {
+    #modal_reserva_veterinaria .reserva-vet-hora:hover,
+    #modal_agendar_proximo_control .reserva-vet-hora:hover,
+    #vista_reserva_veterinaria .reserva-vet-hora:hover {
         -webkit-transform: none;
         transform: none;
+    }
+}
+
+/* --- Vista "Reservar hora veterinaria": los mismos pasos dentro de la página --- */
+
+/* Al cambiar de paso se vuelve al comienzo de la tarjeta, con un poco de aire arriba */
+#vista_reserva_veterinaria {
+    scroll-margin-top: 16px;
+}
+
+/* En pantallas anchas el contenido no se estira de lado a lado */
+#vista_reserva_veterinaria > .card-body {
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* Formas de búsqueda: son pestañas (botones) con el aspecto de las tarjetas de lugar */
+button.reserva-vet-lugar-caja {
+    width: 100%;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+button.reserva-vet-lugar-caja:focus {
+    outline: none;
+}
+
+/* Botones de cada paso: en el modal los ordena el pie, acá la misma fila */
+#vista_reserva_veterinaria .reserva-vet-acciones {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid #f0f1f5;
+}
+
+/* Resultados de la búsqueda: una tarjeta por veterinario */
+.reserva-vet-veterinarios {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+}
+
+/* Arriba foto y nombre; la próxima hora y los botones bajan a su propia línea */
+.reserva-vet-veterinario {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.reserva-vet-veterinario .reserva-vet-profesional-icono {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-right: 12px;
+}
+
+.reserva-vet-veterinario-proxima,
+#vista_reserva_veterinaria .reserva-vet-veterinario .reserva-vet-acciones {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 12px;
+}
+
+.reserva-vet-veterinario-proxima .feather {
+    margin-right: 4px;
+}
+
+#vista_reserva_veterinaria .reserva-vet-veterinario .reserva-vet-acciones {
+    padding-top: 12px;
+}
+
+.reserva-vet-veterinario .reserva-vet-acciones > .btn {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 0%;
+    flex: 1 1 0%;
+}
+
+.reserva-vet-veterinario .reserva-vet-acciones > .btn + .btn {
+    margin-left: 8px;
+}
+
+/* Los avisos de "sin resultados" y "sin horas" ocupan todo el ancho de su grilla */
+.reserva-vet-veterinarios > .reserva-vet-horas-vacio,
+.reserva-vet-horas-grilla > .reserva-vet-horas-vacio {
+    grid-column: 1 / -1;
+}
+
+/* Calendario: mientras la fecha está deshabilitada (sin lugar o sin días) va el aviso en su lugar */
+.reserva-vet-calendario > input:disabled ~ .flatpickr-calendar,
+.reserva-vet-calendario > input:not(:disabled) ~ .reserva-vet-horas-vacio {
+    display: none;
+}
+
+.reserva-vet-calendario > .reserva-vet-horas-vacio {
+    width: 100%;
+    min-height: 260px;
+    border: 1.5px dashed #e0e3eb;
+    border-radius: 14px;
+}
+
+/* La grilla de horas vacía deja ver el aviso que viene después de ella */
+.reserva-vet-horas-grilla:empty,
+.reserva-vet-horas-grilla:not(:empty) + .reserva-vet-horas-vacio {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .reserva-vet-veterinarios {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 575.98px) {
+    #vista_reserva_veterinaria > .card-body {
+        padding: 16px;
+    }
+
+    /* Un "Anterior" solo en la fila ocupa todo el ancho */
+    .reserva-vet-acciones > .reserva-vet-volver:only-child {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 420px) {
+    #vista_reserva_veterinaria > .card-body {
+        padding: 16px 12px;
     }
 }
 
@@ -40265,30 +40831,31 @@ input.fecha-moderna[readonly] {
     box-shadow: 0 18px 40px rgba(38, 30, 70, .18);
 }
 
+/* Al máximo para que también abra sobre los paneles laterales (.bs-canvas), no solo sobre los modales */
 .flatpickr-calendar.calendario-moderno.open {
-    z-index: 2100;
+    z-index: 2147483647;
 }
 
 .flatpickr-calendar.calendario-moderno.arrowTop::before,
 .flatpickr-calendar.calendario-moderno.arrowTop::after {
-    border-bottom-color: #6f42c1;
+    border-bottom-color: #f3eefc;
 }
 
 .flatpickr-calendar.calendario-moderno.arrowBottom::after {
     border-top-color: #fff;
 }
 
-/* Encabezado morado con mes y año */
+/* Encabezado morado claro con mes y año */
 .flatpickr-calendar.calendario-moderno .flatpickr-months {
     padding: 6px 4px;
-    background: #6f42c1;
+    background: #f3eefc;
     border-radius: 15px 15px 0 0;
 }
 
 .flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-month {
     height: 38px;
-    color: #fff;
-    fill: #fff;
+    color: #6f42c1;
+    fill: #6f42c1;
 }
 
 .flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-prev-month,
@@ -40296,19 +40863,19 @@ input.fecha-moderna[readonly] {
     top: 6px;
     height: 38px;
     padding: 11px 12px;
-    color: #fff;
-    fill: #fff;
+    color: #6f42c1;
+    fill: #6f42c1;
     border-radius: 10px;
 }
 
 .flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-prev-month:hover,
 .flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-next-month:hover {
-    background: rgba(255, 255, 255, .15);
+    background: rgba(111, 66, 193, .12);
 }
 
 .flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-prev-month:hover svg,
 .flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-next-month:hover svg {
-    fill: #fff;
+    fill: #6f42c1;
 }
 
 .flatpickr-calendar.calendario-moderno .flatpickr-months .flatpickr-prev-month.flatpickr-disabled,
@@ -40320,20 +40887,20 @@ input.fecha-moderna[readonly] {
     padding-top: 8px;
     font-size: 16px;
     font-weight: 800;
-    color: #fff;
+    color: #6f42c1;
 }
 
 .flatpickr-calendar.calendario-moderno .flatpickr-current-month .flatpickr-monthDropdown-months,
 .flatpickr-calendar.calendario-moderno .flatpickr-current-month input.cur-year {
     font-family: inherit;
     font-weight: 800;
-    color: #fff;
+    color: #6f42c1;
     border-radius: 8px;
 }
 
 .flatpickr-calendar.calendario-moderno .flatpickr-current-month .flatpickr-monthDropdown-months:hover,
 .flatpickr-calendar.calendario-moderno .flatpickr-current-month .numInputWrapper:hover {
-    background: rgba(255, 255, 255, .15);
+    background: rgba(111, 66, 193, .12);
 }
 
 /* Las opciones del desplegable de meses se ven sobre fondo blanco */
@@ -40343,11 +40910,11 @@ input.fecha-moderna[readonly] {
 }
 
 .flatpickr-calendar.calendario-moderno .numInputWrapper span.arrowUp::after {
-    border-bottom-color: #fff;
+    border-bottom-color: #6f42c1;
 }
 
 .flatpickr-calendar.calendario-moderno .numInputWrapper span.arrowDown::after {
-    border-top-color: #fff;
+    border-top-color: #6f42c1;
 }
 
 /* Días de la semana */
@@ -41516,6 +42083,63 @@ tbody tr.codigo th::first-letter {
     overflow-wrap: break-word;
 }
 
+/* Las etiquetas largas (última desparasitación) bajan a dos líneas y dejan
+   espacio para que la fecha no se parta */
+.ficha-resumen-dato dt {
+    max-width: 50%;
+}
+
+.ficha-resumen-valor {
+    white-space: nowrap;
+}
+
+/* Aclaración bajo el dato: producto de la desparasitación o fecha del refuerzo.
+   Si no cabe se corta con puntos suspensivos */
+.ficha-resumen-detalle {
+    display: block;
+    margin-top: 1px;
+    overflow: hidden;
+    font-size: .68rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #7c7f8a;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ficha-resumen-detalle:empty {
+    display: none;
+}
+
+/* Estado del esquema de vacunas */
+.ficha-resumen-estado {
+    display: inline-block;
+    padding: 1px 9px;
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 700;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.ficha-resumen-estado-al-dia {
+    background: #e6f6ee;
+    color: #1b7a4b;
+}
+
+.ficha-resumen-estado-atrasada {
+    background: #fdeaec;
+    color: #b4323f;
+}
+
+/* Sin vacunas anotadas se muestra como un dato más, sin etiqueta de color */
+.ficha-resumen-estado-sin-registro {
+    padding: 0;
+    background: transparent;
+    font-size: .82rem;
+    color: #272727;
+}
+
 .ficha-resumen-seccion {
     margin: 12px 0 8px;
     padding-top: 12px;
@@ -42290,4 +42914,2279 @@ tbody tr.codigo th::first-letter {
 .campo-clave .form-control::-ms-reveal,
 .campo-clave .form-control::-ms-clear {
     display: none;
+}
+
+/* Pie de la cita: "Atender" siempre queda al extremo derecho y el resto a su izquierda */
+#consulta .modal-footer {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+
+#consulta .modal-footer > .pie-cita-atender {
+    -webkit-box-ordinal-group: 100;
+    -ms-flex-order: 99;
+    order: 99;
+}
+
+/* Mientras se edita al tutor, el pie se oculta: lo reemplazan los botones de
+   la edición. Vuelve solo al cancelar o guardar. */
+#consulta .modal-content.reserva-hora-modal-editando > .modal-footer {
+    display: none !important;
+}
+
+#consulta .reserva-hora-acciones {
+    margin-left: -8px;
+    margin-right: -8px;
+    padding: 14px 8px 4px;
+}
+
+#consulta .reserva-hora-acciones .btn {
+    padding: .55rem 1.1rem;
+    font-size: .95rem;
+}
+
+
+/*****MODAL CONFIGURAR ASISTENTES (LUGARES DE ATENCIÓN)**/
+
+#editar_asistentes .modal-body {
+    padding: 22px 26px 4px;
+}
+
+.asistentes-bloque {
+    margin-bottom: 22px;
+}
+
+/* El listado se separa del resto con una línea suave */
+.asistentes-bloque-listado {
+    padding-top: 20px;
+    border-top: 1px solid #eeeaf6;
+}
+
+.asistentes-titulo {
+    display: block;
+    margin: 0 0 2px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.02rem;
+    font-weight: 800;
+    color: #272727;
+}
+
+.asistentes-ayuda {
+    margin: 0 0 12px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .85rem;
+    line-height: 1.4;
+    color: #6c757d;
+}
+
+/* Buscador por RUT: lupa dentro del campo y botón pegado, de la misma altura */
+.asistentes-buscador {
+    max-width: 460px;
+}
+
+.asistentes-buscador .input-group {
+    position: relative;
+}
+
+.asistentes-buscador-icono {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    z-index: 4;
+    margin-top: -8px;
+    font-size: 16px;
+    line-height: 1;
+    color: #9a8fb5;
+    pointer-events: none;
+}
+
+/* El selector va reforzado porque la lupa deja al campo como segundo hijo y
+   Bootstrap le quitaría el redondeo del lado izquierdo */
+#editar_asistentes .asistentes-buscador .input-group > .form-control {
+    height: 44px;
+    padding-left: 40px;
+    border: 1px solid #d9d3e8;
+    border-right: 0;
+    border-radius: 8px 0 0 8px;
+    font-size: .95rem;
+    color: #272727;
+    background-color: #fff;
+}
+
+#editar_asistentes .asistentes-buscador .input-group > .form-control:focus {
+    border-color: #6f42c1;
+    -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
+}
+
+.asistentes-buscador .form-control::-webkit-input-placeholder {
+    text-transform: none;
+    color: #a9a9a9;
+}
+
+.asistentes-buscador .form-control::-moz-placeholder {
+    text-transform: none;
+    color: #a9a9a9;
+    opacity: 1;
+}
+
+.asistentes-buscador .form-control:-ms-input-placeholder {
+    text-transform: none;
+    color: #a9a9a9;
+}
+
+.asistentes-buscador .form-control::placeholder {
+    text-transform: none;
+    color: #a9a9a9;
+}
+
+.asistentes-buscador .btn {
+    height: 44px;
+    margin: 0;
+    padding: 0 24px;
+    font-family: 'Nunito', sans-serif;
+    font-size: .95rem;
+    font-weight: 700;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Ficha con los datos de la persona encontrada */
+.asistentes-ficha {
+    margin-bottom: 22px;
+    border: 1px solid #e4dff1;
+    border-radius: 10px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 4px 14px rgba(72, 44, 130, .08);
+    box-shadow: 0 4px 14px rgba(72, 44, 130, .08);
+    overflow: hidden;
+}
+
+.asistentes-ficha-persona {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 16px 18px 12px;
+}
+
+.asistentes-ficha-avatar {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    margin-right: 14px;
+    border-radius: 50%;
+    font-size: 22px;
+    color: #6f42c1;
+    background-color: #efe9fa;
+    overflow: hidden;
+}
+
+/* La foto llena el círculo sin deformarse */
+.asistentes-ficha-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.asistentes-ficha-identidad {
+    min-width: 0;
+}
+
+.asistentes-ficha-nombre {
+    display: block;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #272727;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.asistentes-ficha-rut {
+    display: block;
+    margin-top: 2px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .85rem;
+    color: #6c757d;
+}
+
+.asistentes-ficha-datos {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 0 18px 8px;
+}
+
+.asistentes-dato {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+    min-width: 0;
+    padding: 8px 12px 8px 0;
+}
+
+.asistentes-dato > i {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+    font-size: 14px;
+    line-height: 30px;
+    text-align: center;
+    color: #1c9693;
+    background-color: #e3f6f6;
+}
+
+.asistentes-dato > div {
+    min-width: 0;
+}
+
+.asistentes-dato-nombre {
+    display: block;
+    font-family: 'Nunito', sans-serif;
+    font-size: .76rem;
+    font-weight: 700;
+    color: #272727;
+}
+
+.asistentes-dato-valor {
+    display: block;
+    min-height: 1.3em;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .92rem;
+    color: #4a4a4a;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Acciones de la ficha: limpiar a la izquierda, confirmar a la derecha */
+.asistentes-ficha-acciones {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    padding: 12px 14px 6px;
+    border-top: 1px solid #eeeaf6;
+    background-color: #faf9fd;
+}
+
+.asistentes-ficha-acciones .btn {
+    margin: 0 4px 6px;
+    padding: .5rem 1rem;
+    border-width: 1px;
+    border-radius: 8px;
+    font-size: .84rem;
+    line-height: 1.3;
+    white-space: normal;
+    -webkit-transition: background-color .15s, color .15s, border-color .15s;
+    transition: background-color .15s, color .15s, border-color .15s;
+}
+
+.asistentes-ficha-acciones .asistentes-accion-limpiar {
+    margin-right: auto;
+    border-color: transparent;
+    color: #c0392b;
+    background-color: transparent;
+}
+
+.asistentes-ficha-acciones .asistentes-accion-limpiar:hover,
+.asistentes-ficha-acciones .asistentes-accion-limpiar:focus {
+    border-color: #f5c6cb;
+    color: #c0392b;
+    background-color: #fdecea;
+}
+
+.asistentes-ficha-acciones .asistentes-accion-examen {
+    border-color: #31bebe;
+    color: #178f8f;
+    background-color: #fff;
+}
+
+.asistentes-ficha-acciones .asistentes-accion-examen:hover,
+.asistentes-ficha-acciones .asistentes-accion-examen:focus {
+    border-color: #31bebe;
+    color: #178f8f;
+    background-color: #e3f6f6;
+}
+
+.asistentes-ficha-acciones .asistentes-accion-confirmar {
+    border-color: #31bebe;
+    color: #fff;
+    background-color: #31bebe;
+}
+
+.asistentes-ficha-acciones .asistentes-accion-confirmar:hover,
+.asistentes-ficha-acciones .asistentes-accion-confirmar:focus {
+    border-color: #27a5a5;
+    color: #fff;
+    background-color: #27a5a5;
+}
+
+/* Listado de asistentes ya asociados */
+.asistentes-tabla {
+    border: 1px solid #e4dff1;
+    border-radius: 10px;
+}
+
+.asistentes-tabla .table {
+    margin-bottom: 0;
+}
+
+.asistentes-tabla .table thead tr {
+    background-color: #f6f4fb;
+}
+
+.asistentes-tabla .table thead th {
+    padding: 11px 16px;
+    border-top: 0;
+    border-bottom: 1px solid #e4dff1;
+    font-size: .76rem;
+    background-color: transparent;
+}
+
+.asistentes-tabla .table thead th:first-child {
+    width: 220px;
+}
+
+.asistentes-tabla .table tbody td {
+    padding: 10px 16px;
+    vertical-align: middle;
+    border-top: 1px solid #f1eef8;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .92rem;
+    color: #4a4a4a;
+}
+
+.asistentes-tabla .table tbody tr:first-child td {
+    border-top: 0;
+}
+
+.asistentes-tabla .table tbody tr:hover td {
+    background-color: #fbfaff;
+}
+
+/* Las filas traen una celda sobrante al final; se oculta para no descuadrar el encabezado */
+.asistentes-tabla .table tbody td:nth-child(n+4) {
+    display: none;
+}
+
+.asistentes-tabla .table .form-group {
+    margin-bottom: 0;
+}
+
+/* Aviso de listado vacío: solo se ve mientras no haya filas */
+.asistentes-tabla .table tfoot {
+    display: none;
+}
+
+.asistentes-tabla .table tbody:empty + tfoot {
+    display: table-footer-group;
+}
+
+.asistentes-tabla .table tfoot td {
+    padding: 22px 16px;
+    border: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    text-align: center;
+    white-space: normal;
+    color: #8a8a8a;
+}
+
+.asistentes-tabla .table tfoot td i {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 24px;
+    color: #c9bfe3;
+}
+
+#editar_asistentes .modal-footer {
+    padding: 14px 26px;
+    border-top: 1px solid #eeeaf6;
+}
+
+@media (max-width: 575.98px) {
+    #editar_asistentes .modal-body {
+        padding: 16px 14px 4px;
+    }
+
+    #editar_asistentes .modal-footer {
+        padding: 12px 14px;
+    }
+
+    .asistentes-buscador {
+        max-width: none;
+    }
+
+    .asistentes-buscador .btn {
+        padding: 0 16px;
+    }
+
+    .asistentes-ficha-persona {
+        padding: 14px 14px 10px;
+    }
+
+    .asistentes-ficha-datos {
+        padding: 0 14px 6px;
+    }
+
+    .asistentes-dato {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding-right: 0;
+    }
+
+    .asistentes-ficha-acciones {
+        padding: 12px 12px 6px;
+    }
+
+    .asistentes-ficha-acciones .btn {
+        width: 100%;
+        margin: 0 0 6px;
+    }
+
+    .asistentes-tabla .table thead th:first-child {
+        width: auto;
+    }
+
+    .asistentes-tabla .table thead th,
+    .asistentes-tabla .table tbody td {
+        padding-left: 10px;
+        padding-right: 10px;
+        white-space: normal;
+    }
+
+    #editar_asistentes .modal-footer .btn {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 0%;
+        flex: 1 1 0%;
+    }
+}
+
+
+/*****MODAL PROCEDIMIENTOS (LUGARES DE ATENCIÓN)**/
+
+/* Encabezados y celdas de la tabla de procedimientos van a la izquierda */
+#tabla_valores_proce_prof_lug_atencion thead th,
+#tabla_valores_proce_prof_lug_atencion tbody td {
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* El botón de agregar comparte línea con los campos y queda a su misma altura */
+.procedimientos-agregar {
+    margin-bottom: 16px;
+}
+
+.procedimientos-agregar .btn {
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Texto guía sobre el formulario; deja aire para la etiqueta flotante del primer campo */
+.procedimientos-ayuda {
+    margin: 0 0 20px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .85rem;
+    line-height: 1.4;
+    color: #6c757d;
+}
+
+
+/*****MODAL CONFIGURAR HORARIO DE ATENCIÓN (LUGARES DE ATENCIÓN)**/
+
+#modal_editar_horario_atencion .modal-body {
+    padding: 22px 26px 4px;
+}
+
+/* Encabezado de los modales de lugares: título y, debajo, el lugar de atención que se está configurando */
+.modal-lugar {
+    min-width: 0;
+    padding-right: 12px;
+}
+
+.modal-lugar-nombre {
+    display: block;
+    margin-top: 2px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .85rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #fff;
+    opacity: .9;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.modal-lugar-nombre i {
+    margin-right: 5px;
+    font-size: .85rem;
+}
+
+.horario-bloque {
+    margin-bottom: 22px;
+}
+
+/* El listado se separa del formulario con una línea suave */
+.horario-bloque-listado {
+    padding-top: 20px;
+    border-top: 1px solid #eeeaf6;
+}
+
+.horario-titulo {
+    display: block;
+    margin: 0 0 2px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.02rem;
+    font-weight: 800;
+    color: #272727;
+}
+
+.horario-ayuda {
+    margin: 0 0 14px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .85rem;
+    line-height: 1.4;
+    color: #6c757d;
+}
+
+.horario-campo {
+    margin-bottom: 14px;
+}
+
+/* Los campos usan el tamaño chico y la etiqueta flotante del resto del sistema */
+#modal_editar_horario_atencion .form-group {
+    margin-bottom: 16px;
+}
+
+#modal_editar_horario_atencion .floating-label-activo-sm {
+    background-color: #fff;
+    color: #272727;
+}
+
+.horario-etiqueta {
+    display: block;
+    margin: 0 0 6px;
+    font-family: 'Nunito', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #272727;
+}
+
+/* Botones de día: reemplazan a la vista el select, que sigue guardando el valor */
+.horario-opciones {
+    display: none;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 -3px;
+}
+
+.horario-campo-listo .horario-opciones {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+/* El select solo se oculta cuando sus botones ya están armados */
+.horario-campo-listo .horario-select-base {
+    display: none;
+}
+
+.horario-opcion {
+    margin: 0 3px 6px;
+    padding: 5px 12px;
+    border: 1px solid #d9d3e8;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #4a4a4a;
+    background-color: #fff;
+    cursor: pointer;
+    -webkit-transition: background-color .15s, color .15s, border-color .15s, -webkit-box-shadow .15s;
+    transition: background-color .15s, color .15s, border-color .15s, box-shadow .15s;
+}
+
+.horario-opcion:hover {
+    border-color: #6f42c1;
+    color: #6f42c1;
+    background-color: #f7f4fd;
+}
+
+.horario-opcion:focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .18);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .18);
+}
+
+.horario-opcion.horario-opcion-activa,
+.horario-opcion.horario-opcion-activa:hover {
+    border-color: #6f42c1;
+    color: #fff;
+    background-color: #6f42c1;
+}
+
+.horario-opciones-bloqueadas .horario-opcion {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+/* Días: botones redondos del mismo tamaño */
+.horario-dias {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.horario-opciones-dias .horario-opcion {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: .74rem;
+    text-align: center;
+}
+
+.horario-atajo {
+    display: none;
+    margin: 0 0 6px 10px;
+    padding: 3px 2px;
+    border: 0;
+    border-bottom: 1px dashed #6f42c1;
+    font-family: 'Nunito', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #6f42c1;
+    background: none;
+    cursor: pointer;
+}
+
+.horario-campo-listo .horario-atajo {
+    display: inline-block;
+}
+
+.horario-atajo:hover,
+.horario-atajo:focus {
+    outline: 0;
+    border-bottom-style: solid;
+}
+
+/* Rango de horas: desde, hasta y el botón de agregar en una misma línea */
+.horario-bloque > .form-row {
+    margin-top: 18px;
+}
+
+.horario-horas .horario-agregar {
+    display: block;
+    width: 100%;
+    margin: 0 0 16px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* Listado de horarios ya guardados */
+.horario-tabla {
+    border: 1px solid #e4dff1;
+    border-radius: 10px;
+}
+
+.horario-tabla .table {
+    margin-bottom: 0;
+}
+
+.horario-tabla .table thead tr {
+    background-color: #f6f4fb;
+}
+
+.horario-tabla .table thead th {
+    padding: 11px 14px;
+    border-top: 0;
+    border-bottom: 1px solid #e4dff1;
+    font-size: .76rem;
+    text-align: left;
+    background-color: transparent;
+}
+
+.horario-tabla .table tbody td {
+    padding: 10px 14px;
+    vertical-align: middle;
+    border-top: 1px solid #f1eef8;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .92rem;
+    color: #4a4a4a;
+}
+
+.horario-tabla .table tbody tr:first-child td {
+    border-top: 0;
+}
+
+/* Toda la tabla va alineada a la izquierda; la agenda se destaca en negrita */
+.horario-tabla .table tbody td:first-child:not([colspan]) {
+    font-weight: 700;
+    color: #272727;
+}
+
+.horario-fila-hora {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    color: #272727;
+}
+
+.horario-fila-dia {
+    display: inline-block;
+    margin: 2px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-size: .78rem;
+    font-weight: 700;
+    color: #6f42c1;
+    background-color: #efe9fa;
+}
+
+@media (max-width: 575.98px) {
+    #modal_editar_horario_atencion .modal-body {
+        padding: 16px 14px 4px;
+    }
+
+    .horario-opciones-dias .horario-opcion {
+        width: 36px;
+        height: 36px;
+        margin: 0 2px 6px;
+        font-size: .7rem;
+    }
+
+    .horario-atajo {
+        margin-left: 2px;
+    }
+
+    .horario-tabla .table thead th,
+    .horario-tabla .table tbody td {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+
+
+/*****BOTÓN VOLVER (SOBRE EL TÍTULO DE LA PÁGINA)**/
+
+/* Se incluye con @include('template.partials.boton_volver'). Va sin fondo ni borde:
+   solo la flecha y el texto. */
+.boton-volver-fila {
+    margin-top: -8px;
+    margin-bottom: 10px;
+}
+
+/* Con el botón arriba, el encabezado de la página ya no sube sobre él */
+.boton-volver-fila ~ .page-header {
+    margin-top: 0;
+}
+
+.boton-volver {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 4px 6px 4px 0;
+    border: 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: .92rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #272727;
+    background: none;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-transition: color .15s ease;
+    transition: color .15s ease;
+}
+
+.boton-volver i {
+    margin-right: 6px;
+    font-size: 1.05rem;
+    -webkit-transition: -webkit-transform .15s ease;
+    transition: transform .15s ease;
+}
+
+.boton-volver:hover,
+.boton-volver:focus {
+    outline: 0;
+    color: #6f42c1;
+    background: none;
+    text-decoration: none;
+}
+
+/* La flecha se corre un poco a la izquierda al pasar el mouse */
+.boton-volver:hover i,
+.boton-volver:focus i {
+    -webkit-transform: translateX(-3px);
+    -ms-transform: translateX(-3px);
+    transform: translateX(-3px);
+}
+
+
+/*****SWITCH DEL SISTEMA (ACTIVAR / DESACTIVAR)**/
+
+/* Mismo marcado de siempre: <div class="switch ..."><input type="checkbox"><label class="cr"></label></div>.
+   Encendido muestra un visto sobre el color del switch; apagado, una equis sobre gris. */
+.switch input[type=checkbox] + .cr {
+    height: 24px;
+    width: 44px;
+    border: 0;
+    border-radius: 999px;
+    background-color: #c5cad3;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .12);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .12);
+    -webkit-transition: background-color .25s ease, -webkit-box-shadow .2s ease;
+    transition: background-color .25s ease, box-shadow .2s ease;
+    vertical-align: middle;
+}
+
+.switch input[type=checkbox] + .cr:hover {
+    background-color: #b3b9c4;
+}
+
+/* Relleno de color: ocupa toda la pista cuando está encendido */
+.switch input[type=checkbox] + .cr:before {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 999px;
+    -webkit-transition: background-color .25s ease;
+    transition: background-color .25s ease;
+}
+
+.switch input[type=checkbox]:checked + .cr:before {
+    background: #38b38f;
+    -webkit-transition: background-color .25s ease;
+    transition: background-color .25s ease;
+}
+
+.switch.switch-success input[type=checkbox]:checked + .cr:before {
+    background: #38b38f;
+}
+
+/* Perilla con ícono: equis al estar apagado, visto al estar encendido */
+.switch input[type=checkbox] + .cr:after {
+    content: "\e8f6";
+    top: 3px;
+    left: 3px;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    font-family: 'feather' !important;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    color: #8a919c;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .28);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .28);
+    -webkit-transition: left .25s cubic-bezier(.4, 0, .2, 1), color .2s ease;
+    transition: left .25s cubic-bezier(.4, 0, .2, 1), color .2s ease;
+}
+
+.switch input[type=checkbox]:checked + .cr:after {
+    content: "\e83f";
+    left: 23px;
+    color: #38b38f;
+}
+
+/* Foco con teclado visible */
+.switch input[type=checkbox]:focus + .cr {
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .12), 0 0 0 3px rgba(111, 66, 193, .22);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .12), 0 0 0 3px rgba(111, 66, 193, .22);
+}
+
+.switch input[type=checkbox]:disabled + .cr {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+/* Variante con el estado escrito dentro de la pista: basta sumar la clase "switch-estado"
+   al contenedor. Textos por defecto "Activo" / "Inactivo"; se cambian en el label con
+   data-activo="..." y data-inactivo="...". */
+.switch.switch-estado input[type=checkbox] + .cr {
+    top: 0;
+    width: auto;
+    min-width: 92px;
+    height: 28px;
+    margin: 0;
+    padding: 0 12px 0 32px;
+    font-family: 'Nunito', sans-serif;
+    font-size: .72rem;
+    font-weight: 800;
+    line-height: 28px;
+    letter-spacing: .02em;
+    text-align: center;
+    white-space: nowrap;
+    color: #fff;
+    background-color: #8f97a3;
+    -webkit-transition: background-color .25s ease, padding .25s ease, -webkit-box-shadow .2s ease;
+    transition: background-color .25s ease, padding .25s ease, box-shadow .2s ease;
+}
+
+.switch.switch-estado input[type=checkbox] + .cr:hover {
+    background-color: #7f8793;
+}
+
+.switch.switch-estado input[type=checkbox]:checked + .cr {
+    padding: 0 32px 0 12px;
+    background-color: #38b38f;
+}
+
+.switch.switch-estado input[type=checkbox]:checked + .cr:hover {
+    background-color: #2f9d7c;
+}
+
+/* Aquí el color va en la pista y el primer pseudo-elemento queda para el texto.
+   Se escriben los dos textos, uno por línea, y solo se ve la primera: así el ancho es siempre
+   el del texto más largo y la tabla no se mueve al cambiar de estado. */
+.switch.switch-estado input[type=checkbox] + .cr:before,
+.switch.switch-estado input[type=checkbox]:checked + .cr:before {
+    content: "Inactivo" "\A" "Activo";
+    position: static;
+    display: inline-block;
+    height: 28px;
+    width: auto;
+    overflow: hidden;
+    vertical-align: top;
+    white-space: pre;
+    text-align: center;
+    border-radius: 0;
+    background: none;
+}
+
+.switch.switch-estado input[type=checkbox]:checked + .cr:before {
+    content: "Activo" "\A" "Inactivo";
+}
+
+.switch.switch-estado input[type=checkbox] + .cr[data-inactivo]:before {
+    content: attr(data-inactivo) "\A" "Activo";
+}
+
+.switch.switch-estado input[type=checkbox]:checked + .cr[data-inactivo]:before {
+    content: "Activo" "\A" attr(data-inactivo);
+}
+
+.switch.switch-estado input[type=checkbox] + .cr[data-activo]:before {
+    content: "Inactivo" "\A" attr(data-activo);
+}
+
+.switch.switch-estado input[type=checkbox]:checked + .cr[data-activo]:before {
+    content: attr(data-activo) "\A" "Inactivo";
+}
+
+.switch.switch-estado input[type=checkbox] + .cr[data-activo][data-inactivo]:before {
+    content: attr(data-inactivo) "\A" attr(data-activo);
+}
+
+.switch.switch-estado input[type=checkbox]:checked + .cr[data-activo][data-inactivo]:before {
+    content: attr(data-activo) "\A" attr(data-inactivo);
+}
+
+.switch.switch-estado input[type=checkbox] + .cr:after {
+    top: 4px;
+    left: 4px;
+    height: 20px;
+    width: 20px;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.switch.switch-estado input[type=checkbox]:checked + .cr:after {
+    left: calc(100% - 24px);
+}
+
+
+/*****TABLAS: DETALLE DESPLEGABLE A LA IZQUIERDA**/
+
+/* Las columnas que no caben bajan a una fila de detalle; su contenido va alineado a la izquierda */
+table.dataTable > tbody > tr.child td.child {
+    text-align: left !important;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details {
+    display: block;
+    text-align: left;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details > li,
+table.dataTable > tbody > tr.child span.dtr-title,
+table.dataTable > tbody > tr.child span.dtr-data {
+    text-align: left;
+}
+
+
+/*****TÍTULOS DE MÓDULO Y DE TARJETAS**/
+
+/* Título principal de cada pantalla: algo más liviano que el h5 base (800) */
+.titulo-modulo {
+    font-weight: 700;
+}
+
+/* Nombre de las tarjetas de acceso de paneles y escritorios */
+.titulo-tarjeta {
+    font-weight: 500;
+}
+
+
+/*****NAV EN TARJETA**/
+
+/* Pestañas con línea inferior en el encabezado de una card. En celular la barra se desliza.
+   Sirve con pestañas de Bootstrap (data-toggle="tab") o con enlaces a otras pantallas.
+   Estructura:
+   <div class="card nav-tarjeta">
+       <div class="card-header">
+           <ul class="nav" role="tablist">
+               <li class="nav-item">
+                   <a class="nav-link active" data-toggle="tab" href="#uno" role="tab"><i class="feather icon-globe"></i>Uno</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" data-toggle="tab" href="#dos" role="tab">Dos</a>
+               </li>
+           </ul>
+       </div>
+       <div class="card-body">
+           <div class="tab-content">
+               <div class="tab-pane fade show active" id="uno" role="tabpanel">...</div>
+               <div class="tab-pane fade" id="dos" role="tabpanel">...</div>
+           </div>
+       </div>
+   </div> */
+.nav-tarjeta {
+    border: 0;
+    border-radius: 16px;
+    -webkit-box-shadow: 0 5px 18px rgba(29, 48, 71, .09);
+    box-shadow: 0 5px 18px rgba(29, 48, 71, .09);
+}
+
+.nav-tarjeta > .card-header {
+    background: #fff;
+    border: 0;
+    border-bottom: 1px solid #e3eaef;
+    border-radius: 16px 16px 0 0;
+    padding: 14px 20px 0;
+}
+
+.nav-tarjeta > .card-body {
+    padding: 20px;
+}
+
+.nav-tarjeta > .card-header .nav {
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.nav-tarjeta > .card-header .nav-item {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    margin: 0 4px 0 0;
+}
+
+.nav-tarjeta > .card-header .nav-link {
+    display: block;
+    background: transparent;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    padding: 10px 16px 12px;
+    color: #5b6b7d;
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-tarjeta > .card-header .nav-link > i {
+    margin-right: 6px;
+}
+
+.nav-tarjeta > .card-header .nav-link:hover {
+    color: #147c70;
+}
+
+.nav-tarjeta > .card-header .nav-link:focus {
+    outline: none;
+}
+
+.nav-tarjeta > .card-header .nav-link:focus-visible {
+    outline: 2px solid #15b8b5;
+    outline-offset: -2px;
+}
+
+.nav-tarjeta > .card-header .nav-link.active {
+    background: transparent;
+    color: #147c70;
+    border-bottom-color: #15b8b5;
+}
+
+@media (max-width: 767px) {
+    .nav-tarjeta > .card-header {
+        padding: 10px 10px 0;
+    }
+
+    .nav-tarjeta > .card-body {
+        padding: 14px;
+    }
+}
+
+/*****MODALES DE LA FICHA DE ATENCIÓN (RECETA, EXÁMENES, ANTECEDENTES, CRÓNICOS, VACUNAS)**/
+
+/* Base común: se activa con la clase .modal-atencion en el modal */
+.modal-atencion .modal-content {
+    border: 0;
+    border-radius: 16px;
+    -webkit-box-shadow: 0 18px 48px rgba(38, 30, 70, .22);
+    box-shadow: 0 18px 48px rgba(38, 30, 70, .22);
+}
+
+.modal-atencion .modal-header {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 14px 22px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.modal-atencion .modal-header .modal-title {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.modal-atencion .modal-header .close {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin: 0 -6px 0 12px !important;
+}
+
+.modal-atencion .modal-body {
+    padding: 22px 24px;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    color: #272727;
+}
+
+.modal-atencion .modal-footer {
+    padding: 12px 24px;
+    border-top: 1px solid #efeaf8;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    background: #fbfaff;
+}
+
+.modal-atencion .modal-footer > .btn {
+    margin: 0 0 0 8px;
+    font-weight: 700;
+}
+
+/* Franja con la mascota y su tutor: a quién se le está indicando */
+.modal-atencion-resumen {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 0 18px;
+    padding: 10px 12px;
+    border: 1px solid #ebe6f5;
+    border-radius: 14px;
+    background: #faf8fe;
+}
+
+.modal-atencion-resumen-dato {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 220px;
+    flex: 1 1 220px;
+    min-width: 0;
+    padding: 4px 6px;
+}
+
+.modal-atencion-resumen-icono {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    margin-right: 12px;
+    border-radius: 12px;
+    background: #efe7fc;
+    color: #6f42c1;
+    font-size: 1rem;
+}
+
+.modal-atencion-resumen-texto {
+    min-width: 0;
+}
+
+.modal-atencion-resumen-etiqueta {
+    display: block;
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #8a7fa3;
+}
+
+.modal-atencion-resumen-valor {
+    display: block;
+    font-size: .95rem;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #272727;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.modal-atencion-resumen-extra {
+    display: block;
+    font-size: .78rem;
+    line-height: 1.35;
+    color: #7c7f8a;
+}
+
+/* Pestañas del modal como selector segmentado. Se repite .modal-atencion en el
+   selector para ganarle a tab_wizard_formularios.css, que se carga después */
+.modal-atencion .modal-atencion-pestanas {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 0 22px;
+    padding: 4px;
+    border-radius: 12px;
+    background: #f3eefc;
+    list-style: none;
+}
+
+.modal-atencion .modal-atencion-pestanas .nav-item {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    margin: 0;
+}
+
+.modal-atencion .modal-atencion-pestanas .nav-link-wizard,
+.modal-atencion .modal-atencion-pestanas .nav-link-wizard.active {
+    display: block;
+    margin: 0 !important;
+    padding: 8px 14px !important;
+    border: 0 !important;
+    border-radius: 9px;
+    background-color: transparent !important;
+    color: #59339c !important;
+    font-size: .9rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    -webkit-transition: background-color .15s ease, color .15s ease, box-shadow .15s ease;
+    transition: background-color .15s ease, color .15s ease, box-shadow .15s ease;
+}
+
+.modal-atencion .modal-atencion-pestanas .nav-link-wizard:hover {
+    background-color: rgba(111, 66, 193, .10) !important;
+}
+
+.modal-atencion .modal-atencion-pestanas .nav-link-wizard:focus {
+    outline: none;
+}
+
+.modal-atencion .modal-atencion-pestanas .nav-link-wizard:focus-visible {
+    -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .35);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .35);
+}
+
+.modal-atencion .modal-atencion-pestanas .nav-link-wizard.active {
+    background-color: #6f42c1 !important;
+    color: #fff !important;
+    -webkit-box-shadow: 0 4px 10px rgba(111, 66, 193, .28);
+    box-shadow: 0 4px 10px rgba(111, 66, 193, .28);
+}
+
+/* Dato solo de lectura dentro del formulario (composición del medicamento) */
+.modal-atencion-lectura {
+    min-height: 35px;
+    padding: 6px 10px;
+    border: 1px dashed #d9d3e8;
+    border-radius: 8px;
+    background: #faf9fd;
+    color: #5f6470;
+    font-size: .875rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Cierre del formulario: interruptor a la izquierda y botón de agregar a la derecha */
+.modal-atencion-acciones {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.modal-atencion-acciones > .form-group {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 240px;
+    flex: 1 1 240px;
+    min-width: 0;
+    margin: 0 12px 8px 0;
+}
+
+.modal-atencion-acciones > .form-group > label {
+    margin-bottom: 0;
+}
+
+.modal-atencion-acciones > .btn {
+    margin: 0 0 8px 8px;
+    font-weight: 700;
+}
+
+/* Aviso corto bajo un interruptor (uso crónico, examen con contraste) */
+.modal-atencion-acciones .alert-primary {
+    margin-top: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: .8rem;
+}
+
+/* Tabla con lo ya indicado en la atención: sin borde ni líneas verticales,
+   solo el encabezado sombreado y una línea suave entre filas */
+.modal-atencion-tabla {
+    margin-top: 16px;
+    border: 0;
+    border-radius: 10px;
+}
+
+/* Con título encima no hace falta el margen propio */
+.titulo-item + .modal-atencion-tabla {
+    margin-top: 0;
+}
+
+/* El !important es por DataTables, que le pone margen y bordes propios a la tabla */
+.modal-atencion-tabla table.table {
+    margin: 0 !important;
+    border: 0 !important;
+}
+
+.modal-atencion-tabla .table td,
+.modal-atencion-tabla .table th {
+    padding: .55rem .7rem;
+    border: 0;
+    border-top: 1px solid #f0ecf7;
+    font-size: .85rem;
+    vertical-align: middle;
+}
+
+/* Los textos largos bajan de línea para que la tabla no se salga del modal */
+.modal-atencion-tabla .table tbody td,
+.modal-atencion-tabla .table thead > tr:not(:first-child) > td {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* En la tabla de exámenes la fecha y hora van en una sola línea, con quien lo indicó debajo */
+.modal-atencion-tabla .tabla_examenes_ficha tbody td:first-child {
+    white-space: nowrap;
+}
+
+/* Solo la primera fila es encabezado: las filas que se agregan a mano
+   quedan dentro del thead y deben verse como filas normales */
+.modal-atencion-tabla .table thead > tr:first-child > td,
+.modal-atencion-tabla .table thead > tr:first-child > th {
+    border-top: 0;
+    border-bottom: 0;
+    background: #f6f2fd;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .03em;
+    line-height: 1.3;
+    text-transform: uppercase;
+    white-space: normal;
+    color: #272727;
+}
+
+.modal-atencion-tabla .table tbody > tr:hover > td {
+    background-color: #fcfbff;
+}
+
+/* Buscador que agrega DataTables sobre la tabla */
+.modal-atencion-tabla .dataTables_wrapper .row {
+    margin: 0;
+}
+
+.modal-atencion-tabla .dataTables_wrapper .row > [class*="col-"] {
+    padding: 0;
+}
+
+.modal-atencion-tabla .dataTables_filter {
+    padding: 0 0 10px;
+    text-align: right;
+}
+
+.modal-atencion-tabla .dataTables_filter label {
+    margin: 0;
+    font-size: .82rem;
+    font-weight: 600;
+    color: #7c7f8a;
+}
+
+.modal-atencion-tabla .dataTables_filter input {
+    width: 180px;
+    max-width: 100%;
+    margin-left: 8px;
+}
+
+/* Bloque secundario al final del modal (ranking de recetas controladas) */
+.modal-atencion-extra {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px dashed #e4dcf5;
+}
+
+.modal-atencion-extra .custom-control-label {
+    font-weight: 700;
+    color: #59339c;
+    cursor: pointer;
+}
+
+/* Selector que define qué se va a registrar (tipo de antecedente, control crónico) */
+.modal-atencion-selector {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 0 0 20px;
+    padding: 12px 14px;
+    border: 1px solid #ebe6f5;
+    border-radius: 14px;
+    background: #faf8fe;
+}
+
+.modal-atencion-selector label {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 200px;
+    flex: 1 1 200px;
+    margin: 0 14px 0 0;
+    font-size: .95rem;
+    font-weight: 800;
+    color: #272727;
+}
+
+.modal-atencion-selector label small {
+    display: block;
+    font-size: .78rem;
+    font-weight: 400;
+    color: #7c7f8a;
+}
+
+.modal-atencion-selector .form-control {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 1 300px;
+    flex: 0 1 300px;
+    min-width: 0;
+}
+
+/* Formulario del antecedente: lo arma el script como una tabla de dos columnas
+   (etiqueta y campo); acá se le da forma de formulario */
+#m_agregar_antecedente #modal-body-input .table {
+    margin: 0;
+}
+
+#m_agregar_antecedente #modal-body-input .table td {
+    padding: 0 0 12px;
+    border: 0;
+    white-space: normal;
+    vertical-align: top;
+}
+
+#m_agregar_antecedente #modal-body-input .table td:first-child {
+    width: 190px;
+    padding-top: 6px;
+    padding-right: 14px;
+    font-size: .88rem !important;
+    font-weight: 700;
+    color: #272727;
+}
+
+#m_agregar_antecedente #modal-body-input .table tr:hover > td {
+    background-color: transparent;
+}
+
+#m_agregar_antecedente #modal-body-input .form-group {
+    margin: 0;
+}
+
+#m_agregar_antecedente #modal-body-input textarea.form-control {
+    min-height: 70px;
+}
+
+/* Control de crónicos: cada control trae su título, sus pestañas y una tarjeta */
+#form_enfermedad_cronica .modal-body > div > .row h5.text-c-blue,
+#form_enfermedad_cronica .modal-body > div > h4 {
+    margin: 0 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e7dbfe;
+    color: #6f42c1 !important;
+    font-family: 'Nunito', sans-serif;
+    font-size: .82rem !important;
+    font-weight: 800;
+    letter-spacing: .2px;
+    text-align: left !important;
+    text-transform: uppercase;
+}
+
+#form_enfermedad_cronica .card-informacion {
+    margin-bottom: 0;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#form_enfermedad_cronica .card-informacion > .card-body {
+    padding: 0;
+}
+
+#form_enfermedad_cronica .t-aten {
+    margin: 4px 0 16px;
+    font-size: .95rem;
+    font-weight: 800;
+    color: #272727;
+}
+
+/* Vacunas y desparasitación: bloques del formulario sin la caja antigua */
+#form_ges .t-aten {
+    margin: 0 0 4px;
+    font-size: .95rem;
+    font-weight: 800;
+    color: #272727;
+}
+
+/* Texto de ayuda bajo un título o junto a un campo */
+.modal-atencion-ayuda {
+    margin: 0 0 16px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .84rem;
+    line-height: 1.4;
+    color: #6c757d;
+}
+
+@media (max-width: 575.98px) {
+    .modal-atencion .modal-header {
+        padding: 12px 16px;
+    }
+
+    .modal-atencion .modal-body {
+        padding: 18px 16px;
+    }
+
+    .modal-atencion .modal-footer {
+        padding: 12px 16px;
+    }
+
+    /* El botón principal ocupa todo el ancho para que sea fácil de tocar */
+    .modal-atencion .modal-footer > .btn {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 100%;
+        flex: 1 1 100%;
+        margin: 0 0 6px;
+    }
+
+    .modal-atencion .modal-atencion-pestanas .nav-link-wizard,
+    .modal-atencion .modal-atencion-pestanas .nav-link-wizard.active {
+        padding: 8px 10px !important;
+        font-size: .84rem;
+        white-space: normal;
+    }
+
+    .modal-atencion-acciones > .btn {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 100%;
+        flex: 1 1 100%;
+        margin-left: 0;
+    }
+
+    .modal-atencion-selector label {
+        -ms-flex: 1 1 100%;
+        flex: 1 1 100%;
+        margin: 0 0 8px;
+    }
+
+    .modal-atencion-selector .form-control {
+        -ms-flex: 1 1 100%;
+        flex: 1 1 100%;
+    }
+
+    .modal-atencion-tabla .dataTables_filter {
+        text-align: left;
+    }
+
+    .modal-atencion-tabla .dataTables_filter input {
+        width: 100%;
+        margin: 4px 0 0;
+    }
+
+    /* La etiqueta del antecedente pasa arriba del campo */
+    #m_agregar_antecedente #modal-body-input .table,
+    #m_agregar_antecedente #modal-body-input .table tbody,
+    #m_agregar_antecedente #modal-body-input .table tr,
+    #m_agregar_antecedente #modal-body-input .table td {
+        display: block;
+        width: 100% !important;
+    }
+
+    #m_agregar_antecedente #modal-body-input .table td:first-child {
+        padding: 0 0 4px;
+    }
+}
+
+
+/* Referidos: invitaciones del tutor y del profesional (Paciente/Referidos y Profesional/Referidos) */
+.referidos {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.referidos-portada {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding: 26px 30px;
+    border-radius: 16px;
+    background: #1CBEBE;
+    background: -webkit-linear-gradient(315deg, #1CBEBE 0%, #6f42c1 100%);
+    background: linear-gradient(135deg, #1CBEBE 0%, #6f42c1 100%);
+    box-shadow: 0 10px 26px rgba(111, 66, 193, .2);
+    color: #fff;
+}
+
+.referidos-portada-texto {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-right: 24px;
+}
+
+.referidos-portada h3 {
+    margin-bottom: 8px;
+    color: #fff;
+    font-size: 1.6rem;
+}
+
+.referidos-portada h3 i {
+    margin-right: 6px;
+}
+
+.referidos-portada p {
+    max-width: 720px;
+    color: rgba(255, 255, 255, .92);
+}
+
+.referidos-volver {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #fff;
+    font-size: .85rem;
+    font-weight: 700;
+    opacity: .9;
+}
+
+.referidos-volver:hover,
+.referidos-volver:focus {
+    color: #fff;
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.referidos-codigo {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .16);
+    text-align: center;
+}
+
+.referidos-codigo > span {
+    display: block;
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+.referidos-codigo strong {
+    display: block;
+    margin: 2px 0 10px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+}
+
+/* Las dos tarjetas de la fila quedan del mismo alto */
+.referidos .row > [class*="col-"] > .referidos-tarjeta {
+    height: calc(100% - 24px);
+}
+
+.card.referidos-tarjeta {
+    margin-bottom: 24px;
+    border: 0;
+}
+
+.card.referidos-tarjeta .card-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.referidos-pasos {
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+    counter-reset: paso;
+}
+
+.referidos-pasos li {
+    position: relative;
+    min-height: 30px;
+    margin-bottom: 16px;
+    padding-left: 44px;
+    counter-increment: paso;
+}
+
+.referidos-pasos li:before {
+    content: counter(paso);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(28, 190, 190, .16);
+    color: #147d72;
+    font-weight: 800;
+    line-height: 30px;
+    text-align: center;
+}
+
+.referidos-pasos strong,
+.referidos-pasos small,
+.referidos-tabla td small {
+    display: block;
+}
+
+.referidos-pasos small,
+.referidos-tabla td small {
+    color: rgba(39, 39, 39, .6);
+}
+
+.referidos-tabla {
+    min-width: 760px;
+    margin-bottom: 0;
+}
+
+.referidos-tabla th,
+.referidos-tabla td {
+    padding-right: 10px;
+    padding-left: 10px;
+    vertical-align: middle;
+}
+
+/* Nombre y tipo pueden partirse en dos líneas para que la tabla entre sin scroll */
+.referidos-tabla td:first-child,
+.referidos-tabla td:nth-child(2) {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.referidos-acciones {
+    white-space: nowrap;
+}
+
+.referidos-acciones form {
+    display: inline-block;
+}
+
+.referidos-vacio {
+    padding: 28px 12px;
+    color: rgba(39, 39, 39, .55);
+    text-align: center;
+}
+
+.referidos-vacio i {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 32px;
+}
+
+/* Formulario de nueva invitación */
+.referidos-ayuda {
+    margin-bottom: 26px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(111, 66, 193, .07);
+    color: rgba(39, 39, 39, .75);
+    font-size: .85rem;
+}
+
+.referidos-ayuda i {
+    margin-right: 4px;
+    color: var(--purple);
+}
+
+.referidos-formulario .form-group {
+    margin-bottom: 24px;
+}
+
+.referidos-formulario .floating-label-activo-sm {
+    left: 12px !important;
+    margin: 0;
+    z-index: 4;
+}
+
+.referidos-formulario .form-control:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
+}
+
+/* Prefijo fijo del WhatsApp, pegado al campo */
+.referidos-telefono .input-group-text {
+    padding: 0 10px;
+    border-color: #ced4da;
+    border-radius: 8px 0 0 8px;
+    background: rgba(111, 66, 193, .1);
+    color: var(--purple);
+    font-size: .9rem;
+    font-weight: 800;
+}
+
+.referidos-telefono > .form-control:not(:first-child) {
+    border-radius: 0 8px 8px 0;
+    letter-spacing: .04em;
+}
+
+.referidos-telefono .invalid-feedback {
+    width: 100%;
+}
+
+/* Select2 sin buscador, a la medida de form-control-sm */
+.referidos-formulario .select2-container--default .select2-selection--single {
+    height: calc(1.5em + .7rem + 2px);
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    outline: 0;
+}
+
+.referidos-formulario .select2-container--default .select2-selection--single .select2-selection__rendered {
+    padding-left: 10px;
+    color: #495057;
+    font-size: .9rem;
+    line-height: calc(1.5em + .7rem);
+}
+
+.referidos-formulario .select2-container--default .select2-selection--single .select2-selection__arrow {
+    right: 6px;
+    height: calc(1.5em + .7rem);
+}
+
+.referidos-formulario .select2-container--default.select2-container--focus .select2-selection--single,
+.referidos-formulario .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .12);
+}
+
+.referidos-formulario .select2-dropdown {
+    overflow: hidden;
+    border-color: var(--purple);
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(39, 39, 39, .12);
+    font-size: .9rem;
+}
+
+.referidos-formulario .select2-container--default .select2-results__option {
+    padding: 8px 12px;
+}
+
+.referidos-formulario .select2-container--default .select2-results__option[aria-selected=true],
+.referidos-formulario .select2-container--default .select2-results__option--selected {
+    background: rgba(111, 66, 193, .1);
+    color: #272727;
+}
+
+.referidos-formulario .select2-container--default .select2-results__option--highlighted[aria-selected],
+.referidos-formulario .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background: var(--purple);
+    color: #fff;
+}
+
+.referidos-formulario-pie {
+    padding-top: 18px;
+    border-top: 1px solid #f1f1f1;
+    text-align: right;
+}
+
+.referidos-copia-auxiliar {
+    position: absolute;
+    left: -9999px;
+}
+
+@media (max-width: 575px) {
+    .referidos-formulario-pie .btn {
+        display: block;
+        width: 100%;
+    }
+}
+
+/* Tablet y celular: el código baja y las tarjetas dejan de igualar su alto */
+@media (max-width: 991px) {
+    .referidos .row > [class*="col-"] > .referidos-tarjeta {
+        height: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .referidos-portada {
+        display: block;
+        padding: 20px;
+    }
+
+    .referidos-portada-texto {
+        margin-right: 0;
+        margin-bottom: 16px;
+    }
+
+    .referidos-portada h3 {
+        font-size: 1.3rem;
+    }
+
+    .referidos-codigo {
+        text-align: left;
+    }
+}
+
+
+/*****ESTADÍSTICAS Y REPORTES DEL PROFESIONAL**/
+
+.reportes-titulo {
+    margin-bottom: 2px;
+    font-weight: 700;
+    color: #272727;
+}
+
+.reportes-subtitulo {
+    font-size: .95rem;
+    color: #8b93a7;
+}
+
+.kpi-card {
+    border: none;
+    border-radius: 14px;
+    -webkit-transition: box-shadow .2s ease, -webkit-transform .2s ease;
+    transition: box-shadow .2s ease, transform .2s ease;
+}
+
+.kpi-card:hover {
+    box-shadow: 0 10px 25px rgba(30, 40, 80, .08);
+    -webkit-transform: translateY(-2px);
+    -ms-transform: translateY(-2px);
+    transform: translateY(-2px);
+}
+
+.kpi-icon {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    min-width: 54px;
+    border-radius: 14px;
+    font-size: 1.4rem;
+}
+
+.kpi-dot {
+    display: inline-block;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+
+.bg-c-teal {
+    background-color: #17a2b8;
+}
+
+.text-c-teal {
+    color: #17a2b8;
+}
+
+.reportes-card {
+    border: none;
+    border-radius: 14px;
+}
+
+.stat-mini-card {
+    height: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background-color: #f8f9fc;
+}
+
+.stat-mini-card h3 {
+    margin-bottom: 2px;
+    font-weight: 700;
+}
+
+.doc-list-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f1f5;
+}
+
+.doc-list-item:last-of-type {
+    border-bottom: none;
+}
+
+.doc-icon {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin-right: 12px;
+    border-radius: 8px;
+    font-size: .95rem;
+}
+
+/* Filtros de mes y lugar, con el icono dentro del select */
+.filtro-item {
+    position: relative;
+    min-width: 180px;
+}
+
+.filtro-item + .filtro-item {
+    margin-left: 10px;
+}
+
+.filtro-item-icon .filtro-icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    z-index: 2;
+    font-size: .9rem;
+    color: #6f42c1;
+    color: var(--purple);
+    pointer-events: none;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.select-filtro-reportes {
+    width: 100%;
+    border: 1px solid #6f42c1;
+    border-color: var(--purple);
+    border-radius: 8px;
+    color: #333;
+    background-color: #fff;
+}
+
+.select-filtro-reportes:focus {
+    border-color: #6f42c1;
+    border-color: var(--purple);
+    outline: none;
+    box-shadow: 0 0 0 .2rem rgba(111, 66, 193, .15);
+}
+
+.filtro-item-icon select.select-filtro-reportes {
+    padding-left: 34px;
+}
+
+@media (max-width: 767.98px) {
+    .filtros-reportes,
+    .filtro-item {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .filtro-item + .filtro-item {
+        margin-top: 10px;
+        margin-left: 0;
+    }
+}
+
+/*****AGENDA DEL PROFESIONAL: VISTA DE SEMANA**/
+
+/* Las columnas son angostas: el estado deja la esquina y baja a su propia línea,
+   para no montarse sobre la hora */
+.fc-timeGridWeek-view .evento-agenda-cabecera {
+    display: block;
+}
+
+.fc-timeGridWeek-view .fc-timegrid-event .evento-agenda-estado {
+    position: static;
+    display: inline-block;
+    max-width: 100%;
+    margin: 2px 0 0;
+    font-size: .6rem;
+    vertical-align: top;
+}
+
+/* Hora y nombres más chicos, para que quepan en el ancho de un día */
+.fc-timeGridWeek-view .fc-timegrid-event .fc-event-time {
+    font-size: .8rem !important;
+}
+
+.fc-timeGridWeek-view .fc-v-event .fc-event-title {
+    font-size: .78rem !important;
+}
+
+/* La cita puede tener más texto que alto: lo que sobra se corta dentro del recuadro */
+.fc-timeGridWeek-view .fc-timegrid-event {
+    overflow: hidden;
+}
+
+/* Tablas con buscador y paginación (DataTables): sus filas traen márgenes
+   negativos que las hacían más anchas que la tarjeta y aparecía una barra
+   de desplazamiento horizontal sin que hubiera nada que desplazar */
+div.dataTables_wrapper > .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+div.dataTables_wrapper > .row > [class*="col-"] {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* En pantallas chicas el buscador de la tabla se encoge en vez de salirse de la tarjeta */
+@media (max-width: 767px) {
+    div.dataTables_wrapper div.dataTables_filter label {
+        display: -webkit-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        max-width: 100%;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter input {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
 }

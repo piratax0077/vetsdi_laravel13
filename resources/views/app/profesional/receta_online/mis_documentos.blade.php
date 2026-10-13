@@ -43,7 +43,9 @@
 
                                                 <th class="text-center align-middle">Fecha</th>
 
-                                                <th class="text-center align-middle">Paciente</th>
+                                                <th class="text-center align-middle">Tutor</th>
+
+                                                <th class="text-center align-middle">Mascota</th>
 
                                                 <th class="text-center align-middle">Diagnóstico</th>
 
@@ -67,6 +69,7 @@
                                                     <td class="align-middle text-center">
                                                         {{ optional($documento->paciente)->nombres }} {{ optional($documento->paciente)->apellido_uno }} {{ optional($documento->paciente)->apellido_dos }}
                                                     </td>
+                                                    <td class="align-middle text-center">{{ optional($documento->ficha_atencion)->mascota_descripcion ?? '-' }}</td>
                                                     <td class="align-middle text-center">{{ $documento->observacion ?: ($esConsentimiento ? 'Consentimiento informado veterinario' : 'Presupuesto veterinario') }}</td>
                                                     <td class="align-middle text-center">
                                                         @if($firmaTutorDocumento)
@@ -105,6 +108,8 @@
                                                                 {{ $f->Paciente()->first()->apellido_dos }}
 
                                                             </td>
+
+                                                            <td class="align-middle text-center">{{ $f->mascota_descripcion }}</td>
 
                                                             <td class="align-middle text-center">{{ $f->hipotesis_diagnostico }}
 

@@ -66,7 +66,9 @@
     // Muestra u oculta la contraseña al presionar el ojo del campo
     document.addEventListener('click', function (evento) {
         var boton = evento.target.closest ? evento.target.closest('.campo-clave-ver') : null;
-        if (!boton) return;
+        // La cabecera del perfil también escucha el ojo; se atiende una sola vez
+        if (!boton || evento.ojo_atendido) return;
+        evento.ojo_atendido = true;
 
         var campo = document.getElementById(boton.getAttribute('data-ver-clave'));
         if (!campo) return;

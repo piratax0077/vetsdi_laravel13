@@ -2,9 +2,9 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
 
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Enfermedades de declaración obligatoria E.N.O</h5>
-                <button type="button" class="close text-white"  data-bs-dismiss="modal"aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white"  data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
 
             <div class="modal-body">

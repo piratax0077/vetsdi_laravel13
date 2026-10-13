@@ -18,8 +18,8 @@
 			<div class="modal-body">
 				<div class="form-row">
                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <label class="floating-label-activo">Rut</label>
-                        <input type="text" class="form-control" placeholder="rut" name="liquidacion_rut" id="liquidacion_rut" value="{{ $persona->rut }}">
+                        <label class="floating-label-activo">RUT</label>
+                        <input type="text" class="form-control" placeholder="RUT" name="liquidacion_rut" id="liquidacion_rut" value="{{ $persona->rut }}">
                     </div>
 
                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -61,13 +61,10 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="form-row">
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-end">
-                        <button type="button" class="btn btn-outline-dark btn-sm mr-2" data-dismiss="modal" onclick="cerrar_cta_banco_m();"><i class="feather icon-x"></i> Cancelar</button>
-                        <button type="button" class="btn btn-sm btn-info-light-c" onclick="agregar_registro_liquidacion();"><i class="feather icon-plus"></i> Añadir</button>
-                    </div>
-                </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-dark btn-sm mr-2" data-dismiss="modal" onclick="cerrar_cta_banco_m();"><i class="feather icon-x"></i> Cancelar</button>
+				<button type="button" class="btn btn-sm btn-info-light-c" onclick="agregar_registro_liquidacion();"><i class="feather icon-save"></i> Guardar</button>
 			</div>
 		</div>
 	</div>

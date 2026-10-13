@@ -32,7 +32,7 @@
     @include('template.asistente.header')
 
     @yield('content')
-
+    @include('template.partials.boton_volver_auto')
     <footer></footer>
 
     @include('template.include.nocomplatible')

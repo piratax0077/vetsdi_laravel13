@@ -463,8 +463,8 @@
                     html += '<div class="row" style="border: 2px solid #aba8a8; border-radius: 13px; margin: 1em;padding: 10px 0px;">';
                     html += '    <div class="col-md-12 mb-2" style="text-align: left;"><span class="font-weight-bold">Motivo:</span> '+((value.motivo == null)?'':value.motivo)+'</div>';
                     html += '    ';
-                    html += '    <div class="col-md-12 mb-2" style="text-align: left;"><span class="font-weight-bold">Inicio:</span> '+fechaInicio+' '+value.hora_inicio+'</div>';
-                    html += '    <div class="col-md-12 mb-2" style="text-align: left;"><span class="font-weight-bold">Finalización:</span> '+fechaTermino+' '+value.hora_termino+'</div>';
+                    html += '    <div class="col-md-12 mb-2" style="text-align: left;"><span class="font-weight-bold">Inicio:</span> '+fechaInicio+' '+String(value.hora_inicio || '').substring(0, 5)+'</div>';
+                    html += '    <div class="col-md-12 mb-2" style="text-align: left;"><span class="font-weight-bold">Finalización:</span> '+fechaTermino+' '+String(value.hora_termino || '').substring(0, 5)+'</div>';
                     html += '    <div class="col-md-6 mb-2" style="text-align: center;">';
 
                     if (value.estado == 1)

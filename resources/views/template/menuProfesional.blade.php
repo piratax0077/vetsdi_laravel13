@@ -92,6 +92,7 @@
                                 <dt>Esterilización</dt>
                                 <dd>{{ is_null($mascota->esterilizado) ? '-' : ($mascota->esterilizado ? 'Sí' : 'No') }}</dd>
                             </div>
+                            @include('template.include.resumen_sanitario_mascota')
                         </dl>
                     @else
                         <div class="ficha-resumen-cabecera">
@@ -224,6 +225,7 @@
                                 <dt>Esterilización</dt>
                                 <dd>{{ is_null($mascota->esterilizado) ? '-' : ($mascota->esterilizado ? 'Sí' : 'No') }}</dd>
                             </div>
+                            @include('template.include.resumen_sanitario_mascota')
                         </dl>
                     @else
                         <div class="ficha-resumen-cabecera">
@@ -268,7 +270,7 @@
 <div class="modal fade" id="confirmLogoutModal" tabindex="-1" role="dialog" aria-labelledby="confirmLogoutModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="confirmLogoutModalLabel">Confirmar</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

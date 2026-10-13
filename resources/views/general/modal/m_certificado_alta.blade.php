@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-center">Certificado de Alta</h5>
-                <button type="button" class="close text-white"  data-bs-dismiss="modal"  aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white"  data-dismiss="modal" data-bs-dismiss="modal"  aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <input type="hidden" name="modal_cert_alta_tipo_informe" id="modal_cert_alta_tipo_informe" value="2">

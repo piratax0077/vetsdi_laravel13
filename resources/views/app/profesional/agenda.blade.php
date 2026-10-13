@@ -1,4 +1,6 @@
 @extends('template.profesional.template')
+{{-- La agenda va sin el botón Volver --}}
+@section('sin_boton_volver', '1')
 @section('page-styles')
     <link href='{{ asset('js/fullcalendar-5.10.1/lib/main.css') }}' rel='stylesheet' />
     <style>
@@ -137,7 +139,7 @@
         .lugar-atencion-agenda {
             font-family: 'Nunito Sans', sans-serif;
             font-size: 1.3rem;
-            font-weight: 800;
+            font-weight: 700;
             line-height: 1.2;
             color: #272727;
             word-break: break-word;
@@ -422,10 +424,11 @@
             border-radius: 8px !important;
         }
 
-        /* Anterior, siguiente y "Día": borde morado con fondo blanco */
+        /* Anterior, siguiente, "Día" y "Semana": borde morado con fondo blanco */
         .fc .fc-prev-button,
         .fc .fc-next-button,
-        .fc .fc-timeGridDay-button {
+        .fc .fc-timeGridDay-button,
+        .fc .fc-timeGridWeek-button {
             color: #8b52c2 !important;
             background: #fff !important;
             border: 1px solid #8b52c2 !important;
@@ -434,7 +437,8 @@
             transition: background-color .15s ease, color .15s ease, transform .1s ease;
         }
 
-        .fc .fc-timeGridDay-button {
+        .fc .fc-timeGridDay-button,
+        .fc .fc-timeGridWeek-button {
             height: 32px;
             padding: 4px 12px !important;
             font-size: .8rem;
@@ -443,7 +447,10 @@
 
         .fc .fc-prev-button:hover,
         .fc .fc-next-button:hover,
-        .fc .fc-timeGridDay-button:hover {
+        .fc .fc-timeGridDay-button:hover,
+        .fc .fc-timeGridWeek-button:hover,
+        .fc .fc-timeGridDay-button.fc-button-active,
+        .fc .fc-timeGridWeek-button.fc-button-active {
             color: #fff !important;
             background: #8b52c2 !important;
             border-color: #8b52c2 !important;
@@ -452,7 +459,8 @@
 
         .fc .fc-prev-button:focus,
         .fc .fc-next-button:focus,
-        .fc .fc-timeGridDay-button:focus {
+        .fc .fc-timeGridDay-button:focus,
+        .fc .fc-timeGridWeek-button:focus {
             box-shadow: 0 0 0 3px rgba(139, 82, 194, .25) !important;
         }
 
@@ -887,9 +895,13 @@
                                                     Array.prototype.forEach.call(document.querySelectorAll('.reserva-hora-acciones'), function (acciones) {
                                                         var datos = acciones.previousElementSibling;
                                                         if (!datos || !datos.classList.contains('reserva-hora-datos')) return;
+                                                        var modal = acciones.closest ? acciones.closest('.modal-content') : null;
 
                                                         var marcarEdicion = function () {
-                                                            datos.classList.toggle('reserva-hora-editando', acciones.style.display !== 'none');
+                                                            var editando = acciones.style.display !== 'none';
+                                                            datos.classList.toggle('reserva-hora-editando', editando);
+                                                            // El modal también queda marcado, para ocultar su pie mientras se edita.
+                                                            if (modal) modal.classList.toggle('reserva-hora-modal-editando', editando);
                                                         };
                                                         new MutationObserver(marcarEdicion).observe(acciones, { attributes: true, attributeFilter: ['style'] });
                                                         marcarEdicion();

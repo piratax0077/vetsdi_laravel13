@@ -47,9 +47,6 @@
 
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#m_cons_receta_fmu').modal('hide'); ">Cerrar</button>
-            </div>
         </div>
     </div>
 </div>

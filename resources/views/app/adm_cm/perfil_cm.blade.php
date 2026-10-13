@@ -1,4 +1,5 @@
 @extends('template.adm_cm.template')
+@section('sin_boton_volver', '1')
 @section('content')
 {{--  ESTILOS PROPIOD DE LA VISTA   --}}
 @section('page-styles')
@@ -35,27 +36,10 @@
 				<div class="card-body py-0">
 					<div class="user-about-block m-0">
 						<div class="row">
-							<div class="col-md-12 text-center mt-n4">
-								<div class="change-profile text-center">
-									<div class="dropdown w-auto d-inline-block">
-										<a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<div class="profile-dp">
-												<div class="position-relative d-inline-block">
-
-													<img class="img-radius img-fluid wid-100" src="{{ asset('images/iconos/cm.png') }}" alt="User image">
-												</div>
-												<div class="overlay">
-													<span>Actualizar</span>
-												</div>
-											</div>
-										</a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item"><i class="feather icon-upload-cloud mr-2"></i>Cambiar foto de perfil</a>
-											<a class="dropdown-item"><i class="feather icon-trash-2 mr-2"></i>Eliminar fotografía</a>
-										</div>
-									</div>
-								</div>
-							</div>
+							@include('template.partials.perfil_cabecera', [
+								'rol' => 'Institución',
+								'foto_base' => 'images/iconos/cm.png',
+							])
 							<div id="pills_conf_centro" class="col-md-12 mt-md-2">
 								<ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
 									<li class="nav-item">
@@ -98,7 +82,7 @@
 										<div class="card-body info_basica collapse show" id="info_basica-1">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+													<label class="col-sm-4 col-form-label font-weight-bolder">RUT</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_rut"></div>
 												</div>
 												<div class="form-group row">
@@ -121,9 +105,9 @@
 										<div class="card-body info_basica collapse" id="info_basica-2">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+													<label class="col-sm-4 col-form-label font-weight-bolder">RUT</label>
 													<div class="col-sm-7">
-														<input type="text" class="form-control form-control-sm" placeholder="Rut" id="editar_rut_adm_centro" name="editar_rut_adm_centro"value=" ">
+														<input type="text" class="form-control form-control-sm" placeholder="RUT" id="editar_rut_adm_centro" name="editar_rut_adm_centro"value=" ">
 													</div>
 												</div>
 												<div class="form-group row">
@@ -304,7 +288,7 @@
 										<div class="card-body info_basica collapse show" id="info_basica-1">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+													<label class="col-sm-4 col-form-label font-weight-bolder">RUT</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_rut"></div>
 												</div>
 												<div class="form-group row">
@@ -326,9 +310,9 @@
 										<div class="card-body info_basica collapse" id="info_basica-2">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+													<label class="col-sm-4 col-form-label font-weight-bolder">RUT</label>
 													<div class="col-sm-7">
-														<input type="text" class="form-control form-control-sm" placeholder="Rut" id="editar_rut" name="editar_rut"value=" ">
+														<input type="text" class="form-control form-control-sm" placeholder="RUT" id="editar_rut" name="editar_rut"value=" ">
 													</div>
 												</div>
 												<div class="form-group row">
@@ -505,7 +489,7 @@
                                         <div class="card-body info_basica collapse show" id="info_basica-1">
                                             <form>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+                                                    <label class="col-sm-4 col-form-label font-weight-bolder">RUT</label>
                                                     <div class="col-sm-7 my-auto ml-2" id="ver_rut"></div>
                                                 </div>
                                                 <div class="form-group row">
@@ -527,9 +511,9 @@
                                         <div class="card-body info_basica collapse" id="info_basica-2">
                                             <form>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+                                                    <label class="col-sm-4 col-form-label font-weight-bolder">RUT</label>
                                                     <div class="col-sm-7">
-                                                        <input type="text" class="form-control form-control-sm" placeholder="Rut" id="editar_rut" name="editar_rut"value=" ">
+                                                        <input type="text" class="form-control form-control-sm" placeholder="RUT" id="editar_rut" name="editar_rut"value=" ">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">

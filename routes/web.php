@@ -1373,6 +1373,14 @@ Route::group([
 
     Route::get('Mis_pacientes_ajax', [App\Http\Controllers\EscritorioProfesional::class, 'mis_pacientes_ajax'])->name('profesional.mis_pacientes.ajax');
 
+    Route::get('Hospitalizacion', [App\Http\Controllers\EscritorioProfesional::class, 'hospitalizacion'])->name('profesional.hospitalizacion');
+
+    Route::post('Hospitalizacion/alta', [App\Http\Controllers\EscritorioProfesional::class, 'dar_alta_hospitalizacion'])->name('profesional.hospitalizacion.alta');
+
+    Route::get('Mis_pacientes/tutor/{tutor}', [App\Http\Controllers\EscritorioProfesional::class, 'ver_tutor'])
+        ->whereNumber('tutor')
+        ->name('profesional.tutor.informacion');
+
     Route::get('Recetas', [App\Http\Controllers\EscritorioProfesional::class, 'buscar_receta_ficha'])->name('profesional.buscar_recetas');
 
     Route::get('Examenes', [App\Http\Controllers\EscritorioProfesional::class, 'buscar_examen_ficha'])->name('profesional.buscar_examenes');

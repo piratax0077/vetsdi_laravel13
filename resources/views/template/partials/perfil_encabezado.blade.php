@@ -132,7 +132,10 @@
     }
 
     // Mientras no haya foto propia se usa un avatar de muestra
-    $fotoMuestra = 'https://i.pravatar.cc/120?u=' . ($usuarioPerfil->id ?? 0);
+    // (los tutores usan el icono de usuario como imagen base)
+    $fotoMuestra = $tipoPerfil === 'tutor'
+        ? asset('images/iconos/usuario.svg')
+        : 'https://i.pravatar.cc/120?u=' . ($usuarioPerfil->id ?? 0);
     $fotoPerfil = empty($archivoFoto)
         ? $fotoMuestra
         : (\Illuminate\Support\Str::startsWith($archivoFoto, ['http://', 'https://', '/']) ? $archivoFoto : asset('storage/' . $archivoFoto));

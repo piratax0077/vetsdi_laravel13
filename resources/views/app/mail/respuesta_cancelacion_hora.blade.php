@@ -107,7 +107,7 @@
                     <p><strong>Estado:</strong> Cancelada</p>
                     @if(isset($hora_medica))
                         <p><strong>Fecha:</strong> {{ $hora_medica->fecha_consulta ?? '' }}</p>
-                        <p><strong>Hora:</strong> {{ $hora_medica->hora_inicio ?? '' }}</p>
+                        <p><strong>Hora:</strong> {{ substr((string) ($hora_medica->hora_inicio ?? ''), 0, 5) }}</p>
                     @endif
                 </div>
 

@@ -3405,8 +3405,8 @@
                     });
                     // ponemos la fecha y hora de la proxima atencion
                     $('#proxima_fecha_atencion').html(data.fecha_consulta);
-                    $('#proxima_hora_atencion_inicio').html(data.hora_inicio);
-                    $('#proxima_hora_atencion_fin').html(data.hora_termino);
+                    $('#proxima_hora_atencion_inicio').html(String(data.hora_inicio || '').substring(0, 5));
+                    $('#proxima_hora_atencion_fin').html(String(data.hora_termino || '').substring(0, 5));
                     // Incrementar hora_agendada DENTRO del success de guardar_plan
                     guardar_plan_tratamiento_psico(true); // true = llamado desde agendar_hora
                     let esUltimaSesion = false;

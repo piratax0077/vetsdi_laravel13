@@ -10,6 +10,11 @@
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav ml-auto">
+            <li class="d-flex align-items-center mr-2">
+                <a href="{{ route('asistente.home') }}" class="btn btn-outline-header btn-xxs d-inline-flex align-items-center" style="white-space:nowrap;" data-toggle="tooltip" data-placement="bottom" title="Volver a mi escritorio">
+                    <i class="feather icon-home mr-1"></i>Mi escritorio
+                </a>
+            </li>
             @include('template.partials.workspace_switcher')
 			<li>
                 @include('template.partials.perfil_encabezado', ['tipoPerfil' => 'asistente'])

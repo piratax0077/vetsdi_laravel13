@@ -122,7 +122,7 @@
 
 
     @yield('content')
-
+    @include('template.partials.boton_volver_auto')
     <footer>
         {{--  @include('template.include.footer')  --}}
     </footer>
@@ -222,11 +222,11 @@
             // asigno id profesioanl
             $('#modal_reserva_hora_id_profesional').val(id_profesional);
             $('#modal_reserva_hora_tipo_agenda').val(tipo_agenda);
-            $('#reservar_hora .modal-title').text(window.esVeterinariaBusqueda ? 'Reservar hora veterinaria' : 'Reservar hora médica');
 
             // cargo lugares de atencion  y asigno lugar con hora mas proxima
             lugar_atencion_profesional($('#modal_reserva_hora_id_profesional'), 'modal_reserva_hora_lugar_atencion', id_lugar_atencion)
-            $('#reservar_hora').modal('show');
+            // el calendario se muestra en el paso 3 de la misma tarjeta
+            abrirFechaHoraReservaHora(id_profesional);
         }
 
         function buscar_ciudad(element)
@@ -504,17 +504,11 @@
                             $(data.registros).each(function(key_registro, value_registro) {
                                 {{--  console.log(value_registro);  --}}
                                 var html = '';
-                                html += '<div class="col-sm-12 col-md-4">';
-                                html += '    <div class="card user-card user-card-1 mt-4">';
-                                html += '        <div class="card-body pt-0">';
-                                html += '            <div class="user-about-block text-center">';
-                                html += '                <div class="row align-items-end">';
-                                html += '                    <div class="col"><img class="img-radius img-fluid wid-70" src="'+value_registro.img_profesional+'" alt="'+value_registro.profesionales_nombre+' '+value_registro.profesionales_apellido_uno+' '+value_registro.profesionales_apellido_dos+'"></div>';
-                                html += '                </div>';
-                                html += '            </div>';
-                                html += '            <div class="text-center">';
-                                html += '                <a href="#!" data-toggle="modal" data-target="#modal-report">';
-                                html += '                    <span class="badge badge-primary mt-2">';
+                                html += '<div class="reserva-vet-lugar-caja reserva-vet-veterinario" data-profesional="'+value_registro.profesionales_id+'">';
+                                html += '    <img class="reserva-vet-profesional-icono" src="'+value_registro.img_profesional+'" alt="'+value_registro.profesionales_nombre+' '+value_registro.profesionales_apellido_uno+' '+value_registro.profesionales_apellido_dos+'">';
+                                html += '    <div class="reserva-vet-lugar-datos">';
+                                html += '        <span class="reserva-vet-lugar-nombre">'+value_registro.profesionales_nombre+' '+value_registro.profesionales_apellido_uno+' '+value_registro.profesionales_apellido_dos+'</span>';
+                                html += '        <span class="reserva-vet-lugar-direccion">';
                                 if(window.esVeterinariaBusqueda && value_registro.veterinaria_area != null) {
                                     html += value_registro.veterinaria_area+'<br>';
                                     if(value_registro.veterinaria_item != null)
@@ -525,22 +519,20 @@
                                     if(value_registro.sub_tipo_especialidad_nombre != null)
                                         html += value_registro.sub_tipo_especialidad_nombre;
                                 }
-                                html += '                    </span>';
-                                html += '                    <h6 class="mb-1 mt-2">'+value_registro.profesionales_nombre+' '+value_registro.profesionales_apellido_uno+' '+value_registro.profesionales_apellido_dos+'</h6>';
-                                html += '                </a>';
+                                html += '        </span>';
+                                html += '    </div>';
 
                                 if($(value_registro.profesional_hora_mas_proxima).length > 0)
-                                    html += '                <p class="mb-3 text-muted"><i class="feather icon-calendar"></i>Próxima hora '+value_registro.profesional_hora_mas_proxima['dia']+' '+value_registro.profesional_hora_mas_proxima['hora']+'</p>';
+                                    html += '    <div class="reserva-vet-veterinario-proxima"><span class="reserva-vet-horario-rango"><i class="feather icon-calendar"></i> Próxima hora '+moment(value_registro.profesional_hora_mas_proxima['dia'], 'YYYY-MM-DD').format('DD/MM/YYYY')+' · '+moment(value_registro.profesional_hora_mas_proxima['hora'], 'HH:mm:ss').format('HH:mm')+' hrs.</span></div>';
                                 else
-                                    html += '                <p class="mb-3 text-muted"><i class="feather icon-calendar"></i>Próxima hora Sin Agenda</p>';
+                                    html += '    <div class="reserva-vet-veterinario-proxima"><span class="ficha-profesional__sin-dato"><i class="feather icon-calendar"></i> Sin agenda disponible</span></div>';
 
-                                html += '                <button type="button" class="btn btn-outline-info btn-sm" onclick="f_profesional('+value_registro.profesionales_id+');"><i class="feather icon-file-plus"></i> Ver ficha</button>';
+                                html += '    <div class="reserva-vet-acciones">';
+                                html += '        <button type="button" class="btn btn-outline-info btn-sm" onclick="f_profesional('+value_registro.profesionales_id+');"><i class="feather icon-file-plus"></i> Ver ficha</button>';
                                 if($(value_registro.profesional_hora_mas_proxima).length > 0)
-                                    html += '                <button type="button" class="btn btn-info btn-sm" onclick="hora_medica('+value_registro.profesionales_id+','+value_registro.profesional_hora_mas_proxima.id_lugar_atencion+', \'1,2\', \''+value_registro.profesional_hora_mas_proxima.dia+'\');"><i class="feather icon-calendar"></i> Reservar hora</button>';
+                                    html += '        <button type="button" class="btn btn-info btn-sm" onclick="hora_medica('+value_registro.profesionales_id+','+value_registro.profesional_hora_mas_proxima.id_lugar_atencion+', \'1,2\', \''+value_registro.profesional_hora_mas_proxima.dia+'\');"><i class="feather icon-calendar"></i> Reservar hora</button>';
                                 else
-                                    html += '                <button type="button" class="btn btn-secondary btn-sm" disabled><i class="feather icon-calendar"></i> Sin agenda</button>';
-                                html += '            </div>';
-                                html += '        </div>';
+                                    html += '        <button type="button" class="btn btn-secondary btn-sm" disabled><i class="feather icon-calendar"></i> Sin agenda</button>';
                                 html += '    </div>';
                                 html += '</div>';
                                 $('#div_resultado_busqueda').append(html);
@@ -548,9 +540,12 @@
 
                             {{--  console.log(data);  --}}
                         } else {
-                            $('#div_resultado_busqueda').html('<h2>Sin registros</h2>');
+                            $('#div_resultado_busqueda').html('<div class="reserva-vet-horas-vacio"><i class="feather icon-search"></i><span>No encontramos horas con esos datos. Cambie la búsqueda e intente nuevamente.</span></div>');
                             {{--  console.log(data);  --}}
                         }
+
+                        // con o sin resultados, la lista se ve en el paso 2
+                        mostrarResultadosReservaHora();
 
                     })
                     .fail(function(jqXHR, ajaxOptions, thrownError) {
@@ -634,17 +629,11 @@
                             $(data.registros).each(function(key_registro, value_registro) {
                                 {{--  console.log(value_registro);  --}}
                                 var html = '';
-                                html += '<div class="col-sm-12 col-md-4">';
-                                html += '    <div class="card user-card user-card-1 mt-4">';
-                                html += '        <div class="card-body pt-0">';
-                                html += '            <div class="user-about-block text-center">';
-                                html += '                <div class="row align-items-end">';
-                                html += '                    <div class="col"><img class="img-radius img-fluid wid-70" src="'+value_registro.img_profesional+'" alt="'+value_registro.profesionales_nombre+' '+value_registro.profesionales_apellido_uno+' '+value_registro.profesionales_apellido_dos+'"></div>';
-                                html += '                </div>';
-                                html += '            </div>';
-                                html += '            <div class="text-center">';
-                                html += '                <a href="#!" data-toggle="modal" data-target="#modal-report">';
-                                html += '                    <span class="badge badge-primary mt-2">';
+                                html += '<div class="reserva-vet-lugar-caja reserva-vet-veterinario" data-profesional="'+value_registro.profesionales_id+'">';
+                                html += '    <img class="reserva-vet-profesional-icono" src="'+value_registro.img_profesional+'" alt="'+value_registro.profesionales_nombre+' '+value_registro.profesionales_apellido_uno+' '+value_registro.profesionales_apellido_dos+'">';
+                                html += '    <div class="reserva-vet-lugar-datos">';
+                                html += '        <span class="reserva-vet-lugar-nombre">'+value_registro.profesionales_nombre+' '+value_registro.profesionales_apellido_uno+' '+value_registro.profesionales_apellido_dos+'</span>';
+                                html += '        <span class="reserva-vet-lugar-direccion">';
                                 {{--  html +=                         value_registro.especialidades_nombre;  --}}
                                 if(window.esVeterinariaBusqueda && value_registro.veterinaria_area != null) {
                                     html += value_registro.veterinaria_area+'<br>';
@@ -656,22 +645,20 @@
                                     if(value_registro.sub_tipo_especialidad_nombre != null)
                                         html += value_registro.sub_tipo_especialidad_nombre;
                                 }
-                                html += '                    </span>';
-                                html += '                    <h6 class="mb-1 mt-2">'+value_registro.profesionales_nombre+' '+value_registro.profesionales_apellido_uno+' '+value_registro.profesionales_apellido_dos+'</h6>';
-                                html += '                </a>';
+                                html += '        </span>';
+                                html += '    </div>';
 
                                 if($(value_registro.profesional_hora_mas_proxima).length > 0)
-                                    html += '                <p class="mb-3 text-muted"><i class="feather icon-calendar"></i>Próxima hora '+value_registro.profesional_hora_mas_proxima['dia']+' '+value_registro.profesional_hora_mas_proxima['hora']+'</p>';
+                                    html += '    <div class="reserva-vet-veterinario-proxima"><span class="reserva-vet-horario-rango"><i class="feather icon-calendar"></i> Próxima hora '+moment(value_registro.profesional_hora_mas_proxima['dia'], 'YYYY-MM-DD').format('DD/MM/YYYY')+' · '+moment(value_registro.profesional_hora_mas_proxima['hora'], 'HH:mm:ss').format('HH:mm')+' hrs.</span></div>';
                                 else
-                                    html += '                <p class="mb-3 text-muted"><i class="feather icon-calendar"></i>Próxima hora Sin Agenda</p>';
+                                    html += '    <div class="reserva-vet-veterinario-proxima"><span class="ficha-profesional__sin-dato"><i class="feather icon-calendar"></i> Sin agenda disponible</span></div>';
 
-                                html += '                <button type="button" class="btn btn-outline-info btn-sm" onclick="f_profesional('+value_registro.profesionales_id+');"><i class="feather icon-file-plus"></i> Ver ficha</button>';
+                                html += '    <div class="reserva-vet-acciones">';
+                                html += '        <button type="button" class="btn btn-outline-info btn-sm" onclick="f_profesional('+value_registro.profesionales_id+');"><i class="feather icon-file-plus"></i> Ver ficha</button>';
                                 if($(value_registro.profesional_hora_mas_proxima).length > 0)
-                                    html += '                <button type="button" class="btn btn-info btn-sm" onclick="hora_medica('+value_registro.profesionales_id+','+value_registro.profesional_hora_mas_proxima.id_lugar_atencion+', \'1,2\', \''+value_registro.profesional_hora_mas_proxima.dia+'\');"><i class="feather icon-calendar"></i> Reservar hora</button>';
+                                    html += '        <button type="button" class="btn btn-info btn-sm" onclick="hora_medica('+value_registro.profesionales_id+','+value_registro.profesional_hora_mas_proxima.id_lugar_atencion+', \'1,2\', \''+value_registro.profesional_hora_mas_proxima.dia+'\');"><i class="feather icon-calendar"></i> Reservar hora</button>';
                                 else
-                                    html += '                <button type="button" class="btn btn-secondary btn-sm" disabled><i class="feather icon-calendar"></i> Sin agenda</button>';
-                                html += '            </div>';
-                                html += '        </div>';
+                                    html += '        <button type="button" class="btn btn-secondary btn-sm" disabled><i class="feather icon-calendar"></i> Sin agenda</button>';
                                 html += '    </div>';
                                 html += '</div>';
                                 $('#div_resultado_busqueda').append(html);
@@ -679,9 +666,12 @@
 
                             {{--  console.log(data);  --}}
                         } else {
-                            $('#div_resultado_busqueda').html('<h2>Sin registros</h2>');
+                            $('#div_resultado_busqueda').html('<div class="reserva-vet-horas-vacio"><i class="feather icon-search"></i><span>No encontramos horas con esos datos. Cambie la búsqueda e intente nuevamente.</span></div>');
                             {{--  console.log(data);  --}}
                         }
+
+                        // con o sin resultados, la lista se ve en el paso 2
+                        mostrarResultadosReservaHora();
 
                     })
                     .fail(function(jqXHR, ajaxOptions, thrownError) {
@@ -757,17 +747,11 @@
                             $(data.registros).each(function(key_registro, value_registro) {
                                 {{--  console.log(value_registro);  --}}
                                 var html = '';
-                                html += '<div class="col-sm-12 col-md-4">';
-                                html += '    <div class="card user-card user-card-1 mt-4">';
-                                html += '        <div class="card-body pt-0">';
-                                html += '            <div class="user-about-block text-center">';
-                                html += '                <div class="row align-items-end">';
-                                html += '                    <div class="col"><img class="img-radius img-fluid wid-70" src="'+value_registro.img_profesional+'" alt="'+value_registro.profesionales_nombre+' '+value_registro.profesionales_apellido_uno+' '+value_registro.profesionales_apellido_dos+'"></div>';
-                                html += '                </div>';
-                                html += '            </div>';
-                                html += '            <div class="text-center">';
-                                html += '                <a href="#!" data-toggle="modal" data-target="#modal-report">';
-                                html += '                    <span class="badge badge-primary mt-2">';
+                                html += '<div class="reserva-vet-lugar-caja reserva-vet-veterinario" data-profesional="'+value_registro.profesionales_id+'">';
+                                html += '    <img class="reserva-vet-profesional-icono" src="'+value_registro.img_profesional+'" alt="'+value_registro.profesionales_nombre+' '+value_registro.profesionales_apellido_uno+' '+value_registro.profesionales_apellido_dos+'">';
+                                html += '    <div class="reserva-vet-lugar-datos">';
+                                html += '        <span class="reserva-vet-lugar-nombre">'+value_registro.profesionales_nombre+' '+value_registro.profesionales_apellido_uno+' '+value_registro.profesionales_apellido_dos+'</span>';
+                                html += '        <span class="reserva-vet-lugar-direccion">';
                                 {{--  html +=                         value_registro.especialidades_nombre;  --}}
                                 if(window.esVeterinariaBusqueda && value_registro.veterinaria_area != null) {
                                     html += value_registro.veterinaria_area+'<br>';
@@ -779,22 +763,20 @@
                                     if(value_registro.sub_tipo_especialidad_nombre != null)
                                         html += value_registro.sub_tipo_especialidad_nombre;
                                 }
-                                html += '                    </span>';
-                                html += '                    <h6 class="mb-1 mt-2">'+value_registro.profesionales_nombre+' '+value_registro.profesionales_apellido_uno+' '+value_registro.profesionales_apellido_dos+'</h6>';
-                                html += '                </a>';
+                                html += '        </span>';
+                                html += '    </div>';
 
                                 if($(value_registro.profesional_hora_mas_proxima).length > 0)
-                                    html += '                <p class="mb-3 text-muted"><i class="feather icon-calendar"></i>Próxima hora '+value_registro.profesional_hora_mas_proxima['dia']+' '+value_registro.profesional_hora_mas_proxima['hora']+'</p>';
+                                    html += '    <div class="reserva-vet-veterinario-proxima"><span class="reserva-vet-horario-rango"><i class="feather icon-calendar"></i> Próxima hora '+moment(value_registro.profesional_hora_mas_proxima['dia'], 'YYYY-MM-DD').format('DD/MM/YYYY')+' · '+moment(value_registro.profesional_hora_mas_proxima['hora'], 'HH:mm:ss').format('HH:mm')+' hrs.</span></div>';
                                 else
-                                    html += '                <p class="mb-3 text-muted"><i class="feather icon-calendar"></i>Próxima hora Sin Agenda</p>';
+                                    html += '    <div class="reserva-vet-veterinario-proxima"><span class="ficha-profesional__sin-dato"><i class="feather icon-calendar"></i> Sin agenda disponible</span></div>';
 
-                                html += '                <button type="button" class="btn btn-outline-info btn-sm" onclick="f_profesional('+value_registro.profesionales_id+');"><i class="feather icon-file-plus"></i> Ver ficha</button>';
+                                html += '    <div class="reserva-vet-acciones">';
+                                html += '        <button type="button" class="btn btn-outline-info btn-sm" onclick="f_profesional('+value_registro.profesionales_id+');"><i class="feather icon-file-plus"></i> Ver ficha</button>';
                                 if($(value_registro.profesional_hora_mas_proxima).length > 0)
-                                    html += '                <button type="button" class="btn btn-info btn-sm" onclick="hora_medica('+value_registro.profesionales_id+','+value_registro.profesional_hora_mas_proxima.id_lugar_atencion+', \'3\', \''+value_registro.profesional_hora_mas_proxima.dia+'\');"><i class="feather icon-calendar"></i> Reservar hora</button>';
+                                    html += '        <button type="button" class="btn btn-info btn-sm" onclick="hora_medica('+value_registro.profesionales_id+','+value_registro.profesional_hora_mas_proxima.id_lugar_atencion+', \'3\', \''+value_registro.profesional_hora_mas_proxima.dia+'\');"><i class="feather icon-calendar"></i> Reservar hora</button>';
                                 else
-                                    html += '                <button type="button" class="btn btn-secondary btn-sm" disabled><i class="feather icon-calendar"></i> Sin agenda</button>';
-                                html += '            </div>';
-                                html += '        </div>';
+                                    html += '        <button type="button" class="btn btn-secondary btn-sm" disabled><i class="feather icon-calendar"></i> Sin agenda</button>';
                                 html += '    </div>';
                                 html += '</div>';
                                 $('#div_resultado_busqueda').append(html);
@@ -802,9 +784,12 @@
 
                             {{--  console.log(data);  --}}
                         } else {
-                            $('#div_resultado_busqueda').html('<h2>Sin registros</h2>');
+                            $('#div_resultado_busqueda').html('<div class="reserva-vet-horas-vacio"><i class="feather icon-search"></i><span>No encontramos horas con esos datos. Cambie la búsqueda e intente nuevamente.</span></div>');
                             {{--  console.log(data);  --}}
                         }
+
+                        // con o sin resultados, la lista se ve en el paso 2
+                        mostrarResultadosReservaHora();
 
                     })
                     .fail(function(jqXHR, ajaxOptions, thrownError) {
@@ -893,7 +878,7 @@
                         if(data.registros.horario_agenda_laboral != '')
                         {
                             console.log(data);
-                            let dias = ['','LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
+                            let dias = ['','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
                             var dias_activos = data.registros.horario_agenda_laboral.split(',');
                             var dias_texto = '';
                             var cant = 0;
@@ -901,7 +886,7 @@
                             $.each(dias_activos, function(index, value)
                             {
                                 if(cant>0)
-                                    dias_texto += ' - '+dias[value];
+                                    dias_texto += ', '+dias[value];
                                 else
                                     dias_texto += dias[value];
 
@@ -919,6 +904,7 @@
                             }
 
                             $("#modal_reserva_fecha").flatpickr({
+                                inline: true,
                                 "disable": [
                                     function(date) {
                                         return !dias_activos.includes(String(date.getDay()));
@@ -949,7 +935,7 @@
                         }
                         else
                         {
-                            $('#modal_reserva_dias_atencion').html('NO INFORMADOS');
+                            $('#modal_reserva_dias_atencion').html('no informados');
                             $('#modal_reserva_fecha').attr('disabled',true);
                             $('#modal_reserva_fecha_seleccionada').html('');
                         }
@@ -1108,23 +1094,23 @@
             .done(function(data) {
                 console.log(data);
                 if (data.estado == 1) {
-                    $('#modal_reserva_fecha_seleccionada').html('Horas disponibles para el dia: '+data.text_fecha);
+                    $('#modal_reserva_fecha_seleccionada').html(data.text_fecha);
 
                     $('#modal_reserva_hora_lista_horas').html('');
                     $.each(data.registros, function(index, value)
                     {
                         var hr1 = moment(value.hora,'HH:mm:ss').format('HH:mm');
                         var html = '';
-                        html += '<div class="col-md-2 btn btn-outline-primary btn-sm my-1 mx-1" data-hora="'+value.hora+'" onclick="generar_reserva_cita(\''+value.hora+'\');">';
+                        html += '<button type="button" class="reserva-vet-hora" aria-pressed="false" data-hora="'+value.hora+'" onclick="generar_reserva_cita(\''+value.hora+'\');">';
                         html += ''+hr1;
-                        html += '</div>';
+                        html += '</button>';
 
                         $('#modal_reserva_hora_lista_horas').append(html);
                     });
 
                 } else {
                     $('#modal_reserva_fecha_seleccionada').html('No hay horas disponibles para esta fecha');
-                    $('#modal_reserva_hora_lista_horas').html('<span style="font-weight: bold; text-align: center;">Sin disponibilidad de horas</span>');
+                    $('#modal_reserva_hora_lista_horas').html('<div class="reserva-vet-horas-vacio"><i class="feather icon-clock"></i><span>Elija otro día en el calendario.</span></div>');
                 }
 
             })
@@ -1203,8 +1189,6 @@
             $('#reserva_datos_paciente').hide();
             $('#reserva_agregar_paciente_hora').hide();
 
-            $('#reservar_hora').modal('hide');
-
             let id_profesional = $('#modal_reserva_hora_id_profesional').val();
             let id_lugar_atencion = $('#modal_reserva_hora_lugar_atencion').val();
             let fecha_consulta = $('#modal_reserva_fecha').val();
@@ -1247,7 +1231,7 @@
                     $('#reserva_datos_paciente').show();
                     $('#reserva_agregar_paciente_hora').hide();
 
-                    $('#agenda_agregar_paciente').modal('show');
+                    abrirConfirmacionReservaHora(fecha_consulta, hora);
 
                     $('#reserva_hora_id_profesional').val(id_profesional);
                     $('#reserva_hora_id_lugar_atencion').val(id_lugar_atencion);
@@ -1458,7 +1442,7 @@
                                 'HH:mm:ss'
                             ).format('HH:mm');
 
-                            $('#agenda_agregar_paciente').modal('hide');
+                            cerrarReservaHora();
 
                             swal({
                                 title: "Su hora quedó reservada",

@@ -134,7 +134,7 @@
                                         //end: 'today prev,next'
                                         start: 'prev today next',
                                         center: 'title',
-                                        right: 'timeGridDay listDay'
+                                        right: 'timeGridDay timeGridWeek listDay'
                                     },
                                     weekends: true,
                                     nowIndicator: true,

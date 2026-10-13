@@ -1,4 +1,4 @@
-// Referidos del tutor (Paciente/Referidos)
+// Referidos del tutor y del profesional (Paciente/Referidos y Profesional/Referidos)
 document.addEventListener('DOMContentLoaded', function () {
     var PREFIJO = '+569';
 
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
     actualizarNombreCentro();
 
     // WhatsApp: se escriben solo los 8 dígitos y el +569 se antepone al enviar
-    var numero = document.getElementById('telefono_numero');
+    var numero = document.getElementById('numero_invitado');
     var telefono = document.getElementById('telefono_invitado');
 
     function soloDigitos(texto) {

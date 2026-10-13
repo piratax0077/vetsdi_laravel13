@@ -10,48 +10,10 @@
     </div>
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-            @if(isset($mensajes))
-                    @if(count($mensajes) > 0)
-                        <li>
-                            <div class="dropdown drp-user">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Mensajes" data-placement="button">
-                                    <i class="feather icon-mail" style="font-size: 1.2rem!important;"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right profile-notification">
-                                    <div class="pro-head font-weight-bold f-16 py-2">
-                                        Mensajes  <span class="badge badge-danger">{{ count($mensajes) }}</span>
-                                    </div>
-                                    <ul></ul>
-                                    <ul class="pro-body">
-                                        @foreach ($mensajes as $mensaje)
-                                            @if (isset($mensaje->datos_mensaje))
-
-                                                <li>
-                                                    <a href="{{ route('profesional.mensaje', ['id' => $mensaje->id]) }}" class="dropdown-item">
-                                                        <div class="media">
-                                                            <img class="img-radius img-40" src="{{ asset('images/iconos/usuario_profesional.svg') }}" alt="Foto de perfil" style="width: 50px;">
-                                                            <div class="media-body ml-3">
-                                                                @if (array_key_exists('titulo', $mensaje->datos_mensaje))
-                                                                    <h6 class="pro-title">{{ $mensaje->datos_mensaje['titulo'] }}</h6>
-                                                                @else
-                                                                    <h6 class="pro-title">Sin titulo</h6>
-                                                                @endif
-                                                                <p class="pro-date">{{ $mensaje->created_at->diffForHumans() }}</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                    @endif
-                @endif
                 @if (Auth::user())
                     @include('template.partials.workspace_switcher')
+
+                    @include('template.partials.mensajes_encabezado')
 
                     @if (false)
                         <li>

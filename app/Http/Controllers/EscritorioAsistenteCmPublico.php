@@ -157,21 +157,8 @@ class EscritorioAsistenteCmPublico extends Controller
         if($liquidacion)
         foreach ($liquidacion as $key => $value)
         {
-            $id_banco = decrypt($value->casa);
-            $banco = Bancos::select('id', 'nombre')->where('id',$id_banco)->first();
-            $liquidacion[$key]->banco = $banco;
-            if($value->serie!='')
-                $liquidacion[$key]->serie  = decrypt($value->serie);
-            if($value->autor!='')
-                $liquidacion[$key]->autor = decrypt($value->autor);
-            if($value->casa!='')
-                $liquidacion[$key]->casa = decrypt($value->casa);
-            if($value->numero_control!='')
-                $liquidacion[$key]->numero_control = decrypt($value->numero_control);
-            if($value->email!='')
-                $liquidacion[$key]->email = decrypt($value->email);
-            if($value->otro!='')
-                $liquidacion[$key]->otro = decrypt($value->otro);
+            // Si un dato bancario no se puede descifrar se muestra vacío en vez de botar el perfil.
+            $value->preparar_para_perfil();
             if($liqui_principal == 0 && $value->principal == 1)
                 $liqui_principal = 1;
         }
@@ -763,7 +750,9 @@ class EscritorioAsistenteCmPublico extends Controller
         $contacto_emergencia->apellido_uno = $request->apellido_uno;
         $contacto_emergencia->apellido_dos = $request->apellido_dos;
         $contacto_emergencia->parentezco = $request->parentezco;
-        $contacto_emergencia->fecha_nac = \Carbon\Carbon::parse($request->fecha)->format('Y-m-d');
+        // La fecha de nacimiento ya no se pide: se conserva la que tuviera el contacto.
+        if($request->fecha)
+            $contacto_emergencia->fecha_nac = \Carbon\Carbon::parse($request->fecha)->format('Y-m-d');
         $contacto_emergencia->prioridad = $request->prioridad;
         $contacto_emergencia->id_direccion = $direccion_contacto->id;
 

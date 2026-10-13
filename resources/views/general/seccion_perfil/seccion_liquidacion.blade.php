@@ -3,7 +3,7 @@
     {{-- formulario para agregar  --}}
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-            <h5 class="f-20 text-c-blue d-inline mr-2 pt-1">Cuentas bancarias para depósito</h5>
+            <h5 class="f-20 d-inline mr-2 pt-1">Cuentas bancarias para depósito</h5>
             @if($liquidacion != NULL)
                 <input type="hidden" name="cantidad_liquidaciones" id="cantidad_liquidaciones" value="{{ $liquidacion->count() }}">
             @else
@@ -11,9 +11,9 @@
             @endif
             @if($liquidacion != NULL)
                 @if ($liquidacion->count() >= 4)
-                    <button type="button" class="btn btn-info btn-sm d-inline float-right mb-2" onclick="" disabled="disabled"><i class="fas fa-plus"></i> Añadir</button>
+                    <button type="button" class="btn btn-info d-inline float-right mb-2" onclick="" disabled="disabled"><i class="fas fa-plus"></i> Agregar</button>
                 @else
-                    <button type="button" class="btn btn-info btn-sm d-inline float-right mb-2" onclick="cta_banco_m();"><i class="fas fa-plus"></i> Añadir</button>
+                    <button type="button" class="btn btn-info d-inline float-right mb-2" onclick="cta_banco_m();"><i class="fas fa-plus"></i> Agregar</button>
                 @endif
             @endif
 
@@ -30,7 +30,7 @@
                             {{-- <h5 class="mb-0 text-white">{{ $value_liqu->banco->nombre }}</h5> --}}
                             <h5 class="mb-0"><i class="feather icon-credit-card icono-purple"></i> {{ $value_liqu->banco['nombre'] }}</h5>
                             <div class="float-md-right d-inline">
-                                <button type="button" class="btn btn-outline-purple btn-icon" data-toggle="collapse" data-target=".u_personal_liquidacion_{{ $value_liqu->id }}" aria-expanded="false" aria-controls="u_personal_liquidacion_{{ $value_liqu->id }}_1 u_personal_liquidacion_{{ $value_liqu->id }}_2">
+                                <button type="button" class="btn btn-outline-purple btn-icon" data-toggle="collapse" data-target=".u_personal_liquidacion_{{ $value_liqu->id }}" aria-expanded="false" aria-controls="u_personal_liquidacion_{{ $value_liqu->id }}_1 u_personal_liquidacion_{{ $value_liqu->id }}_2 u_personal_liquidacion_{{ $value_liqu->id }}_3">
                                     <i class="feather icon-edit"></i>
                                 </button>
                                 <!--BOTÓN ELIMINAR PROGRAMAR - BORRAR COMENTARIO CUANDO SE PROGRAME-->
@@ -51,7 +51,7 @@
                             <form>
                                 <div class="form-row">
                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                        <label class="font-weight-bolder ml-0 mb-0">Rut</label>
+                                        <label class="font-weight-bolder ml-0 mb-0">RUT</label>
                                         <div>{{ $value_liqu->serie }}</div>
                                     </div>
                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -96,7 +96,7 @@
                         <div class="card-body border-top u_personal_liquidacion_{{ $value_liqu->id }} collapse" id="u_personal_liquidacion_{{ $value_liqu->id }}_2">
                             <div class="form-row">
                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                    <label class="floating-label-activo-sm">Rut</label>
+                                    <label class="floating-label-activo-sm">RUT</label>
                                     <input type="text" class="form-control form-control-sm" id="{{ $value_liqu->id }}_liquidacion_rut" value="{{ $value_liqu->serie }}">
                                 </div>
                                  <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -176,11 +176,10 @@
                                 @endif
 
                             @endif
-                            <div class="row">
-                                <div class="col-sm-12 d-flex justify-content-end">
-                                    <button class="btn btn-info btn-sm" onclick="modificar_registro_liquidacion({{ $value_liqu->id }});"><i class="feather icon-save"></i> Guardar cambios</button>
-                                </div>
-                            </div>
+                        </div>
+                        <div class="card-footer text-right u_personal_liquidacion_{{ $value_liqu->id }} collapse" id="u_personal_liquidacion_{{ $value_liqu->id }}_3">
+                            <button type="button" class="btn btn-outline-dark btn-sm mr-2" data-toggle="collapse" data-target=".u_personal_liquidacion_{{ $value_liqu->id }}"><i class="feather icon-x"></i> Cancelar</button>
+                            <button type="button" class="btn btn-info btn-sm" onclick="modificar_registro_liquidacion({{ $value_liqu->id }});"><i class="feather icon-save"></i> Guardar cambios</button>
                         </div>
                     </div>
                 </div>
@@ -202,7 +201,7 @@
             <div class="modal-body">
                 <div class="form-row">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex">
-                        <h5 class="f-20 text-c-blue d-inline pt-1">Ha llegado al Máximo de Cuentas Bancarias</h5>
+                        <h5 class="f-20 d-inline pt-1">Ha llegado al Máximo de Cuentas Bancarias</h5>
                     </div>
                 </div>
 
@@ -255,7 +254,7 @@
 
         if(rut == '')
         {
-            mensaje += 'Campo rut requerido\n';
+            mensaje += 'Campo RUT requerido\n';
             valido = 0;
         }
         if(nombre == '')
@@ -362,7 +361,7 @@
 
         if(rut == '')
         {
-            mensaje += 'Campo rut requerido\n';
+            mensaje += 'Campo RUT requerido\n';
             valido = 0;
         }
         if(nombre == '')

@@ -60,327 +60,340 @@
 
                                 $mascotaFnTexto = $formatearFnMascota($mascota->fecha_nacimiento ?? null);
                             @endphp
-                            <div id="info_mascota">
-                            <!--NOMBRE MASCOTA-->
-                            <div class="form-row pt-3">
-                                <label class="col-4 text-dark font-weight-bolder">Nombre</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_nombre_text">
-                                    {{ $mascota->nombre ?? 'Sin registro' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--ESPECIE MASCOTA-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Especie</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_especie_text">
-                                    {{ optional($mascota->especieMascota)->nombre ?? $mascota->otra_especie ?? $mascota->especie ?? 'Sin registro' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--SEXO-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Sexo</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_sexo_text">
-                                    @if ($mascota->sexo == 'M')
-                                        Macho
-                                    @elseif ($mascota->sexo == 'F')
-                                        Hembra
-                                    @else
-                                        {{ $mascota->sexo ?? 'Sin registro' }}
-                                    @endif
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--FECHA DE NACIMIENTO-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">FN</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_fn_text">
-                                    {{ $mascotaFnTexto }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                              <!--TAMAÑO-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Tamaño</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_tamano_text">
-                                    {{ optional($mascota->tamanoMascota)->nombre ?? $mascota->tamano ?? 'Sin registro' }}
+                            <!--Datos de la mascota: cada uno con su icono, con los estilos de la ficha (style.css)-->
+                            <div id="info_mascota" class="px-2 pt-3">
+                                <div class="form-row">
+                                    <!--NOMBRE MASCOTA-->
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-paw" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Nombre</span>
+                                                <span class="ficha-profesional__valor" id="mascota_nombre_text">{{ $mascota->nombre ?? 'Sin registro' }}</span>
+                                            </div>
+                                        </div>
                                     </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--CHIP-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Chip</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_chip_text">
-                                     @if ($mascota->tiene_chip)
-                                        {{ $mascota->chip ?? 'Si' }}
-                                    @else
-                                        No
-                                    @endif
+                                    <!--ESPECIE MASCOTA-->
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-dog" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Especie</span>
+                                                <span class="ficha-profesional__valor" id="mascota_especie_text">{{ optional($mascota->especieMascota)->nombre ?? $mascota->otra_especie ?? $mascota->especie ?? 'Sin registro' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--SEXO-->
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-venus-mars" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Sexo</span>
+                                                <span class="ficha-profesional__valor" id="mascota_sexo_text">
+                                                    @if ($mascota->sexo == 'M')
+                                                        Macho
+                                                    @elseif ($mascota->sexo == 'F')
+                                                        Hembra
+                                                    @else
+                                                        {{ $mascota->sexo ?? 'Sin registro' }}
+                                                    @endif
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--TAMAÑO-->
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-ruler-combined" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Tamaño</span>
+                                                <span class="ficha-profesional__valor" id="mascota_tamano_text">{{ optional($mascota->tamanoMascota)->nombre ?? $mascota->tamano ?? 'Sin registro' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--FECHA DE NACIMIENTO-->
+                                    <div class="col-12 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="far fa-calendar-alt" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">FN</span>
+                                                <span class="ficha-profesional__valor" id="mascota_fn_text">{{ $mascotaFnTexto }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--CHIP: va a lo ancho porque el número es largo-->
+                                    <div class="col-12 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-microchip" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Chip</span>
+                                                <span class="ficha-profesional__valor" id="mascota_chip_text">
+                                                    @if ($mascota->tiene_chip)
+                                                        {{ $mascota->chip ?? 'Si' }}
+                                                    @else
+                                                        No
+                                                    @endif
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--ESTERILIZADO-->
+                                    <div class="col-12 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-notes-medical" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Esterilizado</span>
+                                                <span class="ficha-profesional__valor" id="mascota_esterilizado_text">{{ $mascota->esterilizado ? 'Si' : 'No' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--ENFERMEDAD CRÓNICA-->
+                                    <div class="col-12 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-heartbeat" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Enfermedad crónica</span>
+                                                <span class="ficha-profesional__valor" id="mascota_enf_cronica_text">{{ $mascota->enfermedad_cronica ?? 'Sin registro' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--DIETA-->
+                                    <div class="col-12 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-utensils" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Dieta</span>
+                                                <span class="ficha-profesional__valor" id="mascota_dieta_text">{{ $mascota->dieta ?? 'Sin registro' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--ÚLTIMA DESPARASITACIÓN-->
+                                    <div class="col-12 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-bug" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Última desparasitación</span>
+                                                <span class="ficha-profesional__valor" id="mascota_ultima_desparasitacion_text">{{ $mascota->ultima_desparasitacion ?? 'Sin registro' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--PRODUCTOS-->
+                                    <div class="col-12 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-pills" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Productos</span>
+                                                <span class="ficha-profesional__valor" id="mascota_producto_desparasitacion_text">{{ $mascota->producto_desparasitacion ?? 'Sin registro' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--CIRUGÍAS-->
+                                    <div class="col-12 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-procedures" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Cirugías</span>
+                                                <span class="ficha-profesional__valor" id="mascota_cirugias_text">{{ $mascota->cirugias ?? 'Sin registro' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--VACUNAS-->
+                                    <div class="col-12 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-syringe" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Vacunas</span>
+                                                <span class="ficha-profesional__valor" id="mascota_vacunas_text">{{ $mascota->vacunas ?? 'Sin registro' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--VIAJES-->
+                                    <div class="col-12 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-plane" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">Viajes</span>
+                                                <span class="ficha-profesional__valor" id="mascota_viajes_text">{{ $mascota->viajes ?? 'Sin registro' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--¿VIVE CON ANIMALES?-->
+                                    <div class="col-12 mb-2">
+                                        <div class="ficha-profesional__dato py-2 h-100">
+                                            <span class="ficha-profesional__icono"><i class="fas fa-home" aria-hidden="true"></i></span>
+                                            <div>
+                                                <span class="ficha-profesional__etiqueta">¿Vive con animales?</span>
+                                                <span class="ficha-profesional__valor" id="mascota_vive_con_animales_text">
+                                                    @if (is_null($mascota->vive_con_animales))
+                                                        Sin registro
+                                                    @else
+                                                        {{ $mascota->vive_con_animales ? 'Si' : 'No' }}
+                                                    @endif
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--ESTERILIZADO-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Esterilizado</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_esterilizado_text">
-                                    {{ $mascota->esterilizado ? 'Si' : 'No' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--ESTERILIZADO-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Enfermedad crónica</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_enf_cronica_text">
-                                    {{ $mascota->enfermedad_cronica ?? 'Sin registro' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--DIETA-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Dieta</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_dieta_text">
-                                    {{ $mascota->dieta ?? 'Sin registro' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--ÚLTIMA DESPARASITACIÓN-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Última desparasitación</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_ultima_desparasitacion_text">
-                                    {{ $mascota->ultima_desparasitacion ?? 'Sin registro' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--PRODUCTOS-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Productos</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_producto_desparasitacion_text">
-                                    {{ $mascota->producto_desparasitacion ?? 'Sin registro' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--CIRUGÍAS-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Cirugías</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_cirugias_text">
-                                    {{ $mascota->cirugias ?? 'Sin registro' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--Tamaño-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Tamaño</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_tamano_text_extra">
-                                    {{ optional($mascota->tamanoMascota)->nombre ?? $mascota->tamano ?? 'Sin registro' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--VACUNAS-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Vacunas</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_vacunas_text">
-                                    {{ $mascota->vacunas ?? 'Sin registro' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--Vacunas-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">Viajes</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_viajes_text">
-                                    {{ $mascota->viajes ?? 'Sin registro' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <!--¿Vive con animales?-->
-                            <div class="form-row pt-0">
-                                <label class="col-4 text-dark font-weight-bolder">¿Vive con animales?</label>
-                                <div class="col-7 ml-2 text-secondary" id="mascota_vive_con_animales_text">
-                                    @if (is_null($mascota->vive_con_animales))
-                                        Sin registro
-                                    @else
-                                        {{ $mascota->vive_con_animales ? 'Si' : 'No' }}
-                                    @endif
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row my-2">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
-                                    <button type="button" class="btn btn-purple-light-c btn-xxs mb-3"
+                                <div class="text-center mt-2 mb-3">
+                                    <button type="button" class="btn btn-purple-light-c btn-xxs"
                                         onclick="editarInformacionMascota()"><i class="feather icon-edit"></i> Editar
                                         información</button>
                                 </div>
                             </div>
-                            </div>
-                            <div id="info_mascota-edit" style="display: none">
-                                <div class="form-row pt-3">
-                                    <label class="col-4 text-dark font-weight-bolder">Nombre</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <input type="text" id="mascota_nombre_edit" class="form-control"
-                                            value="{{ $mascota->nombre ?? '' }}">
+                            <!--Edición: mismos campos, en dos columnas y con controles chicos-->
+                            <div id="info_mascota-edit" class="px-2 pt-4" style="display: none">
+                                <div class="form-row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_nombre_edit">Nombre</label>
+                                            <input type="text" id="mascota_nombre_edit" class="form-control form-control-sm"
+                                                value="{{ $mascota->nombre ?? '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_especie_edit">Especie</label>
+                                            <select id="mascota_especie_edit" class="form-control form-control-sm">
+                                                <option value="0">Seleccione especie</option>
+                                                @foreach ($especies_mascotas as $especie)
+                                                    <option value="{{ $especie->id }}"
+                                                        @if ($mascota->especie_id == $especie->id || $mascota->especie == $especie->id) selected @endif>{{ $especie->nombre }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_otra_especie_edit">Otra especie</label>
+                                            <input type="text" id="mascota_otra_especie_edit" class="form-control form-control-sm"
+                                                value="{{ $mascota->otra_especie ?? '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_sexo_edit">Sexo</label>
+                                            <select id="mascota_sexo_edit" class="form-control form-control-sm">
+                                                <option value="M" @if ($mascota->sexo == 'M') selected @endif>Macho</option>
+                                                <option value="F" @if ($mascota->sexo == 'F') selected @endif>Hembra</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_fn_edit">FN</label>
+                                            <input type="date" id="mascota_fn_edit" class="form-control form-control-sm"
+                                                value="{{ !empty($mascota->fecha_nacimiento) ? \Carbon\Carbon::parse($mascota->fecha_nacimiento)->format('Y-m-d') : '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_tamano_edit">Tamaño</label>
+                                            <select id="mascota_tamano_edit" class="form-control form-control-sm">
+                                                <option value="0">Seleccione tamaño</option>
+                                                @foreach ($tamanos_mascotas as $tamano)
+                                                    <option value="{{ $tamano->id }}"
+                                                        @if ($mascota->tamano_id == $tamano->id || $mascota->tamano == $tamano->slug) selected @endif>{{ $tamano->nombre }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_tiene_chip_edit">Tiene chip</label>
+                                            <select id="mascota_tiene_chip_edit" class="form-control form-control-sm">
+                                                <option value="1" @if ($mascota->tiene_chip) selected @endif>Si</option>
+                                                <option value="0" @if (!$mascota->tiene_chip) selected @endif>No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_chip_edit">Chip</label>
+                                            <input type="text" id="mascota_chip_edit" class="form-control form-control-sm"
+                                                value="{{ $mascota->chip ?? '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_esterilizado_edit">Esterilizado</label>
+                                            <select id="mascota_esterilizado_edit" class="form-control form-control-sm">
+                                                <option value="1" @if ($mascota->esterilizado) selected @endif>Si</option>
+                                                <option value="0" @if (!$mascota->esterilizado) selected @endif>No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_fecha_esterilizacion_edit">F. esterilización</label>
+                                            <input type="date" id="mascota_fecha_esterilizacion_edit" class="form-control form-control-sm"
+                                                value="{{ !empty($mascota->fecha_esterilizacion) ? \Carbon\Carbon::parse($mascota->fecha_esterilizacion)->format('Y-m-d') : '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_enfermedad_cronica_edit">Enf. cronica</label>
+                                            <input type="text" id="mascota_enfermedad_cronica_edit" class="form-control form-control-sm"
+                                                value="{{ $mascota->enfermedad_cronica ?? '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_dieta_edit">Dieta</label>
+                                            <textarea id="mascota_dieta_edit" class="form-control form-control-sm" rows="2">{{ $mascota->dieta ?? '' }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_ultima_desparasitacion_edit">Última desparasitación</label>
+                                            <input type="date" id="mascota_ultima_desparasitacion_edit" class="form-control form-control-sm"
+                                                value="{{ !empty($mascota->ultima_desparasitacion) ? \Carbon\Carbon::parse($mascota->ultima_desparasitacion)->format('Y-m-d') : '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_producto_desparasitacion_edit">Productos</label>
+                                            <input type="text" id="mascota_producto_desparasitacion_edit" class="form-control form-control-sm"
+                                                value="{{ $mascota->producto_desparasitacion ?? '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_cirugias_edit">Cirugías</label>
+                                            <textarea id="mascota_cirugias_edit" class="form-control form-control-sm" rows="2">{{ $mascota->cirugias ?? '' }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_vacunas_edit">Vacunas</label>
+                                            <textarea id="mascota_vacunas_edit" class="form-control form-control-sm" rows="2">{{ $mascota->vacunas ?? '' }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_viajes_edit">Viajes</label>
+                                            <textarea id="mascota_viajes_edit" class="form-control form-control-sm" rows="2">{{ $mascota->viajes ?? '' }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="floating-label-activo-sm" for="mascota_vive_con_animales_edit">¿Vive con animales?</label>
+                                            <select id="mascota_vive_con_animales_edit" class="form-control form-control-sm">
+                                                <option value="" @if (is_null($mascota->vive_con_animales)) selected @endif>Seleccione</option>
+                                                <option value="1" @if ($mascota->vive_con_animales === 1 || $mascota->vive_con_animales === true) selected @endif>Si</option>
+                                                <option value="0" @if ($mascota->vive_con_animales === 0 || $mascota->vive_con_animales === false) selected @endif>No</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Especie</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <select id="mascota_especie_edit" class="form-control">
-                                            <option value="0">Seleccione especie</option>
-                                            @foreach ($especies_mascotas as $especie)
-                                                <option value="{{ $especie->id }}"
-                                                    @if ($mascota->especie_id == $especie->id || $mascota->especie == $especie->id) selected @endif>{{ $especie->nombre }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Otra especie</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <input type="text" id="mascota_otra_especie_edit" class="form-control"
-                                            value="{{ $mascota->otra_especie ?? '' }}">
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Sexo</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <select id="mascota_sexo_edit" class="form-control">
-                                            <option value="M" @if ($mascota->sexo == 'M') selected @endif>Macho</option>
-                                            <option value="F" @if ($mascota->sexo == 'F') selected @endif>Hembra</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">FN</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <input type="date" id="mascota_fn_edit" class="form-control"
-                                            value="{{ !empty($mascota->fecha_nacimiento) ? \Carbon\Carbon::parse($mascota->fecha_nacimiento)->format('Y-m-d') : '' }}">
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Tamaño</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <select id="mascota_tamano_edit" class="form-control">
-                                            <option value="0">Seleccione tamaño</option>
-                                            @foreach ($tamanos_mascotas as $tamano)
-                                                <option value="{{ $tamano->id }}"
-                                                    @if ($mascota->tamano_id == $tamano->id || $mascota->tamano == $tamano->slug) selected @endif>{{ $tamano->nombre }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Tiene chip</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <select id="mascota_tiene_chip_edit" class="form-control">
-                                            <option value="1" @if ($mascota->tiene_chip) selected @endif>Si</option>
-                                            <option value="0" @if (!$mascota->tiene_chip) selected @endif>No</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Chip</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <input type="text" id="mascota_chip_edit" class="form-control"
-                                            value="{{ $mascota->chip ?? '' }}">
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Esterilizado</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <select id="mascota_esterilizado_edit" class="form-control">
-                                            <option value="1" @if ($mascota->esterilizado) selected @endif>Si</option>
-                                            <option value="0" @if (!$mascota->esterilizado) selected @endif>No</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">F. esterilización</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <input type="date" id="mascota_fecha_esterilizacion_edit" class="form-control"
-                                            value="{{ !empty($mascota->fecha_esterilizacion) ? \Carbon\Carbon::parse($mascota->fecha_esterilizacion)->format('Y-m-d') : '' }}">
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Enf. cronica</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <input type="text" id="mascota_enfermedad_cronica_edit" class="form-control"
-                                            value="{{ $mascota->enfermedad_cronica ?? '' }}">
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Dieta</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <textarea id="mascota_dieta_edit" class="form-control" rows="2">{{ $mascota->dieta ?? '' }}</textarea>
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Última desparasitación</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <input type="date" id="mascota_ultima_desparasitacion_edit" class="form-control"
-                                            value="{{ !empty($mascota->ultima_desparasitacion) ? \Carbon\Carbon::parse($mascota->ultima_desparasitacion)->format('Y-m-d') : '' }}">
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Productos</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <input type="text" id="mascota_producto_desparasitacion_edit" class="form-control"
-                                            value="{{ $mascota->producto_desparasitacion ?? '' }}">
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Cirugías</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <textarea id="mascota_cirugias_edit" class="form-control" rows="2">{{ $mascota->cirugias ?? '' }}</textarea>
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Vacunas</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <textarea id="mascota_vacunas_edit" class="form-control" rows="2">{{ $mascota->vacunas ?? '' }}</textarea>
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">Viajes</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <textarea id="mascota_viajes_edit" class="form-control" rows="2">{{ $mascota->viajes ?? '' }}</textarea>
-                                    </div>
-                                </div>
-                                <hr class="mt-2">
-                                <div class="form-row mt-1">
-                                    <label class="col-4 text-dark font-weight-bolder">¿Vive con animales?</label>
-                                    <div class="col-7 ml-2 text-secondary">
-                                        <select id="mascota_vive_con_animales_edit" class="form-control">
-                                            <option value="" @if (is_null($mascota->vive_con_animales)) selected @endif>Seleccione</option>
-                                            <option value="1" @if ($mascota->vive_con_animales === 1 || $mascota->vive_con_animales === true) selected @endif>Si</option>
-                                            <option value="0" @if ($mascota->vive_con_animales === 0 || $mascota->vive_con_animales === false) selected @endif>No</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-row mt-3 mb-5">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
-                                        <button type="button" class="btn btn-primary-light-c btn-xxs"
-                                            onclick="guardarInformacionMascota({{ $mascota->id }})"><i class="feather icon-save"></i>
-                                            Guardar información</button>
-                                        <button type="button" class="btn btn-danger-light-c btn-xxs"
-                                            onclick="cancelarInformacionMascota()"><i class="fas fa-trash"></i>Cancelar
-                                            edición</button>
-                                    </div>
+                                <div class="text-center mb-4">
+                                    <button type="button" class="btn btn-primary-light-c btn-xxs"
+                                        onclick="guardarInformacionMascota({{ $mascota->id }})"><i class="feather icon-save"></i>
+                                        Guardar información</button>
+                                    <button type="button" class="btn btn-danger-light-c btn-xxs"
+                                        onclick="cancelarInformacionMascota()"><i class="feather icon-x"></i> Cancelar
+                                        edición</button>
                                 </div>
                             </div>
                             @else
@@ -1270,191 +1283,206 @@
                 <div id="collapseResponsable" class="collapse" aria-labelledby="headingResponsable"
                     data-parent="#accordionExample">
                     <div class="card-body-sidebar">
-                        <div id="info_responsable">
-                            <div class="form-row pt-3">
-                                <label class="col-2 text-dark font-weight-bolder">Rut</label>
-                                <div class="col-9 ml-2 text-secondary" id="rut_responsable">
-                                    {{ optional($responsable_mascota)->rut ?? 'Sin registro' }}
+                        <!--Datos del responsable, cada uno con su icono-->
+                        <div id="info_responsable" class="px-2 pt-3">
+                            <div class="form-row">
+                                <div class="col-sm-6 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-id-card" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Rut</span>
+                                            <span class="ficha-profesional__valor" id="rut_responsable">{{ optional($responsable_mascota)->rut ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-phone-alt" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Teléfono</span>
+                                            <span class="ficha-profesional__valor" id="telefono_responsable">{{ optional($responsable_mascota)->telefono_uno ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-user" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Nombre</span>
+                                            <span class="ficha-profesional__valor" id="nombre_responsable">
+                                                @if (isset($responsable_mascota))
+                                                    {{ $responsable_mascota->nombres }}
+                                                @else
+                                                    Sin registro
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-user" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Apellidos</span>
+                                            <span class="ficha-profesional__valor" id="apellidos_responsable">
+                                                @if (isset($responsable_mascota))
+                                                    {{ $responsable_mascota->apellido_uno }} {{ $responsable_mascota->apellido_dos }}
+                                                @else
+                                                    Sin registro
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-envelope" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Email</span>
+                                            <span class="ficha-profesional__valor" id="email_responsable">{{ optional($responsable_mascota)->email ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-home" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Dirección</span>
+                                            <span class="ficha-profesional__valor" id="direccion_responsable_text">
+                                                @if (isset($responsable_mascota) && $responsable_mascota->Direccion()->first() != null)
+                                                    {{ $responsable_mascota->Direccion()->first()->direccion . ' ' . $responsable_mascota->Direccion()->first()->numero_dir }}
+                                                @else
+                                                    Sin registro
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-home" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Comuna / Región</span>
+                                            <span class="ficha-profesional__valor" id="comuna_region_responsable">
+                                                @if (isset($responsable_mascota) && $responsable_mascota->Direccion()->first() != null && $responsable_mascota->Direccion()->first()->Ciudad()->first() != null)
+                                                    {{ $responsable_mascota->Direccion()->first()->Ciudad()->first()->nombre }}<br>
+                                                    {{ $responsable_mascota->Direccion()->first()->Ciudad()->first()->Region()->first()->nombre }}
+                                                @else
+                                                    Sin registro
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Nombre</label>
-                                <div class="col-9 ml-2 text-secondary" id="nombre_responsable">
-                                    @if (isset($responsable_mascota))
-                                        {{ $responsable_mascota->nombres }}
-                                    @else
-                                        Sin registro
-                                    @endif
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Apellidos</label>
-                                <div class="col-9 ml-2 text-secondary" id="apellidos_responsable">
-                                    @if (isset($responsable_mascota))
-                                        {{ $responsable_mascota->apellido_uno }} {{ $responsable_mascota->apellido_dos }}
-                                    @else
-                                        Sin registro
-                                    @endif
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Email</label>
-                                <div class="col-9 ml-2 text-secondary" id="email_responsable">
-                                    {{ optional($responsable_mascota)->email ?? 'Sin registro' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Teléfono</label>
-                                <div class="col-9 ml-2 text-secondary" id="telefono_responsable">
-                                    {{ optional($responsable_mascota)->telefono_uno ?? 'Sin registro' }}
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Dirección</label>
-                                <div class="col-9 ml-2 text-secondary" id="direccion_responsable_text">
-                                    @if (isset($responsable_mascota) && $responsable_mascota->Direccion()->first() != null)
-                                        {{ $responsable_mascota->Direccion()->first()->direccion . ' ' . $responsable_mascota->Direccion()->first()->numero_dir }}
-                                    @else
-                                        Sin registro
-                                    @endif
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1 text-dark">
-                                <label class="col-2 text-dark font-weight-bolder">Comuna / Región</label>
-                                <div class="col-9 ml-2 text-secondary" id="comuna_region_responsable">
-                                    @if (isset($responsable_mascota) && $responsable_mascota->Direccion()->first() != null && $responsable_mascota->Direccion()->first()->Ciudad()->first() != null)
-                                        {{ $responsable_mascota->Direccion()->first()->Ciudad()->first()->nombre }}<br>
-                                        {{ $responsable_mascota->Direccion()->first()->Ciudad()->first()->Region()->first()->nombre }}
-                                    @else
-                                        Sin registro
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="form-row ">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
-                                    <button type="button" class="btn btn-purple-light-c btn-xxs mb-4 mt-4"
-                                        onclick="editarInformacionResponsable()"><i class="feather icon-edit"></i> Editar
-                                        información</button>
-                                </div>
+                            <div class="text-center mt-2 mb-3">
+                                <button type="button" class="btn btn-purple-light-c btn-xxs"
+                                    onclick="editarInformacionResponsable()"><i class="feather icon-edit"></i> Editar
+                                    información</button>
                             </div>
                         </div>
-                        <div id="info_responsable-edit" style="display: none">
-                            <div class="form-row pt-3">
-                                <label class="col-2 text-dark font-weight-bolder">Rut</label>
-                                <div class="col-9 ml-2 text-secondary">
-                                    <input type="text" id="responsable_rut_edit" class="form-control"
-                                        value="{{ optional($responsable_mascota)->rut ?? '' }}">
+                        <!--Edición del responsable: dos columnas y controles chicos-->
+                        <div id="info_responsable-edit" class="px-2 pt-4" style="display: none">
+                            <div class="form-row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="responsable_rut_edit">Rut</label>
+                                        <input type="text" id="responsable_rut_edit" class="form-control form-control-sm"
+                                            value="{{ optional($responsable_mascota)->rut ?? '' }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="responsable_fn_edit">FN</label>
+                                        <input type="date" id="responsable_fn_edit" class="form-control form-control-sm"
+                                            value="{{ optional($responsable_mascota)->fecha_nac ?? '' }}">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="responsable_nombre_edit">Nombre</label>
+                                        <input type="text" id="responsable_nombre_edit" class="form-control form-control-sm"
+                                            value="{{ optional($responsable_mascota)->nombres ?? '' }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="responsable_apellido_uno_edit">Apellido Paterno</label>
+                                        <input type="text" id="responsable_apellido_uno_edit" class="form-control form-control-sm"
+                                            value="{{ optional($responsable_mascota)->apellido_uno ?? '' }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="responsable_apellido_dos_edit">Apellido Materno</label>
+                                        <input type="text" id="responsable_apellido_dos_edit" class="form-control form-control-sm"
+                                            value="{{ optional($responsable_mascota)->apellido_dos ?? '' }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="responsable_sexo_edit">Sexo</label>
+                                        <select id="responsable_sexo_edit" class="form-control form-control-sm">
+                                            <option value="M" @if (optional($responsable_mascota)->sexo == 'M') selected @endif>Masculino</option>
+                                            <option value="F" @if (optional($responsable_mascota)->sexo == 'F') selected @endif>Femenino</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="responsable_telefono_edit">Teléfono</label>
+                                        <input type="text" id="responsable_telefono_edit" class="form-control form-control-sm"
+                                            value="{{ optional($responsable_mascota)->telefono_uno ?? '' }}">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="responsable_email_edit">Email</label>
+                                        <input type="text" id="responsable_email_edit" class="form-control form-control-sm"
+                                            value="{{ optional($responsable_mascota)->email ?? '' }}">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="responsable_dir_edit">Dirección</label>
+                                        <input type="text" id="responsable_dir_edit" class="form-control form-control-sm"
+                                            value="{{ optional(optional($responsable_mascota)->Direccion()->first())->direccion ? optional($responsable_mascota->Direccion()->first())->direccion . ' ' . optional($responsable_mascota->Direccion()->first())->numero_dir : '' }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="responsable_region_edit">Región</label>
+                                        <select id="responsable_region_edit" class="form-control form-control-sm" onchange="buscar_ciudad_responsable();">
+                                            <option value="0">Seleccione región</option>
+                                            @foreach ($regiones as $region)
+                                                <option value="{{ $region->id }}"
+                                                    @if (optional(optional(optional($responsable_mascota)->Direccion()->first())->Ciudad()->first())->Region()->first() && $responsable_mascota->Direccion()->first()->Ciudad()->first()->Region()->first()->id == $region->id) selected @endif>{{ $region->nombre }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="responsable_comuna_edit">Comuna</label>
+                                        <select id="responsable_comuna_edit" class="form-control form-control-sm">
+                                            <option value="0">Seleccione comuna</option>
+                                            @foreach ($ciudades as $comuna)
+                                                <option value="{{ $comuna->id }}"
+                                                    @if (optional(optional($responsable_mascota)->Direccion()->first())->Ciudad()->first() && $responsable_mascota->Direccion()->first()->Ciudad()->first()->id == $comuna->id) selected @endif>{{ $comuna->nombre }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Nombre</label>
-                                <div class="col-9 ml-2 text-secondary">
-                                    <input type="text" id="responsable_nombre_edit" class="form-control"
-                                        value="{{ optional($responsable_mascota)->nombres ?? '' }}">
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Apellido Paterno</label>
-                                <div class="col-9 ml-2 text-secondary">
-                                    <input type="text" id="responsable_apellido_uno_edit" class="form-control"
-                                        value="{{ optional($responsable_mascota)->apellido_uno ?? '' }}">
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Apellido Materno</label>
-                                <div class="col-9 ml-2 text-secondary">
-                                    <input type="text" id="responsable_apellido_dos_edit" class="form-control"
-                                        value="{{ optional($responsable_mascota)->apellido_dos ?? '' }}">
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">FN</label>
-                                <div class="col-9 ml-2 text-secondary">
-                                    <input type="date" id="responsable_fn_edit" class="form-control"
-                                        value="{{ optional($responsable_mascota)->fecha_nac ?? '' }}">
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Sexo</label>
-                                <div class="col-9 ml-2 text-secondary">
-                                    <select id="responsable_sexo_edit" class="form-control">
-                                        <option value="M" @if (optional($responsable_mascota)->sexo == 'M') selected @endif>Masculino</option>
-                                        <option value="F" @if (optional($responsable_mascota)->sexo == 'F') selected @endif>Femenino</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Dirección</label>
-                                <div class="col-9 ml-2 text-secondary">
-                                    <input type="text" id="responsable_dir_edit" class="form-control"
-                                        value="{{ optional(optional($responsable_mascota)->Direccion()->first())->direccion ? optional($responsable_mascota->Direccion()->first())->direccion . ' ' . optional($responsable_mascota->Direccion()->first())->numero_dir : '' }}">
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1 text-dark">
-                                <label class="col-2 text-dark font-weight-bolder">Región</label>
-                                <div class="col-9 ml-2 text-secondary">
-                                    <select id="responsable_region_edit" class="form-control" onchange="buscar_ciudad_responsable();">
-                                        <option value="0">Seleccione región</option>
-                                        @foreach ($regiones as $region)
-                                            <option value="{{ $region->id }}"
-                                                @if (optional(optional(optional($responsable_mascota)->Direccion()->first())->Ciudad()->first())->Region()->first() && $responsable_mascota->Direccion()->first()->Ciudad()->first()->Region()->first()->id == $region->id) selected @endif>{{ $region->nombre }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Comuna</label>
-                                <div class="col-9 ml-2 text-secondary">
-                                    <select id="responsable_comuna_edit" class="form-control">
-                                        <option value="0">Seleccione comuna</option>
-                                        @foreach ($ciudades as $comuna)
-                                            <option value="{{ $comuna->id }}"
-                                                @if (optional(optional($responsable_mascota)->Direccion()->first())->Ciudad()->first() && $responsable_mascota->Direccion()->first()->Ciudad()->first()->id == $comuna->id) selected @endif>{{ $comuna->nombre }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Email</label>
-                                <div class="col-9 ml-2 text-secondary">
-                                    <input type="text" id="responsable_email_edit" class="form-control"
-                                        value="{{ optional($responsable_mascota)->email ?? '' }}">
-                                </div>
-                            </div>
-                            <hr class="mt-2">
-                            <div class="form-row mt-1">
-                                <label class="col-2 text-dark font-weight-bolder">Teléfono</label>
-                                <div class="col-9 ml-2 text-secondary">
-                                    <input type="text" id="responsable_telefono_edit" class="form-control"
-                                        value="{{ optional($responsable_mascota)->telefono_uno ?? '' }}">
-                                </div>
-                            </div>
-                            <div class="form-row mt-3 mb-5">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
-                                    <button type="button" class="btn btn-purple-light-c btn-xxs"
-                                        onclick="guardarInformacionResponsable({{ optional($responsable_mascota)->id ?? 0 }})"><i class="feather icon-save"></i>
-                                        Guardar información</button>
-                                    <button type="button" class="btn btn-danger-light-c btn-xxs"
-                                        onclick="cancelarInformacionResponsable()"><i class="fas fa-trash"></i>Cancelar
-                                        edición</button>
-                                </div>
+                            <div class="text-center mb-4">
+                                <button type="button" class="btn btn-purple-light-c btn-xxs"
+                                    onclick="guardarInformacionResponsable({{ optional($responsable_mascota)->id ?? 0 }})"><i class="feather icon-save"></i>
+                                    Guardar información</button>
+                                <button type="button" class="btn btn-danger-light-c btn-xxs"
+                                    onclick="cancelarInformacionResponsable()"><i class="feather icon-x"></i> Cancelar
+                                    edición</button>
                             </div>
                         </div>
                     </div>
@@ -1732,218 +1760,289 @@
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                 <div class="card-body-sidebar">
                     @if (isset($mascota) && $mascota)
-                        <div class="form-row pt-3">
-                            <label class="col-4 text-danger font-weight-bolder">Diagnóstico</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                {{ $ficha_atencion_mascota->hipotesis_diagnostico ?? $ficha_atencion_mascota->diagnostico_ce10 ?? 'Sin registro' }}
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-4 text-dark font-weight-bolder">Motivo</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                {{ $ficha_atencion_mascota->motivo ?? 'Sin registro' }}
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-4 text-dark font-weight-bolder">Antecedentes</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                {{ $ficha_atencion_mascota->antecedentes ?? 'Sin registro' }}
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-4 text-dark font-weight-bolder">Indicaciones</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                {{ $ficha_atencion_mascota->indicaciones ?? 'Sin registro' }}
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-4 text-dark font-weight-bolder">Temperatura</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                {{ $ficha_atencion_mascota->temperatura ?? 'Sin registro' }}
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-4 text-dark font-weight-bolder">Peso</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                {{ $ficha_atencion_mascota->peso ?? 'Sin registro' }}
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-4 text-dark font-weight-bolder">Pulso</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                {{ $ficha_atencion_mascota->pulso ?? 'Sin registro' }}
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-4 text-dark font-weight-bolder">Frec. reposo</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                {{ $ficha_atencion_mascota->frecuencia_reposo ?? 'Sin registro' }}
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-4 text-dark font-weight-bolder">Presión</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                @if (isset($ficha_atencion_mascota) && ($ficha_atencion_mascota->presion_bi || $ficha_atencion_mascota->presion_bd))
-                                    {{ trim(($ficha_atencion_mascota->presion_bi ?? '') . '/' . ($ficha_atencion_mascota->presion_bd ?? ''), '/') }}
-                                @else
-                                    Sin registro
-                                @endif
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-4 text-dark font-weight-bolder">IMC</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                {{ $ficha_atencion_mascota->imc ?? 'Sin registro' }}
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-4 text-dark font-weight-bolder">Estado nutricional</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                {{ $ficha_atencion_mascota->estado_nutricional ?? 'Sin registro' }}
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-4 text-dark font-weight-bolder">Crónico</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                @if (isset($ficha_atencion_mascota))
-                                    {{ $ficha_atencion_mascota->cronico ? 'Si' : 'No' }}
-                                @else
-                                    Sin registro
-                                @endif
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1 pb-3">
-                            <label class="col-4 text-dark font-weight-bolder">Fecha Ficha</label>
-                            <div class="col-7 ml-2 text-secondary">
-                                @if (isset($ficha_atencion_mascota) && $ficha_atencion_mascota->created_at)
-                                    {{ \Carbon\Carbon::parse($ficha_atencion_mascota->created_at)->format('d-m-Y') }}
-                                @else
-                                    Sin registro
-                                @endif
+                        <!--Antecedentes de la última ficha: textos a lo ancho y signos de a dos por fila-->
+                        <div class="px-2 pt-3 pb-2">
+                            <div class="form-row">
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-stethoscope text-danger" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta text-danger">Diagnóstico</span>
+                                            <span class="ficha-profesional__valor">{{ $ficha_atencion_mascota->hipotesis_diagnostico ?? $ficha_atencion_mascota->diagnostico_ce10 ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-comment-medical" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Motivo</span>
+                                            <span class="ficha-profesional__valor">{{ $ficha_atencion_mascota->motivo ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-file-medical" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Antecedentes</span>
+                                            <span class="ficha-profesional__valor">{{ $ficha_atencion_mascota->antecedentes ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-clipboard-list" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Indicaciones</span>
+                                            <span class="ficha-profesional__valor">{{ $ficha_atencion_mascota->indicaciones ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-thermometer-half" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Temperatura</span>
+                                            <span class="ficha-profesional__valor">{{ $ficha_atencion_mascota->temperatura ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-weight" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Peso</span>
+                                            <span class="ficha-profesional__valor">{{ $ficha_atencion_mascota->peso ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-heartbeat" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Pulso</span>
+                                            <span class="ficha-profesional__valor">{{ $ficha_atencion_mascota->pulso ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-wind" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Frec. reposo</span>
+                                            <span class="ficha-profesional__valor">{{ $ficha_atencion_mascota->frecuencia_reposo ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-tachometer-alt" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Presión</span>
+                                            <span class="ficha-profesional__valor">
+                                                @if (isset($ficha_atencion_mascota) && ($ficha_atencion_mascota->presion_bi || $ficha_atencion_mascota->presion_bd))
+                                                    {{ trim(($ficha_atencion_mascota->presion_bi ?? '') . '/' . ($ficha_atencion_mascota->presion_bd ?? ''), '/') }}
+                                                @else
+                                                    Sin registro
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-calculator" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">IMC</span>
+                                            <span class="ficha-profesional__valor">{{ $ficha_atencion_mascota->imc ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-apple-alt" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Estado nutricional</span>
+                                            <span class="ficha-profesional__valor">{{ $ficha_atencion_mascota->estado_nutricional ?? 'Sin registro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-notes-medical" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Crónico</span>
+                                            <span class="ficha-profesional__valor">
+                                                @if (isset($ficha_atencion_mascota))
+                                                    {{ $ficha_atencion_mascota->cronico ? 'Si' : 'No' }}
+                                                @else
+                                                    Sin registro
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="far fa-calendar-alt" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Fecha Ficha</span>
+                                            <span class="ficha-profesional__valor">
+                                                @if (isset($ficha_atencion_mascota) && $ficha_atencion_mascota->created_at)
+                                                    {{ \Carbon\Carbon::parse($ficha_atencion_mascota->created_at)->format('d-m-Y') }}
+                                                @else
+                                                    Sin registro
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     @else
-                    <div class="form-row pt-3">
-                        <label class="col-4 text-danger font-weight-bolder">Medicamentos Crónicos</label>
-                        <div class="col-7 ml-2 text-secondary listas_sidebar">
-                            <ul>
+                        <div class="px-2 pt-3 pb-2">
+                            <div class="form-row">
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-capsules" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta text-danger">Medicamentos Crónicos</span>
+                                            <div class="ficha-profesional__valor">
+                                                <ul class="pl-3 mb-0">
 
-                                @if (isset($medicamentos_cronicos))
-                                    @foreach ($medicamentos_cronicos as $med_cronico)
-                                        <li>{{ $med_cronico->nombre_medicamento_cronico }}</li>
-                                    @endforeach
-                                @else
-                                    <li>Sin registro</li>
-                                @endif
+                                                    @if (isset($medicamentos_cronicos))
+                                                        @foreach ($medicamentos_cronicos as $med_cronico)
+                                                            <li>{{ $med_cronico->nombre_medicamento_cronico }}</li>
+                                                        @endforeach
+                                                    @else
+                                                        <li>Sin registro</li>
+                                                    @endif
 
-                            </ul>
-                        </div>
-                    </div>
-                    <hr class="mt-2">
-                    <div class="form-row mt-1">
-                        <label class="col-4 text-danger font-weight-bolder">Alergias e Intolerancias</label>
-                        <div class="col-7 ml-2 text-secondary listas_sidebar">
-                            <ul>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-ban text-danger" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta text-danger">Alergias e Intolerancias</span>
+                                            <div class="ficha-profesional__valor">
+                                                <ul class="pl-3 mb-0">
 
-                                @if (isset($alergias) && count($alergias) > 0)
-                                    @foreach ($alergias as $alergia)
-                                        <li>{{ $alergia->nombre_alergia }}</li>
-                                    @endforeach
-                                @else
-                                    <li>Sin registro</li>
-                                @endif
+                                                    @if (isset($alergias) && count($alergias) > 0)
+                                                        @foreach ($alergias as $alergia)
+                                                            <li>{{ $alergia->nombre_alergia }}</li>
+                                                        @endforeach
+                                                    @else
+                                                        <li>Sin registro</li>
+                                                    @endif
 
-                            </ul>
-                        </div>
-                    </div>
-                    <hr class="mt-2">
-                    <div class="form-row mt-1">
-                        <label class="col-4  text-dark font-weight-bolder">Discapacidad</label>
-                        <div class="col-7  ml-2 text-secondary">
-                            <ul>
-                                @if (isset($discapacidades) && count($discapacidades) > 0)
-                                    @foreach ($discapacidades as $d)
-                                        <li>{{ $d->nombre }}</li>
-                                    @endforeach
-                                @else
-                                    <li>Sin registro</li>
-                                @endif
-                            </ul>
-                        </div>
-                    </div>
-                    <hr class="mt-2">
-                    <div class="form-row mt-1">
-                        <label class="col-4 text-dark font-weight-bolder">Operaciones</label>
-                        <div class="col-7 ml-2 text-secondary listas_sidebar">
-                            <ul>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-wheelchair" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Discapacidad</span>
+                                            <div class="ficha-profesional__valor">
+                                                <ul class="pl-3 mb-0">
+                                                    @if (isset($discapacidades) && count($discapacidades) > 0)
+                                                        @foreach ($discapacidades as $d)
+                                                            <li>{{ $d->nombre }}</li>
+                                                        @endforeach
+                                                    @else
+                                                        <li>Sin registro</li>
+                                                    @endif
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-cut" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Operaciones</span>
+                                            <div class="ficha-profesional__valor">
+                                                <ul class="pl-3 mb-0">
 
-                                @if (isset($antecedentes_quirurgicos))
-                                    @foreach ($antecedentes_quirurgicos as $antecedente_quirurgico)
-                                        <li>{{ $antecedente_quirurgico->operacion }}</li>
-                                    @endforeach
-                                @else
-                                    <li>Sin registro</li>
-                                @endif
+                                                    @if (isset($antecedentes_quirurgicos))
+                                                        @foreach ($antecedentes_quirurgicos as $antecedente_quirurgico)
+                                                            <li>{{ $antecedente_quirurgico->operacion }}</li>
+                                                        @endforeach
+                                                    @else
+                                                        <li>Sin registro</li>
+                                                    @endif
 
-                            </ul>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Incidentes en Cirugía</span>
+                                            <span class="ficha-profesional__valor">Sin registro</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-tint text-danger" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">Grupo Sanguíneo</span>
+                                            <span class="ficha-profesional__valor">
+                                                @if ($paciente->Antecedentes()->first() != null)
+                                                    @if ($paciente->Antecedentes()->first()->GrupoSanguineo()->first() != null)
+                                                        {{ $paciente->Antecedentes()->first()->GrupoSanguineo()->first()->nombre_gs }}
+                                                    @endif
+                                                @else
+                                                    Sin registro
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-syringe" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">¿Acepta Transfusión de Sangre?</span>
+                                            <span class="ficha-profesional__valor">
+                                                @if ($paciente->Antecedentes()->first() != null && $paciente->Antecedentes()->first()->transfusion == 1)
+                                                    Si
+                                                @else
+                                                    Sin registro
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="ficha-profesional__dato py-2 h-100">
+                                        <span class="ficha-profesional__icono"><i class="fas fa-hand-holding-heart" aria-hidden="true"></i></span>
+                                        <div>
+                                            <span class="ficha-profesional__etiqueta">¿Donante de Órganos?</span>
+                                            <span class="ficha-profesional__valor">
+                                                @if ($paciente->Antecedentes()->first() != null && $paciente->Antecedentes()->first()->dona_organos == 1)
+                                                    Si
+                                                @else
+                                                    Sin registro
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <hr class="mt-2">
-                    <div class="form-row mt-1">
-                        <label class="col-4 text-dark font-weight-bolder">Incidentes en Cirugía</label>
-                        <div class="col-7 ml-2 text-secondary listas_sidebar">
-                            <ul>
-                                <li></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <hr class="mt-2">
-                    <div class="form-row mt-1">
-                        <label class="col-4 text-dark font-weight-bolder">Grupo Sanguíneo</label>
-                        <div class="col-7 ml-2 text-secondary">
-                            @if ($paciente->Antecedentes()->first() != null)
-                                @if ($paciente->Antecedentes()->first()->GrupoSanguineo()->first() != null)
-                                    {{ $paciente->Antecedentes()->first()->GrupoSanguineo()->first()->nombre_gs }}
-                                @endif
-                            @else
-                                Sin registro
-                            @endif
-                        </div>
-                    </div>
-                    <hr class="mt-2">
-                    <div class="form-row mt-1">
-                        <label class="col-4 text-dark font-weight-bolder">¿Acepta Transfusión de Sangre?</label>
-                        <div class="col-7 ml-2 text-secondary">
-                            @if ($paciente->Antecedentes()->first() != null && $paciente->Antecedentes()->first()->transfusion == 1)
-                                Si
-                            @else
-                                Sin registro
-                            @endif
-                        </div>
-                    </div>
-                    <hr class="mt-2">
-                    <div class="form-row mt-1">
-                        <label class="col-4 text-dark font-weight-bolder">¿Donante de Órganos?</label>
-                        <div class="col-7 ml-2 text-secondary">
-                            @if ($paciente->Antecedentes()->first() != null && $paciente->Antecedentes()->first()->dona_organos == 1)
-                                Si
-                            @else
-                                Sin registro
-                            @endif
-                        </div>
-                    </div>
                     @endif
                     {{-- <div class="form-row mt-3 mb-5">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
@@ -2078,7 +2177,7 @@
         aria-labelledby="modalDetalleMascotaSidebar" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-white mt-1" id="modalDetalleMascotaSidebar">Detalle de la mascota</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>

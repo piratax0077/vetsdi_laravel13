@@ -210,7 +210,7 @@
             try {
                 $horaTexto = \Carbon\Carbon::parse($horaConfirmada->hora_inicio)->format('H:i') . ' hrs';
             } catch (\Exception $e) {
-                $horaTexto = $horaConfirmada->hora_inicio;
+                $horaTexto = substr((string) $horaConfirmada->hora_inicio, 0, 5);
             }
         }
     @endphp

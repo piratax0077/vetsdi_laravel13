@@ -31,6 +31,7 @@
     @include('template.asistente_on.header')
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
 
     <footer>
         @include('template.include.footer')

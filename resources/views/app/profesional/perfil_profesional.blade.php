@@ -1,4 +1,5 @@
 @extends('template.profesional.template')
+@section('sin_boton_volver', '1')
 @section('content')
     <!--Container Completo-->
     <div class="pcoded-main-container">
@@ -7,34 +8,23 @@
                 <div class="card-body py-0">
                     <div class="user-about-block m-0">
                         <div class="row">
-                            <div class="col-md-12 text-center mt-n4">
-                                <div class="change-profile text-center">
-                                    <div class="dropdown w-auto d-inline-block">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <div class="profile-dp">
-                                                <div class="position-relative d-inline-block">
-                                                    <img class="img-radius img-fluid wid-100" id="profile-image"
-                                                        src="{{ $profesional->foto_perfil ? asset('storage/' . $profesional->foto_perfil) : asset('images/iconos/usuario_profesional.svg') }}"
-                                                        alt="User image">
-                                                </div>
-                                                <div class="overlay">
-                                                    <span>Actualizar</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#" onclick="document.getElementById('foto-perfil-input').click()">
-                                                <i class="feather icon-upload-cloud mr-2"></i>Cambiar foto de perfil
-                                            </a>
-                                            <a class="dropdown-item" href="#" onclick="eliminar_foto_perfil()">
-                                                <i class="feather icon-trash-2 mr-2"></i>Eliminar fotografía
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <!-- Input file oculto para seleccionar imagen -->
-                                    <input type="file" id="foto-perfil-input" accept="image/*" style="display: none;" onchange="cambiar_foto_perfil(this)">
-                                </div>
-                            </div>
+                            <!-- Input file oculto para seleccionar imagen -->
+                            <input type="file" id="foto-perfil-input" accept="image/*" style="display: none;" onchange="cambiar_foto_perfil(this)">
+                            @include('template.partials.perfil_cabecera', [
+                                'nombre' => trim(($profesional->nombre ?? '') . ' ' . ($profesional->apellido_uno ?? '') . ' ' . ($profesional->apellido_dos ?? '')),
+                                'rol' => 'Profesional',
+                                'foto' => $profesional->foto_perfil ?? null,
+                                'foto_base' => 'images/iconos/usuario_profesional.svg',
+                                'al_cambiar' => "document.getElementById('foto-perfil-input').click()",
+                                'al_eliminar' => 'eliminar_foto_perfil()',
+                                'datos_perfil' => [
+                                    $profesional->rut, $profesional->nombre, $profesional->apellido_uno, $profesional->sexo,
+                                    $profesional->id_especialidad, $profesional->id_tipo_especialidad, $profesional->num_colegio,
+                                    $profesional->id_tipo_atencion, $profesional->email, $profesional->telefono_uno, $profesional->foto_perfil,
+                                    $direccion_txt_region_profesional ?? '', $direccion_txt_ciudad_profesional ?? '',
+                                    optional($profesional->Direccion()->first())->direccion,
+                                ],
+                            ])
                             <div class="col-md-12 mt-md-2 m-0">
                                 <ul class="nav nav-tabs profile-tabs nav-fill mt-1" id="myTab" role="tablist">
                                     <li class="nav-item">
@@ -84,7 +74,7 @@
                                         <div class="card-body info_basica collapse show" id="info_basica-1">
                                             <div class="form-row">
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                    <label class="font-weight-bolder ml-0 mb-0">Rut</label>
+                                                    <label class="font-weight-bolder ml-0 mb-0">RUT</label>
                                                     <div>{{ $profesional->rut }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -164,7 +154,7 @@
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Rut</label>
+                                                        <label class="floating-label-activo">RUT</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             value="{{ $profesional->rut }}" name="editar_rut"
                                                             value="editar_rut">
@@ -472,7 +462,7 @@
                             {{-- formulario para agregar  --}}
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <h5 class="f-20 text-c-blue d-inline mr-2 pt-1">Antecedentes acedémicos</h5>
+                                    <h5 class="f-20 d-inline mr-2 pt-1">Antecedentes académicos</h5>
                                     <button type="button" class="btn btn-info btn-sm d-inline float-right mb-2"
                                         onclick="info_academica_m();"><i class="fas fa-plus"></i> Añadir</button>
                                 </div>

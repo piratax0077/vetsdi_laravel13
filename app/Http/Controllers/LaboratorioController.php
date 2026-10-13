@@ -2248,35 +2248,8 @@ class LaboratorioController extends Controller
 
         {
 
-            $id_banco = decrypt($value->casa);
-
-            $banco = Bancos::select('id', 'nombre')->where('id',$id_banco)->first();
-
-            $liquidacion[$key]->banco = $banco;
-
-            if($value->serie!='')
-
-                $liquidacion[$key]->serie  = decrypt($value->serie);
-
-            if($value->autor!='')
-
-                $liquidacion[$key]->autor = decrypt($value->autor);
-
-            if($value->casa!='')
-
-                $liquidacion[$key]->casa = decrypt($value->casa);
-
-            if($value->numero_control!='')
-
-                $liquidacion[$key]->numero_control = decrypt($value->numero_control);
-
-            if($value->email!='')
-
-                $liquidacion[$key]->email = decrypt($value->email);
-
-            if($value->otro!='')
-
-                $liquidacion[$key]->otro = decrypt($value->otro);
+            // Si un dato bancario no se puede descifrar se muestra vacío en vez de botar el perfil.
+            $value->preparar_para_perfil();
 
             if($liqui_principal == 0 && $value->principal == 1)
 

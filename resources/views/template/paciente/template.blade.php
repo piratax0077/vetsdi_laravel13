@@ -79,7 +79,7 @@
         'homeRouteNames' => ['paciente.home'],
     ])
     @yield('content')
-
+    @include('template.partials.boton_volver_auto')
 
     <footer>
         <!-- @include('template.include.footer') -->

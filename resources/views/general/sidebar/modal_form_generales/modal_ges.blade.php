@@ -1,205 +1,165 @@
-<div id="form_ges" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="form_ges" aria-hidden="true">
+@php
+    // El esquema de referencia se muestra según la especie; si no es perro ni gato van los dos
+    $tipoEspecieVacunas = isset($mascota) && $mascota ? (string) data_get($mascota, 'tipo_especie', '') : '';
+    $verEsquemaCanino = $tipoEspecieVacunas !== 'Felino';
+    $verEsquemaFelino = $tipoEspecieVacunas !== 'Canino';
+@endphp
+<div id="form_ges" class="modal fade modal-atencion" tabindex="-1" role="dialog" aria-labelledby="titulo_form_ges" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title">Vacunas y desparasitación</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title" id="titulo_form_ges">Vacunas y desparasitación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
             </div>
 
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <ul class="nav nav-tabs-aten nav-fill mb-3" id="registros_vac_des" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link-aten text-reset active" id="vac-tab" data-toggle="tab" href="#vac" role="tab" aria-controls="vac" aria-selected="true">Vacunas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link-aten text-reset" id="desparasita-tab" data-toggle="tab" href="#desparasita" role="tab" aria-controls="desparasita" aria-selected="false">Desparasitación</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="registros_vac_desp">
-                            <div class="tab-pane fade show active" id="vac" role="tabpanel" aria-labelledby="vac-tab">
-                                <div class="form-row">
-                                    <div class="col-12 mb-2">
-                                        <h6 class="t-aten">Registro de vacunas</h6>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-12">
-                                        <div class="card-lineal">
-                                            <div class="card-body-lineal">
-                                                <div class="form-row">
-                                                     <div class="form-group col-md-6">
-                                                        <label class="floating-label-activo-sm">Vacunas Caninas</label>
-                                                        <select class="form-control form-control-sm" id="id_vacuna" name="id_vacuna">
-                                                            <option>Seleccione vacuna según edad</option>
-                                                            <optgroup label="6 A 8 Semanas">
-                                                                <option value="sextuple" data-periodo="6 a 8 semanas" data-dosis="#">Séxtuple 1ª Dosis</option> 
-                                                            </optgroup>
-                                                            <optgroup label="9 A 11 Semanas">
-                                                                <option value="sextuple_1" data-periodo="9 a 11 semanas" data-dosis="#">Séxtuple 1ª Dosis</option> 
-                                                            </optgroup>
+                <ul class="nav nav-pills modal-atencion-pestanas" id="registros_vac_des" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link-wizard active" id="vac-tab" data-toggle="pill" href="#vac" role="tab" aria-controls="vac" aria-selected="true">Vacunas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-wizard" id="desparasita-tab" data-toggle="pill" href="#desparasita" role="tab" aria-controls="desparasita" aria-selected="false">Desparasitación</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="registros_vac_desp">
+                    <!--Vacunas-->
+                    <div class="tab-pane fade show active" id="vac" role="tabpanel" aria-labelledby="vac-tab">
+                        <h6 class="t-aten">Registrar vacuna</h6>
+                        <p class="modal-atencion-ayuda">Elija la vacuna del esquema según la edad, o escríbala directamente en los campos.</p>
 
-                                                            <optgroup label="12 A 14 Semanas">
-                                                                <option value="sextuple_2">Séxtuple 3ª Dosis + Antirrábica + KC (Tos)</option>
-                                                            </optgroup>
-                                                            <optgroup label="15 A 17 Semanas">
-                                                                <option value="sextuple_3">Refuerzo Final (Si Lo Indica El Médico)</option>
-                                                            </optgroup>
-                                                            <optgroup label="Anualmente">
-                                                                <option value="sextuple_4">Refuerzo Séxtuple + Antirrábica + KC</option>
-                                                            </optgroup> 
-                                                        </select>
-                                                    </div>
+                        <!--Esquema de referencia: al elegir una vacuna se copian su nombre y la edad a los campos de abajo-->
+                        <div class="form-row">
+                            @if($verEsquemaCanino)
+                                <div class="form-group {{ $verEsquemaFelino ? 'col-md-6' : 'col-12' }}">
+                                    <label class="floating-label-activo-sm" for="esquema_vacunas_caninas">Esquema de vacunas caninas</label>
+                                    <select class="form-control form-control-sm esquema-vacunas" id="esquema_vacunas_caninas">
+                                        <option value="">Seleccione vacuna según edad</option>
+                                        <optgroup label="6 a 8 semanas">
+                                            <option value="sextuple">Séxtuple 1ª Dosis</option>
+                                        </optgroup>
+                                        <optgroup label="9 a 11 semanas">
+                                            <option value="sextuple_1">Séxtuple 2ª Dosis</option>
+                                        </optgroup>
+                                        <optgroup label="12 a 14 semanas">
+                                            <option value="sextuple_2">Séxtuple 3ª Dosis + Antirrábica + KC (Tos)</option>
+                                        </optgroup>
+                                        <optgroup label="15 a 17 semanas">
+                                            <option value="sextuple_3">Refuerzo final (si lo indica el veterinario)</option>
+                                        </optgroup>
+                                        <optgroup label="Anualmente">
+                                            <option value="sextuple_4">Refuerzo Séxtuple + Antirrábica + KC</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            @endif
+                            @if($verEsquemaFelino)
+                                <div class="form-group {{ $verEsquemaCanino ? 'col-md-6' : 'col-12' }}">
+                                    <label class="floating-label-activo-sm" for="esquema_vacunas_felinas">Esquema de vacunas felinas</label>
+                                    <select class="form-control form-control-sm esquema-vacunas" id="esquema_vacunas_felinas">
+                                        <option value="">Seleccione vacuna según edad</option>
+                                        <optgroup label="6 a 8 semanas">
+                                            <option value="sextuple">Triple Felina 1ª Dosis</option>
+                                        </optgroup>
+                                        <optgroup label="9 a 11 semanas">
+                                            <option value="sextuple_f1">Triple Felina 2ª Dosis</option>
+                                        </optgroup>
+                                        <optgroup label="12 a 14 semanas">
+                                            <option value="sextuple_f2">Triple Felina 3ª Dosis + Leucemia + Antirrábica</option>
+                                        </optgroup>
+                                        <optgroup label="15 a 17 semanas">
+                                            <option value="sextuple_f3">Refuerzo final (si lo indica el veterinario)</option>
+                                        </optgroup>
+                                        <optgroup label="Cada 1 a 3 años">
+                                            <option value="sextuple_f4">Refuerzo Triple Felina + Leucemia + Antirrábica</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            @endif
+                        </div>
 
-                                                    <div class="form-group col-md-6">
-                                                        <label class="floating-label-activo-sm">Vacunas Felinas</label>
-                                                        <select class="form-control form-control-sm" id="id_vacuna" name="id_vacuna">
-                                                            <option>Seleccione vacuna según edad</option>
-                                                            <optgroup label="6 A 8 Semanas">
-                                                                <option value="sextuple" data-periodo="6 a 8 semanas" data-dosis="#">Triple Felina 1ª Dosis</option> 
-                                                            </optgroup>
-                                                            <optgroup label="9 A 11 Semanas">
-                                                                <option value="sextuple_f1" data-periodo="9 a 11 semanas" data-dosis="#">Triple Felina 2ª Dosis</option> 
-                                                            </optgroup>
-
-                                                            <optgroup label="12 A 14 Semanas">
-                                                                <option value="sextuple_f2">Triple Felina 3ª Dosis + Leucemia + Antirrábica</option>
-                                                            </optgroup>
-                                                            <optgroup label="15 A 17 Semanas">
-                                                                <option value="sextuple_f3">Refuerzo Final (Si el veterinario lo indica)</option>
-                                                            </optgroup>
-                                                            <optgroup label="Cada 1 – 3 años">
-                                                                <option value="sextuple_f4">Refuerzo Triple Felina + Leucemia + Antirrábica</option>
-                                                            </optgroup> 
-                                                        </select>
-                                                    </div>
-                                                    {{--  <div class="form-row">
-                                                        <div class="col-12">
-                                                            <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                                                                <label class="floating-label-activo-sm">Fecha dosis</label>
-                                                                <input type="date" class="form-control form-control-sm" id="vac_fecha_dosis_modal">
-                                                            </div>
-                                                            <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                                                                <label class="floating-label-activo-sm">Prox. Dosis</label>
-                                                                <input type="date" class="form-control form-control-sm" id="vac_proxima_dosis_modal">
-                                                            </div>
-                                                            <div class="col-12 text-right">
-                                                                <button type="button" class="btn btn-xs btn-info" id="btn_add_vacuna_modal">+ Añadir</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>  --}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <div class="form-row">
-                                    <div class="col-12">
-                                        <div class="card-lineal">
-                                            <div class="card-body-lineal">
-                                                <div class="form-row">
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                                                        <label class="floating-label-activo-sm">Edad</label>
-                                                        <input type="text" class="form-control form-control-sm" id="vac_edad_modal">
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                                                        <label class="floating-label-activo-sm">Fecha dosis</label>
-                                                        <input type="date" class="form-control form-control-sm" id="vac_fecha_dosis_modal">
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                                                        <label class="floating-label-activo-sm">Vacuna</label>
-                                                        <input type="text" class="form-control form-control-sm" id="vac_nombre_modal">
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                                                        <label class="floating-label-activo-sm">Prox. Dosis</label>
-                                                        <input type="date" class="form-control form-control-sm" id="vac_proxima_dosis_modal">
-                                                    </div>
-                                                    <div class="col-12 text-right">
-                                                        <button type="button" class="btn btn-xs btn-info" id="btn_add_vacuna_modal">+ Añadir</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-12">
-                                        <div class="table-responsive">
-                                            <table id="tabla_vacunas_mascotas" class="display table table-striped dt-responsive nowrap table-sm" style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="align-middle">Edad</th>
-                                                        <th class="align-middle">Fecha dosis</th>
-                                                        <th class="align-middle">Vacuna</th>
-                                                        <th class="align-middle">Próx.Dosis</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tabla_vacunas_mascotas_body"></tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                                <label class="floating-label-activo-sm" for="vac_edad_modal">Edad</label>
+                                <input type="text" class="form-control form-control-sm" id="vac_edad_modal">
                             </div>
-
-                            <div class="tab-pane fade show" id="desparasita" role="tabpanel" aria-labelledby="desparasita-tab">
-                                <div class="form-row">
-                                    <div class="col-12 mb-2">
-                                        <h6 class="t-aten">Registro de Desparasitaciones</h6>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-12">
-                                        <div class="card-lineal">
-                                            <div class="card-body-lineal">
-                                                <div class="form-row">
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                                                        <label class="floating-label-activo-sm">Fecha dosis</label>
-                                                        <input type="date" class="form-control form-control-sm" id="des_fecha_dosis_modal">
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                                                        <label class="floating-label-activo-sm">Antiparasitario</label>
-                                                        <input type="text" class="form-control form-control-sm" id="des_antiparasitario_modal">
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                                                        <label class="floating-label-activo-sm">Tipo</label>
-                                                        <select class="form-control form-control-sm" id="des_tipo_modal">
-                                                            <option value="">Seleccione</option>
-                                                            <option value="Externo">Externo</option>
-                                                            <option value="Interno">Interno</option>
-                                                            <option value="Interno y Externo">Interno y Externo</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                                                        <label class="floating-label-activo-sm">Prox. Dosis</label>
-                                                        <input type="date" class="form-control form-control-sm" id="des_proxima_dosis_modal">
-                                                    </div>
-                                                    <div class="col-12 text-right">
-                                                        <button type="button" class="btn btn-xs btn-info" id="btn_add_desparasitacion_modal">+ Añadir</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-12">
-                                        <div class="table-responsive">
-                                            <table id="tabla_desparacitacion" class="display table table-striped dt-responsive nowrap table-sm" style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="align-middle">Fecha dosis</th>
-                                                        <th class="align-middle">Antiparasitario</th>
-                                                        <th class="align-middle">Tipo</th>
-                                                        <th class="align-middle">Próx.Dosis</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tabla_desparasitacion_body"></tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                                <label class="floating-label-activo-sm" for="vac_fecha_dosis_modal">Fecha dosis</label>
+                                <input type="date" class="form-control form-control-sm" id="vac_fecha_dosis_modal">
                             </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                                <label class="floating-label-activo-sm" for="vac_nombre_modal">Vacuna</label>
+                                <input type="text" class="form-control form-control-sm" id="vac_nombre_modal">
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                                <label class="floating-label-activo-sm" for="vac_proxima_dosis_modal">Próx. dosis</label>
+                                <input type="date" class="form-control form-control-sm" id="vac_proxima_dosis_modal">
+                            </div>
+                        </div>
+                        <div class="modal-atencion-acciones">
+                            <button type="button" class="btn btn-success btn-sm" id="btn_add_vacuna_modal"><i class="feather icon-plus"></i> Agregar vacuna</button>
+                        </div>
+
+                        <div class="titulo-item">Vacunas registradas</div>
+                        <div class="table-responsive modal-atencion-tabla">
+                            <table id="tabla_vacunas_mascotas" class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th class="align-middle">Edad</th>
+                                        <th class="align-middle">Fecha dosis</th>
+                                        <th class="align-middle">Vacuna</th>
+                                        <th class="align-middle">Próx. dosis</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla_vacunas_mascotas_body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!--Desparasitación-->
+                    <div class="tab-pane fade" id="desparasita" role="tabpanel" aria-labelledby="desparasita-tab">
+                        <h6 class="t-aten">Registrar desparasitación</h6>
+                        <p class="modal-atencion-ayuda">Anote el antiparasitario aplicado y cuándo corresponde la próxima dosis.</p>
+
+                        <div class="form-row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                                <label class="floating-label-activo-sm" for="des_fecha_dosis_modal">Fecha dosis</label>
+                                <input type="date" class="form-control form-control-sm" id="des_fecha_dosis_modal">
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                                <label class="floating-label-activo-sm" for="des_antiparasitario_modal">Antiparasitario</label>
+                                <input type="text" class="form-control form-control-sm" id="des_antiparasitario_modal">
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                                <label class="floating-label-activo-sm" for="des_tipo_modal">Tipo</label>
+                                <select class="form-control form-control-sm" id="des_tipo_modal">
+                                    <option value="">Seleccione</option>
+                                    <option value="Externo">Externo</option>
+                                    <option value="Interno">Interno</option>
+                                    <option value="Interno y Externo">Interno y Externo</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                                <label class="floating-label-activo-sm" for="des_proxima_dosis_modal">Próx. dosis</label>
+                                <input type="date" class="form-control form-control-sm" id="des_proxima_dosis_modal">
+                            </div>
+                        </div>
+                        <div class="modal-atencion-acciones">
+                            <button type="button" class="btn btn-success btn-sm" id="btn_add_desparasitacion_modal"><i class="feather icon-plus"></i> Agregar desparasitación</button>
+                        </div>
+
+                        <div class="titulo-item">Desparasitaciones registradas</div>
+                        <div class="table-responsive modal-atencion-tabla">
+                            <table id="tabla_desparacitacion" class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th class="align-middle">Fecha dosis</th>
+                                        <th class="align-middle">Antiparasitario</th>
+                                        <th class="align-middle">Tipo</th>
+                                        <th class="align-middle">Próx. dosis</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla_desparasitacion_body"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -285,6 +245,15 @@
         $('#vac_fecha_dosis_modal').val('');
         $('#vac_nombre_modal').val('');
         $('#vac_proxima_dosis_modal').val('');
+        $('#form_ges .esquema-vacunas').val('');
+    }
+
+    // El resumen de la mascota del menú lateral muestra la última desparasitación y si las
+    // vacunas están al día; se actualiza con lo que se va registrando acá
+    function refrescarResumenSanitario(vacunas, desparasitaciones) {
+        if (typeof actualizarResumenSanitarioMascota === 'function') {
+            actualizarResumenSanitarioMascota(vacunas, desparasitaciones);
+        }
     }
 
     function limpiarFormularioDesparasitacionModal() {
@@ -307,6 +276,7 @@
             .done(function (resp) {
                 renderTablaVacunasModal(resp.vacunas || []);
                 renderTablaDesparasitacionModal(resp.desparasitaciones || []);
+                refrescarResumenSanitario(resp.vacunas || [], resp.desparasitaciones || []);
             })
             .fail(function () {
                 renderTablaVacunasModal([]);
@@ -333,6 +303,7 @@
         $.post(url, data)
             .done(function (resp) {
                 renderTablaVacunasModal(resp.vacunas || []);
+                refrescarResumenSanitario(resp.vacunas || [], null);
                 limpiarFormularioVacunaModal();
             })
             .fail(function (xhr) {
@@ -366,6 +337,7 @@
         $.post(url, data)
             .done(function (resp) {
                 renderTablaDesparasitacionModal(resp.desparasitaciones || []);
+                refrescarResumenSanitario(null, resp.desparasitaciones || []);
                 limpiarFormularioDesparasitacionModal();
             })
             .fail(function (xhr) {
@@ -391,6 +363,18 @@
 
         $(document).on('click', '#btn_add_desparasitacion_modal', function () {
             agregarDesparasitacionDesdeModal();
+        });
+
+        // Al elegir una vacuna del esquema se copian su nombre y la edad a los campos del registro
+        $(document).on('change', '#form_ges .esquema-vacunas', function () {
+            var $opcion = $(this).find('option:selected');
+            if (!$opcion.val()) {
+                return;
+            }
+
+            $('#form_ges .esquema-vacunas').not(this).val('');
+            $('#vac_nombre_modal').val($.trim($opcion.text()));
+            $('#vac_edad_modal').val($opcion.closest('optgroup').attr('label') || '');
         });
     });
 

@@ -1,50 +1,10 @@
-<style>
-  #modalMensajePaciente .modal-content {
-    border: 0;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 24px 60px rgba(15, 48, 57, .3);
-  }
-  #modalMensajePaciente .modal-header {
-    align-items: center;
-    padding: 15px 20px;
-    color: #fff;
-    background: linear-gradient(120deg, #147a70, #12b8b6);
-    border: 0;
-  }
-  #modalMensajePaciente .modal-title { font-weight: 700; }
-  #modalMensajePaciente .modal-close-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 38px;
-    width: 38px;
-    height: 38px;
-    margin: -4px -4px -4px 14px;
-    padding: 0;
-    color: #fff;
-    font-size: 27px;
-    line-height: 1;
-    background: rgba(0, 71, 72, .42);
-    border: 0;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-  #modalMensajePaciente .modal-close-button:hover,
-  #modalMensajePaciente .modal-close-button:focus {
-    color: #fff;
-    background: rgba(0, 55, 58, .68);
-    outline: 0;
-  }
-</style>
-
-<!-- Modal -->
-  <div class="modal fade" id="modalMensajePaciente" tabindex="-1" aria-labelledby="modalMensajePacienteLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<!-- Mensaje al tutor -->
+  <div class="modal fade" id="modalMensajePaciente" tabindex="-1" role="dialog" aria-labelledby="modalMensajePacienteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header modal-header-purple">
-          <h5 class="modal-title" id="modalMensajePacienteLabel">Mensaje a paciente</h5>
-          <button type="button" class="modal-close-button" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');">
+          <h5 class="modal-title" id="modalMensajePacienteLabel">Mensaje al tutor</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -61,60 +21,61 @@
                     <textarea class="form-control form-control-sm" id="exampleFormControlTextarea1" rows="3"></textarea>
                 </div>
                 <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <!-- [ Main Content ] start -->
-                    <div class="dropzone" id="mis-archivos-paciente" action="{{ route('profesional.imagen.carga') }}">
-                    </div>
-                    <!-- [ file-upload ] end -->
+                    <p class="small text-muted mb-2">Puede adjuntar hasta 5 imágenes de 6 MB cada una:</p>
+                    <div class="dropzone" id="mis-archivos-paciente" action="{{ route('profesional.imagen.carga') }}"></div>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
                     <button type="button" class="btn btn-info" onclick="enviar_mensaje_paciente_confirmar()"><i class="feather icon-mail"></i> Enviar mensaje</button>
                 </div>
-        </div>
+            </div>
         </div>
       </div>
     </div>
   </div>
   <input type="hidden" id="id_paciente_mensaje" name="id_paciente_mensaje" value="">
   <script>
+    var dropzoneMensajePaciente = null;
+    // Imágenes ya subidas que se van a adjuntar al mensaje
+    var archivosMensajePaciente = [];
+
     document.addEventListener('DOMContentLoaded', function(){
-        // Dropzone
         Dropzone.autoDiscover = false;
-        var myDropzone = new Dropzone(".dropzone", {
+        dropzoneMensajePaciente = new Dropzone('#mis-archivos-paciente', {
             url: "{{ route('profesional.imagen.carga') }}",
-            addRemoveLinks: true,
-            uploadMultiple: true,
-            parallelUploads: 5,
+            method: 'post',
+            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+            paramName: 'file',
+            acceptedFiles: 'image/jpeg,image/png,image/gif,image/webp',
             maxFiles: 5,
-            maxFilesize: 1,
-            acceptedFiles: "image/*",
-            autoProcessQueue: false,
-            dictDefaultMessage: '<div class="text-center"><i class="fas fa-cloud-upload-alt fa-4x"></i><h3>Arrastra aquí tus archivos</h3></div>',
-            dictRemoveFile: 'Eliminar',
-            dictCancelUpload: 'Cancelar',
-            dictMaxFilesExceeded: 'No puedes subir más archivos',
-            dictFileTooBig: 'El archivo es muy grande',
-            dictInvalidFileType: 'Tipo de archivo no permitido',
-            dictResponseError: 'Error al subir el archivo',
-            dictCancelUploadConfirmation: '¿Estás seguro de cancelar la subida del archivo?',
-            dictRemoveFileConfirmation: '¿Estás seguro de eliminar el archivo?',
+            maxFilesize: 6,
+            addRemoveLinks: true,
             init: function(){
-                var submitButton = document.querySelector("#submit-all");
-                myDropzone = this;
-                submitButton.addEventListener("click", function(){
-                    myDropzone.processQueue();
+                this.on('success', function(file, respuesta){
+                    if (typeof respuesta === 'string') {
+                        try { respuesta = JSON.parse(respuesta); } catch (e) { respuesta = null; }
+                    }
+                    if (!respuesta || !respuesta.img) return;
+                    file.nombreSubido = respuesta.img.nombre_img;
+                    archivosMensajePaciente.push({
+                        nombre_img: respuesta.img.nombre_img,
+                        original_file_name: respuesta.img.original_file_name
+                    });
                 });
-                this.on("addedfile", function(file){
-                    console.log('file', file);
+                this.on('removedfile', function(file){
+                    archivosMensajePaciente = archivosMensajePaciente.filter(function(archivo){
+                        return archivo.nombre_img !== file.nombreSubido;
+                    });
                 });
-                this.on("complete", function(file){
-                    console.log('complete', file);
-                });
-                this.on("success", function(file, response){
-                    console.log('success', response);
+                // Laravel responde la validación como objeto; se deja el texto del error en la miniatura
+                this.on('error', function(file, mensaje){
+                    if (!mensaje || typeof mensaje === 'string' || !file.previewElement) return;
+                    var texto = mensaje.errors && mensaje.errors.file ? mensaje.errors.file.join(' ') : (mensaje.message || 'No se pudo subir el archivo.');
+                    $(file.previewElement).find('[data-dz-errormessage]').text(texto);
                 });
             }
         });
     });
+
     function enviar_mensaje_paciente_confirmar(){
         var asunto = $('#exampleFormControlInput1').val();
         var mensaje = $('#exampleFormControlTextarea1').val();
@@ -139,6 +100,16 @@
             });
             return false;
         }
+
+        if(dropzoneMensajePaciente && (dropzoneMensajePaciente.getUploadingFiles().length > 0 || dropzoneMensajePaciente.getQueuedFiles().length > 0)){
+            swal({
+                title: "Espere un momento",
+                text: "Los archivos todavía se están subiendo",
+                icon: "info",
+                button: "Aceptar",
+            });
+            return false;
+        }
         $.ajax({
             url: "{{ route('enviar_mensaje_paciente') }}",
             type: 'POST',
@@ -146,6 +117,7 @@
                 asunto: asunto,
                 mensaje: mensaje,
                 id_paciente: id_paciente,
+                archivos: archivosMensajePaciente,
                 _token: "{{ csrf_token() }}"
             },
             success: function(response){
@@ -158,6 +130,12 @@
                         button: "Aceptar",
                     });
                     $('#modalMensajePaciente').modal('hide');
+                    // se limpia para que el próximo mensaje no salga con lo anterior
+                    $('#exampleFormControlInput1, #exampleFormControlTextarea1').val('');
+                    if(dropzoneMensajePaciente){
+                        dropzoneMensajePaciente.removeAllFiles(true);
+                    }
+                    archivosMensajePaciente = [];
                 }else{
                     swal({
                         title: "Error",

@@ -29,7 +29,7 @@
             <!--Header-->
             <div class="row">
                 <div class="col-md-12 mb-3">
-                    <h5 class="f-26 d-inline">Panel de configuración</h5>
+                    <h5 class="titulo-modulo f-26 d-inline">Panel de configuración</h5>
                 </div>
             </div>
             <!--Cierre: Header-->
@@ -48,7 +48,7 @@
                                     <div class="card-body text-center" style="cursor:pointer">
                                         <img class="configuracion-card-icon" src="{{ asset('images/iconos/docs.svg') }}"
                                             alt="Configurar mi página web">
-                                        <h5>Configurar mi página web</h5>
+                                        <h5 class="titulo-tarjeta">Configurar mi página web</h5>
                                     </div>
                                 </a>
                             </div>
@@ -59,7 +59,7 @@
                                     <div class="card-body text-center" style="cursor:pointer">
                                         <img class="configuracion-card-icon" src="{{ asset('images/iconos/lugar.svg') }}"
                                             alt="Mis Lugares de Atención">
-                                        <h5>
+                                        <h5 class="titulo-tarjeta">
                                             Mis lugares de atención
                                         </h5>
                                     </div>
@@ -72,7 +72,7 @@
                                     <div class="card-body text-center" style="cursor:pointer">
                                         <img class="configuracion-card-icon"
                                             src="{{ asset('images/iconos/mis_asistentes.svg') }}" alt="Mis Asistentes">
-                                        <h5>
+                                        <h5 class="titulo-tarjeta">
                                             Mis asistentes
                                         </h5>
                                     </div>
@@ -90,7 +90,7 @@
                                             <span class="position-absolute d-flex align-items-center justify-content-center"
                                                   style="right:-4px;bottom:-3px;width:27px;height:27px;border-radius:50%;background:#7b35a5;color:#fff;font-size:15px;font-weight:700;border:3px solid #fff">$</span>
                                         </span>
-                                        <h5 class="f-16">Configurar mis aranceles</h5>
+                                        <h5 class="titulo-tarjeta f-16">Configurar mis aranceles</h5>
                                     </div>
                                 </a>
                             </div>
@@ -103,7 +103,7 @@
                                         src="{{ asset('images/iconos/equipoqx.png') }}"
 
                                         alt="Profesional">
-                                        <h5 class="f-16">
+                                        <h5 class="titulo-tarjeta f-16">
                                         Mis equipos quirúrgicos
                                         </h5>
                                     </div>

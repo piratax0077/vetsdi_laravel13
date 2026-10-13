@@ -164,9 +164,6 @@
                     </div>
                 </div>-->
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger-light-c" data-dismiss="modal" onclick="$('#m_consultaant').modal('hide');">Cerrar</button>
-            </div>
         </div>
     </div>
 </div>

@@ -100,6 +100,7 @@
     @include('template.asistente_cm_manejo_agenda.header')
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
     @yield('modales')
 
     <footer>

@@ -1,4 +1,5 @@
 @extends('template.asistente_cm_manejo_agenda.template')
+@section('sin_boton_volver', '1')
 
 {{--  ESTILOS PROPIOD DE LA VISTA   --}}
 @section('page-styles')
@@ -10,61 +11,31 @@
 	<!--Container Completo-->
 	<div class="pcoded-main-container">
 		<div class="pcoded-content">
-			<div class="page-header">
-				<div class="page-block">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="page-header-title">
-								<h5 class="font-weight-bolder">Mi perfil</h5>
-							</div>
-							<ul class="breadcrumb mb-4">
-								<li class="breadcrumb-item">
-									<a href="{{ route('asistentecm.ma.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-										<i class="feather icon-home"></i>
-									</a>
-								</li>
-								<li class="breadcrumb-item">
-									<a href="perfil_asistente.php">Mi perfil</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
 			<div class="user-profile user-card mb-4">
 				<div class="card-body py-0">
 					<div class="user-about-block m-0">
 						<div class="row">
-							<div class="col-md-12 text-center mt-n4">
-								<div class="change-profile text-center">
-									<div class="dropdown w-auto d-inline-block">
-										<a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<div class="profile-dp">
-												<div class="position-relative d-inline-block">
-													<img class="img-radius img-fluid wid-100" src="{{ asset('images/iconos/usuario_asistente.svg') }}" alt="User image">
-												</div>
-												<div class="overlay">
-													<span>Actualizar</span>
-												</div>
-											</div>
-										</a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item"><i class="feather icon-upload-cloud mr-2"></i>Cambiar foto de perfil</a>
-											<a class="dropdown-item"><i class="feather icon-trash-2 mr-2"></i>Eliminar fotografía</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12 mt-md-2">
-								<ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+							@include('template.partials.perfil_cabecera', [
+								'nombre' => trim(($asistente->nombres ?? '') . ' ' . ($asistente->apellido_uno ?? '') . ' ' . ($asistente->apellido_dos ?? '')),
+								'rol' => 'Asistente de agenda',
+								'foto' => $asistente->foto_perfil ?? null,
+								'foto_base' => 'images/iconos/usuario_asistente.svg',
+								'datos_perfil' => [
+									$asistente->rut ?? '', $asistente->nombres ?? '', $asistente->apellido_uno ?? '',
+									$asistente->email ?? '', $asistente->telefono_uno ?? '', $asistente->foto_perfil ?? '',
+									$direccion_region_nombre ?? '', optional($asistente->Direccion()->first())->direccion,
+								],
+							])
+							<div class="col-md-12 mt-md-2 m-0">
+								<ul class="nav nav-tabs profile-tabs nav-fill mt-1" id="myTab" role="tablist">
 									<li class="nav-item">
-										<a class="btn btn-outline-info btn-sm mb-2 mx-2 active" id="personal-tab" data-toggle="tab" href="#info_personal" role="tab" aria-controls="info_personal" aria-selected="true"><i class="feather icon-user mr-2"></i>Información personal</a>
+										<a class="nav-link text-reset active" id="personal-tab" data-toggle="tab" href="#info_personal" role="tab" aria-controls="info_personal" aria-selected="true">Información personal</a>
 									</li>
 									<li class="nav-item">
-										<a class="btn btn-outline-info btn-sm mb-2 mx-2" id="emergencia-tab" data-toggle="tab" href="#emergencia" role="tab" aria-controls="emergencia" aria-selected="false"><i class="feather icon-user-plus mr-2"></i>Contacto de emergencia</a>
+										<a class="nav-link text-reset" id="emergencia-tab" data-toggle="tab" href="#emergencia" role="tab" aria-controls="emergencia" aria-selected="false">Contacto de emergencia</a>
 									</li>
 									<li class="nav-item">
-										<a class="btn btn-outline-info btn-sm mb-2 mx-2" id="pass-tab" data-toggle="tab" href="#pass" role="tab" aria-controls="pass" aria-selected="false"><i class="feather icon-settings mr-2"></i>Mi cuenta</a>
+										<a class="nav-link text-reset" id="pass-tab" data-toggle="tab" href="#pass" role="tab" aria-controls="pass" aria-selected="false">Mi cuenta</a>
 									</li>
 								</ul>
 							</div>
@@ -81,110 +52,100 @@
 								<div class="col-md-6">
 									<!--Card Información Básica-->
 									<div class="card">
-										<div class="card-header d-flex align-items-center justify-content-between bg-info">
-											<h5 class="mb-0 text-white">Datos personales</h5>
-											<button type="button" class="btn btn-light btn-sm btn-icon m-0 float-right" data-toggle="collapse" data-target=".info_basica" aria-expanded="false" aria-controls="info_basica-1 info_basica-2">
+										<div class="card-header d-flex align-items-center justify-content-between bg-white">
+											<h5 class="mb-0"><i class="feather icon-user icono-purple"></i> Datos personales</h5>
+											<button type="button" class="btn btn-outline-purple btn-icon m-0 float-right" data-toggle="collapse" data-target=".info_basica" aria-expanded="false" aria-controls="info_basica-1 info_basica-2">
 												<i class="feather icon-edit"></i>
 											</button>
 										</div>
 										<!--Datos Personales-->
 										<div class="card-body info_basica collapse show" id="info_basica-1">
 											<form>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
-													<div class="col-sm-7 my-auto ml-2" id="ver_rut"> {{ $asistente->rut }} </div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Nombres</label>
-													<div class="col-sm-7 my-auto ml-2" id="ver_nombre">{{ $asistente->nombres }}</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Primer Apellidos</label>
-													<div class="col-sm-7 my-auto ml-2" id="ver_apellido_uno">{{ $asistente->apellido_uno }}</div>
-												</div>
-                                                <div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Segundo Apellidos</label>
-													<div class="col-sm-7 my-auto ml-2" id="ver_apellido_dos">{{ $asistente->apellido_dos }}</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder font-weight-bolder">Sexo</label>
-													<div class="col-sm-7 my-auto ml-2" id="ver_sexo">
-                                                        @if ($asistente->sexo == 'M')
-                                                            Masculino
-                                                        @elseif ($asistente->sexo == 'F')
-                                                            Femenino
-                                                        @else
-                                                            Otro
-                                                        @endif
-                                                    </div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Nacimiento</label>
-													<div class="col-sm-7 my-auto ml-2" id="ver_nacimiento">{{ \Carbon\Carbon::parse($asistente->fecha_nac)->format('d-m-Y') }}</div>
-												</div>
+												<div class="form-row">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">RUT</label>
+														<div id="ver_rut"> {{ $asistente->rut }} </div>
+													</div>
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Nombres</label>
+														<div id="ver_nombre">{{ $asistente->nombres }}</div>
+													</div>
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Primer Apellido</label>
+														<div id="ver_apellido_uno">{{ $asistente->apellido_uno }}</div>
+													</div>
+	                                                <div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Segundo Apellido</label>
+														<div id="ver_apellido_dos">{{ $asistente->apellido_dos }}</div>
+													</div>
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Sexo</label>
+														<div id="ver_sexo">
+	                                                        @if ($asistente->sexo == 'M')
+	                                                            Masculino
+	                                                        @elseif ($asistente->sexo == 'F')
+	                                                            Femenino
+	                                                        @else
+	                                                            Otro
+	                                                        @endif
+	                                                    </div>
+													</div>
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Nacimiento</label>
+														<div id="ver_nacimiento">{{ \Carbon\Carbon::parse($asistente->fecha_nac)->format('d-m-Y') }}</div>
+													</div>
+												</div>
 											</form>
 										</div>
 										<!--Cierre: Datos Personales-->
 										<!--(Editar)Datos Personales-->
 										<div class="card-body info_basica collapse" id="info_basica-2">
 											<form>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
-													<div class="col-sm-7">
-														<input type="text" class="form-control form-control-sm" placeholder="Rut" id="editar_rut" name="editar_rut"value="{{ $asistente->rut }} ">
+												<div class="form-row">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="floating-label-activo">RUT</label>
+														<input type="text" class="form-control form-control-sm" placeholder="RUT" id="editar_rut" name="editar_rut"value="{{ $asistente->rut }} ">
 													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Nombre</label>
-													<div class="col-sm-7">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="floating-label-activo">Nombres</label>
 														<input type="text" class="form-control form-control-sm" placeholder="Nombre" id="editar_nombre" name="editar_nombre" value="{{ $asistente->nombres }}">
 													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Apellidos</label>
-													<div class="col-sm-7">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="floating-label-activo">Primer Apellido</label>
 														<input type="text" class="form-control form-control-sm" placeholder="Primer Apellido" id="editar_apellido_uno" name="editar_apellido_uno" value="{{ $asistente->apellido_uno }}">
 													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Apellidos</label>
-													<div class="col-sm-7">
-														<input type="text" class="form-control form-control-sm" placeholder="Primer Apellido" id="editar_apellido_dos" name="editar_apellido_dos" value="{{ $asistente->apellido_dos }}">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="floating-label-activo">Segundo Apellido</label>
+														<input type="text" class="form-control form-control-sm" placeholder="Segundo Apellido" id="editar_apellido_dos" name="editar_apellido_dos" value="{{ $asistente->apellido_dos }}">
 													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Sexo</label>
-													<div class="col-sm-7 my-auto">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="floating-label-activo">Sexo</label>
 														{{--  <div class="form-check form-check-inline">
 															<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
 															<label class="form-check-label" for="M">Hombre</label>
 														</div>  --}}
-														<div class="form-check form-check-inline">
-                                                            <select class="form-control" id="editar_sexo" name="editar_sexo">
-                                                                <option>Seleccione su Sexo</option>
-                                                                <option value="M"
-                                                                    @if ($asistente->sexo == 'M') selected @endif>Masculino
-                                                                </option>
-                                                                <option value="F"
-                                                                    @if ($asistente->sexo == 'F') selected @endif>Femenino
-                                                                </option>
-                                                                <option value="O"
-                                                                    @if ($asistente->sexo == 'O') selected @endif>Otro
-                                                                </option>
-                                                            </select>
-														</div>
+	                                                    <select class="form-control form-control-sm" id="editar_sexo" name="editar_sexo">
+	                                                        <option>Seleccione su Sexo</option>
+	                                                        <option value="M"
+	                                                            @if ($asistente->sexo == 'M') selected @endif>Masculino
+	                                                        </option>
+	                                                        <option value="F"
+	                                                            @if ($asistente->sexo == 'F') selected @endif>Femenino
+	                                                        </option>
+	                                                        <option value="O"
+	                                                            @if ($asistente->sexo == 'O') selected @endif>Otro
+	                                                        </option>
+	                                                    </select>
 													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Nacimiento</label>
-													<div class="col-sm-7">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="floating-label-activo">Nacimiento</label>
 														<input type="date" class="form-control form-control-sm" id="editar_nacimiento" name="editar_nacimiento" value="{{ \Carbon\Carbon::parse($asistente->fecha_nac)->format('Y-m-d') }}">
 													</div>
-												</div>
-												<div class="form-group row">
+												</div>
+												<div class="form-row">
 													<div class="col-sm-12 d-flex justify-content-end">
-														<button type="button" class="btn btn-sm btn-danger mr-2" data-toggle="collapse" data-target=".info_basica" aria-expanded="false" aria-controls="info_basica-1 info_basica-2" >Cancelar</button>
-														<button type="button" class="btn btn-sm btn-info" onclick="editar_asistente_datos_personales('{{ $asistente->id }}')">Guardar cambios</button>
+														<button type="button" class="btn btn-outline-dark btn-sm mr-2" data-toggle="collapse" data-target=".info_basica" aria-expanded="false" aria-controls="info_basica-1 info_basica-2" ><i class="feather icon-x"></i> Cancelar</button>
+														<button type="button" class="btn btn-info btn-sm" onclick="editar_asistente_datos_personales('{{ $asistente->id }}')"><i class="feather icon-save"></i> Guardar cambios</button>
 													</div>
 												</div>
 											</form>
@@ -197,45 +158,45 @@
 								<div class="col-md-6">
 									<!--Card Contacto-->
 									<div class="card">
-										<div class="card-header d-flex align-items-center justify-content-between bg-info">
-											<h5 class="mb-0 text-white">Contacto</h5>
-											<button type="button" class="btn btn-light btn-sm btn-icon m-0 float-right" data-toggle="collapse" data-target=".info_contacto" aria-expanded="false" aria-controls="info_contacto_1 info_contacto_2">
+										<div class="card-header d-flex align-items-center justify-content-between bg-white">
+											<h5 class="mb-0"><i class="feather icon-phone icono-purple"></i> Contacto</h5>
+											<button type="button" class="btn btn-outline-purple btn-icon m-0 float-right" data-toggle="collapse" data-target=".info_contacto" aria-expanded="false" aria-controls="info_contacto_1 info_contacto_2">
 												<i class="feather icon-edit"></i>
 											</button>
 										</div>
 										<!--Contacto-->
 										<div class="card-body info_contacto collapse show" id="info_contacto_1">
 											<form>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Correo Electrónico</label>
-													<div class="col-sm-7 my-auto ml-2" id="ver_email" name="ver_email">{{ $asistente->email }}</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Teléfono</label>
-													<div class="col-sm-7 my-auto ml-2" id="ver_telefono_uno" name="ver_telefono_uno">{{ $asistente->telefono_uno }}</div>
-												</div>
+												<div class="form-row">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Correo Electrónico</label>
+														<div id="ver_email" name="ver_email">{{ $asistente->email }}</div>
+													</div>
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Teléfono</label>
+														<div id="ver_telefono_uno" name="ver_telefono_uno">{{ $asistente->telefono_uno }}</div>
+													</div>
+												</div>
 											</form>
 										</div>
 										<!--Cierre: Contacto-->
 										<!--(Editar) Contacto-->
 										<div class="card-body info_contacto collapse" id="info_contacto_2">
 											<form>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label">Correo electrónico</label>
-													<div class="col-sm-7 font-weight-bolder">
+												<div class="form-row">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="floating-label-activo">Correo electrónico</label>
 														<input type="text" class="form-control form-control-sm" placeholder="Correo Electrónico" id="editar_email" name="editar_email"  value="{{ $asistente->email }}">
 													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label">Teléfono</label>
-													<div class="col-sm-7 font-weight-bolder">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="floating-label-activo">Teléfono</label>
 														<input type="text" class="form-control form-control-sm" placeholder="Teléfono"  id="editar_telefono_uno" name="editar_telefono_uno" value="{{ $asistente->telefono_uno }}">
 													</div>
-												</div>
-												<div class="form-group row">
+												</div>
+												<div class="form-row">
 													<div class="col-sm-12 d-flex justify-content-end">
-														<button type="button" class="btn btn-sm btn-danger mr-2" data-toggle="collapse" data-target=".info_contacto" aria-expanded="false" aria-controls="info_contacto_1 info_contacto_2">Cancelar</button>
-														<button type="button" class="btn btn-sm btn-info" onclick="editar_asistente_datos_contacto('{{ $asistente->id }}');" >Guardar cambios</button>
+														<button type="button" class="btn btn-outline-dark btn-sm mr-2" data-toggle="collapse" data-target=".info_contacto" aria-expanded="false" aria-controls="info_contacto_1 info_contacto_2"><i class="feather icon-x"></i> Cancelar</button>
+														<button type="button" class="btn btn-info btn-sm" onclick="editar_asistente_datos_contacto('{{ $asistente->id }}');" ><i class="feather icon-save"></i> Guardar cambios</button>
 													</div>
 												</div>
 											</form>
@@ -245,94 +206,89 @@
 									<!--Cierre: Card Contacto-->
 									<!--Card Residencia-->
 									<div class="card">
-										<div class="card-header d-flex align-items-center justify-content-between bg-info">
-											<h5 class="mb-0 text-white">Residencia</h5>
-											<button type="button" class="btn btn-light btn-sm btn-icon m-0 float-right" data-toggle="collapse" data-target=".info_residencial" aria-expanded="false" aria-controls="info_residencial_1 info_residencial_2">
+										<div class="card-header d-flex align-items-center justify-content-between bg-white">
+											<h5 class="mb-0"><i class="feather icon-map-pin icono-purple"></i> Residencia</h5>
+											<button type="button" class="btn btn-outline-purple btn-icon m-0 float-right" data-toggle="collapse" data-target=".info_residencial" aria-expanded="false" aria-controls="info_residencial_1 info_residencial_2">
 												<i class="feather icon-edit"></i>
 											</button>
 										</div>
 										<!--Residencia-->
 										<div class="card-body info_residencial collapse show" id="info_residencial_1">
 											<form>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder" >Región</label>
-													<div class="col-sm-7 my-auto ml-2" id="ver_region">{{ $direccion_region_nombre }}</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder" >Ciudad</label>
-													@if($asistente->Direccion()->first())
-														<div class="col-sm-7 my-auto ml-2" id="ver_ciudad"> {{ $asistente->Direccion()->first()->Ciudad()->first()->nombre }} </div>
-													@else
-														<div class="col-sm-7 my-auto ml-2" id="ver_ciudad"></div>
-													@endif
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder" >Dirección</label>
-													@if($asistente->Direccion()->first())
-														<div class="col-sm-7 my-auto ml-2" id="ver_direccion"> {{ $asistente->Direccion()->first()->direccion . ' #' . $asistente->Direccion()->first()->numero_dir }} </div>
-													@else
-														<div class="col-sm-7 my-auto ml-2" id="ver_direccion"></div>
-													@endif
-												</div>
+												<div class="form-row">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Región</label>
+														<div id="ver_region">{{ $direccion_region_nombre }}</div>
+													</div>
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Ciudad</label>
+														@if($asistente->Direccion()->first())
+															<div id="ver_ciudad"> {{ $asistente->Direccion()->first()->Ciudad()->first()->nombre }} </div>
+														@else
+															<div id="ver_ciudad"></div>
+														@endif
+													</div>
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Dirección</label>
+														@if($asistente->Direccion()->first())
+															<div id="ver_direccion"> {{ $asistente->Direccion()->first()->direccion . ' #' . $asistente->Direccion()->first()->numero_dir }} </div>
+														@else
+															<div id="ver_direccion"></div>
+														@endif
+													</div>
+												</div>
 											</form>
 										</div>
 										<!--Cierre: Residencia-->
 										<!--(Editar) Residencia-->
 										<div class="card-body info_residencial collapse " id="info_residencial_2">
 											<form>
-                                                <div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Region</label>
-													<div class="col-sm-7">
+                                                <div class="form-row">
+	                                                <div class="form-group col-sm-12 col-md-6">
+														<label class="floating-label-activo">Región</label>
 														<select class="form-control form-control-sm" id="region_agregar" name="region_agregar" onchange="buscar_ciudad();">
 															@foreach ($regiones as $reg)
-                                                                @if ($direccion_region == $reg->id)
-                                                                    <option value="{{ $reg->id }}" selected>{{ $reg->nombre }}</option>
-                                                                @else
-                                                                    <option value="{{ $reg->id }}">{{ $reg->nombre }}</option>
-                                                                @endif
-                                                            @endforeach
+	                                                            @if ($direccion_region == $reg->id)
+	                                                                <option value="{{ $reg->id }}" selected>{{ $reg->nombre }}</option>
+	                                                            @else
+	                                                                <option value="{{ $reg->id }}">{{ $reg->nombre }}</option>
+	                                                            @endif
+	                                                        @endforeach
 														</select>
 													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Ciudad</label>
-													<div class="col-sm-7">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="floating-label-activo">Ciudad</label>
 														<select class="form-control form-control-sm" id="ciudad_agregar" name="ciudad_agregar">
 															@foreach ($ciudades as $ciudad)
-                                                                @if ($direccion_ciudad == $ciudad->id)
-                                                                    <option value="{{ $ciudad->id }}" selected>{{ $ciudad->nombre }}</option>
-                                                                @else
-                                                                    <option value="{{ $ciudad->id }}">{{ $ciudad->nombre }}</option>
-                                                                @endif
-                                                            @endforeach
+	                                                            @if ($direccion_ciudad == $ciudad->id)
+	                                                                <option value="{{ $ciudad->id }}" selected>{{ $ciudad->nombre }}</option>
+	                                                            @else
+	                                                                <option value="{{ $ciudad->id }}">{{ $ciudad->nombre }}</option>
+	                                                            @endif
+	                                                        @endforeach
 														</select>
 													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Dirección</label>
-													<div class="col-sm-7">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="floating-label-activo">Dirección</label>
 														@if($asistente->Direccion()->first())
 															<input type="text" class="form-control form-control-sm" placeholder="Dirección" id="direccion" name="direccion" value="{{ $asistente->Direccion()->first()->direccion }}">
 														@else
 															<input type="text" class="form-control form-control-sm" placeholder="Dirección" id="direccion" name="direccion" value="">
 														@endif
 													</div>
-												</div>
-                                                <div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Número</label>
-													<div class="col-sm-7">
+	                                                <div class="form-group col-sm-12 col-md-6">
+														<label class="floating-label-activo">Número</label>
 														@if($asistente->Direccion()->first())
-															<input type="text" class="form-control form-control-sm" placeholder="Dirección" id="numero_dir" name="numero_dir" value="{{ $asistente->Direccion()->first()->numero_dir }}">
+															<input type="text" class="form-control form-control-sm" placeholder="Número" id="numero_dir" name="numero_dir" value="{{ $asistente->Direccion()->first()->numero_dir }}">
 														@else
-															<input type="text" class="form-control form-control-sm" placeholder="Dirección" id="numero_dir" name="numero_dir" value="">
+															<input type="text" class="form-control form-control-sm" placeholder="Número" id="numero_dir" name="numero_dir" value="">
 														@endif
 													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-12 col-form-label"></label>
+                                                </div>
+												<div class="form-row">
 													<div class="col-sm-12 d-flex justify-content-end">
-														<button type="button" class="btn btn-sm btn-danger mr-2" data-toggle="collapse" data-target=".info_residencial" aria-expanded="false" aria-controls="info_residencial_1 info_residencial_2">Cancelar</button>
-														<button type="button" class="btn btn-sm btn-info" onclick="editar_asistente_datos_residencia('{{ $asistente->id }}')">Guardar cambios</button>
+														<button type="button" class="btn btn-outline-dark btn-sm mr-2" data-toggle="collapse" data-target=".info_residencial" aria-expanded="false" aria-controls="info_residencial_1 info_residencial_2"><i class="feather icon-x"></i> Cancelar</button>
+														<button type="button" class="btn btn-info btn-sm" onclick="editar_asistente_datos_residencia('{{ $asistente->id }}')"><i class="feather icon-save"></i> Guardar cambios</button>
 													</div>
 												</div>
 											</form>
@@ -351,9 +307,9 @@
 							<div class="row">
                                 <div class="col-md-12">
                                     <div class="card">
-                                        <div class="card-header bg-danger">
-                                            <h5 class="text-white d-inline float-left mt-1">Contactos de emergencia</h5>
-                                            <button type="button" onclick="modal_agregar_contacto_emergencia();" class="btn btn-outline-light btn-sm d-inline float-right mr-4">
+                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-user-plus icono-purple"></i> Contactos de emergencia</h5>
+                                            <button type="button" onclick="modal_agregar_contacto_emergencia();" class="btn btn-info btn-sm m-0">
                                                 <i class="feather icon-plus"></i> Agregar contacto
                                             </button>
                                         </div>
@@ -390,7 +346,7 @@
 
                                                                                 <button id="btn_info_contacto"
                                                                                     onclick="cargar_datos_contacto({{ $c->id }})"
-                                                                                    class="btn btn-info btn-sm rounded-circle"
+                                                                                    class="btn btn-outline-purple btn-icon"
                                                                                     data-toggle="modal"
                                                                                     data-target="#info_contacto_emergencia"
                                                                                     title="Información de contacto"
@@ -400,7 +356,7 @@
 
                                                                                 <button id="btn_editar_contacto"
                                                                                     onclick="cargar_datos_contacto({{ $c->id }})"
-                                                                                    class="btn btn-warning btn-sm rounded-circle"
+                                                                                    class="btn btn-outline-purple btn-icon"
                                                                                     data-toggle="modal"
                                                                                     data-target="#editar_contacto_emergencia"
                                                                                     title="Editar contacto"
@@ -409,7 +365,7 @@
                                                                                 </button>
 
                                                                                 <button
-                                                                                    class="btn btn-danger btn-sm rounded-circle"
+                                                                                    class="btn btn-danger btn-icon"
                                                                                     onclick="eliminar_contacto_asistente({{ $c->id . ',' . $asistente->id }})"
                                                                                     data-toggle="tooltip"
                                                                                     title="Eliminar contacto">
@@ -445,19 +401,21 @@
 								<div class="col-md-6">
 									<!--Card Contraseña Personal-->
 									<div class="card">
-										<div class="card-header d-flex align-items-center justify-content-between bg-info">
-											<h5 class="mb-0 text-white">Cambiar contraseña</h5>
-											<button type="button" class="btn btn-light btn-sm btn-icon m-0 float-right" data-toggle="collapse" data-target=".pass_personal" aria-expanded="false" aria-controls="pass_personal_1 pass_personal_2">
+										<div class="card-header d-flex align-items-center justify-content-between bg-white">
+											<h5 class="mb-0"><i class="feather icon-lock icono-purple"></i> Cambiar contraseña</h5>
+											<button type="button" class="btn btn-outline-purple btn-icon m-0 float-right" data-toggle="collapse" data-target=".pass_personal" aria-expanded="false" aria-controls="pass_personal_1 pass_personal_2">
 												<i class="feather icon-edit"></i>
 											</button>
 										</div>
 										<!--Contraseña Personal-->
 										<div class="card-body pass_personal collapse show" id="pass_personal_1">
 											<form>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label">Contraseña actual</label>
-													<div class="col-sm-7 pt-2 ml-2 font-weight-bolder"> •••••••• </div>
-												</div>
+												<div class="form-row">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Contraseña actual</label>
+														<div> •••••••• </div>
+													</div>
+												</div>
 											</form>
 										</div>
 										<!--Cierre: Contraseña Personal-->
@@ -465,29 +423,33 @@
 										<div class="card-body pass_personal collapse" id="pass_personal_2">
 											<form method="get" action="{{ route('perfil.cambio_contrasena')}}" id="form_cambio_contrasena_perfil" name="form_cambio_contrasena_perfil">
                                                 @csrf
-                                                <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Contraseña Actual</label>
-                                                    <div class="col-sm-7">
-                                                        <input type="password" class="form-control" placeholder="Contraseña Actual" id="contrasena_actual" name="contrasena_actual">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Nueva Contraseña</label>
-                                                    <div class="col-sm-7">
-                                                        <input type="password" class="form-control" placeholder="Nueva Contraseña" id="password_registro" name="password_registro">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Repita su Contraseña</label>
-                                                    <div class="col-sm-7">
-                                                        <input type="password" class="form-control" placeholder="Repita la Contraseña" id="password_confirmacion_registro" name="password_confirmacion_registro">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-12 col-form-label"></label>
+                                                <div class="form-row">
+	                                                <div class="form-group col-12">
+	                                                    <label class="floating-label-activo">Contraseña Actual</label>
+	                                                    <div class="campo-clave">
+	                                                    	<input type="password" class="form-control form-control-sm" placeholder="Contraseña Actual" id="contrasena_actual" name="contrasena_actual">
+	                                                    	<button type="button" class="campo-clave-ver" data-ver-clave="contrasena_actual" aria-label="Mostrar la contraseña" aria-pressed="false"><i class="feather icon-eye-off" aria-hidden="true"></i></button>
+	                                                    </div>
+	                                                </div>
+	                                                <div class="form-group col-12">
+	                                                    <label class="floating-label-activo">Nueva Contraseña</label>
+	                                                    <div class="campo-clave">
+	                                                    	<input type="password" class="form-control form-control-sm" placeholder="Nueva Contraseña" id="password_registro" name="password_registro">
+	                                                    	<button type="button" class="campo-clave-ver" data-ver-clave="password_registro" aria-label="Mostrar la contraseña" aria-pressed="false"><i class="feather icon-eye-off" aria-hidden="true"></i></button>
+	                                                    </div>
+	                                                </div>
+	                                                <div class="form-group col-12">
+	                                                    <label class="floating-label-activo">Repita su Contraseña</label>
+	                                                    <div class="campo-clave">
+	                                                    	<input type="password" class="form-control form-control-sm" placeholder="Repita la Contraseña" id="password_confirmacion_registro" name="password_confirmacion_registro">
+	                                                    	<button type="button" class="campo-clave-ver" data-ver-clave="password_confirmacion_registro" aria-label="Mostrar la contraseña" aria-pressed="false"><i class="feather icon-eye-off" aria-hidden="true"></i></button>
+	                                                    </div>
+	                                                </div>
+                                                </div>
+                                                <div class="form-row">
                                                     <div class="col-sm-12 d-flex justify-content-end">
-                                                        <div class="btn btn-danger mr-2">Cancelar</div>
-                                                        <button type="submit" class="btn btn-info">Guardar Cambios</button>
+                                                        <div class="btn btn-outline-dark btn-sm mr-2"><i class="feather icon-x"></i> Cancelar</div>
+                                                        <button type="submit" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -499,41 +461,43 @@
 								<div class="col-md-6">
 									<!--Card Contraseña Personal-->
 									<div class="card">
-										<div class="card-header d-flex align-items-center justify-content-between bg-info">
-											<h5 class="mb-0 text-white">Configuración motores de búsqueda</h5>
-											<button type="button" class="btn btn-light btn-sm btn-icon m-0 float-right" data-toggle="collapse" data-target=".buscadores" aria-expanded="false" aria-controls="buscadores_1 buscadores_2">
+										<div class="card-header d-flex align-items-center justify-content-between bg-white">
+											<h5 class="mb-0"><i class="feather icon-search icono-purple"></i> Configuración motores de búsqueda</h5>
+											<button type="button" class="btn btn-outline-purple btn-icon m-0 float-right" data-toggle="collapse" data-target=".buscadores" aria-expanded="false" aria-controls="buscadores_1 buscadores_2">
 												<i class="feather icon-edit"></i>
 											</button>
 										</div>
 										<!--Contraseña Personal-->
 										<div class="card-body buscadores collapse show" id="buscadores_1">
 											<form>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder font-weight-bolder">Aparecer en buscador de asistente</label>
-                                                    @if($asistente->buscador == 1)
-													<div class="col-sm-7 my-auto ml-2" id="mensaje_buscador" name="mensaje_buscador"> Si </div>
-                                                    @else
-                                                    <div class="col-sm-7 my-auto ml-2" id="mensaje_buscador" name="mensaje_buscador"> NO </div>
-                                                    @endif
-												</div>
-												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder font-weight-bolder">Modalidad de trabajo</label>
-                                                    @if ($asistente->id_modalidad == 1)
-                                                    <div class="col-sm-7 my-auto ml-2" id="mensaje_modalidad" name="mensaje_modalidad"> Online </div>
-                                                    @elseif($asistente->id_modalidad == 2)
-                                                    <div class="col-sm-7 my-auto ml-2" id="mensaje_modalidad" name="mensaje_modalidad"> Presencial </div>
-                                                    @elseif($asistente->id_modalidad == 3)
-                                                    <div class="col-sm-7 my-auto ml-2" id="mensaje_modalidad" name="mensaje_modalidad"> Online - Presencial </div>
-                                                    @else
-                                                    <div class="col-sm-7 my-auto ml-2" id="mensaje_modalidad" name="mensaje_modalidad"> No informado </div>
-                                                    @endif
-												</div>
-                                                <div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder font-weight-bolder">Curriculum</label>
-                                                    <div class="col-sm-7 my-auto ml-2">
-                                                        <button type="bottom" class="btn btn-sm btn-success">Descarga</button>
-                                                    </div>
-                                                </div>
+												<div class="form-row">
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Aparecer en buscador de asistente</label>
+	                                                    @if($asistente->buscador == 1)
+														<div id="mensaje_buscador" name="mensaje_buscador"> Si </div>
+	                                                    @else
+	                                                    <div id="mensaje_buscador" name="mensaje_buscador"> NO </div>
+	                                                    @endif
+													</div>
+													<div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Modalidad de trabajo</label>
+	                                                    @if ($asistente->id_modalidad == 1)
+	                                                    <div id="mensaje_modalidad" name="mensaje_modalidad"> Online </div>
+	                                                    @elseif($asistente->id_modalidad == 2)
+	                                                    <div id="mensaje_modalidad" name="mensaje_modalidad"> Presencial </div>
+	                                                    @elseif($asistente->id_modalidad == 3)
+	                                                    <div id="mensaje_modalidad" name="mensaje_modalidad"> Online - Presencial </div>
+	                                                    @else
+	                                                    <div id="mensaje_modalidad" name="mensaje_modalidad"> No informado </div>
+	                                                    @endif
+													</div>
+	                                                <div class="form-group col-sm-12 col-md-6">
+														<label class="font-weight-bolder ml-0 mb-0">Curriculum</label>
+	                                                    <div>
+	                                                        <button type="bottom" class="btn btn-sm btn-success">Descarga</button>
+	                                                    </div>
+	                                                </div>
+												</div>
 											</form>
 										</div>
 										<!--Cierre: Contraseña Personal-->
@@ -541,64 +505,63 @@
 										<div class="card-body buscadores collapse" id="buscadores_2">
                                             {{--  <form method="POST" enctype="multipart/form-data" id="upload-file" action="{{ route('asistente.editar_configuracion_busqueda') }}" >  --}}
                                                 {{--  @csrf  --}}
-                                                <div class="form-group row">
-                                                    <label class="col-sm-7 col-form-label font-weight-bolder">Aparecer en buscador de asistente</label>
-                                                    <div class="col-sm-4 my-auto">
-                                                        @if($asistente->buscador == 1)
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="radio" name="buscador" id="buscador_activo" value="1" checked>
-                                                                <label class="form-check-label" for="buscador_activo">Si</label>
-                                                            </div>
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="radio" name="buscador" id="buscador_inactivo" value="2">
-                                                                <label class="form-check-label" for="buscador_inactivo">No</label>
-                                                            </div>
-                                                        @else
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="radio" name="buscador" id="buscador_activo" value="1">
-                                                                <label class="form-check-label" for="buscador_activo">Si</label>
-                                                            </div>
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="radio" name="buscador" id="buscador_inactivo" value="2" checked>
-                                                                <label class="form-check-label" for="buscador_inactivo">No</label>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-7 col-form-label font-weight-bolder">Modalidad de trabajo</label>
-                                                    <div class="col-sm-4 my-auto">
-                                                        <select class="form-control form-control-sm" id="modalidad" name="modalidad">
-                                                            <option value="">Seleccionar</option>
-                                                            <option value="1" @if( $asistente->id_modalidad == 1 ) {{ 'selected' }} @endif >Online</option>
-                                                            <option value="2" @if( $asistente->id_modalidad == 2 ) {{ 'selected' }} @endif >Presencial</option>
-                                                            <option value="3" @if( $asistente->id_modalidad == 3 ) {{ 'selected' }} @endif >Online - Presencial</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-7 col-form-label font-weight-bolder"><h6>Curriculum</h6></label>
+                                                <div class="form-row">
+	                                                <div class="form-group col-12">
+	                                                    <label class="font-weight-bolder d-block ml-0 mb-1">Aparecer en buscador de asistente</label>
+	                                                    <div>
+	                                                        @if($asistente->buscador == 1)
+	                                                            <div class="form-check form-check-inline">
+	                                                                <input class="form-check-input" type="radio" name="buscador" id="buscador_activo" value="1" checked>
+	                                                                <label class="form-check-label" for="buscador_activo">Si</label>
+	                                                            </div>
+	                                                            <div class="form-check form-check-inline">
+	                                                                <input class="form-check-input" type="radio" name="buscador" id="buscador_inactivo" value="2">
+	                                                                <label class="form-check-label" for="buscador_inactivo">No</label>
+	                                                            </div>
+	                                                        @else
+	                                                            <div class="form-check form-check-inline">
+	                                                                <input class="form-check-input" type="radio" name="buscador" id="buscador_activo" value="1">
+	                                                                <label class="form-check-label" for="buscador_activo">Si</label>
+	                                                            </div>
+	                                                            <div class="form-check form-check-inline">
+	                                                                <input class="form-check-input" type="radio" name="buscador" id="buscador_inactivo" value="2" checked>
+	                                                                <label class="form-check-label" for="buscador_inactivo">No</label>
+	                                                            </div>
+	                                                        @endif
+	                                                    </div>
+	                                                </div>
+	                                                <div class="form-group col-sm-12 col-md-6">
+	                                                    <label class="floating-label-activo">Modalidad de trabajo</label>
+	                                                    <select class="form-control form-control-sm" id="modalidad" name="modalidad">
+	                                                        <option value="">Seleccionar</option>
+	                                                        <option value="1" @if( $asistente->id_modalidad == 1 ) {{ 'selected' }} @endif >Online</option>
+	                                                        <option value="2" @if( $asistente->id_modalidad == 2 ) {{ 'selected' }} @endif >Presencial</option>
+	                                                        <option value="3" @if( $asistente->id_modalidad == 3 ) {{ 'selected' }} @endif >Online - Presencial</option>
+	                                                    </select>
+	                                                </div>
+	                                                <div class="form-group col-12">
+	                                                    <label class="font-weight-bolder d-block ml-0 mb-1"><h6>Curriculum</h6></label>
 
-                                                    <input type="hidden" name="input_lista_archivo" id="input_lista_archivo" value="{{ $asistente->curriculum }}">
+	                                                    <input type="hidden" name="input_lista_archivo" id="input_lista_archivo" value="{{ $asistente->curriculum }}">
 
-                                                    <div class="col-sm-12 my-auto">
-                                                        <div class="col-sm-12 my-auto">
-                                                            <label class="col-sm-7 col-form-label font-weight-bolder"><h6>Carga nuevo archivo</h6></label>
-                                                            <!-- [ Main Content ] start -->
-                                                            <div class="dropzone" id="mis-asistente-archivo" action="{{ route('asistente.archivo.carga') }}">
-                                                            </div>
-                                                            <!-- [ file-upload ] end -->
-                                                            {{-- <input type="file" name="cv" id="cv" placeholder="Seleccione archivo" onchange="cargar_archivo_asistente();"> --}}
-                                                        </div>
-                                                    </div>
+	                                                    <div>
+	                                                        <div>
+	                                                            <label class="col-sm-7 col-form-label font-weight-bolder"><h6>Carga nuevo archivo</h6></label>
+	                                                            <!-- [ Main Content ] start -->
+	                                                            <div class="dropzone" id="mis-asistente-archivo" action="{{ route('asistente.archivo.carga') }}">
+	                                                            </div>
+	                                                            <!-- [ file-upload ] end -->
+	                                                            {{-- <input type="file" name="cv" id="cv" placeholder="Seleccione archivo" onchange="cargar_archivo_asistente();"> --}}
+	                                                        </div>
+	                                                    </div>
 
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-12 col-form-label"></label>
+	                                                </div>
+                                                </div>
+                                                <div class="form-row">
                                                     <div class="col-sm-12 d-flex justify-content-end">
-                                                        <button type="button" class="btn btn-sm btn-danger mr-2">Cancelar</button>
+                                                        <button type="button" class="btn btn-outline-dark btn-sm mr-2"><i class="feather icon-x"></i> Cancelar</button>
                                                         {{--  <button type="submit" class="btn btn-sm btn-info">Guardar cambios</button>  --}}
-                                                        <button type="button" class="btn btn-sm btn-info" onclick="editar_configuracion_busqueda();">Guardar cambios</button>
+                                                        <button type="button" class="btn btn-info btn-sm" onclick="editar_configuracion_busqueda();"><i class="feather icon-save"></i> Guardar cambios</button>
                                                     </div>
                                                 </div>
                                             {{--  </form>  --}}
@@ -1130,13 +1093,13 @@
                     } else {
 
                         swal({
-                            title: "Rut no encontrado en el sistema, complete registro",
+                            title: "RUT no encontrado en el sistema, complete registro",
                             icon: "warning",
                             buttons: "Aceptar",
                             //SuccessMode: true,
                         })
 
-                        // alert('Rut no encontrado en el sistema, complete registro');
+                        // alert('RUT no encontrado en el sistema, complete registro');
                         $('#form_contacto_nuevo').show();
 
                     }

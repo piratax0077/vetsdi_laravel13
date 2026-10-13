@@ -4,42 +4,16 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center pt-2">
-                        <div class="col-md-12">
-                            <div class="page-header-title ">
-                              
-                            </div>
-                            <ul class="breadcrumb ">
-                                 <li class="breadcrumb-item"> <a href="{{ ROUTE('asistente.home') }}" data-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Volver a mi escritorio" aria-label="Volver a mi escritorio"><i class="feather icon-home text-white"></i></a>
-                                    
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a  href="{{ ROUTE('asistente.buscar_paciente') }}">Buscar pacientes de la Institución</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <div class="row">
+                <div class="col-md-12 mb-3 encabezado-pagina">
+                    <h5 class="f-26 d-inline">Buscar pacientes de la Institución</h5>
+                </div>
             </div>
             <!--Cierre: Header-->
             <!--Buscador de pacientes-->
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
-                        <div class="card-header bg-info">
-                            <div class="row">
-                                <div class="col-md-12 align-botton">
-                                    <h4 class="text-white f-20 d-inline ml-4 mt-3">Buscar Pacientes</h4>
-                                    {{--
-                                    <button type="button" class="btn btn-outline-light btn-sm d-inline float-right mr-4" data-toggle="modal" data-target="#agregar_paciente_asistente">
-                                        <i class="feather icon-plus"></i> Registrar Paciente
-                                    </button>
-                                    --}}
-                                </div>
-                            </div>
-                        </div>
                         <input type="hidden" name="id_lugar_atencion" id="id_lugar_atencion" value="{{ $lugares_atencion->id }}">
                         <div class="card-body">
                             <div class="form-row">

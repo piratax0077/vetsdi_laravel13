@@ -21,7 +21,8 @@
                                     <tr>
                                         {{--  <th class="text-wrap text-center align-middle" hidden="hidden">Nº de Orden</th>  --}}
                                         <th class="text-wrap text-center align-middle">Fecha</th>
-                                        <th class=" align-middle">Paciente</th>
+                                        <th class=" align-middle">Tutor</th>
+                                        <th class=" align-middle">Mascota</th>
                                         <th class=" align-middle">Nombre del examen</th>
                                         <th class=" align-middle">Tipo</th>
                                         {{-- <th class=" align-middle">Comentarios</th> --}}
@@ -37,13 +38,14 @@
                                             <tr>
                                                 {{--  <td class="text-wrap align-middle">{{ $examen->id }}</td>  --}}
                                                 <td class="text-wrap text-center align-middle" style="font-size:12px">
-                                                    {{ $examen['created_at'] }}
+                                                    {{ preg_replace('/(\d{2}:\d{2}):\d{2}(\.\d+)?/', '$1', (string) $examen['created_at']) }}
                                                 </td>
 
                                                 <td class="align-middle" style="font-size:12px">
                                                     {{ $examen['Paciente']['nombre'] }}<br>
                                                     {{ $examen['Paciente']['rut'] }}
                                                 </td>
+                                                <td class="align-middle" style="font-size:12px">{{ $examen['mascota'] ?? '-' }}</td>
                                                 <td class="align-middle text-wrap" style="font-size:10px"><label>{{ $examen['examen'] }}</label></td>
                                                 <td class="align-middle text-wrap" style="font-size:10px"><label>{{ $examen['tipo_examen'] }}</label></td>
                                                 <!--<td class="align-middle text-center">
@@ -93,19 +95,19 @@
 
                                 <div class="col-sm-12 col-md-12">
                                     <div class="form-group">
-                                        <label class="floating-label-activo-sm">Rut del Paciente</label>
+                                        <label class="floating-label-activo-sm">Rut del Tutor</label>
                                         <input type="person" class="form-control" name="rut_paciente" id="rut_paciente" >
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-12">
                                     <div class="form-group">
-                                        <label class="floating-label-activo-sm">Nombres del Paciente</label>
+                                        <label class="floating-label-activo-sm">Nombres del Tutor</label>
                                         <input type="text" class="form-control" name="nombres_paciente" id="nombres_paciente">
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-12">
                                     <div class="form-group">
-                                        <label class="floating-label-activo-sm">Apellidos del Paciente</label>
+                                        <label class="floating-label-activo-sm">Apellidos del Tutor</label>
                                         <input type="text" class="form-control" name="apellidos_paciente"
                                             id="apellidos_paciente">
                                     </div>

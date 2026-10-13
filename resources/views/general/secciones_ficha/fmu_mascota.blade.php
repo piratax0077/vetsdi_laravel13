@@ -223,7 +223,8 @@
     $arcadaInferiorIzquierda = range(409, 401);
     $arcadaInferiorDerecha = range(301, 309);
 
-    $fvuVistaPaciente = request()->routeIs('paciente.mascota.ficha_veterinaria');
+    // El profesional ve la ficha igual que el tutor en el escritorio de la mascota
+    $fvuVistaPaciente = request()->routeIs('paciente.mascota.ficha_veterinaria', 'profesional.mascota.ficha_veterinaria');
     $fvuEmbebidaEnFicha = !empty($id_ficha_atencion ?? null);
     $fvuOcultarTituloInterno = !empty($fvuOcultarTituloInterno);
     $fvuMostrarTitulo = !$fvuVistaPaciente && !$fvuEmbebidaEnFicha && !$fvuOcultarTituloInterno;

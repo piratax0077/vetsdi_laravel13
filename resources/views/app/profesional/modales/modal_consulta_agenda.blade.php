@@ -180,7 +180,7 @@
                     <button type="submit" id="hm_ver_hora" class="btn btn-info"><i class="feather icon-file"></i> Ver Atención</button>
                 </div>
 
-                <div>
+                <div class="pie-cita-atender">
                     <form method="get" action="{{ ($lugar_atencion==87)?route('profesional.realizar_consulta_sdi'):route('profesional.realizar_consulta') }}">
                         @csrf
                         <input type="hidden" name="id_hora_realizar" id="id_hora_realizar" val="">

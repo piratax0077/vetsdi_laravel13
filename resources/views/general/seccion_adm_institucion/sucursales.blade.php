@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header pt-3 pb-2 bg-light">
+            <div class="card-header bg-white">
                 <div class="row">
                     <div class="col-md-12">
-                        <h6 class="f-18 d-inline mt-3 text-info">Sucursales</h6>
-                        <div class="btn-group mb-2 mr-2 float-right">
+                        <h5 class="mb-0 d-inline"><i class="feather icon-map-pin icono-purple"></i> Sucursales</h5>
+                        <div class="btn-group mr-2 float-right">
                             <button type="button" class="btn btn-info btn-sm" onclick="ag_sucursal();"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Añadir nueva</button>
                             {{-- <button type="button" class="btn btn-outline-info  btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
                             <div class="dropdown-menu">

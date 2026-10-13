@@ -11,108 +11,108 @@
             <div class="card-sidebar mb-0 rounded-0">
                 <div class="card-header-sidebar" id="headingOne">
                     <button class="btn btn-light btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><i  class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                        Temperatura - Pulso
+                        <i class="fas fa-thermometer-half mr-2" aria-hidden="true"></i>Temperatura - Pulso
                     </button>
                 </div>
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                     <div class="card-body-sidebar">
                         <div class="form-row pt-3 px-2">
-                            <div class="form-group col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <div class="form-group col-6">
                                 <label class="floating-label-activo-sm">Tº</label>
                                 <input type="text" class="form-control form-control-sm" name="temperatura_sig_vit" id="temperatura_sig_vit" value="{{ isset($fichaAtencion) ? $fichaAtencion->temperatura : '' }}">
                             </div>
-                            <div class="form-group col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <div class="form-group col-6">
                                 <label class="floating-label-activo-sm">Pulso</label>
                                 <input type="text" class="form-control form-control-sm" name="pulso_sig_vit" id="pulso_sig_vit" value="{{ isset($fichaAtencion) ? $fichaAtencion->pulso : ''}}">
                             </div>
-                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                <label class="floating-label-activo-sm">Frec.Respiratoria</label>
+                            <div class="form-group col-6">
+                                <label class="floating-label-activo-sm">Frec. respiratoria</label>
                                 <input type="text" class="form-control form-control-sm" name="frec_reposo_sig_vit" id="frec_reposo_sig_vit" value="{{ isset($fichaAtencion) ? $fichaAtencion->frecuencia_reposo : '' }}">
                             </div>
-                              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                <label class="floating-label-activo-sm">color mucosas</label>
-                                <input type="text" class="form-control form-control-sm" name="frec_reposo_sig_vit" id="frec_reposo_sig_vit" value="{{ isset($fichaAtencion) ? $fichaAtencion->frecuencia_reposo : '' }}">
-                            </div>
-                              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <div class="form-group col-6">
                                 <label class="floating-label-activo-sm">Tpo. llene capilar</label>
                                 <input type="text" class="form-control form-control-sm" name="frec_reposo_sig_vit" id="frec_reposo_sig_vit" value="{{ isset($fichaAtencion) ? $fichaAtencion->frecuencia_reposo : '' }}">
                             </div>
-                            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                              <div class="form-group col-12">
+                                <label class="floating-label-activo-sm">Color mucosas</label>
+                                <input type="text" class="form-control form-control-sm" name="frec_reposo_sig_vit" id="frec_reposo_sig_vit" value="{{ isset($fichaAtencion) ? $fichaAtencion->frecuencia_reposo : '' }}">
+                            </div>
+                            <div class="col-12 text-center pb-3">
                                 <button type="button" class="btn btn-xxs btn-success-light-c" onclick="guardar_signos_vitales_sidebar()"><i class="feather icon-save"></i> Guardar</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card-sidebar">
+            <div class="card-sidebar mb-0 rounded-0">
                 <div class="card-header-sidebar" id="heading_utilidades">
                     <h2 class="mb-0">
                     <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_utilidades" aria-expanded="false" aria-controls="collapse_utilidades"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                        Estado Nutricional
+                        <i class="fas fa-weight mr-2" aria-hidden="true"></i>Estado Nutricional
                     </button>
                     </h2>
                 </div>
                 <div id="collapse_utilidades" class="collapse" aria-labelledby="heading_utilidades" data-parent="#accordion_side_bar">
                     <div class="card-body-sidebar">
                         <div class="form-row pt-3 px-2">
-                            <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <div class="form-group col-4">
                                 <label class="floating-label-activo-sm">Peso</label>
                                <input type="text" class="form-control form-control-sm" name="peso_sidebar" id="peso_sidebar" value="{{ isset($fichaAtencion) ? $fichaAtencion->peso : '' }}" onkeydown="calcularIMC_sidebar()">
                             </div>
-                            <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <div class="form-group col-4">
                                 <label class="floating-label-activo-sm">Talla</label>
                                 <input type="text" class="form-control form-control-sm" name="talla_sidebar" id="talla_sidebar" value="{{ isset($fichaAtencion) ? $fichaAtencion->talla : '' }}" onkeydown="calcularIMC_sidebar()">
                             </div>
-                            <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <div class="form-group col-4">
                                 <label class="floating-label-activo-sm">IMC</label>
                                 <input type="text" class="form-control form-control-sm" name="imc_sidebar" id="imc_sidebar" value="{{ isset($fichaAtencion) ? $fichaAtencion->imc : '' }}">
                             </div>
-                            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <div class="form-group col-12">
                                 <label class="floating-label-activo-sm">Est. Nutricional</label>
                                 <input type="text" class="form-control form-control-sm" name="estado_nutri_sidebar" id="estado_nutri_sidebar" value="{{ isset($fichaAtencion) ? $fichaAtencion->estado_nutricional : '' }}">
                             </div>
-                            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                            <div class="col-12 text-center pb-3">
                                 <button type="button" class="btn btn-xxs btn-success-light-c" onclick="guardar_estado_nutri_sidebar()"><i class="feather icon-save"></i> Guardar</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card-sidebar">
+            <div class="card-sidebar mb-0 rounded-0">
                 <div class="card-header-sidebar" id="heading_recom">
                     <h2 class="mb-0">
                     <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_recom" aria-expanded="false" aria-controls="collapse_recom"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                        Presión Arterial
+                        <i class="fas fa-heartbeat mr-2" aria-hidden="true"></i>Presión Arterial
                     </button>
                     </h2>
                 </div>
                 <div id="collapse_recom" class="collapse" aria-labelledby="heading_recom" data-parent="#accordion_side_bar">
                     <div class="card-body-sidebar">
                         <div class="form-row pt-3 px-2">
-                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                            <div class="form-group col-6">
                                 <label class="floating-label-activo-sm">Presión</label>
                                 <input type="text" class="form-control form-control-sm" name="presion_bi_sidebar" id="presion_bi_sidebar" value="">
                             </div>
-                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                            <div class="form-group col-6">
                                 <label class="floating-label-activo-sm">Lugar de medición</label>
                                 <input type="text" class="form-control form-control-sm" name="presion_bd_sidebar" id="presion_bd_sidebar" value="">
                             </div>
-                            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <div class="form-group col-12">
                                 <label class="floating-label-activo-sm">Comentarios</label>
                                 <input type="text" class="form-control form-control-sm" name="presion_pie_sidebar" id="presion_pie_sidebar" value="">
                             </div>
-                            {{--  <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                            {{--  <div class="form-group col-6">
                                 <label class="floating-label-activo-sm">Sentado</label>
                                 <input type="text" class="form-control form-control-sm" name="presion_sentado_sidebar" id="presion_sentado_sidebar" value="">
                             </div>  --}}
-                            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                            <div class="col-12 text-center pb-3">
                                 <button type="button" class="btn btn-xxs btn-success-light-c" onclick="guardar_presion_arterial_sidebar()"><i class="feather icon-save"></i> Guardar</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {{--  <div class="card-sidebar">
+            {{--  <div class="card-sidebar mb-0 rounded-0">
                 <div class="card-header-sidebar" id="heading_hosp">
                     <h2 class="mb-0">
                     <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_hosp" aria-expanded="false" aria-controls="collapse_hosp"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
@@ -123,19 +123,19 @@
                 <div id="collapse_hosp" class="collapse" aria-labelledby="headinghospm" data-parent="#accordion_side_bar">
                     <div class="card-body-sidebar">
                         <div class="form-row pt-3 px-2">
-                            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <div class="form-group col-12">
                                 <label class="floating-label-activo-sm">Conciencia</label>
                                 <textarea class="form-control form-control-sm" rows="2" onfocus="this.rows=4" onblur="this.rows=3;" id="conciencia_sidebar" name="conciencia_sidebar"></textarea>
                             </div>
-                            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <div class="form-group col-12">
                                 <label class="floating-label-activo-sm">Lenguaje</label>
                                 <textarea class="form-control form-control-sm" rows="2" onfocus="this.rows=4" onblur="this.rows=3;" id="lenguaje_sidebar" name="lenguaje_sidebar"></textarea>
                             </div>
-                            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <div class="form-group col-12">
                                 <label class="floating-label-activo-sm">Traslado</label>
                                 <textarea class="form-control form-control-sm" rows="2" onfocus="this.rows=4" onblur="this.rows=3;" id="traslado_sidebar" name="traslado_sidebar"></textarea>
                             </div>
-                            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                            <div class="col-12 text-center pb-3">
                                 <button type="button" class="btn btn-xxs btn-success-light-c" onclick="guardar_comunicacion_conciencia()"><i class="feather icon-save"></i> Guardar</button>
                             </div>
                         </div>

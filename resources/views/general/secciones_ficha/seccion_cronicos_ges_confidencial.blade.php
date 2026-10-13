@@ -143,32 +143,31 @@
 
 <!-- MODAL CRONICO -->
 <!--******* Modal: ¿Enfermo crónico? *******-->
-<div id="form_enfermedad_cronica" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="form_enfermedad_cronica" aria-hidden="true">
+<div id="form_enfermedad_cronica" class="modal fade modal-atencion" tabindex="-1" role="dialog" aria-labelledby="titulo_enfermedad_cronica" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <div class="row w-100">
-                    <div class="col-md-8">
-                        <h5 class="modal-title">Control de enfermedades crónicas</h5>
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-control form-control-sm" onchange="cambiar_enfermedad_cronica();" id="cronicos" name="cronicos" >
-                            <option value="n_C">Seleccione control</option>
-                            <option value="cpeso">Obesidad</option>
-                            <option value="chipertension">Hipertensión arterial</option>
-                            <option value="cdiabet">Diabetes</option>
-                            <option value="cinsufren">Insuficiencia renal</option>
-                            <option value="cmtumorales">Marcadores tumorales</option>
-                            <option value="creumato">Reumatología</option>
-                            <option value="clitemia">Litemia</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="button" class="close" data-bs-dismiss="modal" onclick="$('#form_enfermedad_cronica').modal('hide')" aria-label="Close">
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title" id="titulo_enfermedad_cronica">Control de enfermedades crónicas</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="$('#form_enfermedad_cronica').modal('hide')" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <!--Qué control se va a registrar-->
+                <div class="modal-atencion-selector">
+                    <label for="cronicos">Control a registrar<small>Cada control guarda su historial y sus medicamentos.</small></label>
+                    <select class="form-control form-control-sm" onchange="cambiar_enfermedad_cronica();" id="cronicos" name="cronicos" >
+                        <option value="n_C">Seleccione control</option>
+                        <option value="cpeso">Obesidad</option>
+                        <option value="chipertension">Hipertensión arterial</option>
+                        <option value="cdiabet">Diabetes</option>
+                        <option value="cinsufren">Insuficiencia renal</option>
+                        <option value="cmtumorales">Marcadores tumorales</option>
+                        <option value="creumato">Reumatología</option>
+                        <option value="clitemia">Litemia</option>
+                    </select>
+                </div>
+
                 <!--CONTROL DE OBESIDAD-->
                 <div id="control_peso_div"  style="display:">
                     <div class="row">
@@ -414,7 +413,7 @@
                 <div id="hipertension_div" style="display: none">
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <h5 class="f-20 text-center text-c-blue"Control hipertensión</h5>
+                            <h5 class="f-20 text-center text-c-blue">Control hipertensión</h5>
                         </div>
                     </div>
                     <div class="card">
@@ -1198,109 +1197,93 @@
                 </div>
 
             </div>
-            <!--Cierre modal body
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-            </div>-->
         </div>
-    </div>r
+    </div>
 </div>
 
 <!-- MODAL AÑADIR ANTECEDENTE-->
-<div id="m_agregar_antecedente" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="form_enfermedad_cronica" aria-hidden="true">
+<div id="m_agregar_antecedente" class="modal fade modal-atencion" tabindex="-1" role="dialog" aria-labelledby="titulo_modal_antecedente" aria-hidden="true">
     <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-				<div class="row">
-					<div class="col-md-7">
-						<h5 class="modal-title">Seleccione antecedente</h5>
-					</div>
-					<div class="col-md-5">
-						<select class="form-control form-control-sm" onchange="cambiar_antecedente();" id="nuevo_antecedente" name="nuevo_antecedente" onchange="mostrar(this.value);">
-                            <option value="n_C">Seleccione</option>
-                            @if($tipo_antecedente)
-                                @foreach ( $tipo_antecedente as $tipo)
-                                    <option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
-                                @endforeach
-                            @endif
-                        </select>
-					</div>
-				</div>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" onclick="resetearSwitchAntecedente(); $('#m_agregar_antecedente').modal('hide')">
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title" id="titulo_modal_antecedente">{{ isset($mascota) && $mascota ? 'Antecedentes de la mascota' : 'Antecedentes del paciente' }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="resetearSwitchAntecedente(); $('#m_agregar_antecedente').modal('hide')">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h5 class="text-c-blue f-20 my-2 text-center" id="titulo_antecedente">Añadir</h5>
-                    </div>
+                <!--Qué tipo de antecedente se va a registrar-->
+                <div class="modal-atencion-selector">
+                    <label for="nuevo_antecedente">Tipo de antecedente<small>Más abajo verá lo que ya está registrado de ese tipo.</small></label>
+                    <select class="form-control form-control-sm" onchange="cambiar_antecedente();" id="nuevo_antecedente" name="nuevo_antecedente">
+                        <option value="n_C">Seleccione</option>
+                        @if($tipo_antecedente)
+                            @foreach ( $tipo_antecedente as $tipo)
+                                <option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
+                            @endforeach
+                        @endif
+                    </select>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <div class="card-informacion pt-3">
-                            <div class="col-md-12" id="modal-body-input">
-                            </div>
-                            <div class="col-md-12">
-                                <input type="hidden" value="" id="id-antecedente-m">
-                                <input type="hidden" value="" id="tipo-antecedente-m">
-                                <input type="hidden" value="{{ $profesional->rut }}" id="user-rut">
-                                <input type="hidden" value="{{ $profesional->Especialidad()->first()->nombre }}" id="user-profesion">
-                                <input type="hidden" value="{{ $profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos }}" id="user-profesional">
-                                <input type="hidden" value="{{Auth::user()->id}}" id="user-id">
-                                <button type="button" class="btn btn-sm btn-info text-center" id="agregar-antecedente" onclick="agregarAntecedente()"><i class="feather icon-save"></i> Agregar antecedentes</button>
-                                <button type="button" class="btn btn-sm btn-info" id="modificar-antecedente" onclick="modificarAntecedente()"><i class="feather icon-edit"></i> Modificar antecedentes</button>
-                                <button type="button" class="btn btn-sm btn-danger" id="modificar-antecedente-cancelar" onclick="cancelarModificar()"><i class="feather icon-x"></i> Cancelar Modificar</button>
-                                {{-- <button type="button" class="btn btn-sm btn-danger-light-c" data-dismiss="modal" aria-label="Close"><i class="feather icon-x"></i> Cerrar</button> --}}
-                                {{-- <button type="button" class="btn btn-sm btn-danger-light-c" onclick="verModalAgregar('hide')"><i class="feather icon-x"></i> Cerrar</button> --}}
-                            </div>
-                            <div class="col-md-12 mt-3">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-xs" id="tabla_antecedentes">
-                                        <thead>
-                                            <tr>
-                                                <th>Procedimiento</th>
-                                                <th>Incidentes</th>
-                                                <th>Profesional</th>
-                                                <th>Fecha</th>
-                                                <th>Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                <!--El título y los campos cambian según el tipo elegido-->
+                <div class="titulo-item" id="titulo_antecedente">Añadir</div>
+                <div id="modal-body-input">
+                </div>
+                <div class="modal-atencion-acciones">
+                    <input type="hidden" value="" id="id-antecedente-m">
+                    <input type="hidden" value="" id="tipo-antecedente-m">
+                    <input type="hidden" value="{{ $profesional->rut }}" id="user-rut">
+                    <input type="hidden" value="{{ $profesional->Especialidad()->first()->nombre }}" id="user-profesion">
+                    <input type="hidden" value="{{ $profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos }}" id="user-profesional">
+                    <input type="hidden" value="{{Auth::user()->id}}" id="user-id">
+                    <button type="button" class="btn btn-sm btn-outline-dark" id="modificar-antecedente-cancelar" onclick="cancelarModificar()"><i class="feather icon-x"></i> Cancelar edición</button>
+                    <button type="button" class="btn btn-sm btn-info" id="modificar-antecedente" onclick="modificarAntecedente()"><i class="feather icon-edit"></i> Guardar cambios</button>
+                    <button type="button" class="btn btn-sm btn-success" id="agregar-antecedente" onclick="agregarAntecedente()"><i class="feather icon-plus"></i> Agregar antecedente</button>
+                </div>
+
+                <div class="titulo-item">Registrados</div>
+                <div class="table-responsive modal-atencion-tabla">
+                    <table class="table table-xs" id="tabla_antecedentes">
+                        <thead>
+                            <tr>
+                                <th>Procedimiento</th>
+                                <th>Incidentes</th>
+                                <th>Profesional</th>
+                                <th>Fecha</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal" id="modal-confirmar" tabindex="-1" role="dialog">
+<div class="modal modal-atencion" id="modal-confirmar" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Desactivar Antecedente</h5>
-                <button type="button" class="close" onclick="verModalDesactivar('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title">Desactivar antecedente</h5>
+                <button type="button" class="close" onclick="verModalDesactivar('hide')" aria-label="Cerrar"><span aria-hidden="true">×</span></button>
 
             </div>
             <div class="modal-body">
-                <p class="mb-0">Desea desactivar el antecedente ingresado.</p>
+                <p class="mb-0">¿Desea desactivar el antecedente ingresado?</p>
             </div>
             <div class="modal-footer">
                 <input type="hidden" value="" id="id-antecedente-m-desactivar">
                 <input type="hidden" value="" id="tipo-antecedente-m-desactivar">
-                <button type="button" class="btn  btn-danger mr-0" onclick="eliminarAntecedente()">Desactivar</button>
-                <button type="button" class="btn  btn-primary" onclick="verModalDesactivar('hide')">Cerrar</button>
+                <button type="button" class="btn btn-outline-dark" onclick="verModalDesactivar('hide')">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="eliminarAntecedente()">Desactivar</button>
             </div>
         </div>
     </div>
@@ -3325,8 +3308,8 @@
                         permiso_ = '';
                         if(e.id_users == id_users)
                             permiso_ = `
-                                <buttom class="btn btn-icon btn-info feather icon-edit" onclick="verEditarAntecedente(${tipo},${e.id})"></buttom>
-                                <buttom class="btn btn-icon btn-danger feather icon-x" onclick="verModalDesactivar('show',${tipo},${e.id})"></buttom>
+                                <button type="button" class="btn btn-info btn-icon btn-sm" title="Editar" onclick="verEditarAntecedente(${tipo},${e.id})"><i class="feather icon-edit"></i></button>
+                                <button type="button" class="btn btn-danger btn-icon btn-sm" title="Desactivar" onclick="verModalDesactivar('show',${tipo},${e.id})"><i class="feather icon-x"></i></button>
                             `;
                         console.log(tipo);
                         switch(tipo)
@@ -3497,12 +3480,17 @@
 
                     });
 
+                    // Sin registros de este tipo se avisa en la misma tabla en vez de dejarla vacía
+                    if (html_ === '') {
+                        html_ = '<tr><td class="text-center text-muted">Aún no hay registros de este tipo.</td></tr>';
+                    }
+
                     $('#tabla_antecedentes thead').html(head_);
                     $('#tabla_antecedentes tbody').html(html_);
                     if(tipo == 1){
                         $('#listado_patologias_paciente').html(html_patologias);
                     }
-                    
+
                 }
             },
             error: (resp)=>{

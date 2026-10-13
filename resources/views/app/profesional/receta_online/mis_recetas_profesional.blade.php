@@ -20,7 +20,8 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
-                                        <th>Paciente</th>
+                                        <th>Tutor</th>
+                                        <th>Mascota</th>
                                         <th>Diagnóstico</th>
                                         <th>Receta</th>
                                     </tr>
@@ -30,12 +31,13 @@
                                         @if(!empty($fic->recetas) && $fic->recetas !=null && count($fic->recetas)>0)
                                         <tr>
                                             <td>
-                                                {{ $fic->created_at }}
+                                                {{ preg_replace('/(\d{2}:\d{2}):\d{2}(\.\d+)?/', '$1', (string) $fic->created_at) }}
                                             </td>
                                             <td>
                                                 {{ $fic->Paciente()->first()->nombres }}<br>
                                                 {{ $fic->Paciente->first()->rut }}
                                             </td>
+                                            <td>{{ $fic->mascota_descripcion }}</td>
                                             <td>{{ $fic->motivo }}</td>
                                             <td>
                                                 {{-- <a href="{{ route('profesional.ver_recetas_pdf', $fic->id) }}"><img src="{{ asset('images/documento.png') }}" alt="Documento" height="35px"> Ver receta</a> --}}

@@ -19,13 +19,7 @@
             </div>
         </div>
         <!--Cierre: Header-->
-        <div class="row ">
-            <div class="col-md-12">
-                @if(Session::has('mensaje'))
-                    <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('mensaje') }}</p>
-                @endif
-            </div>
-        </div>
+        @include('template.include.notificacion_flotante')
         <!--Módulos-->
         <div class="row mt-n3">
             <div class="col-md-12">

@@ -22,9 +22,6 @@
                 </table>
                 <!--fin autollenado-->
             </div>
-            <div class="modal-footer">
-                <button type="button mt-5" class="btn btn-danger-light-c" data-dismiss="modal" onclick="$('#m_cons_archivos_fmu').modal('hide');">Cerrar</button>
-            </div>
         </div>
     </div>
 </div>

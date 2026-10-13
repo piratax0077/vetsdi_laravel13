@@ -1,4 +1,5 @@
 @extends('template.paciente.template')
+@section('sin_boton_volver', '1')
 @section('content')
 <!--Container Completo-->
 <div class="pcoded-main-container">
@@ -28,26 +29,12 @@
             <div class="card-body py-0">
                 <div class="user-about-block m-0">
                     <div class="row">
-                        <div class="col-md-12 text-center mt-n4">
-                            <div class="change-profile text-center">
-                                <div class="dropdown w-auto d-inline-block">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <div class="profile-dp">
-                                            <div class="position-relative d-inline-block">
-                                                <img class="img-radius img-fluid wid-100" src="{{ asset('images/iconos/usuario.svg') }}" alt="User image">
-                                            </div>
-                                            <div class="overlay">
-                                                <span>Actualizar</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#"><i class="feather icon-upload-cloud mr-2"></i>Cambiar foto de perfil</a>
-                                        <a class="dropdown-item" href="#"><i class="feather icon-trash-2 mr-2"></i>Eliminar fotografía</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @include('template.partials.perfil_cabecera', [
+                            'nombre' => trim(($paciente->nombres ?? '') . ' ' . ($paciente->apellido_uno ?? '') . ' ' . ($paciente->apellido_dos ?? '')),
+                            'rol' => 'Tutor',
+                            'foto' => $paciente->foto_perfil ?? null,
+                            'foto_base' => 'images/iconos/usuario.svg',
+                        ])
                         <div class="col-md-12 mt-md-2">
                             <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                                 <li class="nav-item">
@@ -87,7 +74,7 @@
                                     <div class="card-body border-top info_basica collapse show" id="info_basica-1">
                                         <form>
                                             <div class="form-group row">
-                                                <label class="col-sm-5 col-form-label font-weight-bolder">Rut</label>
+                                                <label class="col-sm-5 col-form-label font-weight-bolder">RUT</label>
                                                 <div class="col-sm-6 my-auto ml-2"> {{ $paciente->rut }} </div>
                                             </div>
                                             <div class="form-group row">
@@ -133,9 +120,9 @@
                                     <div class="card-body border-top info_basica collapse" id="pinfo_basica_2">
                                         <form>
                                             <div class="form-group row">
-                                                <label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+                                                <label class="col-sm-4 col-form-label font-weight-bolder">RUT</label>
                                                 <div class="col-sm-7">
-                                                    <input type="text" class="form-control" placeholder="Rut" id="perfil_rut" name="perfil_rut" value="{{ $paciente->rut }}" disabled>
+                                                    <input type="text" class="form-control" placeholder="RUT" id="perfil_rut" name="perfil_rut" value="{{ $paciente->rut }}" disabled>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -439,7 +426,7 @@
                                             <div class="col-md-6">
                                                 <form>
                                                     <div class="form-group row">
-                                                        <label class="col-sm-4 col-form-label font-weight-bolder">Rut
+                                                        <label class="col-sm-4 col-form-label font-weight-bolder">RUT
                                                             del Profesional</label>
                                                         <div class="col-sm-7 my-auto ml-2">
                                                             @if (isset($profesional))
@@ -483,10 +470,10 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Rut del
+                                                    <label class="col-sm-4 col-form-label font-weight-bolder">RUT del
                                                         Profesional</label>
                                                     <div class="col-sm-7">
-                                                        <input type="text" class="form-control" placeholder="Rut Profesional " value="00000000-0">
+                                                        <input type="text" class="form-control" placeholder="RUT Profesional " value="00000000-0">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1267,7 +1254,7 @@
 
                 if (data == 'identicos') {
                     swal({
-                        title: "No puede ser registrado el rut del paciente como contacto",
+                        title: "No puede ser registrado el RUT del paciente como contacto",
                         icon: "error",
                         buttons: "Aceptar",
                         dangerMode: true,
@@ -1343,13 +1330,13 @@
 
 
                     swal({
-                        title: "Rut no encontrado en el sistema, complete registro",
+                        title: "RUT no encontrado en el sistema, complete registro",
                         icon: "warning",
                         buttons: "Aceptar",
                         //SuccessMode: true,
                     })
 
-                    // alert('Rut no encontrado en el sistema, complete registro');
+                    // alert('RUT no encontrado en el sistema, complete registro');
                     $('#form_contacto_nuevo').show();
 
                 }

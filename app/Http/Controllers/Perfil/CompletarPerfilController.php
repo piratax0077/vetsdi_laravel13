@@ -233,6 +233,8 @@ class CompletarPerfilController extends Controller
         $asistente->telefono_uno = $usuario->telefono;
         $asistente->id_modalidad = $datos['id_modalidad'];
         $asistente->bienvenido = 1;
+        // Si ya es tutor o profesional, parte con el sexo, nacimiento y residencia que tiene registrados.
+        $asistente->completar_con_datos_registrados();
         $asistente->save();
     }
 

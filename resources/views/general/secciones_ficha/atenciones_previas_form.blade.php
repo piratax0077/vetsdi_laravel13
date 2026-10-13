@@ -1,16 +1,16 @@
+        @php
+            // Con $titulo = 'NO' queda solo la tarjeta con la tabla: la pantalla que la incluye pone su título y sus columnas
+            $historialSolo = isset($titulo) && $titulo == 'NO';
+        @endphp
+        @if (!$historialSolo)
         <div class="user-profile user-card mt-0 bg-fondo-gris">
             <div class="col-md-12 py-0 px-2 shadow-none">
                 <div class="row mx-0">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        @if (isset($titulo) && $titulo == 'NO')
-                            {{--  nada  --}}
-                        @else
-                    </div>
-                    @endif
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                         <h4 class="text-c-blue mt-3 f-20">Historial de atenciones</h4>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        @endif
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
@@ -122,10 +122,6 @@
                                                                 @endif
                                                             </tr>
                                                         @endforeach
-                                                    @else
-                                                        <span style="text-align: center">
-                                                            <h5>No existen registros</h5>
-                                                        </span>
                                                     @endif
                                                 </tbody>
                                             </table>
@@ -134,10 +130,12 @@
                                 </div>
                             </div>
                         </div>
+        @if (!$historialSolo)
                     </div>
                 </div>
             </div>
         </div>
+        @endif
 
         <!--MODALS-->
         @include('general.secciones_ficha.modal_atencion_previa.hist_cons_receta')

@@ -91,6 +91,7 @@
     @include('template.contabilidad.header')
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
     @yield('modales')
 
     {{--  <footer>  --}}

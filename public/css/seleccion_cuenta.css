@@ -131,9 +131,15 @@
 }
 
 .seleccion-card-icono {
+    display: block;
     width: 46px;
     height: 46px;
     margin-bottom: 22px;
+    /* Los iconos no son todos cuadrados; asi ninguno se deforma */
+    -o-object-fit: contain;
+    object-fit: contain;
+    -o-object-position: left center;
+    object-position: left center;
 }
 
 .seleccion-card-titulo {

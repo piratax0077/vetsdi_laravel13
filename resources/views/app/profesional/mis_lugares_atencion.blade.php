@@ -162,12 +162,6 @@
                                     <input class="form-control form-control-sm" name="nombre_lugar_atencion" id="nombre_lugar_atencion" type="text">
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="form-group fill">
-                                    <label class="floating-label-activo-sm">Rut</label>
-                                    <input class="form-control form-control-sm" name="rut_lugar_atencion" id="rut_lugar_atencion" type="text" onkeyup="formatoRut(this);">
-                                </div>
-                            </div>
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="floating-label-activo-sm">Direcci&oacute;n</label>
@@ -200,7 +194,7 @@
                                     <label class="floating-label-activo-sm">Tipo</label>
                                     <select id="tipo_agregar_lugar_atencion" name="tipo_agregar_lugar_atencion" class="js-example-basic-single form-control form-control-sm">
                                         <option value="0">Seleccione</option>
-                                        <option value="1">Centro Médico</option>
+                                        <option value="1">Centro Médico Veterinario</option>
                                         <option value="2">Consulta Particular</option>
                                     </select>
                                 </div>
@@ -410,7 +404,7 @@
                         <input type="hidden" name="mi_asistente_id_lugar_atencion" id="mi_asistente_id_lugar_atencion">
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2">
-                                <h6 class="text-c-blue">Escriba rut de el o la asistente que desea asociar a su lugar de atención</h6>
+                                <h6 class="text-c-blue">Escriba RUT de el o la asistente que desea asociar a su lugar de atención</h6>
                             </div>
                             <div id="buscar_datos_asistente" class="col-sm-6 col-md-6 mb-3">
                                 <div class="input-group input-group-sm">
@@ -427,7 +421,7 @@
                                         <table class="table table-borderless table-xs">
                                             <tbody>
                                                 <tr>
-                                                    <td><strong>Rut:</strong></td>
+                                                    <td><strong>RUT:</strong></td>
                                                     <td><span id="datos_rut_asistente"></span>
                                                         <input type="hidden" id="id_asistente_lugar_atencion" name="id_asistente_lugar_atencion">
                                                     </td>
@@ -638,8 +632,8 @@
                             </div>
 
                             <div class="col-sm-12 mb-2">
-                                <button type="button" onclick="mi_horario_agregar();" class="btn btn-info btn-sm float-md-right"><i class="fa fa-plus"></i> Agregar horario de atención</button>
-                                {{-- <button type="button" id="cerrar_modal_horario2" class="btn btn-danger btn-sm">Cancelar</button> --}}
+                                <button type="button" onclick="mi_horario_agregar();" class="btn btn-info float-md-right"><i class="fa fa-plus"></i> Agregar horario de atención</button>
+                                {{-- <button type="button" id="cerrar_modal_horario2" class="btn btn-danger">Cancelar</button> --}}
                             </div>
                             <div class="col-sm-12 mt-2 mb-2">
                                 <table id="mi_horario_table" class="table table-sm">

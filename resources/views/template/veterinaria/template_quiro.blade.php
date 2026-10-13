@@ -4,7 +4,7 @@
         @include('atencion_medica.include.head_quiro')
 
         <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=20261007-1">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=20261013-1">
         <link rel="stylesheet" href="{{ asset('css/style_index.css') }}?v=20260728-3">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 

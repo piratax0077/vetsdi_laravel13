@@ -24,6 +24,7 @@
         : 'images/dental/odontograma_felino/dientes';
     $tituloOdontogramaMascota = $esCanino ? 'Odontograma Canino' : 'Odontograma Felino';
     $piezasCaninasAnchas = ['104', '204', '304', '404'];
+    $claseEspecieMascota = $esCanino ? 'odonto-mascota-canino' : 'odonto-mascota-felino';
 
     $piezasEstadoMascota = [];
     $fuenteHistorialMascota = collect(($odontograma_veterinario ?? collect())->isNotEmpty()
@@ -135,7 +136,7 @@
                     <span><i class="fas fa-circle odonto-dot odonto-dot-caries"></i> Caries</span>
                     <span><i class="fas fa-caret-down odonto-dot odonto-dot-implant"></i> Implante</span>
                 </div>
-                <div class="odonto-mascota-mouth">
+                <div class="odonto-mascota-mouth {{ $claseEspecieMascota }}">
                     <span class="odonto-mascota-arc-label odonto-mascota-arc-label-top">Arcada superior</span>
                 <div class="odonto-mascota-arcada odonto-mascota-arcada-top">
                     @foreach ($arcadaSuperiorMascota as $indice => $pieza)
@@ -172,7 +173,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body {{ $claseEspecieMascota }}">
                 <div class="row">
                     <div class="col-sm-6 mb-3">
                         <div class="media align-middle">
@@ -227,7 +228,7 @@
 <div class="modal fade" id="modalDetallePiezaMascota" tabindex="-1" role="dialog"
     aria-labelledby="modalDetallePiezaMascotaTitulo" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content odonto-mascota-detail-modal">
+        <div class="modal-content odonto-mascota-detail-modal {{ $claseEspecieMascota }}">
             <div class="modal-header modal-header-purple">
                 <h5 class="modal-title" id="modalDetallePiezaMascotaTitulo">
                     Detalle de la pieza
@@ -304,6 +305,7 @@
         .odonto-mascota-body {
             padding: .75rem 1rem 1rem;
             background: #fff;
+            overflow-x: auto;
         }
 
         .odonto-mascota-statusbar {
@@ -412,11 +414,20 @@
             background: #fff;
         }
 
+        /* Las piezas conservan su dibujo original: relleno blanco, contorno y líneas internas. */
         .odonto-mascota-tooth img,
-        .odonto-mascota-legend-img {
+        .odonto-mascota-legend-img,
+        .odonto-mascota-detail-img {
             display: block;
             opacity: 1;
-            filter: contrast(1.9) brightness(.8) saturate(.55) drop-shadow(0 3px 2px rgba(39,58,62,.18));
+            filter: contrast(1.15) drop-shadow(0 2px 2px rgba(39,58,62,.16));
+        }
+
+        /* El dibujo felino trae un trazo muy fino; se refuerza para que no se pierda al reducirlo. */
+        .odonto-mascota-felino .odonto-mascota-tooth img,
+        .odonto-mascota-felino .odonto-mascota-legend-img,
+        .odonto-mascota-felino .odonto-mascota-detail-img {
+            filter: brightness(.7) contrast(3.4) drop-shadow(0 0 .5px #55676f) drop-shadow(0 0 .5px #55676f);
         }
 
         .odonto-mascota-tooth img {
@@ -426,7 +437,11 @@
 
         .odonto-mascota-tooth img:hover {
             transform: scale(1.14);
-            filter: contrast(2.05) brightness(.82) saturate(.72) drop-shadow(0 5px 3px rgba(25,126,122,.25));
+            filter: contrast(1.15) drop-shadow(0 5px 3px rgba(25,126,122,.25));
+        }
+
+        .odonto-mascota-felino .odonto-mascota-tooth img:hover {
+            filter: brightness(.7) contrast(3.4) drop-shadow(0 0 .5px #55676f) drop-shadow(0 0 .5px #55676f) drop-shadow(0 5px 3px rgba(25,126,122,.25));
         }
 
         .odonto-mascota-img-regular {
@@ -515,7 +530,6 @@
             max-width: 105px;
             max-height: 150px;
             margin: 0 auto;
-            filter: contrast(2.4) brightness(.72);
         }
 
         .odonto-mascota-state {
@@ -534,10 +548,28 @@
             text-align: center;
         }
 
-        @media (max-width: 1199px) {
-            .odonto-mascota-body {
-                overflow-x: auto;
+        /* El felino tiene menos piezas: en pantallas anchas se agranda para apreciar el detalle. */
+        @media (min-width: 1400px) {
+            .odonto-mascota-mouth.odonto-mascota-felino {
+                min-width: 1030px;
             }
+
+            .odonto-mascota-felino .odonto-mascota-tooth {
+                min-height: 98px;
+            }
+
+            .odonto-mascota-felino .odonto-mascota-img-regular {
+                max-height: 88px;
+                max-width: 46px;
+            }
+
+            .odonto-mascota-felino .odonto-mascota-img-canine {
+                max-height: 94px;
+                max-width: 62px;
+            }
+        }
+
+        @media (max-width: 1199px) {
 
             .odonto-mascota-arcada {
                 justify-content: flex-start;
