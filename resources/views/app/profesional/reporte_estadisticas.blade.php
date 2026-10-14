@@ -1,57 +1,349 @@
 @extends('template.profesional.template')
-
+@section('sin_boton_volver', '1')
 @section('content')
-<style>
-    .vet-report-card{border:0;border-radius:14px;box-shadow:0 4px 16px rgba(31,45,61,.08)}
-    .vet-kpi{padding:20px;min-height:118px;display:flex;align-items:center;gap:16px}
-    .vet-kpi-icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:23px;background:#e5f8f7;color:#16aaa8}
-    .vet-kpi strong{font-size:25px;color:#34445c;display:block}.vet-kpi small{color:#778398}
-    .vet-bar{height:10px;border-radius:10px;background:#edf1f5;overflow:hidden}.vet-bar span{height:100%;display:block;border-radius:10px;background:linear-gradient(90deg,#13b6b3,#6b3a91)}
-    .vet-filter{background:#fff;border-radius:14px;padding:16px 20px;box-shadow:0 4px 16px rgba(31,45,61,.08)}
-</style>
-<div class="pcoded-main-container"><div class="pcoded-content">
-    <div class="page-header"><div class="page-block"><div class="row align-items-center"><div class="col-md-12">
-        <div class="page-header-title"><h5 class="m-b-10 font-weight-bold">Reportes y estadísticas veterinarias</h5></div>
-        <ul class="breadcrumb"><li class="breadcrumb-item"><a href="{{ route('profesional.home') }}"><i class="feather icon-home"></i></a></li><li class="breadcrumb-item">Reportes y estadísticas</li></ul>
-    </div></div></div></div>
+    @php
+        $porcentaje = fn ($valor, $total) => $total > 0 ? round(($valor / $total) * 100, 1) : 0;
+        $convenioTotal = (int) $convenios->sum('total');
+        $coloresConvenio = ['#A06CC1', '#17a2b8', '#6f42c1', '#ffba57', '#72B02C', '#ff5252'];
+        $serieAsistenciaJson = json_encode([(int) $asistieron, (int) $noAsistieron, (int) $canceladasPaciente, (int) $canceladasLugar]);
+        $serieAtencionesJson = json_encode($atencionesMes->pluck('total')->map(function ($total) { return (int) $total; })->values()->all());
+        $categoriasAtencionesJson = json_encode($atencionesMes->pluck('mes')->values()->all(), JSON_UNESCAPED_UNICODE);
+        $serieConvenioJson = json_encode($convenios->pluck('total')->map(function ($total) { return (int) $total; })->values()->all());
+        $etiquetasConvenioJson = json_encode($convenios->pluck('nombre')->values()->all(), JSON_UNESCAPED_UNICODE);
+        $coloresConvenioJson = json_encode($coloresConvenio);
+        $nombresMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        $textoMes = $mes === 'actual' ? 'Este mes' : $nombresMeses[(int) $mes - 1];
+    @endphp
 
-    <form method="GET" class="vet-filter mb-4">
-        <div class="form-row align-items-end">
-            <div class="col-md-4"><label>Desde</label><input type="date" name="desde" value="{{ $desde->toDateString() }}" class="form-control"></div>
-            <div class="col-md-4"><label>Hasta</label><input type="date" name="hasta" value="{{ $hasta->toDateString() }}" class="form-control"></div>
-            <div class="col-md-4"><button class="btn btn-info btn-block"><i class="feather icon-filter"></i> Actualizar reporte</button></div>
+    <!--Container Completo-->
+    <div class="pcoded-main-container">
+        <div class="pcoded-content">
+
+            <!--TÍTULO Y FILTROS-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap align-items-md-center justify-content-between">
+                                <div class="mb-3 mb-md-0">
+                                    <h3 class="reportes-titulo">Estadísticas y Reportes</h3>
+                                    <p class="reportes-subtitulo mb-0">Resumen general de la actividad veterinaria y clínica</p>
+                                </div>
+                                <form method="GET" action="{{ route('profesional.reporte_estadisticas') }}" class="d-flex flex-wrap filtros-reportes" id="form_filtros_reportes">
+                                    <div class="filtro-item filtro-item-icon">
+                                        <i class="feather icon-calendar filtro-icon"></i>
+                                        <select class="form-control select-filtro-reportes" id="filtro_mes_reportes" name="mes" onchange="this.form.submit()">
+                                            <option value="actual" @selected($mes === 'actual')>Mes actual</option>
+                                            @foreach($nombresMeses as $numero => $nombreMes)
+                                                <option value="{{ $numero + 1 }}" @selected((string) $mes === (string) ($numero + 1))>{{ $nombreMes }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="filtro-item filtro-item-icon">
+                                        <i class="feather icon-map-pin filtro-icon"></i>
+                                        <select class="form-control select-filtro-reportes" id="filtro_lugar_reportes" name="lugar" onchange="this.form.submit()">
+                                            <option value="todos" @selected(!$idLugar)>Todos los lugares</option>
+                                            @foreach($lugares as $lugar)
+                                                <option value="{{ $lugar->id }}" @selected((int) $idLugar === (int) $lugar->id)>{{ $lugar->nombre }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--CARDS PRINCIPALES-->
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-xl-3 mb-4">
+                    <div class="card kpi-card h-100">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="kpi-icon bg-c-purple text-white mr-3">
+                                <i class="feather icon-users"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted mb-1 small">Total de pacientes</p>
+                                <h3 class="mb-1">{{ number_format($totalPacientes, 0, ',', '.') }}</h3>
+                                <span class="small text-c-purple"><span class="kpi-dot bg-c-purple"></span>En el período</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-3 mb-4">
+                    <div class="card kpi-card h-100">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="kpi-icon bg-c-teal text-white mr-3">
+                                <i class="feather icon-activity"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted mb-1 small">Atenciones realizadas</p>
+                                <h3 class="mb-1">{{ number_format($atencionesRealizadas, 0, ',', '.') }}</h3>
+                                <span class="small text-c-teal"><span class="kpi-dot bg-c-teal"></span><span class="mes-caption-text">{{ $textoMes }}</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-3 mb-4">
+                    <div class="card kpi-card h-100">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="kpi-icon bg-c-green text-white mr-3">
+                                <i class="feather icon-credit-card"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted mb-1 small">Ingreso total</p>
+                                <h3 class="mb-1">${{ number_format($ingresoTotal, 0, ',', '.') }}</h3>
+                                <span class="small text-c-green"><span class="kpi-dot bg-c-green"></span><span class="mes-caption-text">{{ $textoMes }}</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-3 mb-4">
+                    <div class="card kpi-card h-100">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="kpi-icon bg-c-yellow text-white mr-3">
+                                <i class="feather icon-file-text"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted mb-1 small">Documentos emitidos</p>
+                                <h3 class="mb-1">{{ number_format(array_sum($documentos), 0, ',', '.') }}</h3>
+                                <span class="small text-c-yellow"><span class="kpi-dot bg-c-yellow"></span><span class="mes-caption-text">{{ $textoMes }}</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--AGENDA: ASISTENCIA VS AUSENTISMO / ATENCIONES POR MES-->
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
+                    <div class="card reportes-card h-100">
+                        <div class="card-header-new px-3 d-flex align-items-center justify-content-between">
+                            <h6 class="mb-0 f-18 text-dark">Agenda: Asistencia vs Ausentismo</h6>
+                            <i class="feather icon-info text-muted" data-toggle="tooltip" data-placement="top"
+                                title="Resumen de asistencia de las horas agendadas en el período seleccionado."></i>
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="grafico_asistencia_ausentismo"></div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="kpi-dot bg-c-purple"></span>
+                                        <span class="flex-grow-1">Asistieron</span>
+                                        <span class="font-weight-bolder mr-2">{{ $asistieron }}</span>
+                                        <span class="text-muted small">({{ $porcentaje($asistieron, $totalAgenda) }}%)</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="kpi-dot bg-c-red"></span>
+                                        <span class="flex-grow-1">No asistieron</span>
+                                        <span class="font-weight-bolder mr-2">{{ $noAsistieron }}</span>
+                                        <span class="text-muted small">({{ $porcentaje($noAsistieron, $totalAgenda) }}%)</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="kpi-dot bg-c-yellow"></span>
+                                        <span class="flex-grow-1">Canceladas por paciente</span>
+                                        <span class="font-weight-bolder mr-2">{{ $canceladasPaciente }}</span>
+                                        <span class="text-muted small">({{ $porcentaje($canceladasPaciente, $totalAgenda) }}%)</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="kpi-dot bg-c-green"></span>
+                                        <span class="flex-grow-1">Canceladas por el lugar de atención</span>
+                                        <span class="font-weight-bolder mr-2">{{ $canceladasLugar }}</span>
+                                        <span class="text-muted small">({{ $porcentaje($canceladasLugar, $totalAgenda) }}%)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <div class="stat-mini-card">
+                                        <p class="text-muted mb-1 small">Tasa de asistencia</p>
+                                        <h3 class="text-c-green">{{ $porcentaje($asistieron, $totalAgenda) }}%</h3>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-mini-card">
+                                        <p class="text-muted mb-1 small">Tasa de ausentismo</p>
+                                        <h3 class="text-c-red">{{ $porcentaje($noAsistieron, $totalAgenda) }}%</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
+                    <div class="card reportes-card h-100">
+                        <div class="card-header-new px-3 d-flex align-items-center justify-content-between">
+                            <h6 class="mb-0 f-18 text-dark">Atenciones por mes</h6>
+                            <span class="badge badge-light">Últimos 6 meses</span>
+                        </div>
+                        <div class="card-body">
+                            <div id="grafico_atenciones_mes"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--DOCUMENTOS EMITIDOS-->
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
+                    <div class="card reportes-card h-100">
+                        <div class="card-header-new px-3">
+                            <h6 class="mb-0 f-18 text-dark">Documentos emitidos</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex text-muted small mb-2">
+                                <span class="flex-grow-1">Documento</span>
+                                <span>Cantidad</span>
+                            </div>
+                            @foreach($documentos as $nombreDocumento => $cantidadDocumento)
+                                <div class="doc-list-item">
+                                    <div class="d-flex align-items-center">
+                                        <span class="doc-icon bg-c-purple text-white"><i class="feather icon-file-text"></i></span>
+                                        {{ $nombreDocumento }}
+                                    </div>
+                                    <span class="font-weight-bolder">{{ number_format($cantidadDocumento, 0, ',', '.') }}</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
+                    <div class="card reportes-card h-100">
+                        <div class="card-header-new px-3">
+                            <h6 class="mb-0 f-18 text-dark">Pacientes según convenio</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="grafico_convenio"></div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    @forelse($convenios as $indice => $convenio)
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span class="kpi-dot" style="background:{{ $coloresConvenio[$indice % count($coloresConvenio)] }}"></span>
+                                            <span class="flex-grow-1">{{ $convenio->nombre }}</span>
+                                            <span class="font-weight-bolder mr-2">{{ number_format($convenio->total, 0, ',', '.') }}</span>
+                                            <span class="text-muted small">({{ $porcentaje($convenio->total, $convenioTotal) }}%)</span>
+                                        </div>
+                                    @empty
+                                        <span class="text-muted">Sin pacientes en el período seleccionado.</span>
+                                    @endforelse
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </form>
-
-    <div class="row">
-        @foreach([
-            ['icon-clipboard','Atenciones',$resumen['atenciones']], ['icon-check-circle','Finalizadas',$resumen['finalizadas']],
-            ['icon-heart','Mascotas atendidas',$resumen['mascotas']], ['icon-calendar','Horas agendadas',$resumen['horas_agendadas']],
-            ['icon-dollar-sign','Ingresos registrados','$'.number_format($resumen['ingresos'],0,',','.')]
-        ] as $kpi)
-        <div class="col-sm-6 col-xl mb-3"><div class="card vet-report-card h-100"><div class="vet-kpi"><span class="vet-kpi-icon"><i class="feather {{ $kpi[0] }}"></i></span><div><strong>{{ $kpi[2] }}</strong><small>{{ $kpi[1] }}</small></div></div></div></div>
-        @endforeach
     </div>
+    <!--Cierre: Container Completo-->
 
-    <div class="row">
-        <div class="col-lg-7 mb-4"><div class="card vet-report-card h-100"><div class="card-header"><h5>Atenciones de los últimos 6 meses</h5></div><div class="card-body">
-            @php $maxMes = max(1, $meses->max('total')); @endphp
-            @foreach($meses as $mes)<div class="mb-3"><div class="d-flex justify-content-between mb-1"><span>{{ $mes->etiqueta }}</span><strong>{{ $mes->total }}</strong></div><div class="vet-bar"><span style="width:{{ ($mes->total/$maxMes)*100 }}%"></span></div></div>@endforeach
-        </div></div></div>
-        <div class="col-lg-5 mb-4"><div class="card vet-report-card h-100"><div class="card-header"><h5>Estados de agenda</h5></div><div class="card-body">
-            @forelse($estados as $estado)<div class="d-flex justify-content-between align-items-center border-bottom py-2"><span><i class="fas fa-circle mr-2" style="color:{{ $estado->color }}"></i>{{ $estado->nombre }}</span><strong>{{ $estado->total }}</strong></div>@empty<p class="text-muted text-center">Sin horas en el período.</p>@endforelse
-        </div></div></div>
-    </div>
+@endsection
 
-    <div class="row">
-        <div class="col-lg-4 mb-4"><div class="card vet-report-card h-100"><div class="card-header"><h5>Atenciones por servicio</h5></div><div class="card-body">
-            @forelse($servicios as $servicio)<div class="d-flex justify-content-between border-bottom py-2"><span>{{ $servicio->nombre }}</span><strong>{{ $servicio->total }}</strong></div>@empty<p class="text-muted text-center">Sin servicios registrados.</p>@endforelse
-        </div></div></div>
-        <div class="col-lg-8 mb-4"><div class="card vet-report-card"><div class="card-header"><h5>Atenciones recientes</h5></div><div class="card-body table-responsive">
-            <table class="table table-hover table-sm"><thead><tr><th>Fecha</th><th>Mascota</th><th>Diagnóstico</th><th>Estado</th></tr></thead><tbody>
-            @forelse($ultimas as $fila)<tr><td>{{ \Carbon\Carbon::parse($fila->created_at)->format('d-m-Y H:i') }}</td><td>{{ $fila->mascota ?: 'Sin mascota' }}</td><td>{{ $fila->hipotesis_diagnostico ?: 'Sin diagnóstico' }}</td><td><span class="badge badge-{{ $fila->finalizada ? 'success' : 'warning' }}">{{ $fila->finalizada ? 'Finalizada' : 'En curso' }}</span></td></tr>@empty<tr><td colspan="4" class="text-center text-muted">No existen atenciones en este período.</td></tr>@endforelse
-            </tbody></table>
-        </div></div></div>
-    </div>
-</div></div>
+@section('page-script')
+    <script src="{{ asset('js/plugins/apexcharts.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+
+            // Donut: Asistencia vs Ausentismo
+            new ApexCharts(document.querySelector('#grafico_asistencia_ausentismo'), {
+                chart: { type: 'donut', height: 230 },
+                series: {!! $serieAsistenciaJson !!},
+                labels: ['Asistieron', 'No asistieron', 'Canceladas por paciente', 'Canceladas por el lugar de atención'],
+                colors: ['#A06CC1', '#ff5252', '#ffba57', '#72B02C'],
+                legend: { show: false },
+                dataLabels: { enabled: false },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '70%',
+                            labels: {
+                                show: true,
+                                total: {
+                                    show: true,
+                                    label: 'Total agendadas',
+                                    fontSize: '13px',
+                                    color: '#8b93a7',
+                                    formatter: function () {
+                                        return '{{ $totalAgenda }}';
+                                    }
+                                },
+                                value: {
+                                    fontSize: '22px',
+                                    fontWeight: 700,
+                                    color: '#272727'
+                                }
+                            }
+                        }
+                    }
+                },
+                tooltip: { y: { formatter: function (val) { return val + ' horas'; } } }
+            }).render();
+
+            // Barras: Atenciones por mes (el mes en curso va destacado)
+            new ApexCharts(document.querySelector('#grafico_atenciones_mes'), {
+                chart: { type: 'bar', height: 260, toolbar: { show: false } },
+                series: [{ name: 'Atenciones', data: {!! $serieAtencionesJson !!} }],
+                xaxis: { categories: {!! $categoriasAtencionesJson !!} },
+                plotOptions: {
+                    bar: {
+                        columnWidth: '45%',
+                        borderRadius: 6,
+                        distributed: true,
+                        dataLabels: { position: 'top' }
+                    }
+                },
+                colors: ['#e3d3ee', '#e3d3ee', '#e3d3ee', '#e3d3ee', '#e3d3ee', '#A06CC1'],
+                dataLabels: {
+                    enabled: true,
+                    offsetY: -20,
+                    style: { fontSize: '12px', colors: ['#5b6577'] }
+                },
+                legend: { show: false },
+                grid: { borderColor: '#f0f1f5' },
+                yaxis: { min: 0, forceNiceScale: true }
+            }).render();
+
+            // Donut: Pacientes según convenio
+            new ApexCharts(document.querySelector('#grafico_convenio'), {
+                chart: { type: 'donut', height: 230 },
+                series: {!! $serieConvenioJson !!},
+                labels: {!! $etiquetasConvenioJson !!},
+                colors: {!! $coloresConvenioJson !!},
+                legend: { show: false },
+                dataLabels: { enabled: false },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '70%',
+                            labels: {
+                                show: true,
+                                total: {
+                                    show: true,
+                                    label: 'Total',
+                                    fontSize: '13px',
+                                    color: '#8b93a7',
+                                    formatter: function () {
+                                        return '{{ $convenioTotal }}';
+                                    }
+                                },
+                                value: {
+                                    fontSize: '22px',
+                                    fontWeight: 700,
+                                    color: '#272727'
+                                }
+                            }
+                        }
+                    }
+                }
+            }).render();
+
+        });
+    </script>
 @endsection

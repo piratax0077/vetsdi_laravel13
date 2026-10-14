@@ -1,8 +1,8 @@
 <div id="ingreso_sol_pab_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ingreso_sol_pab_modal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1 f-18" id="eco_gine"> Solicitar pabellón - <script>
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title mt-1 f-18" id="eco_gine"> Solicitar pabellón - <script>
                         var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
                         var f=new Date();
@@ -291,9 +291,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
-                <button type="button" class="btn btn-sm btn-primary" onclick="generar_pdf_pabellon()"><i class="feather icon-file"></i> PDF</button>
-                <button type="button" class="btn btn-sm btn-info" onclick="registrar_solicitud_pabellon();"><i class="feather icon-save" ></i> Guardar y enviar solicitud</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="generar_pdf_pabellon()"><i class="feather icon-file"></i> PDF</button>
+                <button type="button" class="btn btn-info" onclick="registrar_solicitud_pabellon();"><i class="feather icon-save" ></i> Guardar y enviar solicitud</button>
             </div>
         </div>
     </div>

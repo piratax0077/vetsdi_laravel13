@@ -15,6 +15,7 @@ class SolicitudHospitalizacion extends Model
         'tipo',
         'hospen',
         'obs_hosp',
+        'obs_hospen',
         'nom_inst',
         'hosp_enserv',
         'obs_hosp_enserv',

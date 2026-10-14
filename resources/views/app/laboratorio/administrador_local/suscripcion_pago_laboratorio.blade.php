@@ -140,7 +140,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                   <h5 class="modal-title text-white text-center">Historial de facturación</h5>
+                   <h5 class="modal-title text-center">Historial de facturación</h5>
                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -215,7 +215,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                   <h5 class="modal-title text-white text-center">Datos de facturación</h5>
+                   <h5 class="modal-title text-center">Datos de facturación</h5>
                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -271,7 +271,7 @@
                     </div>
                 </div>
                 <div class="modal-footer text-right">
-                   <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                   <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                    <button type="submit" class="btn btn-info">Guardar Cambios</button>
                    </form>
                 </div>

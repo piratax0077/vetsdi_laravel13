@@ -397,7 +397,7 @@
                                         </table>
 
                                         <div class="modal-footer mb-0 pt-1 pb-0">
-                                            {{--  <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                                            {{--  <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
                                             <button type="button" onclick="agendar_hora();" class="btn btn-info"><i class="feather icon-check"></i> Agendar hora</button>  --}}
                                             <button type="button"   onclick="asignar_profesional();"class="btn btn-info" id="btn_cobro_paciente"><i class="feather icon-check"></i>Asignar Sala/Cama</button>
                                             {{-- <button type="button" class="btn btn-warning"><i class="feather icon-check"></i>Editar Datos Paciente</button> --}}
@@ -3087,7 +3087,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modalAgregarObservacionesLabel">Agregar observaciones</h5>
+                <h5 class="modal-title" id="modalAgregarObservacionesLabel">Agregar observaciones</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -3107,7 +3107,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white">Agregar insumos</h5>
+                <h5 class="modal-title">Agregar insumos</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -3259,7 +3259,7 @@
         {
             // if (telefono != '')
             {
-                var re = new RegExp(/^\x2b56[6-9][0-9]{8}$/i);//+56612341234
+                var re = new RegExp(/^\x2b56 ?[6-9] ?[0-9]{4} ?[0-9]{4}$/i);//+56612341234
                 if( re.test(telefono) )
                 {
 

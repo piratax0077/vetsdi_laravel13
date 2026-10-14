@@ -51,7 +51,7 @@
 
                             <div class="modal-content">
                                 <div class="modal-header bg-info pt-3 pb-2">
-                                    <h5 class="modal-title text-white text-center">Recepción de Pacientes</h5>
+                                    <h5 class="modal-title text-center">Recepción de Pacientes</h5>
                                     <button id="cerrar_tomar_hora" type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="volver_recepcion()"><span aria-hidden="true">×</span></button>
                                 </div>
                                 <div class="modal-body">
@@ -307,7 +307,7 @@
                                             </div>
 
                                             <div class="modal-footer mb-0 pt-1 pb-0">
-                                                {{--  <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                                                {{--  <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
                                                 <button type="button" onclick="agendar_hora();" class="btn btn-info"><i class="feather icon-check"></i> Agendar hora</button>  --}}
                                                 <button type="button"   onclick="asignar_profesional();"class="btn btn-info" id="btn_cobro_paciente"><i class="feather icon-check"></i>Cobro Ingreso Paciente</button>
                                                 {{-- <button type="button" class="btn btn-warning"><i class="feather icon-check"></i>Editar Datos Paciente</button> --}}
@@ -818,7 +818,7 @@
         {
             // if (telefono != '')
             {
-                var re = new RegExp(/^\x2b56[6-9][0-9]{8}$/i);//+56612341234
+                var re = new RegExp(/^\x2b56 ?[6-9] ?[0-9]{4} ?[0-9]{4}$/i);//+56612341234
                 if( re.test(telefono) )
                 {
 

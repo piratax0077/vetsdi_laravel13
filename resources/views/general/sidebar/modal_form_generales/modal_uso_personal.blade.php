@@ -2,8 +2,8 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" data-backdrop="static" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Uso Personal</h5>
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title text-center">Uso Personal</h5>
                 <button type="button" class="close text-white"  data-dismiss="modal" aria-label="Close" onclick="$('#modal_uso_personal').modal('hide')"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -31,8 +31,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#modal_uso_personal').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
-                <button type="button" onclick="registrar_uso_personal();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#modal_uso_personal').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" onclick="registrar_uso_personal();" class="btn btn-info"><i class="feather icon-save"></i> Guardar</button>
             </div>
         </div>
     </div>

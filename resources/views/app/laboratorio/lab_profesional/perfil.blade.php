@@ -1,4 +1,5 @@
 @extends('template.laboratorio.laboratorio_profesional.template')
+@section('sin_boton_volver', '1')
 @section('content')
 	<!--Container Completo-->
 	<div class="pcoded-main-container">
@@ -29,26 +30,10 @@
 				<div class="card-body py-0">
 					<div class="user-about-block m-0">
 						<div class="row">
-							<div class="col-md-12 text-center mt-n4">
-								<div class="change-profile text-center">
-									<div class="dropdown w-auto d-inline-block">
-										<a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<div class="profile-dp">
-												<div class="position-relative d-inline-block">
-													<img class="img-radius img-fluid wid-100" src="../assets/images/iconos/usuario_profesional.svg" alt="User image">
-												</div>
-												<div class="overlay">
-													<span>Actualizar</span>
-												</div>
-											</div>
-										</a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><i class="feather icon-upload-cloud mr-2"></i>Cambiar foto de perfil</a>
-											<a class="dropdown-item" href="#"><i class="feather icon-trash-2 mr-2"></i>Eliminar fotografía</a>
-										</div>
-									</div>
-								</div>
-							</div>
+							@include('template.partials.perfil_cabecera', [
+								'rol' => 'Profesional',
+								'foto_base' => 'images/iconos/usuario_profesional.svg',
+							])
 							<div class="col-md-12 mt-md-2">
 								<ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
 									<li class="nav-item">
@@ -85,7 +70,7 @@
 										<div class="card-body border-top info_basica collapse show" id="info_basica-1">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label">Rut</label>
+													<label class="col-sm-4 col-form-label">RUT</label>
 													<div class="col-sm-7 my-auto ml-2 font-weight-bolder"> 00000000-0 </div>
 												</div>
 												<div class="form-group row">
@@ -123,9 +108,9 @@
 										<div class="card-body border-top info_basica collapse" id="pinfo_basica_2">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+													<label class="col-sm-4 col-form-label font-weight-bolder">RUT</label>
 													<div class="col-sm-7">
-														<input type="text" class="form-control" placeholder="Rut" value="00000000-0">
+														<input type="text" class="form-control" placeholder="RUT" value="00000000-0">
 													</div>
 												</div>
 												<div class="form-group row">

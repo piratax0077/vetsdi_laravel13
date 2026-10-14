@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-danger">
-                <h5 class="modal-title text-white text-center">Agregar contacto de emergencia</h5>
+                <h5 class="modal-title text-center">Agregar contacto de emergencia</h5>
                 <button type="button" class="close text-white" onclick="cerrar_agregar_contacto_emergencia();" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -139,7 +139,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" onclick="cerrar_agregar_contacto_emergencia();" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="cerrar_agregar_contacto_emergencia();" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                         <button type="button" onclick="registrar_contacto_emergencia();" class="btn btn-info">Guardar Contacto</button>
                     </div>
                 </form>

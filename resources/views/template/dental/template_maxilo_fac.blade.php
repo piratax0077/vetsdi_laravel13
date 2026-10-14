@@ -390,6 +390,7 @@ h3.popover-title {
     @yield('js-sidebar') {{-- seccion js side bar --}}
     @yield('js-lic') {{-- seccion js side bar --}}
 	@yield('page-script-btn-autorizacion')
+@include('template.include.selector_fechas')
 </body>
 
 </html>

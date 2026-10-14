@@ -1,9 +1,9 @@
  <div id="registrar_profesionalcomercial" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="registrar_profesionalcomercial" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-white text-center">Registrar Ingeniero</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <div class="row">
-                         <div class="modal-header">
+                         <div class="modal-header modal-header-purple">
                             <h6 class="modal-title  text-center">Asignar Roles</h6>
                          </div>
                     </div>
@@ -152,7 +152,7 @@
 
                     </div>
                         <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                         <button type="submit" class="btn btn-info">Registrar Profesional Médico</button>
                         </form>
                     </div>

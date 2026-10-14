@@ -370,8 +370,8 @@
     <div class="modal" id="modal-ingreso" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-            <div class="modal-header bg-info py-3">
-                <h5 class="modal-title text-white" id="title-antecedente"><i class="feather icon-clipboard mr-2"></i>Agregar antecedente veterinario</h5>
+            <div class="modal-header py-3 modal-header-purple">
+                <h5 class="modal-title" id="title-antecedente"><i class="feather icon-clipboard mr-2"></i>Agregar antecedente veterinario</h5>
                 <button type="button" class="close text-white" onclick="verModalAgregar('hide')" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -388,9 +388,9 @@
                 <input type="hidden" value="{{$userData['nombre']}} {{$userData['apellido_uno']}} {{$userData['apellido_dos']}}" id="user-profesional">
                 @endif
                 <input type="hidden" value="{{Auth::user()->id}}" id="user-id">
-                <button type="button" class="btn btn-sm btn-info" id="agregar-antecedente" onclick="guardarAntecedenteVeterinario()"><i class="feather icon-save"></i> Guardar antecedente</button>
-                <button type="button" class="btn btn-sm btn-info" id="modificar-antecedente" onclick="modificarAntecedenteVeterinario()"><i class="feather icon-edit"></i> Guardar cambios</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="verModalAgregar('hide')"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-info" id="agregar-antecedente" onclick="guardarAntecedenteVeterinario()"><i class="feather icon-save"></i> Guardar antecedente</button>
+                <button type="button" class="btn btn-info" id="modificar-antecedente" onclick="modificarAntecedenteVeterinario()"><i class="feather icon-edit"></i> Guardar cambios</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="verModalAgregar('hide')"><i class="feather icon-x"></i> Cancelar</button>
             </div>
             </div>
         </div>

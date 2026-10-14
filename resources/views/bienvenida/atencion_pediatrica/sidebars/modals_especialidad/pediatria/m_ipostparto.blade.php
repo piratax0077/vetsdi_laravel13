@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content" >
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Indicaciones post parto</h5>
+                <h5 class="modal-title text-center">Indicaciones post parto</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -10,8 +10,8 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('modal_iposparto');">Enviar al Paciente</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('modal_iposparto');">Enviar al Paciente</button>
             </div>
         </div>
     </div>

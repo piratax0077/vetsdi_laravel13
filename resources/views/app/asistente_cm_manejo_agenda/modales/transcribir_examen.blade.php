@@ -2,8 +2,8 @@
 <div class="modal fade" id="m_transcripcion_examen" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="m_transcripcion_examen" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1">Transcribir Examen</h5>
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title mt-1">Transcribir Examen</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_m_transcripcion_examen();"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

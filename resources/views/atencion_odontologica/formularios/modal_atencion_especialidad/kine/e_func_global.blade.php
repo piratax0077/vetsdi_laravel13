@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content" >
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Funcionalidad global</h5>
+                <h5 class="modal-title text-center">Funcionalidad global</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -179,8 +179,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i> Cerrar</button>
+                <button type="button" class="btn btn-info"><i class="feather icon-save"></i> Guardar</button>
             </div>
         </div>
     </div>

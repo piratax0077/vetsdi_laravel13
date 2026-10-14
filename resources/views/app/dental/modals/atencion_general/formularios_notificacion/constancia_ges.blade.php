@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Constancia GES (Artículo 24 Ley 19.966)</h5>
+                <h5 class="modal-title text-center">Constancia GES (Artículo 24 Ley 19.966)</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -203,7 +203,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-info">Guardar</button>
                         </div>
                     </form>

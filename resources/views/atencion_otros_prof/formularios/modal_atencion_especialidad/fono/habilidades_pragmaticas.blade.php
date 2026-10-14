@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_eval_hab_preart">HABILIDADES PRAGMÁTICAS</h5>
+                <h5 class="modal-title mt-1" id="modal_eval_hab_preart">HABILIDADES PRAGMÁTICAS</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#h_pragmati').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -246,8 +246,8 @@
             </div>
             <div class="modal-footer">
                 
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"onclick="$('#h_pragmati').modal('hide')">Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('h_pragmati');">Enviar al Paciente</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"onclick="$('#h_pragmati').modal('hide')">Cerrar</button>
+                <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('h_pragmati');">Enviar al Paciente</button>
                 <button type="button" class="btn btn-info" onclick="registrar_h_pragatica();">Guardar</button>
             </div>
                

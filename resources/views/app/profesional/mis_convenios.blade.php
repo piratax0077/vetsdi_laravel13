@@ -9,25 +9,14 @@
 <!--Container Completo-->
 <div class="pcoded-main-container">
     <div class="pcoded-content m-top">
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row">
-                    <div class="col-md-12 mt-2">
-<ul class="breadcrumb mb-4">
-                              <li class="breadcrumb-item"><a href="{{ route('profesional.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio"><i class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('profesional.configuracion') }}" data-toggle="tooltip" data-placement="top" title="Volver al panel de configuración">Panel de Configuración</a></li>
-
-                            <li class="breadcrumb-item">
-                                <a href="#">Convenios</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <h5 class="f-26 d-inline">Convenios</h5>
             </div>
         </div>
     <div class="row bg-gris">
             <div class="col-sm-12">
-                <div class="card mt-n4">
+                <div class="card">
                     <div class="card-header bg-info">
                         <h6 class="text-white font-weight-bolder f-18 d-inline">Mis Convenios</h6>
                         <button class="btn btn-light btn-sm d-inline float-md-right" data-toggle="modal" data-target="#nuevoConvenioInstitucion"><i class="fa fa-plus" aria-hidden="true"></i> Registrar nuevo convenio</button>

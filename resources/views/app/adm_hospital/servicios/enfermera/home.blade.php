@@ -405,7 +405,7 @@
                         </table>
 
                         <div class="modal-footer mb-0 pt-1 pb-0">
-                            {{--  <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                            {{--  <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
                             <button type="button" onclick="agendar_hora();" class="btn btn-info"><i class="feather icon-check"></i> Agendar hora</button>  --}}
                             <button type="button"   onclick="asignar_profesional();"class="btn btn-info" id="btn_cobro_paciente"><i class="feather icon-check"></i>Asignar Sala/Cama</button>
                             {{-- <button type="button" class="btn btn-warning"><i class="feather icon-check"></i>Editar Datos Paciente</button> --}}
@@ -832,7 +832,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_pago_consulta_title">Asignación</h5>
+                <h5 class="modal-title" id="modal_pago_consulta_title">Asignación</h5>
                 <button type="button" class="close close_modal_recepcion_bonos_api" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body pb-0">
@@ -2068,7 +2068,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        {{--  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>  --}}
+                                        {{--  <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>  --}}
                                         {{--  <button type="button" data-dismiss="modal" class="btn btn-info">Guardar</button>  --}}
                                         {{--  <button type="button" onclick="alerta_registro_examen();" data-dismiss="modal" class="btn btn-info">Generar Orden de Examen</button>  --}}
                                         <button type="button" onclick="registro_examen_ficha();"
@@ -4143,7 +4143,7 @@
         {
             // if (telefono != '')
             {
-                var re = new RegExp(/^\x2b56[6-9][0-9]{8}$/i);//+56612341234
+                var re = new RegExp(/^\x2b56 ?[6-9] ?[0-9]{4} ?[0-9]{4}$/i);//+56612341234
                 if( re.test(telefono) )
                 {
 

@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-mg" role="document">
 		<div class="modal-content ">
 			<div class="modal-header bg-info">
-				<h5 class="modal-title text-white">Autorización de examen</h5>
+				<h5 class="modal-title">Autorización de examen</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>

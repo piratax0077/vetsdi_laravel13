@@ -181,7 +181,7 @@
                 </div>
             </div>
             <div class="modal-footer pt-2">
-                <button type="button" class="btn btn-outline-blue" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
                 <button type="submit" class="btn btn-primary"><i class="feather icon-save"></i> Guardar información</button>
             </div>
 		</div>

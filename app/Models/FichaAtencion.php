@@ -57,6 +57,24 @@ class FichaAtencion extends Model
 
 
 
+    public function Mascota()
+    {
+        return $this->belongsTo(Mascota::class, 'id_mascota', 'id');
+    }
+
+    // Nombre y especie de la mascota atendida; guion cuando la ficha no tiene mascota registrada
+    public function getMascotaDescripcionAttribute(): string
+    {
+        $mascota = $this->Mascota;
+        if (!$mascota) {
+            return '-';
+        }
+
+        $especie = optional($mascota->especieMascota)->nombre ?: $mascota->otra_especie;
+
+        return $especie ? $mascota->nombre.' ('.$especie.')' : (string) $mascota->nombre;
+    }
+
     public function Profesional()
 
     {

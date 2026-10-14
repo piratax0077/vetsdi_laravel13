@@ -165,6 +165,7 @@
     @endswitch
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
     {{-- @yield('modales') --}}
 
 
@@ -460,5 +461,6 @@
 
     @yield('modales')
     <script src="{{ asset('js/validaRut.js') }}"></script>
+@include('template.include.selector_fechas')
 </body>
 </html>

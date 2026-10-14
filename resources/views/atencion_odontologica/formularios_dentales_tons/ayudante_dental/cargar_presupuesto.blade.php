@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_presupuesto"><strong>PRESUPUESTO Nº:</strong>0000000    <strong>FECHA:</strong>02/05/2021</h5>
+                <h5 class="modal-title mt-1" id="modal_presupuesto"><strong>PRESUPUESTO Nº:</strong>0000000    <strong>FECHA:</strong>02/05/2021</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                 </button>
             </div>
@@ -98,8 +98,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info  btn-sm" data-dismiss="modal">Cerrar</button>
-                <button type="button" class=" btn btn-danger btn-sm";onclick="cerrarModalpresupuesto()";data-dismiss="modal"> Guardar</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger";onclick="cerrarModalpresupuesto()";data-dismiss="modal"> Guardar</button>
 
 
             </div>

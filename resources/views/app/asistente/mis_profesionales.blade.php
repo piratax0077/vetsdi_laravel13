@@ -4,20 +4,10 @@
 <div class="pcoded-main-container">
     <div class="pcoded-content">
         <!--Header-->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <div class="page-header-title">
-                            <h5 class="m-b-10 font-weight-bold">Agenda de Profesionales</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ ROUTE('asistente.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio"><i class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{{ ROUTE('asistente.mis_profesionales') }}">Agenda de profesionales</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="row">
+            <div class="col-md-12 mb-3 encabezado-pagina">
+                <h5 class="f-26 d-inline">Agenda de Profesionales</h5>
+            </div>
         </div>
         <!--Cierre: Header-->
          <!--Buscador de pacientes-->
@@ -85,9 +75,9 @@
 <div id="agregar_paciente_asistente" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="agregar_paciente_asistente" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-               <h5 class="modal-title text-white text-center">Registrar Paciente</h5>
-               <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <div class="modal-header modal-header-purple">
+               <h5 class="modal-title text-center">Registrar Paciente</h5>
+               <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form id="recetas_profesional">
@@ -167,7 +157,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+               <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                <button type="submit" class="btn btn-info">Guardad Registro</button>
             </div>
         </div>

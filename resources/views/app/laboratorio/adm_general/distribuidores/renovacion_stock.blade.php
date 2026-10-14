@@ -157,7 +157,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-warning">
-                <h5 class="modal-title text-white"><i class="feather icon-alert-triangle mr-2"></i>Solicitar reposición al proveedor</h5>
+                <h5 class="modal-title"><i class="feather icon-alert-triangle mr-2"></i>Solicitar reposición al proveedor</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -266,7 +266,7 @@
                 <input type="hidden" id="solic_tipo_pedido" value="">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-warning text-white" id="btn_confirmar_solicitud" onclick="confirmar_solicitud_proveedor()" disabled>
                     <i class="feather icon-send mr-1"></i>Enviar solicitud
                 </button>

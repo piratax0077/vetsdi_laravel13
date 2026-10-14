@@ -1,11 +1,11 @@
 <!--sala de esperaa-->
 <div class="card">
-    <div class="card-header bg-info">
+    <div class="card-header bg-white">
         <div class="row">
             <div class="col-md-12">
-                <h6 class="f-18 d-inline mt-3 text-white ">Salas de Espera</h6>
+                <h5 class="mb-0 d-inline"><i class="feather icon-clock icono-purple"></i> Salas de espera</h5>
                 <div class="btn-group mr-2 d-inline float-md-right float-md-right ml-4">
-                    <button type="button" class="btn btn-sm btn-light" onclick="abrir_agregar_sala_espera();"><i
+                    <button type="button" class="btn btn-sm btn-info" onclick="abrir_agregar_sala_espera();"><i
                             class="feather icon-plus" aria-hidden="true"></i> Añadir</button>
                 </div>
             </div>
@@ -98,7 +98,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Añadir Sala Espera</h5>
+                <h5 class="modal-title text-center">Añadir Sala Espera</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
                     onclick="$('#moda_agregar_sala_espera').modal('hide');"><span
                         aria-hidden="true">&times;</span></button>
@@ -158,11 +158,11 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <button type="button" class="btn btn-success btn-sm btn-block"
+                        <button type="button" class="btn btn-success btn-block"
                             onclick="agregar_sala_espera();">Guardar</button>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <button type="button" class="btn btn-danger btn-sm btn-block"
+                        <button type="button" class="btn btn-outline-dark btn-block"
                             onclick="$('#moda_agregar_sala_espera').modal('hide');">Cancelar</button>
                     </div>
                 </div>
@@ -177,7 +177,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Editar Sala Espera</h5>
+                <h5 class="modal-title text-center">Editar Sala Espera</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
                     onclick="$('#moda_editar_sala_espera').modal('hide');"><span
                         aria-hidden="true">&times;</span></button>
@@ -240,11 +240,11 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <button type="button" class="btn btn-success btn-sm btn-block"
+                        <button type="button" class="btn btn-success btn-block"
                             onclick="modificar_sala_espera();">Guardar</button>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <button type="button" class="btn btn-danger btn-sm btn-block"
+                        <button type="button" class="btn btn-outline-dark btn-block"
                             onclick="$('#moda_editar_sala_espera').modal('hide');">Cancelar</button>
                     </div>
                 </div>
@@ -259,7 +259,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">TV de Sala Espera</h5>
+                <h5 class="modal-title text-center">TV de Sala Espera</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
                     onclick="$('#moda_tv_sala_espera').modal('hide');"><span
                         aria-hidden="true">&times;</span></button>
@@ -359,7 +359,7 @@
                 <div class="modal-footer">
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <button type="button" class="btn btn-danger btn-sm btn-block"
+                            <button type="button" class="btn btn-danger btn-block"
                                 onclick="$('#moda_tv_sala_espera').modal('hide');">Cerrar</button>
                         </div>
                     </div>
@@ -376,7 +376,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Box de Sala Espera</h5>
+                <h5 class="modal-title text-center">Box de Sala Espera</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
                     onclick="$('#moda_box_sala_espera').modal('hide');"><span
                         aria-hidden="true">&times;</span></button>
@@ -457,7 +457,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <button type="button" class="btn btn-danger btn-sm btn-block"
+                        <button type="button" class="btn btn-danger btn-block"
                             onclick="$('#moda_box_sala_espera').modal('hide');">Cerrar</button>
                     </div>
                 </div>

@@ -65,6 +65,7 @@
 
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
 
     <script src="{{ asset('js/vendor-all.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
@@ -490,6 +491,7 @@
         });
     </script>
     @yield('page-script')
+@include('template.include.selector_fechas')
 </body>
 
 </html>

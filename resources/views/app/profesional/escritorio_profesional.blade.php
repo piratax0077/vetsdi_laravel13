@@ -5,14 +5,11 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-             <div class="page-header">
+             <div class="page-header encabezado-escritorio">
             <div class="page-block">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <div class="page-header-title mt-3">
-                            <h4 class="m-b-10 font-weight-bold text-white">Hola, {{ $profesional->nombre }}</h4>
-                            <p class="text-white">Bienvenido/a a tu escritorio, todo lo que necesitas para tu práctica diaria.</p>
-                        </div>
+                        @include('template.include.saludo_escritorio', ['nombre_saludo' => $profesional->nombre, 'texto_saludo' => 'Bienvenido/a a tu escritorio, todo lo que necesitas para tu práctica diaria.'])
                         <!--<ul class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="{{ ROUTE('paciente.home') }}">Bienvenido/a a tu escritorio de cuidado de mascotas</a>
@@ -40,10 +37,21 @@
                             <a href="{{ route('profesional.pacientes') }}">
                                 <div class="card-body text-center px-2" style="cursor:pointer">
                                     <img class="wid-40 text-center" src="{{ asset('images/iconos/mascotas.svg') }}">
-                                    <h6 class="mt-1">Mascotas y responsables</h6>
+                                    <h6 class="mt-1">Mascotas y tutores</h6>
                                 </div>
                             </a>
                         </div>
+                        {{-- Módulo opcional: más adelante se muestra solo si el profesional lo agrega a su escritorio --}}
+                        @if($modulo_hospitalizacion ?? false)
+                        {{-- Deshabilitado mientras el módulo está en construcción; al habilitarlo vuelve el enlace a route('profesional.hospitalizacion') --}}
+                        <div class="card modulo-en-construccion" aria-disabled="true" title="Módulo en construcción">
+                            <div class="card-body text-center px-2">
+                                <img class="wid-40 text-center" src="{{ asset('images/iconos/hospitalizacion.svg') }}" alt="">
+                                <h6 class="mt-1">Hospitalización</h6>
+                                <span class="modulo-en-construccion-etiqueta">En construcción</span>
+                            </div>
+                        </div>
+                        @endif
                         <div class="card subir">
                             <a href="{{ route('profesional.configuracion') }}">
                                 <div class="card-body text-center px-2" style="cursor:pointer">
@@ -56,7 +64,7 @@
                         <div class="card subir">
                             <a href="{{ route('profesional.reporte_estadisticas') }}">
                                 <div class="card-body text-center px-2" style="cursor:pointer">
-                                    <img class="wid-40 text-center" src="{{ asset('images/iconos/estadisticas_2.svg') }}">
+                                    <img class="wid-40 text-center" src="{{ asset('images/iconos/estadisticas.svg') }}">
                                     <h6 class="mt-1">Reporte y estadísticas</h6>
                                 </div>
                             </a>
@@ -83,14 +91,14 @@
                 </div>
             </div>
 
-            <!--Tabla agenda del día y Farmacrónicos-->
+            <!--Tabla agenda del día-->
             <div class="row">
                 <div class="col-12 mb-3">
                     <div class="card h-100 pb-0">
-                        <div class="card-header text-center bg-c-info">
-                            <div class="row">
+                        <div class="card-header text-center ">
+                            <div class="row filtros-agenda">
                                 <div class="col-sm-4 d-inline text-left">
-                                    <h5 class="text-white my-2" style="font-size: 1.1rem;">Mi agenda del día</h5>
+                                    <h5><i class="feather icon-calendar mr-2"></i> Mi agenda</h5>
                                 </div>
                                 <div class="col-md-4 d-inline text-right mt-1">
 									<select name="lugares_atencion_agenda" id="lugares_atencion_agenda" class="form-control form-control-sm" onchange="buscar_hora_medica();">
@@ -103,7 +111,7 @@
                             </div>
                         </div>
                         <div class="card-body pb-0 pt-4">
-                            <div class="dt-responsive table-responsive align-middle pb-0">
+                            <div class="dt-responsive table-responsive border-none align-middle pb-0">
                                 <table id="simpletable" class="table table-striped table-bordered nowrap table-sm"
                                     style="height: 100px">
                                     <thead>
@@ -118,7 +126,7 @@
                                         @if (isset($hora_dia))
                                             @foreach ($hora_dia as $hd)
                                                 <tr>
-                                                    <td class="text-center align-left">{{ $hd->hora_inicio }}</td>
+                                                    <td class="text-center align-left">{{ substr((string) $hd->hora_inicio, 0, 5) }}</td>
                                                     <td class="text-center align-left bg-estado-light-amarillo">
                                                         {!! $hd->paciente_escritorio_html !!}
                                                     </td>
@@ -184,7 +192,7 @@
                             <a href="{{ ROUTE('adm_cm.adm_medico') }}" class="btn" type="button">
                                 <div class="card-body">
                                     <img class="wid-30 mb-3" src="{{ asset('images/iconos/otros_servicios.svg') }}">
-                                    <h5 class="my-auto text-white">Direccion medica</h5>
+                                    <h5 class="my-auto text-white">Dirección medica</h5>
                                 </div>
                             </a>
                         </div>
@@ -200,15 +208,15 @@
 						<div class="card social-widget-card bg-c-info opacidad px-0">
                             <a href="{{ route('app.descarga') }}" class="btn" type="button" target="_blank">
                                 <div class="card-body">
-                                    <img class="wid-30 mb-3" src="{{ asset('images/iconos/lock.svg') }}">
-                                    <h5 class="my-auto text-white">DESCARGA TU APP</h5>
+                                    <img class="wid-30 mb-3" src="{{ asset('images/iconos/descargar-app.svg') }}">
+                                    <h5 class="my-auto text-white">Descarga VetPass</h5>
                                 </div>
                             </a>
                         </div>
 						<div class="card social-widget-card bg-c-info opacidad px-0">
                             <a href="{{ route('profesional.referidos.index') }}" class="btn" type="button">
                                 <div class="card-body">
-                                    <i class="feather icon-gift text-white mb-2" style="font-size:30px"></i>
+                                    <img class="wid-30 mb-3" src="{{ asset('images/iconos/REFERIDOS.svg') }}">
                                     <h5 class="my-auto text-white">Invita a un colega o a tu centro</h5>
                                     <small class="text-white">y gana descuentos en tu cuenta</small>
                                 </div>

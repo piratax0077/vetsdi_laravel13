@@ -92,6 +92,7 @@
     @include('template.asistente_adm_cm.header')
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
     @yield('modales')
 
     {{--  <footer>  --}}
@@ -229,5 +230,6 @@
         }
     </script>
     @yield('page-script')
+@include('template.include.selector_fechas')
 </body>
 </html>

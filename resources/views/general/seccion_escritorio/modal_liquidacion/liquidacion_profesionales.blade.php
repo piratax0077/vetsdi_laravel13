@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1 f-18" id="eco_gine">Detalle Liquidación Profesionales Institución:</h5>
+                <h5 class="modal-title mt-1 f-18" id="eco_gine">Detalle Liquidación Profesionales Institución:</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span onclick="cerrarModal()"; aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -451,7 +451,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" onclick="cerrarModal()"; data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" onclick="cerrarModal()"; data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info">Guardar </button>
                 <button type="button" class="btn btn-primary" style="color: #3268bf;background-color: #cde0f6;border-color: #cde0f6;"><i class="feather icon-file"></i>Generar PDF</button>
             </div>

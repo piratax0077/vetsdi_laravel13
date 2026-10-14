@@ -71,21 +71,7 @@ class LiquidacionReciboController extends Controller
         {
             foreach ($result['registros'] as $key_registro => $value_registro)
             {
-                $id_banco = decrypt($value_registro->casa);
-                $banco = Bancos::select('id', 'nombre')->where('id',$id_banco)->first();
-                $result['registros'][$key_registro]->banco = $banco;
-                if($value_registro->serie!='')
-                    $result['registros'][$key_registro]->serie  = decrypt($value_registro->serie);
-                if($value_registro->autor!='')
-                    $result['registros'][$key_registro]->autor = decrypt($value_registro->autor);
-                if($value_registro->casa!='')
-                    $result['registros'][$key_registro]->casa = decrypt($value_registro->casa);
-                if($value_registro->numero_control!='')
-                    $result['registros'][$key_registro]->numero_control = decrypt($value_registro->numero_control);
-                if($value_registro->email!='')
-                    $result['registros'][$key_registro]->email = decrypt($value_registro->email);
-                if($value_registro->otro!='')
-                    $result['registros'][$key_registro]->otro = decrypt($value_registro->otro);
+                $value_registro->preparar_para_perfil();
             }
             $datos = $result;
         }

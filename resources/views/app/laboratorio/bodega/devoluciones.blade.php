@@ -271,7 +271,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modalRechazarProductoLabel">Rechazar Producto</h5>
+                <h5 class="modal-title" id="modalRechazarProductoLabel">Rechazar Producto</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$('#modalRechazarProducto').modal('hide')">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -291,7 +291,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#modalRechazarProducto').modal('hide')">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#modalRechazarProducto').modal('hide')">Cancelar</button>
                 <button type="button" class="btn btn-primary" id="btn_confirmar_rechazo">Confirmar Rechazo</button>
             </div>
         </div>
@@ -302,7 +302,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modalDetalleProductoBodegasLabel">Detalle de ubicación</h5>
+                <h5 class="modal-title" id="modalDetalleProductoBodegasLabel">Detalle de ubicación</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$('#modalDetalleProductoBodegas').modal('hide')">
                     <span aria-hidden="true">&times;</span>
                 </button>

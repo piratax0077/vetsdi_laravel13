@@ -21,12 +21,12 @@
         }
         .header {
             text-align: center;
-            border-bottom: 3px solid #007bff;
+            border-bottom: 3px solid #6f42c1;
             padding-bottom: 20px;
             margin-bottom: 30px;
         }
         .header h1 {
-            color: #007bff;
+            color: #6f42c1;
             margin: 0;
             font-size: 24px;
         }
@@ -36,7 +36,7 @@
         }
         .info-box {
             background-color: #f8f9fa;
-            border-left: 4px solid #007bff;
+            border-left: 4px solid #6f42c1;
             padding: 15px;
             margin: 20px 0;
         }
@@ -45,7 +45,7 @@
         }
         .label {
             font-weight: bold;
-            color: #007bff;
+            color: #6f42c1;
         }
         .footer {
             margin-top: 30px;
@@ -68,7 +68,7 @@
     <div class="container">
         <div class="header">
             <h1>{{ $detalle['body']['tipo_examen'] == 'vppb' ? 'Informe de Tratamiento VPPB' : 'Informe de Terapia de Voz' }}</h1>
-            <p>MED-SDI - Sistema de Información</p>
+            <p>Veterchile - Sistema de Información</p>
         </div>
 
         <div class="content">
@@ -118,12 +118,12 @@
             <p>Si tienes alguna consulta sobre este informe, no dudes en contactarte con nosotros.</p>
 
             <p>Saludos cordiales,<br>
-            <strong>Equipo MED-SDI</strong></p>
+            <strong>Equipo Veterchile</strong></p>
         </div>
 
         <div class="footer">
             <p>Este es un correo automático, por favor no responder a esta dirección.</p>
-            <p>© {{ date('Y') }} MED-SDI - Sistema de Información de Salud</p>
+            <p>© {{ date('Y') }} Veterchile - Sistema de Información de Salud</p>
         </div>
     </div>
 </body>

@@ -1,9 +1,9 @@
 <div id="modal_solalta" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="modal_solalta" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-			<div class="modal-header bg-info">
-				<h5 class="modal-title text-white text-center">Solicitud de alta voluntaria </h5>
-				<button type="button" class="close"  data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<div class="modal-header modal-header-purple">
+				<h5 class="modal-title text-center">Solicitud de alta voluntaria </h5>
+				<button type="button" class="close"  data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
 			<div class="modal-body">
                 <input type="hidden" name="modal_solalta_id" id="modal_solalta_id" value="0">

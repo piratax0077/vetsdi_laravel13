@@ -130,7 +130,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Agregar productos</h5>
+                <h5 class="modal-title text-center">Agregar productos</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#agregar_producto').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -186,7 +186,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                       <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#agregar_producto').modal('hide')">Cancelar</button>
+                       <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#agregar_producto').modal('hide')">Cancelar</button>
                         <button type="submit" class="btn btn-info mb-0" >Agregar producto</button>
                     </div>
                 </form>
@@ -200,7 +200,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center"> Quitar productos </h5>
+                <h5 class="modal-title text-center"> Quitar productos </h5>
                  <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#quitar_producto').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -226,7 +226,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#quitar_producto').modal('hide')">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#quitar_producto').modal('hide')">Cancelar</button>
                         <button type="submit" class="btn btn-info">Quitar productos</button>
                     </div>
                 </form>
@@ -240,7 +240,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Editar producto</h5>
+                <h5 class="modal-title text-center">Editar producto</h5>
                  <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#editar_producto').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
              <div class="modal-body">
@@ -296,7 +296,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#editar_producto').modal('hide')">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#editar_producto').modal('hide')">Cancelar</button>
                         <button type="submit" class="btn btn-info mb-0">Guardar cambios</button>
                     </div>
                 </form>
@@ -384,7 +384,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Agregar Bodega</h5>
+                <h5 class="modal-title text-center">Agregar Bodega</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -458,7 +458,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info" onclick="guardar_bodega()">Guardar Registro</button>
             </div>
         </div>
@@ -472,7 +472,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-warning">
-                <h5 class="modal-title text-white"><i class="feather icon-alert-triangle mr-2"></i>Solicitar reposición al proveedor</h5>
+                <h5 class="modal-title"><i class="feather icon-alert-triangle mr-2"></i>Solicitar reposición al proveedor</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -581,7 +581,7 @@
                 <input type="hidden" id="solic_tipo_pedido" value="">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-warning text-white" id="btn_confirmar_solicitud" onclick="confirmar_solicitud_proveedor()" disabled>
                     <i class="feather icon-send mr-1"></i>Enviar solicitud
                 </button>

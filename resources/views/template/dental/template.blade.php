@@ -90,6 +90,7 @@
     @include('template.dental.header')
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
 
     <footer>
         @include('template.include.footer')
@@ -2958,6 +2959,7 @@
 
         }
     </script>
+@include('template.include.selector_fechas')
 </body>
 
 </html>

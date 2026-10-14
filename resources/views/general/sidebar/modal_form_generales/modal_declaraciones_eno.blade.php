@@ -2,9 +2,9 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
 
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Enfermedades de declaración obligatoria E.N.O</h5>
-                <button type="button" class="close text-white"  data-bs-dismiss="modal"aria-label="Close"><span aria-hidden="true">×</span></button>
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title text-center">Enfermedades de declaración obligatoria E.N.O</h5>
+                <button type="button" class="close text-white"  data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
 
             <div class="modal-body">
@@ -809,7 +809,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info" onclick="registrar_eno();">Guardar</button>
             </div>
 

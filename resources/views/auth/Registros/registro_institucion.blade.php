@@ -519,7 +519,7 @@
                         required: true,
                         // telefono: true,
                         minlength:12,
-                        maxlength:13
+                        maxlength:15
                     },
                 },
                 messages: {
@@ -654,13 +654,13 @@
                         required: true,
                         responsable_celular: true,
                         minlength:12,
-                        maxlength:12
+                        maxlength:15
                     },
                     responsable_telefono:{
                         required: false,
                         // responsable_telefono: true,
                         minlength:12,
-                        maxlength:13
+                        maxlength:15
                     },
                     responsable_email_registro: {
                         required: true,
@@ -765,7 +765,7 @@
             });
 
             $.validator.addMethod( "responsable_celular",function(value, element, pattern) {
-                    var re = new RegExp(/^\x2b56[6-9][0-9]{8}$/i);//+56612341234
+                    var re = new RegExp(/^\x2b56 ?[6-9] ?[0-9]{4} ?[0-9]{4}$/i);//+56612341234
                     return re.test(value);
                 },"Numero no valido. Ejemplo: +56912341234"
             );

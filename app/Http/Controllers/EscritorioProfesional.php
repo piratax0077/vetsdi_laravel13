@@ -866,6 +866,8 @@ class EscritorioProfesional extends Controller
                     'mensajes' => $mensajes,
                      'agenda_examen' => $agenda_examen,
                         'permisos_profesional' => $permisos_profesional,
+                    // Por ahora se muestra siempre; después dependerá de si el profesional lo agregó a su escritorio
+                    'modulo_hospitalizacion' => true,
                     'fecha_carga' => \Carbon\Carbon::now()->format('Y-m-d'),
                 ]);
             }
@@ -1189,58 +1191,103 @@ class EscritorioProfesional extends Controller
     public function reporte_estadisticas(Request $request)
     {
         $profesional = Profesional::where('id_usuario', Auth::id())->firstOrFail();
-        $desde = Carbon::parse($request->input('desde', now()->startOfMonth()->toDateString()))->startOfDay();
-        $hasta = Carbon::parse($request->input('hasta', now()->toDateString()))->endOfDay();
-        if ($desde->gt($hasta)) {
-            [$desde, $hasta] = [$hasta->copy()->startOfDay(), $desde->copy()->endOfDay()];
+        $lugares = $profesional->LugaresAtencion()->orderBy('lugares_atencion.nombre')->get();
+
+        // El filtro es por mes del año en curso; "actual" es el mes de hoy
+        $mes = $request->input('mes', 'actual');
+        $numeroMes = $mes === 'actual' ? (int) now()->month : (int) $mes;
+        if ($numeroMes < 1 || $numeroMes > 12) {
+            $mes = 'actual';
+            $numeroMes = (int) now()->month;
         }
 
-        $fichas = FichaAtencion::where('id_profesional', $profesional->id)
-            ->whereBetween('created_at', [$desde, $hasta]);
-        $horas = HoraMedica::where('id_profesional', $profesional->id)
-            ->whereBetween('fecha_consulta', [$desde->toDateString(), $hasta->toDateString()]);
+        $idLugar = $request->input('lugar');
+        $idLugar = ctype_digit((string) $idLugar) ? (int) $idLugar : null;
+        if ($idLugar && !$lugares->contains('id', $idLugar)) {
+            abort(403, 'El lugar de atención no pertenece al profesional autenticado.');
+        }
 
-        $resumen = [
-            'atenciones' => (clone $fichas)->count(),
-            'finalizadas' => (clone $fichas)->where('finalizada', 1)->count(),
-            'mascotas' => (clone $fichas)->whereNotNull('id_mascota')->distinct()->count('id_mascota'),
-            'horas_agendadas' => (clone $horas)->count(),
-            'ingresos' => (float) DB::table('bonos')->where('id_profesional', $profesional->id)
-                ->whereBetween('fecha_atencion', [$desde->toDateString(), $hasta->toDateString()])
-                ->where('devuelto', 0)->sum('a_pagar'),
-        ];
+        $inicio = Carbon::create((int) now()->year, $numeroMes, 1)->startOfDay();
+        $fin = $inicio->copy()->endOfMonth();
 
-        $estados = (clone $horas)
-            ->leftJoin('parametros as p', 'horas_medicas.id_estado', '=', 'p.id')
-            ->selectRaw("COALESCE(p.valor, 'Sin estado') as nombre, COALESCE(p.color, '#36b9cc') as color, COUNT(*) as total")
-            ->groupBy('p.valor', 'p.color')->orderByDesc('total')->get();
+        $horasPeriodo = HoraMedica::where('horas_medicas.id_profesional', $profesional->id)
+            ->whereBetween('horas_medicas.fecha_consulta', [$inicio->toDateString(), $fin->toDateString()]);
+        if ($idLugar) {
+            $horasPeriodo->where('horas_medicas.id_lugar_atencion', $idLugar);
+        }
 
-        $tiposAgenda = ['Sin tipo', 'Atención general', 'Atención dental', 'Atención a domicilio', 'Exámenes veterinarios', 'Procedimientos y cirugías'];
-        $servicios = (clone $horas)->selectRaw('COALESCE(tipo_hora_medica, 0) as tipo, COUNT(*) as total')
-            ->groupBy('tipo_hora_medica')->orderByDesc('total')->get()
-            ->map(function ($fila) use ($tiposAgenda) {
-                $fila->nombre = $tiposAgenda[(int) $fila->tipo] ?? 'Otro servicio';
-                return $fila;
+        $atencionesQuery = FichaAtencion::where('id_profesional', $profesional->id)
+            ->whereBetween('created_at', [$inicio, $fin]);
+        if ($idLugar) {
+            $atencionesQuery->where('id_lugar_atencion', $idLugar);
+        }
+        $atencionesRealizadas = (clone $atencionesQuery)->count();
+
+        // Los pacientes del veterinario son las mascotas atendidas
+        $totalPacientes = (clone $atencionesQuery)->whereNotNull('id_mascota')->distinct()->count('id_mascota');
+
+        $bonosQuery = DB::table('bonos')->where('id_profesional', $profesional->id)
+            ->whereBetween('fecha_atencion', [$inicio->toDateString(), $fin->toDateString()])
+            ->where('devuelto', 0);
+        if ($idLugar) {
+            $bonosQuery->whereExists(function ($query) use ($idLugar, $profesional) {
+                $query->select(DB::raw(1))->from('horas_medicas')
+                    ->whereColumn('horas_medicas.id', 'bonos.id_referencia')
+                    ->where('horas_medicas.id_profesional', $profesional->id)
+                    ->where('horas_medicas.id_lugar_atencion', $idLugar);
             });
+        }
+        $ingresoTotal = (int) $bonosQuery->sum('a_pagar');
 
-        $meses = collect(range(5, 0))->map(function ($retroceso) use ($profesional) {
-            $mes = now()->startOfMonth()->subMonths($retroceso);
-            return (object) [
-                'etiqueta' => ucfirst($mes->locale('es')->translatedFormat('M Y')),
-                'total' => FichaAtencion::where('id_profesional', $profesional->id)
-                    ->whereBetween('created_at', [$mes->copy()->startOfMonth(), $mes->copy()->endOfMonth()])->count(),
-            ];
+        // Estados de la hora: 1 reservada, 2 confirmada, 3 rechazada, 4 en espera, 5 realizando, 6 realizada, 15 anulada por el profesional
+        $asistieron = (clone $horasPeriodo)->whereIn('id_estado', [4, 5, 6])->count();
+        // No asistió: la fecha ya pasó y la hora nunca salió de reservada o confirmada
+        $noAsistieron = (clone $horasPeriodo)->whereIn('id_estado', [1, 2])
+            ->where('fecha_consulta', '<', now()->toDateString())->count();
+        $canceladasTotal = (clone $horasPeriodo)->whereIn('id_estado', [3, 15])->count();
+        $canceladasPaciente = (clone $horasPeriodo)->where('id_estado', 3)
+            ->where(function ($query) {
+                $query->where('comentarios_cancelacion', 'like', '%paciente%')
+                    ->orWhere('comentarios_cancelacion', 'like', '%tutor%');
+            })->count();
+        $canceladasLugar = $canceladasTotal - $canceladasPaciente;
+        $totalAgenda = $asistieron + $noAsistieron + $canceladasPaciente + $canceladasLugar;
+
+        $atencionesMes = collect(range(5, 0))->map(function ($resta) use ($profesional, $idLugar) {
+            $fecha = now()->startOfMonth()->subMonths($resta);
+            $query = FichaAtencion::where('id_profesional', $profesional->id)
+                ->whereBetween('created_at', [$fecha->copy()->startOfMonth(), $fecha->copy()->endOfMonth()]);
+            if ($idLugar) {
+                $query->where('id_lugar_atencion', $idLugar);
+            }
+            return ['mes' => ucfirst(str_replace('.', '', $fecha->locale('es')->shortMonthName)), 'total' => $query->count()];
         });
 
-        $ultimas = DB::table('fichas_atenciones as fa')
-            ->leftJoin('mascotas as m', 'fa.id_mascota', '=', 'm.id')
-            ->where('fa.id_profesional', $profesional->id)
-            ->whereBetween('fa.created_at', [$desde, $hasta])
-            ->select('fa.id', 'fa.created_at', 'fa.hipotesis_diagnostico', 'fa.finalizada', 'm.nombre as mascota')
-            ->orderByDesc('fa.created_at')->limit(10)->get();
+        // En veterinaria no hay previsiones (Fonasa ni isapres). Por ahora todos los pacientes
+        // quedan en "Sin convenio"; cuando existan convenios se agregan aquí como más ítems.
+        $convenios = collect();
+        if ($totalPacientes > 0) {
+            $convenios->push((object) ['nombre' => 'Sin convenio', 'total' => $totalPacientes]);
+        }
+
+        $recetas = DB::table('detalles_receta')->join('fichas_atenciones', 'detalles_receta.id_ficha', '=', 'fichas_atenciones.id')
+            ->where('fichas_atenciones.id_profesional', $profesional->id)
+            ->whereBetween('detalles_receta.created_at', [$inicio, $fin]);
+        if ($idLugar) {
+            $recetas->where('fichas_atenciones.id_lugar_atencion', $idLugar);
+        }
+
+        $documentos = [
+            'Recetas' => $recetas->distinct()->count('detalles_receta.id_ficha'),
+            'Certificados' => CertificadoReposo::where('id_profesional', $profesional->id)->whereBetween('created_at', [$inicio, $fin])->count(),
+            'Licencias médicas' => Licencia::where('id_profesional', $profesional->id)->whereBetween('created_at', [$inicio, $fin])->count(),
+            'Órdenes de examen' => DB::table('examen_especialidad')->where('id_profesional', $profesional->id)->whereBetween('created_at', [$inicio, $fin])->count(),
+        ];
 
         return view('app.profesional.reporte_estadisticas', compact(
-            'profesional', 'desde', 'hasta', 'resumen', 'estados', 'servicios', 'meses', 'ultimas'
+            'profesional', 'lugares', 'mes', 'idLugar', 'totalPacientes', 'atencionesRealizadas',
+            'ingresoTotal', 'asistieron', 'noAsistieron', 'canceladasPaciente', 'canceladasLugar',
+            'totalAgenda', 'atencionesMes', 'convenios', 'documentos'
         ));
     }
 
@@ -1318,6 +1365,157 @@ class EscritorioProfesional extends Controller
                 'search' => $search,
             ]
         );
+    }
+
+    // Ficha del tutor: contacto, autorizaciones, mascotas, documentos firmados y cobros
+    public function ver_tutor($idTutor)
+    {
+        $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
+        if (!$profesional) {
+            return back()->with('error', 'Profesional no encontrado');
+        }
+
+        $tutor = Paciente::with(['Prevision', 'Direccion.Ciudad'])->find($idTutor);
+        if (!$tutor) {
+            return redirect()->route('profesional.pacientes')->with('error', 'Tutor no encontrado');
+        }
+
+        // Solo se muestra a quien lo atendió alguna vez
+        $fichasTutor = FichaAtencion::where('id_profesional', $profesional->id)
+            ->where('id_paciente', $tutor->id);
+
+        if (!(clone $fichasTutor)->exists()) {
+            return redirect()->route('profesional.pacientes')->with('error', 'No tienes acceso a la información de este tutor');
+        }
+
+        $totalAtenciones = (clone $fichasTutor)->count();
+        $ultimaAtencion = (clone $fichasTutor)->max('created_at');
+        $fichaIds = (clone $fichasTutor)->pluck('id');
+
+        $mascotas = Mascota::with(['especieMascota', 'razaMascota'])
+            ->where('id_responsable', $tutor->id)
+            ->whereIn('id', (clone $fichasTutor)->whereNotNull('id_mascota')->distinct()->pluck('id_mascota'))
+            ->orderBy('nombre')
+            ->get();
+
+        $consentimientos = ConConsentimientosPcte::with('Consentimiento')
+            ->where('id_paciente', $tutor->id)
+            ->where('id_profesional', $profesional->id)
+            ->orderByDesc('id')
+            ->get();
+
+        // Consentimientos y presupuestos veterinarios que el tutor firmó desde la ficha
+        $nombresDocumento = [
+            'consentimiento_informado_veterinario' => 'Consentimiento informado veterinario',
+            'presupuesto_odontologico_veterinario' => 'Presupuesto odontológico veterinario',
+        ];
+        $documentosFirmados = DocumentoFcPaciente::where('id_paciente', $tutor->id)
+            ->where('id_profesional', $profesional->id)
+            ->whereIn('otro', array_keys($nombresDocumento))
+            ->where('estado', 1)
+            ->orderByDesc('id')
+            ->get()
+            ->map(function ($documento) use ($nombresDocumento) {
+                $firma = json_decode((string) $documento->cuerpo, true)['firma_tutor'] ?? [];
+
+                return (object) [
+                    'nombre' => $nombresDocumento[$documento->otro],
+                    'fecha' => $documento->created_at,
+                    'firmado' => !empty($firma['token']),
+                    'fecha_firma' => $firma['fecha'] ?? null,
+                    'url' => $firma['url'] ?? null,
+                ];
+            });
+
+        $cobros = Bono::with('TipoBono')
+            ->where('id_paciente', $tutor->id)
+            ->where('id_profesional', $profesional->id)
+            ->orderByDesc('fecha_atencion')
+            ->get();
+
+        $cobrosVigentes = $cobros->where('devuelto', 0);
+        $cuenta = [
+            'pagado' => $cobrosVigentes->sum(fn ($cobro) => (float) $cobro->a_pagar),
+            'cobrado' => $cobrosVigentes->sum(fn ($cobro) => (float) $cobro->valor_atencion),
+            'devuelto' => $cobros->where('devuelto', 1)->sum(fn ($cobro) => (float) $cobro->a_pagar),
+        ];
+
+        return view('app.profesional.tutor_profesional', compact(
+            'profesional',
+            'tutor',
+            'mascotas',
+            'consentimientos',
+            'documentosFirmados',
+            'cobros',
+            'cuenta',
+            'totalAtenciones',
+            'ultimaAtencion'
+        ));
+    }
+
+    public function hospitalizacion()
+    {
+        $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
+        if (!$profesional) {
+            return redirect()->route('profesional.home');
+        }
+
+        // Órdenes vigentes que el profesional generó desde la ficha de atención
+        $hospitalizados = SolicitudHospitalizacion::with(['paciente', 'fichaAtencion.LugarAtencion'])
+            ->where('id_profesional', $profesional->id)
+            ->where('estado', 1)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // La mascota se obtiene desde la ficha de atención
+        $mascotas = Mascota::with(['especieMascota', 'razaMascota'])
+            ->whereIn('id', $hospitalizados->pluck('fichaAtencion.id_mascota')->filter()->unique())
+            ->get()
+            ->keyBy('id');
+
+        foreach ($hospitalizados as $hospitalizado) {
+            $hospitalizado->setRelation('mascota', $mascotas->get(optional($hospitalizado->fichaAtencion)->id_mascota));
+        }
+
+        $search = trim((string) request('q', ''));
+        if ($search !== '') {
+            $hospitalizados = $hospitalizados->filter(function ($hospitalizado) use ($search) {
+                $tutor = $hospitalizado->paciente;
+                $texto = implode(' ', array_filter([
+                    optional($hospitalizado->mascota)->nombre,
+                    optional($tutor)->nombres,
+                    optional($tutor)->apellido_uno,
+                    optional($tutor)->apellido_dos,
+                    optional($tutor)->rut,
+                ]));
+
+                return mb_stripos($texto, $search) !== false;
+            })->values();
+        }
+
+        return view('app.profesional.hospitalizacion')->with([
+            'profesional' => $profesional,
+            'hospitalizados' => $hospitalizados,
+            'search' => $search,
+        ]);
+    }
+
+    public function dar_alta_hospitalizacion(Request $request)
+    {
+        $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
+
+        $solicitud = SolicitudHospitalizacion::where('id', $request->id)
+            ->where('id_profesional', optional($profesional)->id)
+            ->first();
+
+        if (!$solicitud) {
+            return response()->json(['success' => false, 'mensaje' => 'No se encontró la hospitalización.']);
+        }
+
+        // Estado 0 = dada de alta, deja de aparecer en el listado
+        $solicitud->update(['estado' => 0]);
+
+        return response()->json(['success' => true]);
     }
 
     public function verFichaVeterinariaMascota($idMascota)
@@ -1622,6 +1820,27 @@ class EscritorioProfesional extends Controller
                 'asunto' => $asunto,
                 'mensaje' => $mensaje
             ];
+
+            // Imágenes adjuntas: el dropzone ya las dejó en la carpeta temporal,
+            // aquí se copian a una definitiva para que el mensaje no las pierda
+            $carpeta_temporal = public_path('storage/imagenes/temp');
+            $carpeta_mensajes = public_path('storage/imagenes/mensajes');
+            $archivos = [];
+            foreach (array_slice((array) $req->input('archivos', []), 0, 5) as $adjunto) {
+                $nombre_img = is_array($adjunto) ? basename((string) ($adjunto['nombre_img'] ?? '')) : '';
+                if ($nombre_img === '' || !\Illuminate\Support\Facades\File::isFile($carpeta_temporal . DIRECTORY_SEPARATOR . $nombre_img)) {
+                    continue;
+                }
+                \Illuminate\Support\Facades\File::ensureDirectoryExists($carpeta_mensajes);
+                \Illuminate\Support\Facades\File::copy($carpeta_temporal . DIRECTORY_SEPARATOR . $nombre_img, $carpeta_mensajes . DIRECTORY_SEPARATOR . $nombre_img);
+                $archivos[] = [
+                    'nombre' => $adjunto['original_file_name'] ?? $nombre_img,
+                    'url' => '/storage/imagenes/mensajes/' . $nombre_img,
+                ];
+            }
+            if (count($archivos) > 0) {
+                $datos_mensaje['archivos'] = $archivos;
+            }
 
             // buscamos al paciente
             $paciente = Paciente::where('id', $id_paciente)->first();
@@ -7590,6 +7809,18 @@ return $ficha;
             $asistenteL = AsistenteLugarAtencion::where('id_asistente', $asistente->id)->where('id_lugar_atencion', $lugar->id)->first();
 
         if ($asistenteL == null) {
+            // Foto para la ficha: la que la persona tenga cargada en cualquiera de sus perfiles
+            // (asistente, profesional o paciente). Si no tiene ninguna, va la imagen base de asistente.
+            $foto = $asistente->foto_perfil;
+            if (empty($foto))
+                $foto = Profesional::where('rut', $asistente->rut)->whereNotNull('foto_perfil')->where('foto_perfil', '!=', '')->value('foto_perfil');
+            if (empty($foto))
+                $foto = Paciente::where('rut', $asistente->rut)->whereNotNull('foto_perfil')->where('foto_perfil', '!=', '')->value('foto_perfil');
+
+            $asistente->foto_url = !empty($foto)
+                ? (\Illuminate\Support\Str::startsWith($foto, ['http://', 'https://', '/']) ? $foto : asset('storage/' . $foto))
+                : asset('images/iconos/usuario_asistente.svg');
+
             return json_encode($asistente);
         } else {
             return 'existe';
@@ -7845,6 +8076,22 @@ return $ficha;
         return 'failed';
     }
 
+    // Descifra un dato de liquidacion_recibo; si no se puede, devuelve vacío.
+    private function descifrar_dato_liquidacion($valor)
+    {
+        if($valor === null || $valor === '')
+            return '';
+
+        try
+        {
+            return decrypt($valor);
+        }
+        catch (\Illuminate\Contracts\Encryption\DecryptException $e)
+        {
+            return '';
+        }
+    }
+
     public function mi_perfil()
     {
         $profesional = Profesional::where('id_usuario', Auth::id())->firstOrFail();
@@ -7914,8 +8161,31 @@ return $ficha;
         $perfil_academico = ProfesionalAntecedenteAcademico::where('id_profesional',$profesional->id)->get();
         $tipo_ant_academico = TipoAntecedenteAcademico::all();
         $bancos = Bancos::where('estado',1)->get();
-        $liquidacion = app(\App\Services\PerfilUsuario::class)->liquidaciones(Auth::id());
-        $liqui_principal = $liquidacion->contains(fn ($registro) => (int) $registro->principal === 1) ? 1 : 0;
+        $liquidacion = LiquidacionRecibo::where('id_seccion',Auth::user()->id)->get();
+
+        $liqui_principal = 0;
+
+        if($liquidacion)
+        foreach ($liquidacion as $key => $value)
+        {
+            // Si un dato bancario no se puede descifrar (por ejemplo, fue guardado
+            // con otra APP_KEY) se muestra vacío en vez de botar todo el perfil.
+            $id_banco = $this->descifrar_dato_liquidacion($value->casa);
+            $banco = $id_banco != '' ? Bancos::select('id', 'nombre')->where('id',$id_banco)->first() : null;
+            $liquidacion[$key]->banco = $banco ?: ['id' => '', 'nombre' => 'Cuenta bancaria (datos no disponibles)'];
+            $liquidacion[$key]->serie  = $this->descifrar_dato_liquidacion($value->serie);
+            $liquidacion[$key]->autor = $this->descifrar_dato_liquidacion($value->autor);
+            $liquidacion[$key]->casa = $id_banco;
+            $liquidacion[$key]->numero_control = $this->descifrar_dato_liquidacion($value->numero_control);
+            $liquidacion[$key]->email = $this->descifrar_dato_liquidacion($value->email);
+            $liquidacion[$key]->otro = $this->descifrar_dato_liquidacion($value->otro);
+            if($liqui_principal == 0 && $value->principal == 1)
+                $liqui_principal = 1;
+        }
+        // $user = Auth::user()->password;
+        // // $pass = Crypt::decryptString($user);
+        // dd($user);
+
 
         return view('app.profesional.perfil_profesional')->with(
             [
@@ -7963,7 +8233,7 @@ return $ficha;
     public function mis_examenes()
     {
         $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
-        $ficha = FichaAtencion::where('id_profesional', $profesional->id)->get();
+        $ficha = FichaAtencion::where('id_profesional', $profesional->id)->with('Mascota.especieMascota')->get();
 
         $examenes = array();
         foreach ($ficha as $key_f => $value_f)
@@ -8007,6 +8277,7 @@ return $ficha;
                         'nombre' => $nombre_paciente,
                         'rut' => $rut_paciente,
                     ),
+                    'mascota' => $value_f->mascota_descripcion,
                 );
 
                 array_push($examenes,$examen_temp);
@@ -8023,14 +8294,14 @@ return $ficha;
     public function mis_recetas()
     {
         $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
-        $fichas = FichaAtencion::where('id_profesional',$profesional->id)->with('Recetas')->get();
+        $fichas = FichaAtencion::where('id_profesional',$profesional->id)->with(['Recetas', 'Mascota.especieMascota'])->get();
         return view('app.profesional.receta_online.mis_recetas_profesional')->with(['ficha' => $fichas]);
     }
 
     public function mis_certificados()
     {
         $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
-        $ficha = FichaAtencion::where('id_profesional', $profesional->id)->get();
+        $ficha = FichaAtencion::where('id_profesional', $profesional->id)->with('Mascota.especieMascota')->get();
         $reposo = array();
         $interconsulta = array();
         $informesMedicos = array();
@@ -8040,6 +8311,12 @@ return $ficha;
             $result_CertificadoReposo = CertificadoReposo::where('id_ficha_atencion', $value_f->id)->first();
             $result_Interconsulta = Interconsulta::where('id_ficha_atencion_soli', $value_f->id)->first();
             $result_InformeMedico = InformeMedico::where('id_ficha_atencion', $value_f->id)->first();
+            // La mascota sale de la ficha: los certificados solo guardan al tutor
+            foreach ([$result_CertificadoReposo, $result_Interconsulta, $result_InformeMedico] as $certificado) {
+                if (!empty($certificado)) {
+                    $certificado->mascota_descripcion = $value_f->mascota_descripcion;
+                }
+            }
             if(!empty($result_CertificadoReposo))
                 array_push($reposo,$result_CertificadoReposo);
             if(!empty($result_Interconsulta))
@@ -9149,7 +9426,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         $lugar_atencion = new LugarAtencion();
         $lugar_atencion->nombre = $request->nombre_lugar_atencion;
         $lugar_atencion->email = $request->email_lugar_atencion;
-        $lugar_atencion->rut = $request->rut_lugar_atencion;
+        $lugar_atencion->rut = $request->rut_lugar_atencion ?? '';
         $lugar_atencion->telefono = $request->telefono_lugar_atencion;
         $lugar_atencion->id_direccion = $direccion->id;
         $lugar_atencion->tipo = $request->tipo_agregar_lugar_atencion;
@@ -9759,7 +10036,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
             'body' => 'Estimado/a ' . $paciente->nombres . ' ' . $paciente->apellido_uno . ' ' . $paciente->apellido_dos . ',<br>
                     Junto con saludar, por medio de este correo le informamos que se ha reservado su hora medida <br>' .
                 'Fecha: ' . $hora_medica->fecha_consulta . '<br>' .
-                'Hora : ' . $hora_medica->hora_inicio . '<br>' .
+                'Hora : ' . substr((string) $hora_medica->hora_inicio, 0, 5) . '<br>' .
                 'Profesional: <b>' . $profesional->nombre . ' ' . $profesional->apellido_uno . ' ' . $profesional->apellido_dos . '<b> <br><br>' .
                 'Que tenga un excelente día. </br></br>' .
                 'Saludos.',
@@ -11423,7 +11700,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                       'body' => 'Estimado/a '.$contacto->nombres.' '.$contacto->apellido_uno.' '.$contacto->apellido_dos.',<br>
                       Junto con saludar, por medio de este correo le informamos que se ha reservado su hora medida <br>'.
                       'Fecha: '.$contacto->fecha_consulta.'<br>'.
-                      'Hora : '.$hora_medica->hora_inicio.'<br>'.
+                      'Hora : '.substr((string) $hora_medica->hora_inicio, 0, 5).'<br>'.
                       'Profesional: <b>'.$profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos.'<b> <br><br>'.
                       'Que tenga un excelente día. </br></br>'.
                       'Saludos.',
@@ -11484,7 +11761,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                       'body' => 'Estimado/a '.$contacto->nombres.' '.$contacto->apellido_uno.' '.$contacto->apellido_dos.',<br>
                       Junto con saludar, por medio de este correo le informamos que se ha reservado su hora medida <br>'.
                       'Fecha: '.$contacto->fecha_consulta.'<br>'.
-                      'Hora : '.$hora_medica->hora_inicio.'<br>'.
+                      'Hora : '.substr((string) $hora_medica->hora_inicio, 0, 5).'<br>'.
                       'Profesional: <b>'.$profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos.'<b> <br><br>'.
                       'Que tenga un excelente día. </br></br>'.
                       'Saludos.',
@@ -13016,8 +13293,8 @@ public function eliminarPiezaCoronaProtesis(Request $req){
      {
 
         $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
-        $fichas = FichaAtencion::where('id_profesional', $profesional->id)->get();
-        $documentos = DocumentoFcPaciente::with(['paciente', 'ficha_atencion'])
+        $fichas = FichaAtencion::where('id_profesional', $profesional->id)->with('Mascota.especieMascota')->get();
+        $documentos = DocumentoFcPaciente::with(['paciente', 'ficha_atencion.Mascota.especieMascota'])
             ->where('id_profesional', $profesional->id)
             ->whereIn('otro', [
                 'presupuesto_odontologico_veterinario',
@@ -13036,6 +13313,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
         $licencias = Licencia::where('id_profesional', $profesional->id)
                             ->with('Paciente')
+                            ->with('FichaAtencion.Mascota.especieMascota')
                             ->with('Profesional')
                             ->with('LugarAtencion')
                             ->get();

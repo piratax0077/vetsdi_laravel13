@@ -47,8 +47,6 @@
 				</div>
 			</div>
 
-            <div class="text-center highcharts-strong">Dueño: {{ $nombreResponsable }}</div>
-
 			<ul class="nav pcoded-inner-navbar ">
 				<li class="nav-item pcoded-menu-caption text-center">
 				</li>

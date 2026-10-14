@@ -2,8 +2,8 @@
 <div class="modal fade" id="m_hora_extras" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="m_hora_extras" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1">Agregar Horas Extras</h5>
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title mt-1">Agregar Horas Extras</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_m_hora_extras();"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -94,7 +94,7 @@
                                         </tbody>
                                     </table>
                                     <div class="modal-footer">
-                                        <button type="button" onclick="cancelar_busqueda_horas_extras();"class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" onclick="cancelar_busqueda_horas_extras();"class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                         <button type="button" onclick="agendar_he_ex();" class="btn btn-info">Agendar Hora Extra</button>
                                     </div>
                                 </div>
@@ -237,7 +237,7 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" onclick="cancelar_busqueda_horas_extras();" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                                    <button type="button" onclick="cancelar_busqueda_horas_extras();" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                                     <button type="button" onclick="agendar_he_np();" class="btn btn-info">Registrar Paciente</button>
                                                 </div>
                                             </div>
@@ -295,7 +295,7 @@
                                             </div>
 
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger" onclick="cancelar_busqueda_horas_extras();" id="m_hora_extra_cerrar_registro_paciente_hora" data-dismiss="modal">
+                                                <button type="button" class="btn btn-outline-dark" onclick="cancelar_busqueda_horas_extras();" id="m_hora_extra_cerrar_registro_paciente_hora" data-dismiss="modal">
                                                     <i class="feather icon-x"></i> Cancelar
                                                 </button>
                                                 <button type="button" id="m_hora_extra_guardar_prereserva_paciente" onclick="agendar_he_np_prereserva();" class="btn btn-info">
@@ -986,7 +986,7 @@
         {
             if (telefono != '')
             {
-                var re = new RegExp(/^\x2b56[6-9][0-9]{8}$/i); //+56612341234
+                var re = new RegExp(/^\x2b56 ?[6-9] ?[0-9]{4} ?[0-9]{4}$/i); //+56612341234
                 if (re.test(telefono)) {
 
                     // if (validarEdad($('#reserva_hora_fecha_nac').val())) {

@@ -86,6 +86,7 @@
 
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
     @yield('modales-profesionales_inst')
     @yield('modales')
 
@@ -824,6 +825,7 @@
     @yield('js-profesionales')
     <script src="{{ asset('js/validaRut.js') }}?t={{ time() }}"></script>
 
+@include('template.include.selector_fechas')
 </body>
 
 </html>

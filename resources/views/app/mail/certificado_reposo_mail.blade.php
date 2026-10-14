@@ -72,7 +72,7 @@
             </div>
         </div>
         <div class="footer">
-            Este es un correo automático generado por el sistema MediChile. Por favor no responda este mensaje.
+            Este es un correo automático generado por el sistema Veterchile. Por favor no responda este mensaje.
         </div>
     </div>
 </body>

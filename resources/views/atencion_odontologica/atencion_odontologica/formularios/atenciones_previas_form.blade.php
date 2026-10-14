@@ -89,7 +89,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header bg-info">
-                                        <h5 class="modal-title text-white" id="m_consultaantLabel" style="font-size: 1.3rem; color: #3366CC;" onclick="$('#m_consultaant').modal('hide'); ">Datos de Consulta de: </h5>
+                                        <h5 class="modal-title" id="m_consultaantLabel" style="font-size: 1.3rem; color: #3366CC;" onclick="$('#m_consultaant').modal('hide'); ">Datos de Consulta de: </h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -248,7 +248,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header bg-info">
-                                        <h5 class="modal-title text-white" id="m_cons_exLabel"
+                                        <h5 class="modal-title" id="m_cons_exLabel"
                                             style="font-size: 1.3rem; color: #3366CC;">Examenes Solicitados
                                             el.... </h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -311,7 +311,7 @@
                             <div class="modal-dialog modal-xl" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header bg-info">
-                                        <h5 class="modal-title text-white" id="id_ficha_receta"
+                                        <h5 class="modal-title" id="id_ficha_receta"
                                             style="font-size: 1.3rem; color: #3366CC;"> </h5>
 
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#m_cons_receta').modal('hide'); ">
@@ -355,7 +355,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header bg-info">
-                                        <h5 class="modal-title text-white" id="id_ficha_examen" style="font-size: 1.3rem; color: #3366CC;"> </h5>
+                                        <h5 class="modal-title" id="id_ficha_examen" style="font-size: 1.3rem; color: #3366CC;"> </h5>
 
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#m_cons_examen').modal('hide'); ">
                                             <span aria-hidden="true">&times;</span>
@@ -392,7 +392,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header bg-info">
-                                        <h5 class="modal-title text-white" id="m_cons_archivosLabel">Documentos de esta consulta del Paciente:</h5>
+                                        <h5 class="modal-title" id="m_cons_archivosLabel">Documentos de esta consulta del Paciente:</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#m_cons_archivos').modal('hide');" >
                                             <span aria-hidden="true">&times;</span>
                                         </button>

@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_ofa">Examen Motor Postura y Marcha</h5>
+                <h5 class="modal-title mt-1" id="modal_ofa">Examen Motor Postura y Marcha</h5>
                <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#postura_mot').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </button>
             </div>
@@ -188,8 +188,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                 <button type="button" class="btn btn-danger btn-sm" onclick="$('#postura_mot').modal('hide')" data-bs-dismiss="modal"> <i class="feather icon-x"></i> Cerrar</button>
-                <button type="button" class="btn btn-info-light-c btn-sm"><i class="feather icon-save"></i> Guardar</button>
+                 <button type="button" class="btn btn-danger" onclick="$('#postura_mot').modal('hide')" data-bs-dismiss="modal"> <i class="feather icon-x"></i> Cerrar</button>
+                <button type="button" class="btn btn-info-light-c"><i class="feather icon-save"></i> Guardar</button>
             </div>
         </div>
     </div>

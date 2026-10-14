@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header bg-info">
-				<h5 class="modal-title text-white mt-1">Test de Rorschach</h5>
+				<h5 class="modal-title mt-1">Test de Rorschach</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 			</div>
 			<div class="modal-body">
@@ -273,8 +273,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" aria-label="Close"><i class="feather icon-x"></i> Cancelar</button>
-                    <button type="button" class="btn btn-info btn-sm" onclick="registrar_psi_rorsc();"><i class="feather icon-save"></i> Guardar</button>
+					<button type="button" class="btn btn-outline-dark" data-dismiss="modal" aria-label="Close"><i class="feather icon-x"></i> Cancelar</button>
+                    <button type="button" class="btn btn-info" onclick="registrar_psi_rorsc();"><i class="feather icon-save"></i> Guardar</button>
 				</div>
 			</div>
 		</div>

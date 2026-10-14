@@ -270,6 +270,7 @@
     @include('template.compin.header')
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
     @yield('modales')
 
     {{--  <footer>  --}}
@@ -497,5 +498,6 @@
         /** FIN METODO PARA ENVIO DE INDICACIONES MEDICAS PDF */
     </script>
     @yield('page-script')
+@include('template.include.selector_fechas')
 </body>
 </html>

@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_habla">Evaluación Habla y Lenguaje</h5>
+                <h5 class="modal-title mt-1" id="modal_habla">Evaluación Habla y Lenguaje</h5>
                  <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#m_habla').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </button>
             </div>
@@ -724,8 +724,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-               <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"onclick="$('#m_habla').modal('hide')">Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('m_habla');">Enviar al Paciente</button>
+               <button type="button" class="btn btn-danger" data-dismiss="modal"onclick="$('#m_habla').modal('hide')">Cerrar</button>
+                <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('m_habla');">Enviar al Paciente</button>
             </div>
         </div>
     </div>

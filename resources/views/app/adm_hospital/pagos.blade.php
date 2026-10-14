@@ -123,7 +123,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Agregar gasto Institucional</h5>
+                <h5 class="modal-title text-center">Agregar gasto Institucional</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -217,7 +217,7 @@
                     <div class="form-row">
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
-                                <button type="button" class="btn btn-danger-light btn-sm btn-block" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm btn-block" data-dismiss="modal">Cancelar</button>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-6">
@@ -237,7 +237,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Editar gasto Institucional</h5>
+                <h5 class="modal-title text-center">Editar gasto Institucional</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -331,7 +331,7 @@
                     <div class="form-row">
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
-                                <button type="button" class="btn btn-danger-light btn-sm btn-block" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm btn-block" data-dismiss="modal">Cancelar</button>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-6">

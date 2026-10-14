@@ -17,62 +17,40 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-<ul class="breadcrumb mt-2">
-                                <li class="breadcrumb-item"><a href="{{ route('profesional.home') }}" data-toggle="tooltip"
-                                        data-placement="top" title="Volver a mi escritorio"><i
-                                            class="feather icon-home"></i></a></li>
-                                <li class="breadcrumb-item">
-                                    <a href="#">Mantención de equipo</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-12 mb-3 encabezado-pagina">
+                    <h5 class="f-26 d-inline">Equipo quirúrgico</h5>
+                    <button type="button" class="btn btn-info" onclick="sol_pabellon()">
+                        <i class="feather icon-plus"></i> Crear nuevo equipo
+                    </button>
                 </div>
             </div>
             <!--Cierre: Header-->
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
-                        <div class="card-header bg-info">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-12 align-botton">
-                                        <h4 class="text-white f-20 d-inline ml-4 mt-1 float-left">Equipos de trabajo</h4>
-                                        <button type="button"
-                                            class="btn btn-outline-light btn-sm d-inline float-right mr-4" onclick="sol_pabellon()">
-                                            <i class="feather icon-plus"></i> Crear nuevo equipo
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6 col-md-12">
-
                                     <table id="tabla_equipos_trabajo"
                                         class="display table table-striped table-hover dt-responsive nowrap table-sm"
                                         style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th class="text-wrap text-center align-middle">Nombre</th>
-                                                <th class="text-center align-middle">Descripcion</th>
+                                                <th class="text-wrap">Nombre</th>
+                                                <th>Descripción</th>
 
-                                                <th class="text-center align-middle">Habilitar</th>
-                                                <th class="text-center align-middle">Acciones</th>
+                                                <th>Habilitar</th>
+                                                <th class="text-left align-middle">Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($equipos as $equipo)
                                             <tr>
-                                                <td class="align-middle text-center">{{ $equipo->nombre }}</td>
-                                                <td class="align-middle text-center">{{ $equipo->descripcion }}</td>
+                                                <td>{{ $equipo->nombre }}</td>
+                                                <td>{{ $equipo->descripcion }}</td>
 
-                                                <td class="align-middle text-center">
+                                                <td>
                                                     <div class="switch switch-success d-inline m-r-10">
                                                         <input type="checkbox"
                                                             id="examen_{{ $equipo->id }}"
@@ -82,17 +60,15 @@
                                                     </div>
                                                 </td>
 
-                                                <td class="align-middle text-center">
-                                                    <button class="btn btn-outline-primary btn-sm btn-icon" onclick="ver_equipo({{ $equipo->id }})"><i class="fas fa-search"></i></button>
-                                                    <button class="btn btn-outline-danger btn-sm btn-icon" onclick="eliminar_equipo({{ $equipo->id }})"><i class="fas fa-trash"></i></button>
-                                                    <button class="btn btn-outline-warning btn-sm btn-icon" onclick="editar_equipo({{ $equipo->id }})"><i class="fas fa-edit"></i></button>
+                                                <td class="align-middle text-left">
+                                                    <button class="btn btn-purple btn-icon" onclick="ver_equipo({{ $equipo->id }})"><i class="feather icon-eye"></i></button>
+                                                    <button class="btn btn-danger btn-icon" onclick="eliminar_equipo({{ $equipo->id }})"><i class="feather icon-x"></i></button>
+                                                    <button class="btn btn-warning btn-icon" onclick="editar_equipo({{ $equipo->id }})"><i class="feather icon-edit"></i></button>
                                                 </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
-
-
                                 </div>
                             </div>
                         </div>
@@ -105,8 +81,8 @@
     <div id="ingreso_sol_pab_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ingreso_sol_pab_modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white mt-1 f-18" id="eco_gine"> Registro de nuevo equipo quirúrgico - <script>
+                <div class="modal-header modal-header-purple">
+                    <h5 class="modal-title mt-1 f-18" id="eco_gine"> Nuevo equipo quirúrgico - <script>
                             var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
                             var f=new Date();
@@ -184,7 +160,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" onclick="$('#ingreso_sol_pab_modal').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -193,20 +169,17 @@
     <div id="equipo_pab_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="equipo_pab_modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white mt-1 f-18" id="eco_gine"> Ver equipo<script>
+                <div class="modal-header modal-header-purple">
+                    <h5 class="modal-title mt-1 f-18" id="eco_gine"> Ver equipo<script>
                             var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
                             var f=new Date();
                             document.write( f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
                             </script></h5>
-                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="close text-white" aria-label="Close" onclick="$('#equipo_pab_modal').modal('hide')"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="row" id="lista_profesionales_equipo"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" onclick="$('#equipo_pab_modal').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
                 </div>
             </div>
         </div>
@@ -214,14 +187,14 @@
     <div id="equipo_pab_modal_editar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="equipo_pab_modal_editar" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white mt-1 f-18" id="title_modal"> Modificar equipo<script>
+                <div class="modal-header modal-header-purple">
+                    <h5 class="modal-title mt-1 f-18" id="title_modal"> Editar equipo quirúrgico<script>
                             var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
                             var f=new Date();
                             document.write( f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
                             </script></h5>
-                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close" ><span aria-hidden="true">×</span></button>
+                    <button type="button" class="close text-white" aria-label="Close" onclick="$('#equipo_pab_modal_editar').modal('hide')"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-row">
@@ -265,8 +238,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal" ><i class="feather icon-x"></i> Cancelar</button>
-                    <button type="button" class="btn btn-sm btn-info" onclick="modificar_equipo();"><i class="feather icon-save" ></i> Guardar</button>
+                    <button type="button" class="btn btn-info" onclick="modificar_equipo();"><i class="feather icon-save" ></i> Guardar cambios</button>
                 </div>
             </div>
         </div>
@@ -279,12 +251,13 @@
 @section('page-script')
 <script>
     var tabla;
+
     $(document).ready(function ()
     {
         tabla = $('#tabla_equipos_trabajo').DataTable({
             createdRow: function(row, data, dataIndex) {
                 // Aplicar clases a cada celda
-                $('td', row).addClass('align-middle text-center');
+                $('td', row).addClass('align-middle text-left');
             }
         });
 
@@ -360,9 +333,9 @@
                             <input type="checkbox" id="examen_${value.id}" onchange="cambiarEstadoEquipo(this,${value.id})" ${check}>
                             <label for="examen_${value.id}" class="cr"></label>
                         </div>`,
-                        `   <button class="btn btn-outline-primary btn-sm btn-icon" type="button" onclick="ver_equipo(${value.id})"><i class="fas fa-search"></i></button>
-                            <button class="btn btn-outline-danger btn-sm btn-icon" type="button" onclick="eliminar_equipo(${value.id})"><i class="fas fa-trash"></i></button>
-                            <button class="btn btn-outline-warning btn-sm btn-icon" onclick="editar_equipo(${value.id})"><i class="fas fa-edit"></i></button>
+                        `   <button class="btn btn-purple btn-icon" type="button" onclick="ver_equipo(${value.id})"><i class="feather icon-eye"></i></button>
+                            <button class="btn btn-danger btn-icon" type="button" onclick="eliminar_equipo(${value.id})"><i class="feather icon-x"></i></button>
+                            <button class="btn btn-warning btn-icon" onclick="editar_equipo(${value.id})"><i class="feather icon-edit"></i></button>
                         `
                     ]).draw(false);
                 });
@@ -643,7 +616,7 @@
                         html += '</div>';
                         if(tipo){
                         html += '<div class="form-group col-md-1 col-lg-1 col-xl-1" >';
-                        html += '<button type="button" class="btn btn-xs btn-danger has-ripple aling-right" style="" onclick="eliminar_nuevo_profesional_editar('+index+')"><i class="feather icon-x" aria-hidden="true"></i><span class="ripple ripple-animate"></span></button>';
+                        html += '<button type="button" class="btn btn-xs btn-danger  aling-right" style="" onclick="eliminar_nuevo_profesional_editar('+index+')"><i class="feather icon-x" aria-hidden="true"></i><span class="ripple ripple-animate"></span></button>';
                         html += '</div>';
                         }
 

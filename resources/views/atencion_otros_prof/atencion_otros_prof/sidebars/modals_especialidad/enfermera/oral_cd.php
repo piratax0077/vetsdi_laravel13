@@ -9,8 +9,8 @@
                 <p>texto</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger-light-c btn-sm" data-dismiss="modal"><i class="feather icon-x">Cerrar</button>
-                <button type="submit" class="btn btn-info-light-c btn-sm"><i class="feather icon-save">Guardar</button>
+                <button type="button" class="btn btn-danger-light-c" data-dismiss="modal"><i class="feather icon-x">Cerrar</button>
+                <button type="submit" class="btn btn-info-light-c"><i class="feather icon-save">Guardar</button>
             </div>
         </div>
     </div>

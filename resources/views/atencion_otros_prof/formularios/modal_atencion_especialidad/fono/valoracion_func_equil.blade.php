@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_ofa">VALORACIÓN FUNCIONAL DEL EQUILIBRIO</h5>
+                <h5 class="modal-title mt-1" id="modal_ofa">VALORACIÓN FUNCIONAL DEL EQUILIBRIO</h5>
               <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#val_func_equil').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -1315,13 +1315,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="$('#val_func_equil').modal('hide')">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#val_func_equil').modal('hide')">
                     <i class="feather icon-x"></i> Cerrar
                 </button>
-                <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" onclick="generarPDFValoracionEquilibrio()">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="generarPDFValoracionEquilibrio()">
                     <i class="feather icon-file-text"></i> Generar PDF
                 </button>
-                <button type="button" class="btn btn-primary btn-sm" onclick="guardarValoracionEquilibrio()">
+                <button type="button" class="btn btn-primary" onclick="guardarValoracionEquilibrio()">
                     <i class="feather icon-save"></i> Guardar
                 </button>
             </div>

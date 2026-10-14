@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Equipo Quirúrgico</h5>
+                <h5 class="modal-title text-center">Equipo Quirúrgico</h5>
                 <button type="button" class="close text-white" onclick="$('#modal_iequipo_quirurgico').modal('hide');"  data-bs-dismiss="modal"aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>

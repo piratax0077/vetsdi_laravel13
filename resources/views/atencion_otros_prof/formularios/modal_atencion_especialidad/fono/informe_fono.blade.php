@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 		<div class="modal-content" >
 			<div class="modal-header bg-info">
-				<h5 class="modal-title text-white mt-1">Informe Fonoaudiológico</h5>
+				<h5 class="modal-title mt-1">Informe Fonoaudiológico</h5>
 				<button type="button" class="close text-white" data-dismiss="modal" onclick="$('#informe_fono').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
 			</div>
 			<div class="modal-body">
@@ -62,9 +62,9 @@
                 </form>
 			</div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary-light-c btn-sm"><i class="feather icon-file"></i>Ver PDF</button>
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"onclick="$('#informe_fono').modal('hide')">Cerrar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('informe_fono');">Enviar al Paciente</button>
+                <button type="button" class="btn btn-secondary-light-c"><i class="feather icon-file"></i>Ver PDF</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"onclick="$('#informe_fono').modal('hide')">Cerrar</button>
+                <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('informe_fono');">Enviar al Paciente</button>
             </div>
             
 		</div>

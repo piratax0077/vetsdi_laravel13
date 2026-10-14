@@ -12,18 +12,18 @@
                     <table style="width: 100%; max-width: 600px;" border="0" width="100%" cellspacing="0" cellpadding="0">
                         <tr style="background-color: #fff;">
                             <td style="text-align: center;">
-                                <img style="margin-bottom: 5px; margin-top: 0px; max-width: 100%;" src="https://www.med-sdi.cl/images/email/medichile-email.png" alt="Medichile">
+                                <img style="margin-bottom: 5px; margin-top: 0px; max-width: 100%;" src="https://veterchile.cl/images/email/medichile-email.png" alt="Veterchile">
                             </td>
                         </tr>
                         <tr>
                             <td style="background-color: #fff; padding-top: 15px;" align="center">
-                                <p style="font-family: Helvetica, Arial, sans-serif; font-size: 20px; line-height: 24px; color: #3366cc; text-align: center; font-weight: 600;">
+                                <p style="font-family: Helvetica, Arial, sans-serif; font-size: 20px; line-height: 24px; color: #6f42c1; text-align: center; font-weight: 600;">
                                     Estimado/a paciente:<br>{{ $detalle['body']['nombre_paciente'] }}
                                 </p>
                             </td>
                         </tr>
                         <tr>
-                            <td style="background-color: rgb(51,102,204); background: linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%); padding: 14px 24px; border-radius: 20px;" align="center">
+                            <td style="background-color: rgb(111,66,193); background: linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%); padding: 14px 24px; border-radius: 20px;" align="center">
                                 <p style="font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 500; color: #ffffff; margin: 0;">
                                     Hemos recibido su solicitud de formulario
                                 </p>
@@ -37,21 +37,21 @@
                                 </p>
 
                                 <table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse: collapse; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #333; margin-top: 10px;">
-                                    <tr style="background-color: #eef2ff;">
-                                        <td style="font-weight: bold; color: #3366cc; width: 40%;">Formulario / Procedimiento solicitado</td>
+                                    <tr style="background-color: #f1eafa;">
+                                        <td style="font-weight: bold; color: #6f42c1; width: 40%;">Formulario / Procedimiento solicitado</td>
                                         <td>{{ $detalle['body']['formulario'] }}</td>
                                     </tr>
                                     <tr>
-                                        <td style="font-weight: bold; color: #3366cc;">Profesional</td>
+                                        <td style="font-weight: bold; color: #6f42c1;">Profesional</td>
                                         <td>{{ $detalle['body']['nombre_profesional'] }}</td>
                                     </tr>
-                                    <tr style="background-color: #eef2ff;">
-                                        <td style="font-weight: bold; color: #3366cc;">Fecha de solicitud</td>
+                                    <tr style="background-color: #f1eafa;">
+                                        <td style="font-weight: bold; color: #6f42c1;">Fecha de solicitud</td>
                                         <td>{{ $detalle['body']['fecha'] }}</td>
                                     </tr>
                                     @if(!empty($detalle['body']['observaciones']))
                                     <tr>
-                                        <td style="font-weight: bold; color: #3366cc;">Observaciones</td>
+                                        <td style="font-weight: bold; color: #6f42c1;">Observaciones</td>
                                         <td>{{ $detalle['body']['observaciones'] }}</td>
                                     </tr>
                                     @endif
@@ -68,7 +68,7 @@
                         </tr>
                         <tr>
                             <td style="margin-top: 50px; background-color: #fff;">
-                                <img style="margin-bottom: 5px; margin-top: 50px; max-width: 100%;" src="https://www.med-sdi.cl/images/email/pie-email.png" alt="Medichile">
+                                <img style="margin-bottom: 5px; margin-top: 50px; max-width: 100%;" src="https://veterchile.cl/images/email/pie-email.png" alt="Veterchile">
                             </td>
                         </tr>
                         <tr>
@@ -79,8 +79,8 @@
                                             <td style="font-family: Helvetica, Arial, sans-serif;" align="center" valign="top">
                                                 <p style="text-align: center; color: #999999; font-size: 10px; font-weight: normal; line-height: 15px;">
                                                     Este correo electrónico fue enviado por
-                                                    <a style="color: #000;" href="https://www.medichile.cl">Salud Digital Integrada</a><br>
-                                                    <b>Salud Digital Integrada &copy; {{ date('Y') }}</b>
+                                                    <a style="color: #000;" href="https://veterchile.cl/">Veterchile</a><br>
+                                                    <b>Veterchile &copy; {{ date('Y') }}</b>
                                                 </p>
                                             </td>
                                         </tr>

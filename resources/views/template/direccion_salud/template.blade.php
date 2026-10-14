@@ -86,7 +86,7 @@
     @include('template.direccion_salud.header')
 
     @yield('content')
-
+    @include('template.partials.boton_volver_auto')
     <!-- Required Js -->
     <script src="{{ asset('js/vendor-all.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
@@ -202,5 +202,6 @@
 
     @yield('page-script')
 
+@include('template.include.selector_fechas')
 </body>
 </html>

@@ -8,7 +8,7 @@
 
         <!--Header-->
 
-        <div class="page-header">
+        <div class="page-header mt-n3">
 
             <div class="page-block">
 
@@ -16,11 +16,21 @@
 
                     <div class="col-md-12">
 
-                        <div class="page-header-title pt-2">
+                        @php
+                            // Sin foto se muestra el mismo icono que usa el menú lateral
+                            $nombreMascota = $mascota->nombres ?? $mascota->nombre;
+                            $fotoMascota = $mascota->foto_url
+                                ?: asset('images/iconos/' . (empty($mascota->sexo) ? 'usuario' : ($mascota->sexo === 'M' ? 'paciente-m' : 'paciente-f')) . '.svg');
+                        @endphp
 
-                            <h4 class="font-weight-bold text-white mb-0">Escritorio de <span class="text-capitalize">{{ $mascota->nombres ?? $mascota->nombre }}</span></h4>
-                            <p class="text-white">Toda su información veterinaria en un solo lugar</p>
-                              <a class="d-inline-flex align-items-center justify-content-center mt-3 text-white" style="padding:6px;border:0;background:transparent;font-size:22px;line-height:1" href="{{ ROUTE('paciente.home') }}" title="Volver al inicio" aria-label="Volver al inicio"><i class="feather icon-home" aria-hidden="true"></i></a>
+                        <div class="page-header-title pt-2 d-flex align-items-center">
+
+                            <img class="ficha-profesional__foto mr-3" src="{{ $fotoMascota }}" alt="Foto de {{ $nombreMascota }}">
+
+                            <div class="ficha-profesional__identidad">
+                                <h4 class="font-weight-bold mb-0">Escritorio de <span class="text-capitalize">{{ $nombreMascota }}</span></h4>
+                                <p class="mb-0">Toda su información veterinaria en un solo lugar</p>
+                            </div>
 
                         </div>
 
@@ -37,111 +47,72 @@
 
         <!--Botones superiores-->
 
-        <div class="row m-b-30">
+        <div class="row escritorio-accesos-superiores">
 
-            <div class="col-md-12">
-
-                <div class="card-deck">
-
-                    <div class="card subir">
-
-                        <a href="{{ route('paciente.mascota.reservar_hora', ['id_mascota' => $mascota->id]) }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-60 text-center mt-1" src="{{ asset('images/iconos/agenda.svg') }}">
-
-                                <h5 class="mt-2"> Reservar Cita Veterinaria</h5>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
-                    <div class="card subir">
-
-                        <a href="{{ ROUTE('paciente.dependiente.mis_profesionales', ['id_dependiente_activo'=> $mascota->id]) }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-60 text-center" src="{{ asset('images/iconos/profesionales.svg') }}">
-
-                                <h5 class="mt-2"> Mis Veterinarios </h5>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-                     <div class="card subir">
-
-                        <a href="{{ ROUTE('registro_vacunas', ['id_dependiente_activo'=> $mascota->id]) }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-60 text-center" src="{{ asset('images/iconos/vacunas.svg') }}">
-
-                                <h5 class="mt-2"> Mis vacunas</h5>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-                  
-
-                    <div class="card subir">
-
-                        <a href="{{ ROUTE('registro_desparasitacion', ['id_dependiente_activo'=> $mascota->id]) }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-60 text-center" src="{{ asset('images/iconos/desparasitacion.svg') }}">
-
-                                <h5 class="mt-2"> Registro de desparasitación</h5>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
-
-                    <div class="card subir">
-
-                        <a href="{{ ROUTE('paciente.dependiente.mi_ficha', ['id_dependiente_activo'=> $mascota->id]) }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-60 text-center" src="{{ asset('images/iconos/fvu.svg') }}">
-
-                                <h5 class="mt-1"> Mi Ficha Veterinaria Única</h5>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
-                    <div class="card subir">
-
-                        <a href="{{ ROUTE('paciente.dependiente.receta', ['id_dependiente_activo'=> $mascota->id]) }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-60 text-center" src="{{ asset('images/iconos/docs.svg') }}">
-
-                                <h5 class="mt-2">Documentos </h5>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card subir">
+                    <a href="{{ route('paciente.mascota.reservar_hora', ['id_mascota' => $mascota->id]) }}">
+                        <div class="card-body text-center">
+                            <img class="wid-40" src="{{ asset('images/iconos/agenda.svg') }}" alt="">
+                            <h6 class="mt-2 mb-0">Reservar Cita<br> Veterinaria</h6>
+                        </div>
+                    </a>
                 </div>
+            </div>
 
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card subir">
+                    <a href="{{ ROUTE('paciente.dependiente.mis_profesionales', ['id_dependiente_activo'=> $mascota->id]) }}">
+                        <div class="card-body text-center">
+                            <img class="wid-40" src="{{ asset('images/iconos/profesionales.svg') }}" alt="">
+                            <h6 class="mt-2 mb-0">Mis <br>Veterinarios</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card subir">
+                    <a href="{{ ROUTE('registro_vacunas', ['id_dependiente_activo'=> $mascota->id]) }}">
+                        <div class="card-body text-center">
+                            <img class="wid-40" src="{{ asset('images/iconos/vacunas.svg') }}" alt="">
+                            <h6 class="mt-2 mb-0">Mis <br>vacunas</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card subir">
+                    <a href="{{ ROUTE('registro_desparasitacion', ['id_dependiente_activo'=> $mascota->id]) }}">
+                        <div class="card-body text-center">
+                            <img class="wid-40" src="{{ asset('images/iconos/desparasitacion.svg') }}" alt="">
+                            <h6 class="mt-2 mb-0">Registro de <br>desparasitación</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card subir">
+                    <a href="{{ ROUTE('paciente.dependiente.mi_ficha', ['id_dependiente_activo'=> $mascota->id]) }}">
+                        <div class="card-body text-center">
+                            <img class="wid-40" src="{{ asset('images/iconos/fvu.svg') }}" alt="">
+                            <h6 class="mt-2 mb-0">Mi Ficha <br>Veterinaria Única</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card subir">
+                    <a href="{{ ROUTE('paciente.dependiente.receta', ['id_dependiente_activo'=> $mascota->id]) }}">
+                        <div class="card-body text-center">
+                            <img class="wid-40" src="{{ asset('images/iconos/docs.svg') }}" alt="">
+                            <h6 class="mt-2 mb-0">Mis <br>Documentos</h6>
+                        </div>
+                    </a>
+                </div>
             </div>
 
         </div>
@@ -158,9 +129,9 @@
 
                 <div class="card h-100 pb-0">
 
-                    <div class="card-header text-center bg-c-info">
+                    <div class="card-header">
 
-                        <h5 class="text-white d-inline text-center" style="font-size: 1.2rem;">Mis horas agendadas</h5>
+                        <h5><i class="feather icon-calendar"></i> Próximas citas</h5>
 
                     </div>
 
@@ -174,15 +145,15 @@
 
                                     <tr>
 
-                                        <th class="text-center align-middle">Acción</th>
+                                        <th class="align-middle">Acción</th>
 
-                                        <th class="text-center align-middle">Mascota</th>
+                                        <th class="align-middle">Mascota</th>
 
-                                        <th class="text-center align-middle">Profesional</th>
+                                        <th class="align-middle">Profesional</th>
 
-                                        <th class="text-center align-middle">Información de Atención</th>
+                                        <th class="align-middle">Información de Atención</th>
 
-                                        <th class="text-center align-middle">Estado</th>
+                                        <th class="align-middle">Estado</th>
 
                                     </tr>
 
@@ -192,7 +163,7 @@
 
                                     @forelse ($hora_medica as $hora)
                                         <tr>
-                                            <td class="text-center align-middle">
+                                            <td class="align-middle">
                                                 @if (in_array((int) ($hora->id_estado_visual ?? $hora->id_estado), [1, 8, 16], true))
                                                     <button class="btn btn-info btn-sm rounded-circle btn-confirmar-hora"
                                                         data-toggle="tooltip" data-placement="top" title="Confirmar Hora"
@@ -229,19 +200,19 @@
                                                 @endif
                                             </td>
 
-                                            <td class="text-center align-middle">
+                                            <td class="align-middle">
                                                 <strong>{{ $hora->nombre_mascota ?: ($mascota->nombre ?? 'Sin mascota') }}</strong>
                                                 @if (!empty($hora->nombre_especie_mascota))
                                                     <br>{{ $hora->nombre_especie_mascota }}
                                                 @endif
                                             </td>
 
-                                            <td class="text-center align-middle">
+                                            <td class="align-middle">
                                                 {{ $hora->nombre_profesional_completo }}<br>
                                                 {{ $hora->nombre_especialidad_resumen }}
                                             </td>
 
-                                            <td class="text-center align-middle">
+                                            <td class="align-middle">
                                                 {{ $hora->nombre_lugar_atencion }}<br>
                                                 {{ $hora->direccion_lugar_atencion }}<br>
                                                 <span style="font-weight:bold;">
@@ -250,7 +221,7 @@
                                                 </span>
                                             </td>
 
-                                            <td class="text-center align-middle">
+                                            <td class="align-middle">
                                                 @php $estadoVisualHora = (int) ($hora->id_estado_visual ?? $hora->id_estado); @endphp
                                                 <span class="estado-hora-chip {{ in_array($estadoVisualHora, [1, 8, 16], true) ? 'pendiente' : ($estadoVisualHora == 2 ? 'confirmada' : ($estadoVisualHora == 3 ? 'cancelada' : (in_array($estadoVisualHora, [4, 5], true) ? 'en-proceso' : ($estadoVisualHora == 6 ? 'realizada' : ($estadoVisualHora == 7 ? 'inasistida' : 'desconocida'))))) }}">
                                                     {{ $hora->texto_estado }}
@@ -259,7 +230,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="5" class="text-center align-middle">No existen registros</td>
+                                            <td colspan="5" class="align-middle">No existen registros</td>
                                         </tr>
                                     @endforelse
 
@@ -275,31 +246,32 @@
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4 mt-4 mt-md-0">
+                <!-- Atención con profesional que no está en la plataforma -->
+                <div class="card subir h-100 tarjeta-atencion-externa">
 
-                <div class="card subir text-center h-100">
+                    <a href="{{ ROUTE('paciente.acceso_pni') }}" class="card-body">
 
-                    <img class="img-fluid card-img-top" src="{{ asset('images/iconos/profesional_no_inscrito.svg') }}"
+                        <span class="tarjeta-atencion-externa-icono" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 2v2" />
+                                <path d="M5 2v2" />
+                                <path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1" />
+                                <path d="M8 15a6 6 0 0 0 12 0v-3" />
+                                <circle cx="20" cy="10" r="2" />
+                            </svg>
+                        </span>
 
-                        alt="Flujo de caja">
+                        <h5 class="tarjeta-atencion-externa-titulo">Atención por profesional no registrado</h5>
 
-                    <a href="{{ ROUTE('paciente.acceso_pni') }}" class="btn  btn-arrastre"
+                        <p class="tarjeta-atencion-externa-texto">
+                            ¿Lo atendió un veterinario que no está en la plataforma? Los datos de la atención
+                            quedarán registrados en su Ficha Veterinaria Única.
+                        </p>
 
-                        type="button">
-
-                        <div class="card-body">
-
-                            <h5 style="font-size: 1.1rem;" class="card-title pt-2">Atención por profesional no registrado</h5>
-
-                            <p class="card-text">
-
-                                Haga click acá para ser atendido, los datos de su atención quedarán
-
-                                registrados en su Ficha Veterinaria Única
-
-                            </p>
-
-                        </div>
+                        <span class="tarjeta-atencion-externa-accion">
+                            Ingresar atención <i class="feather icon-arrow-right"></i>
+                        </span>
 
                     </a>
 
@@ -320,30 +292,6 @@
                                 <div class="card-body text-center">
                                     <img class="wid-60 text-center" src="{{ asset('images/iconos/agenda.svg') }}" alt="Pedidos mensuales">
                                     <h5 class="mt-2 mb-0">Mis pedidos mensuales</h5>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <div class="card subir h-100 escritorio-mascota-acceso">
-                            <a href="{{ route('paciente.mascotas.suscripcion_servicios', ['id_dependiente_activo' => $mascota->id, 'vista' => 'servicios']) }}#serviceHistoryContent"
-                                class="d-flex h-100 align-items-center justify-content-center">
-                                <div class="card-body text-center">
-                                    <img class="wid-60 text-center" src="{{ asset('images/iconos/mascotas.svg') }}" alt="Servicios preferidos">
-                                    <h5 class="mt-2 mb-0">Mis servicios preferidos</h5>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card subir h-100 escritorio-mascota-acceso">
-                            <a href="{{ route('paciente.dependiente.mis_profesionales', ['id_dependiente_activo' => $mascota->id]) }}"
-                                class="d-flex h-100 align-items-center justify-content-center">
-                                <div class="card-body text-center">
-                                    <img class="wid-60 text-center" src="{{ asset('images/iconos/profesionales.svg') }}" alt="Profesionales de la mascota">
-                                    <h5 class="mt-2 mb-0">Mis profesionales</h5>
                                 </div>
                             </a>
                         </div>

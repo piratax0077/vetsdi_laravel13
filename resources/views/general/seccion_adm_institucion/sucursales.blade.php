@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header pt-3 pb-2 bg-light">
+            <div class="card-header bg-white">
                 <div class="row">
                     <div class="col-md-12">
-                        <h6 class="f-18 d-inline mt-3 text-info">Sucursales</h6>
-                        <div class="btn-group mb-2 mr-2 float-right">
+                        <h5 class="mb-0 d-inline"><i class="feather icon-map-pin icono-purple"></i> Sucursales</h5>
+                        <div class="btn-group mr-2 float-right">
                             <button type="button" class="btn btn-info btn-sm" onclick="ag_sucursal();"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Añadir nueva</button>
                             {{-- <button type="button" class="btn btn-outline-info  btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
                             <div class="dropdown-menu">
@@ -97,7 +97,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center" id="bodegas_sucursal_label">Administrar bodegas de {{ $institucion->nombre }}
+                <h5 class="modal-title text-center" id="bodegas_sucursal_label">Administrar bodegas de {{ $institucion->nombre }}
                     <!--Sin los parentesis, solo cargar el nombre de la sucursal-->
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
@@ -139,7 +139,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Añadir nueva sucursal</h5>
+                <h5 class="modal-title text-center">Añadir nueva sucursal</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -225,7 +225,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info btn-sm mx-auto" onclick="registrar_sucursal();">Añadir nueva sucursal</button>
+                <button type="button" class="btn btn-info mx-auto" onclick="registrar_sucursal();">Añadir nueva sucursal</button>
             </div>
         </div>
     </div>
@@ -236,7 +236,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Editar sucursal</h5>
+                <h5 class="modal-title text-center">Editar sucursal</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -318,7 +318,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info btn-sm mx-auto" onclick="modificar_sucursal();">Guardar cambios</button>
+                <button type="button" class="btn btn-info mx-auto" onclick="modificar_sucursal();">Guardar cambios</button>
             </div>
         </div>
     </div>
@@ -329,7 +329,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Asistentes de ( Nombre de sucursal)
+                <h5 class="modal-title text-center">Asistentes de ( Nombre de sucursal)
                     <!--Sin los parentesis, solo cargar el nombre de la sucursal-->
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
@@ -380,7 +380,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info btn-sm mx-auto">Guardar cambios</button>
+                    <button type="submit" class="btn btn-info mx-auto">Guardar cambios</button>
                 </div>
             </form>
         </div>
@@ -392,7 +392,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Horario de ( Nombre de sucursal)
+                <h5 class="modal-title text-center">Horario de ( Nombre de sucursal)
                     <!--Sin los parentesis, solo cargar el nombre de la sucursal-->
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
@@ -532,7 +532,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-info btn-sm mx-auto">Guardar cambios</button>
+                <button type="submit" class="btn btn-info mx-auto">Guardar cambios</button>
             </div>
         </div>
     </div>
@@ -542,7 +542,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Administrar boxes de {{ $institucion->nombre }}
+                <h5 class="modal-title text-center">Administrar boxes de {{ $institucion->nombre }}
                     <!--Sin los parentesis, solo cargar el nombre de la sucursal-->
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span

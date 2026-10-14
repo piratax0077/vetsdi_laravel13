@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">ESCALA DEPRESIÓN DE EDIMBURGO PARA EMBARAZO Y POSPARTO</h5>
+                <h5 class="modal-title text-center">ESCALA DEPRESIÓN DE EDIMBURGO PARA EMBARAZO Y POSPARTO</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             
@@ -398,8 +398,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success btn-sm">Enviar</button>
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success">Enviar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div> 

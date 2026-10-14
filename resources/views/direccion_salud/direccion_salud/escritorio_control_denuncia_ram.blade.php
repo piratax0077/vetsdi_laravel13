@@ -276,7 +276,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">
                         <i class="feather icon-x"></i> Cancelar
                     </button>
                     <button type="button" class="btn btn-info btn-sm" onclick="guardar_ram()">
@@ -292,7 +292,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-secondary">
-                    <h5 class="modal-title text-white font-weight-bold">
+                    <h5 class="modal-title font-weight-bold">
                         <i class="feather icon-eye"></i> Detalle Denuncia RAM
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>

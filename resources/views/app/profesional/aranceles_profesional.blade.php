@@ -24,17 +24,9 @@ p {
 <div class="pcoded-main-container">
 	<div class="pcoded-content  m-top">
 		<!--Header-->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12 mt-2">
-<ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('profesional.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio"><i class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('profesional.pacientes') }}" data-toggle="tooltip" data-placement="top" title="Volver a mis pacientes">Mis pacientes</a></li>
-                            <li class="breadcrumb-item"><a href="#">Configuracion trabajos y aranceles</a></li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <h5 class="f-26 d-inline">Configuración trabajos y aranceles</h5>
             </div>
         </div>
 
@@ -173,7 +165,7 @@ p {
 <div class="modal fade" id="modalAgregarDiagnosticoDental" tabindex="-1" aria-labelledby="modalAgregarDiagnosticoDentalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header modal-header-purple">
             <h5 class="modal-title" id="modalAgregarDiagnosticoDentalLabel">Agregar nuevo procedimiento / trabajo</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>

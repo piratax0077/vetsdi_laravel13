@@ -166,7 +166,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white"><i class="feather icon-file-text mr-2"></i>Detalle de la solicitud</h5>
+                <h5 class="modal-title"><i class="feather icon-file-text mr-2"></i>Detalle de la solicitud</h5>
                 <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
             </div>
             <div class="modal-body">

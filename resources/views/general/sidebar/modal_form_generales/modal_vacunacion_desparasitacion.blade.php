@@ -2,9 +2,9 @@
     aria-labelledby="modal_vacunacion_desparasitacion_titulo" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <div>
-                    <h5 class="modal-title text-white" id="modal_vacunacion_desparasitacion_titulo">
+                    <h5 class="modal-title" id="modal_vacunacion_desparasitacion_titulo">
                         Vacunación y desparasitación
                     </h5>
                     <small class="text-white" id="vac_especie_resumen">Cargando datos de la mascota…</small>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vista de Turnos SDI</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         :root {
@@ -18,7 +18,7 @@
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Nunito', sans-serif;
             background-color: #f5f5f5;
             height: 100vh;
             overflow: hidden;
@@ -27,7 +27,7 @@
         .header {
             background: #fff;
             color: var(--azul-medio);
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Nunito', sans-serif;
             font-weight: 800;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
@@ -72,14 +72,14 @@
         }
 
         .title {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Nunito', sans-serif;
             font-weight: 800;
             color: var(--azul-oscuro);
         }
 
         .table-header {
             color: white;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Nunito', sans-serif;
             font-weight: 800;
             border-radius: 10px 10px 0 0;
         }
@@ -131,7 +131,7 @@
         } */
 
         .turn-title {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Nunito', sans-serif;
             font-weight: 800;
             color: #FFF;
             background-color: var(--azul-medio);
@@ -142,7 +142,7 @@
         }
 
         .patient-name {
-            font-family: 'Roboto Condensed', sans-serif;
+            font-family: 'Nunito', sans-serif;
             font-weight: bold;
             color: #FFF;
             line-height: 1.2;
@@ -150,7 +150,7 @@
         }
 
         .box-info {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Nunito', sans-serif;
             font-weight: 800;
             color: #FFF;
             background-color: var(--azul-medio);
@@ -161,7 +161,7 @@
         }
 
         .box-info2 {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Nunito', sans-serif;
             font-weight: 800;
             color: #FFF;
             font-size: 10rem;
@@ -178,7 +178,7 @@
         }
 
         .footer-right {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Nunito', sans-serif;
             font-weight: 800;
             font-style: italic;
         }

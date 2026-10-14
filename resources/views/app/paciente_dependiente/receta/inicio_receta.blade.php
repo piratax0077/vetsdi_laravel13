@@ -4,22 +4,9 @@
 <div class="pcoded-main-container">
     <div class="pcoded-content">
         <!--Header-->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-<ul class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{ ROUTE('paciente.dependiente.home', ['id_dependiente_activo' => $id_dependiente_activo]) }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                    <i class="feather icon-home"></i>
-                                </a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="{{ ROUTE('paciente.dependiente.receta', ['id_dependiente_activo' => $id_dependiente_activo]) }}">Mis documentos</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <h5 class="f-26 d-inline">Mis documentos</h5>
             </div>
         </div>
         <!--Cierre: Header-->
@@ -30,7 +17,7 @@
                     <div class="card subir py-5">
                         <a href="{{ ROUTE('paciente.dependiente.receta.receta', ['id_dependiente_activo' => $id_dependiente_activo]) }}">
                             <div class="card-body text-center" style="cursor:pointer">
-                                <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/recetas.svg') }}"
+                                <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/recetas-ro.svg') }}"
                                     alt="Mis Recetas">
                                 <h4 class="titulos_tarjetas">
                                     Recetas
@@ -41,7 +28,7 @@
                     <div class="card subir py-5">
                         <a href="{{ ROUTE('paciente.dependiente.receta.examen', ['id_dependiente_activo' => $id_dependiente_activo]) }}">
                             <div class="card-body text-center" style="cursor:pointer">
-                                <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/examen.svg') }}"
+                                <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/examenes-ro.svg') }}"
                                     alt="Mis Examenes">
                                 <h4 class="titulos_tarjetas">
                                     Exámenes
@@ -60,7 +47,7 @@
                     <div class="card subir py-5">
                         <a href="{{ ROUTE('paciente.dependiente.receta.certificado',['id_dependiente_activo' => $id_dependiente_activo]) }}">
                             <div class="card-body text-center" style="cursor:pointer">
-                                <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/certificado.svg') }}"
+                                <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/documentos-ro.svg') }}"
                                     alt="Mis Certificados">
                                 <h4 class="titulos_tarjetas">
                                     Consentimientos informados
@@ -71,7 +58,7 @@
                     <div class="card subir py-5">
                         <a href="{{ ROUTE('paciente.dependiente.receta.licencia',['id_dependiente_activo' => $id_dependiente_activo]) }}">
                             <div class="card-body text-center" style="cursor:pointer">
-                                <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/licencia.svg') }}"
+                                <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/certificados-ro.svg') }}"
                                     alt="Mis Licencias">
                                 <h4 class="titulos_tarjetas">
                                     Certificados

@@ -7,7 +7,7 @@
     <div class="modal-dialog modal-dialog-centered" data-backdrop="static" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Certificado de reposo</h5>
+                <h5 class="modal-title text-center">Certificado de reposo</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -62,7 +62,7 @@
                         </div>
                     </div>  --}}
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                         <button type="button" onclick="registrar_cetificado_reposo();" class="btn btn-info">Guardar</button>
                     </div>
                 </form>
@@ -78,7 +78,7 @@
         <div class="modal-content">
 
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Interconsulta</h5>
+                <h5 class="modal-title text-center">Interconsulta</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -158,7 +158,7 @@
                             </div>
                         </div>
                         <div class="modal-footer pt-2 pb-0">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                             <button type="button" onclick="registrar_interconsulta();" class="btn btn-info">Guardar</button>
                         </div>
                     </form>
@@ -175,7 +175,7 @@
         <div class="modal-content">
 
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Respuesta Interconsulta</h5>
+                <h5 class="modal-title text-center">Respuesta Interconsulta</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -232,7 +232,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer pt-2 pb-0">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                 @if(!isset($interconsulta) )
                                 <button type="button" onclick="registrar_interconsulta();" class="btn btn-info">Guardar</button>
                                 @endif
@@ -302,7 +302,7 @@
                                 </div>  --}}
                             </div>
                             <div class="modal-footer pt-2 pb-0">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                                 <button type="button" class="btn btn-info" onclick="enviar_respuesta_interconsulta();">Enviar Respuesta</button>
                             </div>
                         </form>
@@ -320,7 +320,7 @@
     <div class="modal-dialog modal-dialog-centered" data-backdrop="static" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Informe Médico</h5>
+                <h5 class="modal-title text-center">Informe Médico</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -398,7 +398,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" onclick="registrar_informe_medico();" class="btn btn-info">Generar Informe</button>
             </div>
         </div>
@@ -411,7 +411,7 @@
     <div class="modal-dialog modal-dialog-centered" data-backdrop="static" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Uso Personal</h5>
+                <h5 class="modal-title text-center">Uso Personal</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -439,7 +439,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" onclick="registrar_uso_personal();" class="btn btn-info">Guardar</button>
             </div>
         </div>
@@ -452,7 +452,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Enfermedades de declaración obligatoria E.N.O</h5>
+                <h5 class="modal-title text-center">Enfermedades de declaración obligatoria E.N.O</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -849,7 +849,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="reset_form('form_declaracion_eno')" class="btn btn-danger"
+                    <button type="button" onclick="reset_form('form_declaracion_eno')" class="btn btn-outline-dark"
                         data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-info">Guardar</button>
                 </div>
@@ -864,7 +864,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Reembolso de gastos médicos</h5>
+                <h5 class="modal-title text-center">Reembolso de gastos médicos</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -1351,7 +1351,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="reset_form('form_gastos_medicos')" class="btn btn-danger"
+                    <button type="button" onclick="reset_form('form_gastos_medicos')" class="btn btn-outline-dark"
                         data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-info">Guardar</button>
                 </div>
@@ -1367,7 +1367,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Reembolso de gastos dentales</h5>
+                <h5 class="modal-title text-center">Reembolso de gastos dentales</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -1915,7 +1915,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-info">Guardar</button>
             </div>
         </div>
@@ -1931,7 +1931,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Consentimiento informado anestesia</h5>
+                <h5 class="modal-title text-center">Consentimiento informado anestesia</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -2033,7 +2033,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success">Autentificación</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-info">Guardar</button>
             </div>
         </div>
@@ -2047,7 +2047,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="m_consultaantLabel">Consulta del..... </h5>
+                <h5 class="modal-title" id="m_consultaantLabel">Consulta del..... </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -2134,7 +2134,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="m_cons_exLabel">Exámenes solicitados el.... </h5>
+                <h5 class="modal-title" id="m_cons_exLabel">Exámenes solicitados el.... </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -2189,7 +2189,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="m_cons_recetaLabel">Receta del .... </h5>
+                <h5 class="modal-title" id="m_cons_recetaLabel">Receta del .... </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -2248,7 +2248,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="m_cons_archivosLabel">Archivos subidos con la consulta ....
+                <h5 class="modal-title" id="m_cons_archivosLabel">Archivos subidos con la consulta ....
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -2304,7 +2304,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white">Constancia GES (Artículo 24 Ley 19.966)</h5>
+                <h5 class="modal-title">Constancia GES (Artículo 24 Ley 19.966)</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

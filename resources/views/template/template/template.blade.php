@@ -2575,6 +2575,7 @@
     @yield('page-script')
     @yield('page-script-med-exa')
     @yield('js-sidebar') {{-- seccion js side bar --}}
+@include('template.include.selector_fechas')
 </body>
 
 </html>

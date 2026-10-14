@@ -32,7 +32,7 @@
     @include('template.asistente.header')
 
     @yield('content')
-
+    @include('template.partials.boton_volver_auto')
     <footer></footer>
 
     @include('template.include.nocomplatible')
@@ -51,5 +51,6 @@
     </script>
 
     @yield('page-scripts')
+@include('template.include.selector_fechas')
 </body>
 </html>

@@ -5,22 +5,10 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <div class="page-header-title">
-                                <h5 class="m-b-10 font-weight-bold">Examenes Transcritos</h5>
-                            </div>
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('profesional.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio"><i class="feather icon-home"></i></a>
-                                </li>
-                                <li class="breadcrumb-item"><a href="#">Examenes Transcritos</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <h5 class="f-26 d-inline">Examenes Transcritos</h5>
+                </div>
             </div>
             <!--Cierre: Header-->
 

@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1 f-18" id="eco_gine"> Editar Datos de Contrato Adm Profesional</h5>
+                <h5 class="modal-title mt-1 f-18" id="eco_gine"> Editar Datos de Contrato Adm Profesional</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -327,7 +327,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-warning" onclick="modificar_registros_profesional();">Editar </button>
                 {{-- <button type="button" class="btn btn-primary">Ver formulario (PDF)</button> --}}
             </div>

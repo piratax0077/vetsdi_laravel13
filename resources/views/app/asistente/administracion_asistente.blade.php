@@ -7,19 +7,10 @@
 @section('content')
 <div class="pcoded-main-container">
     <div class="pcoded-content">
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <div class="page-header-title">
-                            <h5 class="m-b-10 font-weight-bold">Solicitud Productos e Insumos</h5>
-                        </div>
-                       <ul class="breadcrumb">
-                            <a href="{{ route('asistente.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio"><i class="feather icon-home">  Volver</i> </a>
-                       </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="row">
+            <div class="col-md-12 mb-3 encabezado-pagina">
+                <h5 class="f-26 d-inline">Solicitud Productos e Insumos</h5>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -353,9 +344,9 @@
 		<div id="ver_pedido" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ver_pedido" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
-					<div class="modal-header bg-info">
-						<h5 class="modal-title text-white text-center">Ficha Informaci&oacute;n del Pedido</h5>
-						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+					<div class="modal-header modal-header-purple">
+						<h5 class="modal-title text-center">Ficha Informaci&oacute;n del Pedido</h5>
+						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">x</span></button>
 					</div>
 					<div class="modal-body">
 						<div class="row">
@@ -382,9 +373,9 @@
 		<div id="ficha_retira" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ficha_retira" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
-					<div class="modal-header bg-info">
-						<h5 class="modal-title text-white text-center">Ficha Informaci&oacute;n del Retiro</h5>
-						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#88;</span></button>
+					<div class="modal-header modal-header-purple">
+						<h5 class="modal-title text-center">Ficha Informaci&oacute;n del Retiro</h5>
+						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&#88;</span></button>
 					</div>
 					<div class="modal-body">
 						<div class="row">
@@ -428,9 +419,9 @@
 		<div id="solicita_pedido" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="solicita_pedido" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 				<div class="modal-content">
-					<div class="modal-header bg-info">
-						<h5 class="modal-title text-white text-center">Solicitud de Pedidos a Bodega</h5>
-						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#88;</span></button>
+					<div class="modal-header modal-header-purple">
+						<h5 class="modal-title text-center">Solicitud de Pedidos a Bodega</h5>
+						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&#88;</span></button>
 					</div>
 					<div class="modal-body">
 						<form>
@@ -506,7 +497,7 @@
 							</div>
 						</form>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-danger mb-0" data-dismiss="modal">Cancelar</button>
+							<button type="button" class="btn btn-outline-dark mb-0" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
 							<button type="submit" class="btn btn-info mb-0" >Enviar Pedido</button>
 						</div>
 					</div>
@@ -518,9 +509,9 @@
 		<div id="solicita_incluir" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="solicita_incluir" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 				<div class="modal-content">
-					<div class="modal-header bg-info">
-						<h5 class="modal-title text-white text-center">Solicitud de Inclusi&oacute;n Producto a Stock</h5>
-						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#88;</span></button>
+					<div class="modal-header modal-header-purple">
+						<h5 class="modal-title text-center">Solicitud de Inclusi&oacute;n Producto a Stock</h5>
+						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&#88;</span></button>
 					</div>
 					<div class="modal-body">
 						<form>
@@ -648,7 +639,7 @@
 							</div>
 						</form>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-danger"  data-dismiss="modal">Cancelar</button>
+							<button type="button" class="btn btn-outline-dark"  data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
 							<button type="submit" class="btn btn-info mb-0" >Entregar Pedido</button>
 						</div>
 					</div>

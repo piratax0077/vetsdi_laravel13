@@ -1,16 +1,16 @@
+        @php
+            // Con $titulo = 'NO' queda solo la tarjeta con la tabla: la pantalla que la incluye pone su título y sus columnas
+            $historialSolo = isset($titulo) && $titulo == 'NO';
+        @endphp
+        @if (!$historialSolo)
         <div class="user-profile user-card mt-0 bg-fondo-gris">
             <div class="col-md-12 py-0 px-2 shadow-none">
                 <div class="row mx-0">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        @if (isset($titulo) && $titulo == 'NO')
-                            {{--  nada  --}}
-                        @else
-                    </div>
-                    @endif
-                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                         <h4 class="text-c-blue mt-3 f-20">Historial de atenciones</h4>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        @endif
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
@@ -122,10 +122,6 @@
                                                                 @endif
                                                             </tr>
                                                         @endforeach
-                                                    @else
-                                                        <span style="text-align: center">
-                                                            <h5>No existen registros</h5>
-                                                        </span>
                                                     @endif
                                                 </tbody>
                                             </table>
@@ -134,10 +130,12 @@
                                 </div>
                             </div>
                         </div>
+        @if (!$historialSolo)
                     </div>
                 </div>
             </div>
         </div>
+        @endif
 
         <!--MODALS-->
         @include('general.secciones_ficha.modal_atencion_previa.hist_cons_receta')
@@ -147,50 +145,6 @@
         @include('general.secciones_ficha.modal_atencion_previa.hist_evoluciones_dental')
         @include('general.secciones_ficha.modal_atencion_previa.hist_cons')
         @include('general.secciones_ficha.modal_atencion_previa.evaluaciones_especialidad')
-        <style>
-            #table_atenciones_profesional .historial-doc-btn {
-                min-width: 88px;
-                min-height: 30px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
-                border-radius: 16px;
-                font-weight: 600;
-                transition: transform .16s ease, box-shadow .16s ease;
-            }
-            #table_atenciones_profesional .historial-doc-btn.tiene-contenido:hover {
-                transform: translateY(-1px);
-                box-shadow: 0 4px 10px rgba(33, 60, 77, .16);
-            }
-            #table_atenciones_profesional .historial-doc-btn.sin-contenido {
-                color: #98a2b3 !important;
-                background: #f2f4f7 !important;
-                border: 1px solid #e4e7ec !important;
-                cursor: not-allowed;
-                opacity: .82;
-            }
-            #table_atenciones_profesional .historial-count {
-                min-width: 18px;
-                height: 18px;
-                padding: 0 5px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 9px;
-                color: #fff;
-                background: rgba(30, 41, 59, .72);
-                font-size: 10px;
-                line-height: 1;
-            }
-            #table_atenciones_profesional .historial-status-dot {
-                width: 7px;
-                height: 7px;
-                border-radius: 50%;
-                background: #19a99d;
-                box-shadow: 0 0 0 3px rgba(25, 169, 157, .15);
-            }
-        </style>
         <script>
             $(document).ready(function() {
                 var selectorTablaHistorial = '#table_atenciones_profesional';

@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}?t={{ time() }}" />
+    <link rel="stylesheet" href="{{ asset('css/escritorio_paciente.css') }}?t={{ time() }}" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -78,7 +79,7 @@
     @include('template.usuario.menu')
 
     @yield('content')
-
+    @include('template.partials.boton_volver_auto')
     @yield('modales')
 
 
@@ -394,6 +395,7 @@
         /** FIN METODO PARA ENVIO DE INDICACIONES MEDICAS PDF */
     </script>
     @yield('script-veneria')
+@include('template.include.selector_fechas')
 </body>
 
 </html>

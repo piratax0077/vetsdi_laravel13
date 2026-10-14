@@ -1,8 +1,8 @@
 <div id="rendicion_cierre_dia" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="rendicion_cierre_dia" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white d-inline mt-1">Rendición Cierres de Cajas</h5>
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title d-inline mt-1">Rendición Cierres de Cajas</h5>
                 <button type="button" class="close text-white" aria-label="Close" onclick="cerrarModalCierreDia();"><span aria-hidden="true">×</span></button>
             </div>
 
@@ -50,7 +50,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-6">
-                        <button class="btn btn-sm btn-danger" type="button" onclick="cerrarModalCierreDia();">Cancelar</button>
+                        <button class="btn btn-danger" type="button" onclick="cerrarModalCierreDia();">Cancelar</button>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1 f-18" id="eco_gine"> Editar Empleado Nuevo Administrativo</h5>
+                <h5 class="modal-title mt-1 f-18" id="eco_gine"> Editar Empleado Nuevo Administrativo</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -307,7 +307,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm mx-auto" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm mx-auto" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-warning btn-sm mx-auto" onclick="editar_nuevo_empleado_administrativo();">Editar</button>
                 {{--  <button type="button" class="btn btn-primary">Ver formulario (PDF)</button>  --}}
                 </form>

@@ -193,7 +193,8 @@
     <script src="{{ asset('js/funciones.js') }}"></script>
 
     {{-- zoom  --}}
-    <script src="{{ asset('js/app.js') }}" ></script>
+    {{-- app.js trae su propio Bootstrap: al cargarlo junto al de la plantilla, cada clic cerraba y volvía a abrir las tarjetas. La ficha no usa nada de ese archivo. --}}
+    {{-- <script src="{{ asset('js/app.js') }}" ></script> --}}
     {{-- <script src="{{ asset('js/react.production.min.js') }}" ></script> --}}
     {{-- <script src="{{ asset('js/react-dom.production.min.js') }}" ></script> --}}
     {{-- <script src="{{ asset('js/redux.min.js') }}" ></script> --}}

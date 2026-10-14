@@ -3,7 +3,7 @@
         <div class="modal-content">
 
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Crecimiento y desarrollo Valores referenciales IMC de 5 a 9 años</h5>
+                <h5 class="modal-title text-center">Crecimiento y desarrollo Valores referenciales IMC de 5 a 9 años</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
 

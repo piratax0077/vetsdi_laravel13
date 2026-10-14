@@ -79,6 +79,7 @@
 
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
 
     @include('template.include.nocomplatible')
 

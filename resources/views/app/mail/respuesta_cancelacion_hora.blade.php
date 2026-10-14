@@ -8,7 +8,7 @@
         body {
             margin: 0;
             padding: 0;
-            background: #eef3f9;
+            background: #f1eafa;
             font-family: Arial, Helvetica, sans-serif;
             color: #0f172a;
         }
@@ -107,14 +107,14 @@
                     <p><strong>Estado:</strong> Cancelada</p>
                     @if(isset($hora_medica))
                         <p><strong>Fecha:</strong> {{ $hora_medica->fecha_consulta ?? '' }}</p>
-                        <p><strong>Hora:</strong> {{ $hora_medica->hora_inicio ?? '' }}</p>
+                        <p><strong>Hora:</strong> {{ substr((string) ($hora_medica->hora_inicio ?? ''), 0, 5) }}</p>
                     @endif
                 </div>
 
                 <a href="{{ url('/') }}" class="btn">Volver al inicio</a>
             </div>
             <div class="footer">
-                SDI · Salud Digital Integrada<br>
+                Veterchile<br>
                 &copy; {{ date('Y') }} · Todos los derechos reservados
             </div>
         </div>

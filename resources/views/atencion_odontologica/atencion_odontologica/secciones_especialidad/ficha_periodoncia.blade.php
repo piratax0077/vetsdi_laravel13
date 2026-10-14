@@ -2592,7 +2592,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h6 class="modal-title text-white f-18">Agendar nueva cita</h6>
+                <h6 class="modal-title f-18">Agendar nueva cita</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#reservar_hora').modal('hide');">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -2661,7 +2661,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info pt-3 pb-2">
-                <h5 class="modal-title text-white text-center">Tomar hora</h5>
+                <h5 class="modal-title text-center">Tomar hora</h5>
                 <button id="cerrar_tomar_hora" type="button" class="close text-white close_agenda_agregar_paciente" onclick="$('#agenda_agregar_paciente').modal('hide');" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -2763,7 +2763,7 @@
                        <hr>
 
                                <div class="col-12 text-center">
-                                    <!--<button type="button" class="btn btn-danger close_agenda_agregar_paciente" onclick="$('#agenda_agregar_paciente').modal('hide');" data-dismiss="modal">Cancelar</button>-->
+                                    <!--<button type="button" class="btn btn-outline-dark close_agenda_agregar_paciente" onclick="$('#agenda_agregar_paciente').modal('hide');" data-dismiss="modal">Cancelar</button>-->
                                     <button type="button" onclick="agendar_hora();" class="btn btn-info"><i class="feather icon-check"></i> Agendar Hora</button>
                                 </div>
 
@@ -2923,7 +2923,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger close_agenda_agregar_paciente"  onclick="$('#agenda_agregar_paciente').modal('hide');">Cancelar</button>
+                            <button type="button" class="btn btn-outline-dark close_agenda_agregar_paciente"  onclick="$('#agenda_agregar_paciente').modal('hide');">Cancelar</button>
                             <button type="button" id="guardar_reserva_paciente" onclick="agendar_hora_paciente_nuevo();" class="btn btn-info">
                                 Tomar Hora
                             </button>

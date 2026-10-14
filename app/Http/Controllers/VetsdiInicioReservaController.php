@@ -128,10 +128,6 @@ class VetsdiInicioReservaController extends Controller
 
     public function profesionales(Request $request)
     {
-        $veterinariaAreaSlug = trim((string) $request->input('veterinaria_area', ''));
-        $veterinariaItem = trim((string) $request->input('veterinaria_item', ''));
-        $veterinariaArea = $this->findVeterinaryAreaBySlug($veterinariaAreaSlug);
-
         $query = Profesional::query()
             ->with([
                 'Especialidad:id,nombre',
@@ -148,14 +144,19 @@ class VetsdiInicioReservaController extends Controller
                 'LugaresAtencion.Direccion.Ciudad.Region:id,nombre',
             ]);
 
+        // La ubicación se busca en los lugares de atención (donde el profesional
+        // atiende), no en su dirección personal. Quien no tiene lugar de atención
+        // no tiene agenda que reservar, así que no se lista.
         if ($request->filled('id_ciudad')) {
-            $query->whereHas('Direccion', function ($relation) use ($request) {
+            $query->whereHas('LugaresAtencion.Direccion', function ($relation) use ($request) {
                 $relation->where('id_ciudad', (int) $request->input('id_ciudad'));
             });
         } elseif ($request->filled('id_region')) {
-            $query->whereHas('Direccion.Ciudad', function ($relation) use ($request) {
+            $query->whereHas('LugaresAtencion.Direccion.Ciudad', function ($relation) use ($request) {
                 $relation->where('id_region', (int) $request->input('id_region'));
             });
+        } else {
+            $query->has('LugaresAtencion');
         }
 
         if ($request->filled('q')) {
@@ -170,7 +171,7 @@ class VetsdiInicioReservaController extends Controller
 
         $profesionales = $query->orderBy('apellido_uno')->orderBy('nombre')->limit(80)->get();
 
-        $resultados = $profesionales->map(function (Profesional $profesional) use ($request, $veterinariaArea, $veterinariaItem) {
+        $resultados = $profesionales->map(function (Profesional $profesional) use ($request) {
             $rutBase = explode('-', (string) $profesional->rut)[0] ?? '';
             $imagen = asset('images/iconos/usuario_profesional.svg');
 
@@ -230,8 +231,8 @@ class VetsdiInicioReservaController extends Controller
             return [
                 'id' => $profesional->id,
                 'nombre' => trim($profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos),
-                'especialidad' => $veterinariaArea['nombre'] ?? (optional($profesional->TipoEspecialidad)->nombre ?: optional($profesional->Especialidad)->nombre ?: 'Veterinario/a'),
-                'tipo_especialidad' => $veterinariaItem !== '' ? $veterinariaItem : optional($profesional->SubTipoEspecialidad)->nombre,
+                'especialidad' => optional($profesional->TipoEspecialidad)->nombre ?: optional($profesional->Especialidad)->nombre ?: 'Veterinario/a',
+                'tipo_especialidad' => optional($profesional->SubTipoEspecialidad)->nombre,
                 'sub_tipo_especialidad' => null,
                 'email' => $profesional->email,
                 'telefono' => $profesional->telefono ?? $profesional->telefono_uno ?? null,

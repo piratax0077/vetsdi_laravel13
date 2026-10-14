@@ -2086,7 +2086,7 @@
 				<div class="tab-content" id="pills-tabContent">
 					<div class="tab-pane fade show active" id="pills-SolP" role="tabpanel" aria-labelledby="pills-SolP-tab" style="border: 1px solid #6699FF">
 						<div class="modal-header bg-info">
-							<h5 class="modal-title text-white" id="m_sol_pab" style="font-size: 1.3rem; color: #3366CC;">SOLICITUD DE PABELLÓN QUIRÚRGICO</h5>
+							<h5 class="modal-title" id="m_sol_pab" style="font-size: 1.3rem; color: #3366CC;">SOLICITUD DE PABELLÓN QUIRÚRGICO</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -2226,7 +2226,7 @@
                     </div> 
 					<div class="tab-pane fade" id="pills-ingreso" role="tabpanel" aria-labelledby="pills-ingreso-tab" style="border: 1px solid #6699FF">  
 						<div class="modal-header bg-info">
-						<h5 class="modal-title text-white" id="m_sol_ing" style="font-size: 1.3rem; color: #3366CC;">FICHA DE INGRESO</h5>
+						<h5 class="modal-title" id="m_sol_ing" style="font-size: 1.3rem; color: #3366CC;">FICHA DE INGRESO</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -2350,7 +2350,7 @@
 					</div>
 					<div class="tab-pane fade" id="pills-protQx" role="tabpanel" aria-labelledby="pills-protQx-tab" style="border: 1px solid #6699FF" >
 						<div class="modal-header bg-info">
-						<h5 class="modal-title text-white" id="m_sol_pab" style="font-size: 1.3rem; color: #3366CC;">PROTOCOLO OPERATORIO </h5>
+						<h5 class="modal-title" id="m_sol_pab" style="font-size: 1.3rem; color: #3366CC;">PROTOCOLO OPERATORIO </h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -2545,7 +2545,7 @@
 					</div>
 					<div class="tab-pane fade " id="pills-Recup" role="tabpanel" aria-labelledby="pills-Recup-tab" style="border: 1px solid #6699FF" >
 						<div class="modal-header bg-info">
-							<h5 class="modal-title text-white" id="m_sol_pab" style="font-size: 1.3rem; color: #3366CC;">SALA DE RECUPERACIÓN</h5>
+							<h5 class="modal-title" id="m_sol_pab" style="font-size: 1.3rem; color: #3366CC;">SALA DE RECUPERACIÓN</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -2655,7 +2655,7 @@
 					</div>
 					<div class="tab-pane fade" id="pills-evol" role="tabpanel" aria-labelledby="pills-evol-tab" style="border: 1px solid #6699FF" >
 						<div class="modal-header bg-info">
-							<h5 class="modal-title text-white" id="m_sol_pab" style="font-size: 1.3rem; color: #3366CC;">SALA DE HOSPITALIZACIÓN /</h5> <h6><span style="color:white;text-align:center" id="id_servico" class="label-floating right">Servicio de:</span><h6>
+							<h5 class="modal-title" id="m_sol_pab" style="font-size: 1.3rem; color: #3366CC;">SALA DE HOSPITALIZACIÓN /</h5> <h6><span style="color:white;text-align:center" id="id_servico" class="label-floating right">Servicio de:</span><h6>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>

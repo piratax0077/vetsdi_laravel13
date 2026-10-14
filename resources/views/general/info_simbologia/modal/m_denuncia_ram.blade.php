@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
-                    <h5 class="modal-title text-white font-weight-bold" id="modal_ramLabel">
+                    <h5 class="modal-title font-weight-bold" id="modal_ramLabel">
                         <i class="feather icon-alert-triangle"></i> Registrar Reacción Adversa a Medicamento (RAM)
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$('#modal_ram').modal('hide');">
@@ -99,10 +99,10 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="$('#modal_ram').modal('hide');">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$('#modal_ram').modal('hide');">
                         <i class="feather icon-x"></i> Cancelar
                     </button>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="guardar_ram()">
+                    <button type="button" class="btn btn-danger" onclick="guardar_ram()">
                         <i class="feather icon-save"></i> Registrar Denuncia RAM
                     </button>
                 </div>

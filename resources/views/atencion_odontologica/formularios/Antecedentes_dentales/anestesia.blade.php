@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1 f-18" id="modal_info1"> Antecedentes con anestésicos locales</h5>
+                <h5 class="modal-title mt-1 f-18" id="modal_info1"> Antecedentes con anestésicos locales</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#anestesia_local_modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

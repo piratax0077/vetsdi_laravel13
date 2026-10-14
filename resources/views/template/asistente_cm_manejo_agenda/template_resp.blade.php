@@ -101,6 +101,7 @@
     @include('template.asistente_cm_manejo_agenda.header')
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
     @yield('modales')
 
     <footer>
@@ -251,5 +252,6 @@
     @yield('page-script')
     @yield('btn-script-agenda')
 
+@include('template.include.selector_fechas')
 </body>
 </html>

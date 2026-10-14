@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Interconsulta</h5>
+                <h5 class="modal-title text-center">Interconsulta</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -91,7 +91,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer pt-2 pb-0">
-                                <button type="button" class="btn btn-danger" onclick="reset_form('otorrino')"
+                                <button type="button" class="btn btn-outline-dark" onclick="reset_form('otorrino')"
                                     data-dismiss="modal">Cancelar</button>
                                 <button type="button" class="btn btn-info" onclick="registrar_interconsulta_odped('otorrino')">Guardar</button>
                             </div>
@@ -105,7 +105,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Interconsulta</h5>
+                <h5 class="modal-title text-center">Interconsulta</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -194,7 +194,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer pt-2 pb-0">
-                                <button type="button" class="btn btn-danger" onclick="reset_form('fono')"
+                                <button type="button" class="btn btn-outline-dark" onclick="reset_form('fono')"
                                     data-dismiss="modal">Cancelar</button>
                                 <button type="button" class="btn btn-info" onclick="registrar_interconsulta_odped('fono')">Guardar</button>
                             </div>
@@ -207,7 +207,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Interconsulta</h5>
+                <h5 class="modal-title text-center">Interconsulta</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -309,7 +309,7 @@
             </div>
 
             <div class="modal-footer pt-2 pb-0">
-                <button type="button" class="btn btn-danger" onclick="reset_form('dental')" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" onclick="reset_form('dental')" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info" onclick="registrar_interconsulta_odped('dental')">Guardar</button>
             </div>
         </div>

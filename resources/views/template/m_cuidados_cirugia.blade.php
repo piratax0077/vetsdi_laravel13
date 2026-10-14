@@ -2,15 +2,15 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content" >
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Indicaciones Post Quirúrgicas</h5>
+                <h5 class="modal-title text-center">Indicaciones Post Quirúrgicas</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
 				<embed src="{{ asset('documentos/generales/Indic_post_cirugia.pdf') }}" type="application/pdf" data-documento="Indic_post_cirugia.pdf" data-url="documentos/generales/Indic_post_cirugia.pdf" width="100%" height="800px"/>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('modal_ipostcir');">Enviar al Paciente</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('modal_ipostcir');">Enviar al Paciente</button>
             </div>
         </div>
     </div>

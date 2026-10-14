@@ -6,7 +6,7 @@
             <input type="hidden" name="estado_id_profesional" id="estado_id_profesional" value="">
             <input type="hidden" name="estado_id_paciente" id="estado_id_paciente" value="">
             <input type="hidden" name="id_hora_medica" id="id_hora_medica" value="">
-            <div class="modal-header bg-info pt-3 pb-3">
+            <div class="modal-header modal-header-purple pt-3 pb-3">
                 <h6 id="cabecera_hora_medica" class="text-white f-16 mb-0 mt-0">Información del paciente</h6>
             </div>
             <div class="modal-body">
@@ -115,21 +115,21 @@
 
                 <div>
                     <button type="button" onclick="opcion_cancelar_hora();" id="hm_anular_hora"
-                        class="btn btn-danger btn-sm" data-dismiss="modal">
+                        class="btn btn-danger" data-dismiss="modal">
                         Anular Hora
                     </button>
                 </div>
 
                 <div>
                     <button type="submit" onclick="opcion_confirmar_hora()" id="hm_confirmar_hora"
-                        class="btn btn-success btn-sm">
+                        class="btn btn-success">
                         Confirmar Hora
                     </button>
                 </div>
 
 
                 <div>
-                    <button type="submit" id="hm_ver_hora" class="btn btn-info btn-sm">Ver Atención</button>
+                    <button type="submit" id="hm_ver_hora" class="btn btn-info">Ver Atención</button>
                 </div>
 
 
@@ -141,7 +141,7 @@
                         <input type="hidden" name="lugar_atencion_id" id="lugar_atencion_id"
                             value="$('#agenda_lugar_atencion_asistente').val();">
 
-                        <button type="submit" id="hm_atender_hora" class="btn btn-info btn-sm">Atender</button>
+                        <button type="submit" id="hm_atender_hora" class="btn btn-info">Atender</button>
                     </form>
                 </div>
 
@@ -150,24 +150,24 @@
                         @csrf
                         <input type="hidden" name="id_hora_realizar" id="id_hora_realizar" val="">
 
-                        <button type="submit" id="hm_espera_paciente_hora" class="btn btn-info btn-sm"
+                        <button type="submit" id="hm_espera_paciente_hora" class="btn btn-info"
                             onclick="paciente_esperando();">Esperando</button>
                     </form>
                 </div>
 
                 <div>
-                    <button type="button" id="cerrarModal" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar
+                    <button type="button" id="cerrarModal" class="btn btn-secondary" data-dismiss="modal">Cerrar
                     </button>
                 </div>
                 <div>
                     <button type="button" id="confirmar_anulacion_hora" onclick="cancelar_hora();"
-                        class="btn btn-danger btn-sm">Anular
+                        class="btn btn-danger">Anular
                         Hora
                     </button>
                 </div>
                 <div>
                     <button type="button" id="confirmacion_hora" onclick="confirmar_hora();"
-                        class="btn btn-success btn-sm">Confirmar
+                        class="btn btn-success">Confirmar
                         Hora
                     </button>
                 </div>
@@ -184,8 +184,8 @@
     aria-labelledby="Recepcion de bonos" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_pago_consulta_title">Pago Consulta</h5>
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title" id="modal_pago_consulta_title">Pago Consulta</h5>
                 <button type="button" class="close close_modal_recepcion_bonos_api" data-dismiss="modal"
                     aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
@@ -435,8 +435,8 @@
 <div id="agenda_agregar_paciente" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="agregar_paciente_asistente" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info pt-3 pb-2">
-                <h5 class="modal-title text-white text-center">Tomar hora</h5>
+            <div class="modal-header modal-header-purple pt-3 pb-2">
+                <h5 class="modal-title text-center">Tomar hora</h5>
                 <button id="cerrar_tomar_hora" type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -654,7 +654,7 @@
                         </div>
 
                         <div class="modal-footer mb-0 pt-1 pb-0">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i
                                     class="feather icon-x"></i> Cancelar</button>
                             <button type="button" onclick="agendar_hora();" class="btn btn-info"><i
                                     class="feather icon-check"></i> Agendar hora</button>
@@ -1081,7 +1081,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" id="cerrar_registro_paciente_hora"
+                            <button type="button" class="btn btn-outline-dark" id="cerrar_registro_paciente_hora"
                                 data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
                             <button type="button" id="guardar_reserva_paciente"
                                 onclick="agendar_hora_paciente_nuevo();" class="btn btn-info">
@@ -1100,8 +1100,8 @@
     aria-labelledby="agenda_validar_auto_menor_edad" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info pt-3 pb-2">
-                <h5 class="modal-title text-white text-center">Tomar hora</h5>
+            <div class="modal-header modal-header-purple pt-3 pb-2">
+                <h5 class="modal-title text-center">Tomar hora</h5>
                 <button id="cerrar_tomar_hora" type="button" class="close text-white" data-dismiss="modal"
                     aria-label="Close" onclick="cancelarautorizacionMenorEdad();"><span
                         aria-hidden="true">×</span></button>
@@ -1128,7 +1128,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal"
                     onclick="cancelarautorizacionMenorEdad();">Cancelar</button>
             </div>
         </div>
@@ -1546,7 +1546,7 @@
         {
             // if (telefono != '')
             {
-                var re = new RegExp(/^\x2b56[6-9][0-9]{8}$/i);//+56612341234
+                var re = new RegExp(/^\x2b56 ?[6-9] ?[0-9]{4} ?[0-9]{4}$/i);//+56612341234
                 if( re.test(telefono) )
                 {
 
@@ -1607,7 +1607,7 @@
         {
             // if (telefono != '')
             {
-                var re = new RegExp(/^\x2b56[6-9][0-9]{8}$/i);//+56612341234
+                var re = new RegExp(/^\x2b56 ?[6-9] ?[0-9]{4} ?[0-9]{4}$/i);//+56612341234
                 if( re.test(telefono) )
                     $('#btn_reserva_hora_representante_telefono_uno_validar').attr('disabled',false);
                 else

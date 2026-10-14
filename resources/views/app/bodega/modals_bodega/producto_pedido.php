@@ -124,7 +124,7 @@
                     </div>
                 </form>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger mb-0" data-dismiss="modal">Cancelar</button>                    
+                    <button type="button" class="btn btn-outline-dark mb-0" data-dismiss="modal">Cancelar</button>                    
                     <button type="submit" class="btn btn-info mb-0" >Solicitar Autorizaci&oacute;n</button>
                     <button type="submit" class="btn btn-info mb-0" >Enviar pedido</button>
                 </div>

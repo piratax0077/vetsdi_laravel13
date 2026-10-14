@@ -19,30 +19,10 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-            <div class="page-header mb-2">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <div class="page-header-title">
-                                <h5 class="m-b-10 font-weight-bold">Agenda de Profesionales</h5>
-                            </div>
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    @if(Auth::user()->hasRole('Profesional'))
-                                        <a href="{{ route('profesional.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                            <i class="feather icon-home"></i>
-                                        </a>
-                                    @elseif(Auth::user()->hasRole('Asistente'))
-                                        <a href="{{ route('asistente.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                            <i class="feather icon-home"></i>
-                                        </a>
-                                    @endif
-                                </li>
-                                <li class="breadcrumb-item"><a href="#">Agenda de Profesionales</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <div class="row">
+                <div class="col-md-12 mb-3 encabezado-pagina">
+                    <h5 class="f-26 d-inline">Agenda de Profesionales</h5>
+                </div>
             </div>
             <!--Cierre: Header-->
 

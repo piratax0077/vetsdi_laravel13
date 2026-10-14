@@ -201,7 +201,7 @@
         <div class="modal-dialog modal-xl" role="document" style="max-width:95vw;">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white font-weight-bold" id="modal_sesion_laboratorioLabel">
+                    <h5 class="modal-title font-weight-bold" id="modal_sesion_laboratorioLabel">
                         <i class="feather icon-video"></i> Sesión con Laboratorio &mdash; <span id="sesion_lab_nombre"></span>
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
@@ -378,7 +378,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">
                         <i class="feather icon-x"></i> Cancelar
                     </button>
                     <button type="button" class="btn btn-info btn-sm" onclick="guardar_laboratorio()">

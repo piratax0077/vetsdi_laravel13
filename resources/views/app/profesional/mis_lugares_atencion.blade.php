@@ -4,41 +4,18 @@
     <!--****Container Completo****-->
     <div class="pcoded-main-container">
         <div class="pcoded-content mt-top">
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 mt-2">
-<ul class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('profesional.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio"><i class="feather icon-home"></i></a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('profesional.configuracion') }}" data-toggle="tooltip" data-placement="top" title="Volver a panel de configuración">Panel de Configuración</a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a href="#">Mis lugares de atención</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-12 mb-3 encabezado-pagina">
+                    <h5 class="f-26 d-inline">Mis lugares de atención</h5>
+                    <button type="button" class="btn btn-info mb-1" data-toggle="modal" data-target="#nuevo_lugar_atencion">
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Agregar nuevo lugar de atención
+                    </button>
                 </div>
             </div>
             <!--Cierre: Header-->
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
-                        <div class="card-header bg-info">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                        <h4 class="text-white f-20 d-inline">Mis lugares de atención</h4>
-                                        <button type="button" class="btn btn-light btn-xs float-md-right d-inline" data-toggle="modal" data-target="#nuevo_lugar_atencion">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Agregar nuevo lugar de atención
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="card-body">
                             <div class="row">
@@ -169,9 +146,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="nuevo_lugar_atencion_titulo">Agregar nuevo lugar de atención&nbsp;</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <div class="modal-header modal-header-purple">
+                    <h5 class="modal-title text-center" id="nuevo_lugar_atencion_titulo">Agregar nuevo lugar de atención&nbsp;</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -185,22 +162,10 @@
                                     <input class="form-control form-control-sm" name="nombre_lugar_atencion" id="nombre_lugar_atencion" type="text">
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="form-group fill">
-                                    <label class="floating-label-activo-sm">Rut</label>
-                                    <input class="form-control form-control-sm" name="rut_lugar_atencion" id="rut_lugar_atencion" type="text" onkeyup="formatoRut(this);">
-                                </div>
-                            </div>
-                            <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                            <div class="col-12">
                                 <div class="form-group">
                                     <label class="floating-label-activo-sm">Direcci&oacute;n</label>
-                                    <input class="form-control form-control-sm" name="direccion_lugar_atencion" id="direccion_lugar_atencion" type="text">
-                                </div>
-                            </div>
-                            <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Nº</label>
-                                    <input class="form-control form-control-sm" name="numero_lugar_atencion" id="numero_lugar_atencion" type="text">
+                                    <input class="form-control form-control-sm" placeholder="Ej: Calle y N°" name="direccion_lugar_atencion" id="direccion_lugar_atencion" type="text">
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -229,7 +194,7 @@
                                     <label class="floating-label-activo-sm">Tipo</label>
                                     <select id="tipo_agregar_lugar_atencion" name="tipo_agregar_lugar_atencion" class="js-example-basic-single form-control form-control-sm">
                                         <option value="0">Seleccione</option>
-                                        <option value="1">Centro Médico</option>
+                                        <option value="1">Centro Médico Veterinario</option>
                                         <option value="2">Consulta Particular</option>
                                     </select>
                                 </div>
@@ -258,8 +223,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
-                        <button type="submit" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
+                        <button type="submit" class="btn btn-info"><i class="feather icon-save"></i> Guardar cambios</button>
                     </div>
                 </form>
             </div>
@@ -271,9 +236,9 @@
         aria-labelledby="editar_lugar_atencion" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="editar_lugar_atencion_titulo">Configurar lugar de atención</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <div class="modal-header modal-header-purple">
+                    <h5 class="modal-title text-center" id="editar_lugar_atencion_titulo">Configurar lugar de atención</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -287,16 +252,10 @@
                                 <input name="editar_nombre_lugar_atencion" id="editar_nombre_lugar_atencion" type="text" val="" class="form-control form-control-sm">
                             </div>
                         </div>
-                       <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                       <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                             <div class="form-group">
-                                <label class="floating-label-activo-sm">Direcci&oacute;n&nbsp;/&nbsp;Calle</label>
-                                <input name="editar_direccion_lugar_atencion" id="editar_direccion_lugar_atencion" type="text" class="form-control form-control-sm">
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                            <div class="form-group">
-                                <label class="floating-label-activo-sm">Nº</label>
-                                <input name="editar_numero_lugar_atencion" id="editar_numero_lugar_atencion" type="text" class="form-control form-control-sm">
+                                <label class="floating-label-activo-sm">Direcci&oacute;n</label>
+                                <input name="editar_direccion_lugar_atencion" id="editar_direccion_lugar_atencion" placeholder="Ej: Calle y N°" type="text" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -349,8 +308,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="feather icon-x"></i> Cancelar</button>
-                        <button type="button" onclick="editar_lugar_atencion();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i> Cancelar</button>
+                        <button type="button" onclick="editar_lugar_atencion();" class="btn btn-info"><i class="feather icon-save"></i> Guardar cambios</button>
                     </div>
                 </form>
             </div>
@@ -362,9 +321,9 @@
         aria-labelledby="agregar_lugar_existente" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="">Desasociar o Agregar lugar existente</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <div class="modal-header modal-header-purple">
+                    <h5 class="modal-title text-center" id="">Desasociar o Agregar lugar existente</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -421,7 +380,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                     <button type="submit" class="btn btn-info">Guardar Cambios</button>
                 </div>
             </div>
@@ -432,9 +391,9 @@
     <div id="editar_asistentes" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editar_asistentes">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Configurar asistentes</h5>
-                    <button type="button" id="cerrar_editar_asistentes" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <div class="modal-header modal-header-purple">
+                    <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Configurar asistentes</h5>
+                    <button type="button" id="cerrar_editar_asistentes" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -445,7 +404,7 @@
                         <input type="hidden" name="mi_asistente_id_lugar_atencion" id="mi_asistente_id_lugar_atencion">
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2">
-                                <h6 class="text-c-blue">Escriba rut de el o la asistente que desea asociar a su lugar de atención</h6>
+                                <h6 class="text-c-blue">Escriba RUT de el o la asistente que desea asociar a su lugar de atención</h6>
                             </div>
                             <div id="buscar_datos_asistente" class="col-sm-6 col-md-6 mb-3">
                                 <div class="input-group input-group-sm">
@@ -462,7 +421,7 @@
                                         <table class="table table-borderless table-xs">
                                             <tbody>
                                                 <tr>
-                                                    <td><strong>Rut:</strong></td>
+                                                    <td><strong>RUT:</strong></td>
                                                     <td><span id="datos_rut_asistente"></span>
                                                         <input type="hidden" id="id_asistente_lugar_atencion" name="id_asistente_lugar_atencion">
                                                     </td>
@@ -510,8 +469,8 @@
                     </form>
                 </div>
                 <div class="modal-footer pt-2">
-                    <button type="button" class="btn btn-danger btn-sm" id="cerrar_editar_asistentes1"><i class="feather icon-x"></i> Cancelar</button>
-                    <button type="button" id="cerrar_editar_asistentes2" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
+                    <button type="button" class="btn btn-danger" id="cerrar_editar_asistentes1"><i class="feather icon-x"></i> Cancelar</button>
+                    <button type="button" id="cerrar_editar_asistentes2" class="btn btn-info"><i class="feather icon-save"></i> Guardar cambios</button>
                 </div>
             </div>
         </div>
@@ -521,8 +480,8 @@
     <div id="modal_editar_horario_atencion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editar_horario_atencion" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Configurar horario de atenci&oacute;n</h5>
+                <div class="modal-header modal-header-purple">
+                    <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Configurar horario de atenci&oacute;n</h5>
                     <button type="button" id="cerrar_modal_editar_horario_atencion" class="close text-white" onclick="" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -673,8 +632,8 @@
                             </div>
 
                             <div class="col-sm-12 mb-2">
-                                <button type="button" onclick="mi_horario_agregar();" class="btn btn-info btn-sm float-md-right"><i class="fa fa-plus"></i> Agregar horario de atención</button>
-                                {{-- <button type="button" id="cerrar_modal_horario2" class="btn btn-danger btn-sm">Cancelar</button> --}}
+                                <button type="button" onclick="mi_horario_agregar();" class="btn btn-info float-md-right"><i class="fa fa-plus"></i> Agregar horario de atención</button>
+                                {{-- <button type="button" id="cerrar_modal_horario2" class="btn btn-danger">Cancelar</button> --}}
                             </div>
                             <div class="col-sm-12 mt-2 mb-2">
                                 <table id="mi_horario_table" class="table table-sm">
@@ -707,9 +666,9 @@
     <div id="modal_editar_valor_atencion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editar_valor_atencion" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Convenios y valores de atención veterinaria</h5>
-                    <button type="button" id="cerrar_modal_editar_valor_atencion" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <div class="modal-header modal-header-purple">
+                    <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Convenios y valores de atención veterinaria</h5>
+                    <button type="button" id="cerrar_modal_editar_valor_atencion" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="id_lugar_atencion_valor" id="id_lugar_atencion_valor">
@@ -735,64 +694,6 @@
                                 <input name="valor_convenio" id="valor_convenio" type="number" class="form-control form-control-sm">
                             </div>
                         </div>
-
-                        {{--  <div class="col-sm-12">
-                            <h6 class="t-aten mb-2">Convenios</h6>
-                        </div>
-                        <div class="col-sm-4 mb-3">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_1">
-                                <label class="custom-control-label" id="text_convenio_1" for="convenio_1">Particular</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_2">
-                                <label class="custom-control-label" id="text_convenio_2" for="convenio_2">Fonasa</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_3">
-                                <label class="custom-control-label" id="text_convenio_3" for="convenio_3">Todas las Isapres</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_4">
-                                <label class="custom-control-label" id="text_convenio_4" for="convenio_4">Banmédica</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 mb-3">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_5">
-                                <label class="custom-control-label" id="text_convenio_5" for="convenio_5">Colmena</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_6">
-                                <label class="custom-control-label" id="text_convenio_6" for="convenio_6">Nueva Masvida</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_7">
-                                <label class="custom-control-label" id="text_convenio_7" for="convenio_7">Consalud</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_8">
-                                <label class="custom-control-label" id="text_convenio_8" for="convenio_8">Cruz Blanca</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 mb-3">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_9">
-                                <label class="custom-control-label" id="text_convenio_9" for="convenio_9">Cruz del Norte</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_10">
-                                <label class="custom-control-label" id="text_convenio_10" for="convenio_10">Vida Tres</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_11">
-                                <label class="custom-control-label" id="text_convenio_11" for="convenio_11">Fundación </label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="convenio_12">
-                                <label class="custom-control-label" id="text_convenio_12" for="convenio_12">Isalud</label>
-                            </div>
-                        </div>
                         <div class="col-sm-12 mb-3 mt-2 text-center">
                             <button type="button" onclick="guardar_valores_lugar_atencion()" class="btn btn-info btn-sm" data-dismiss="modal"><i class="fa fa-plus"></i> Agregar convenio y valor</button>
                             <!--<button type="button" id="cerrar_convenio1" class="btn btn-danger btn-sm">Cancelar</button>-->
@@ -816,7 +717,7 @@
                     </div>
                 </div>
                 <!--<div class="modal-footer">
-                    <button type="button" id="cerrar_convenio" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" id="cerrar_convenio" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                     <button type="button" id="cerrar_convenio2" class="btn btn-info">Guardar Cambios</button>
                 </div>-->
             </div>
@@ -828,8 +729,8 @@
     <div id="modal_agrear_editar_procedimientos" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="agrear_editar_procedimientos" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Procedimientos</h5>
+                <div class="modal-header modal-header-purple">
+                    <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Procedimientos</h5>
                     <button type="button" id="cerrar_modal_editar_valor_atencion" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="cerrar_modal_agrear_editar_procedimientos();"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -896,12 +797,12 @@
     <div id="modal_tarifario_veterinario" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info text-white">
+                <div class="modal-header modal-header-purple">
                     <div>
-                        <h5 class="modal-title text-white mb-1">Servicios y valores de atención veterinaria</h5>
+                        <h5 class="modal-title mb-1">Servicios y valores de atención veterinaria</h5>
                         <small>Configure el precio particular de cada acción. Los servicios con valor estarán disponibles en presupuestos.</small>
                     </div>
-                    <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>
+                    <button type="button" class="close text-white" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><span>×</span></button>
                 </div>
                 <div class="modal-body" style="max-height:70vh;overflow-y:auto">
                     <input type="hidden" id="tarifario_id_lugar">
@@ -933,7 +834,7 @@
                     @endforeach
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
                     <button type="button" class="btn btn-info" id="btn_guardar_tarifario_veterinario"><i class="feather icon-save"></i> Guardar tarifario</button>
                 </div>
             </div>

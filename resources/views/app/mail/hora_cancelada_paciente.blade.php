@@ -18,7 +18,7 @@
 
                         <!-- TOP BAR -->
                         <tr>
-                            <td style="height:8px; background: linear-gradient(90deg, #A06CC1 0%, #0cb9b9 100%);">
+                            <td style="height:8px; background: linear-gradient(90deg, #A06CC1 0%, #31bebe 100%);">
                             </td>
                         </tr>
 
@@ -26,8 +26,8 @@
                         <tr>
                             <td align="center" style="padding:35px 20px 10px 20px;">
                                 <img style="width:110px;"
-                                    src="{{ asset('images/logo_pais_vertical.png') }}"
-                                    alt="VET SDI">
+                                    src="https://veterchile.cl/images/vet-color-h.svg"
+                                    alt="Veterchile">
                             </td>
                         </tr>
 
@@ -102,7 +102,7 @@
                                         ">
 
                                             <img style="width:45px;"
-                                                src="https://www.med-sdi.cl/images/email/calendario_1.png"
+                                                src="https://veterchile.cl/images/email/calendario_1.png"
                                                 alt="Fecha">
 
                                             <p style="
@@ -137,12 +137,12 @@
                                         ">
 
                                             <img style="width:45px;"
-                                                src="https://www.med-sdi.cl/images/email/reloj_1.png"
+                                                src="https://veterchile.cl/images/email/reloj_1.png"
                                                 alt="Hora">
 
                                             <p style="
                                                 font-family: Arial, Helvetica, sans-serif;
-                                                color:#0cb9b9;
+                                                color:#31bebe;
                                                 font-size:14px;
                                                 margin:15px 0 5px 0;
                                                 font-weight:600;
@@ -286,7 +286,7 @@
                                     Este correo fue enviado por
                                     <a href="#"
                                         style="color:#A06CC1; text-decoration:none; font-weight:700;">
-                                        VET-SDI
+                                        Veterchile
                                     </a>
                                 </p>
 
@@ -296,7 +296,7 @@
                                     font-size:12px;
                                     color:#b0b0b0;
                                 ">
-                                    VET-SDI &copy;
+                                    Veterchile &copy;
                                     <script>document.write(new Date().getFullYear())</script>
                                 </p>
 
@@ -306,7 +306,7 @@
 
                         <!-- BOTTOM BAR -->
                         <tr>
-                            <td style="height:8px; background: linear-gradient(90deg, #A06CC1 0%, #0cb9b9 100%);">
+                            <td style="height:8px; background: linear-gradient(90deg, #A06CC1 0%, #31bebe 100%);">
                             </td>
                         </tr>
 

@@ -322,7 +322,7 @@ function buscar_hora_medica() {
                 data = JSON.parse(data);
                 for (i = 0; i < data.length; i++) {
 
-                    var hora_inicio = data[i].hora_inicio;
+                    var hora_inicio = String(data[i].hora_inicio || '').substring(0, 5);
                     //var salida = formato(fecha);
                     var paciente = data[i].id_paciente.nombres + ' ' + data[i].id_paciente.apellido_uno + ' ' +
                         data[i].id_paciente.apellido_dos;
@@ -579,8 +579,8 @@ function mi_horario_lugar_atencion(id) {
                 for (i = 0; i < data.length; i++) {
 
 
-                    var hora_inicio = data[i].hora_inicio;
-                    var hora_termino = data[i].hora_termino;
+                    var hora_inicio = String(data[i].hora_inicio || '').substring(0, 5);
+                    var hora_termino = String(data[i].hora_termino || '').substring(0, 5);
                     var dia = data[i].dia;
 
 

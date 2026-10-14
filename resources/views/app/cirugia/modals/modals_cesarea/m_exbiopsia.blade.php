@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_indicar_examen">Orden de Biopsia</h5>
+                <h5 class="modal-title mt-1" id="modal_indicar_examen">Orden de Biopsia</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span>
                 </button>
@@ -85,7 +85,7 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" onclick="reset_form('form_biopsia_cirugia')" class="btn btn-danger"
+                            <button type="button" onclick="reset_form('form_biopsia_cirugia')" class="btn btn-outline-dark"
                                 data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-info">
                                 @if (isset($biopsia))

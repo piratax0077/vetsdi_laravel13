@@ -364,3 +364,22 @@ Route::post('/test-ficha-atencion-app', function (Request $request) {
 });
 
 Route::post('/v1/integrations/veterfarma/pets', [App\Http\Controllers\Api\VeterfarmaPetController::class, 'store']);
+
+// Reserva publica de horas veterinarias desde el sitio informativo de VeterChile
+// (veterchile_informativa/agendamiento.php). Sin sesion: lectura del catalogo,
+// de los profesionales con sus lugares de atencion y de las horas disponibles,
+// mas la creacion de la reserva. La busqueda de tutores por RUT (responsable)
+// no se publica porque devuelve datos personales sin autenticacion.
+Route::prefix('vetsdinicio')->group(function () {
+    Route::middleware('throttle:60,1')->group(function () {
+        Route::get('catalogo', [App\Http\Controllers\VetsdiInicioReservaController::class, 'catalogo'])->name('api.vetsdinicio.catalogo');
+        Route::get('ciudades', [App\Http\Controllers\VetsdiInicioReservaController::class, 'ciudades'])->name('api.vetsdinicio.ciudades');
+        Route::get('tipos_especialidad', [App\Http\Controllers\VetsdiInicioReservaController::class, 'tiposEspecialidad'])->name('api.vetsdinicio.tipos_especialidad');
+        Route::get('profesionales', [App\Http\Controllers\VetsdiInicioReservaController::class, 'profesionales'])->name('api.vetsdinicio.profesionales');
+        Route::get('horas', [App\Http\Controllers\VetsdiInicioReservaController::class, 'horas'])->name('api.vetsdinicio.horas');
+    });
+
+    Route::post('reservar', [App\Http\Controllers\VetsdiInicioReservaController::class, 'reservar'])
+        ->middleware('throttle:10,1')
+        ->name('api.vetsdinicio.reservar');
+});

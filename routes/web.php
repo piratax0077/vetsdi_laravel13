@@ -24,7 +24,7 @@ use App\Http\Controllers\HoraMedicaController;
 
 use App\Http\Controllers\InformeMedicoController;
 
-use App\Http\Controllers\Mascotascontroller;
+use App\Http\Controllers\MascotasController;
 
 use App\Http\Controllers\PacienteController;
 
@@ -159,7 +159,41 @@ Route::post('Registro', [App\Http\Controllers\HomeController::class, 'registro']
 
 Route::get('Buscar_user_email', [App\Http\Controllers\HomeController::class, 'buscar_user_email'])->name('home.buscar_user_email');
 
-Route::post('recuperar_contrasena', [App\Http\Controllers\HomeController::class, 'recuperarcontrasena'])->name('home.recuperar_contrasena');
+/** Recuperación de contraseña: enlace al correo o código al celular */
+Route::post('recuperar_contrasena', [App\Http\Controllers\Auth\RecuperacionContrasenaController::class, 'enlace'])
+    ->middleware('throttle:6,1')
+    ->name('home.recuperar_contrasena');
+
+Route::post('recuperar_contrasena/codigo', [App\Http\Controllers\Auth\RecuperacionContrasenaController::class, 'codigo'])
+    ->middleware('throttle:6,1')
+    ->name('recuperar.codigo');
+
+Route::post('recuperar_contrasena/verificar', [App\Http\Controllers\Auth\RecuperacionContrasenaController::class, 'verificar'])
+    ->middleware('throttle:10,1')
+    ->name('recuperar.verificar');
+
+/** Registro de cuenta y confirmación del correo */
+Route::post('Registro_cuenta', [App\Http\Controllers\Auth\RegistroCuentaController::class, 'store'])->name('registro.cuenta');
+
+Route::get('Registro_confirmacion', [App\Http\Controllers\Auth\VerificacionCorreoController::class, 'enviado'])->name('registro.enviado');
+
+Route::post('Registro_confirmacion/reenviar', [App\Http\Controllers\Auth\VerificacionCorreoController::class, 'reenviar'])
+    ->middleware('throttle:6,1')
+    ->name('registro.reenviar');
+
+Route::get('Confirmar_cuenta/{token}', [App\Http\Controllers\Auth\VerificacionCorreoController::class, 'verificar'])
+    ->name('registro.verificar');
+
+/** Selección de cuenta y perfil obligatorio de cada rol */
+Route::middleware('auth')->group(function () {
+    Route::get('Elegir_cuenta', [App\Http\Controllers\SeleccionCuentaController::class, 'index'])->name('cuenta.seleccion');
+
+    Route::get('Entrar_cuenta/{tipo}', [App\Http\Controllers\SeleccionCuentaController::class, 'entrar'])->name('cuenta.entrar');
+
+    Route::get('Completar_perfil/{tipo}', [App\Http\Controllers\Perfil\CompletarPerfilController::class, 'formulario'])->name('perfil.completar');
+
+    Route::post('Completar_perfil/{tipo}', [App\Http\Controllers\Perfil\CompletarPerfilController::class, 'guardar'])->name('perfil.completar.guardar');
+});
 
 
 
@@ -779,7 +813,9 @@ Route::group([
 
     Route::post('Nuevo_paciente', [EscritorioPaciente::class, 'registrar_paciente'])->name('paciente.nuevo_paciente');
 
-    Route::get('Inicio', [App\Http\Controllers\EscritorioPaciente::class, 'index'])->name('paciente.home');
+    Route::get('Inicio', [App\Http\Controllers\EscritorioPaciente::class, 'index'])
+        ->middleware('rol.cuenta:tutor')
+        ->name('paciente.home');
 
     Route::get('Integraciones/Alimentos-Farmacia', [App\Http\Controllers\ComercioSsoController::class, 'alimentos'])
         ->name('paciente.integraciones.alimentos');
@@ -924,6 +960,8 @@ Route::post('Convenios/editar', [App\Http\Controllers\EscritorioPaciente::class,
     Route::get('mascotas/{mascota}/genealogia', [App\Http\Controllers\MascotaGenealogiaController::class, 'show'])->whereNumber('mascota')->name('mascotas.genealogia.show');
     Route::post('mascotas/{mascota}/genealogia', [App\Http\Controllers\MascotaGenealogiaController::class, 'store'])->whereNumber('mascota')->name('mascotas.genealogia.store');
     Route::get('mascotas/{mascota}/genealogia/certificado', [App\Http\Controllers\MascotaGenealogiaController::class, 'certificado'])->whereNumber('mascota')->name('mascotas.genealogia.certificado');
+    Route::post('mascotas/{mascota}/genealogia/familiar', [App\Http\Controllers\MascotaGenealogiaController::class, 'guardarFamiliar'])->whereNumber('mascota')->name('mascotas.genealogia.familiar.guardar');
+    Route::delete('mascotas/{mascota}/genealogia/familiar', [App\Http\Controllers\MascotaGenealogiaController::class, 'quitarFamiliar'])->whereNumber('mascota')->name('mascotas.genealogia.familiar.quitar');
     Route::get('mascotas/{mascota}/carnet-sanitario', [App\Http\Controllers\MascotasController::class, 'carnetSanitario'])
         ->whereNumber('mascota')
         ->name('paciente.mascotas.carnet_sanitario');
@@ -1324,7 +1362,9 @@ Route::group([
 
     Route::get('Cargar_datos_contacto', [App\Http\Controllers\EscritorioProfesional::class, 'cargar_datos_contacto'])->name('profesional.cargar_datos_contacto');
 
-    Route::get('Inicio', [App\Http\Controllers\EscritorioProfesional::class, 'index'])->name('profesional.home');
+    Route::get('Inicio', [App\Http\Controllers\EscritorioProfesional::class, 'index'])
+        ->middleware('rol.cuenta:profesional')
+        ->name('profesional.home');
 
     Route::get('Referidos', [App\Http\Controllers\ReferidoProfesionalController::class, 'index'])->name('profesional.referidos.index');
     Route::post('Referidos', [App\Http\Controllers\ReferidoProfesionalController::class, 'store'])->name('profesional.referidos.store');
@@ -1333,6 +1373,14 @@ Route::group([
     Route::get('Mis_pacientes', [App\Http\Controllers\EscritorioProfesional::class, 'mis_pacientes'])->name('profesional.pacientes');
 
     Route::get('Mis_pacientes_ajax', [App\Http\Controllers\EscritorioProfesional::class, 'mis_pacientes_ajax'])->name('profesional.mis_pacientes.ajax');
+
+    Route::get('Hospitalizacion', [App\Http\Controllers\EscritorioProfesional::class, 'hospitalizacion'])->name('profesional.hospitalizacion');
+
+    Route::post('Hospitalizacion/alta', [App\Http\Controllers\EscritorioProfesional::class, 'dar_alta_hospitalizacion'])->name('profesional.hospitalizacion.alta');
+
+    Route::get('Mis_pacientes/tutor/{tutor}', [App\Http\Controllers\EscritorioProfesional::class, 'ver_tutor'])
+        ->whereNumber('tutor')
+        ->name('profesional.tutor.informacion');
 
     Route::get('Recetas', [App\Http\Controllers\EscritorioProfesional::class, 'buscar_receta_ficha'])->name('profesional.buscar_recetas');
 
@@ -1635,7 +1683,7 @@ Route::group([
 
 
 
-    Route::post('/Paciente/crear', [App\Http\Controllers\pacienteController::class, 'crear_paciente'])->name('profesional.paciente_agregar');
+    Route::post('/Paciente/crear', [App\Http\Controllers\PacienteController::class, 'crear_paciente'])->name('profesional.paciente_agregar');
 
     Route::post('/Asistente/crear', [App\Http\Controllers\EscritorioProfesional::class, 'crear_asistente'])->name('profesional.crear_asistente');
 
@@ -2062,7 +2110,9 @@ Route::group([
 
 ], function () {
 
-    Route::get('Inicio', [App\Http\Controllers\EscritorioAsistente::class, 'index'])->name('asistente.home');
+    Route::get('Inicio', [App\Http\Controllers\EscritorioAsistente::class, 'index'])
+        ->middleware('rol.cuenta:asistente')
+        ->name('asistente.home');
 
     Route::get('Perfil', [App\Http\Controllers\EscritorioAsistente::class, 'perfil'])->name('asistente.perfil');
 
@@ -3458,7 +3508,7 @@ Route::group([
 
 // PROFESIONAL PROVISORIO
 
-    Route::get('/Registro_paciente', [App\Http\Controllers\pacienteController::class, 'buscar_paciente'])->name('buscar_paciente');
+    Route::get('/Registro_paciente', [App\Http\Controllers\PacienteController::class, 'buscar_paciente'])->name('buscar_paciente');
 
 
 
@@ -3618,7 +3668,9 @@ Route::group([
 
 ], function () {
 
-    Route::get('/Inicio', [App\Http\Controllers\AdministradorCmController::class, 'index'])->name('adm_cm.home');
+    Route::get('/Inicio', [App\Http\Controllers\AdministradorCmController::class, 'index'])
+        ->middleware('rol.cuenta:clinica')
+        ->name('adm_cm.home');
 
     Route::get('/Usuarios', [App\Http\Controllers\AdministradorCmController::class, 'usuarios'])->name('adm_cm.usuarios');
 
@@ -4468,11 +4520,11 @@ Route::group([
 
 ], function () {
 
-    Route::get('/getMisPacientes',      [App\Http\Controllers\ProfesionalController::class, 'getPacientes']);
+    Route::get('/getMisPacientes',      [App\Http\Controllers\profesionalController::class, 'getPacientes']);
 
-    Route::get('/getMisClinicasDental', [App\Http\Controllers\ProfesionalController::class, 'getMisClinicasDental']);
+    Route::get('/getMisClinicasDental', [App\Http\Controllers\profesionalController::class, 'getMisClinicasDental']);
 
-    Route::get('/newLugarAtencion',     [App\Http\Controllers\ProfesionalController::class, 'newLugarAtencion']);
+    Route::get('/newLugarAtencion',     [App\Http\Controllers\profesionalController::class, 'newLugarAtencion']);
 
 });
 

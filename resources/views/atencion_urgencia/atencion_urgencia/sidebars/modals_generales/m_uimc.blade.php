@@ -2,7 +2,7 @@
 	<div class=" modal-dialog modal modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header bg-info">
-				<h5 class="modal-title text-white" id="modal_IMCLabel"><strong>Calculadora de índice de masa corporal (IMC)prueba </strong></h5>
+				<h5 class="modal-title" id="modal_IMCLabel"><strong>Calculadora de índice de masa corporal (IMC)prueba </strong></h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>

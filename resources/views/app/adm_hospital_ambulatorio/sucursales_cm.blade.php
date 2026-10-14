@@ -106,7 +106,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Agregar nueva sucursal</h5>
+                <h5 class="modal-title text-center">Agregar nueva sucursal</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -178,7 +178,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger mb-0" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark mb-0" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-info mb-0" >Agregar nueva sucursal</button>
                     </div>
                 </form>
@@ -192,7 +192,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">
+                <h5 class="modal-title text-center">
                     Editar Sucursal
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -266,7 +266,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-info" >Guardar Cambios</button>
                     </div>
                 </form>
@@ -280,7 +280,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center" id="">Desasociar o Agregar sucursal existente</h5>
+                <h5 class="modal-title text-center" id="">Desasociar o Agregar sucursal existente</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -329,7 +329,7 @@
                 </div>
             </div>
             <div class="modal-footer mb-0 pb-0">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-info" >Guardar Cambios</button>
             </div>
         </div>
@@ -341,7 +341,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Configurar Asistentes</h5>
+                <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Configurar Asistentes</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -399,7 +399,7 @@
                 </form>
             </div>
         <div class="modal-footer pt-2 mb-0 pb-0">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
             <button type="button" class="btn btn-info" >Guardar Cambios</button>
         </div>
      </div>
@@ -411,7 +411,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Configurar horario de atención</h5>
+                <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Configurar horario de atención</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -548,7 +548,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-info" >Guardar Cambios</button>
                 </form>
             </div>
@@ -561,7 +561,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center" id="nuevo_horario_atencion_titulo">Convenios</h5>
+                <h5 class="modal-title text-center" id="nuevo_horario_atencion_titulo">Convenios</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -623,7 +623,7 @@
                     </div>
                 </div>
                 <div class="modal-footer mb-0 pb-0">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-info" >Guardar Cambios</button>
                 </form>
             </div>

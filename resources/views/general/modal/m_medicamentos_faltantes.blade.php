@@ -2,8 +2,8 @@
 <div class="modal fade" id="modal_medicamentos_faltantes" tabindex="-1" role="dialog" aria-labelledby="modal_medicamentos_faltantes_label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_medicamentos_faltantes_label">
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title" id="modal_medicamentos_faltantes_label">
                     <i class="feather icon-plus-circle mr-1"></i> Agregar Medicamento Faltante
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#modal_medicamentos_faltantes').modal('hide');" aria-label="Cerrar">
@@ -190,7 +190,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">
                     <i class="feather icon-x mr-1"></i> Cerrar
                 </button>
             </div>

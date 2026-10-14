@@ -124,7 +124,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content shadow-lg">
                 <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">
-                    <h5 class="modal-title font-weight-bold text-white" id="nuevoConvenioInstitucionLabel">
+                    <h5 class="modal-title font-weight-bold" id="nuevoConvenioInstitucionLabel">
                         <i class="feather icon-plus-circle mr-2"></i>Registrar Nuevo Convenio
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
@@ -217,7 +217,7 @@
                     </form>
                 </div>
                 <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">
                         <i class="feather icon-x"></i> Cancelar
                     </button>
                     <button type="button" class="btn btn-primary" onclick="guardar_nuevo_convenio()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">
@@ -233,7 +233,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content shadow-lg">
                 <div class="modal-header" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border: none;">
-                    <h5 class="modal-title font-weight-bold text-white" id="editarConvenioInstitucionLabel">
+                    <h5 class="modal-title font-weight-bold" id="editarConvenioInstitucionLabel">
                         <i class="feather icon-edit-3 mr-2"></i>Editar Convenio
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
@@ -324,7 +324,7 @@
                     </form>
                 </div>
                 <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">
                         <i class="feather icon-x"></i> Cancelar
                     </button>
                     <button type="button" class="btn btn-warning" onclick="actualizar_convenio()" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border: none; color: white;">

@@ -44,8 +44,8 @@
     </div>
     
     
-    @yield('content')   
-
+    @yield('content')
+    @include('template.partials.boton_volver_auto')
     
 
     @include('template.include.nocomplatible')
@@ -74,5 +74,6 @@
             });
         });
     </script>
+@include('template.include.selector_fechas')
 </body>
 </html>

@@ -125,7 +125,7 @@
                             <div class="modal fade" id="modal_seguimiento_cotizacion" tabindex="-1" role="dialog" aria-labelledby="modal_seguimiento_cotizacion_label" aria-hidden="true">
                                 <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content shadow-lg rounded">
-                                        <div class="modal-header bg-primary text-white">
+                                        <div class="modal-header bg-primary">
                                             <h5 class="modal-title font-weight-bold" id="modal_seguimiento_cotizacion_label">
                                                 <i class="feather icon-clipboard mr-2"></i> Seguimiento de Cotización
                                             </h5>

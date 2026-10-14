@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Recomendaciones generales posterior a una Colonoscopía
+                <h5 class="modal-title text-center">Recomendaciones generales posterior a una Colonoscopía
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
@@ -13,8 +13,8 @@
                     data-documento="indcolonoscopia.pdf" data-url="documentos/cirugia/indcolonoscopia.pdf"
                     width="100%" height="750px" />
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-info btn-sm"
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-info"
                         onclick="envio_indicaciones_pdf('m_ind_endosc_baja');">Enviar al Paciente</button>
                 </div>
             </div>

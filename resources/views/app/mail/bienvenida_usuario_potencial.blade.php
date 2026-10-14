@@ -2,12 +2,12 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Bienvenido a SDI</title>
+    <title>Bienvenido a Veterchile</title>
 </head>
 
-<body style="margin:0; padding:0; background:#edf3fb;">
+<body style="margin:0; padding:0; background:#f1eafa;">
 
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#edf3fb;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f1eafa;">
 <tr>
 <td align="center" style="padding:45px 15px;">
 
@@ -24,7 +24,7 @@
     <!-- HEADER -->
     <tr>
         <td style="
-            background:linear-gradient(180deg,#1a49a3 0%, #12377b 100%);
+            background:linear-gradient(180deg,#59339c 0%, #59339c 100%);
             padding:55px 35px 50px 35px;
             text-align:center;
             position:relative;
@@ -40,9 +40,9 @@
             ">
 
                 <img style="
-                    width:95px;
+                    width:150px;
                     vertical-align:middle;
-                " src="https://www.med-sdi.cl/images/sdi-white-v.svg" alt="Medichile">
+                " src="https://veterchile.cl/images/vet-white-h.svg" alt="Veterchile">
 
             </div>
 
@@ -53,7 +53,7 @@
                 font-weight:700;
                 letter-spacing:0.4px;
             ">
-                Bienvenido a SDI
+                Bienvenido a Veterchile
             </p>
 
             <p style="
@@ -107,7 +107,7 @@
             ">
                 Hemos recibido tu solicitud correctamente.<br><br>
 
-                Pronto uno de nuestros asesores se pondrá en contacto contigo para ayudarte a conocer todas las funcionalidades de SDI y cómo optimizar la gestión de tu centro médico.
+                Pronto uno de nuestros asesores se pondrá en contacto contigo para ayudarte a conocer todas las funcionalidades de Veterchile y cómo optimizar la gestión de tu centro médico.
             </p>
 
         </td>
@@ -121,7 +121,7 @@
 
                 <tr>
                     <td style="
-                        background:linear-gradient(180deg,#f8fcff 0%, #eef8ff 100%);
+                        background:linear-gradient(180deg,#f8f5fc 0%, #f1eafa 100%);
                         border:1px solid #e2e8f0;
                         border-radius:20px;
                         padding:20px 22px;
@@ -137,7 +137,7 @@
 
                 <tr>
                     <td style="
-                        background:linear-gradient(180deg,#f8fcff 0%, #eef8ff 100%);
+                        background:linear-gradient(180deg,#f8f5fc 0%, #f1eafa 100%);
                         border:1px solid #e2e8f0;
                         border-radius:20px;
                         padding:20px 22px;
@@ -153,7 +153,7 @@
 
                 <tr>
                     <td style="
-                        background:linear-gradient(180deg,#f8fcff 0%, #eef8ff 100%);
+                        background:linear-gradient(180deg,#f8f5fc 0%, #f1eafa 100%);
                         border:1px solid #e2e8f0;
                         border-radius:20px;
                         padding:20px 22px;
@@ -169,7 +169,7 @@
 
                 <tr>
                     <td style="
-                        background:linear-gradient(180deg,#f8fcff 0%, #eef8ff 100%);
+                        background:linear-gradient(180deg,#f8f5fc 0%, #f1eafa 100%);
                         border:1px solid #e2e8f0;
                         border-radius:20px;
                         padding:20px 22px;
@@ -185,7 +185,7 @@
 
                 <tr>
                     <td style="
-                        background:linear-gradient(180deg,#f8fcff 0%, #eef8ff 100%);
+                        background:linear-gradient(180deg,#f8f5fc 0%, #f1eafa 100%);
                         border:1px solid #e2e8f0;
                         border-radius:20px;
                         padding:20px 22px;
@@ -206,7 +206,7 @@
     <tr>
         <td align="center" style="padding:0 35px 50px 35px;">
 
-            <a target="_blank" href="https://www.med-sdi.cl/sdinicio/"
+            <a target="_blank" href="https://veterchile.cl/vetsdinicio"
                style="
                     display:inline-block;
                     background:linear-gradient(135deg,#31bebe 0%, #1b9db1 100%);
@@ -220,7 +220,7 @@
                     box-shadow:0 14px 30px rgba(49,190,190,0.30);
                ">
 
-                Ingresar a SDI
+                Ingresar a Veterchile
 
             </a>
 
@@ -254,13 +254,13 @@
 
                 Este correo fue enviado por 
                 <strong>
-                    Salud Digital Integrada
+                    Veterchile
                 </strong>
 
                 <br>
 
                 <span style="font-size:12px; color:#94a3b8;">
-                    © <span id="year"></span> SDI · Todos los derechos reservados
+                    © <span id="year"></span> Veterchile · Todos los derechos reservados
                 </span>
 
             </p>

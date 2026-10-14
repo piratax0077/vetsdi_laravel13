@@ -93,7 +93,7 @@
     @include('template.asistente.header')
 
     @yield('content')
-
+    @include('template.partials.boton_volver_auto')
     {{-- @yield('modals') --}}
 
 
@@ -3046,13 +3046,13 @@
 
                         var text_sexo = '';
                         if(response.asistente.sexo == 'F')
-                            text_sexo = 'Mujer';
+                            text_sexo = 'Femenino';
                         else if(response.asistente.sexo == 'M')
-                            text_sexo = 'Hombre';
-                        else
+                            text_sexo = 'Masculino';
+                        else if(response.asistente.sexo == 'O')
                             text_sexo = 'Otro';
 
-                        var fecha_nacimiento = moment(response.asistente.fecha_nac,'YYYY/MM/DD').format('DD/MM/YYYY');
+                        var fecha_nacimiento = response.asistente.fecha_nac ? moment(response.asistente.fecha_nac,'YYYY/MM/DD').format('DD-MM-YYYY') : '';
                         $('#ver_rut').html(response.asistente.rut);
                         $('#ver_nombre').html(response.asistente.nombres);
                         $('#ver_apellido_uno').html(response.asistente.apellido_uno);
@@ -3067,6 +3067,7 @@
                     } else {
                         swal({
                             title: "Error al Editar los datos personales",
+                            text: response.message || '',
                             icon: "error",
                             buttons: "Aceptar",
                             DangerMode: true,
@@ -3075,6 +3076,13 @@
                 })
                 .fail(function() {
                     console.log("error");
+                    // Antes el error quedaba solo en la consola y parecía que no pasaba nada
+                    swal({
+                        title: "No se pudieron guardar los cambios",
+                        text: "Revise los datos e intente nuevamente.",
+                        icon: "error",
+                        buttons: "Aceptar",
+                    });
                 });
         }
 
@@ -3116,6 +3124,7 @@
                     } else {
                         swal({
                             title: "Error al Editar los datos de contacto",
+                            text: response.message || '',
                             icon: "error",
                             buttons: "Aceptar",
                             DangerMode: true,
@@ -3124,6 +3133,13 @@
                 })
                 .fail(function() {
                     console.log("error");
+                    // Antes el error quedaba solo en la consola y parecía que no pasaba nada
+                    swal({
+                        title: "No se pudieron guardar los cambios",
+                        text: "Revise los datos e intente nuevamente.",
+                        icon: "error",
+                        buttons: "Aceptar",
+                    });
                 })
 
         }
@@ -3169,7 +3185,7 @@
 
                         $('#ver_region').html(nombre_region);
                         $('#ver_ciudad').html(nombre_ciudad);
-                        $('#ver_direccion').html(direccion+', #'+numero_dir);
+                        $("#ver_direccion").html(direccion + (numero_dir ? " #" + numero_dir : ""));
 
                         $('#info_residencial_1').addClass('show');
                         $('#info_residencial_2').removeClass('show');
@@ -3177,6 +3193,7 @@
                     } else {
                         swal({
                             title: "Error al Editar los datos de Residencia",
+                            text: response.message || '',
                             icon: "error",
                             buttons: "Aceptar",
                             DangerMode: true,
@@ -3185,6 +3202,13 @@
                 })
                 .fail(function() {
                     console.log("error");
+                    // Antes el error quedaba solo en la consola y parecía que no pasaba nada
+                    swal({
+                        title: "No se pudieron guardar los cambios",
+                        text: "Revise los datos e intente nuevamente.",
+                        icon: "error",
+                        buttons: "Aceptar",
+                    });
                 })
 
         }
@@ -3522,9 +3546,7 @@
                             $('#apellido_dos_contacto_emergencia').val(data.apellido_dos);
                             $('#email_contacto_emergencia').val(data.email);
                             $('#telefono_contacto_emergencia').val(data.telefono_uno);
-                            $('#direccion_contacto_emergencia').val(data.direccion);
-                            $('#numero_dir_contacto_emergencia').val(data.numero_dir);
-                            $('#fecha_nac_contacto_emergencia').val(data.fecha_nac);
+                            $('#direccion_contacto_emergencia').val([data.direccion, data.numero_dir].filter(Boolean).join(' '));
 
                             let ciudad = data.ciudad.id;
                             {{--  $("#ciudad_agregar option[value=" + ciudad + "]").attr("selected", true);  --}}
@@ -3556,15 +3578,13 @@
             let nombres = $('#nombres_contacto_emergencia').val();
             let apellido_uno = $('#apellido_uno_contacto_emergencia').val();
             let apellido_dos = $('#apellido_dos_contacto_emergencia').val();
-            let fecha = $('#fecha_nac_contacto_emergencia').val();
             let direccion = $('#direccion_contacto_emergencia').val();
-            let id_ciudad = $('#ciudad_agregar').val();
+            // Comuna del contacto (antes se tomaba la de la residencia del asistente)
+            let id_ciudad = $('#ciudad_agregar_emergencia').val();
             let email = $('#email_contacto_emergencia').val();
             let telefono = $('#telefono_contacto_emergencia').val();
             let parentezco = $('#parentezco_contacto_emergencia').val();
             let prioridad = $('#prioridad_contacto_emergencia').val();
-
-            let numero_dir = $('#numero_dir_contacto_emergencia').val();
 
             var valido = 1;
             var mensaje = ''
@@ -3587,11 +3607,6 @@
             {
                 valido = 0;
                 mensaje += 'Debe ingresar apellido materno.\n';
-            }
-            if(fecha == '')
-            {
-                valido = 0;
-                mensaje += 'Debe ingresar fecha.\n';
             }
             if(direccion == '')
             {
@@ -3623,11 +3638,6 @@
                 valido = 0;
                 mensaje += 'Debe ingresar prioridad.\n';
             }
-            if(numero_dir == '')
-            {
-                valido = 0;
-                mensaje += 'Debe ingresar numero direccion.\n';
-            }
 
             if(valido == 1)
             {
@@ -3640,9 +3650,7 @@
                             nombres: nombres,
                             apellido_uno: apellido_uno,
                             apellido_dos: apellido_dos,
-                            fecha: fecha,
                             direccion: direccion,
-                            numero_dir: numero_dir,
                             id_ciudad: id_ciudad,
                             email: email,
                             telefono: telefono,
@@ -4060,5 +4068,6 @@
 
     @yield('modals')
     <script src="{{ asset('js/validaRut.js') }}"></script>
+@include('template.include.selector_fechas')
 </body>
 </html>

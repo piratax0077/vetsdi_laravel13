@@ -4,7 +4,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header" style="background-color: rgb(28, 190, 190);">
-        <h5 class="modal-title text-white" id="modal_bloqueo_horaLabel">Configuración de Agenda</h5>
+        <h5 class="modal-title" id="modal_bloqueo_horaLabel">Configuración de Agenda</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modal_bloqueo_hora').modal('hide');">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -107,7 +107,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger-light btn-sm" onclick="$('#modal_bloqueo_hora').modal('hide');">Cerrar</button>
+        <button type="button" class="btn btn-danger-light" onclick="$('#modal_bloqueo_hora').modal('hide');">Cerrar</button>
       </div>
 
 
@@ -463,8 +463,8 @@
                     html += '<div class="row" style="border: 2px solid #aba8a8; border-radius: 13px; margin: 1em;padding: 10px 0px;">';
                     html += '    <div class="col-md-12 mb-2" style="text-align: left;"><span class="font-weight-bold">Motivo:</span> '+((value.motivo == null)?'':value.motivo)+'</div>';
                     html += '    ';
-                    html += '    <div class="col-md-12 mb-2" style="text-align: left;"><span class="font-weight-bold">Inicio:</span> '+fechaInicio+' '+value.hora_inicio+'</div>';
-                    html += '    <div class="col-md-12 mb-2" style="text-align: left;"><span class="font-weight-bold">Finalización:</span> '+fechaTermino+' '+value.hora_termino+'</div>';
+                    html += '    <div class="col-md-12 mb-2" style="text-align: left;"><span class="font-weight-bold">Inicio:</span> '+fechaInicio+' '+String(value.hora_inicio || '').substring(0, 5)+'</div>';
+                    html += '    <div class="col-md-12 mb-2" style="text-align: left;"><span class="font-weight-bold">Finalización:</span> '+fechaTermino+' '+String(value.hora_termino || '').substring(0, 5)+'</div>';
                     html += '    <div class="col-md-6 mb-2" style="text-align: center;">';
 
                     if (value.estado == 1)

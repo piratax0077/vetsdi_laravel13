@@ -83,6 +83,7 @@
 
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
     @yield('modales-profesionales_inst')
     @yield('modales')
 
@@ -568,6 +569,7 @@
     --}}
     @yield('page-script')
     @yield('js-profesionales')
+@include('template.include.selector_fechas')
 </body>
 
 </html>

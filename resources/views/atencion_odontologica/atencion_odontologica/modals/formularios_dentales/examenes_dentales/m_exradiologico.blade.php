@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_adjuntar_examen">
+                <h5 class="modal-title mt-1" id="modal_adjuntar_examen">
                     Examen radiológico</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span>
@@ -107,7 +107,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" onclick="reset_form('form_radiologico_validacion')"
-                                class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                             <input type="submit" id="btn_registrar_examen_radiologico" style="display:none;"
                                 class="btn btn-info" onclick="registrar_examen_radiologico()" value="GUARDAR">
                         </div>

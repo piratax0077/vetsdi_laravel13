@@ -1,9 +1,9 @@
 <div id="trat_act" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="trat_act" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
 		<div class="modal-content" >
-			<div class="modal-header bg-info">
-				<h5 class="modal-title text-white mt-1">Tratamientos activos</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+			<div class="modal-header modal-header-purple">
+				<h5 class="modal-title mt-1">Tratamientos activos</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
 			</div>
 			<div class="modal-body">
 
@@ -18,7 +18,7 @@
 			</div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-danger" onclick="$('#trat_act').modal('hide');">Cerrar</button>
+                <button type="button" class="btn btn-danger" onclick="$('#trat_act').modal('hide');">Cerrar</button>
             </div>
 
 		</div>

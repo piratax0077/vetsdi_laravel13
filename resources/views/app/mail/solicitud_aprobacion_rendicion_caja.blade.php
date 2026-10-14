@@ -20,7 +20,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         .email-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #6f42c1 0%, #59339c 100%);
             color: #ffffff;
             padding: 30px;
             text-align: center;
@@ -45,14 +45,14 @@
         }
         .info-card {
             background-color: #f8f9fa;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #6f42c1;
             padding: 20px;
             margin: 20px 0;
             border-radius: 5px;
         }
         .info-card h3 {
             margin: 0 0 15px 0;
-            color: #667eea;
+            color: #6f42c1;
             font-size: 18px;
         }
         .info-row {
@@ -73,7 +73,7 @@
             text-align: right;
         }
         .total-row {
-            background-color: #667eea;
+            background-color: #6f42c1;
             color: #ffffff;
             padding: 15px;
             border-radius: 5px;
@@ -252,7 +252,7 @@
 
         <!-- Footer -->
         <div class="email-footer">
-            <p><strong>{{ config('app.name', 'MediChile Sistema') }}</strong></p>
+            <p><strong>{{ config('app.name', 'Veterchile') }}</strong></p>
             <p>Este es un correo automático, por favor no responder.</p>
             <p style="margin-top: 15px;">
                 © {{ date('Y') }} Todos los derechos reservados

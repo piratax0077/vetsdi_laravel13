@@ -41,8 +41,8 @@ return [
 
     'sdi_sso' => [
         'key' => env('SDI_SSO_KEY', 'sdi-local-integracion-2026-cambiar-en-produccion'),
-        'alimentos_url' => env('ALIMENTOS_SSO_URL', 'http://alimentos-laravel13.test:8080/sso/vet-sdi'),
-        'farmacia_url' => env('VETERFARMA_URL', 'http://127.0.0.1:8080'),
+        'alimentos_url' => env('ALIMENTOS_SSO_URL', 'http://localhost:8086/sso/vet-sdi'),
+        'farmacia_url' => env('VETERFARMA_URL', 'http://localhost:8086/sso/vet-sdi'),
     ],
 
     'sdi_hub' => [

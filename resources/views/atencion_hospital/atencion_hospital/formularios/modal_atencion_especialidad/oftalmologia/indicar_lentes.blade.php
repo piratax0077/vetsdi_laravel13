@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content" >
 			<div class="modal-header bg-info">
-				<h5 class="modal-title text-white mt-1">Receta de lentes</h5>
+				<h5 class="modal-title mt-1">Receta de lentes</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 			</div>
 			<div class="modal-body">
@@ -869,8 +869,8 @@
 
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-					<button type="submit" class="btn btn-success btn-info btn-sm">Guardar</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+					<button type="submit" class="btn btn-success btn-info">Guardar</button>
 				</div>
 			</div>	
 		</div>

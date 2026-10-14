@@ -4,7 +4,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header" style="background-color: rgb(28, 190, 190);">
-        <h5 class="modal-title text-white" id="modal_anular_horaLabel">Anular hora Medica</h5>
+        <h5 class="modal-title" id="modal_anular_horaLabel">Anular hora Medica</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modal_anular_hora').modal('hide');">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -35,7 +35,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger-light btn-sm" onclick="$('#modal_anular_hora').modal('hide');">Cerrar</button>
+        <button type="button" class="btn btn-danger-light" onclick="$('#modal_anular_hora').modal('hide');">Cerrar</button>
       </div>
 
 
@@ -48,7 +48,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background-color: rgb(28, 190, 190);">
-          <h5 class="modal-title text-white" id="modal_anular_hora_comentarioLabel">Anular hora Medica Comentario</h5>
+          <h5 class="modal-title" id="modal_anular_hora_comentarioLabel">Anular hora Medica Comentario</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modal_anular_hora_comentario').modal('hide');">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -67,8 +67,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger-light btn-sm" onclick="$('#modal_anular_hora_comentario').modal('hide');">Cerrar</button>
-          <button type="button" class="btn btn-success-light btn-sm" onclick="anular_horas();">Anular</button>
+          <button type="button" class="btn btn-danger-light" onclick="$('#modal_anular_hora_comentario').modal('hide');">Cerrar</button>
+          <button type="button" class="btn btn-success-light" onclick="anular_horas();">Anular</button>
         </div>
 
       </div>
@@ -98,7 +98,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-success" onclick="devolver_bono()">Confirmar devolución y anular hora</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>
         </form>
@@ -252,8 +252,8 @@
                     html += '<div class="row" style="border: 2px solid #aba8a8; border-radius: 13px; margin: 1em;padding: 10px 0px;">';
                     html += '    <div class="col-md-6 mb-2" style="text-align: left;"><span class="font-weight-bold">Paciente:</span> '+value.paciente.nombres+' '+value.paciente.apellido_uno+' '+value.paciente.apellido_dos+'</div>';
                     html += '    <div class="col-md-6 mb-2" style="text-align: left;"><span class="font-weight-bold">Rut:</span> '+value.paciente.rut+'</div>';
-                    html += '    <div class="col-md-6 mb-2" style="text-align: left;"><span class="font-weight-bold">Hora inicio:</span> '+value.hora_inicio+'</div>';
-                    html += '    <div class="col-md-6 mb-2" style="text-align: left;"><span class="font-weight-bold">Hora termino:</span> '+value.hora_termino+'</div>';
+                    html += '    <div class="col-md-6 mb-2" style="text-align: left;"><span class="font-weight-bold">Hora inicio:</span> '+String(value.hora_inicio || '').substring(0, 5)+'</div>';
+                    html += '    <div class="col-md-6 mb-2" style="text-align: left;"><span class="font-weight-bold">Hora termino:</span> '+String(value.hora_termino || '').substring(0, 5)+'</div>';
                     html += '    <div class="col-md-12 mb-2" style="text-align: left;background-color:'+value.estado.color+';"><span class="font-weight-bold">Estado: '+value.estado.valor+'</span></div>';
                     html += '    <div class="col-md-6 mb-2" style="text-align: center;">';
                     html += '       <span class="'+clase+'">Hay pago asociado. Se debe anular el pago de $'+valor+'. </span>';

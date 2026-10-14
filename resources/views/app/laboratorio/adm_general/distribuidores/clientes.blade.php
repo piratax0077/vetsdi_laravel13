@@ -104,7 +104,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_agregar_cliente_label">Añadir nuevo cliente</h5>
+                <h5 class="modal-title" id="modal_agregar_cliente_label">Añadir nuevo cliente</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#modal_agregar_cliente').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -207,7 +207,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#modal_agregar_cliente).modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$('#modal_agregar_cliente).modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
                 <button type="button" class="btn btn-info btn-sm" onclick="guardar_cliente();"><i class="feather icon-save"></i> Guardar cliente</button>
 
             </div>
@@ -219,7 +219,7 @@
     <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_editar_cliente_label">Editar nuevo cliente</h5>
+                <h5 class="modal-title" id="modal_editar_cliente_label">Editar nuevo cliente</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#modal_editar_cliente').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -316,7 +316,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#modal_editar_cliente').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" onclick="$('#modal_editar_cliente').modal('hide')"><i class="feather icon-x"></i> Cancelar</button>
                 <button type="button" class="btn btn-info btn-sm" onclick="guardar_edicion_cliente();"><i class="feather icon-save"></i> Guardar cliente</button>
 
             </div>
@@ -328,7 +328,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="modal_estado_cuenta_label">Estado de Cuenta</h5>
+                <h5 class="modal-title" id="modal_estado_cuenta_label">Estado de Cuenta</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#modal_estado_cuenta').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">

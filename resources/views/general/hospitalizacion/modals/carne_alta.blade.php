@@ -2,8 +2,8 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Carnet de alta</h5>
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title text-center">Carnet de alta</h5>
                 <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close" onclick="cerrarcalta();"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -127,8 +127,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">Guardar</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Guardar</button>
             </div>
         </div>
     </div>

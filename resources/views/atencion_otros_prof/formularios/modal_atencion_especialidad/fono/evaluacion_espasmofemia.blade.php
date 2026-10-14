@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_eval_hab_preart">Evaluación de la Espasmofemia</h5>
+                <h5 class="modal-title mt-1" id="modal_eval_hab_preart">Evaluación de la Espasmofemia</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" onclick="$('#m_eval_espasmof').modal('hide')" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -363,10 +363,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="$('#m_eval_espasmof').modal('hide')">Cerrar modal</button>
-                <button type="button" class="btn btn-info-light-c btn-sm" onclick="registrar_ev_espasmofemia();"><i class="feather icon-save"></i> Guardar y enviar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#m_eval_espasmof').modal('hide')">Cerrar modal</button>
+                <button type="button" class="btn btn-info-light-c" onclick="registrar_ev_espasmofemia();"><i class="feather icon-save"></i> Guardar y enviar</button>
 
-                {{--  <button type="button" class="btn btn-info btn-sm" onclick="envio_indicaciones_pdf('m_eval_espasmof');">Enviar al Paciente</button>  --}}
+                {{--  <button type="button" class="btn btn-info" onclick="envio_indicaciones_pdf('m_eval_espasmof');">Enviar al Paciente</button>  --}}
             </div>
         </div>
     </div>

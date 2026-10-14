@@ -1,63 +1,30 @@
 @extends('template.profesional.template')
+@section('sin_boton_volver', '1')
 @section('content')
     <!--Container Completo-->
     <div class="pcoded-main-container">
         <div class="pcoded-content">
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="page-header-title">
-                                <h5 class="font-weight-bolder">Editar perfil</h5>
-                            </div>
-                            <ul class="breadcrumb mb-4">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('profesional.home') }}" data-toggle="tooltip" data-placement="top"
-                                        title="Volver a mi escritorio">
-                                        <i class="feather icon-home">
-                                        </i>
-                                    </a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a href="#">Editar perfil</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="user-profile user-card mb-4">
                 <div class="card-body py-0">
                     <div class="user-about-block m-0">
                         <div class="row">
-                            <div class="col-md-12 text-center mt-n4">
-                                <div class="change-profile text-center">
-                                    <div class="dropdown w-auto d-inline-block">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <div class="profile-dp">
-                                                <div class="position-relative d-inline-block">
-                                                    <img class="img-radius img-fluid wid-100" id="profile-image"
-                                                        src="{{ $profesional->foto_perfil ? asset('storage/' . $profesional->foto_perfil) : asset('images/iconos/usuario_profesional.svg') }}"
-                                                        alt="User image">
-                                                </div>
-                                                <div class="overlay">
-                                                    <span>Actualizar</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#" onclick="document.getElementById('foto-perfil-input').click()">
-                                                <i class="feather icon-upload-cloud mr-2"></i>Cambiar foto de perfil
-                                            </a>
-                                            <a class="dropdown-item" href="#" onclick="eliminar_foto_perfil()">
-                                                <i class="feather icon-trash-2 mr-2"></i>Eliminar fotografía
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <!-- Input file oculto para seleccionar imagen -->
-                                    <input type="file" id="foto-perfil-input" accept="image/*" style="display: none;" onchange="cambiar_foto_perfil(this)">
-                                </div>
-                            </div>
+                            <!-- Input file oculto para seleccionar imagen -->
+                            <input type="file" id="foto-perfil-input" accept="image/*" style="display: none;" onchange="cambiar_foto_perfil(this)">
+                            @include('template.partials.perfil_cabecera', [
+                                'nombre' => trim(($profesional->nombre ?? '') . ' ' . ($profesional->apellido_uno ?? '') . ' ' . ($profesional->apellido_dos ?? '')),
+                                'rol' => 'Profesional',
+                                'foto' => $profesional->foto_perfil ?? null,
+                                'foto_base' => 'images/iconos/usuario_profesional.svg',
+                                'al_cambiar' => "document.getElementById('foto-perfil-input').click()",
+                                'al_eliminar' => 'eliminar_foto_perfil()',
+                                'datos_perfil' => [
+                                    $profesional->rut, $profesional->nombre, $profesional->apellido_uno, $profesional->sexo,
+                                    $profesional->id_especialidad, $profesional->id_tipo_especialidad, $profesional->num_colegio,
+                                    $profesional->id_tipo_atencion, $profesional->email, $profesional->telefono_uno, $profesional->foto_perfil,
+                                    $direccion_txt_region_profesional ?? '', $direccion_txt_ciudad_profesional ?? '',
+                                    optional($profesional->Direccion()->first())->direccion,
+                                ],
+                            ])
                             <div class="col-md-12 mt-md-2 m-0">
                                 <ul class="nav nav-tabs profile-tabs nav-fill mt-1" id="myTab" role="tablist">
                                     <li class="nav-item">
@@ -95,9 +62,9 @@
                                     <!--Card Información Básica-->
                                     <div class="card">
                                         <div
-                                            class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Datos personales</h5>
-                                            <button type="button" class="btn btn-light btn-icon m-0 float-right"
+                                            class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-user icono-purple"></i> Datos personales</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right"
                                                 data-toggle="collapse" data-target=".info_basica" aria-expanded="false"
                                                 aria-controls="info_basica-1 info_basica-2">
                                                 <i class="feather icon-edit"></i>
@@ -187,7 +154,7 @@
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Rut</label>
+                                                        <label class="floating-label-activo">RUT</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             value="{{ $profesional->rut }}" name="editar_rut" id="editar_rut">
                                                     </div>
@@ -308,7 +275,7 @@
                                                 <div class="form-row">
                                                     <label class="col-sm-12 col-form-label"></label>
                                                     <div class="col-sm-12 d-flex justify-content-end">
-                                                        <button type="button" class="btn btn-danger btn-sm mr-2"><i
+                                                        <button type="button" class="btn btn-outline-dark btn-sm mr-2"><i
                                                                 class="feather icon-x"></i> Cancelar</button>
                                                         <button type="button"
                                                             onclick="editar_profesional_datos_personales({{ $profesional->id }});"
@@ -326,9 +293,9 @@
                                     <!--Card Contacto-->
                                     <div class="card">
                                         <div
-                                            class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Contacto</h5>
-                                            <button type="button" class="btn btn-light btn-icon m-0 float-right"
+                                            class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-phone icono-purple"></i> Contacto</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right"
                                                 data-toggle="collapse" data-target=".info_contacto" aria-expanded="false"
                                                 aria-controls="info_contacto_1 info_contacto_2">
                                                 <i class="feather icon-edit"></i>
@@ -371,7 +338,7 @@
                                                 <div class="form-row">
                                                     <div
                                                         class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-end">
-                                                        <button type="button" class="btn btn-danger btn-sm mr-2"><i
+                                                        <button type="button" class="btn btn-outline-dark btn-sm mr-2"><i
                                                                 class="feather icon-x"></i> Cancelar</button>
                                                         <button type="button"
                                                             onclick="editar_datos_contacto_profesional();"
@@ -387,9 +354,9 @@
                                     <!--Card Residencia-->
                                     <div class="card">
                                         <div
-                                            class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Residencia</h5>
-                                            <button type="button" class="btn btn-light btn-icon m-0 float-right"
+                                            class="card-header d-flex align-items-center justify-content-between bg-white">
+                                            <h5 class="mb-0"><i class="feather icon-map-pin icono-purple"></i> Residencia</h5>
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right"
                                                 data-toggle="collapse" data-target=".info_residencial"
                                                 aria-expanded="false"
                                                 aria-controls="info_residencial_1 info_residencial_2">
@@ -456,7 +423,8 @@
                                                             @endif
                                                         </select>
                                                     </div>
-                                                    <div class="form-group col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                                                    {{-- Calle y número van juntos en un solo campo --}}
+                                                    <div class="form-group col-12">
                                                         <label class="floating-label-activo">Dirección</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             placeholder="Dirección" name="perfil_dire" id="perfil_dire"
@@ -473,7 +441,7 @@
                                                 <div class="form-row">
                                                     <div
                                                         class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-end">
-                                                        <button type="button" class="btn btn-sm btn-danger mr-2"><i
+                                                        <button type="button" class="btn btn-sm btn-outline-dark mr-2"><i
                                                                 class="feather icon-x"></i> Cancelar</button>
                                                         <button type="button" class="btn btn-sm btn-info"
                                                             onclick="editar_datos_residencia_profesional()"><i
@@ -500,7 +468,7 @@
                             {{-- formulario para agregar  --}}
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <h5 class="f-20 text-c-blue d-inline mr-2 pt-1">Antecedentes acedémicos</h5>
+                                    <h5 class="f-20 d-inline mr-2 pt-1">Antecedentes académicos</h5>
                                     <button type="button" class="btn btn-info btn-sm d-inline float-right mb-2"
                                         onclick="info_academica_m();"><i class="fas fa-plus"></i> Añadir</button>
                                 </div>
@@ -517,7 +485,7 @@
                                                     <h5 class="mb-0 text-white">
                                                         {{ $value_academico->TipoAntecedenteAcademico?->nombre ?? 'Antecedente académico' }}</h5>
                                                     <div class="float-md-right d-inline">
-                                                        <button type="button" class="btn btn-light btn-icon "
+                                                        <button type="button" class="btn btn-outline-purple btn-icon "
                                                             data-toggle="collapse"
                                                             data-target=".u_personal_{{ $value_academico->id }}"
                                                             aria-expanded="false"
@@ -525,7 +493,7 @@
                                                             <i class="feather icon-edit"></i>
                                                         </button>
                                                         <!--BOTÓN ELIMINAR PROGRAMAR - BORRAR COMENTARIO CUANDO SE PROGRAME-->
-                                                        <button type="button" class="btn btn-light btn-icon"
+                                                        <button type="button" class="btn btn-outline-purple btn-icon"
                                                             onclick="eliminar_info_academica({{ $value_academico->id }});">
                                                             <i class="feather icon-x"></i>
                                                         </button>
@@ -629,7 +597,7 @@
                                                                 data-target=".u_personal_{{ $value_academico->id }}"
                                                                 aria-expanded="false"
                                                                 aria-controls="u_personal_{{ $value_academico->id }}_1 u_personal_{{ $value_academico->id }}_2"
-                                                                class="btn btn-danger btn-sm mr-2"><i
+                                                                class="btn btn-outline-dark btn-sm mr-2"><i
                                                                     class="feather icon-x"></i> Cancelar</div>
                                                             <button class="btn btn-info btn-sm"
                                                                 onclick="modificar_registro_academico('{{ $value_academico->id }}');"><i

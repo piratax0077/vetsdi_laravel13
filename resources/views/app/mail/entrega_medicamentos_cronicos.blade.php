@@ -16,20 +16,20 @@
                         <tbody>
                             <!-- Barra superior gradiente -->
                             <tr>
-                                <td style="height: 8px; background: linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%); border-top-left-radius: 12px; border-top-right-radius: 12px;"></td>
+                                <td style="height: 8px; background: linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%); border-top-left-radius: 12px; border-top-right-radius: 12px;"></td>
                             </tr>
 
                             <!-- Logo -->
                             <tr>
                                 <td style="background-color: #ffffff; text-align: center; padding: 25px 0 10px 0;">
-                                    <img style="width: 90px;" src="https://www.med-sdi.cl/images/logo_pais_vertical.png" alt="MED-SDI">
+                                    <img style="width: 150px;" src="https://veterchile.cl/images/vet-color-h.svg" alt="Veterchile">
                                 </td>
                             </tr>
 
                             <!-- Saludo paciente -->
                             <tr>
                                 <td style="background-color: #ffffff; padding: 0 30px; text-align: center;">
-                                    <p style="font-size: 22px; font-weight: 600; color: #0071bc; margin-bottom: 5px;">
+                                    <p style="font-size: 22px; font-weight: 600; color: #6f42c1; margin-bottom: 5px;">
                                         Estimado/a Paciente:
                                     </p>
                                     <p style="font-size: 20px; font-weight: 700; color: #333; margin-top: 0;">
@@ -43,7 +43,7 @@
                                 <td style="padding: 0 30px;">
                                     <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                         <tr>
-                                            <td style="background: linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%); padding: 18px 24px; border-radius: 12px; text-align: center;">
+                                            <td style="background: linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%); padding: 18px 24px; border-radius: 12px; text-align: center;">
                                                 <p style="font-size: 18px; font-weight: 600; color: #ffffff; margin: 0;">
                                                     Notificación de Entrega de Medicamentos
                                                 </p>
@@ -79,20 +79,20 @@
                                 <td style="background-color: #ffffff; padding: 5px 30px 15px 30px;">
                                     <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                         <tr>
-                                            <td style="background: linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%); padding: 12px 20px; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                                            <td style="background: linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%); padding: 12px 20px; border-top-left-radius: 12px; border-top-right-radius: 12px;">
                                                 <p style="font-size: 14px; font-weight: 600; color: #ffffff; margin: 0;">
                                                      MEDICAMENTOS A ENTREGAR
                                                 </p>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="background-color: #f8f9ff; padding: 15px 20px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border: 1px solid #e0e7ff; border-top: none;">
+                                            <td style="background-color: #f8f5fc; padding: 15px 20px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border: 1px solid #f1eafa; border-top: none;">
                                                 <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                                     <!-- Cabecera tabla -->
                                                     <tr>
-                                                        <td style="padding: 8px 10px; font-size: 12px; font-weight: 700; color: #3366CC; border-bottom: 2px solid #3366CC; text-transform: uppercase;">Medicamento</td>
-                                                        <td style="padding: 8px 10px; font-size: 12px; font-weight: 700; color: #3366CC; border-bottom: 2px solid #3366CC; text-transform: uppercase; text-align: center;">Presentación</td>
-                                                        <td style="padding: 8px 10px; font-size: 12px; font-weight: 700; color: #3366CC; border-bottom: 2px solid #3366CC; text-transform: uppercase; text-align: center;">Posología</td>
+                                                        <td style="padding: 8px 10px; font-size: 12px; font-weight: 700; color: #6f42c1; border-bottom: 2px solid #6f42c1; text-transform: uppercase;">Medicamento</td>
+                                                        <td style="padding: 8px 10px; font-size: 12px; font-weight: 700; color: #6f42c1; border-bottom: 2px solid #6f42c1; text-transform: uppercase; text-align: center;">Presentación</td>
+                                                        <td style="padding: 8px 10px; font-size: 12px; font-weight: 700; color: #6f42c1; border-bottom: 2px solid #6f42c1; text-transform: uppercase; text-align: center;">Posología</td>
                                                     </tr>
                                                     @if(isset($medicamentos) && is_array($medicamentos))
                                                         @foreach($medicamentos as $index => $medicamento)
@@ -121,9 +121,9 @@
                                 <td style="background-color: #ffffff; padding: 5px 30px 20px 30px;">
                                     <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                         <tr>
-                                            <td style="background-color: #f0f4ff; border-radius: 12px; padding: 15px 20px; border-left: 4px solid #3366CC;">
+                                            <td style="background-color: #f1eafa; border-radius: 12px; padding: 15px 20px; border-left: 4px solid #6f42c1;">
                                                 <p style="font-size: 13px; color: #555; margin: 0 0 8px 0; line-height: 20px;">
-                                                    <strong style="color: #3366CC;">Profesional:</strong><br>
+                                                    <strong style="color: #6f42c1;">Profesional:</strong><br>
                                                     {{ $profesional_nombre }}
                                                     @if(isset($profesional_especialidad))
                                                         - {{ $profesional_especialidad }}
@@ -133,11 +133,11 @@
                                                     @endif
                                                 </p>
                                                 <p style="font-size: 13px; color: #555; margin: 0 0 8px 0; line-height: 20px;">
-                                                    <strong style="color: #3366CC;">Lugar de Atención:</strong><br>
+                                                    <strong style="color: #6f42c1;">Lugar de Atención:</strong><br>
                                                     {{ $lugar_atencion }}
                                                 </p>
                                                 <p style="font-size: 13px; color: #555; margin: 0; line-height: 20px;">
-                                                    <strong style="color: #3366CC;">Dirección:</strong><br>
+                                                    <strong style="color: #6f42c1;">Dirección:</strong><br>
                                                     {{ $direccion }}
                                                 </p>
                                             </td>
@@ -149,7 +149,7 @@
                             <!-- Separador -->
                             <tr>
                                 <td style="background-color: #ffffff; padding: 0 30px;">
-                                    <hr style="border: none; border-top: 2px dashed #e0e7ff; margin: 0;">
+                                    <hr style="border: none; border-top: 2px dashed #f1eafa; margin: 0;">
                                 </td>
                             </tr>
 
@@ -166,7 +166,7 @@
                                     <!-- Botón solicitar -->
                                     <table cellspacing="0" cellpadding="0" border="0" align="center">
                                         <tr>
-                                            <td style="border-radius: 10px; background: linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%);">
+                                            <td style="border-radius: 10px; background: linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%);">
                                                 <a href="{{ $url_solicitud }}" target="_blank" style="display: inline-block; padding: 14px 40px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 10px;">
                                                     &#128221; Solicitar Medicamentos
                                                 </a>
@@ -178,7 +178,7 @@
 
                             <!-- Barra inferior gradiente -->
                             <tr>
-                                <td style="height: 6px; background: linear-gradient(81deg, rgba(51,102,204,1) 0%, rgba(28,190,190,1) 100%); border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;"></td>
+                                <td style="height: 6px; background: linear-gradient(81deg, rgba(111,66,193,1) 0%, rgba(49,190,190,1) 100%); border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;"></td>
                             </tr>
 
                             <!-- Footer -->
@@ -186,9 +186,9 @@
                                 <td style="text-align: center; padding: 20px;">
                                     <p style="text-align: center; color: #999999; font-size: 12px; font-weight: normal; line-height: 20px;">
                                         Este correo electrónico fue enviado por
-                                        <a style="color: #3366CC;" href="https://med-sdi.cl/ingreso">Salud Digital Integrada</a>
+                                        <a style="color: #6f42c1;" href="https://veterchile.cl/">Veterchile</a>
                                         <br>
-                                        <strong>Salud Digital Integrada &copy; {{ date('Y') }}</strong>
+                                        <strong>Veterchile &copy; {{ date('Y') }}</strong>
                                     </p>
                                 </td>
                             </tr>

@@ -3,7 +3,7 @@
      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
          <div class="modal-content">
              <div class="modal-header bg-info">
-                 <h5 class="modal-title text-white text-center">Pedido de Insumos / Materiales</h5>
+                 <h5 class="modal-title text-center">Pedido de Insumos / Materiales</h5>
                  <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                          aria-hidden="true">×</span></button>
              </div>
@@ -82,7 +82,7 @@
 
                          <div class="modal-footer pt-2 pb-0">
                              <button type="button" onclick="reset_form('form_pedido_insumos_materiales')"
-                                 class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                 class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
                              <button type="button" onclick="guardar_solicitud_insumos()" class="btn btn-info">Guardar</button>
                          </div>
                      </div>

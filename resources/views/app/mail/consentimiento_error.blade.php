@@ -16,7 +16,7 @@
             <img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" alt="Error" style="width: 80px; margin-bottom: 20px;">
             <p class="fs-5 mb-3">Ha ocurrido un error al intentar registrar tu consentimiento.</p>
             <p class="fs-5 mb-3 text-danger">El enlace de confirmación es inválido o ha expirado.<br>Por favor, solicita un nuevo consentimiento a tu equipo médico.</p>
-            <a href="http://med-sdi.cl/sdinicio" class="btn btn-danger">Volver al inicio</a>
+            <a href="https://veterchile.cl/vetsdinicio" class="btn btn-danger">Volver al inicio</a>
         </div>
     </div>
 </div>

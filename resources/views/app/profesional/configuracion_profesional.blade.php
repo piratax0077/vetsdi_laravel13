@@ -14,9 +14,9 @@
             justify-content: center;
         }
         .configuracion-card-icon {
-            width: 78px !important;
-            height: 78px !important;
-            margin: 0 0 16px !important;
+            width: 62px !important;
+            height: 62px !important;
+            margin: 0 0 10px !important;
             object-fit: contain;
             flex: 0 0 78px;
         }
@@ -27,20 +27,9 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-<ul class="breadcrumb mt-2">
-                                <li class="breadcrumb-item"><a href="{{ route('profesional.home') }}" data-toggle="tooltip"
-                                        data-placement="top" title="Volver a mi escritorio"><i
-                                            class="feather icon-home"></i></a></li>
-                                <li class="breadcrumb-item">
-                                    <a href="#">Panel de configuración</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <h5 class="titulo-modulo f-26 d-inline">Panel de configuración</h5>
                 </div>
             </div>
             <!--Cierre: Header-->
@@ -59,7 +48,7 @@
                                     <div class="card-body text-center" style="cursor:pointer">
                                         <img class="configuracion-card-icon" src="{{ asset('images/iconos/docs.svg') }}"
                                             alt="Configurar mi página web">
-                                        <h5>Configurar mi página web</h5>
+                                        <h5 class="titulo-tarjeta">Configurar mi página web</h5>
                                     </div>
                                 </a>
                             </div>
@@ -70,7 +59,7 @@
                                     <div class="card-body text-center" style="cursor:pointer">
                                         <img class="configuracion-card-icon" src="{{ asset('images/iconos/lugar.svg') }}"
                                             alt="Mis Lugares de Atención">
-                                        <h5>
+                                        <h5 class="titulo-tarjeta">
                                             Mis lugares de atención
                                         </h5>
                                     </div>
@@ -83,7 +72,7 @@
                                     <div class="card-body text-center" style="cursor:pointer">
                                         <img class="configuracion-card-icon"
                                             src="{{ asset('images/iconos/mis_asistentes.svg') }}" alt="Mis Asistentes">
-                                        <h5>
+                                        <h5 class="titulo-tarjeta">
                                             Mis asistentes
                                         </h5>
                                     </div>
@@ -101,7 +90,7 @@
                                             <span class="position-absolute d-flex align-items-center justify-content-center"
                                                   style="right:-4px;bottom:-3px;width:27px;height:27px;border-radius:50%;background:#7b35a5;color:#fff;font-size:15px;font-weight:700;border:3px solid #fff">$</span>
                                         </span>
-                                        <h5 class="f-16">Configurar mis aranceles</h5>
+                                        <h5 class="titulo-tarjeta f-16">Configurar mis aranceles</h5>
                                     </div>
                                 </a>
                             </div>
@@ -114,7 +103,7 @@
                                         src="{{ asset('images/iconos/equipoqx.png') }}"
 
                                         alt="Profesional">
-                                        <h5 class="f-16">
+                                        <h5 class="titulo-tarjeta f-16">
                                         Mis equipos quirúrgicos
                                         </h5>
                                     </div>

@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div id="" class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Evolución neonatología</h5>
+                <h5 class="modal-title text-center">Evolución neonatología</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -153,9 +153,9 @@
 
 
                 <div class="modal-footer pt-2 pb-0">
-                    <button type="button" onclick="reset_evaluacion_neonatologia();" class="btn btn-danger btn-sm"
+                    <button type="button" onclick="reset_evaluacion_neonatologia();" class="btn btn-outline-dark"
                         data-dismiss="modal">Cancelar</button>
-                    <button type="button" onclick="alerta_evolucion_neonatologia();" class="btn btn-info btn-sm">
+                    <button type="button" onclick="alerta_evolucion_neonatologia();" class="btn btn-info">
                         Guardar evolución
                     </button>
                 </div>

@@ -21,6 +21,30 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Desarrollo con Docker
+
+El proyecto incluye contenedores para PHP 8.4-FPM, Nginx, MySQL 8.4 y Node 22.
+
+```bash
+cp .env.docker.example .env
+docker compose build
+docker compose up -d mysql app nginx
+docker compose exec app composer install
+docker compose exec app php artisan key:generate
+docker compose exec app php artisan migrate
+docker compose exec app php artisan storage:link
+docker compose run --rm node npm install
+docker compose run --rm node npm run dev
+```
+
+La aplicación queda disponible en <http://localhost:8082> y MySQL se publica en el puerto `3308` del equipo anfitrión.
+
+Para ejecutar el compilador frontend en modo observación:
+
+```bash
+docker compose run --rm node npm run watch-poll
+```
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.

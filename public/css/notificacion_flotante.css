@@ -1,0 +1,90 @@
+/* Notificación flotante (toast) que aparece arriba a la derecha y se cierra sola */
+.notificacion-flotante {
+    position: fixed;
+    top: 84px;
+    right: 24px;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 380px;
+    max-width: calc(100vw - 32px);
+    padding: 16px 18px;
+    overflow: hidden;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(39, 39, 39, .18);
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    color: #272727;
+    opacity: 0;
+    -webkit-transform: translateX(40px);
+    transform: translateX(40px);
+    -webkit-transition: opacity .35s ease, -webkit-transform .35s ease;
+    transition: opacity .35s ease, transform .35s ease;
+}
+
+.notificacion-flotante.visible {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+}
+
+.notificacion-flotante .notificacion-icono {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #e8f7ee;
+    color: #1fa75a;
+    font-size: 20px;
+}
+
+.notificacion-flotante .notificacion-texto {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.notificacion-flotante .notificacion-titulo {
+    margin: 0 0 2px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #272727;
+}
+
+.notificacion-flotante .notificacion-mensaje {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.35;
+    color: #5b5b5b;
+}
+
+.notificacion-flotante .notificacion-cerrar {
+    flex: 0 0 auto;
+    padding: 4px;
+    border: 0;
+    background: transparent;
+    color: #9a9a9a;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.notificacion-flotante .notificacion-cerrar:hover {
+    color: #272727;
+}
+
+/* Variantes */
+.notificacion-flotante.tipo-info .notificacion-icono { background: #e6f4fb; color: #1b8bc2; }
+.notificacion-flotante.tipo-error .notificacion-icono { background: #fdeaea; color: #d93b3b; }
+
+@media (max-width: 575px) {
+    .notificacion-flotante {
+        top: 72px;
+        right: 16px;
+        left: 16px;
+        width: auto;
+    }
+}

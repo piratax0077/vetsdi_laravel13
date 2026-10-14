@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white text-center">Reembolso de gastos médicos</h5>
+                <h5 class="modal-title text-center">Reembolso de gastos médicos</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -491,7 +491,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="reset_form('form_gastos_medicos')" class="btn btn-danger"
+                    <button type="button" onclick="reset_form('form_gastos_medicos')" class="btn btn-outline-dark"
                         data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-info">Guardar</button>
                 </div>

@@ -96,8 +96,18 @@ class EscritorioAsistente extends Controller
         $ciudades = Ciudad::where('id_region',  $direccion_region)->get();
         $contacto = $asistente->ContactosEmergencia()->get();
         $bancos = Bancos::where('estado',1)->get();
-        $liquidacion = app(\App\Services\PerfilUsuario::class)->liquidaciones(Auth::id());
-        $liqui_principal = $liquidacion->contains(fn ($registro) => (int) $registro->principal === 1) ? 1 : 0;
+        $liquidacion = LiquidacionRecibo::where('id_seccion',Auth::user()->id)->get();
+
+        $liqui_principal = 0;
+
+        if($liquidacion)
+        foreach ($liquidacion as $key => $value)
+        {
+            // Si un dato bancario no se puede descifrar se muestra vacío en vez de botar el perfil.
+            $value->preparar_para_perfil();
+            if($liqui_principal == 0 && $value->principal == 1)
+                $liqui_principal = 1;
+        }
 
         return view('app.asistente.perfil_asistente', [
             'asistente' => $asistente,
@@ -471,21 +481,8 @@ class EscritorioAsistente extends Controller
         if($liquidacion)
         foreach ($liquidacion as $key => $value)
         {
-            $id_banco = decrypt($value->casa);
-            $banco = Bancos::select('id', 'nombre')->where('id',$id_banco)->first();
-            $liquidacion[$key]->banco = $banco;
-            if($value->serie!='')
-                $liquidacion[$key]->serie  = decrypt($value->serie);
-            if($value->autor!='')
-                $liquidacion[$key]->autor = decrypt($value->autor);
-            if($value->casa!='')
-                $liquidacion[$key]->casa = decrypt($value->casa);
-            if($value->numero_control!='')
-                $liquidacion[$key]->numero_control = decrypt($value->numero_control);
-            if($value->email!='')
-                $liquidacion[$key]->email = decrypt($value->email);
-            if($value->otro!='')
-                $liquidacion[$key]->otro = decrypt($value->otro);
+            // Si un dato bancario no se puede descifrar se muestra vacío en vez de botar el perfil.
+            $value->preparar_para_perfil();
             if($liqui_principal == 0 && $value->principal == 1)
                 $liqui_principal = 1;
         }
@@ -1938,17 +1935,105 @@ class EscritorioAsistente extends Controller
 
     public function editar_datos_personales_perfil(Request $request)
     {
-        return response()->json(app(\App\Services\PerfilUsuario::class)->personales('asistente', $request));
+
+        $asistente = Asistente::where('id',  $request->id_asistente)->first();
+
+        if(!$asistente)
+            return response()->json(['success' => false, 'message' => 'Asistente no encontrado.']);
+
+        if(trim((string) $request->rut) == '' || trim((string) $request->nombres) == '' || trim((string) $request->apellido_uno) == '')
+            return response()->json(['success' => false, 'message' => 'RUT, nombres y primer apellido son obligatorios.']);
+
+        $asistente->rut = trim($request->rut);
+        $asistente->nombres = trim($request->nombres);
+        $asistente->apellido_uno = trim($request->apellido_uno);
+        $asistente->apellido_dos = trim((string) $request->apellido_dos);
+        // Sin elegir sexo o sin fecha se guarda vacío; antes llegaba el texto del selector y fallaba.
+        $asistente->sexo = in_array($request->sexo, ['M', 'F', 'O']) ? $request->sexo : null;
+        $asistente->fecha_nac = $request->nacimiento ?: null;
+
+        if (!$asistente->save()) {
+            return response()->json(['success' => false, 'message' => 'Error al editar datos personales.']);
+        } else {
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Datos personales Actualizados de forma exitosa.',
+                    'asistente' => $asistente
+                ]
+            );
+        }
     }
 
     public function editar_datos_contacto_perfil(Request $request)
     {
-        return response()->json(app(\App\Services\PerfilUsuario::class)->contacto('asistente', $request));
+
+        $asistente = Asistente::where('id',  $request->id_asistente)->first();
+
+        if(!$asistente)
+            return response()->json(['success' => false, 'message' => 'Asistente no encontrado.']);
+
+        if(trim((string) $request->email) == '' || trim((string) $request->telefono_uno) == '')
+            return response()->json(['success' => false, 'message' => 'Correo y teléfono son obligatorios.']);
+
+        $asistente->email = trim($request->email);
+        $asistente->telefono_uno = trim($request->telefono_uno);
+
+        if (!$asistente->save()) {
+            return response()->json(['success' => false, 'message' => 'Error al editar datos de Contacto.']);
+        } else {
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Datos de Contactos Actualizados.',
+                    'asistente' => $asistente
+                ]
+            );
+        }
     }
 
     public function editar_datos_direccion_perfil(Request $request)
     {
-        return response()->json(app(\App\Services\PerfilUsuario::class)->direccion('asistente', $request));
+        $asistente = Asistente::where('id',  $request->id_asistente)->first();
+
+        if(!$asistente)
+            return response()->json(['success' => false, 'message' => 'Asistente no encontrado.']);
+
+        if(!$request->id_ciudad || trim((string) $request->direccion) == '')
+            return response()->json(['success' => false, 'message' => 'Ciudad y dirección son obligatorias.']);
+
+        // El asistente puede no tener residencia todavía: en ese caso se crea.
+        $direccion = $asistente->Direccion()->first() ?: new Direccion();
+        if($direccion)
+        {
+            $direccion->id_ciudad = $request->id_ciudad;
+            $direccion->direccion = trim($request->direccion);
+            $direccion->numero_dir = trim((string) $request->numero_dir);
+
+            $guardada = $direccion->save();
+
+            if($guardada && $asistente->id_direccion != $direccion->id)
+            {
+                $asistente->id_direccion = $direccion->id;
+                $guardada = $asistente->save();
+            }
+
+            if (!$guardada) {
+                return response()->json(['success' => false, 'message' => 'Error al editar datos de residencia.']);
+            } else {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Datos de Residencia Actualizados.',
+                        'direccion' => $direccion
+                    ]
+                );
+            }
+        }
+        else
+        {
+            return response()->json(['success' => false, 'message' => 'Error al editar datos de residencia. sin direccion']);
+        }
     }
 
     public function eliminar_contacto_paciente(Request $request)
@@ -2069,7 +2154,9 @@ class EscritorioAsistente extends Controller
         $contacto_emergencia->apellido_uno = $request->apellido_uno;
         $contacto_emergencia->apellido_dos = $request->apellido_dos;
         $contacto_emergencia->parentezco = $request->parentezco;
-        $contacto_emergencia->fecha_nac = $request->filled('fecha') ? \Carbon\Carbon::parse($request->fecha)->format('Y-m-d') : null;
+        // La fecha de nacimiento ya no se pide: se conserva la que tuviera el contacto.
+        if($request->fecha)
+            $contacto_emergencia->fecha_nac = \Carbon\Carbon::parse($request->fecha)->format('Y-m-d');
         $contacto_emergencia->prioridad = $request->prioridad;
         $contacto_emergencia->id_direccion = $direccion_contacto->id;
 

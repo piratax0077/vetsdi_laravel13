@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white mt-1" id="modal_adjuntar_examen">Estudio en orina</h5>
+                <h5 class="modal-title mt-1" id="modal_adjuntar_examen">Estudio en orina</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                 </button>
             </div>
@@ -95,8 +95,8 @@
                 </form>
             </div> <!--AGREGAR  SALUDA ATTE, FIRMA DIGITAL DEL DR, CODIGO QR Y COD VERIFICACION SDI-->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-info btn-sm">Guardar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-info">Guardar</button>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class=" bg-info" style="text-align: center;height:60px">
-                <h3 class="modal-title text-white text-center">Sección en construcción</h3>
+                <h3 class="modal-title text-center">Sección en construcción</h3>
             </div>
             <div class="modal-body">
                 <form>

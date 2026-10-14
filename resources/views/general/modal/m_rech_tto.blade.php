@@ -1,9 +1,9 @@
 <div id="m_rech_tto" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="m_rech_tto" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-			<div class="modal-header bg-info">
-				<h5 class="modal-title text-white text-center">Rechazo voluntario de tratamiento médico, procedimientos y/o cirugia</h5>
-				<button type="button" class="close"  data-bs-dismiss="modal" aria-label="Close">
+			<div class="modal-header modal-header-purple">
+				<h5 class="modal-title text-center">Rechazo voluntario de tratamiento médico, procedimientos y/o cirugia</h5>
+				<button type="button" class="close"  data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 				</button>
             </div>

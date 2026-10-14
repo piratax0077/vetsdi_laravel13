@@ -1,9 +1,9 @@
 <div id="liquidacionot" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="liquidacionot" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header modal-header-purple">
                 <h5 class="modal-title text-white text-center">Liquidación Centro Médico ....</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -46,7 +46,7 @@
                     </div>
                      <div class="col-sm-12">
                         <div class="form-group">
-                           <button type="button" class="btn btn-success btn-sm d-inline float-right mr-4" data-dismiss="modal">Agregar Liquidación</button>
+                           <button type="button" class="btn btn-success btn-sm d-inline float-right mr-4" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Agregar Liquidación</button>
                         </div>
                     </div>
                 </div>

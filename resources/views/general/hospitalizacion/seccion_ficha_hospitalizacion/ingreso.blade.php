@@ -276,7 +276,7 @@ ingreso
             </div>
             <div class="modal-footer">
                 <div class="row">
-                    <div class="col-md-6"><button type="button" class="btn btn-danger" data-dismiss="modal"
+                    <div class="col-md-6"><button type="button" class="btn btn-outline-dark" data-dismiss="modal"
                             aria-label="Close">Cancelar</button></div>
                     <div class="col-md-6"><button type="button" class="btn btn-success">Guardar</button></div>
                 </div>

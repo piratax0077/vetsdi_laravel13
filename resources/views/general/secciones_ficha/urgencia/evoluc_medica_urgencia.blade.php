@@ -652,7 +652,7 @@
                                                             <!--Cierre: Tabla-->
                                                         </div>
                                                         <div class="modal-footer">
-                                                            {{--  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>  --}}
+                                                            {{--  <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>  --}}
                                                             {{--  <button type="button" onclick="alerta_registro_medicamento_sdi();" data-dismiss="modal" class="btn btn-info">Generar Receta</button>  --}}
                                                             <button type="button" onclick="registrar_medicamentos_ficha_sdi();" data-dismiss="modal" class="btn btn-info">Generar Indicaciones</button>
                                                         </div>
@@ -826,7 +826,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    {{--  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>  --}}
+                                                    {{--  <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>  --}}
                                                     {{--  <button type="button" data-dismiss="modal" class="btn btn-info">Guardar</button>  --}}
                                                     {{--  <button type="button" onclick="alerta_registro_examen();" data-dismiss="modal" class="btn btn-info">Generar Orden de Examen</button>  --}}
                                                     <button type="button" onclick="registro_examen_ficha();" data-dismiss="modal" class="btn btn-info">Generar Orden de Examen</button>

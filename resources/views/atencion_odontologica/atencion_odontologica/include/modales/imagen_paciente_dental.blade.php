@@ -14,7 +14,7 @@
 
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-outline-danger btn-sm" onclick="cerrar_modal()">Cerrar</button>
+            <button type="button" class="btn btn-outline-danger" onclick="cerrar_modal()">Cerrar</button>
         </div>
       </div>
     </div>

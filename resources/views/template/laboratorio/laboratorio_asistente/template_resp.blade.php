@@ -120,6 +120,7 @@
 
 
     @yield('content')
+    @include('template.partials.boton_volver_auto')
 
     <!-- Scripts -->
     <script src="{{ asset('js/vendor-all.min.js') }}"></script>
