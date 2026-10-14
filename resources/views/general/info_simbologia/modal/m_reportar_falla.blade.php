@@ -67,8 +67,9 @@
 
         $.ajax({
                 url: url,
-                type: 'GET',
+                type: 'POST',
                 data: {
+                    _token: "{{ csrf_token() }}",
                     id_profesional: id_profesional,
                     asunto_falla: asunto_falla,
                     prioridad_falla: prioridad_falla,

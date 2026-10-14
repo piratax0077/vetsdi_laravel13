@@ -41,7 +41,18 @@
                         </a>
                     </div>
                 </div>
-				<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="card subir py-auto" style="min-height: 120px;">
+                        <a href="{{ route('sitio.configurar') }}">
+                            <div class="card-body text-center" style="cursor:pointer">
+                                <img class="wid-50 text-center" src="{{ asset('images/iconos/docs.svg') }}" alt="Página web institucional">
+                                <h6 class="mt-2 mb-0">Configurar página web institucional</h6>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+				<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
                     <div class="card subir py-auto" style="min-height: 120px;">
                         <a href="{{ ROUTE('laboratorio.area_comercial') }}">
                             <div class="card-body text-center" style="cursor:pointer">

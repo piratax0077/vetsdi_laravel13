@@ -296,125 +296,17 @@ class EscritorioProfesional extends Controller
 
     public function editar_datos_personales_perfil(Request $request)
     {
-
-        $user = Auth::user();
-        $profesional = Profesional::where('id_usuario', $user->id)->first();
-
-        $profesional->nombre = $request->nombre;
-        $profesional->apellido_uno = $request->apellido_uno;
-        $profesional->apellido_dos = $request->apellido_dos;
-        $profesional->sexo = $request->sexo;
-        $profesional->id_especialidad = $request->id_especialidad;
-        $profesional->id_tipo_especialidad = $request->id_tipo_especialidad;
-        $profesional->id_sub_tipo_especialidad = $request->id_sub_tipo_especialidad;
-        $profesional->id_tipo_atencion = $request->id_tipo_atencion;
-        $profesional->num_colegio = $request->num_colegio;
-        $profesional->save();
-
-        if (!$profesional->save()) {
-
-            return response()->json(['success' => false, 'message' => 'Error al editar el profesional.']);
-        } else {
-            return response()->json(
-                [
-                    'success' => true,
-                    'message' => 'Profesional Editado correctamente.',
-                    'profesional' => $profesional
-                ]
-            );
-        }
+        return response()->json(app(\App\Services\PerfilUsuario::class)->personales('profesional', $request));
     }
 
     public function editar_datos_contacto_perfil(Request $request)
     {
-
-        $user = Auth::user();
-        $profesional = Profesional::where('id_usuario', $user->id)->first();
-
-        $profesional->email = $request->email;
-        $profesional->telefono_uno = $request->telefono_uno;
-
-        $profesional->save();
-        $user->email = $request->email;
-
-        $user->save();
-
-        if (!$profesional->save()) {
-
-            return response()->json(['success' => false, 'message' => 'Error al editar el profesional.']);
-        } else {
-            return response()->json(
-                [
-                    'success' => true,
-                    'message' => 'Profesional Editado correctamente.',
-                    'profesional' => $profesional
-                ]
-            );
-        }
+        return response()->json(app(\App\Services\PerfilUsuario::class)->contacto('profesional', $request));
     }
 
     public function editar_datos_residencia_perfil(Request $request)
     {
-
-        $user = Auth::user();
-        $profesional = Profesional::where('id_usuario', $user->id)->first();
-        $direccion = Direccion::where('id', $profesional->id_direccion)->first();
-
-        if($direccion)
-        {
-            // $direccion->region = $request->region;
-            $direccion->id_ciudad = $request->ciudad;
-            $direccion->direccion = $request->direccion;
-            $direccion->numero_dir = $request->numero_dir;
-            if($direccion->save())
-            {
-                return response()->json(
-                    [
-                        'success' => true,
-                        'message' => 'Profesional Editado correctamente.',
-                        'profesional' => $profesional
-                    ]
-                );
-            }
-            else
-            {
-                return response()->json(
-                    [
-                        'success' => false,
-                        'message' => 'proble a al actualziar direcion del Profesional.',
-                        'profesional' => $profesional
-                    ]
-                );
-            }
-        }
-        else
-        {
-            $direccion = new Direccion();
-            // $direccion->region = $request->region;
-            $direccion->id_ciudad = $request->ciudad;
-            $direccion->direccion = $request->direccion;
-            $direccion->numero_dir = $request->numero_dir;
-            if($direccion->save())
-            {
-                return response()->json(
-                    [
-                        'success' => true,
-                        'message' => 'Profesional Editado correctamente.',
-                        'profesional' => $profesional
-                    ]
-                );
-            }
-            else
-            {
-                return response()->json(
-                    [
-                        'success' => false,
-                        'message' => 'problema a al actualziar direcion del Profesional.',
-                        'profesional' => $profesional
-                    ]
-                );
-            }
-        }
+        return response()->json(app(\App\Services\PerfilUsuario::class)->direccion('profesional', $request));
     }
 
      public function guardar_diagnostico_periodoncia(Request $req){
@@ -3047,6 +2939,10 @@ class EscritorioProfesional extends Controller
 
     public function eliminar_contacto_paciente(Request $request)
     {
+        if (\App\Models\Paciente::where('id_usuario', \Illuminate\Support\Facades\Auth::id())->exists() && !\Illuminate\Support\Facades\Auth::user()->hasRole('Profesional')) {
+            return app(\App\Http\Controllers\PerfilTutorContactoController::class)->eliminar($request);
+        }
+
         $pacienteContacto = PacienteContactoEmergencia::where('id_paciente', $request->id_paciente)->where('id_contacto', $request->id_contacto)->first();
         if (!$pacienteContacto->delete()) {
             return 'error';
@@ -7951,7 +7847,7 @@ return $ficha;
 
     public function mi_perfil()
     {
-        $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
+        $profesional = Profesional::where('id_usuario', Auth::id())->firstOrFail();
         $direccion_profesional = Direccion::where('id',$profesional->id_direccion)->first();
         $direccion_id_ciudad_profesional = '';
         $direccion_txt_ciudad_profesional = '';
@@ -7975,7 +7871,7 @@ return $ficha;
                 $direccion_id_region_profesional = $direccion_region_profesional->id_region;
 
                 $direccion_txt_region_profesional_temp = Region::find($direccion_id_region_profesional);
-                $direccion_txt_region_profesional = $direccion_txt_region_profesional_temp->nombre;
+                $direccion_txt_region_profesional = $direccion_txt_region_profesional_temp?->nombre ?? '';
             }
         }
 
@@ -8001,7 +7897,7 @@ return $ficha;
             $sub_tipo_especialidades = SubTipoEspecialidad::where('id_tipo_especialidad', $profesional->id_tipo_especialidad)->get();
             $txt_tipo_especialidades = '';
             $tipo_especialidad_temp = TipoEspecialidad::where('id', $profesional->id_tipo_especialidad)->get()->first();
-            if($especialidad_temp)
+            if($tipo_especialidad_temp)
                 $txt_tipo_especialidades = $tipo_especialidad_temp->nombre;
         }
 
@@ -8018,35 +7914,8 @@ return $ficha;
         $perfil_academico = ProfesionalAntecedenteAcademico::where('id_profesional',$profesional->id)->get();
         $tipo_ant_academico = TipoAntecedenteAcademico::all();
         $bancos = Bancos::where('estado',1)->get();
-        $liquidacion = LiquidacionRecibo::where('id_seccion',Auth::user()->id)->get();
-
-        $liqui_principal = 0;
-
-        if($liquidacion)
-        foreach ($liquidacion as $key => $value)
-        {
-            $id_banco = decrypt($value->casa);
-            $banco = Bancos::select('id', 'nombre')->where('id',$id_banco)->first();
-            $liquidacion[$key]->banco = $banco;
-            if($value->serie!='')
-                $liquidacion[$key]->serie  = decrypt($value->serie);
-            if($value->autor!='')
-                $liquidacion[$key]->autor = decrypt($value->autor);
-            if($value->casa!='')
-                $liquidacion[$key]->casa = decrypt($value->casa);
-            if($value->numero_control!='')
-                $liquidacion[$key]->numero_control = decrypt($value->numero_control);
-            if($value->email!='')
-                $liquidacion[$key]->email = decrypt($value->email);
-            if($value->otro!='')
-                $liquidacion[$key]->otro = decrypt($value->otro);
-            if($liqui_principal == 0 && $value->principal == 1)
-                $liqui_principal = 1;
-        }
-        // $user = Auth::user()->password;
-        // // $pass = Crypt::decryptString($user);
-        // dd($user);
-
+        $liquidacion = app(\App\Services\PerfilUsuario::class)->liquidaciones(Auth::id());
+        $liqui_principal = $liquidacion->contains(fn ($registro) => (int) $registro->principal === 1) ? 1 : 0;
 
         return view('app.profesional.perfil_profesional')->with(
             [
@@ -11570,6 +11439,10 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
     public function cargar_datos_contacto(Request $request)
     {
+        if (\App\Models\Paciente::where('id_usuario', \Illuminate\Support\Facades\Auth::id())->exists() && !\Illuminate\Support\Facades\Auth::user()->hasRole('Profesional')) {
+            return app(\App\Http\Controllers\PerfilTutorContactoController::class)->datos($request);
+        }
+
         $contacto = ContactoEmergencia::where('id', $request->id_contacto)->first();
         $contacto->direccion = $contacto->Direccion()->first();
         $contacto->ciudad = $contacto->Direccion()->first()->Ciudad()->first();
@@ -11581,6 +11454,10 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
     public function editar_contacto_emergencia(Request $request)
     {
+        if (\App\Models\Paciente::where('id_usuario', \Illuminate\Support\Facades\Auth::id())->exists() && !\Illuminate\Support\Facades\Auth::user()->hasRole('Profesional')) {
+            return app(\App\Http\Controllers\PerfilTutorContactoController::class)->guardar($request);
+        }
+
         $contacto = ContactoEmergencia::where('id', $request->id_contacto)->first();
         $direccion = Direccion::where('id', $contacto->id_direccion)->first();
         $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
@@ -11669,9 +11546,9 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                 $registro->universidad = $request->universidad;
                 $registro->anio = $request->anio;
                 $registro->ciudad_pais = $request->ciudad_pais;
-                if(!empty($request->supersalud))
+                if($request->exists('supersalud'))
                     $registro->supersalud = $request->supersalud;
-                if(!empty($request->numero_colegio))
+                if($request->exists('numero_colegio'))
                     $registro->numero_colegio = $request->numero_colegio;
 
                 if($registro->save())
@@ -11786,7 +11663,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
         if($valido)
         {
-            $registro = ProfesionalAntecedenteAcademico::find($request->id);
+            $registro = ProfesionalAntecedenteAcademico::where('id_profesional', Profesional::where('id_usuario', Auth::id())->firstOrFail()->id)->find($request->id);
             if($registro)
             {
                 $registro->delete();
@@ -13850,21 +13727,12 @@ public function eliminarPiezaCoronaProtesis(Request $req){
     {
         try {
             $request->validate([
-                'foto_perfil' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // 5MB máximo
+                'foto_perfil' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB máximo
             ]);
 
             $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
 
-            // Eliminar la foto anterior si existe
-            if ($profesional->foto_perfil) {
-                Storage::disk('public')->delete($profesional->foto_perfil);
-            }
-
-            // Guardar la nueva foto
-            $path = $request->file('foto_perfil')->store('fotos_perfil', 'public');
-
-            // Actualizar en la base de datos
-            $profesional->update(['foto_perfil' => $path]);
+            $path = app(\App\Services\Fotografias::class)->perfil($profesional, $request->file('foto_perfil'));
 
             return response()->json([
                 'success' => true,
@@ -13872,8 +13740,10 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                 'foto_url' => asset('storage/' . $path)
             ]);
 
+        } catch (\Illuminate\Validation\ValidationException $error) {
+            throw $error;
         } catch (\Exception $e) {
-            return $e->getMessage();
+
             return response()->json([
                 'success' => false,
                 'message' => 'Error al actualizar la foto: ' . $e->getMessage()
@@ -13886,13 +13756,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         try {
             $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
 
-            if ($profesional->foto_perfil) {
-                // Eliminar archivo del storage
-                Storage::disk('public')->delete($profesional->foto_perfil);
-
-                // Actualizar en la base de datos
-                $profesional->update(['foto_perfil' => null]);
-            }
+            app(\App\Services\Fotografias::class)->quitarPerfil($profesional);
 
             return response()->json([
                 'success' => true,

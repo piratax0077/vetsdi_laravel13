@@ -105,7 +105,11 @@
 </div>
 <!--***************MODALS*******************-->
 @include('atencion_medica.sidebars.formularios_signos_vitales')
-@include('atencion_medica.sidebars.antecedentes_paciente')
+@if(isset($mascota) && $mascota)
+    @include('atencion_veterinaria.sidebars.antecedentes_paciente')
+@else
+    @include('atencion_odontologica.sidebars.antecedentes_paciente')
+@endif
 @include('atencion_medica.sidebars.formularios_atencion')
 
 

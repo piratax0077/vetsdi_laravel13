@@ -1,4 +1,4 @@
-@extends('template.asistente_cm_publico.template')
+@extends('template.asistente_unificado.template')
 
 
 @section('page-styles')
@@ -27,7 +27,7 @@
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <div class="page-header-title">
-                                <h5 class="m-b-10 font-weight-bold">Escritorio Asistente Institución</h5>
+                                <h5 class="m-b-10 font-weight-bold">Agenda del asistente</h5>
                             </div>
                             {{-- <ul class="breadcrumb">
                                 <li class="breadcrumb-item">
@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="card subir px-4 py-2">
-                            <a href="{{ ROUTE('asistentecm.buscar_paciente') }}">
+                            <a href="{{ ROUTE('asistentes.pacientes') }}">
                                 <div class="row my-auto">
                                     <div class="col-md-4 col-xs-12 d-inline">
                                         <img class="wid-30 text-center mt-1 mb-2" src="{{ asset('images/iconos/pacientes.svg') }}">
@@ -87,7 +87,7 @@
                         --}}
 
                         <div class="card subir px-4 py-2">
-                            <a href="{{ ROUTE('asistentecm.mis_profesionales') }}">
+                            <a href="{{ ROUTE('asistentes.home') }}">
                                 <div class="row my-auto">
                                     <div class="col-md-4 col-xs-12 d-inline">
                                         <img class="wid-30 text-center" src="{{ asset('images/iconos/agenda.svg') }}">

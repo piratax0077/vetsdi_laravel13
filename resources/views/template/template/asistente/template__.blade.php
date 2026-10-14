@@ -673,7 +673,7 @@
             if(tipo_agenda_temp != 0)
                 tipo_agenda = tipo_agenda_temp;
                 console.log(tipo_agenda);
-                console.log('template.asistente.template');
+                console.log('template.asistente_unificado.template');
             if(fecha != undefined && fecha != '')
             {
                 var res = fecha.split('T')[0];

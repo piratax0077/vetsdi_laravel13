@@ -1,4 +1,4 @@
-@extends('template.asistente_cm.template')
+@extends('template.asistente_unificado.template')
 
 @section('page-styles')
     <link href='{{ asset('css/estilos_boton_agen_examenes.css') }}' rel='stylesheet' />

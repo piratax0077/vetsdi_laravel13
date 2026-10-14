@@ -103,7 +103,11 @@
 </div>
 
 
-@include('atencion_odontologica.sidebars.antecedentes_paciente')
+@if(isset($mascota) && $mascota)
+    @include('atencion_veterinaria.sidebars.antecedentes_paciente')
+@else
+    @include('atencion_odontologica.sidebars.antecedentes_paciente')
+@endif
 {{--  @include('atencion_medica.sidebars.formularios_atencion')  --}}
 
 @section('js-sidebar')

@@ -26,11 +26,8 @@
                 <div class="col-md-6">
                     <form method="POST" action="{{ route('consentimiento.confirmar.revocacion') }}">
                         @csrf
-                        <input type="hidden" name="id_consentimiento" value="{{ request('id_consentimiento') }}">
-                        <input type="hidden" name="id_ficha_atencion" value="{{ request('id_ficha_atencion') }}">
-                        <input type="hidden" name="id_paciente" value="{{ request('id_paciente') }}">
-                        <input type="hidden" name="id_profesional" value="{{ request('id_profesional') }}">
-                        <input type="hidden" name="token" value="{{ request('token') }}">
+                        <input type="hidden" name="id_consentimiento" value="{{ $id_consentimiento }}">
+                        <input type="hidden" name="token" value="{{ $token }}">
                         <div class="mb-3">
                             <label for="numero_carnet" class="form-label">Número de Carnet</label>
                             <input type="text" class="form-control" id="numero_carnet" name="numero_carnet" required>

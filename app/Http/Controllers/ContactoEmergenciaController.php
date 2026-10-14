@@ -17,6 +17,10 @@ class ContactoEmergenciaController extends Controller
 
     public function buscar_contacto(Request $request)
     {
+        if (\App\Models\Paciente::where('id_usuario', \Illuminate\Support\Facades\Auth::id())->exists() && !\Illuminate\Support\Facades\Auth::user()->hasRole('Profesional')) {
+            return app(\App\Http\Controllers\PerfilTutorContactoController::class)->buscar($request);
+        }
+
         $paciente = Paciente::findOrFail($request->id_paciente_contacto);
         if ($paciente->rut == $request->rut_contacto) {
             $mensaje = 'identicos';
@@ -79,6 +83,10 @@ class ContactoEmergenciaController extends Controller
 
     public function registrar_contacto_emergencia(Request $request)
     {
+        if (\App\Models\Paciente::where('id_usuario', \Illuminate\Support\Facades\Auth::id())->exists() && !\Illuminate\Support\Facades\Auth::user()->hasRole('Profesional')) {
+            return app(\App\Http\Controllers\PerfilTutorContactoController::class)->guardar($request);
+        }
+
         $paciente = Paciente::where('id', $request->id_paciente)->first();
         if ($paciente->rut == $request->rut) {
             $mensaje = 'identicos';

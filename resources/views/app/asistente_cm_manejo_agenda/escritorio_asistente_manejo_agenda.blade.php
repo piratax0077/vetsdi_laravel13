@@ -1,5 +1,5 @@
-{{-- @extends('template.asistente_cm_manejo_agenda.template') --}}
-@extends('template.asistente_cm_publico.template')
+{{-- @extends('template.asistente_unificado.template') --}}
+@extends('template.asistente_unificado.template')
 
 @section('page-styles')
     <link href='{{ asset('css/estilos_boton_agen_examenes.css') }}' rel='stylesheet' />

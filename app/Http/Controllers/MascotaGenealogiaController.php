@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
+use App\Services\Fotografias;
+
 use Illuminate\Validation\Rule;
 
 class MascotaGenealogiaController extends Controller
@@ -97,34 +97,40 @@ class MascotaGenealogiaController extends Controller
             unset($datos[$campo]);
         }
 
-        DB::transaction(function () use ($request, $mascota, $datos, $archivos, $especieId) {
-            $genealogia = MascotaGenealogia::firstOrNew(['mascota_id' => $mascota->id]);
-            $genealogia->fill($datos);
+        $nuevasFotos = [];
+        try {
+            DB::transaction(function () use ($request, $mascota, $datos, $archivos, $especieId, &$nuevasFotos) {
+                $genealogia = MascotaGenealogia::firstOrNew(['mascota_id' => $mascota->id]);
+                $genealogia->fill($datos);
 
-            foreach ($archivos as $campo) {
-                if (!$request->hasFile($campo)) {
-                    continue;
+                foreach ($archivos as $campo) {
+                    if (!$request->hasFile($campo)) {
+                        continue;
+                    }
+                    $genealogia->{$campo} = $this->guardarFoto(
+                        $request->file($campo),
+                        $mascota->id, $nuevasFotos
+                    );
                 }
-                $this->eliminarFotoGenealogia($genealogia->{$campo});
-                $genealogia->{$campo} = $this->guardarFoto(
-                    $request->file($campo),
-                    $mascota->id
-                );
-            }
-            $genealogia->save();
+                $genealogia->save();
 
-            $mascota->especie_id = $especieId;
-            $mascota->especie = $especieId;
+                $mascota->especie_id = $especieId;
+                $mascota->especie = $especieId;
 
-            if ($request->hasFile('foto_mascota')) {
-                $this->eliminarFotoGenealogia($mascota->foto_perfil);
-                $mascota->foto_perfil = $this->guardarFoto(
-                    $request->file('foto_mascota'),
-                    $mascota->id
-                );
+                if ($request->hasFile('foto_mascota')) {
+                    $mascota->foto_perfil = $this->guardarFoto(
+                        $request->file('foto_mascota'),
+                        $mascota->id, $nuevasFotos
+                    );
+                }
+                $mascota->save();
+            });
+        } catch (\Throwable $error) {
+            foreach ($nuevasFotos as $ruta) {
+                app(Fotografias::class)->descartar($ruta);
             }
-            $mascota->save();
-        });
+            throw $error;
+        }
 
         return redirect()->route('mascotas.genealogia.show', $mascota)->with('ok', 'Genealogía actualizada correctamente.');
     }
@@ -142,7 +148,7 @@ class MascotaGenealogiaController extends Controller
         $query = Mascota::query();
         $paciente = Paciente::where('id_usuario', Auth::id())->first();
 
-        return $paciente ? $query->where('id_responsable', $paciente->id) : $query;
+        return $paciente ? $query->where('id_responsable', $paciente->id) : $query->whereRaw('1 = 0');
     }
 
     private function autorizarMascota(Mascota $mascota): void
@@ -150,21 +156,10 @@ class MascotaGenealogiaController extends Controller
         abort_unless($this->mascotasPermitidas()->whereKey($mascota->id)->exists(), 403);
     }
 
-    private function eliminarFotoGenealogia(?string $ruta): void
+    private function guardarFoto($archivo, int $mascotaId, array &$nuevasFotos): string
     {
-        if ($ruta && str_starts_with($ruta, 'mascotas/genealogia/')) {
-            File::delete(public_path('storage/' . $ruta));
-        }
-    }
-
-    private function guardarFoto($archivo, int $mascotaId): string
-    {
-        $rutaRelativa = "mascotas/genealogia/{$mascotaId}";
-        $directorio = public_path('storage/' . $rutaRelativa);
-        File::ensureDirectoryExists($directorio);
-        $nombre = Str::uuid() . '.' . strtolower($archivo->getClientOriginalExtension());
-        $archivo->move($directorio, $nombre);
-
-        return $rutaRelativa . '/' . $nombre;
+        $ruta = app(Fotografias::class)->guardar($archivo, "mascotas/genealogia/{$mascotaId}");
+        $nuevasFotos[] = $ruta;
+        return $ruta;
     }
 }

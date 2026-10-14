@@ -402,66 +402,7 @@
 
     }
 
-    function guardar_informacion_ingreso_urgencia(){
-        let med_tratante = $('#med_tratante').val();
-        let hosp_en = $('#hosp_en').val();
-        let dg_ingreso = $('#dg_ingreso').val();
-        let serv_hosp = $('#serv_hosp').val();
 
-        let valido = 1;
-        let mensaje = '';
-
-        if(med_tratante == ''){
-            valido = 0;
-            mensaje += 'Debe ingresar el médico tratante\n';
-        }
-        if(hosp_en == ''){
-            valido = 0;
-            mensaje += 'Debe ingresar la urgencia\n';
-        }
-        if(dg_ingreso == ''){
-            valido = 0;
-            mensaje += 'Debe ingresar los diagnósticos\n';
-        }
-        if(serv_hosp == ''){
-            valido = 0;
-            mensaje += 'Debe ingresar el motivo de hospitalización\n';
-        }
-
-        if(valido == 0){
-            swal({
-                title: 'Error',
-                content:{
-                    element: 'p',
-                    attributes:{
-                        innerHTML: mensaje
-                    }
-                },
-                icon: 'error'
-            })
-            return;
-        }
-
-        let data = {
-            med_tratante: med_tratante,
-            hosp_en: hosp_en,
-            dg_ingreso: dg_ingreso,
-            serv_hosp: serv_hosp,
-            id_paciente: $('#id_paciente').val()
-        }
-
-        $.ajax({
-            type: 'POST',
-            url: "{{ route('enfermeria.guardar_informacion_ingreso') }}",
-            data: data,
-            success: function(data){
-                console.log(data);
-            },
-            error: function(error){
-                console.log(error.responseText);
-            }
-        });
-    }
 
     function guardar_informes(){
         let puntos_barthel = $('#puntos_barthel').val();

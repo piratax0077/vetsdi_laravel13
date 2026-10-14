@@ -663,7 +663,7 @@
                                         <!--Cierre: Contraseña-->
                                         <!--(Editar)Contraseña-->
                                         <div class="card-body pass_personal collapse" id="pass_personal_2">
-                                            <form method="get"
+                                            <form method="post"
                                                 action="{{ route('adm_cm.cambio_contrasena_responsable') }}"
                                                 id="form_cambio_contrasena_perfil_responsable"
                                                 name="form_cambio_contrasena_perfil_responsable">
@@ -1302,7 +1302,7 @@
                                                                                 <p class="font-weight-bolder">CONTRASEÑA
                                                                                 </p>
                                                                             </div>
-                                                                            <form method="get"
+                                                                            <form method="post"
                                                                                 action="{{ route('adm_cm.cambio_contrasena_responsable') }}"
                                                                                 id="form_cambio_contrasena_perfil_responsable"
                                                                                 name="form_cambio_contrasena_perfil_responsable">
@@ -1771,7 +1771,7 @@
                                                                                 <p class="font-weight-bolder">CONTRASEÑA
                                                                                 </p>
                                                                             </div>
-                                                                            <form method="get"
+                                                                            <form method="post"
                                                                                 action="{{ route('adm_cm.cambio_contrasena_responsable') }}"
                                                                                 id="form_cambio_contrasena_perfil_responsable"
                                                                                 name="form_cambio_contrasena_perfil_responsable">
@@ -2225,7 +2225,7 @@
                                                                                 <p class="font-weight-bolder">CONTRASEÑA
                                                                                 </p>
                                                                             </div>
-                                                                            <form method="get"
+                                                                            <form method="post"
                                                                                 action="{{ route('adm_cm.cambio_contrasena_responsable') }}"
                                                                                 id="form_cambio_contrasena_perfil_responsable"
                                                                                 name="form_cambio_contrasena_perfil_responsable">

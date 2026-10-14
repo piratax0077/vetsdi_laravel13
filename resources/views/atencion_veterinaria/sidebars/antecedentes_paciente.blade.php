@@ -1,24 +1,36 @@
+@once
+<style>
+    #antecedentes_paciente { max-width: 100vw; }
+    #antecedentes_paciente .bs-canvas-content { height: calc(100% - 70px); overflow-y: auto; }
+    #antecedentes_paciente .mascota-sidebar-fila { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid #dee2e6; }
+    #antecedentes_paciente .mascota-sidebar-fila dt, #antecedentes_paciente .mascota-sidebar-fila dd { margin: 0; overflow-wrap: anywhere; white-space: pre-line; }
+    #antecedentes_paciente .mascota-sidebar-fila dd { color: #596679; }
+    #antecedentes_paciente .mascota-sidebar-acciones { position: sticky; bottom: 0; padding: 12px 0; background: #fff; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    #sidebar_mascota_error { white-space: pre-line; }
+</style>
+@endonce
 <div id="antecedentes_paciente" class="bs-canvas bs-canvas-anim bs-canvas-right position-fixed bg-light h-100 shadow-lg"
-    data-width="380px" data-offset="true">
+    data-width="460px" data-offset="true">
     <header class="bs-canvas-header p-3 bg-info overflow-auto d-flex justify-content-between">
         <button type="button" class="bs-canvas-close close" aria-label="Close"><span aria-hidden="true"
                 class="text-light">&times;</span></button>
-        <h5 class="d-inline text-light mb-0 mt-1">Antecedentes veterinarios</h5>
+        <h5 class="d-inline text-light mb-0 mt-1">Antecedentes de la mascota</h5>
 
     </header>
     <div class="bs-canvas-content">
         <div class="accordion" id="accordionExample">
+            @include('atencion_veterinaria.sidebars.informacion_mascota')
               <!------------------INFO PCTE---------------------->
             <div class="card-sidebar mb-0 rounded-0">
                 <div class="card-header-sidebar" id="headingOne">
                     <button class="btn btn-light btn-block text-left text-info" type="button" data-toggle="collapse"
-                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><i
+                        data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><i
                             class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
                         TUTOR / RESPONSABLE
                     </button>
                 </div>
 
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
                     data-parent="#accordionExample">
                     <div class="card-body-sidebar">
                         <div id="info_paciente">
@@ -72,7 +84,7 @@
                                 <div class="col-1"><img class=" wid-30 pl-1 mr-2" src="{{ asset('images/sdi-iconos/prevision-info.png') }}"></div>
                                 <div class="col-10  ml-2 text-secondary">
                                     <h6 class="text-dark">Previsión</h6>
-                                    <p id="prevision_paciente">{{ $paciente->Prevision()->first()->nombre }}</p>
+                                    <p id="prevision_paciente">{{ optional($paciente->Prevision()->first())->nombre }}</p>
                                 </div>
                             </div>
                             <hr class="mt-2 mb-2">
@@ -299,235 +311,6 @@
                     </div>
                 </div>
             </div>
-            {{-- Información clínica propia de la mascota, separada del tutor. --}}
-            <div class="card-sidebar mb-0 rounded-0">
-                <div class="card-header-sidebar" id="headingMascota">
-                    <button class="btn btn-light btn-block text-left text-info collapsed" type="button"
-                        data-toggle="collapse" data-target="#collapseMascota" aria-expanded="false"
-                        aria-controls="collapseMascota">
-                        <i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                        MASCOTA
-                    </button>
-                </div>
-                <div id="collapseMascota" class="collapse" aria-labelledby="headingMascota"
-                    data-parent="#accordionExample">
-                    <div class="card-body-sidebar">
-                        @if(isset($mascota) && $mascota)
-                            <div class="form-row align-items-center pt-1">
-                                <div class="col-1"><i class="feather icon-heart text-info"></i></div>
-                                <div class="col-10 ml-2 text-secondary">
-                                    <h6 class="text-dark">Nombre</h6>
-                                    <p>{{ $mascota->nombre ?: 'Sin registro' }}</p>
-                                </div>
-                            </div>
-                            <hr class="mt-2 mb-2">
-                            <div class="form-row align-items-center">
-                                <div class="col-1"><i class="feather icon-tag text-info"></i></div>
-                                <div class="col-10 ml-2 text-secondary">
-                                    <h6 class="text-dark">Especie / raza</h6>
-                                    <p>
-                                        {{ optional($mascota->especieMascota)->nombre
-                                            ?? $mascota->otra_especie
-                                            ?? $mascota->especie
-                                            ?? 'Sin especie' }}
-                                        /
-                                        {{ optional($mascota->razaMascota)->nombre ?? 'Sin raza' }}
-                                    </p>
-                                </div>
-                            </div>
-                            <hr class="mt-2 mb-2">
-                            <div class="form-row align-items-center">
-                                <div class="col-1"><i class="feather icon-calendar text-info"></i></div>
-                                <div class="col-10 ml-2 text-secondary">
-                                    <h6 class="text-dark">Nacimiento / edad</h6>
-                                    <p>
-                                        @if($mascota->fecha_nacimiento)
-                                            {{ $mascota->fecha_nacimiento->format('d-m-Y') }}
-                                            ({{ $mascota->fecha_nacimiento->diffForHumans(null, true) }})
-                                        @else
-                                            Sin registro
-                                        @endif
-                                    </p>
-                                </div>
-                            </div>
-                            <hr class="mt-2 mb-2">
-                            <div class="form-row align-items-center">
-                                <div class="col-1"><i class="feather icon-info text-info"></i></div>
-                                <div class="col-10 ml-2 text-secondary">
-                                    <h6 class="text-dark">Sexo / esterilización</h6>
-                                    <p>
-                                        {{ $mascota->sexo ?: 'Sin registro' }} /
-                                        {{ $mascota->esterilizado ? 'Esterilizado/a' : 'No esterilizado/a' }}
-                                    </p>
-                                </div>
-                            </div>
-                            <hr class="mt-2 mb-2">
-                            <div class="form-row align-items-center">
-                                <div class="col-1"><i class="feather icon-cpu text-info"></i></div>
-                                <div class="col-10 ml-2 text-secondary">
-                                    <h6 class="text-dark">Microchip</h6>
-                                    <p>{{ $mascota->chip ?: 'Sin registro' }}</p>
-                                </div>
-                            </div>
-                            <hr class="mt-2 mb-2">
-                            <div class="form-row align-items-center">
-                                <div class="col-1"><i class="feather icon-activity text-info"></i></div>
-                                <div class="col-10 ml-2 text-secondary">
-                                    <h6 class="text-dark">Antecedentes sanitarios</h6>
-                                    <p>
-                                        Enfermedad crónica: {{ $mascota->enfermedad_cronica ?: 'Sin registro' }}<br>
-                                        Dieta: {{ $mascota->dieta ?: 'Sin registro' }}<br>
-                                        Última desparasitación:
-                                        {{ optional($mascota->ultima_desparasitacion)->format('d-m-Y') ?? 'Sin registro' }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="form-row mt-3 mb-3">
-                                <div class="col-12 text-center">
-                                    <button type="button" class="btn btn-primary-light-c btn-xxs" onclick="editarInformacionMascotaSidebar()">
-                                        <i class="feather icon-edit"></i> Editar mascota
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div id="info_mascota_sidebar_edit" class="border-top pt-3" style="display:none;">
-                                <div class="form-group mb-2">
-                                    <label class="floating-label-activo-sm">Nombre</label>
-                                    <input type="text" id="sidebar_mascota_nombre" class="form-control form-control-sm" value="{{ $mascota->nombre }}">
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label class="floating-label-activo-sm">Microchip</label>
-                                    <input type="text" id="sidebar_mascota_chip" class="form-control form-control-sm" value="{{ $mascota->chip }}">
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-6 mb-2">
-                                        <label class="floating-label-activo-sm">Nacimiento</label>
-                                        <input type="date" id="sidebar_mascota_fecha_nacimiento" class="form-control form-control-sm"
-                                            value="{{ optional($mascota->fecha_nacimiento)->format('Y-m-d') }}">
-                                    </div>
-                                    <div class="form-group col-6 mb-2">
-                                        <label class="floating-label-activo-sm">Sexo</label>
-                                        <select id="sidebar_mascota_sexo" class="form-control form-control-sm">
-                                            <option value="M" @selected($mascota->sexo === 'M')>Macho</option>
-                                            <option value="F" @selected($mascota->sexo === 'F')>Hembra</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label class="floating-label-activo-sm">Esterilizado/a</label>
-                                    <select id="sidebar_mascota_esterilizado" class="form-control form-control-sm" onchange="actualizarFechaEsterilizacionSidebar()">
-                                        <option value="0" @selected(!$mascota->esterilizado)>No</option>
-                                        <option value="1" @selected($mascota->esterilizado)>Sí</option>
-                                    </select>
-                                </div>
-                                <div class="form-group mb-2" id="sidebar_grupo_fecha_esterilizacion">
-                                    <label class="floating-label-activo-sm">Fecha de esterilización</label>
-                                    <input type="date" id="sidebar_mascota_fecha_esterilizacion" class="form-control form-control-sm"
-                                        value="{{ optional($mascota->fecha_esterilizacion)->format('Y-m-d') }}">
-                                    <small class="text-muted">Puede quedar sin fecha cuando no se conoce.</small>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label class="floating-label-activo-sm">Enfermedad crónica</label>
-                                    <textarea id="sidebar_mascota_enfermedad_cronica" class="form-control form-control-sm" rows="2">{{ $mascota->enfermedad_cronica }}</textarea>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label class="floating-label-activo-sm">Dieta</label>
-                                    <textarea id="sidebar_mascota_dieta" class="form-control form-control-sm" rows="2">{{ $mascota->dieta }}</textarea>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-6 mb-2">
-                                        <label class="floating-label-activo-sm">Última desparasitación</label>
-                                        <input type="date" id="sidebar_mascota_ultima_desparasitacion" class="form-control form-control-sm"
-                                            value="{{ optional($mascota->ultima_desparasitacion)->format('Y-m-d') }}">
-                                    </div>
-                                    <div class="form-group col-6 mb-2">
-                                        <label class="floating-label-activo-sm">Producto</label>
-                                        <input type="text" id="sidebar_mascota_producto_desparasitacion" class="form-control form-control-sm"
-                                            value="{{ $mascota->producto_desparasitacion }}">
-                                    </div>
-                                </div>
-                                <div class="text-center mt-3">
-                                    <button type="button" class="btn btn-info btn-xxs" onclick="guardarInformacionMascotaSidebar()">
-                                        <i class="feather icon-save"></i> Guardar
-                                    </button>
-                                    <button type="button" class="btn btn-danger-light-c btn-xxs" onclick="cancelarInformacionMascotaSidebar()">
-                                        <i class="feather icon-x"></i> Cancelar
-                                    </button>
-                                </div>
-                            </div>
-
-                            @once
-                            <script>
-                                function editarInformacionMascotaSidebar() {
-                                    $('#info_mascota_sidebar_edit').slideDown();
-                                    actualizarFechaEsterilizacionSidebar();
-                                }
-
-                                function cancelarInformacionMascotaSidebar() {
-                                    $('#info_mascota_sidebar_edit').slideUp();
-                                }
-
-                                function actualizarFechaEsterilizacionSidebar() {
-                                    $('#sidebar_grupo_fecha_esterilizacion').toggle($('#sidebar_mascota_esterilizado').val() === '1');
-                                }
-
-                                function guardarInformacionMascotaSidebar() {
-                                    const esterilizado = $('#sidebar_mascota_esterilizado').val();
-                                    const fechaEsterilizacion = $('#sidebar_mascota_fecha_esterilizacion').val();
-                                    const chip = $('#sidebar_mascota_chip').val().trim();
-                                    const datos = {
-                                        _token: @json(csrf_token()),
-                                        _method: 'PUT',
-                                        id_responsable: @json($mascota->id_responsable),
-                                        id_lugar_atencion: $('#id_lugar_atencion').val() || null,
-                                        tiene_chip: chip ? 1 : 0,
-                                        chip: chip,
-                                        nombre: $('#sidebar_mascota_nombre').val().trim(),
-                                        especie_id: @json($mascota->especie_id),
-                                        raza_id: @json($mascota->raza_id),
-                                        otra_especie: @json($mascota->otra_especie),
-                                        tamano_id: @json($mascota->tamano_id),
-                                        fecha_nacimiento: $('#sidebar_mascota_fecha_nacimiento').val(),
-                                        sexo: $('#sidebar_mascota_sexo').val(),
-                                        esterilizado: esterilizado,
-                                        fecha_esterilizacion_desconocida: esterilizado === '1' && !fechaEsterilizacion ? 1 : 0,
-                                        fecha_esterilizacion: fechaEsterilizacion,
-                                        enfermedad_cronica: $('#sidebar_mascota_enfermedad_cronica').val(),
-                                        dieta: $('#sidebar_mascota_dieta').val(),
-                                        ultima_desparasitacion: $('#sidebar_mascota_ultima_desparasitacion').val(),
-                                        producto_desparasitacion: $('#sidebar_mascota_producto_desparasitacion').val()
-                                    };
-
-                                    if (!datos.nombre) {
-                                        swal({ title: 'Editar mascota', text: 'El nombre es obligatorio.', icon: 'warning', button: 'Aceptar' });
-                                        return;
-                                    }
-
-                                    $.ajax({
-                                        url: @json(route('paciente.mascotas.update', $mascota->id)),
-                                        type: 'POST',
-                                        data: datos
-                                    }).done(function (respuesta) {
-                                        if (respuesta.estado != 1) {
-                                            const errores = respuesta.error ? Object.values(respuesta.error).flat().join('\n') : '';
-                                            swal({ title: 'No se pudo actualizar', text: respuesta.msj + (errores ? '\n' + errores : ''), icon: 'error', button: 'Aceptar' });
-                                            return;
-                                        }
-                                        swal({ title: 'Mascota actualizada', text: 'La información fue guardada correctamente.', icon: 'success', button: 'Aceptar' })
-                                            .then(function () { window.location.reload(); });
-                                    }).fail(function (xhr) {
-                                        swal({ title: 'No se pudo actualizar', text: xhr.responseJSON?.message || 'Revise los datos ingresados.', icon: 'error', button: 'Aceptar' });
-                                    });
-                                }
-                            </script>
-                            @endonce
-                        @else
-                            <p class="text-muted mb-0">No se encontró la mascota asociada a esta atención.</p>
-                        @endif
-                    </div>
-                </div>
-            </div>
-
               <!------------------CONTACTO EMERGENCIA SOS-------------------->
             <div class="card-sidebar">
                 <div class="card-header-sidebar" id="headingTwo">

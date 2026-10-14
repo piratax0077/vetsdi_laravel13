@@ -844,7 +844,7 @@ class FlujoCajaController extends Controller
             $profesional = Profesional::where('id_usuario',Auth::user()->id)->first();
             $filtro_user[] = array('id_profesional',$profesional->id);
         }
-        else if(Auth::user()->hasRole('Asistente'))
+        else if(Auth::user()->hasAnyRole(config('asistentes.roles')))
         {
             $asistente = Asistente::where('id_usuario',Auth::user()->id)->first();
             $filtro_user[] = array('id_asistente',$asistente->id);
@@ -1006,7 +1006,7 @@ class FlujoCajaController extends Controller
             $profesional = Profesional::where('id_usuario',Auth::user()->id)->first();
             $filtro[] = array('id_profesional',$profesional->id);
         }
-        else if(Auth::user()->hasRole('Asistente'))
+        else if(Auth::user()->hasAnyRole(config('asistentes.roles')))
         {
             $asistente = Asistente::where('id_usuario',Auth::user()->id)->first();
             $filtro[] = array('id_asistente',$asistente->id);
@@ -1128,7 +1128,7 @@ class FlujoCajaController extends Controller
             $profesional = Profesional::where('id_usuario',Auth::user()->id)->first();
             $filtro[] = array('id_profesional',$profesional->id);
         }
-        else if(Auth::user()->hasRole('Asistente'))
+        else if(Auth::user()->hasAnyRole(config('asistentes.roles')))
         {
             $asistente = Asistente::where('id_usuario',Auth::user()->id)->first();
             $filtro[] = array('id_asistente',$asistente->id);
@@ -1244,7 +1244,7 @@ class FlujoCajaController extends Controller
             $profesional = Profesional::where('id_usuario',Auth::user()->id)->first();
             $filtro[] = array('id_profesional',$profesional->id);
         }
-        else if(Auth::user()->hasRole('Asistente'))
+        else if(Auth::user()->hasAnyRole(config('asistentes.roles')))
         {
             $asistente = Asistente::where('id_usuario',Auth::user()->id)->first();
             $filtro[] = array('id_asistente',$asistente->id);

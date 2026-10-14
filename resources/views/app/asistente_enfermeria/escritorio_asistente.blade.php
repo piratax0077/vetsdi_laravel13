@@ -1,4 +1,4 @@
-@extends('template.asistente_enfermeria.template')
+@extends('template.asistente_unificado.template')
 
 
 @section('page-styles')

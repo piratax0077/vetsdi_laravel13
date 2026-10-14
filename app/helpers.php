@@ -258,7 +258,8 @@ if (! function_exists('normalizar_imagen_almacenada')) {
 
         $ruta = preg_replace('#^public/#', '', $ruta) ?? $ruta;
 
-        return ltrim($ruta, '/');
+        $ruta = ltrim($ruta, '/');
+        return Str::startsWith($ruta, 'storage/') ? substr($ruta, strlen('storage/')) : $ruta;
     }
 }
 

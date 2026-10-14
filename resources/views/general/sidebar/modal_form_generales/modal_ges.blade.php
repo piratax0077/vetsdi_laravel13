@@ -885,3 +885,5 @@
 
 
 </script>
+
+@include('general.secciones_ficha.partials.sanitarios_solo_lectura')

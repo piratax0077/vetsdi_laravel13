@@ -14,7 +14,7 @@ class AsistenteController extends Controller
 {
     public function index(){
         $code = Crypt::encryptString(Auth::user()->email);
-        return view('template.asistenteLabTemplate',['code' => $code]);
+        return view('template.asistente_unificado.template',['code' => $code]);
     }
 
     public function getPacientes(){

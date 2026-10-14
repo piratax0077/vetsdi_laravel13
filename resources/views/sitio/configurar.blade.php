@@ -9,8 +9,8 @@
         <header class="sw-config-hero">
             <div class="sw-section-head">
                 <p class="sw-kicker">Página pública</p>
-                <h1>Configurar mi sitio</h1>
-                <p>Define cómo se ve tu ficha: dirección corta, lugares con agenda y redes.</p>
+                <h1>{{ $sitio->esClinica() ? 'Configurar página institucional' : 'Configurar mi página profesional' }}</h1>
+                <p>Define cómo se verá la página pública: dirección, lugares con agenda, contacto y redes.</p>
             </div>
             <aside class="sw-config-preview">
                 <span>Tu dirección</span>
@@ -24,8 +24,7 @@
         @if(session('mensaje'))
             <p class="sw-flash">{{ session('mensaje') }}</p>
         @endif
-        <div class="sw-editor-shortcut"><div><strong>Contenido profesional</strong><span>Publica consejos, novedades y artículos para tutores de mascotas.</span></div><a class="sw-btn sw-btn-solid" href="{{ route('sitio.articulos.index') }}">Administrar artículos</a></div>
-        <div class="sw-editor-shortcut"><div><strong>Contenido profesional</strong><span>Publica consejos, novedades y artículos para tutores de mascotas.</span></div><a class="sw-btn sw-btn-solid" href="{{ route('sitio.articulos.index') }}">Administrar artículos</a></div>
+        <div class="sw-editor-shortcut"><div><strong>{{ $sitio->esClinica() ? 'Contenido institucional' : 'Contenido profesional' }}</strong><span>Publica consejos, novedades y artículos para tutores de mascotas.</span></div><a class="sw-btn sw-btn-solid" href="{{ route('sitio.articulos.index') }}">Administrar artículos</a></div>
 
         <form method="POST" action="{{ route('sitio.configurar.guardar') }}" class="sw-config-form">
             @csrf

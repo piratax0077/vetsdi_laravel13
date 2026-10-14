@@ -96,7 +96,7 @@
                                     <div class="card">
                                         <div class="card-header-new d-flex align-items-center justify-content-between">
                                             <h5 class="mb-0"><i class="feather icon-user icono-purple"></i> Perfil del tutor</h5>
-                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right" data-toggle="collapse" data-target=".info_basica" aria-expanded="false" aria-controls="info_basica-1 info_basica-2">
+                                            <button type="button" class="btn btn-outline-purple btn-icon m-0 float-right" data-toggle="collapse" data-target=".info_basica" aria-expanded="false" aria-controls="info_basica-1 pinfo_basica_2">
                                                 <i class="feather icon-edit"></i>
                                             </button>
                                         </div>
@@ -113,24 +113,23 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <label class="font-weight-bolder ml-0 mb-0">Nombre</label>
-                                                        <div> {{ $paciente->nombres }} </div>
+                                                        <div data-tutor-mostrar="nombres">{{ $paciente->nombres }}</div>
                                                     </div>
                                      
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <label class="font-weight-bolder ml-0 mb-0">Primer
                                                         Apellido</label>
-                                                        <div> {{ $paciente->apellido_uno }}</div>
+                                                        <div data-tutor-mostrar="apellido_uno">{{ $paciente->apellido_uno }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <label class="font-weight-bolder ml-0 mb-0">Segundo
                                                         Apellido</label>
-                                                        <div> {{ $paciente->apellido_dos }}
-                                                        </div>
+                                                        <div data-tutor-mostrar="apellido_dos">{{ $paciente->apellido_dos }}</div>
                                                     </div>
                                            
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <label class="font-weight-bolder ml-0 mb-0">Sexo</label>
-                                                        <div>
+                                                        <div data-tutor-mostrar="sexo">
                                                             @if ($paciente->sexo == 'F')
                                                                 Mujer
                                                             @elseif ($paciente->sexo == 'M')
@@ -140,8 +139,8 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <label class="font-weight-bolder ml-0 mb-0">Nacimiento</label>
-                                                        <div>
-                                                            {{ \Carbon\Carbon::parse($paciente->fecha_nac)->format('d-m-Y') }}
+                                                        <div data-tutor-mostrar="fecha_nac">
+                                                            {{ $paciente->fecha_nac ? \Carbon\Carbon::parse($paciente->fecha_nac)->format('d-m-Y') : 'Sin registro' }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -153,11 +152,11 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
                                                         <label class="font-weight-bolder ml-0 mb-0">Correo electrónico</label>
-                                                        <div>{{ $paciente->email }}</div>
+                                                        <div data-tutor-mostrar="email">{{ $paciente->email }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
                                                         <label class="font-weight-bolder ml-0 mb-0">Celular</label>
-                                                        <div>{{ $paciente->telefono_uno }}</div>
+                                                        <div data-tutor-mostrar="telefono_uno">{{ $paciente->telefono_uno }}</div>
                                                     </div>
                                                 </div>
                                                 <!--RESIDENCIA-->
@@ -167,7 +166,7 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-12 col-lg-4 col-xl-3">
                                                         <label class="font-weight-bolder ml-0 mb-0">Dirección</label>
-                                                        <div>
+                                                        <div data-tutor-mostrar="direccion">
                                                             @if ($direccion_paciente)
                                                                 {{ $direccion_paciente->direccion }}
                                                             @endif
@@ -175,11 +174,11 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3">
                                                         <label class="font-weight-bolder ml-0 mb-0">Región</label>
-                                                        <div>{{ $direccion_txt_region_paciente }}</div>
+                                                        <div data-tutor-mostrar="region">{{ $direccion_txt_region_paciente }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3">
                                                         <label class="font-weight-bolder ml-0 mb-0">Comuna</label>
-                                                        <div>{{ $direccion_txt_ciudad_paciente }}</div>
+                                                        <div data-tutor-mostrar="ciudad">{{ $direccion_txt_ciudad_paciente }}</div>
                                                     </div>
                                                 </div>
                                             </form>
@@ -212,11 +211,11 @@
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2 pt-2">
                                                         <label class="floating-label-activo">Sexo</label>
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" id="perfil_sexo" name="perfil_sexo" value="M" @if ($paciente->sexo == 'M') checked @endif>
+                                                            <input class="form-check-input" type="radio" id="perfil_sexo_m" name="perfil_sexo" value="M" @if ($paciente->sexo == 'M') checked @endif>
                                                             <label class="form-check-label" for="inlineRadio1">Hombre</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" id="perfil_sexo" name="perfil_sexo" value="F" @if ($paciente->sexo == 'F') checked @endif>
+                                                            <input class="form-check-input" type="radio" id="perfil_sexo_f" name="perfil_sexo" value="F" @if ($paciente->sexo == 'F') checked @endif>
                                                             <label class="form-check-label" for="inlineRadio2">Mujer</label>
                                                         </div>
                                                     </div>
@@ -249,6 +248,7 @@
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Dirección</label>
                                                         <input type="text" class="form-control form-control-sm" placeholder="Dirección" name="perfil_dire" id="perfil_dire" value="{{ optional($direccion_paciente)->direccion }}">
+                                                        <label class="mt-2" for="perfil_numero_dir">Número</label><input class="form-control form-control-sm" id="perfil_numero_dir" name="perfil_numero_dir" value="{{ $direccion_paciente?->numero_dir }}">
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3">
                                                         <label class="floating-label-activo">Región</label>
@@ -322,11 +322,11 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="font-weight-bolder ml-0 mb-0">Correo electrónico</label>
-                                                        <div>{{ $paciente->email }}</div>
+                                                        <div data-tutor-mostrar="email">{{ $paciente->email }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="font-weight-bolder ml-0 mb-0">Teléfono</label>
-                                                        <div>{{ $paciente->telefono_uno }}</div>
+                                                        <div data-tutor-mostrar="telefono_uno">{{ $paciente->telefono_uno }}</div>
                                                     </div>
                                                 </div>
                                             </form>
@@ -338,11 +338,11 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Correo electrónico</label>
-                                                        <input type="text" class="form-control form-control-sm" id="Perfil_email" name="Perfil_email" placeholder="Correo Electrónico" value="{{ $paciente->email }}">
+                                                        <input type="text" class="form-control form-control-sm" id="contacto_email" name="Perfil_email" placeholder="Correo Electrónico" value="{{ $paciente->email }}">
                                                     </div>
                                                     <div class="form-group col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Teléfono</label>
-                                                        <input type="text" class="form-control form-control-sm" placeholder="Teléfono" id="Perfil_fono" name="Perfil_fono" value="{{ $paciente->telefono_uno }}">
+                                                        <input type="text" class="form-control form-control-sm" placeholder="Teléfono" id="contacto_fono" name="Perfil_fono" value="{{ $paciente->telefono_uno }}">
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
@@ -370,17 +370,17 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="font-weight-bolder ml-0 mb-0">Región</label>
-                                                        <div>{{ $direccion_txt_region_paciente }}</div>
+                                                        <div data-tutor-mostrar="region">{{ $direccion_txt_region_paciente }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="font-weight-bolder ml-0 mb-0">Comuna</label>
-                                                        <div>{{ $direccion_txt_ciudad_paciente }}</div>
+                                                        <div data-tutor-mostrar="ciudad">{{ $direccion_txt_ciudad_paciente }}</div>
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                         <label class="font-weight-bolder ml-0 mb-0">Dirección</label>
-                                                        <div>
+                                                        <div data-tutor-mostrar="direccion">
                                                             @if ($direccion_paciente)
                                                                 {{ $direccion_paciente->direccion }}
                                                             @endif
@@ -392,11 +392,11 @@
                                         <!--Cierre: Residencia-->
                                         <!--(Editar) Residencia-->
                                         <div class="card-body border-top info_residencial collapse " id="info_residencial_2">
-                                            <form action="{{ ROUTE('paciente.perfil.editdirec') }}" method="GET">
+                                            <form action="{{ ROUTE('paciente.perfil.editdirec') }}" method="POST">
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Región</label>
-                                                        <select class="form-control form-control-sm" onchange="buscar_ciudad();" id="perfil_region" name="perfil_region">
+                                                        <select class="form-control form-control-sm" onchange="buscar_ciudad_residencia();" id="residencia_region" name="perfil_region">
                                                             <option value="">Seleccione</option>
                                                             @if (isset($regiones))
                                                                 @foreach ($regiones as $region)
@@ -416,7 +416,7 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Ciudad</label>
-                                                        <select class="form-control form-control-sm" id="perfil_ciudad" name="perfil_ciudad">
+                                                        <select class="form-control form-control-sm" id="residencia_ciudad" name="perfil_ciudad">
                                                             <option value="">Seleccione su comuna</option>
                                                             @if (isset($ciudades))
                                                                 @foreach ($ciudades as $ciudad)
@@ -437,7 +437,8 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                         <label class="floating-label-activo">Dirección</label>
-                                                        <input type="text" class="form-control form-control-sm" placeholder="Dirección" name="perfil_dire" id="perfil_dire" value="{{ optional($direccion_paciente)->direccion }}">
+                                                        <input type="text" class="form-control form-control-sm" placeholder="Dirección" name="perfil_dire" id="residencia_dire" value="{{ optional($direccion_paciente)->direccion }}">
+                                                        <label class="mt-2" for="residencia_numero_dir">Número</label><input class="form-control form-control-sm" id="residencia_numero_dir" name="perfil_numero_dir" value="{{ $direccion_paciente?->numero_dir }}">
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
@@ -562,8 +563,8 @@
                                                                     </tr>
                                                                 </thead>
 
+                                                                <tbody>
                                                                 @foreach ($contacto as $c)
-                                                                    <tbody>
                                                                         <tr>
                                                                             <td class="align-middle">
                                                                                 {{ $c->prioridad }}
@@ -577,17 +578,17 @@
                                                                             </td>
                                                                             <td class="align-middle">
 
-                                                                                <button id="btn_info_contacto" onclick="cargar_datos_contacto({{ $c->id }})" class="btn btn-info btn-icon" data-toggle="modal" data-target="#info_contacto_emergencia" title="Información de contacto" data-placement="top"><i class="feather icon-phone-call"></i>
+                                                                                <button  onclick="cargar_datos_contacto({{ $c->id }})" class="btn btn-info btn-icon" data-toggle="modal" data-target="#info_contacto_emergencia" title="Información de contacto" data-placement="top"><i class="feather icon-phone-call"></i>
                                                                                 </button>
 
-                                                                                <button id="btn_editar_contacto" onclick="cargar_datos_contacto({{ $c->id }})" class="btn btn-warning btn-sm btn-icon" data-toggle="modal" data-target="#editar_contacto_emergencia" title="Editar contacto" data-placement="top"><i class="feather icon-edit"></i>
+                                                                                <button  onclick="cargar_datos_contacto({{ $c->id }})" class="btn btn-warning btn-sm btn-icon" data-toggle="modal" data-target="#editar_contacto_emergencia" title="Editar contacto" data-placement="top"><i class="feather icon-edit"></i>
                                                                                 </button>
                                                                                 <button class="btn btn-danger btn-sm btn-icon" onclick="eliminar_contacto_paciente({{ $c->id . ',' . $paciente->id }})" data-toggle="tooltip" title="Eliminar contacto"><i class="feather icon-x"></i>
                                                                                 </button>
                                                                             </td>
                                                                         </tr>
-                                                                    </tbody>
-                                                                @endforeach
+                                                                    @endforeach
+                                                                </tbody>
                                                             @else
                                                                 <tbody>
                                                                     <tr>
@@ -620,6 +621,8 @@
 <!--Cierre: Container Completo-->
 @endsection
 @section('page-script')
+<script>window.perfilTutorConfig={csrf:@json(csrf_token()),todo:@json(route('paciente.perfil.guardar')),contacto:@json(route('paciente.perfil.editcontacto')),direccion:@json(route('paciente.perfil.editdirec')),contrasena:@json(route('paciente.perfil.cambiar_contrasena')),ciudades:@json(route('buscar_ciudad_region')),contactos:@json(route('paciente.perfil.contactos.lista'))};</script>
+<script src="{{ asset('js/perfil-tutor.js') }}"></script>
     <!-- ekko-lightbox Js -->
     <script src="{{ asset('js/plugins/ekko-lightbox.min.js') }}"></script>
     <script src="{{ asset('js/plugins/lightbox.min.js') }}"></script>
@@ -846,7 +849,7 @@
 
             let rut_contacto = $('#rut_nuevo_contacto').val();
             let id_paciente_contacto = $('#id_paciente').val();
-            let url = "{{ route('contacto_emergencia.buscar_contacto') }}"
+            let url = "{{ route('paciente.perfil.contactos.buscar') }}"
 
             $.ajax({
 
@@ -974,7 +977,7 @@
         function registrar_contacto_emergencia() {
 
             let id_paciente = $('#id_paciente').val();
-            let url = "{{ route('contacto_emergencia.registrar_contacto_emergencia') }}";
+            let url = "{{ route('paciente.perfil.contactos.guardar') }}";
 
             let rut = $('#rut_nuevo_contacto').val();
             let nombres = $('#nombres_contacto_emergencia').val();
@@ -1032,9 +1035,7 @@
                             //SuccessMode: true,
                         })
                         // Swal.clickConfirm();
-                        setTimeout(function() {
-                            location.reload()
-                        }, 3000);
+                        recargar_contactos_tutor();
                         // $('#mensaje_ditar_perfil').text(
                         //     'Se Registro Contacto de emergencia de forma correcta');
 
@@ -1051,13 +1052,13 @@
 
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    console.log(jqXHR, ajaxOptions, thrownError)
+                    mostrar_error_contacto_tutor(jqXHR)
                 });
         };
 
         function cargar_datos_contacto(id) {
             let id_contacto = id;
-            url = "{{ route('cargar_datos_contacto') }}";
+            url = "{{ route('paciente.perfil.contactos.datos') }}";
             $.ajax({
                     url: url,
                     type: "get",
@@ -1128,11 +1129,12 @@
             let id_contacto = contacto;
             let id_paciente = paciente
 
-            let url = "{{ route('contacto_emergencia.eliminar_contacto_paciente') }}";
+            let url = "{{ route('paciente.perfil.contactos.eliminar') }}";
 
             $.ajax({
                     url: url,
-                    type: "get",
+                    type: "post",
+                    headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                     data: {
                         id_contacto: id_contacto,
                         id_paciente: id_paciente
@@ -1147,15 +1149,13 @@
                             buttons: "Aceptar",
                             // DangerMode: true,
                         })
-                        setTimeout(function() {
-                            location.reload()
-                        }, 4000);
+                        recargar_contactos_tutor();
 
 
                     }
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    console.log(jqXHR, ajaxOptions, thrownError)
+                    mostrar_error_contacto_tutor(jqXHR)
                 });
         };
 
@@ -1692,7 +1692,7 @@
             let id_ciudad = $("#ciudad_contacto_modificar").val();
             let prioridad = $("#prioridad_contacto").val();
             let parentezco = $("#parentezco_contacto").val();
-            let url = "{{ route('contacto_emergencia.editar_contacto') }}";
+            let url = "{{ route('paciente.perfil.contactos.guardar') }}";
 
             var valido = 1;
             var mensaje = ''
@@ -1758,7 +1758,8 @@
             {
                 $.ajax({
                         url: url,
-                        type: "get",
+                        type: "post",
+                    headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                         data: {
                             id_contacto: id_contacto,
                             rut: rut,
@@ -1784,14 +1785,12 @@
                                 buttons: "Aceptar",
                                 // DangerMode: true,
                             })
-                            setTimeout(function() {
-                                location.reload()
-                            }, 100);
+                            recargar_contactos_tutor();
 
                         }
                     })
                     .fail(function(jqXHR, ajaxOptions, thrownError) {
-                        console.log(jqXHR, ajaxOptions, thrownError)
+                        mostrar_error_contacto_tutor(jqXHR)
                     });
             }
             else

@@ -373,12 +373,13 @@
                             <div class="row mb-3">
                                 <div class="col-md-12 text-center">
                                     <input type="submit" class="btn btn-purple mt-1" onclick="$('#cerrarsession').val('1');agregar_medicamentos_ficha(); agregar_examenes_ficha(); " value="Guardar ficha y finalizar su Consulta">
-                                    <input type="submit" class="btn btn-info mt-1" onclick="agregar_medicamentos_ficha(); agregar_examenes_ficha(); " value="Guardar ficha e ir a su agenda">
+                                    <input type="submit" class="btn btn-info mt-1" onclick="$('#cerrarsession').val('0');agregar_medicamentos_ficha(); agregar_examenes_ficha(); " value="Guardar ficha e ir a su agenda">
                                 </div>
                             </div>
                         </div>
                         <!--CIERRE: ATENCIÓN ESPECIALIDAD GENERAL-->
                     </form>
+                @include('atencion_veterinaria.partials.guardar_ficha_completa')
                 </div>
             </div>
         </div>

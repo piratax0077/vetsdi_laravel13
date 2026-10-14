@@ -772,6 +772,10 @@
   function setModoEdicion(idMascota) {
     mascotaEditandoId = idMascota || null;
     $('#mascota_editar_id').val(mascotaEditandoId || '');
+    if (!@json((bool) auth()->user()?->hasRole('Profesional'))) {
+      // Initial identification can be declared at registration; saved clinical data is read-only.
+      $('#modal_agregar_dep_nuevo_esterilizado, #modal_agregar_dep_nuevo_fecha_esterilizacion, #modal_agregar_dep_nuevo_fecha_esterilizacion_desconocida').prop('disabled', !!mascotaEditandoId);
+    }
     if (mascotaEditandoId) {
       $('#btn_registrar').html('<i class="feather icon-check"></i> Actualizar');
     } else {
@@ -3221,8 +3225,9 @@
             $('#btn_registrar').show();
         }
 
-        function registrar_dep_nuevo()
-        {
+        function registrar_dep_nuevo() {
+            var fotosEnProceso = [myDropzone_ven_pre, myDropzone_ven_post].some(function(dz){ return dz && (dz.getUploadingFiles().length || dz.getQueuedFiles().length); });
+            if (fotosEnProceso) { swal({title:'Espere a que terminen de subir las fotos.',icon:'info',buttons:'Aceptar'}); return; }
             var $btnRegistrar = $('#btn_registrar');
             if ($btnRegistrar.data('guardando')) {
                 return;
@@ -3665,3 +3670,5 @@
         window.continuarRegistroDefuncion = continuarRegistroDefuncion;
     </script>
 @endsection
+
+@include('general.secciones_ficha.partials.sanitarios_solo_lectura')

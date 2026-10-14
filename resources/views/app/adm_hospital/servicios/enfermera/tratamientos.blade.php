@@ -47,7 +47,7 @@
                                             <td class="p-0"><div class="switch switch-success d-inline">
                                                 <input type="checkbox"
                                                     id="tratamiento_listo_{{ $r->id }}"
-                                                    onchange="cambiarTextoLabel({{ $r->id }})" @if($r->estado_tratamiento == 0) checked disabled @endif>
+                                                    disabled @if($r->estado_tratamiento == 0) checked disabled @endif>
                                                 <label for="tratamiento_listo_{{ $r->id }}"
                                                     class="cr"></label>
                                             </div><br>
@@ -112,101 +112,12 @@
 
 <script>
 
-    function agregarObservaciones(){
-        let id_tratamiento = $('#id_tratamiento').val();
-        let observaciones_tratamiento = $('#observaciones_tratamiento').val();
 
-        let url = "{{ route('adm_hospital.agregar_observaciones_tratamiento') }}";
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: {
-                id_tratamiento: id_tratamiento,
-                observaciones_tratamiento: observaciones_tratamiento,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response){
-                console.log(response);
-                if(response.mensaje == 'OK'){
-                    swal({
-                        title: "Correcto",
-                        text: "Se agregaron las observaciones correctamente",
-                        icon: "success",
-                        button: "Aceptar",
-                    }).then((value) => {
-                        //window.location.reload();
-                    })
-                }else{
-                    swal({
-                        title: "Error",
-                        text: "Ocurrio un error al agregar las observaciones",
-                        icon: "error",
-                        button: "Aceptar",
-                    }).then((value) => {
-                        //window.location.reload();
-                    })
-                }
-            }
-        });
-    }
 
     function dame_tratamiento(id){
         $('#id_tratamiento').val(id);
     }
-    function cambiarTextoLabel(id) {
 
-        let url = "{{ route('adm_hospital.cambiar_estado_tratamiento') }}";
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: {
-                id_tratamiento: id,
-                observaciones: $('#observaciones_'+id).val(),
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response){
-                console.log(response);
-
-                // limpiar el campo hora_
-                $('#hora_tratamiento_'+id).html('');
-                if(response.mensaje == 'OK'){
-                    $('#hora_'+id).html(response.dif);
-
-                    if(response.estado == 0){
-                        $('#leyenda_check_'+id).html('Listo');
-                        $('#hora_tratamiento_creado_'+id).html(response.hora);
-                        // eliminar los estilos a enf_tto_tab
-                        $('#enf_tto_tab').removeAttr('style');
-                    }else{
-                        $('#leyenda_check_'+id).html('Pendiente');
-                        // agregar los estilos a enf_tto_tab con important
-                        $('#enf_tto_tab').attr('style', 'background-color: darkred !important; color: white !important');
-                    }
-
-                    // agregar disabled al input de observaciones
-                    if(response.estado == 0){
-                        $('#observaciones_'+id).attr('disabled', true);
-                    }else{
-                        $('#observaciones_'+id).attr('disabled', false);
-                    }
-                }else{
-                    swal({
-                        title: "Error",
-                        text: "Ocurrio un error al cambiar el estado del tratamiento",
-                        icon: "error",
-                        button: "Aceptar",
-                    }).then((value) => {
-                        //window.location.reload();
-                    })
-                }
-
-            }
-        });
-
-
-    //$('#hora_'+id).html(diferencia_dias + ' días, ' + diferencia_horas + ' horas y ' + diferencia_minutos + ' minutos');
-
-}
 </script>
 
 <!-- FIN MODAL AGREGAR INSUMOS -->

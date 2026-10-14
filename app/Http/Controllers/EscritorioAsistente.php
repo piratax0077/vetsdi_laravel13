@@ -84,54 +84,20 @@ class EscritorioAsistente extends Controller
 
     public function perfil()
     {
-        $asistente = Asistente::where('id_usuario', Auth::user()->id)->first();
-
+        $asistente = Asistente::where('id_usuario', Auth::id())->firstOrFail();
         $direccion = $asistente->Direccion()->first();
-
-        if($direccion)
-        {
-            $direccion_ciudad_objeto = Ciudad::where('id', $direccion->id_ciudad)->first();
-            $direccion_ciudad = Ciudad::where('id', $direccion->id_ciudad)->first()->id;
-            $direccion_region = Region::where('id', $direccion_ciudad_objeto->id_region)->first()->id;
-            $direccion_region_nombre = Region::where('id', $direccion_ciudad_objeto->id_region)->first()->nombre;
-        }
-        else
-        {
-            $direccion_ciudad_objeto = '';
-            $direccion_ciudad = '';
-            $direccion_region = '';
-            $direccion_region_nombre = '';
-        }
+        $ciudad = $direccion ? Ciudad::find($direccion->id_ciudad) : null;
+        $regionActual = $ciudad ? Region::find($ciudad->id_region) : null;
+        $direccion_ciudad = $ciudad?->id ?? '';
+        $direccion_region = $regionActual?->id ?? '';
+        $direccion_region_nombre = $regionActual?->nombre ?? '';
 
         $regiones = Region::all();
         $ciudades = Ciudad::where('id_region',  $direccion_region)->get();
         $contacto = $asistente->ContactosEmergencia()->get();
         $bancos = Bancos::where('estado',1)->get();
-        $liquidacion = LiquidacionRecibo::where('id_seccion',Auth::user()->id)->get();
-
-        $liqui_principal = 0;
-
-        if($liquidacion)
-        foreach ($liquidacion as $key => $value)
-        {
-            $id_banco = decrypt($value->casa);
-            $banco = Bancos::select('id', 'nombre')->where('id',$id_banco)->first();
-            $liquidacion[$key]->banco = $banco;
-            if($value->serie!='')
-                $liquidacion[$key]->serie  = decrypt($value->serie);
-            if($value->autor!='')
-                $liquidacion[$key]->autor = decrypt($value->autor);
-            if($value->casa!='')
-                $liquidacion[$key]->casa = decrypt($value->casa);
-            if($value->numero_control!='')
-                $liquidacion[$key]->numero_control = decrypt($value->numero_control);
-            if($value->email!='')
-                $liquidacion[$key]->email = decrypt($value->email);
-            if($value->otro!='')
-                $liquidacion[$key]->otro = decrypt($value->otro);
-            if($liqui_principal == 0 && $value->principal == 1)
-                $liqui_principal = 1;
-        }
+        $liquidacion = app(\App\Services\PerfilUsuario::class)->liquidaciones(Auth::id());
+        $liqui_principal = $liquidacion->contains(fn ($registro) => (int) $registro->principal === 1) ? 1 : 0;
 
         return view('app.asistente.perfil_asistente', [
             'asistente' => $asistente,
@@ -1972,76 +1938,17 @@ class EscritorioAsistente extends Controller
 
     public function editar_datos_personales_perfil(Request $request)
     {
-
-        $asistente = Asistente::where('id',  $request->id_asistente)->first();
-
-        $asistente->rut = $request->rut;
-        $asistente->nombres = $request->nombres;
-        $asistente->apellido_uno = $request->apellido_uno;
-        $asistente->apellido_dos = $request->apellido_dos;
-        $asistente->sexo = $request->sexo;
-        $asistente->fecha_nac = $request->nacimiento;
-
-        if (!$asistente->save()) {
-            return response()->json(['success' => false, 'message' => 'Error al editar datos personales.']);
-        } else {
-            return response()->json(
-                [
-                    'success' => true,
-                    'message' => 'Datos personales Actualizados de forma exitosa.',
-                    'asistente' => $asistente
-                ]
-            );
-        }
+        return response()->json(app(\App\Services\PerfilUsuario::class)->personales('asistente', $request));
     }
 
     public function editar_datos_contacto_perfil(Request $request)
     {
-
-        $asistente = Asistente::where('id',  $request->id_asistente)->first();
-
-        $asistente->email = $request->email;
-        $asistente->telefono_uno = $request->telefono_uno;
-
-        if (!$asistente->save()) {
-            return response()->json(['success' => false, 'message' => 'Error al editar datos de Contacto.']);
-        } else {
-            return response()->json(
-                [
-                    'success' => true,
-                    'message' => 'Datos de Contactos Actualizados.',
-                    'asistente' => $asistente
-                ]
-            );
-        }
+        return response()->json(app(\App\Services\PerfilUsuario::class)->contacto('asistente', $request));
     }
 
     public function editar_datos_direccion_perfil(Request $request)
     {
-        $asistente = Asistente::where('id',  $request->id_asistente)->first();
-        $direccion = Direccion::where('id', $asistente->Direccion()->first()->id)->first();
-        if($direccion)
-        {
-            $direccion->id_ciudad = $request->id_ciudad;
-            $direccion->direccion = $request->direccion;
-            $direccion->numero_dir = $request->numero_dir;
-
-            if (!$direccion->save()) {
-                return response()->json(['success' => false, 'message' => 'Error al editar datos de residencia.']);
-            } else {
-                return response()->json(
-                    [
-                        'success' => true,
-                        'message' => 'Datos de Residencia Actualizados.',
-                        'direccion' => $direccion
-                    ]
-                );
-            }
-        }
-        else
-        {
-            return response()->json(['success' => false, 'message' => 'Error al editar datos de residencia. sin direccion']);
-        }
+        return response()->json(app(\App\Services\PerfilUsuario::class)->direccion('asistente', $request));
     }
 
     public function eliminar_contacto_paciente(Request $request)
@@ -2056,19 +1963,21 @@ class EscritorioAsistente extends Controller
 
     public function cargar_datos_contacto(Request $request)
     {
-        $contacto = ContactoEmergencia::where('id', $request->id_contacto)->first();
+        $contacto = Asistente::where('id_usuario', Auth::id())->firstOrFail()->ContactosEmergencia()->where('contactos_emergencia.id', $request->id_contacto)->firstOrFail();
         $contacto->direccion = $contacto->Direccion()->first();
-        $contacto->ciudad = $contacto->Direccion()->first()->Ciudad()->first();
-        $contacto->region = Region::find($contacto->Direccion()->first()->Ciudad()->first()->id_region);
-        //$contacto->region  = $contacto->Direccion()->first()->Ciudad()->first()->Region()->first();
+        $contacto->ciudad = $contacto->Direccion()->first()?->Ciudad()->first();
+        $contacto->region = Region::find($contacto->Direccion()->first()?->Ciudad()->first()?->id_region);
+        //$contacto->region  = $contacto->Direccion()->first()?->Ciudad()->first()->Region()->first();
 
         return $contacto;
     }
 
     public function editar_contacto_emergencia(Request $request)
     {
-        $contacto = ContactoEmergencia::where('id', $request->id_contacto)->first();
-        $direccion = Direccion::where('id', $contacto->id_direccion)->first();
+        $request->validate(['rut'=>'required|string|max:20','nombres'=>'required|string|max:255','apellido_uno'=>'required|string|max:255','email'=>'nullable|email|max:255','telefono'=>'nullable|string|max:30','id_ciudad'=>'required|integer|exists:ciudades,id','direccion'=>'nullable|string|max:255','numero_dir'=>'nullable|string|max:30','fecha'=>'nullable|date|before_or_equal:today']);
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($request) {
+        $contacto = Asistente::where('id_usuario', Auth::id())->firstOrFail()->ContactosEmergencia()->where('contactos_emergencia.id', $request->id_contacto)->firstOrFail();
+        $direccion = Direccion::where('id', $contacto->id_direccion)->first() ?? new Direccion();
         $asistente = Asistente::where('id_usuario', Auth::user()->id)->first();
 
         $direccion->direccion = $request->direccion;
@@ -2088,6 +1997,7 @@ class EscritorioAsistente extends Controller
         $contacto->id_direccion = $direccion->id;
 
         if ($contacto->save()) {
+            $asistente->ContactosEmergencia()->updateExistingPivot($contacto->id, ['relacion' => $request->parentezco]);
             /*  $details = [
                       'title' => 'Hora medica Reservada',
                       'body' => 'Estimado/a '.$contacto->nombres.' '.$contacto->apellido_uno.' '.$contacto->apellido_dos.',<br>
@@ -2107,6 +2017,7 @@ class EscritorioAsistente extends Controller
         {
             return 'error';
         }
+            });
     }
 
     public function cargar_contacto_emergencia()
@@ -2133,9 +2044,12 @@ class EscritorioAsistente extends Controller
 
     public function registrar_contacto_emergencia(Request $request)
     {
+        $request->validate(['rut'=>'required|string|max:20','nombres'=>'required|string|max:255','apellido_uno'=>'required|string|max:255','email'=>'nullable|email|max:255','telefono'=>'nullable|string|max:30','id_ciudad'=>'required|integer|exists:ciudades,id','direccion'=>'nullable|string|max:255','numero_dir'=>'nullable|string|max:30','fecha'=>'nullable|date|before_or_equal:today']);
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($request) {
         $asistente = Asistente::where('id_usuario', Auth::user()->id)->first();
         $contacto_emergencia = ContactoEmergencia::where('rut', $request->rut)->first();
-        //$direccion_contacto = Direccion::where('id', $contacto_emergencia->id_direccion)->first();
+        //abort_unless($asistente->ContactosEmergencia()->where('contactos_emergencia.id', $contacto_emergencia->id)->exists(), 403);
+            $direccion_contacto = Direccion::where('id', $contacto_emergencia->id_direccion)->first() ?? new Direccion();
 
         if ($contacto_emergencia == null) {
             $contacto_emergencia = new ContactoEmergencia();
@@ -2155,7 +2069,7 @@ class EscritorioAsistente extends Controller
         $contacto_emergencia->apellido_uno = $request->apellido_uno;
         $contacto_emergencia->apellido_dos = $request->apellido_dos;
         $contacto_emergencia->parentezco = $request->parentezco;
-        $contacto_emergencia->fecha_nac = \Carbon\Carbon::parse($request->fecha)->format('Y-m-d');
+        $contacto_emergencia->fecha_nac = $request->filled('fecha') ? \Carbon\Carbon::parse($request->fecha)->format('Y-m-d') : null;
         $contacto_emergencia->prioridad = $request->prioridad;
         $contacto_emergencia->id_direccion = $direccion_contacto->id;
 
@@ -2167,11 +2081,11 @@ class EscritorioAsistente extends Controller
         //$direccion_contacto = Direccion::where('id', $contacto_emergencia->id_direccion)->first();
 
         if ($contacto_emergencia->save()) {
-            $asistenteContacto = new AsistenteContactoEmergencia();
+            $asistenteContacto = AsistenteContactoEmergencia::where('id_asistente', $asistente->id)->where('id_contacto', $contacto_emergencia->id)->first() ?? new AsistenteContactoEmergencia();
 
             $asistenteContacto->id_asistente = $asistente->id;
             $asistenteContacto->id_contacto = $contacto_emergencia->id;
-            $contacto_emergencia->relacion = $request->parentezco;
+            $asistenteContacto->relacion = $request->parentezco;
 
             if (!$asistenteContacto->save()) {
                 return 'error';
@@ -2181,75 +2095,18 @@ class EscritorioAsistente extends Controller
         } else {
             return 'error al registrar el contacto de emergencia';
         }
+            });
     }
 
     public function buscar_contacto(Request $request)
     {
-        $contacto = ContactoEmergencia::where('rut', $request->rut_contacto)->get();
-        $asistente = Asistente::where('id_usuario', Auth::user()->id)->first();
-
-        foreach ($contacto as $con) {
-            $contacto_paciente = AsistenteContactoEmergencia::where('id_contacto', $con->id)->where('id_asistente', $asistente->id)->first();
-            if ($contacto_paciente != '') {
-                return 'existe';
-            }
-        }
-
-        $contacto = ContactoEmergencia::where('rut', $request->rut_contacto)->first();
-
-        $region = region::all();
-        if ($contacto == null) {
-            $contacto = Paciente::where('rut', $request->rut_contacto)->first();
-
-            if ($contacto == null) {
-                $contacto = Profesional::where('rut', $request->rut_contacto)->first();
-
-                if ($contacto == null) {
-                    $contacto = Asistente::where('rut', $request->rut_contacto)->first();
-                    if ($contacto == null) {
-                        return 'vacio';
-                    } else {
-                        //$contacto->nombres = $contacto->nombre;
-                        $contacto->direccion = $contacto->Direccion()->first()->direccion;
-                        $contacto->numero_dir = $contacto->Direccion()->first()->numero_dir;
-                        $contacto->ciudad = $contacto->Direccion()->first()->Ciudad()->first();
-                        $contacto->region = $region;
-
-                        return json_encode($contacto);
-                    }
-                } else {
-                    $contacto->direccion = $contacto->Direccion()->first()->direccion;
-                    $contacto->nombres = $contacto->nombre;
-                    $contacto->numero_dir = $contacto->Direccion()->first()->numero_dir;
-                    $contacto->ciudad = $contacto->Direccion()->first()->Ciudad()->first();
-                    $contacto->region = $region;
-
-                    return json_encode($contacto);
-                }
-            } else {
-                $contacto->direccion = $contacto->Direccion()->first()->direccion;
-                $contacto->numero_dir = $contacto->Direccion()->first()->numero_dir;
-                $contacto->ciudad = $contacto->Direccion()->first()->Ciudad()->first();
-                $contacto->region = $region;
-
-                return json_encode($contacto);
-            }
-        } else {
-            $contacto->telefono_uno = $contacto->telefono;
-            $contacto->nombres = $contacto->nombre;
-            $contacto->direccion = $contacto->Direccion()->first()->direccion;
-            $contacto->numero_dir = $contacto->Direccion()->first()->numero_dir;
-            $contacto->ciudad = $contacto->Direccion()->first()->Ciudad()->first();
-            $contacto->region = $region;
-
-            return json_encode($contacto);
-        }
+        $asistente = Asistente::where('id_usuario', Auth::id())->firstOrFail();
+        return $asistente->ContactosEmergencia()->where('rut', $request->rut_contacto)->exists() ? 'existe' : 'vacio';
     }
-
 
     public function eliminar_contacto_asistente(Request $request)
     {
-        $asistenteContacto = AsistenteContactoEmergencia::where('id_asistente', $request->id_asistente)->where('id_contacto', $request->id_contacto)->first();
+        $asistenteContacto = AsistenteContactoEmergencia::where('id_asistente', app(\App\Services\PerfilUsuario::class)->propio('asistente', $request)->id)->where('id_contacto', $request->id_contacto)->firstOrFail();
         if (!$asistenteContacto->delete()) {
             return 'error';
         } else {
@@ -2331,56 +2188,7 @@ class EscritorioAsistente extends Controller
 
     public function editar_configuracion_busqueda(Request $request)
     {
-        $datos = array();
-        $resulto_img = '';
-
-        $asistente = Asistente::where('id_usuario', Auth::user()->id)->first();
-
-        // echo $request->archivo[0];//url temp
-        // echo $request->archivo[1];//nombre original
-        // echo $request->archivo[2];//nombre temp
-        // echo $request->archivo[3];//tipo archivo
-
-        $info_archivos = '';
-        if($request->archivo)
-        {
-            // [0] = url
-            // [1] = nombre_original
-            // [2] = nombre_archivo
-            // [3] = file_extension
-            $nombre_temp = $request->archivo[2];
-            $file_extension = $request->archivo[3];
-            $rut = str_replace('-', '', $asistente->rut);
-            $rut = str_replace('.', '', $rut);
-
-
-            $nombre_final = 'CV_'.$rut.'_'.uniqid().'.'.$file_extension;
-            $resulto_img = (object)CargaArchivoController::moverArchivo($nombre_temp, 'archivo_archivo', $nombre_final);
-
-            $datos['archivo'] = $resulto_img;
-
-            if( $resulto_img->estado == 1 )
-            {
-                $asistente->curriculum = $nombre_final;
-            }
-        }
-
-        $asistente->buscador = $request->buscador;
-        $asistente->id_modalidad = $request->modalidad;
-
-        if($asistente->save())
-        {
-            $datos['estado'] = 1;
-            $datos['msj'] = 'registro actualizado';
-        }
-        else
-        {
-            $datos['estado'] = 0;
-            $datos['msj'] = 'registro no actualizado';
-        }
-        // echo json_encode($datos);
-        // exit();
-        return $datos;
+        return app(\App\Services\PerfilUsuario::class)->busqueda($request);
     }
 
     public function buscar_paciente_rut(Request $request)
@@ -2652,21 +2460,12 @@ class EscritorioAsistente extends Controller
     {
         try {
             $request->validate([
-                'foto_perfil' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // 5MB máximo
+                'foto_perfil' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB máximo
             ]);
 
             $asistente = Asistente::where('id_usuario', Auth::user()->id)->first();
-            return $asistente;
-            // Eliminar la foto anterior si existe
-            if ($asistente->foto_perfil) {
-                Storage::disk('public')->delete($asistente->foto_perfil);
-            }
-            
-            // Guardar la nueva foto
-            $path = $request->file('foto_perfil')->store('fotos_perfil', 'public');
-            
-            // Actualizar en la base de datos
-            $asistente->update(['foto_perfil' => $path]);
+
+            $path = app(\App\Services\Fotografias::class)->perfil($asistente, $request->file('foto_perfil'));
             
             return response()->json([
                 'success' => true,
@@ -2674,6 +2473,8 @@ class EscritorioAsistente extends Controller
                 'foto_url' => asset('storage/' . $path)
             ]);
             
+        } catch (\Illuminate\Validation\ValidationException $error) {
+            throw $error;
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -2687,13 +2488,7 @@ class EscritorioAsistente extends Controller
         try {
             $asistente = Asistente::where('id_usuario', Auth::user()->id)->first();
 
-            if ($asistente->foto_perfil) {
-                // Eliminar archivo del storage
-                Storage::disk('public')->delete($asistente->foto_perfil);
-
-                // Actualizar en la base de datos
-                $asistente->update(['foto_perfil' => null]);
-            }
+            app(\App\Services\Fotografias::class)->quitarPerfil($asistente);
             
             return response()->json([
                 'success' => true,

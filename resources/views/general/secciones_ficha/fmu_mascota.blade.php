@@ -1,4 +1,7 @@
 @php
+    $resumenFvu = app(\App\Services\FichaVeterinariaUnica::class)->datos($mascota);
+    $odontograma_veterinario = $resumenFvu['odontograma'];
+    $detallesClinicosFvu = $resumenFvu['detalles'];
     $responsableFvu = $responsable_mascota ?? $responsable ?? null;
     $galeriaFvu = collect($galeria_mascota ?? [])->filter()->values();
     $vacunasFvu = collect($vacunas_fvu ?? [])->values();
@@ -41,12 +44,12 @@
             return (string) $fecha;
         }
     };
-    $fichasFvu = collect($fichas_veterinarias ?? [])->values();
-    $documentosFvu = collect($documentos_mascota ?? [])->values();
+    $fichasFvu = $resumenFvu['fichas'];
+    $documentosFvu = $resumenFvu['documentos'];
     $contactoEmergenciaFvu = null;
     try {
-        if (isset($paciente) && method_exists($paciente, 'ContactosEmergencia')) {
-            $contactoEmergenciaFvu = $paciente->ContactosEmergencia()->first();
+        if ($responsableFvu && method_exists($responsableFvu, 'ContactosEmergencia')) {
+            $contactoEmergenciaFvu = $responsableFvu->ContactosEmergencia()->first();
         }
     } catch (\Throwable $e) {
         $contactoEmergenciaFvu = null;
@@ -62,6 +65,7 @@
     $contactoTelefonoFvu = data_get($contactoEmergenciaFvu, 'telefono')
         ?: data_get($contactoEmergenciaFvu, 'celular')
         ?: data_get($responsableFvu, 'telefono')
+        ?: data_get($responsableFvu, 'telefono_uno')
         ?: data_get($responsableFvu, 'celular')
         ?: 'Sin registro';
     $contactoEmailFvu = data_get($contactoEmergenciaFvu, 'email')
@@ -138,7 +142,7 @@
     })->filter()->unique()->values();
 
     $microchip = $mascota->chip ?: 'Sin registro';
-    $pesoMascota = data_get($mascota, 'peso') ?: 'Sin registro';
+    $pesoMascota = $resumenFvu['peso'] !== null ? $resumenFvu['peso'].' kg' : 'Sin registro';
     $telefonoResponsable = $responsableFvu ? trim(($responsableFvu->telefono_uno ?? '') . ' / ' . ($responsableFvu->telefono_dos ?? '')) : 'Sin registro';
     $nombreResponsable = $responsableFvu
         ? trim(($responsableFvu->nombres ?? '') . ' ' . ($responsableFvu->apellido_uno ?? '') . ' ' . ($responsableFvu->apellido_dos ?? ''))
@@ -159,7 +163,7 @@
         [
             'titulo' => 'Alergias',
             'icono' => 'alergias.png',
-            'valor' => $cantidadAlergias > 0 ? 'SI' : 'NO',
+            'valor' => $cantidadAlergias > 0 ? 'SI' : 'Sin registro',
             'valor_clase' => $cantidadAlergias > 0 ? 'text-danger' : 'text-info',
             'mostrar_ver' => $cantidadAlergias > 0,
             'ver_url' => null,
@@ -649,7 +653,7 @@
                                                         @forelse ($fichasFvu as $ficha)
                                                             @php
                                                                 $profesionalFicha = trim(
-                                                                    data_get($ficha, 'Profesional.nombres', '') . ' ' .
+                                                                    data_get($ficha, 'Profesional.nombre', '') . ' ' .
                                                                     data_get($ficha, 'Profesional.apellido_uno', '') . ' ' .
                                                                     data_get($ficha, 'Profesional.apellido_dos', '')
                                                                 );
@@ -664,7 +668,12 @@
                                                                 <td class="align-middle">{{ $fechaFicha ? \Carbon\Carbon::parse($fechaFicha)->format('d-m-Y') : '-' }}</td>
                                                                 <td class="align-middle">{{ $profesionalFicha !== '' ? $profesionalFicha : '-' }}</td>
                                                                 <td class="align-middle">{{ $diagnosticoFicha }}</td>
-                                                                <td class="align-middle">#{{ data_get($ficha, 'id', '-') }}</td>
+                                                                <td class="align-middle">
+                                                                    <details>
+                                                                        <summary>Ver ficha #{{ $ficha->id }}</summary>
+                                                                        @include('general.secciones_ficha.partials.detalle_fvu', ['fichaFvu' => $ficha, 'datosFvu' => $detallesClinicosFvu->get($ficha->id, [])])
+                                                                    </details>
+                                                                </td>
                                                             </tr>
                                                         @empty
                                                             <tr>
@@ -1561,15 +1570,19 @@
             $modal.modal('show');
         });
 
+        function textoSeguroFvu(valor) {
+            return $('<div>').text(valor == null || valor === '' ? '-' : String(valor)).html();
+        }
+
         function fechaCortaFvu(valor) {
             if (!valor) {
                 return '-';
             }
             var partes = String(valor).split('T')[0].split('-');
             if (partes.length === 3) {
-                return partes[2] + '-' + partes[1] + '-' + partes[0];
+                return textoSeguroFvu(partes[2] + '-' + partes[1] + '-' + partes[0]);
             }
-            return valor;
+            return textoSeguroFvu(valor);
         }
 
         function renderTablaVacunasFvu(vacunas) {
@@ -1580,9 +1593,9 @@
             }
             vacunas.forEach(function (item) {
                 $body.append(
-                    '<tr><td>' + (item.edad || '-') + '</td>' +
+                    '<tr><td>' + textoSeguroFvu(item.edad) + '</td>' +
                     '<td>' + fechaCortaFvu(item.fecha_dosis) + '</td>' +
-                    '<td>' + (item.vacuna || '-') + '</td>' +
+                    '<td>' + textoSeguroFvu(item.vacuna) + '</td>' +
                     '<td>' + fechaCortaFvu(item.proxima_dosis) + '</td></tr>'
                 );
             });
@@ -1597,8 +1610,8 @@
             registros.forEach(function (item) {
                 $body.append(
                     '<tr><td>' + fechaCortaFvu(item.fecha_dosis) + '</td>' +
-                    '<td>' + (item.antiparasitario || '-') + '</td>' +
-                    '<td>' + (item.tipo || '-') + '</td>' +
+                    '<td>' + textoSeguroFvu(item.antiparasitario) + '</td>' +
+                    '<td>' + textoSeguroFvu(item.tipo) + '</td>' +
                     '<td>' + fechaCortaFvu(item.proxima_dosis) + '</td></tr>'
                 );
             });
@@ -1631,9 +1644,9 @@
             } else {
                 vacunas.forEach(function (item) {
                     $('#vacunas_c tbody').append(
-                        '<tr><td class="align-middle">' + (item.edad || '-') + '</td>' +
+                        '<tr><td class="align-middle">' + textoSeguroFvu(item.edad) + '</td>' +
                         '<td class="align-middle"><span class="badge badge-secondary">' + fechaCortaFvu(item.fecha_dosis) + '</span></td>' +
-                        '<td class="align-middle">' + (item.vacuna || '-') + '</td>' +
+                        '<td class="align-middle">' + textoSeguroFvu(item.vacuna) + '</td>' +
                         '<td class="align-middle text-center"><span class="badge badge-info">' + fechaCortaFvu(item.proxima_dosis) + '</span></td></tr>'
                     );
                 });
@@ -1646,8 +1659,8 @@
                 desparasitaciones.forEach(function (item) {
                     $('#desparasitacion_c tbody').append(
                         '<tr><td class="align-middle"><span class="badge badge-secondary">' + fechaCortaFvu(item.fecha_dosis) + '</span></td>' +
-                        '<td class="align-middle">' + (item.antiparasitario || '-') + '</td>' +
-                        '<td class="align-middle">' + (item.tipo || '-') + '</td>' +
+                        '<td class="align-middle">' + textoSeguroFvu(item.antiparasitario) + '</td>' +
+                        '<td class="align-middle">' + textoSeguroFvu(item.tipo) + '</td>' +
                         '<td class="align-middle text-center"><span class="badge badge-info">' + fechaCortaFvu(item.proxima_dosis) + '</span></td></tr>'
                     );
                 });
@@ -1668,7 +1681,7 @@
             });
         }
 
-        $('a[data-toggle="tab"][href="#fvu"], #fvu-tab').on('shown.bs.tab', recargarRegistrosSanitariosFvu);
+        $('a[data-toggle="tab"][href="#fvu"], a[data-toggle="tab"][href="#fmu"], #fvu-tab, #fmu-tab').on('shown.bs.tab', recargarRegistrosSanitariosFvu);
         $(document).on('fvu:sanitarios-actualizados', function () {
             recargarRegistrosSanitariosFvu();
         });

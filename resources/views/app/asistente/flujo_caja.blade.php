@@ -1,4 +1,4 @@
-@extends('template.templateFlujoCaja')
+@extends(app(\App\Services\AutorizacionesAsistentes::class)->esAsistente(auth()->user()) ? 'template.asistente_unificado.template' : 'template.templateFlujoCaja')
 @section('content')
 
     <!--Container Completo-->

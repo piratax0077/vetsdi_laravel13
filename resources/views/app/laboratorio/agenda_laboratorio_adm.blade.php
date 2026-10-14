@@ -1,4 +1,4 @@
-@extends('template.laboratorio.laboratorio_asistente.template')
+@extends('template.asistente_unificado.template')
 
 @section('page-style')
     <link href='{{ asset('js/fullcalendar-5.10.1/lib/main.css') }}' rel='stylesheet' />

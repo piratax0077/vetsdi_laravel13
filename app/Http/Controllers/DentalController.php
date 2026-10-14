@@ -4932,6 +4932,10 @@ class DentalController extends Controller
 
     public function registrar_ficha_atencion_dental(Request $request)
     {
+        if (HoraMedica::whereKey($request->hora_medica)->whereNotNull('id_mascota')->exists()) {
+            return app(GuardarFichaVeterinariaController::class)->guardar($request, 'odontologia');
+        }
+
         try {
 
             $campos_requeridos = 0;

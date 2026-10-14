@@ -1924,7 +1924,7 @@ class EscritorioPaciente extends Controller
 
     public function perfil()
     {
-        $paciente = Paciente::where('id_usuario', Auth::user()->id)->first();
+        $paciente = Paciente::where('id_usuario', Auth::id())->firstOrFail();
         $direccion_paciente = Direccion::where('id',$paciente->id_direccion)->first();
         $direccion_id_ciudad_paciente = '';
         $direccion_txt_ciudad_paciente = '';
@@ -1948,7 +1948,7 @@ class EscritorioPaciente extends Controller
                 $direccion_id_region_paciente = $direccion_region_paciente->id_region;
 
                 $direccion_txt_region_paciente_temp = Region::find($direccion_id_region_paciente);
-                $direccion_txt_region_paciente = $direccion_txt_region_paciente_temp->nombre;
+                $direccion_txt_region_paciente = $direccion_txt_region_paciente_temp?->nombre ?? '';
             }
         }
 
@@ -2054,19 +2054,15 @@ class EscritorioPaciente extends Controller
                 ], 404);
             }
 
-            if (!empty($paciente->foto_perfil)) {
-                Storage::disk('public')->delete($paciente->foto_perfil);
-            }
-
-            $ruta = $request->file('foto_perfil')->store('fotos_perfil', 'public');
-            $paciente->foto_perfil = $ruta;
-            $paciente->save();
+            $ruta = app(\App\Services\Fotografias::class)->perfil($paciente, $request->file('foto_perfil'));
 
             return response()->json([
                 'estado' => 1,
                 'mensaje' => 'Foto de perfil actualizada correctamente.',
                 'foto_url' => asset('storage/' . $ruta),
             ]);
+        } catch (\Illuminate\Validation\ValidationException $error) {
+            throw $error;
         } catch (\Throwable $th) {
             return response()->json([
                 'estado' => 0,
@@ -2087,12 +2083,7 @@ class EscritorioPaciente extends Controller
                 ], 404);
             }
 
-            if (!empty($paciente->foto_perfil)) {
-                Storage::disk('public')->delete($paciente->foto_perfil);
-            }
-
-            $paciente->foto_perfil = null;
-            $paciente->save();
+            app(\App\Services\Fotografias::class)->quitarPerfil($paciente);
 
             return response()->json([
                 'estado' => 1,
@@ -2802,252 +2793,27 @@ class EscritorioPaciente extends Controller
     /* Perfil */
     public function editInfor(Request $request)
     {
-
-        // $this->validate($request, [
-        //     'perfil_nombre' => 'required',
-        //     'perfil_apellido_uno' => 'required',
-        //     'perfil_apellido_dos' => 'required',
-        //     'perfil_sexo' => 'required',
-        //     'perfil_nac' => 'required|date',
-        //     'perfil_prevision' => 'required|between:2,999',
-        // ]);
-
-
-
-        $nombre = (isset($request->perfil_nombre)) ? $request->perfil_nombre : null;
-        $apellido_uno = (isset($request->perfil_apellido_uno)) ? $request->perfil_apellido_uno : null;
-        $apellido_dos = (isset($request->perfil_apellido_dos)) ? $request->perfil_apellido_dos : null;
-        $sexo = (isset($request->perfil_sexo)) ? $request->perfil_sexo : null;
-        $fecha_nac = (isset($request->perfil_nac)) ? $request->perfil_nac : null;
-        $prevision = (isset($request->perfil_prevision)) ? $request->perfil_prevision : null;
-
-
-        $paciente = Paciente::where('id_usuario', Auth::user()->id)->first();
-        $paciente->nombres = $nombre;
-        $paciente->apellido_uno = $apellido_uno;
-        $paciente->apellido_dos = $apellido_dos;
-        $paciente->sexo = $sexo;
-        $paciente->fecha_nac = $fecha_nac;
-        $paciente->id_prevision = $prevision;
-        $paciente->save();
-
-        $user = User::find($paciente->id_usuario);
-        if( $user->name != $nombre . ' ' . $apellido_uno )
-        {
-            $user->name = $nombre . ' ' . $apellido_uno;
-            $user->save();
-        }
-
-        return json_encode(['success' => true]);
-
-        // return redirect()->route('paciente.perfil');
+        return response()->json(app(\App\Services\PerfilTutor::class)->guardar($request, 'personales'));
     }
 
     public function editcontacto(Request $request)
     {
-        // $this->validate($request, [
-        //     'Perfil_email' => 'required|email',
-        //     'Perfil_fono' => 'required',
-        // ]);
-
-        $email = (isset($request->perfil_email)) ? $request->perfil_email : null;
-        $fono = (isset($request->perfil_fono)) ? $request->perfil_fono : null;
-
-        $paciente = Paciente::where('id_usuario', Auth::user()->id)->first();
-        $paciente->email = $email;
-        $paciente->telefono_uno = $fono;
-        $paciente->save();
-
-        $user = User::find($paciente->id_usuario);
-        if( $user->email != $email )
-        {
-            $user->email = $email;
-            $user->save();
-        }
-
-        return json_encode(['success' => true]);
-
-        // return redirect()->route('paciente.perfil');
+        return response()->json(app(\App\Services\PerfilTutor::class)->guardar($request, 'contacto'));
     }
 
     public function editdirec(Request $request)
     {
-        $datos = array();
-        $error = array();
-        $valido = 1;
-
-        if(empty($request->perfil_dire))
-        {
-            $valido=0;
-            $error['Direccion'] = "Campo requerido.";
-        }
-        if(empty($request->perfil_region))
-        {
-            $valido=0;
-            $error['Region'] = "Campo requerido.";
-        }
-        if(empty($request->perfil_ciudad))
-        {
-            $valido=0;
-            $error['Ciudad'] = "Campo requerido.";
-        }
-        if($valido)
-        {
-            $perfil_dire = $request->perfil_dire;
-            $ciudad = $request->perfil_ciudad;
-            $paciente = Paciente::where('id_usuario', Auth::user()->id)->first();
-            $direccion = Direccion::where('id', $paciente->id_direccion)->first();
-
-            if($direccion)
-            {
-                $direccion->direccion = $perfil_dire;
-                $direccion->id_ciudad = $ciudad;
-
-                if($direccion->save())
-                {
-                    $datos['estado'] = 1;
-                    $datos['msj'] = 'Exito';
-                }
-                else
-                {
-                    $datos['estado'] = 0;
-                    $datos['msj'] = 'Falla';
-                }
-            }
-            else
-            {
-                /** crear direccion*/
-                $nueva_direccion = new Direccion();
-                $nueva_direccion->direccion = $perfil_dire;
-                $nueva_direccion->numero_dir = '';
-                $nueva_direccion->id_ciudad = $ciudad;
-
-                if($nueva_direccion->save())
-                {
-                    $datos['estado'] = 1;
-                    $datos['msj'] = 'exito';
-
-                    $paciente->id_direccion = $nueva_direccion->id;
-                    if( $paciente->save() )
-                    {
-                        $datos['update_paciente']['estado'] = 1;
-                        $datos['update_paciente']['msj'] = 'exito';
-                    }
-                    else
-                    {
-                        $datos['update_paciente']['estado'] = 0;
-                        $datos['update_paciente']['msj'] = 'falla';
-                    }
-                }
-                else
-                {
-                    $datos['direccion']['estado'] = 0;
-                    $datos['direccion']['msj'] = 'falla';
-                }
-            }
-
-        }
-        else
-        {
-            $datos['estado'] = 0;
-            $datos['msj'] = 'Campos requeridos';
-            $datos['error'] = $error;
-        }
-        return $datos;
+        return response()->json(app(\App\Services\PerfilTutor::class)->guardar($request, 'direccion'));
     }
 
     public function guardarPerfil(Request $request)
     {
-        $paciente = Paciente::where('id_usuario', Auth::id())->first();
-
-        if (!$paciente) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Paciente no encontrado.',
-            ], 404);
-        }
-
-        $request->validate([
-            'perfil_nombre' => 'required|string|max:255',
-            'perfil_apellido_uno' => 'required|string|max:255',
-            'perfil_apellido_dos' => 'nullable|string|max:255',
-            'perfil_sexo' => 'required|in:M,F',
-            'perfil_nac' => 'required|date',
-            'perfil_email' => 'required|email|max:255',
-            'perfil_fono' => 'required|string|max:30',
-            'perfil_dire' => 'required|string|max:255',
-            'perfil_region' => 'required|integer|exists:regiones,id',
-            'perfil_ciudad' => 'required|integer|exists:ciudades,id',
-        ]);
-
-        $paciente->nombres = $request->perfil_nombre;
-        $paciente->apellido_uno = $request->perfil_apellido_uno;
-        $paciente->apellido_dos = $request->perfil_apellido_dos;
-        $paciente->sexo = $request->perfil_sexo;
-        $paciente->fecha_nac = $request->perfil_nac;
-        $paciente->email = $request->perfil_email;
-        $paciente->telefono_uno = $request->perfil_fono;
-        $paciente->save();
-
-        $direccion = Direccion::find($paciente->id_direccion);
-        if (!$direccion) {
-            $direccion = new Direccion();
-            $direccion->numero_dir = '';
-        }
-
-        $direccion->direccion = $request->perfil_dire;
-        $direccion->id_ciudad = $request->perfil_ciudad;
-        $direccion->save();
-
-        if ((int) $paciente->id_direccion !== (int) $direccion->id) {
-            $paciente->id_direccion = $direccion->id;
-            $paciente->save();
-        }
-
-        $user = User::find($paciente->id_usuario);
-        if ($user) {
-            $user->name = trim($request->perfil_nombre . ' ' . $request->perfil_apellido_uno);
-            $user->email = $request->perfil_email;
-            $user->save();
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Perfil actualizado correctamente.',
-        ]);
+        return response()->json(app(\App\Services\PerfilTutor::class)->guardar($request, 'todo'));
     }
 
     public function cambiarContrasenaPerfil(Request $request)
     {
-        $request->validate([
-            'contrasena_actual' => 'required|string',
-            'password_registro' => 'required|string|min:6',
-            'password_confirmacion_registro' => 'required|string|same:password_registro',
-        ]);
-
-        $user = User::find(Auth::id());
-
-        if (!$user) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Usuario no encontrado.',
-            ], 404);
-        }
-
-        if (!Hash::check($request->contrasena_actual, $user->password)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'La contraseña actual no es válida.',
-            ], 422);
-        }
-
-        $user->password = Hash::make($request->password_registro);
-        $user->save();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Contraseña actualizada correctamente.',
-        ]);
+        return response()->json(app(\App\Services\PerfilUsuario::class)->contrasena($request));
     }
 
     //Falta revisar el modelo y valdiaciones

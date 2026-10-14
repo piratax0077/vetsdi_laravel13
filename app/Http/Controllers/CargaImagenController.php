@@ -21,15 +21,8 @@ class CargaImagenController extends Controller
         ]);
 
         $archivo = $request->file('file');
-        $rutaStorage = $archivo->store('public/imagenes/temp');
+        $rutaStorage = app(\App\Services\Fotografias::class)->guardar($archivo, 'imagenes/temp');
         $nombreImagen = basename($rutaStorage);
-
-        // En esta instalación public/storage es una carpeta real (no un enlace
-        // simbólico). Mantener una copia pública garantiza que la misma URL
-        // funcione en el portal del tutor, profesional y demás vistas.
-        $directorioPublico = public_path('storage/imagenes/temp');
-        File::ensureDirectoryExists($directorioPublico);
-        File::copy(storage_path('app/' . $rutaStorage), $directorioPublico . DIRECTORY_SEPARATOR . $nombreImagen);
 
         return [
             'estado' => 1,

@@ -25,7 +25,7 @@
                     </div>
                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-2 col-xxl-2">
                         <label class="floating-label-activo-sm" for="motivo">T (ºC)</label>
-                        <input type="text" class="form-control form-control-sm" name="temperatura" id="temperatura" value="">
+                        <input type="text" class="form-control form-control-sm" name="{{ isset($mascota) ? 'temperatura_examen_fisico' : 'temperatura' }}" id="{{ isset($mascota) ? 'temperatura_examen_fisico' : 'temperatura' }}" value="">
                     </div>
                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-2 col-xxl-2">
                         <label class="floating-label-activo-sm" for="motivo">FC (L/min)</label>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-2 col-xxl-2">
                         <label class="floating-label-activo-sm" for="motivo">Pulso</label>
-                        <input type="text" class="form-control form-control-sm" name="pulso" id="pulso" value="">
+                        <input type="text" class="form-control form-control-sm" name="{{ isset($mascota) ? 'pulso_examen_fisico' : 'pulso' }}" id="{{ isset($mascota) ? 'pulso_examen_fisico' : 'pulso' }}" value="">
                     </div>
                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-2 col-xxl-2">
                         <label class="floating-label-activo-sm" for="motivo">Mucosas</label>

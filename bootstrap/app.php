@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))->withRouting(
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->web(append: [\App\Http\Middleware\AutorizarAsistente::class]);
         // Registramos los alias de los middlewares de Spatie para Laravel 13
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,

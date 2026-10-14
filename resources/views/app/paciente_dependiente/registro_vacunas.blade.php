@@ -196,3 +196,5 @@
         }
     </script>
 @endsection
+
+@include('general.secciones_ficha.partials.sanitarios_solo_lectura')

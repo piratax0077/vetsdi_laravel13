@@ -20,20 +20,15 @@ class ExamenesPPFController extends Controller
 
     public function registroExamen_r(Request $request)
     {
-        return $this->registroMedicamento( $request->id_prioridad,
-                                            $request->id_paciente,
-                                            $request->id_profesional,
-                                            $request->id_ficha_atencion,
-                                            $request->id_examen,
-                                            $request->examen,
-                                            $request->examen_especialidad,
-                                            $request->tipo_examen,
-                                            $request->tipo_ficha,
-                                            $request->con_contraste,
-                                            $request->archivos,
-                                            $request->otro,
-
-                                        );
+        $request->validate(['examen'=>'required|string|max:500','id_examen'=>'required|integer|min:1']);
+        return $this->registroExamen(
+            $request->input('id_prioridad', 2), $request->id_paciente, $request->id_profesional,
+            $request->id_ficha_atencion, null, null, $request->id_examen, $request->examen,
+            $request->input('examen_especialidad', 'Veterinaria'), $request->input('tipo_examen', 'General'),
+            $request->input('tipo_ficha', 1), $request->boolean('con_contraste'),
+            $request->input('archivos', ''), $request->input('sospecha', ''),
+            $request->input('observacion', ''), $request->input('prioridad', ''), $request->input('otro', '')
+        );
 
     }
 
@@ -57,6 +52,16 @@ class ExamenesPPFController extends Controller
      * @return void
      */
     public function registroExamenes_r(Request $request)
+    {
+        $request->mergeIfMissing(['tipo_ficha'=>1]);
+        return app(\App\Services\ColeccionClinica::class)->reemplazar($request, 'examenes', [
+            'id_examen'=>'required|integer|min:1', 'nombre_examen'=>'required|string',
+            'nombre_examen_especialidad'=>'required|string', 'tipo'=>'required|string',
+            'prioridad'=>'required|in:Baja,Media,Alta,Urgente',
+        ], ['prioridad'=>'Media','con_contraste'=>'N/C'], fn ()=>$this->reemplazarExamenes($request));
+    }
+
+    private function reemplazarExamenes(Request $request)
     {
         $datos = array();
         if ($request->examenes == '[]' ) {

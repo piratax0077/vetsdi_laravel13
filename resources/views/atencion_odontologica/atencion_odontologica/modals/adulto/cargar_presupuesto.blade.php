@@ -407,7 +407,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary" onclick="guardar_presupuesto_dental()">Guardar</button>
+
         </div>
       </div>
     </div>
@@ -788,105 +788,6 @@
             })
         }
 
-        function guardar_presupuesto_dental(){
-            let fecha = $('#fecha').val();
-            let nro_presupuesto = $('#nro_presupuesto').val();
-            let aprobado = $('#aprobado').val();
-            let pieza = $('#pieza').val();
-            let boca = $('#boca').val();
-            let presupuesto_monto = $('#presupuesto_monto').val();
-            let estado = $('#estado').val();
-            let control = $('#control').val();
 
-            let valido = 1;
-            let mensaje = '';
-
-            if(fecha == ''){
-                valido = 0;
-                mensaje += '<li>Debe ingresar la fecha del presupuesto</li>';
-            }
-            if(nro_presupuesto == ''){
-                valido = 0;
-                mensaje += '<li>Debe ingresar el número del presupuesto</li>';
-            }
-            if(aprobado == ''){
-                valido = 0;
-                mensaje += '<li>Debe seleccionar si el presupuesto está aprobado</li>';
-            }
-            if(pieza == ''){
-                valido = 0;
-                mensaje += '<li>Debe ingresar la pieza</li>';
-            }
-            if(boca == ''){
-                valido = 0;
-                mensaje += '<li>Debe seleccionar si el presupuesto es para boca</li>';
-            }
-            if(presupuesto_monto == ''){
-                valido = 0;
-                mensaje += '<li>Debe ingresar el monto del presupuesto</li>';
-            }
-            if(estado == ''){
-                valido = 0;
-                mensaje += '<li>Debe seleccionar el estado del presupuesto</li>';
-            }
-            if(control == ''){
-                valido = 0;
-                mensaje += '<li>Debe ingresar la fecha de control del presupuesto</li>';
-            }
-
-            if(valido == 0){
-                swal({
-                    title: 'Error!',
-                    content:{
-                        element: 'ul',
-                        attributes:{
-                            innerHTML: mensaje
-                        }
-                    },
-                    icon: 'error',
-                    confirmButtonText: 'Aceptar'
-                });
-                return false;
-            }
-
-            let data = {
-                fecha: fecha,
-                nro_presupuesto: nro_presupuesto,
-                aprobado: aprobado,
-                pieza: pieza,
-                boca: boca,
-                presupuesto_monto: presupuesto_monto,
-                estado: estado,
-                control: control,
-                _token: "{{ csrf_token() }}"
-            }
-
-            let url = "{{ route('profesional.registrar_presupuesto_dental') }}";
-
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: data,
-                success: function(data){
-                    return console.log(data);
-                    if(data == 1){
-                        swal({
-                            title: 'Correcto!',
-                            text: 'Se ha guardado el presupuesto',
-                            icon: 'success',
-                            confirmButtonText: 'Aceptar'
-                        });
-                        $('#modalNuevoPresupuestoDental').modal('hide');
-                    }else{
-                        swal({
-                            title: 'Error!',
-                            text: 'Ha ocurrido un error al guardar el presupuesto',
-                            icon: 'error',
-                            confirmButtonText: 'Aceptar'
-                        });
-                    }
-                }
-            })
-        }
 
 </script>

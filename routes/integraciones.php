@@ -71,12 +71,4 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/enfermeria/receta-inyectable', [EscritorioEnfermerasController::class, 'guardar_receta_medica_inyectable'])
         ->name('enfermeria.guardar_receta_medica_inyectable');
 
-    Route::post('/enfermeria/tratamientos/activos', [ficha_atencionController::class, 'obtener_tratamientos_activos_enfermeria'])
-        ->name('fichaAtencion.obtener_tratamientos_activos_enfermeria');
-    Route::post('/enfermeria/tratamientos/historial', [ficha_atencionController::class, 'historial_administraciones_medicamento_enfermeria'])
-        ->name('fichaAtencion.historial_administraciones_medicamento_enfermeria');
-    Route::post('/enfermeria/tratamientos/guardar', [ficha_atencionController::class, 'guardar_medicamento_enfermeria'])
-        ->name('fichaAtencion.guardar_medicamento_enfermeria');
-    Route::post('/enfermeria/receta/eliminar', [DetalleRecetaController::class, 'eliminarRegistroReceta'])
-        ->name('detalle_receta.eliminar_registro_receta');
 });

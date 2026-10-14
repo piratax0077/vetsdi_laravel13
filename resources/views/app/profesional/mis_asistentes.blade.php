@@ -2,7 +2,8 @@
 @section('content')
     <!--****Container Completo****-->
     <div class="pcoded-main-container">
-        <div class="pcoded-content m-top">
+        <div class="pcoded-content m-top">
+<div class="text-right mb-3"><a href="{{ route('asistentes.autorizaciones') }}" class="btn btn-info btn-sm"><i class="feather icon-shield"></i> Autorizaciones de asistentes</a></div>
             <!--Header-->
             <div class="page-header">
                 <div class="page-block">

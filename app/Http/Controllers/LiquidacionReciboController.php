@@ -20,6 +20,7 @@ class LiquidacionReciboController extends Controller
 
     public function modificarLiquidacion(Request $request)
     {
+        abort_unless(LiquidacionRecibo::where('id_seccion', Auth::id())->whereKey($request->id)->exists(), 403);
         $result = LiquidacionReciboController::edit($request->id, Auth::user()->id, $request->rut, $request->nombre, $request->banco, $request->cuenta, $request->email, $request->principal, $request->tipo_cuenta,1);
         return $result;
     }
@@ -278,6 +279,7 @@ class LiquidacionReciboController extends Controller
 
     public function eliminarLiquidacion(Request $request)
     {
+        abort_unless(LiquidacionRecibo::where('id_seccion', Auth::id())->whereKey($request->id)->exists(), 403);
         $datos = array();
         $error = array();
         $valido = 1;

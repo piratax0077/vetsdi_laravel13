@@ -46,39 +46,43 @@ class HomeController extends Controller
 		else
 			$roles_principal = $usuario->roles()->orderBy('id', 'DESC')->first();
 
+        if (app(\App\Services\AutorizacionesAsistentes::class)->esAsistente($usuario)) {
+            return redirect()->route('asistentes.home');
+        }
+
         switch ($roles_principal->name) {
             case 'Admin':
                 return redirect('/Acceso');
                 break;
             case 'Asistente': //asistente consulta
-                return redirect()->route('asistente.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'Adm_Comercial': // asistente Comercial (institucion)
                 return redirect()->route('administrador_comercial.home');
                 break;
             case 'AsistenteAdm': // asistente administrativa (institucion)
-                return redirect()->route('asistente_adm.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'AsistenteJefaCaja': // asistente jefe de caja (institucion)
-                return redirect()->route('asistentejcm.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'AsistenteLaboratorio': // asistente de laboratorio (institucion)
-                return redirect()->route('asistente.lab.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'AsistenteCaja': // asistente de caja (institucion)
-                return redirect()->route('asistentecm.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'AsistenteDental':// asistente dental
-                return redirect()->route('asistentedental.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'AsistenteOnline': // asistente online (institucion / consulta)
-                return redirect()->route('asistenteon.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'AsistenteManejoAgenda': // asistente Manejo de Agenda (institucion)
-                return redirect()->route('asistentecm.ma.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'AsistenteCargaExamenExterno': // asistente externo caga de examen (usuario para lab - temporal)
-                return redirect()->route('lab.exa.asistente.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'Paciente':
                 return redirect()->route('paciente.home');
@@ -152,33 +156,37 @@ class HomeController extends Controller
         //     return redirect('/Acceso');
         // }
 
+        if (app(\App\Services\AutorizacionesAsistentes::class)->esAsistente($usuario)) {
+            return redirect()->route('asistentes.home');
+        }
+
         switch ($roles[0]->name) {
             case 'Admin':
                 return redirect('/Acceso');
                 break;
             case 'Asistente': //asistente consulta
-                return redirect()->route('asistente.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'Adm_Comercial': // asistente Comercial (institucion)
                 return redirect()->route('administrador_comercial.home');
                 break;
             case 'AsistenteAdm': // asistente administrativa (institucion)
-                return redirect()->route('asistente_adm.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'AsistenteJefaCaja': // asistente jefe de caja (institucion)
-                return redirect()->route('asistentejcm.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'AsistenteCaja': // asistente de caja (institucion)
-                return redirect()->route('asistentecm.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'AsistenteDental':// asistente dental
-                return redirect()->route('asistentedental.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'AsistenteOnline': // asistente online (institucion / consulta)
-                return redirect()->route('asistenteon.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'AsistenteManejoAgenda': // asistente Manejo de Agenda (institucion)
-                return redirect()->route('asistentecm.ma.home');
+                return redirect()->route('asistentes.home');
                 break;
             case 'Paciente':
                 return redirect()->route('paciente.home');

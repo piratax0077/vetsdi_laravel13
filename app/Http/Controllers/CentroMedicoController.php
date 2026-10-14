@@ -11,6 +11,24 @@ use Illuminate\Http\Request;
 
 class CentroMedicoController extends Controller
 {
+    public function damePrevisiones()
+    {
+        return \App\Models\Prevision::orderBy('nombre')->get();
+    }
+
+    public function buscarExamenes(Request $request)
+    {
+        $datos = $request->validate(['id_centro_medico' => 'required|integer|min:1']);
+        return \App\Models\ProcedimientosCentro::where('id_lugar_atencion', $datos['id_centro_medico'])->get();
+    }
+
+    public function buscarSucursalesLaboratorio(Request $request)
+    {
+        $datos = $request->validate(['id_laboratorio' => 'required|integer|min:1']);
+        $institucion = \App\Models\Instituciones::where('id_lugar_atencion', $datos['id_laboratorio'])->firstOrFail();
+        return \App\Models\Sucursal::where('id_institucion', $institucion->id)->get();
+    }
+
     //
     public function buscarProfesional(Request $req){
 

@@ -42,10 +42,8 @@
                             </div>
                     </div>
 
-					<div class="col-sm-12">
-                        <button type="button" onclick="guardar_salas_servicio()" class="btn btn-info btn-sm float-right" data-toggle="collapse" data-target=".info-basica" aria-expanded="false" aria-controls="info-basica-1 info-basica-2">
-                            <i class="feather icon-check-square"></i> Guardar cambios
-                        </button>
+                    <div class="col-sm-12">
+
                     </div>
                 </div>
             </div>
@@ -65,87 +63,7 @@
         $('#agregar_salas').modal('show');
     }
 
-    function guardar_salas_servicio(){
-        let cantidad_salas = $('#cantidad_salas').val();
-        let camillas_salas = $('#camillas_salas').val();
-        let servicio_salas = $('#servicio_salas').val();
-        let id_institucion = $('#id_institucion').val();
-        let id_lugar_atencion = $('#id_lugar_atencion').val();
-        let observaciones_salas_servicio = $('#observaciones_salas_servicio').val();
-        let url = "{{ route('adm_hospital.guardar_salas_servicio') }}";
 
-        var valido = 1;
-        var mensaje = '';
-
-        if(cantidad_salas == ''){
-            valido = 0;
-            mensaje += '<li>Debe ingresar cantidad de salas</li>';
-        }
-        if(camillas_salas == ''){
-            valido = 0;
-            mensaje += '<li>Debe ingresar cantidad de camillas por sala</li>';
-        }
-        if(servicio_salas == 0){
-            valido = 0;
-            mensaje += '<li>Debe seleccionar un servicio</li>';
-        }
-        if(observaciones_salas_servicio == 0){
-            valido = 0;
-            mensaje += '<li>Debe ingresar observaciones</li>';
-        }
-        if(valido == 0){
-            swal({
-                title: "Error",
-                content:{
-                    element: "div",
-                    attributes:{
-                        innerHTML: mensaje
-                    }
-                },
-                icon: "error",
-                // buttons: "Aceptar",
-                //SuccessMode: true,
-            });
-            return false;
-        }
-
-        $.ajax({
-            url: url,
-            type: "post",
-            data: {
-                cantidad_salas: cantidad_salas,
-                servicio_salas: servicio_salas,
-                observaciones_salas_servicio: observaciones_salas_servicio,
-                id_institucion: id_institucion,
-                id_lugar_atencion: id_lugar_atencion,
-                _token:'{{ csrf_token() }}'
-            }
-        })
-        .done(function(data) {
-            console.log(data);
-            if (data.estado == 1)
-            {
-                $('#agregar_salas').modal('hide');
-                swal({
-                    title: "Servicio guardado",
-                    text: "Servicio guardado correctamente",
-                    icon: "success",
-                    // buttons: "Aceptar",
-                    //SuccessMode: true,
-                });
-                $('#tabla_boxes_atencion').empty();
-                $('#tabla_boxes_atencion').append(data.v);
-            }else{
-                swal({
-                    title: "Error",
-                    text: "Error al guardar el box",
-                    icon: "error",
-                    // buttons: "Aceptar",
-                    //SuccessMode: true,
-                });
-            }
-        });
-    }
 
     function dame_especializacion_box(){
         let tipo_box = $('#tpo_box_servicio').val();

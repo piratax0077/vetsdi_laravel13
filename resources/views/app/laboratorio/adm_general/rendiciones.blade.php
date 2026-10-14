@@ -155,7 +155,7 @@
                                                         <label for="" class="floating-label-activo-sm">Fecha</label>
                                                         <input type="date" value="<?php echo date('Y-m-d'); ?>" id="fecha_rendicion" class="form-control form-control-sm">
                                                     </div>
-                                                    <button type="button" class="btn btn-outline-success btn-sm mt-3 w-100" onclick="buscarRendicion()"><i class="fas fa-search"></i></button>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -1396,73 +1396,6 @@
                 });
             }
 
-            function buscarRendicion(){
-                console.log('buscarRendicion');
-                let url = "{{ route('asistentecm.rendicion_carga_bonos_fecha') }}";
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    data: {
-                        'fecha': $('#fecha_rendicion').val()
-                    },
-                })
-                .done(function(data) {
-                    console.log(data);
-                    if (data.estado == 1)
-                    {
 
-                        $('#numero_bonos').val(data.total_bonos);
-                        $('#efectivo').val(data.total_efectivo);
-                        $('#otros').val(data.total_otros);
-                        $('#total').val(data.total);
-
-
-                        $('#tabla_rendir_caja tbody').html('');
-
-                        for (var i = 0; i < data.bono.length; i++) {
-                            // formatear numero con separador de miles
-                            var numeroBono = data.bono[i].numero_bono.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                            var valorAtencion = data.bono[i].valor_atencion.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                            var a_pagar = data.bono[i].a_pagar.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                            var aporte_convenio = data.bono[i].aporte_seguro.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                            var bonificacion = data.bono[i].bonificacion.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
-                            var fila = '';
-                            fila += '<tr>';
-                            fila += '    <td class="align-middle text-center">' + data.bono[i].tipo_bono.nombre + '</td>';
-                            fila += '    <td class="align-middle text-center">' + numeroBono + '</td>';
-                            fila += '    <td class="align-middle text-center">' + data.bono[i].convenio.nombre + '</td>';
-                            fila += '    <td class="align-middle text-center">' + (data.bono[i].tipo || '') + '</td>';
-                            fila += '    <td class="align-middle text-center">$' + (aporte_convenio || 0) + '</td>';
-                            fila += '    <td class="align-middle text-center">$' + (bonificacion || 0) + '</td>';
-
-                            fila += '    <td class="align-middle text-center">$' + (valorAtencion || 0) + '</td>';
-                            fila += '    <td class="align-middle text-center">$' + (a_pagar || valorAtencion) + '</td>';
-                            fila += '    <td class="align-middle text-center">' + data.bono[i].fecha_atencion + '</td>';
-
-                            fila += '</tr>';
-
-                            $('#tabla_rendir_caja tbody').append(fila);
-                        }
-
-                        $('#lista_bonos').val(data.lista_bonos)
-
-                    }
-                    else
-                    {
-                        swal({
-                            title: "Problemas al cargar bonos del día",
-                            text: data.msj,
-                            icon: "error",
-                            buttons: "Aceptar",
-                            // DangerMode: true,
-                        });
-                        return '0';
-                    }
-                })
-                .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    console.log(jqXHR, ajaxOptions, thrownError)
-                });
-            }
         </script>
     @endsection

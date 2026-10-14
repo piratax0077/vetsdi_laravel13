@@ -1,5 +1,5 @@
 {{-- @extends('layouts.templateFlujoCaja') --}}
-@extends('template.asistente_cm_publico.template')
+@extends('template.asistente_unificado.template')
 @section('content')
 
     <!--Container Completo-->

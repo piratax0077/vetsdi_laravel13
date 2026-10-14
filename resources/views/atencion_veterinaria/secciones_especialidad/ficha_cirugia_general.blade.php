@@ -51,6 +51,7 @@
                     <input type="hidden" name="examenes" id="examenes" value="{!! old('examenes') !!}">
                     <input type="hidden" name="examenes_esp" id="examenes_esp" value="{!! old('examenes_esp') !!}">
                     <input type="hidden" name="medicamentos" id="medicamentos" value="{!! old('medicamentos') !!}">
+                    <input type="hidden" name="id_mascota" value="{{ $mascota->id ?? '' }}">
                     <input type="hidden" name="hora_medica" id="hora_medica" value="{{ $hora_medica->id }}">
                     <input type="hidden" name="id_fc" value="{{ $id_ficha_atencion }}" id="id_fc">
                     <input type="hidden" name="id_paciente_fc" value="{{ $paciente->id }}" id="id_paciente_fc">
@@ -131,12 +132,13 @@
                         <div class="row mb-3">
                             <div class="col-md-12 text-center">
                                 <input type="submit" class="btn btn-purple mt-1" onclick="$('#cerrarsession').val('1');agregar_medicamentos_ficha(); agregar_examenes_ficha(); " value="Guardar ficha y finalizar su Consulta">
-                                <input type="submit" class="btn btn-info mt-1" onclick="agregar_medicamentos_ficha(); agregar_examenes_ficha(); " value="Guardar ficha e ir a su agenda">
+                                <input type="submit" class="btn btn-info mt-1" onclick="$('#cerrarsession').val('0');agregar_medicamentos_ficha(); agregar_examenes_ficha(); " value="Guardar ficha e ir a su agenda">
                             </div>
                         </div>
                     </div>
 
                 </form>
+                @include('atencion_veterinaria.partials.guardar_ficha_completa')
             </div>
 
         </div>

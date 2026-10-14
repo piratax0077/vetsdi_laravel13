@@ -1,4 +1,4 @@
-@extends('template.asistente_cm.template')
+@extends('template.asistente_unificado.template')
 
 {{--  ESTILOS PROPIOD DE LA VISTA   --}}
 @section('page-styles')

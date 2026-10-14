@@ -363,7 +363,7 @@
     //         };
 
     //         $.ajax({
-    //             url: '{{ route("bodegas.editar_bodega") }}',
+
     //             type: 'POST',
     //             data: data,
     //             success: function(data) {

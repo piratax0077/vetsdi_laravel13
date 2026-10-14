@@ -461,9 +461,7 @@
                                                                                 <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="agregarObservacionesTratamiento({{ $r->id ?? $r['id'] ?? '' }}, {{ json_encode($r->nombre_medicamento ?? $r['nombre_medicamento'] ?? '-') }}, {{ json_encode($r->observaciones ?? $r['observaciones'] ?? '') }})" @if(!$enfermera) disabled @endif title="Agregar observaciones">
                                                                                     <i class="feather icon-edit"></i>
                                                                                 </button>
-                                                                                <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="eliminar_medicamento_sdi_enf({{ $r->id ?? $r['id'] ?? '' }})" @if(!$enfermera) disabled @endif title="Eliminar tratamiento">
-                                                                                    <i class="feather icon-trash-2"></i>
-                                                                                </button>
+
                                                                             </td>
                                                                         </tr>
                                                                     @endforeach
@@ -4228,9 +4226,7 @@
                     `<button type="button" class="btn btn-warning btn-sm btn-icon" onclick="agregarObservacionesTratamiento(${tratamiento.id},'${(tratamiento.nombre_medicamento || '-').replace(/'/g, "\\'")}')" ${disabled} title="Agregar observaciones">
                         <i class="feather icon-edit"></i>
                     </button>
-                    <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="eliminar_medicamento_sdi_enf(${tratamiento.id})" ${disabled} title="Eliminar tratamiento">
-                        <i class="feather icon-trash-2"></i>
-                    </button>`
+                    `
                 ];
 
                 tabla.row.add(fila);
@@ -4277,176 +4273,8 @@
         });
     }
 
-    function eliminar_medicamento_sdi_enf(id) {
-        // Lógica para eliminar tratamiento
-        console.log("Eliminar tratamiento con ID:", id);
-        swal({
-            title: "¿Está seguro de eliminar este tratamiento?",
-            text: "Esta acción no se puede deshacer",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                eliminarTratamiento(id);
-            }
-        });
-    }
-        function eliminarTratamiento(id) {
-            let url = "{{ route('detalle_receta.eliminar_registro_receta') }}";
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data: {
-                    _token: CSRF_TOKEN,
-                    id: id
-                },
-                success: function(response) {
-                    console.log("Tratamiento eliminado:", response);
-                    if(response.status === 'success') {
-                        // Verificar si la tabla está inicializada como DataTable
-                        let tabla = null;
-                        let esDataTable = $.fn.DataTable.isDataTable('#tabla_med_adm_hosp');
-
-                        if(esDataTable) {
-                            tabla = $('#tabla_med_adm_hosp').DataTable();
-                            tabla.destroy();
-                        }
-
-                        // Limpiar el tbody completamente
-                        let tbody = $('#tabla_med_adm_hosp tbody');
-                        tbody.empty();
-
-                        // Iterar sobre los tratamientos recibidos y construir HTML
-                        response.data.forEach(function(tratamiento) {
-                            // Calcular el tiempo transcurrido si existe
-                            let tiempoTranscurrido = '-';
-                            if(tratamiento.estado_tratamiento == 1 && tratamiento.tiempo_transcurrido) {
-                                tiempoTranscurrido = 'Hace: ' + tratamiento.tiempo_transcurrido;
-                            }
-
-                            // Determinar estado del botón administrar
-                            let btn_disabled = (tratamiento.estado_tratamiento == 1) ? 'disabled' : '';
-                            let btn_class = (tratamiento.estado_tratamiento == 1) ? 'btn-secondary' : 'btn-success';
-                            let disabled = ES_ENFERMERA ? '' : 'disabled';
-
-                            // Construir el HTML de la fila
-                            let fila = `
-                                <tr>
-                                    <td class="text-center align-middle" style="display:none">${tratamiento.id}</td>
-                                    <td class="text-center align-middle" style="display:none">${tratamiento.id_responsable || ''}</td>
-                                    <td class="text-center align-middle" id="repeticiones_contador_externo-${tratamiento.id}">${tratamiento.contador_dosis || '-'}</td>
-                                    <td class="text-center align-middle">
-                                        ${tratamiento.nombre_medicamento || '-'}
-                                        <br><small>${tratamiento.farmaco || ''}</small>
-                                        <br><small>${tratamiento.nombre_dosis || ''}</small>
-                                    </td>
-                                    <td class="text-center align-middle">${tratamiento.nombre_frecuencia || '-'}</td>
-                                    <td class="text-center align-middle">
-                                        <span>${tiempoTranscurrido}</span>
-                                    </td>
-                                    <td class="text-center align-middle">
-                                        ${(() => {
-                                            // Procesamiento de imágenes
-                                            let imagenes = [];
-                                            if (tratamiento.otros) {
-                                                try {
-                                                    imagenes = JSON.parse(tratamiento.otros);
-                                                } catch(e) {
-                                                    imagenes = [];
-                                                }
-                                            }
-                                            if (Array.isArray(imagenes) && imagenes.length > 0) {
-                                                return `<button class="btn btn-info btn-sm btn-icon" onclick="ver_imagenes_tratamiento_interno(${tratamiento.id}, ${JSON.stringify(imagenes).replace(/"/g, '&quot;')})" title="Ver imágenes de receta">
-                                                    <i class="feather icon-image"></i> ${imagenes.length}
-                                                </button>`;
-                                            }
-                                            return '-';
-                                        })()}
-                                    </td>
-                                    <td class="text-center align-middle">
-                                        <div class="switch switch-success d-inline m-r-10">
-                                            <button class="btn btn-sm btn-icon ${btn_class}" id="btn_administrar_${tratamiento.id}" onclick="administrar_medicamento(${tratamiento.id})" ${disabled} ${btn_disabled}>
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td class="text-center align-middle">
-                                        <div class="switch switch-success d-inline m-r-10">
-                                            <input type="checkbox" id="registro_alternativo_paciente_enf${tratamiento.id}" onchange="cambiarTextoLabelTratamiento(${tratamiento.id})" ${tratamiento.estado_tratamiento == 1 ? 'checked' : ''} disabled>
-                                            <label for="registro_alternativo_paciente_enf${tratamiento.id}" class="cr"></label>
-                                        </div>
-                                        <label id="label_tratamiento_enf_${tratamiento.id}">${tratamiento.estado_tratamiento == 1 ? 'ADMINISTRADO' : 'PENDIENTE'}</label>
-                                    </td>
-                                    <td class="text-center align-middle">
-                                        <div class="switch switch-success d-inline m-r-10">
-                                            <input type="checkbox" id="tratamiento_finalizado${tratamiento.id}" onchange="finalizar_tratamiento_enf_ext(${tratamiento.id})" ${tratamiento.estado_finalizado == 1 ? 'checked' : ''} ${disabled}>
-                                            <label for="tratamiento_finalizado${tratamiento.id}" class="cr"></label>
-                                        </div>
-                                    </td>
-                                    <td class="text-center align-middle">
-                                        <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="agregarObservacionesTratamiento(${tratamiento.id},'${(tratamiento.nombre_medicamento || '-').replace(/'/g, "\\'")}')" ${disabled} title="Agregar observaciones">
-                                            <i class="feather icon-edit"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="eliminar_medicamento_sdi_enf(${tratamiento.id})" ${disabled} title="Eliminar tratamiento">
-                                            <i class="feather icon-trash-2"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            `;
-
-                            tbody.append(fila);
-                        });
-
-                        // Si hay datos, reinicializar el DataTable
-                        if(response.data && response.data.length > 0) {
-                            $('#tabla_med_adm_hosp').DataTable({
-                                "language": {
-                                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-                                },
-                                "pageLength": 10,
-                                "columnDefs": [
-                                    {
-                                        "targets": [0, 1],
-                                        "visible": false
-                                    }
-                                ],
-                                "autoWidth": false,
-                                "responsive": false
-                            });
-                        }
-
-                        // Mostrar mensaje de éxito
-                        swal({
-                            title: "Éxito",
-                            text: response.message || "Tratamiento eliminado correctamente",
-                            icon: "success",
-                            button: "Aceptar",
-                        });
-                    } else {
-                        swal({
-                            title: "Error",
-                            text: response.message || "No se pudo eliminar el tratamiento",
-                            icon: "error",
-                            button: "Aceptar",
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error al eliminar tratamiento:", error);
-                    swal({
-                        title: "Error",
-                        text: "Ocurrió un error al eliminar el tratamiento",
-                        icon: "error",
-                        button: "Aceptar",
-                    });
-                }
-            });
-        }
 
 
-    // Función para cambiar el texto del label del tratamiento
     function cambiarTextoLabelTratamiento(id){
         let url = "{{ route('enfermeria.cambiar_estado_tratamiento') }}";
         $.ajax({

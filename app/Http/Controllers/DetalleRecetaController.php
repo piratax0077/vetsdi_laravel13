@@ -44,9 +44,17 @@ class DetalleRecetaController extends Controller
 
     public function registroMedicamentos_r(Request $request)
     {
+        return app(\App\Services\ColeccionClinica::class)->reemplazar($request, 'medicamentos', [
+            'medicamento'=>'required|string', 'presentacion'=>'required', 'posologia'=>'required',
+            'via_administracion'=>'required', 'periodo'=>'required', 'compra'=>'required', 'uso_cronico'=>'boolean',
+        ], ['id_producto'=>null,'uso_cronico'=>0,'comentario'=>''], fn ()=>$this->reemplazarMedicamentos($request));
+    }
+
+    private function reemplazarMedicamentos(Request $request)
+    {
         $datos = array();
         if ($request->medicamentos == '[]' ) {
-            $datos['estado'] = 0;
+            $datos['estado'] = 1;
             $datos['msj'] =  'No se han agregado Medicamentos a Ficha Clínica.';
 
             $request_eliminar = new  Request(array(
@@ -479,7 +487,7 @@ class DetalleRecetaController extends Controller
 
     public function eliminarMedicamento(Request $req){
         $id = $req->id;
-        $detalle_receta = DetalleRecetaInterna::find($id);
+        $detalle_receta = DetalleRecetaInterna::where('id_administra', Auth::id())->findOrFail($id);
         if($detalle_receta->delete()){
             $dame_todo_detalle_receta_paciente = $this->dameTodoDetalleRecetaPaciente($detalle_receta->id_paciente);
             return response()->json(['status' => 'success', 'message' => 'Medicamento eliminado correctamente', 'data' => $dame_todo_detalle_receta_paciente]);

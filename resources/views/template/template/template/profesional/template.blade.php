@@ -130,7 +130,7 @@
 
         <script src="{{ asset('js/sidebar.js') }}?v=20260819-1"></script>
 
-		<!-- momnent -->
+        <!-- momnent -->
         <script src="{{ asset('js/moment.min.js') }}"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
@@ -238,7 +238,7 @@
                 var calendarEl = document.getElementById('agenda');
                 CalendarEl = new FullCalendar.Calendar(calendarEl, {
 
-					// defaultView: 'month',
+                    // defaultView: 'month',
                     selectable: true,
                     selectAllow: function(select) {
                         console.log(select.start);
@@ -247,7 +247,7 @@
                         return moment().diff(select.start, 'days') <= 0
                     },
 
-					droppable: false,
+                    droppable: false,
                     editable: false,
                     locale: "es",
                     initialView: 'timeGridWeek',
@@ -441,7 +441,7 @@
                                         // 'Llamando')//Esperando atención
                                         $('#hm_anular_hora').hide();
                                         $('#hm_atender_hora').show();
-										$('#hm_llamar_paciente').show();
+                                        $('#hm_llamar_paciente').show();
                                         $('#hm_confirmar_hora').hide();
                                         $('#hm_ver_hora').hide();
                                         $('#hm_espera_paciente_hora').hide();
@@ -462,7 +462,7 @@
                                         //'Realizando')
                                         $('#hm_anular_hora').hide();
                                         $('#hm_atender_hora').show();
-										$('#hm_llamar_paciente').show();
+                                        $('#hm_llamar_paciente').show();
                                         $('#hm_confirmar_hora').hide();
                                         $('#hm_ver_hora').hide();
                                         $('#hm_espera_paciente_hora').hide();
@@ -560,7 +560,7 @@
 
                     dateClick: function(date, jsEvent, view) {
 
-						var valido = 1;
+                        var valido = 1;
                         $.each(date.jsEvent.path, function(index, value)
                         {
                             if(value.className == 'fc-non-business')
@@ -993,75 +993,7 @@
                     })
             }
 
-            function agregar_antecedente_quirurgico_paciente(id_paciente) {
 
-                let antecedente_quirurgico = $('#antecedente_quirurgico_paciente').val();
-                let paciente = id_paciente;
-                let token = CSRF_TOKEN;
-
-                let url = "{{ route('profesional.agregar_antecedente_quirurgico_paciente') }}";
-
-                $.ajax({
-                        url: url,
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            _token: CSRF_TOKEN,
-                            antecedente_quirurgico: antecedente_quirurgico,
-                            paciente: paciente
-                        },
-                    })
-                    .done(function(response) {
-
-                        if (response.success) {
-                            swal({
-                                title: "Antecedente quirurgico agregado correctamente",
-                                icon: "success",
-                                buttons: "Aceptar",
-                                DangerMode: true,
-                            })
-                            $('#antecedente_quirurgico_paciente').val('');
-
-                            $('#table_antecedente_quirurgico_paciente tbody').empty();
-                            for (i = 0; i < response.antecedentes_quirurgicos.length; i++) {
-
-                                // var fecha = formatDate(data[i].created_at);
-                                //var salida = formato(fecha);
-                                var antecedente_quirurgico = response.antecedentes_quirurgicos[i].antecedente_quirurgico;
-                                // var tipo = data[i].tipo_examen;
-                                // var prioridad = data[i].id_prioridad;
-
-                                var j = 1; //contador para asignar id al boton que borrara la fila
-                                var fila = '<tr class="tr_antecedentes_quirurgicos_paciente" id="row' + j + '"><td>' +
-                                    antecedente_quirurgico + '</td><td>' +
-                                    'botones' +
-                                    '</td></tr>'; //esto seria lo que contendria la fila
-
-                                j++;
-
-                                $('#table_antecedente_quirurgico_paciente tbody').append(fila);
-
-                            }
-
-
-                            // $('#agregar_alergia_paciente').modal('hide');
-                            // $('#alergia_paciente_' + paciente).append(response.alergia);
-                        } else {
-                            swal({
-                                title: "Error al agregar alergia",
-                                icon: "error",
-                                buttons: "Aceptar",
-                                DangerMode: true,
-                            })
-                        }
-
-
-                    })
-                    .fail(function() {
-                        console.log("error");
-                    })
-
-            }
 
             function agregar_patologia_cronica_paciente(id_paciente) {
 
@@ -3321,15 +3253,15 @@
 
                                 var j = 1; //contador para asignar id al boton que borrara la fila
                                 var fila = '';
-								fila += '<tr>';
-								fila += '<td class="text-center align-left">'+hora_inicio+'</td>';
-								fila += '<td class="text-center align-left bg-estado-light-amarillo">';
-								fila += '	<strong>';
-								fila += "		<span>"+paciente+"</span>";
-								fila += '	<strong>';
-								//fila += '		<br style="line-height: 1%;"><span>'+data[i].id_paciente.rut+'</span>';
-								fila += '</td>';
-								fila += '</tr>';
+                                fila += '<tr>';
+                                fila += '<td class="text-center align-left">'+hora_inicio+'</td>';
+                                fila += '<td class="text-center align-left bg-estado-light-amarillo">';
+                                fila += '	<strong>';
+                                fila += "		<span>"+paciente+"</span>";
+                                fila += '	<strong>';
+                                //fila += '		<br style="line-height: 1%;"><span>'+data[i].id_paciente.rut+'</span>';
+                                fila += '</td>';
+                                fila += '</tr>';
                                 //var fila = '<tr class="tr_horas" id="row' + j + '"><td>' +
                                 //    hora_inicio + '</td><td>' +
                                 //    paciente +
@@ -5619,10 +5551,10 @@
         /** script para carga de informacion de paciente en examenes */
 
         const rut_paciente = document.getElementById('rut_paciente');
-		rut_paciente.addEventListener('blur', (event) => {
-		   console.log('buscando Paciente');
+        rut_paciente.addEventListener('blur', (event) => {
+           console.log('buscando Paciente');
             buscar_paciente_examenes();
-		});
+        });
 
         function buscar_paciente_examenes() {
 
@@ -6256,7 +6188,7 @@
                                     // 'Llamando')//Esperando atención
                                     $('#hm_anular_hora').hide();
                                     $('#hm_atender_hora').show();
-									$('#hm_llamar_paciente').show();
+                                    $('#hm_llamar_paciente').show();
                                     $('#hm_confirmar_hora').hide();
                                     $('#hm_ver_hora').hide();
                                     $('#hm_espera_paciente_hora').hide();
@@ -6277,7 +6209,7 @@
                                     //'Realizando')
                                     $('#hm_anular_hora').hide();
                                     $('#hm_atender_hora').show();
-									$('#hm_llamar_paciente').show();
+                                    $('#hm_llamar_paciente').show();
                                     $('#hm_confirmar_hora').hide();
                                     $('#hm_ver_hora').hide();
                                     $('#hm_espera_paciente_hora').hide();

@@ -85,7 +85,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3 mb-1">
                                     <h5 class="text-c-blue d-inline float-left pt-1 f-20">Rendiciones de caja</h5>
                                     @if(Auth::user()->hasRole('Profesional'))
-										{{--<button id="iniciar_procesocobro_rendicion" type="button" class="btn btn-outline-primary btn-sm float-right d-inline iniciar_procesocobro_rendicion" onclick="">Iniciar Proceso de Cobro</button>--}}
+                                        {{--<button id="iniciar_procesocobro_rendicion" type="button" class="btn btn-outline-primary btn-sm float-right d-inline iniciar_procesocobro_rendicion" onclick="">Iniciar Proceso de Cobro</button>--}}
                                         <button id="busqueda_avanzada_1" type="button" class="btn btn-primary btn-sm float-right d-inline shadow-sm" onclick="$('#busqueda_avanzada_aparecer_prof_1').toggle();"><i class="feather icon-search"></i> Búsqueda avanzada</button>
                                     @elseif(Auth::user()->hasRole('Asistente'))
                                         <button id="busqueda_avanzada_1" type="button" class="btn btn-primary btn-sm float-right d-inline shadow-sm" onclick="$('#busqueda_avanzada_aparecer_asis_1').toggle();"><i class="feather icon-search"></i> Búsqueda avanzada</button>
@@ -134,11 +134,11 @@
                                                 <div class="form-group">
                                                     <label class="floating-label-activo-sm"> Lugar de atención</label>
                                                     <select name="lugares_atencion_agenda" id="lugares_atencion_agenda" class="form-control form-control-sm">
-        												<option value="0">Seleccione Lugar</option>
+                                                        <option value="0">Seleccione Lugar</option>
                                                         @foreach ($lista_lugares_atencion_activos as $lugar_a)
                                                             <option value="{{ $lugar_a->id }}">{{ $lugar_a->nombre }}</option>
                                                         @endforeach
-        											</select>
+                                                    </select>
                                                 </div>
                                             </div> --}}
                                             <div class="col-sm-12 col-md-4 col-lg-4 col-xl-6 col-xxl-4 col-xxxl-4">
@@ -270,7 +270,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 pt-2">
-                                                    <button id="iniciar_procesocobro_rendicion_2" type="button" class="btn btn-info btn-sm float-right d-inline iniciar_procesocobro_rendicion" onclick="iniciarProcesoCobro()" style="display: none;"><i class="feather icon-check"></i> Iniciar proceso de cobro</button>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -832,62 +832,62 @@
                                 </div>
                             </div>
                         </div>
-						{{-- PESTAÑA DE VENTA DE BONOS PROGRAMAS --}}
+                        {{-- PESTAÑA DE VENTA DE BONOS PROGRAMAS --}}
                         <div class="tab-pane" id="pills-venta_bonos" role="tabpanel" aria-labelledby="pills-venta_bonos-tab">
-							<div class="row">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <h5 class="text-c-blue d-inline float-left f-20">Venta de bonos</h5>
                                 </div>
                             </div>
-							<div class="form-row">
-								<div class="col-sm-12 col-md-2">
-									<div class="form-group">
-										<label class="floating-label-activo-sm">Fecha de rendición</label>
-										<input type="date" class="form-control form-control-sm" name="gestion_progr_fecha" id="gestion_progr_fecha">
-									</div>
-								</div>
-								<div class="col-sm-12 col-md-2">
-									<div class="form-group">
-										<label class="floating-label-activo-sm">Rendir a:</label>
-										<select id="gestion_progr_asistente" name="gestion_progr_asistente" class="form-control form-control-sm">
-											<option value="">Seleccione</option>
-											@if($lista_asistente)
-												@foreach($lista_asistente as $key_asistente => $value_asistente)
-													<option value="{{ $value_asistente->id }}">{{ $value_asistente->nombres }} {{ $value_asistente->apellido_uno }} {{ $value_asistente->apellido_dos }} </option>
-												@endforeach
-											@endif
-										</select>
-									</div>
-								</div>
-								<div class="col-sm-12 col-md-2">
-									<div class="form-group">
-										<label class="floating-label-activo-sm">Convenio</label>
-										<select id="gestion_progr_convenio" name="gestion_progr_convenio" class="form-control form-control-sm">
-											<option value="">Seleccione</option>
-											@if($lista_prevision)
-												@foreach($lista_prevision as $key_prevision => $value_prevision)
-													<option value="{{ $value_prevision->id }}">{{ $value_prevision->nombre }} </option>
+                            <div class="form-row">
+                                <div class="col-sm-12 col-md-2">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm">Fecha de rendición</label>
+                                        <input type="date" class="form-control form-control-sm" name="gestion_progr_fecha" id="gestion_progr_fecha">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm">Rendir a:</label>
+                                        <select id="gestion_progr_asistente" name="gestion_progr_asistente" class="form-control form-control-sm">
+                                            <option value="">Seleccione</option>
+                                            @if($lista_asistente)
+                                                @foreach($lista_asistente as $key_asistente => $value_asistente)
+                                                    <option value="{{ $value_asistente->id }}">{{ $value_asistente->nombres }} {{ $value_asistente->apellido_uno }} {{ $value_asistente->apellido_dos }} </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm">Convenio</label>
+                                        <select id="gestion_progr_convenio" name="gestion_progr_convenio" class="form-control form-control-sm">
+                                            <option value="">Seleccione</option>
+                                            @if($lista_prevision)
+                                                @foreach($lista_prevision as $key_prevision => $value_prevision)
+                                                    <option value="{{ $value_prevision->id }}">{{ $value_prevision->nombre }} </option>
 
-												@endforeach
-											@endif
-											<option value="0000">Todos</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-sm-12 col-md-2 text-center">
-									<button class="btn btn-block btn-sm btn-primary" onclick="cargar_flujo_caja_rendicion_programa();">Solicitar Código</button>
-								</div>
-								<div class="col-sm-12 col-md-2">
-									<div class="form-group">
-										<label class="floating-label-activo-sm">Código aceptación</label>
-									   <input type="text" class="form-control form-control-sm" name="cod_acept_rendicion" id="cod_acept_rendicion"value="">
-									</div>
-								</div>
-								<div class="col-sm-12 col-md-2 text-center">
-									<button class="btn btn-block btn-sm btn-info" onclick="cargar_flujo_caja_rendicion_programa();">Rendir Venta Diaria</button>
-								</div>
-							</div>
-							<div>
+                                                @endforeach
+                                            @endif
+                                            <option value="0000">Todos</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2 text-center">
+                                    <button class="btn btn-block btn-sm btn-primary" onclick="cargar_flujo_caja_rendicion_programa();">Solicitar Código</button>
+                                </div>
+                                <div class="col-sm-12 col-md-2">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm">Código aceptación</label>
+                                       <input type="text" class="form-control form-control-sm" name="cod_acept_rendicion" id="cod_acept_rendicion"value="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2 text-center">
+                                    <button class="btn btn-block btn-sm btn-info" onclick="cargar_flujo_caja_rendicion_programa();">Rendir Venta Diaria</button>
+                                </div>
+                            </div>
+                            <div>
 
                                 <table id="tabla_venta_bonos" class="display table table-striped dt-responsive nowrap table-xs" style="width:100%">
                                     <thead>
@@ -1718,55 +1718,7 @@
             enviarTodos.checked = todasSeleccionadas && checkboxes.length > 0;
 
             return seleccionados;
-        }        function iniciarProcesoCobro() {
-            // Obtener las rendiciones seleccionadas
-            var rendicionesSeleccionadas = seleccionar_bonos_rendicion();
-
-            if (rendicionesSeleccionadas.length === 0) {
-                swal("Error", "Debe seleccionar al menos una rendición para iniciar el proceso de cobro.", "error");
-                return;
-            }
-
-            // Confirmar acción
-            swal({
-                title: "¿Iniciar proceso de cobro?",
-                text: "Se iniciará el proceso de cobro para " + rendicionesSeleccionadas.length + " rendición(es) seleccionada(s).",
-                icon: "warning",
-                buttons: {
-                    cancel: "Cancelar",
-                    confirm: "Confirmar"
-                },
-                dangerMode: false,
-            }).then((confirmed) => {
-                if (confirmed) {
-                    // Aquí puedes agregar la lógica para procesar las rendiciones
-                    console.log("Iniciando proceso de cobro para rendiciones:", rendicionesSeleccionadas);
-
-                    // Ejemplo de llamada AJAX al backend
-                    /*
-                    $.ajax({
-                        url: '{{ route("flujo_caja.profesional.iniciar_cobro") }}',
-                        type: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            rendiciones: rendicionesSeleccionadas
-                        },
-                        success: function(response) {
-                            swal("¡Éxito!", "Proceso de cobro iniciado correctamente.", "success");
-                            // Recargar tabla o actualizar vista
-                        },
-                        error: function(error) {
-                            swal("Error", "Hubo un problema al iniciar el proceso de cobro.", "error");
-                        }
-                    });
-                    */
-
-                    // Por ahora, solo mostrar mensaje de éxito
-                    swal("¡Proceso iniciado!", "El proceso de cobro ha sido iniciado para las rendiciones seleccionadas.", "success");
-                }
-            });
         }
-
     </script>
 @endsection
 

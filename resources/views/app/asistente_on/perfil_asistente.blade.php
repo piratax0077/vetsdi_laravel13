@@ -1,4 +1,4 @@
-@extends('template.asistente_on.template')
+@extends('template.asistente_unificado.template')
 @section('content')
 <!--Container Completo-->
 <div class="pcoded-main-container">
@@ -35,7 +35,7 @@
                                     <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <div class="profile-dp">
                                             <div class="position-relative d-inline-block">
-                                                <img class="img-radius img-fluid wid-100" src="{{ asset('images/iconos/usuario_asistente.svg') }}" alt="User image">
+                                                <img id="foto-asistente" class="img-radius img-fluid wid-100" src="{{ storage_public_url($asistente->foto_perfil) ?: asset('images/iconos/usuario_asistente.svg') }}" alt="User image"><input id="foto-asistente-input" type="file" accept="image/jpeg,image/png,image/gif,image/webp" hidden>
                                             </div>
                                             <div class="overlay">
                                                 <span>Actualizar</span>
@@ -43,8 +43,8 @@
                                         </div>
                                     </a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item"><i class="feather icon-upload-cloud mr-2"></i>Cambiar foto de perfil</a>
-                                        <a class="dropdown-item"><i class="feather icon-trash-2 mr-2"></i>Eliminar fotografía</a>
+                                        <a class="dropdown-item" href="#" onclick="document.getElementById('foto-asistente-input').click(); return false;"><i class="feather icon-upload-cloud mr-2"></i>Cambiar foto de perfil</a>
+                                        <a class="dropdown-item" href="#" id="eliminar-foto-asistente"><i class="feather icon-trash-2 mr-2"></i>Eliminar fotografía</a>
                                     </div>
                                 </div>
                             </div>
@@ -668,4 +668,7 @@
         </div>
    </div>
 </div>
+@endsection
+@section('page-script')
+@include('app.asistente.foto_perfil_script')
 @endsection

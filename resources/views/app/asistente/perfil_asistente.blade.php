@@ -1,4 +1,4 @@
-@extends('template.asistente.template')
+@extends('template.asistente_unificado.template')
 
 {{--  ESTILOS PROPIOD DE LA VISTA   --}}
 @section('page-styles')
@@ -19,12 +19,12 @@
 							</div>
 							<ul class="breadcrumb mb-4">
 								<li class="breadcrumb-item">
-									<a href="{{ route('asistente.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
+									<a href="{{ route('asistentes.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
 										<i class="feather icon-home"></i>
 									</a>
 								</li>
 								<li class="breadcrumb-item">
-									<a href="perfil_asistente.php">Mi perfil</a>
+									<a href="{{ route('asistentes.perfil') }}">Mi perfil</a>
 								</li>
 							</ul>
 						</div>
@@ -41,7 +41,7 @@
 										<a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<div class="profile-dp">
 												<div class="position-relative d-inline-block">
-													<img class="img-radius img-fluid wid-100" src="{{ asset('images/iconos/usuario_asistente.svg') }}" alt="User image">
+													<img id="foto-asistente" class="img-radius img-fluid wid-100" src="{{ storage_public_url($asistente->foto_perfil) ?: asset('images/iconos/usuario_asistente.svg') }}" alt="User image"><input id="foto-asistente-input" type="file" accept="image/jpeg,image/png,image/gif,image/webp" hidden>
 												</div>
 												<div class="overlay">
 													<span>Actualizar</span>
@@ -49,8 +49,8 @@
 											</div>
 										</a>
 										<div class="dropdown-menu">
-											<a class="dropdown-item"><i class="feather icon-upload-cloud mr-2"></i>Cambiar foto de perfil</a>
-											<a class="dropdown-item"><i class="feather icon-trash-2 mr-2"></i>Eliminar fotografía</a>
+											<a class="dropdown-item" href="#" onclick="document.getElementById('foto-asistente-input').click(); return false;"><i class="feather icon-upload-cloud mr-2"></i>Cambiar foto de perfil</a>
+											<a class="dropdown-item" href="#" id="eliminar-foto-asistente"><i class="feather icon-trash-2 mr-2"></i>Eliminar fotografía</a>
 										</div>
 									</div>
 								</div>
@@ -123,7 +123,7 @@
 												</div>
 												<div class="form-group row">
 													<label class="col-sm-4 col-form-label font-weight-bolder">Nacimiento</label>
-													<div class="col-sm-7 my-auto ml-2" id="ver_nacimiento">{{ \Carbon\Carbon::parse($asistente->fecha_nac)->format('d-m-Y') }}</div>
+													<div class="col-sm-7 my-auto ml-2" id="ver_nacimiento">{{ $asistente->fecha_nac ? \Carbon\Carbon::parse($asistente->fecha_nac)->format('d-m-Y') : 'Sin registro' }}</div>
 												</div>
 											</form>
 										</div>
@@ -181,7 +181,7 @@
 												<div class="form-group row">
 													<label class="col-sm-4 col-form-label font-weight-bolder">Nacimiento</label>
 													<div class="col-sm-7">
-														<input type="date" class="form-control form-control-sm" id="editar_nacimiento" name="editar_nacimiento" value="{{ \Carbon\Carbon::parse($asistente->fecha_nac)->format('Y-m-d') }}">
+														<input type="date" class="form-control form-control-sm" id="editar_nacimiento" name="editar_nacimiento" value="{{ $asistente->fecha_nac ? \Carbon\Carbon::parse($asistente->fecha_nac)->format('Y-m-d') : '' }}">
 													</div>
 												</div>
 												<div class="form-group row">
@@ -264,7 +264,7 @@
 												<div class="form-group row">
 													<label class="col-sm-4 col-form-label font-weight-bolder" >Ciudad</label>
 													@if($asistente->Direccion()->first())
-														<div class="col-sm-7 my-auto ml-2" id="ver_ciudad"> {{ $asistente->Direccion()->first()->Ciudad()->first()->nombre }} </div>
+														<div class="col-sm-7 my-auto ml-2" id="ver_ciudad"> {{ $asistente->Direccion()->first()?->Ciudad()->first()?->nombre }} </div>
 													@else
 														<div class="col-sm-7 my-auto ml-2" id="ver_ciudad"></div>
 													@endif
@@ -468,7 +468,7 @@
 										<!--Cierre: Contraseña Personal-->
 										<!--(Editar)Contraseña Personal-->
 										<div class="card-body pass_personal collapse" id="pass_personal_2">
-											<form method="get" action="{{ route('perfil.cambio_contrasena')}}" id="form_cambio_contrasena_perfil" name="form_cambio_contrasena_perfil">
+											<form method="post" action="{{ route('perfil.usuario.contrasena')}}" id="form_cambio_contrasena_perfil" name="form_cambio_contrasena_perfil">
                                                 @csrf
                                                 <div class="form-group row">
                                                     <label class="col-sm-4 col-form-label font-weight-bolder">Contraseña Actual</label>
@@ -582,13 +582,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-7 col-form-label font-weight-bolder"><h6>Curriculum</h6></label>
+                                                    <label class="col-sm-7 col-form-label font-weight-bolder"><h6>Currículum (PDF, máximo 4 MB)</h6></label>
+                                                    <button type="button" id="btn_descarga_cv" class="btn btn-outline-info btn-sm" @disabled(empty($asistente->curriculum)) onclick='abrirCV(@json($asistente->curriculum ? storage_public_url(str_contains($asistente->curriculum, "/") ? $asistente->curriculum : "archivo/archivo/".$asistente->curriculum) : ""))'>Ver currículum guardado</button>
                                                     <div class="col-sm-12 my-auto">
                                                         <input type="hidden" name="input_lista_archivo" id="input_lista_archivo" value="{{ $asistente->curriculum }}">
                                                         <div class="col-sm-12 my-auto">
                                                             <label class="col-sm-7 col-form-label font-weight-bolder"><h6>Carga nuevo archivo</h6></label>
                                                             <!-- [ Main Content ] start -->
-                                                            <div class="dropzone" id="mis-asistente-archivo" action="{{ route('asistente.archivo.carga') }}">
+                                                            <div class="dropzone" id="mis-asistente-archivo" action="{{ route('asistentes.perfil.archivo') }}">
                                                             </div>
                                                             <!-- [ file-upload ] end -->
                                                             {{-- <input type="file" name="cv" id="cv" placeholder="Seleccione archivo" onchange="cargar_archivo_asistente();"> --}}
@@ -629,7 +630,9 @@
 @endsection
 
 {{-- JS ADICIONALES PROPIOS DE LA VISTA  --}}
-@section('page-script')
+@section('page-script')
+@include('general.seccion_perfil.guardar_perfil')
+@include('app.asistente.foto_perfil_script')
     <script src="{{ asset('js/tabla_contactos_emergencia.js') }}"></script>
 	<script src="{{ asset('js/tooltip_contacto_emergencia.js') }}"></script>
     <script>
@@ -651,7 +654,7 @@
             {
                 myDropzone_CV = this;
             },
-            url: "{{ route('asistente.archivo.carga') }}",
+            url: "{{ route('asistentes.perfil.archivo') }}",
             method: 'post',
             createImageThumbnails: true,
             addRemoveLinks: true,
@@ -660,8 +663,8 @@
                 // 'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
             },
 
-            acceptedFiles: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*",
-            maxFilesize: 6,
+            acceptedFiles: "application/pdf",
+            maxFilesize: 4,
             maxFiles: 1,
             /** El texto utilizado antes de que se eliminen los archivos. */
             dictDefaultMessage: "Arrastre elarchivo al recuadro para subirlo.",

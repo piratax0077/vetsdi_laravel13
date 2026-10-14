@@ -73,72 +73,9 @@
                 });
         }
         var dropzoneArchivosCamp;
-        dropzoneArchivosCamp = new Dropzone("#dropzoneArchivosCamp", {
-            url: "{{ route('laboratorio.cargar_archivo_campania') }}",
-            method: 'post',
-            createImageThumbnails: true,
-            addRemoveLinks: true,
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            },
-            acceptedFiles: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*",
-            maxFilesize: 4, // Tamaño máximo en MiB
-            maxFiles: 4,
-            dictDefaultMessage: "Arrastre Archivo al recuadro para subirlo.",
-            dictFallbackMessage: "Su navegador no admite la carga de archivos mediante arrastrar y soltar.",
-            dictFallbackText: "Utilice el formulario alternativo a continuación para cargar sus archivos como en los viejos tiempos.",
-            dictFileTooBig: "El archivo es demasiado grande. Max tamaño de archivo: 4 MiB.",
-            dictInvalidFileType: "No puedes subir archivos de este tipo.",
-            dictCancelUpload: "Cancelar carga",
-            dictUploadCanceled: "Subida cancelada.",
-            dictCancelUploadConfirmation: "¿Está seguro de que desea cancelar esta carga?",
-            dictRemoveFile: "Eliminar archivo",
-            dictMaxFilesExceeded: "No puede cargar más archivos.",
-            autoProcessQueue: false, // Desactiva el procesamiento automático
-            init: function() {
-                this.on("sending", function(file, xhr, formData) {
-                    formData.append("id", "{{ Auth::user()->id }}");
-                });
-                this.on("success", function(file, response) {
-                    // Manejar la respuesta de éxito
-                    console.log(response);
-                });
-                this.on("error", function(file, message) {
-                    // Manejar el error
-                    console.error(message);
-                });
-                this.on("removedfile", function(file) {
-                    // Manejar la eliminación del archivo
-                    console.log("Archivo eliminado");
-                });
-                this.on("canceled", function(file) {
-                    // Manejar la cancelación de la carga
-                    console.log("Carga cancelada");
-                });
-            }
-        });
+
         var dropzoneImagenesCamp;
-        dropzoneImagenesCamp = new Dropzone("#dropzoneImagenesCamp", {
-            url: "{{ route('laboratorio.cargar_archivo_campania') }}",
-            paramName: "file",
-            maxFilesize: 5,
-            acceptedFiles: 'image/*',
-            addRemoveLinks: true,
-            dictDefaultMessage: "Arrastra y suelta imágenes aquí o haz clic para subir",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            init: function() {
-                this.on("success", function(file, response) {
-                    console.log('Imagen subida:', response);
-                });
-                this.on("error", function(file, errorMessage) {
-                    console.error('Error al subir imagen:', errorMessage);
-                    swal('Error', 'No se pudo subir la imagen: ' + errorMessage, 'error');
-                    this.removeFile(file);
-                });
-            }
-        });
+
     });
 
     function dame_tipos_productos(){
@@ -2624,7 +2561,7 @@ function vaciarCarritoCompleto() {
                                     </div>
                                 </div>
                             </div>
-               
+
         </div>
     </div>
 

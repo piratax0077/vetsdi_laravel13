@@ -28,7 +28,7 @@
                     <div class="card">
                         <div class="card-header d-flex align-items-center justify-content-between bg-primary">
                             {{-- <h5 class="mb-0 text-white">{{ $value_liqu->banco->nombre }}</h5> --}}
-                            <h5 class="mb-0 text-white">{{ $value_liqu->banco['nombre'] }}</h5>
+                            <h5 class="mb-0 text-white">{{ $value_liqu->banco['nombre'] ?? 'Banco sin registro' }}</h5>
                             <div class="float-md-right d-inline">
                                 <button type="button" class="btn btn-light btn-icon" data-toggle="collapse" data-target=".u_personal_liquidacion_{{ $value_liqu->id }}" aria-expanded="false" aria-controls="u_personal_liquidacion_{{ $value_liqu->id }}_1 u_personal_liquidacion_{{ $value_liqu->id }}_2">
                                     <i class="feather icon-edit"></i>
@@ -62,7 +62,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                         <label class="font-weight-bolder ml-0 mb-0">Banco</label>
-                                        <div> {{ $value_liqu->banco['nombre'] }}</div>
+                                        <div> {{ $value_liqu->banco['nombre'] ?? 'Banco sin registro' }}</div>
                                     </div>
                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                         <label class="font-weight-bolder ml-0 mb-0">Nº de Cuenta</label>
@@ -281,7 +281,7 @@
 
         if(valido == 1)
         {
-            let url = "{{ route('liquidacion.agregar') }}";
+            let url = "{{ (isset($asistente) ? route('asistentes.perfil.cuentas.agregar') : route('liquidacion.agregar')) }}";
             let token = CSRF_TOKEN;
 
             $.ajax({
@@ -388,7 +388,7 @@
 
         if(valido == 1)
         {
-            let url = "{{ route('liquidacion.modificar') }}";
+            let url = "{{ (isset($asistente) ? route('asistentes.perfil.cuentas.modificar') : route('liquidacion.modificar')) }}";
             let token = CSRF_TOKEN;
 
             $.ajax({
@@ -453,7 +453,7 @@
 
     function eliminar_registro_liquidacion(id)
     {
-        let url = "{{ route('liquidacion.eliminar') }}";
+        let url = "{{ (isset($asistente) ? route('asistentes.perfil.cuentas.eliminar') : route('liquidacion.eliminar')) }}";
         let token = CSRF_TOKEN;
 
         $.ajax({

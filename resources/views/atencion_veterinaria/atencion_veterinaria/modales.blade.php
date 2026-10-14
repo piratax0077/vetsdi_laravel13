@@ -321,8 +321,9 @@
 
             $.ajax({
                 url: url,
-                type: 'GET',
+                type: 'POST',
                 data: {
+                    _token: '{{ csrf_token() }}',
                     id_ficha_atencion: id_fc
                 },
             })
@@ -595,8 +596,9 @@
 
             $.ajax({
                 url: url,
-                type: 'GET',
+                type: 'POST',
                 data: {
+                    _token: '{{ csrf_token() }}',
                     id_interconsulta: id_interconsulta
                 },
             })
@@ -740,8 +742,9 @@
 
             $.ajax({
                 url: url,
-                type: 'GET',
+                type: 'POST',
                 data: {
+                    _token: '{{ csrf_token() }}',
                     id_informe_medico: id_informe,
                     id_ficha_atencion: $('#id_fc').val(),
                     tipo_informe : 1, // 1 para informe médico, 2 para uso personal
@@ -875,8 +878,9 @@
 
             $.ajax({
                 url: url,
-                type: 'GET',
+                type: 'POST',
                 data: {
+                    _token: '{{ csrf_token() }}',
                     id_uso_personal: id_uso_personal
                 },
             })

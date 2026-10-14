@@ -1052,6 +1052,10 @@ class ConsentimientosController extends Controller
 
     public function solicitar_autorizacion_revocacion(Request $request)
     {
+        $request->validate(['id_consentimiento_pcte' => 'required|integer']);
+        app(RevocacionVeterinariaController::class)->autorizarProfesional(
+            ConConsentimientosPcte::findOrFail($request->id_consentimiento_pcte)
+        );
 
         $datos = array();
         $error = array();
@@ -1145,7 +1149,7 @@ class ConsentimientosController extends Controller
                         $log_users_devices->id_user_recept = $id_usuario_envio_noti;
                         $log_users_devices->msg = json_encode($msj);
                         $log_users_devices->tipo = 5; // revocacion de Consentimiento
-                        $log_users_devices->token = md5(uniqid());
+                        $log_users_devices->token = bin2hex(random_bytes(32));
                         $log_users_devices->estado = 0;
                         $log_users_devices->fecha_ingreso = $fecha_actual;
                         $log_users_devices->fecha_termino = $fecha_vencimiento;

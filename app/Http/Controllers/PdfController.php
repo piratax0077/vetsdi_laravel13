@@ -49,7 +49,6 @@ class PdfController extends Controller
         $pdf->get_canvas()->get_cpdf()->setEncryption('',$tempPass,array( 'modify','add' ));
 
 
-        $pdf->loadHTML(ob_get_clean());
         $pdf->loadHTML($view);
         $pdf->getDomPDF()->set_option('isRemoteEnabled', true);
 
@@ -81,7 +80,7 @@ class PdfController extends Controller
                 }
                 else
                 {
-                    $datos['estado'] = 1;
+                    $datos['estado'] = 0;
                     $datos['msj'] = 'error pdf';
                 }
                 return (object)$datos;

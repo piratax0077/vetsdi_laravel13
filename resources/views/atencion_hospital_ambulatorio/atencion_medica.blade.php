@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="page-header-title">
-                                <button type="button" class="btn btn-outline-light btn-sm d-inline float-md-right mr-4 mb-1" onclick="finalizar_atencion('{{ $paciente->nombres }} {{ $paciente->apellido_uno }} {{ $paciente->apellido_dos }}')">Finalizar atención</button>
+
                             </div>
                         </div>
                     </div>
@@ -1369,41 +1369,7 @@ $('#tipo_examen_d').change(function(e) {
         });
     }
 
-    function finalizar_atencion(nombre) {
-        swal({
-            title: "¿Está seguro de finalizar la atención de " + nombre + " ?",
-            text: "Una vez finalizada la atención no podrá realizar cambios",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                swal({
-                    title: "Destino del paciente",
-                    text: "Escribe el destino del paciente:",
-                    content: "input", // Esto permite que el swal tenga un input de texto
-                    button: {
-                        text: "Confirmar",
-                        closeModal: false,
-                    },
-                })
-                .then((destino) => {
-                    if (!destino) throw null; // Si no se ingresa un destino, no hacer nada
-                    // Aquí puedes llamar a tu función AJAX, pasando el destino como parámetro
-                    finalizar_atencion_ajax(destino);
-                })
-                .catch(err => {
-                    if (err) {
-                        swal("Oh no!", "Ha ocurrido un error al procesar tu solicitud.", "error");
-                    } else {
-                        swal.stopLoading();
-                        swal.close();
-                    }
-                });
-            }
-        });
-    }
+
 
     function actualizarTotal() {
         console.log('actualizarTotal');
@@ -1467,34 +1433,7 @@ $('#tipo_examen_d').change(function(e) {
         return id_paciente;
     }
 
-    function finalizar_atencion_ajax(destino){
-        console.log(destino);
-       let id_paciente = dame_id_paciente();
-         $.ajax({
-                url: "{{ route('profesional.finalizar_atencion') }}",
-                type: 'POST',
-                data: {
-                 _token: "{{ csrf_token() }}",
-                 id_paciente: id_paciente,
-                destino: destino
-                },
-                success: function(response){
-                    console.log(response);
-                 if(response == 'OK'){
-                      swal("Atención finalizada", {
-                            icon: "success",
-                      }).then((value) => {
-                        console.log('finalizar_atencion_ajax');
-                      });
-                 }else{
-                      swal("Error", "No se pudo finalizar la atención", "error");
-                 }
-                },
-                error: function(){
-                 swal("Error", "No se pudo finalizar la atención", "error");
-                }
-          });
-    }
+
 
     function guardarObservacionesCuracion(){
         let id_curacion = $('#id_curacion').val();

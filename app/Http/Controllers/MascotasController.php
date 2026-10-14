@@ -98,7 +98,7 @@ class MascotasController extends Controller
 
     public function index()
     {
-        $paciente = Paciente::where('id_usuario', Auth::id())->first();
+        $paciente = Paciente::where('id_usuario', Auth::id())->firstOrFail();
         $idLugarAtencion = request()->input('id_lugar_atencion');
         $mascotas = Mascota::with(['especieMascota', 'tamanoMascota', 'lugaresAtencion'])
             ->where('id_responsable', optional($paciente)->id)
@@ -188,7 +188,7 @@ class MascotasController extends Controller
             'fecha_nacimiento' => 'nullable|date|before_or_equal:today',
             'sexo' => 'required|string|in:M,F',
             'foto_perfil' => 'nullable|string|max:255',
-            'galeria' => 'nullable',
+            'galeria' => ['nullable', function ($attribute, $value, $fail) { if (is_string($value) && !is_array(json_decode($value, true))) $fail('La galería debe contener una lista de fotos válida.'); elseif (!is_string($value) && !is_array($value)) $fail('La galería no es válida.'); }],
             'observaciones_fotos' => 'nullable|string',
             'esterilizado' => 'required|boolean',
             'fecha_esterilizacion_desconocida' => 'nullable|boolean',
@@ -273,6 +273,7 @@ class MascotasController extends Controller
             }
         }
 
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($request, $paciente) {
         $galeria = normalizar_galeria_mascota_almacenada($request->input('galeria'));
 
         $tieneChip = filter_var($request->input('tiene_chip'), FILTER_VALIDATE_BOOLEAN);
@@ -340,6 +341,7 @@ class MascotasController extends Controller
             'estado' => 0,
             'msj' => 'Problemas al registrar la mascota',
         ], 500);
+        });
     }
 
     public function update(Request $request, Mascota $mascota)
@@ -377,6 +379,25 @@ class MascotasController extends Controller
             ], 404);
         }
 
+        // A tutor can edit identification/photos, never the clinical record.
+        if (!app(\App\Services\AccesoSanitarioMascota::class)->puedeEscribir($mascota)) {
+            if ($request->exists('fecha_esterilizacion_desconocida') && $request->boolean('fecha_esterilizacion_desconocida') !== ((bool) $mascota->esterilizado && !$mascota->fecha_esterilizacion)) {
+                abort(403, 'Solo el profesional autorizado puede modificar los registros sanitarios.');
+            }
+            foreach (['vacunas', 'vacunas_registro', 'desparasitaciones_registro', 'ultima_desparasitacion', 'producto_desparasitacion', 'enfermedad_cronica', 'cirugias', 'esterilizado', 'fecha_esterilizacion'] as $campoSanitario) {
+                if ($request->exists($campoSanitario) && $request->input($campoSanitario) != $mascota->getRawOriginal($campoSanitario)) {
+                    abort(403, 'Solo el profesional autorizado puede modificar los registros sanitarios.');
+                }
+            }
+        }
+        // Una actualización parcial conserva los datos que el formulario no envió.
+        $base = [];
+        foreach (['tiene_chip','chip','nombre','especie_id','raza_id','otra_especie','tamano_id','fecha_nacimiento','sexo','esterilizado','fecha_esterilizacion','enfermedad_cronica','dieta','ultima_desparasitacion','producto_desparasitacion'] as $campo) {
+            $base[$campo] = $mascota->getRawOriginal($campo);
+        }
+        $base['fecha_esterilizacion_desconocida'] = (bool)$mascota->esterilizado && !$mascota->fecha_esterilizacion;
+        $request->mergeIfMissing($base);
+
         $request->merge([
             'raza_id' => resolver_raza_mascota_id(
                 $request->input('raza_id'),
@@ -395,7 +416,7 @@ class MascotasController extends Controller
             'fecha_nacimiento' => 'nullable|date|before_or_equal:today',
             'sexo' => 'required|string|in:M,F',
             'foto_perfil' => 'nullable|string|max:255',
-            'galeria' => 'nullable',
+            'galeria' => ['nullable', function ($attribute, $value, $fail) { if (is_string($value) && !is_array(json_decode($value, true))) $fail('La galería debe contener una lista de fotos válida.'); elseif (!is_string($value) && !is_array($value)) $fail('La galería no es válida.'); }],
             'observaciones_fotos' => 'nullable|string',
             'esterilizado' => 'required|boolean',
             'fecha_esterilizacion_desconocida' => 'nullable|boolean',
@@ -473,7 +494,8 @@ class MascotasController extends Controller
             }
         }
 
-        $galeria = normalizar_galeria_mascota_almacenada($request->input('galeria'));
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($request, $mascota) {
+        $galeria = normalizar_galeria_mascota_almacenada($request->input('galeria', $mascota->galeria));
 
         $tieneChip = filter_var($request->input('tiene_chip'), FILTER_VALIDATE_BOOLEAN);
         $esterilizado = filter_var($request->input('esterilizado'), FILTER_VALIDATE_BOOLEAN);
@@ -495,9 +517,15 @@ class MascotasController extends Controller
         $mascota->tamano = $tamano ? $tamano->slug : null;
         $mascota->fecha_nacimiento = $request->input('fecha_nacimiento');
         $mascota->sexo = $request->input('sexo');
-        $mascota->foto_perfil = resolver_foto_perfil_mascota($request->input('foto_perfil'), $galeria);
-        $mascota->galeria = $galeria;
-        $mascota->observaciones_fotos = $request->input('observaciones_fotos');
+        if ($request->exists('foto_perfil')) {
+            $mascota->foto_perfil = resolver_foto_perfil_mascota($request->input('foto_perfil'), $galeria);
+        }
+        if ($request->exists('galeria')) {
+            $mascota->galeria = $galeria;
+        }
+        if ($request->exists('observaciones_fotos')) {
+            $mascota->observaciones_fotos = $request->input('observaciones_fotos');
+        }
         $mascota->esterilizado = $esterilizado;
         $mascota->fecha_esterilizacion = ($esterilizado && !$fechaEsterilizacionDesconocida && $request->filled('fecha_esterilizacion'))
             ? $request->input('fecha_esterilizacion')
@@ -506,12 +534,20 @@ class MascotasController extends Controller
         $mascota->dieta = $request->input('dieta');
         $mascota->ultima_desparasitacion = $request->input('ultima_desparasitacion');
         $mascota->producto_desparasitacion = $request->input('producto_desparasitacion');
-        $mascota->cirugias = $request->input('cirugias');
-        $mascota->vacunas = $request->input('vacunas');
-        $mascota->viajes = $request->input('viajes');
-        $mascota->vive_con_animales = $viveConAnimales;
+        if ($request->exists('cirugias')) {
+            $mascota->cirugias = $request->input('cirugias');
+        }
+        if ($request->exists('vacunas')) {
+            $mascota->vacunas = $request->input('vacunas');
+        }
+        if ($request->exists('viajes')) {
+            $mascota->viajes = $request->input('viajes');
+        }
+        if ($request->exists('vive_con_animales')) {
+            $mascota->vive_con_animales = $viveConAnimales;
+        }
         $mascota->id_user = Auth::id();
-        $mascota->estado = 1;
+
 
         if ($mascota->save()) {
             $idLugarAtencion = $request->filled('id_lugar_atencion')
@@ -532,6 +568,7 @@ class MascotasController extends Controller
             'estado' => 0,
             'msj' => 'Problemas al actualizar la mascota',
         ], 500);
+        });
     }
 
     public function listar(Request $request)
@@ -1781,6 +1818,7 @@ class MascotasController extends Controller
             ], 404);
         }
 
+        app(\App\Services\AccesoSanitarioMascota::class)->exigirEscritura($mascota);
         $validator = Validator::make(
             $request->all(),
             [
@@ -1808,6 +1846,8 @@ class MascotasController extends Controller
             ], 422);
         }
 
+        return DB::transaction(function () use ($mascota, $request) {
+        $mascota = Mascota::whereKey($mascota->id)->lockForUpdate()->firstOrFail();
         $vacunas = $this->normalizarRegistros($mascota->vacunas_registro);
         $vacunas[] = [
             'id' => uniqid('vac_', true),
@@ -1827,6 +1867,7 @@ class MascotasController extends Controller
             'msj' => 'Vacuna agregada correctamente',
             'vacunas' => $this->normalizarRegistros($mascota->vacunas_registro),
         ];
+        });
     }
 
     public function guardarDesparasitacionDesdeModal(Request $request, $mascotaId)
@@ -1839,6 +1880,7 @@ class MascotasController extends Controller
             ], 404);
         }
 
+        app(\App\Services\AccesoSanitarioMascota::class)->exigirEscritura($mascota);
         $validator = Validator::make(
             $request->all(),
             [
@@ -1871,6 +1913,8 @@ class MascotasController extends Controller
             ], 422);
         }
 
+        return DB::transaction(function () use ($mascota, $request) {
+        $mascota = Mascota::whereKey($mascota->id)->lockForUpdate()->firstOrFail();
         $desparasitaciones = $this->normalizarRegistros($mascota->desparasitaciones_registro);
         $desparasitaciones[] = [
             'id' => uniqid('des_', true),
@@ -1886,8 +1930,11 @@ class MascotasController extends Controller
         ];
 
         $mascota->desparasitaciones_registro = $desparasitaciones;
-        $mascota->ultima_desparasitacion = $request->input('fecha_dosis');
-        $mascota->producto_desparasitacion = trim((string) $request->input('antiparasitario'));
+        $ultima = collect($desparasitaciones)->sortByDesc('fecha_dosis')->first();
+        if (!$mascota->ultima_desparasitacion || $ultima['fecha_dosis'] >= $mascota->ultima_desparasitacion->format('Y-m-d')) {
+            $mascota->ultima_desparasitacion = $ultima['fecha_dosis'];
+            $mascota->producto_desparasitacion = $ultima['antiparasitario'];
+        }
         $mascota->save();
 
         return [
@@ -1895,6 +1942,7 @@ class MascotasController extends Controller
             'msj' => 'Desparasitación agregada correctamente',
             'desparasitaciones' => $this->normalizarRegistros($mascota->desparasitaciones_registro),
         ];
+        });
     }
 
     private function serviciosReservaCercanosPermitidos(): array
@@ -1935,7 +1983,7 @@ class MascotasController extends Controller
 
         $mascota = Mascota::find($id);
         if ($mascota) {
-            return $mascota;
+            return $this->puedeAccederMascota($mascota) ? $mascota : null;
         }
 
         // Compatibilidad con IDs legacy (id_paciente dependiente).
@@ -1954,7 +2002,17 @@ class MascotasController extends Controller
             ->where('nombre', $nombreMascota)
             ->first();
 
-        return $mascota;
+        return $mascota && $this->puedeAccederMascota($mascota) ? $mascota : null;
+    }
+
+    private function puedeAccederMascota(Mascota $mascota): bool
+    {
+        if (!Auth::check()) return false;
+        if (Paciente::where('id_usuario', Auth::id())->whereKey($mascota->id_responsable)->exists()) return true;
+        $profesional = Profesional::where('id_usuario', Auth::id())->first();
+        if (!$profesional) return false;
+        return HoraMedica::where('id_profesional', $profesional->id)->where('id_mascota', $mascota->id)->where('id_paciente', $mascota->id_responsable)->exists()
+            || FichaAtencion::where('id_profesional', $profesional->id)->where('id_mascota', $mascota->id)->where('id_paciente', $mascota->id_responsable)->exists();
     }
 
     private function distribuirSolicitudApareamiento(Mascota $mascotaOrigen, array $solicitudEmitida, ?Paciente $tutorOrigen): int

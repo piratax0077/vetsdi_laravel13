@@ -44,7 +44,7 @@ class SolicitudSoporte extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->numero_ticket = 'TKT-' . date('Ymd') . '-' . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+            $model->numero_ticket = 'TKT-' . (string) \Illuminate\Support\Str::ulid();
         });
     }
 }

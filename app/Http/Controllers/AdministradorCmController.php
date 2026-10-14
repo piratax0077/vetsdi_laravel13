@@ -1690,616 +1690,23 @@ class AdministradorCmController extends Controller
 
     public function editarDatosPerfil(Request $request)
     {
-        $datos = array();
-
-        $id_institucion = $request->id_institucion;
-        $tipo_institucion = $request->tipo_institucion;
-        $nombre = '';
-        $razon_social = '';
-        $rut = '';
-        $certificado_supersalud = '';
-        $id_direccion = '';
-        $logo = '';
-        $telefono = '';
-        $whatsapp = '';
-        $sucursales = '';
-        $horario_atencion = '';
-        $id_usuario = '';
-        $email = '';
-        $rut_responsable = '';
-        $id_responsable = '';
-        $nombre_responsable = '';
-        $id_servicio = '';
-        $id_tipo_institucion = '';
-        $sitio_web = '';
-        $region = '';
-        $direccion = '';
-        $numero_dir = '';
-
-        if(!empty($request->nombre))
-            $nombre = $request->nombre;
-        if(!empty($request->razon_social))
-            $razon_social = $request->razon_social;
-        if(!empty($request->rut))
-            $rut = $request->rut;
-        if(!empty($request->certificado_supersalud))
-            $certificado_supersalud = $request->certificado_supersalud;
-        // if(!empty($request->id_direccion))
-        //     $id_direccion = $request->id_direccion;
-        if(!empty($request->logo))
-            $logo = $request->logo;
-        if(!empty($request->telefono))
-            $telefono = $request->telefono;
-        if(!empty($request->whatsapp))
-            $whatsapp = $request->whatsapp;
-        if(isset($request->sucursales) && ($request->sucursales == 1 || $request->sucursales == 0))
-            $sucursales = $request->sucursales;
-        if(!empty($request->horario_atencion))
-            $horario_atencion = $request->horario_atencion;
-        if(!empty($request->id_usuario))
-            $id_usuario = $request->id_usuario;
-        if(!empty($request->email))
-            $email = $request->email;
-        if(!empty($request->rut_responsable))
-            $rut_responsable = $request->rut_responsable;
-        if(!empty($request->id_responsable))
-            $id_responsable = $request->id_responsable;
-        if(!empty($request->nombre_responsable))
-            $nombre_responsable = $request->nombre_responsable;
-        if(!empty($request->id_servicio))
-            $id_servicio = $request->id_servicio;
-        if(!empty($request->id_tipo_institucion))
-            $id_tipo_institucion = $request->id_tipo_institucion;
-        if(!empty($request->sitio_web))
-            $sitio_web = $request->sitio_web;
-
-        if(isset($request->region))
-            $region = $request->region;
-        if(isset($request->ciudad))
-            $ciudad = $request->ciudad;
-        if(isset($request->direccion))
-            $direccion = $request->direccion;
-        if(isset($request->numero_dir))
-            $numero_dir = $request->numero_dir;
-
-
-
-
-        if($tipo_institucion == 'institucion')
-        {
-            $registro = Instituciones::find($id_institucion);
-            if($registro)
-            {
-                if(!empty($nombre))
-                    $registro->nombre = $nombre;
-                if(!empty($razon_social))
-                    $registro->razon_social = $razon_social;
-                if(!empty($rut))
-                    $registro->rut = $rut;
-                if(!empty($certificado_supersalud))
-                    $registro->certificado_supersalud = $certificado_supersalud;
-                if(!empty($id_direccion))
-                    $registro->id_direccion = $id_direccion;
-                if(!empty($logo))
-                    $registro->logo = $logo;
-                if(!empty($telefono))
-                    $registro->telefono = $telefono;
-                if(!empty($whatsapp))
-                    $registro->whatsapp = $whatsapp;
-                if($sucursales == '1' || $sucursales == '0')
-                    $registro->sucursales = $sucursales;
-                if(!empty($horario_atencion))
-                    $registro->horario_atencion = $horario_atencion;
-                if(!empty($id_usuario))
-                    $registro->id_usuario = $id_usuario;
-                if(!empty($email))
-                    $registro->email = $email;
-                if(!empty($rut_responsable))
-                    $registro->rut_responsable = $rut_responsable;
-                if(!empty($id_responsable))
-                    $registro->id_responsable = $id_responsable;
-                if(!empty($nombre_responsable))
-                    $registro->nombre_responsable = $nombre_responsable;
-                if(!empty($id_servicio))
-                    $registro->id_servicio = $id_servicio;
-                if(!empty($id_tipo_institucion))
-                    $registro->id_tipo_institucion = $id_tipo_institucion;
-                if(!empty($sitio_web))
-                    $registro->sitio_web = $sitio_web;
-
-
-                if( !empty($region) || !empty($ciudad) || !empty($direccion) || !empty($numero_dir) )
-                {
-                    $registro_direccion = Direccion::where('id', $registro->id_direccion)->first();
-                    if($registro_direccion)
-                    {
-                        $registro_direccion->direccion = $direccion;
-                        $registro_direccion->numero_dir = $numero_dir;
-                        $registro_direccion->id_ciudad = $ciudad;
-                        if($registro_direccion->save())
-                        {
-                            $datos['direccion']['estado'] = 1;
-                            $datos['direccion']['msj'] = 'registro actualizado';
-                        }
-                        else
-                        {
-                            $datos['direccion']['estado'] = 0;
-                            $datos['direccion']['msj'] = 'registro no actualizado';
-                        }
-                    }
-                    else
-                    {
-                        $registro_direccion = new Direccion();
-                        $registro_direccion->direccion = $direccion;
-                        $registro_direccion->numero_dir = $numero_dir;
-                        $registro_direccion->id_ciudad = $ciudad;
-                        if($registro_direccion->save())
-                        {
-                            $datos['direccion']['estado'] = 1;
-                            $datos['direccion']['msj'] = 'direccion registrada';
-                            $registro->id_direccion = $registro_direccion->id;
-                        }
-                        else
-                        {
-                            $datos['direccion']['estado'] = 0;
-                            $datos['direccion']['msj'] = 'direccion no registrada';
-                        }
-                    }
-                }
-
-                if($registro->save())
-                {
-                    $datos['estado'] = 1;
-                    $datos['msj'] = 'registros modificados satifactoriamente';
-                }
-                else
-                {
-                    $datos['estado'] = 0;
-                    $datos['msj'] = 'registros No modificados';
-                }
-            }
-        }
-        else if($tipo_institucion == 'servicio')
-        {
-            /**pendiente */
-        }
-
-
-        return $datos;
+        return response()->json(app(\App\Services\PerfilCentroMedico::class)->guardarCentro($request));
     }
 
     public function editarDatosPerfilResponsable(Request $request)
     {
-        $datos = array();
-
-        $rut = '';
-        $nombres = '';
-        $apellido_uno = '';
-        $apellido_dos = '';
-        $telefono_uno = '';
-        $telefono_dos = '';
-        $sexo = '';
-        $email = '';
-        $fecha_nac = '';
-        $id_tipo_administrador = '';
-        $id_premium = '';
-        $id_direccion = '';
-        // $id_antecedente = '';
-        $id_admin = '';
-        $region = '';
-        $ciudad = '';
-        $direccion = '';
-        $numero_dir = '';
-
-        $id_responsable = $request->id_responsable;
-
-        if(!empty($request->rut))
-            $rut = $request->rut;
-        if(!empty($request->nombres))
-            $nombres = $request->nombres;
-        if(!empty($request->apellido_uno))
-            $apellido_uno = $request->apellido_uno;
-        if(!empty($request->apellido_dos))
-            $apellido_dos = $request->apellido_dos;
-        if(!empty($request->telefono_uno))
-            $telefono_uno = $request->telefono_uno;
-        if(!empty($request->telefono_dos))
-            $telefono_dos = $request->telefono_dos;
-        if(!empty($request->sexo))
-            $sexo = $request->sexo;
-        if(!empty($request->email))
-            $email = $request->email;
-        if(!empty($request->fecha_nac))
-            $fecha_nac = $request->fecha_nac;
-        if(!empty($request->id_tipo_administrador))
-            $id_tipo_administrador = $request->id_tipo_administrador;
-        if(!empty($request->id_premium))
-            $id_premium = $request->id_premium;
-        if(!empty($request->id_direccion))
-            $id_direccion = $request->id_direccion;
-        // if(!empty($request->id_antecedente))
-        //     $id_antecedente = $request->id_antecedente;
-        // if(!empty($request->id_admin))
-            $id_admin = $request->id_admin;
-
-
-        if(isset($request->region))
-            $region = $request->region;
-        if(isset($request->ciudad))
-            $ciudad = $request->ciudad;
-        if(isset($request->direccion))
-            $direccion = $request->direccion;
-        if(isset($request->numero_dir))
-            $numero_dir = $request->numero_dir;
-
-
-        $registro = AdminInstServ::find($id_responsable);
-        if($registro)
-        {
-            if(!empty($rut))
-                $registro->rut = $rut;
-            if(!empty($nombres))
-                $registro->nombres = $nombres;
-            if(!empty($apellido_uno))
-                $registro->apellido_uno = $apellido_uno;
-            if(!empty($apellido_dos))
-                $registro->apellido_dos = $apellido_dos;
-            if(!empty($telefono_uno))
-                $registro->telefono_uno = $telefono_uno;
-            if(!empty($telefono_dos))
-                $registro->telefono_dos = $telefono_dos;
-            if(!empty($sexo))
-                $registro->sexo = $sexo;
-            if(!empty($email))
-                $registro->email = $email;
-            if(!empty($fecha_nac))
-                $registro->fecha_nac = $fecha_nac;
-            if(!empty($id_tipo_administrador))
-                $registro->id_tipo_administrador = $id_tipo_administrador;
-            if(!empty($id_premium))
-                $registro->id_premium = $id_premium;
-            if(!empty($id_direccion))
-                $registro->id_direccion = $id_direccion;
-            if(!empty($id_admin))
-                $registro->id_admin = $id_admin;
-
-
-            if( !empty($region) || !empty($ciudad) || !empty($direccion) || !empty($numero_dir) )
-            {
-                $registro_direccion = Direccion::where('id', $registro->id_direccion)->first();
-                if($registro_direccion)
-                {
-                    $registro_direccion->direccion = $direccion;
-                    $registro_direccion->numero_dir = $numero_dir;
-                    $registro_direccion->id_ciudad = $ciudad;
-                    if($registro_direccion->save())
-                    {
-                        $datos['direccion']['estado'] = 1;
-                        $datos['direccion']['msj'] = 'registro actualizado';
-                    }
-                    else
-                    {
-                        $datos['direccion']['estado'] = 0;
-                        $datos['direccion']['msj'] = 'registro no actualizado';
-                    }
-                }
-                else
-                {
-                    $registro_direccion = new Direccion();
-                    $registro_direccion->direccion = $direccion;
-                    $registro_direccion->numero_dir = $numero_dir;
-                    $registro_direccion->id_ciudad = $ciudad;
-                    if($registro_direccion->save())
-                    {
-                        $datos['direccion']['estado'] = 1;
-                        $datos['direccion']['msj'] = 'direccion registrada';
-                        $registro->id_direccion = $registro_direccion->id;
-                    }
-                    else
-                    {
-                        $datos['direccion']['estado'] = 0;
-                        $datos['direccion']['msj'] = 'direccion no registrada';
-                    }
-                }
-            }
-
-            if($registro->save())
-            {
-                $datos['estado'] = 1;
-                $datos['msj'] = 'registros modificados satifactoriamente';
-            }
-            else
-            {
-                $datos['estado'] = 0;
-                $datos['msj'] = 'registros No modificados';
-            }
-        }
-
-        return $datos;
+        return response()->json(app(\App\Services\PerfilCentroMedico::class)->guardarResponsable($request));
     }
 
-    public function editarDatosPerfilResponsableMedico(Request $req){
-
-        $institucion = '';
-        $tipo_institucion = '1';
-        $id_busqueda = Auth::user()->id;
-        if(Auth::user()->id == 3)
-        {
-            $id_busqueda = 5;
-            $registro = Instituciones::where('id', $id_busqueda)->first();
-        }
-        else
-        {
-            $registro = Instituciones::where('id_usuario',Auth::user()->id)->first();
-        }
-
-        if($registro)
-        {
-            // var_dump($registro);
-            // var_dump($registro->UsuarioAdministrador()->first());
-            //var_dump($registro->UsuarioAdministrador()->first()->id);
-            /** INSTITUCION */
-            $institucion = $registro;
-            $responsable = AdminInstServ::where('id',$registro->UsuarioAdministrador()->first()->id)->first();
-            $tipo_institucion = 'institucion';
-
-        }
-        else
-        {
-            $registro = Servicios::where('id_usuario',Auth::user()->id)->first();
-            if($registro)
-            {
-                /** SERVICIOS */
-                $institucion = $registro;
-                $tipo_institucion = 'servicio';
-            }
-            else
-            {
-                /** busqueda por responsable */
-                $responsable = AdminInstServ::where('id_admin',Auth::user()->id)->first();
-
-                if($responsable)
-                {
-                    $registro = Instituciones::where('id_responsable',$responsable->id)->first();
-                    if($registro)
-                    {
-                        // var_dump($registro);
-                        // var_dump($registro->UsuarioAdministrador()->first());
-                        /** INSTITUCION */
-                        $institucion = $registro;
-                        $tipo_institucion = 'institucion';
-
-                    }
-                    else
-                    {
-                        $registro = Servicios::where('id_responsable',$responsable->id)->first();
-                        if($registro)
-                        {
-                            /** SERVICIOS */
-                            $institucion = $registro;
-                            $tipo_institucion = 'servicio';
-                        }
-                        else
-                        {
-                            return back()->with('error','Institución no encontrada');
-                        }
-                    }
-                }
-                else
-                {
-                    return back()->with('error','Institución no encontrada');
-                }
-            }
-        }
-
-        $regiones = Region::all();
-        $ciudades = Ciudad::where('id_region', $institucion->direccion()->first()->ciudad()->first()->Region()->first()->id)->orderBy('nombre')->get();
-
-        /** CARGA DE PERSONAL */
-        /** EMPLEADOS */
-        $contratos = ContratoDependiente::select('id', 'id_institucion', 'id_lugar_atencion', 'tipo_empleado', 'id_empleado')
-                                        ->where('id_institucion',$institucion->id)
-                                        ->where('id_lugar_atencion', $institucion->id_lugar_atencion)
-                                        ->get();
-        // var_dump($contratos);
-
-        $personal = array();
-        if($contratos)
-        {
-            // var_dump($contratos->count());
-            if($contratos->count()>0)
-            {
-                foreach ($contratos as $key_contratos => $value_contratos)
-                {
-                    // Asistente Publico
-                    // Asistente Jefa Caja
-                    // Asistente Adm
-                    // Asistente Online
-                    if(strstr(strtoupper($value_contratos->tipo_empleado), 'ASISTENTE') !== FALSE)
-                    {
-                        $asistente = Asistente::select('id', 'id_asistente_tipo', 'rut', 'nombres', 'apellido_uno', 'apellido_dos', 'telefono_uno', 'email', 'id_direccion', 'id_usuario', 'id_modalidad')
-                                                ->with(['AsistenteTipo' => function($query){
-                                                    $query->select('id', 'nombre', 'descripcion');
-                                                }])
-                                                ->where('id', $value_contratos->id_empleado)
-                                                ->first();
-                        if($asistente)
-                            array_push($personal, $asistente);
-                    }
-                    // adm_insitucion
-                    else if(strpos(strtoupper($value_contratos->tipo_empleado), 'ADMINISTRADOR') >= 0)
-                    {
-                        $administrador = AdminInstServ::select('id', 'rut', 'nombres', 'apellido_uno', 'apellido_dos', 'telefono_uno', 'email', 'id_tipo_administrador', 'id_direccion', 'id_admin')
-                                                ->with(['TipoAdministrador' => function($query){
-                                                    $query->select('id', 'nombres as nombre','descripcion');
-                                                }])
-                                                ->where('id', $value_contratos->id_empleado)
-                                                ->first();
-                        // var_dump($administrador);
-                        if($administrador)
-                            array_push($personal, $administrador);
-                    }
-                    // contador
-                    else if(strpos(strtoupper($value_contratos->tipo_empleado), 'CONTADOR') >= 0)
-                    {
-
-                    }
-                    // profesional (dependiente-> ej: admin medico)
-                    else if(strpos(strtoupper($value_contratos->tipo_empleado), 'PROFESIONAL') >= 0)
-                    {
-
-                    }
-
-                }
-            }
-        }
-
-        $profesional = Profesional::with(['Direccion'])->where('id', $req->id_responsable)->first();
-
-        $profesional->nombre = $req->nombres;
-        $profesional->apellido_uno = $req->apellido_uno;
-        $profesional->apellido_dos = $req->apellido_dos;
-        $profesional->sexo = $req->sexo;
-        $profesional->fecha_nacimiento = $req->fecha_nac;
-        $profesional->email = $req->email;
-        $profesional->telefono_uno = $req->telefono_uno;
-        $profesional->telefono_dos = $req->telefono_dos;
-
-        $profesional->save();
-
-        $direccion = Direccion::where('id', $profesional->id_direccion)->first();
-
-        if($direccion)
-        {
-            // $direccion->region = $request->region;
-            $direccion->id_ciudad = $req->ciudad;
-            $direccion->direccion = $req->direccion;
-            $direccion->numero_dir = $req->numero_dir;
-            if($direccion->save())
-            {
-                $success = true;
-            }
-            else
-            {
-                $success = false;
-            }
-        }
-        else
-        {
-            $direccion = new Direccion();
-            // $direccion->region = $request->region;
-            $direccion->id_ciudad = $req->ciudad;
-            $direccion->direccion = $req->direccion;
-            $direccion->numero_dir = $req->numero_dir;
-            if($direccion->save())
-            {
-                $success = true;
-            }
-            else
-            {
-                $success = false;
-            }
-        }
-        return ['estado' => 1, 'mensaje' => 'Datos actualizados','profesional' => $profesional];
+    public function editarDatosPerfilResponsableMedico(Request $request)
+    {
+        return response()->json(app(\App\Services\PerfilCentroMedico::class)->guardarResponsableMedico($request));
     }
 
     // ACTUALIZAR CONTRASEÑA DEL RESPONSABLE DE LA INSTITUCION
     public function cambioContrasenaPerfilResponsable(Request $request)
     {
-        $mensaje_error = '';
-        $mensaje_error2 = '';
-        $mensaje_success = '';
-        $datos = array();
-        $error = array();
-        $valido = 1;
-
-        if(empty($request->responsable_actual)) {
-            $error['responsable_actual'] = 'campo requerido';
-            $mensaje_error2 .= 'campo requerido\n';
-            $valido = 0;
-        }
-        else
-        {
-            $filtro = array();
-            $filtro[] = array('id', $request->responsable_id);
-            $user = User::where( $filtro )->first();
-
-
-            if($user == NULL){
-                $error['contrasena_actual'] = 'Contraseña actual no es valida';
-                $mensaje_error2 .= 'Contraseña actual no es valida\n';
-                $valido = 0;
-            }
-            else
-            {
-                $password = $request->responsable_actual;
-                if (!password_verify($password, $user->password)) {
-                    $error['contrasena_actual'] = 'Contraseña actual no es valida';
-                    $mensaje_error2 .= 'Contraseña actual no es valida\n';
-                    $valido = 0;
-                }
-            }
-
-        }
-
-        if(empty($request->responsable_nueva)) {
-            $error['responsable_nueva'] = 'campo requerido';
-            $mensaje_error2 .= 'campo requerido\n';
-            $valido = 0;
-        }
-
-        if(empty($request->responsable_validacion)) {
-            $error['responsable_validacion'] = 'campo requerido';
-            $mensaje_error2 .= 'campo requerido\n';
-            $valido = 0;
-        }
-
-        if(!empty($request->responsable_nueva)  && !empty($request->responsable_validacion))
-        {
-            if($request->responsable_nueva != $request->responsable_validacion)
-            {
-                $error['password_confirmacion'] = 'Contraseñas no son iguales';
-                $mensaje_error2 .= 'Contraseñas no son iguales\n';
-                $valido = 0;
-            }
-        }
-
-        if($valido == 1)
-        {
-            $user->password = Hash::make($request->responsable_nueva);
-            if($user->save())
-            {
-                $datos['estado'] = 1 ;
-                $datos['msj'] = 'Contraseña actualizada' ;
-                $mensaje_success = 'Contraseña Actualizada';
-            }
-            else
-            {
-                $datos['estado'] = 0 ;
-                $datos['msj'] = 'Problemas al Actualizar la Contraseña' ;
-                $mensaje_error = 'Problemas al Actualizar la Contraseña';
-            }
-        }
-        else
-        {
-            $datos['estado'] = 0 ;
-            $datos['msj'] = 'campos requeridos' ;
-            $datos['error'] = $error;
-            $mensaje_error = 'Campos requeridos.';
-        }
-
-        // return $datos;
-
-        if(!empty($mensaje_error))
-            return back()->with(['error' => $mensaje_error.'\n'.$mensaje_error2, 'titulo_error' => 'Cambio de Contraseña']);
-        else
-        {
-            //envio de correo
-            return back()->with(['mensaje' => $mensaje_success,'titulo_mensaje'=> 'Perfil Administrador De Institución']);
-            // return redirect()->route('home.ingreso',['mensaje' => 'Contraseña actualizada'])->with('mensaje', 'Contraseña actualizada');
-            // return back()->with( 'mensaje', 'Contraseña actualizada');
-
-        }
+        return response()->json(app(\App\Services\PerfilCentroMedico::class)->contrasenaResponsable($request));
     }
 
     public function cargaPersonalPersona(Request $request)
@@ -2590,8 +1997,19 @@ class AdministradorCmController extends Controller
     // }
 
 
-    public function perfil(){
-        return view('app.adm_cm.perfil_cm');
+    public function perfil(Request $request)
+    {
+        $servicio=app(\App\Services\PerfilCentroMedico::class);
+        $institucion=$servicio->centro($request);
+        $tipo_institucion=$request->input('tipo_institucion','institucion');
+        $centros=$servicio->permitidos($tipo_institucion)->orderBy('nombre')->get();
+        $responsable=AdminInstServ::find($institucion->id_responsable) ?? AdminInstServ::where('id_admin',Auth::id())->first();
+        $usuarios=collect(['id_director_medico','id_subdirector_medico','id_director_gestion_cuidado','id_director_comercial','id_director_tecnico'])->map(fn($campo)=>$institucion->{$campo})->filter();
+        $profesionalesArea=AreasCm::where('id_institucion',$institucion->id)->pluck('id_responsable');
+        $directores=Profesional::where(fn($q)=>$q->whereIn('id_usuario',$usuarios)->orWhereIn('id',$profesionalesArea))->get();
+        $regiones=Region::orderBy('nombre')->get();
+        $ciudades=Ciudad::orderBy('nombre')->get();
+        return view('app.adm_cm.perfil_cm',compact('institucion','tipo_institucion','centros','responsable','directores','regiones','ciudades'));
     }
 
     public function laboratorio(){
@@ -9740,12 +9158,12 @@ class AdministradorCmController extends Controller
     {
         try {
 
-            // $request->validate([
-            //     'foto_perfil' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
-            //     'id_institucion' => 'required|integer|exists:instituciones,id'
-            // ]);
+            $request->validate([
+                'foto_perfil' => 'required|image|mimes:jpeg,jpg,png,gif,webp|max:5120',
+                'id_institucion' => 'required|integer',
+            ]);
 
-            $institucion = Instituciones::where('id', $request->id_institucion)->first();
+            $institucion = app(\App\Services\PerfilCentroMedico::class)->centro($request);
 
             if (!$institucion) {
                 return response()->json([
@@ -9754,18 +9172,17 @@ class AdministradorCmController extends Controller
                 ], 404);
             }
 
-            if ($institucion->foto_perfil) {
-                Storage::disk('public')->delete($institucion->foto_perfil);
-            }
-
-            $path = $request->file('foto_perfil')->store('fotos_perfil', 'public');
-            $institucion->update(['foto_perfil' => $path]);
+            $path = app(\App\Services\Fotografias::class)->perfil($institucion, $request->file('foto_perfil'));
 
             return response()->json([
                 'success' => true,
                 'message' => 'Foto actualizada correctamente',
                 'foto_url' => asset('storage/' . $path)
             ]);
+        } catch (\Illuminate\Validation\ValidationException $error) {
+            throw $error;
+        } catch (\Symfony\Component\HttpKernel\Exception\HttpExceptionInterface $error) {
+            throw $error;
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -9777,7 +9194,7 @@ class AdministradorCmController extends Controller
 public function eliminarFoto(Request $request)
 {
     try {
-        $institucion = Instituciones::where('id', $request->id_institucion)->first();
+        $institucion = app(\App\Services\PerfilCentroMedico::class)->centro($request);
         if (!$institucion) {
             return response()->json([
                 'success' => false,
@@ -9785,15 +9202,14 @@ public function eliminarFoto(Request $request)
             ], 404);
         }
 
-        if ($institucion->foto_perfil) {
-            Storage::disk('public')->delete($institucion->foto_perfil);
-            $institucion->update(['foto_perfil' => null]);
-        }
+            app(\App\Services\Fotografias::class)->quitarPerfil($institucion);
 
         return response()->json([
             'success' => true,
             'message' => 'Foto eliminada correctamente'
         ]);
+    } catch (\Symfony\Component\HttpKernel\Exception\HttpExceptionInterface $error) {
+        throw $error;
     } catch (\Exception $e) {
         return response()->json([
             'success' => false,

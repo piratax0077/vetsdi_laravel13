@@ -1,4 +1,4 @@
-@extends('template.asistente_on.template')
+@extends('template.asistente_unificado.template')
 @section('content')
     <!--Container Completo-->
     <div class="pcoded-main-container">

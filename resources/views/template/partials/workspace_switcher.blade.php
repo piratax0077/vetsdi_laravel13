@@ -40,48 +40,10 @@
             ]);
         }
 
-        if (($workspaceUser->hasRole('Asistente') || $workspaceUser->hasRole('Admin')) && \Route::has('asistente.home')) {
+        if ($workspaceUser->hasAnyRole(config('asistentes.roles')) && \Route::has('asistentes.home')) {
             $workspaceOptions->push([
-                'key' => 'asistente',
-                'label' => 'Escritorio Asistente',
-                'url' => route('asistente.home'),
-                'note' => null,
-            ]);
-        }
-
-        if (($workspaceUser->hasRole('AsistenteCaja') || $workspaceUser->hasRole('AsistenteLaboratorio') || $workspaceUser->hasRole('Admin')) && \Route::has('asistentecm.home')) {
-            $workspaceOptions->push([
-                'key' => 'asistente_cm',
-                'label' => 'Escritorio Asistente Centro Veterinario',
-                'url' => route('asistentecm.home'),
-                'note' => null,
-            ]);
-        }
-
-        if (($workspaceUser->hasRole('AsistenteManejoAgenda') || $workspaceUser->hasRole('Admin')) && \Route::has('asistentecm.ma.home')) {
-            $workspaceOptions->push([
-                'key' => 'asistente_cm_ma',
-                'label' => 'Escritorio Asistente Manejo Agenda',
-                'url' => route('asistentecm.ma.home'),
-                'note' => null,
-            ]);
-        }
-
-        if (($workspaceUser->hasRole('AsistenteJefaCaja') || $workspaceUser->hasRole('Admin')) && \Route::has('asistentejcm.home')) {
-            $workspaceOptions->push([
-                'key' => 'asistente_jefa_caja',
-                'label' => 'Escritorio Jefatura de Caja',
-                'url' => route('asistentejcm.home'),
-                'note' => null,
-            ]);
-        }
-
-        if (($workspaceUser->hasRole('AsistenteOnline') || $workspaceUser->hasRole('Admin')) && \Route::has('asistenteon.home')) {
-            $workspaceOptions->push([
-                'key' => 'asistente_online',
-                'label' => 'Escritorio Asistente Online',
-                'url' => route('asistenteon.home'),
-                'note' => null,
+                'key' => 'asistente', 'label' => 'Escritorio del asistente',
+                'url' => route('asistentes.home'), 'note' => null,
             ]);
         }
 

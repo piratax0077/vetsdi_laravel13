@@ -542,75 +542,7 @@
                 })
         }
 
-        function agregar_antecedente_quirurgico_paciente(id_paciente) {
 
-            let antecedente_quirurgico = $('#antecedente_quirurgico_paciente').val();
-            let paciente = id_paciente;
-            let token = CSRF_TOKEN;
-
-            let url = "{{ route('profesional.agregar_antecedente_quirurgico_paciente') }}";
-
-            $.ajax({
-                    url: url,
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        _token: CSRF_TOKEN,
-                        antecedente_quirurgico: antecedente_quirurgico,
-                        paciente: paciente
-                    },
-                })
-                .done(function(response) {
-
-                    if (response.success) {
-                        swal({
-                            title: "Antecedente quirurgico agregado correctamente",
-                            icon: "success",
-                            buttons: "Aceptar",
-                            DangerMode: true,
-                        })
-                        $('#antecedente_quirurgico_paciente').val('');
-
-                        $('#table_antecedente_quirurgico_paciente tbody').empty();
-                        for (i = 0; i < response.antecedentes_quirurgicos.length; i++) {
-
-                            // var fecha = formatDate(data[i].created_at);
-                            //var salida = formato(fecha);
-                            var antecedente_quirurgico = response.antecedentes_quirurgicos[i].antecedente_quirurgico;
-                            // var tipo = data[i].tipo_examen;
-                            // var prioridad = data[i].id_prioridad;
-
-                            var j = 1; //contador para asignar id al boton que borrara la fila
-                            var fila = '<tr class="tr_antecedentes_quirurgicos_paciente" id="row' + j + '"><td>' +
-                                antecedente_quirurgico + '</td><td>' +
-                                'botones' +
-                                '</td></tr>'; //esto seria lo que contendria la fila
-
-                            j++;
-
-                            $('#table_antecedente_quirurgico_paciente tbody').append(fila);
-
-                        }
-
-
-                        // $('#agregar_alergia_paciente').modal('hide');
-                        // $('#alergia_paciente_' + paciente).append(response.alergia);
-                    } else {
-                        swal({
-                            title: "Error al agregar alergia",
-                            icon: "error",
-                            buttons: "Aceptar",
-                            DangerMode: true,
-                        })
-                    }
-
-
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-
-        }
 
         function agregar_patologia_cronica_paciente(id_paciente) {
 

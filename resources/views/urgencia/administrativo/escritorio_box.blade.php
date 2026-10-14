@@ -111,7 +111,7 @@
             </div>  --}}
 
         </div>
-		<div class="col-sm-12">
+        <div class="col-sm-12">
             <div class="row">
                 {{--  <div class="col-md-2">
                     <div class="card subir">
@@ -133,18 +133,7 @@
                         </a>
                     </div>
                 </div>  --}}
-                {{--  <div class="col-md-2">
-                    <div class="card subir">
 
-                        <a href="{{ route('urgencia.adminstrativo.mis.enfermeras') }}">
-                            <div class="card-body text-center" style="cursor:pointer">
-                                <img class="wid-60 text-center" src="{{ asset('images/iconos/agenda.svg') }}">
-                                <h5 class="mt-1 mb-0">Mis Enfermeras</h5>
-                            </div>
-                        </a>
-
-                    </div>
-                </div>  --}}
                 <div class="col-md-3">
                     <div class="card subir">
 

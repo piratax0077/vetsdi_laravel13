@@ -1,5 +1,5 @@
 {{-- @extends('template.otros_profesionales.template_fono') --}}
-@extends('template.laboratorio.laboratorio_asistente.template')
+@extends('template.asistente_unificado.template')
 
 @section('page-style')
     <style type="text/css">

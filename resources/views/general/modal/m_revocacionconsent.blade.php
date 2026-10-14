@@ -296,7 +296,7 @@
                 {
                     swal({
                         title: "Revocación de Consentimiento Informado.",
-                        text: 'Revocación enviada exitosamente.',
+                        text: data.msj,
                         icon: "success",
                     });
                     limpiar_revocacion();

@@ -1,4 +1,4 @@
-@extends('template.asistente_adm_cm.template')
+@extends('template.asistente_unificado.template')
 @section('content')
 @include('app.asistente_adm_cm.modal_adm.datos_banco')
 @include('app.asistente_adm_cm.modal_adm.horario_usuario')

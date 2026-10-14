@@ -22,7 +22,7 @@
             <!--CIERRE: CONTRASEÑA PERSONAL-->
             <!--(EDITAR)CONTRASEÑA PERSONAL-->
             <div class="card-body border-top pass_personal collapse" id="pass_personal_2">
-                <form method="get" action="{{ route('perfil.cambio_contrasena')}}" id="form_cambio_contrasena_perfil" name="form_cambio_contrasena_perfil">
+                <form method="post" action="{{ route('perfil.usuario.contrasena')}}" id="form_cambio_contrasena_perfil" name="form_cambio_contrasena_perfil">
                     @csrf
                     <input type="hidden" name="contrasena_mail" id="contrasena_mail" value="{{ Auth::user()->email }}">
                     <div class="form-row">

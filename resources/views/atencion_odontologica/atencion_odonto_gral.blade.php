@@ -124,7 +124,11 @@
                     <div class="tab-content" id="at-od_impl">
                         <!--Atender paciente-->
                         <div class="tab-pane fade show active" id="atender" role="tabpanel" aria-labelledby="atender-tab">
-                            @include('atencion_odontologica.secciones_especialidad.ficha_od_general')
+                            @if(isset($mascota) && $mascota)
+                                @include('atencion_odontologica.veterinaria.ficha')
+                            @else
+                                @include('atencion_odontologica.secciones_especialidad.ficha_od_general')
+                            @endif
                         </div>
                         <!--Licencia-->
                          <div class="tab-pane fade show" id="licencia" role="tabpanel" aria-labelledby="licencia-tab">

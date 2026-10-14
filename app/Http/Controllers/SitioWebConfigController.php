@@ -19,6 +19,7 @@ class SitioWebConfigController extends Controller
             'sitioWeb.lugares',
             'lugaresAtencion',
         ])->findOrFail(Auth::id());
+        $this->autorizarConfiguracion($usuario);
         $sitio = $this->sitioDe($usuario);
         $sitio->sincronizarLugaresConectados();
         $sitio->load('lugares');
@@ -35,6 +36,7 @@ class SitioWebConfigController extends Controller
     public function guardar(Request $request)
     {
         $usuario = User::with(['profesional.Especialidad', 'profesional.TipoEspecialidad', 'institucion', 'sitioWeb'])->findOrFail(Auth::id());
+        $this->autorizarConfiguracion($usuario);
 
         $datos = $request->validate([
             'titulo' => 'required|string|max:160',
@@ -101,7 +103,9 @@ class SitioWebConfigController extends Controller
 
         $profesional = $usuario->profesional;
         $institucion = $usuario->institucion;
-        $esClinica = $usuario->hasRole(['Institucion', 'Adm_Institucion']) && !$profesional;
+        $esClinica = $institucion !== null
+            && $usuario->hasAnyRole(['Institucion', 'Adm_Institucion', 'AdministradorLaboratorio'])
+            && !$profesional;
 
         $titulo = $profesional
             ? trim($profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos)
@@ -137,5 +141,14 @@ class SitioWebConfigController extends Controller
             ->whereIn('id', $ids)
             ->orderBy('nombre')
             ->get();
+    }
+
+    private function autorizarConfiguracion(User $usuario): void
+    {
+        $esProfesional = $usuario->profesional !== null && $usuario->hasRole('Profesional');
+        $esInstitucion = $usuario->institucion !== null
+            && $usuario->hasAnyRole(['Institucion', 'Adm_Institucion', 'AdministradorLaboratorio']);
+
+        abort_unless($esProfesional || $esInstitucion, 403);
     }
 }

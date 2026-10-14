@@ -1,18 +1,11 @@
 @php
     $pacientePeriodontal = $mascota ?? $paciente ?? null;
-    $especiePeriodontal = strtolower(trim((string) (
-        optional(optional($pacientePeriodontal)->especieMascota)->nombre
-        ?? optional($pacientePeriodontal)->especie
-        ?? ''
-    )));
-    $esFelinoPeriodontal = str_contains($especiePeriodontal, 'felin') || str_contains($especiePeriodontal, 'gato');
-    $tipoPeriodontal = $esFelinoPeriodontal ? 'Felino' : 'Canino';
-    $piezasSuperioresPeriodontal = $esFelinoPeriodontal
-        ? [109,108,107,106,104,103,102,101,201,202,203,204,206,207,208,209]
-        : [110,109,108,107,106,105,104,103,102,101,201,202,203,204,205,206,207,208,209,210];
-    $piezasInferioresPeriodontal = $esFelinoPeriodontal
-        ? [409,408,407,404,403,402,401,301,302,303,304,307,308,309]
-        : [411,410,409,408,407,406,405,404,403,402,401,301,302,303,304,305,306,307,308,309,310,311];
+    $especiePeriodontal = \App\Support\DenticionVeterinaria::especie($mascota);
+    $esFelinoPeriodontal = $especiePeriodontal === 'felino';
+    $tipoPeriodontal = ucfirst($especiePeriodontal);
+    $arcadasPeriodontales = \App\Support\DenticionVeterinaria::arcadas($especiePeriodontal);
+    $piezasSuperioresPeriodontal = $arcadasPeriodontales['superior'];
+    $piezasInferioresPeriodontal = $arcadasPeriodontales['inferior'];
     $mascotaIdPeriodontal = (int) (request('id_mascota') ?: optional($pacientePeriodontal)->id);
     $fichaIdPeriodontal = (int) ($id_ficha_atencion ?? request('id_ficha_atencion') ?? 0);
     $registrosPeriodontales = collect();
@@ -106,14 +99,17 @@
     const form = document.getElementById('pv-form');
     if (!form) return;
     const campo = id => document.getElementById(id);
-    const calcularInsercion = () => campo('pv-insercion').value = (parseInt(campo('pv-profundidad').value || 0) + parseInt(campo('pv-recesion').value || 0));
-    ['pv-profundidad','pv-recesion'].forEach(id => campo(id).addEventListener('input', calcularInsercion));
-
-    document.querySelectorAll('#periodonto-veterinario .pv-tooth').forEach(button => button.addEventListener('click', function () {
+    const calcular = () => campo('pv-insercion').value = Number(campo('pv-profundidad').value || 0) + Number(campo('pv-recesion').value || 0);
+    let guardando = null;
+    ['pv-profundidad','pv-recesion'].forEach(id => campo(id).addEventListener('input', calcular));
+    form.addEventListener('input', () => form.dataset.modificado = '1');
+    form.addEventListener('change', () => form.dataset.modificado = '1');
+    document.querySelectorAll('#periodonto-veterinario .pv-tooth').forEach(button => button.addEventListener('click', async function () {
+        if (guardando || campo('pv-pieza').value === this.dataset.pieza) return;
+        if (form.dataset.modificado === '1') { try { await guardar(); } catch (_) { return; } }
         document.querySelectorAll('#periodonto-veterinario .pv-tooth').forEach(item => item.classList.remove('active'));
         this.classList.add('active');
-        const pieza = String(this.dataset.pieza);
-        const dato = registros[pieza] || {};
+        const pieza = String(this.dataset.pieza), dato = registros[pieza] || {};
         campo('pv-pieza').value = pieza;
         campo('pv-pieza-label').textContent = pieza;
         campo('pv-profundidad').value = dato.profundidad ?? 0;
@@ -124,30 +120,37 @@
         campo('pv-placa').checked = Number(dato.placa || 0) === 1;
         campo('pv-observaciones').value = dato.observaciones || '';
         campo('pv-guardar').disabled = false;
-        calcularInsercion();
+        form.dataset.modificado = '0'; calcular();
     }));
-
-    form.addEventListener('submit', async function (event) {
-        event.preventDefault();
-        if (!campo('pv-pieza').value) return;
-        const boton = campo('pv-guardar');
-        boton.disabled = true;
-        try {
-            const response = await fetch(@json(route('veterinaria.odontologia.periodonto.guardar')), {
-                method: 'POST', headers: {'Accept':'application/json','X-Requested-With':'XMLHttpRequest'}, body: new FormData(form)
-            });
-            const data = await response.json();
-            if (!response.ok || Number(data.estado) !== 1) throw new Error(data.message || data.msj || 'No fue posible guardar.');
-            const pieza = campo('pv-pieza').value;
-            registros[pieza] = Object.fromEntries(new FormData(form).entries());
-            registros[pieza].sangrado = campo('pv-sangrado').checked ? 1 : 0;
-            registros[pieza].placa = campo('pv-placa').checked ? 1 : 0;
-            document.querySelector('#periodonto-veterinario .pv-tooth[data-pieza="' + pieza + '"]').classList.add('has-data');
-            if (window.Swal) Swal.fire({icon:'success', title:'Evaluación guardada', text:data.msj || 'Los datos periodontales fueron actualizados.', timer:1800, showConfirmButton:false});
-            else alert(data.msj || 'Evaluación guardada.');
-        } catch (error) {
-            if (window.Swal) Swal.fire({icon:'error', title:'No se pudo guardar', text:error.message}); else alert(error.message);
-        } finally { boton.disabled = false; }
-    });
+    function guardar() {
+        if (guardando) return guardando;
+        if (!campo('pv-pieza').value || !form.reportValidity()) return Promise.reject(new Error('Seleccione una pieza y revise los datos periodontales.'));
+        const datos = new FormData(form), pieza = campo('pv-pieza').value;
+        const valores = Object.fromEntries(datos.entries());
+        valores.sangrado = campo('pv-sangrado').checked ? 1 : 0;
+        valores.placa = campo('pv-placa').checked ? 1 : 0;
+        Array.from(form.elements).forEach(control => control.disabled = true);
+        guardando = (async function () {
+            try {
+                const response = await fetch(@json(route('veterinaria.odontologia.periodonto.guardar')), {method:'POST', headers:{Accept:'application/json','X-Requested-With':'XMLHttpRequest'},body:datos});
+                const data = await response.json();
+                if (!response.ok || Number(data.estado) !== 1) throw new Error(Object.values(data.errors || {}).flat().join('\n') || data.message || 'No fue posible guardar.');
+                registros[pieza] = valores; form.dataset.modificado = '0';
+                document.querySelector('#periodonto-veterinario .pv-tooth[data-pieza="'+pieza+'"]').classList.add('has-data');
+                return data;
+            } catch (error) {
+                const aviso = document.getElementById('vet-dental-error');
+                if (aviso) {aviso.textContent=error.message;aviso.hidden=false;} else alert(error.message);
+                throw error;
+            } finally { Array.from(form.elements).forEach(control => control.disabled = false); }
+        })();
+        window.odontologiaVetPendientes ||= new Set();
+        window.odontologiaVetPendientes.add(guardando);
+        const actual=guardando;
+        actual.then(() => {window.odontologiaVetPendientes.delete(actual);guardando=null;}, () => {window.odontologiaVetPendientes.delete(actual);guardando=null;});
+        return actual;
+    }
+    window.guardarPeriodontoVeterinario = guardar;
+    form.addEventListener('submit', event => {event.preventDefault();guardar().catch(() => {});});
 })();
 </script>

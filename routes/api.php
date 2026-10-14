@@ -65,18 +65,13 @@ Route::post('/antecedente/estado',       [AntecedenteController::class, 'estado'
 
 //PROFESIONAL PROVISORIO
 Route::post('/profesional_provisorio/registrar',    [ProfesionalProvisorioController::class, 'registrar_profesional_provisorio']);
-Route::post('/profesional_provisorio/modificar',    [ProfesionalProvisorioController::class, 'modificar_profesional_provisorio']);
 
 //DOCUMENTOS
 Route::get('/documento/ver_registro_recetas', [DocumentoController::class, 'verRegistrosRecetas']);
 Route::get('/documento/ver_receta_pdf', [DocumentoController::class, 'verRecetaPDF']);
 Route::get('/documento/ver_registro_recetas/{id_paciente}', [DocumentoController::class, 'verRegistrosRecetas']);
 Route::get('/documento/ver_receta_pdf/{id}', [DocumentoController::class, 'verRecetaPDF']);
-Route::get('/documento/ver_examen_pdf/{id}', [DocumentoController::class, 'verExamenPDF']);
 Route::get('/documento/ver_resultado_examen_pdf/{id}', [DocumentoController::class, 'verResultadoExamenPDF']);
-Route::get('/documento/ver_resultado_octavo_par_pdf/{id}', [DocumentoController::class, 'verOctavoParPDF']);
-Route::get('/documento/ver_licencia_pdf/{id}', [DocumentoController::class, 'verLicenciaPDF']);
-Route::get('/documento/ver_certificado_pdf/{id}', [DocumentoController::class, 'verCertificadoPDF']);
 Route::get('/documento/ver_registro_recetas_rut', [DocumentoController::class, 'verRegistrosRecetasRut']);
 Route::get('/documento/ver_registro_recetas_rut/{rut}', [DocumentoController::class, 'verRegistrosRecetasRut']);
 Route::get('/documento/ver_registro_recetas_id', [DocumentoController::class, 'verRegistrosRecetasId']);
@@ -108,15 +103,9 @@ Route::post('/buscar_profesionales_cm',[App\Http\Controllers\CentroMedicoControl
 Route::post('/buscar_especialidades_cm',[App\Http\Controllers\CentroMedicoController::class, 'buscarEspecialidades'])->name('api.buscar_especialidades_cm');
 Route::post('/buscar_sub_especialidades_cm',[App\Http\Controllers\CentroMedicoController::class, 'buscarSubEspecialidades'])->name('api.buscar_sub_especialidades_cm');
 Route::post('/buscar_profesionales_cm_todos',[App\Http\Controllers\CentroMedicoController::class, 'buscarProfesionales'])->name('api.buscar_profesionales_cm_todos');
-Route::get('/obtener_datos_paciente_por_rut_agenda',[App\Http\Controllers\CentroMedicoController::class, 'obtenerDatosPacientePorRut'])->name('api.obtener_datos_paciente_por_rut_agenda');
-Route::post('/confirmar_reserva', [App\Http\Controllers\CentroMedicoController::class, 'confirmarReserva'])->name('api.confirmar_reserva');
-Route::post('/agendar_hora_paciente_publico', [App\Http\Controllers\CentroMedicoController::class, 'agendarHoraPacientePublico'])->name('api.agendar_hora_paciente_publico');
 Route::get('/dame_previsiones', [App\Http\Controllers\CentroMedicoController::class, 'damePrevisiones'])->name('api.dame_previsiones');
 Route::post('/buscar_examenes_cm',[App\Http\Controllers\CentroMedicoController::class, 'buscarExamenes'])->name('api.buscar_examenes_cm');
 Route::post('/buscar_sucursales_laboratorio',[App\Http\Controllers\CentroMedicoController::class, 'buscarSucursalesLaboratorio'])->name('api.buscar_sucursales_laboratorio');
-Route::post('/buscar_profesionales_examen',[App\Http\Controllers\CentroMedicoController::class, 'buscarProfesionalesExamen'])->name('api.buscar_profesionales_examen');
-Route::get('/horas_examen_profesional_lugar_atencion', [App\Http\Controllers\CentroMedicoController::class, 'horasExamenProfesionalLugarAtencion'])->name('api.horas_examen_profesional_lugar_atencion');
-Route::post('/confirmar_reserva_examen', [App\Http\Controllers\CentroMedicoController::class, 'confirmarReservaExamen'])->name('api.confirmar_reserva_examen');
 /**jwt test */
 Route::get('/jwt/generar', [JitsiController::class, 'generarJWT_r']);
 Route::get('/jwt/generar/meet', [JitsiController::class, 'jitsiRegistroMeet_r']);
@@ -223,8 +212,6 @@ Route::get('/paciente/dame_ciudades', [App\Http\Controllers\AppPacienteControlle
 //Route::get('/getMisPacientes', [App\Http\Controllers\UtilsController::class, 'getPacientes']);
 
 // Rutas para aprobación/rechazo de rendición desde email (sin middleware de autenticación)
-Route::get('/laboratorio/aprobar-rendicion/{id_rendicion}/{email_encoded}', [App\Http\Controllers\LaboratorioController::class, 'aprobarRendicionEmail'])->name('laboratorio.aprobar-rendicion-email');
-Route::get('/laboratorio/rechazar-rendicion/{id_rendicion}/{email_encoded}', [App\Http\Controllers\LaboratorioController::class, 'rechazarRendicionEmail'])->name('laboratorio.rechazar-rendicion-email');
 
 Route::get('/Ficha_atencion_sub_tipo', [App\Http\Controllers\ficha_atencionController::class, 'get_sub_tipo_examen']);
 

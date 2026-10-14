@@ -23,7 +23,7 @@
 
     <!--Estilos base-->
     <link rel="stylesheet" href='{{ asset('css/style.css') }}'/>
-	<link rel="stylesheet" type="text/css" href="{{ asset('css/nav_azul_sm.css') }}?t={{ time() }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/nav_azul_sm.css') }}?t={{ time() }}">
     <!--Estilos escritorios-->
     <link rel="stylesheet" href='{{ asset('css/escritorios.css') }}'/>
 
@@ -215,10 +215,10 @@
 
             })
         }
-		function liquidacion_prof_cm() {
+        function liquidacion_prof_cm() {
             $('#liquidacion').modal('show');
         }
-		function liquidacion_profesional() {
+        function liquidacion_profesional() {
             $('#m_remuneraciones').modal('show');
         }
 
@@ -383,70 +383,9 @@
             @endif
         });
 
-        function finalizar_atencion(nombre) {
-    swal({
-        title: "¿Está seguro de finalizar la atención de " + nombre + " ?",
-        text: "Una vez finalizada la atención no podrá realizar cambios",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    })
-    .then((willDelete) => {
-        if (willDelete) {
-            swal({
-                title: "Destino del paciente",
-                text: "Escribe el destino del paciente:",
-                content: "input", // Esto permite que el swal tenga un input de texto
-                button: {
-                    text: "Confirmar",
-                    closeModal: false,
-                },
-            })
-            .then((destino) => {
-                if (!destino) throw null; // Si no se ingresa un destino, no hacer nada
-                // Aquí puedes llamar a tu función AJAX, pasando el destino como parámetro
-                finalizar_atencion_ajax(destino);
-            })
-            .catch(err => {
-                if (err) {
-                    swal("Oh no!", "Ha ocurrido un error al procesar tu solicitud.", "error");
-                } else {
-                    swal.stopLoading();
-                    swal.close();
-                }
-            });
-        }
-    });
-}
 
-function finalizar_atencion_ajax(destino){
-        console.log(destino);
-       let id_paciente = dame_id_paciente();
-         $.ajax({
-                url: "{{ route('profesional.finalizar_atencion') }}",
-                type: 'POST',
-                data: {
-                 _token: "{{ csrf_token() }}",
-                 id_paciente: id_paciente,
-                destino: destino
-                },
-                success: function(response){
-                    console.log(response);
-                 if(response == 'OK'){
-                      swal("Atención finalizada", {
-                            icon: "success",
-                      }).then((value) => {
-                        console.log('finalizar_atencion_ajax');
-                      });
-                 }else{
-                      swal("Error", "No se pudo finalizar la atención", "error");
-                 }
-                },
-                error: function(){
-                 swal("Error", "No se pudo finalizar la atención", "error");
-                }
-          });
-    }
+
+
 
     function formatoRut(rut)
         {
@@ -534,7 +473,7 @@ function finalizar_atencion_ajax(destino){
             $('#info_profesional').modal('show');
         }
 
-	</script>
+    </script>
 
     {{--
     <script>

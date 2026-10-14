@@ -1,4 +1,4 @@
-@extends('template.asistente_cm.template')
+@extends('template.asistente_unificado.template')
 @section('content')
 
 <!--Container Completo-->

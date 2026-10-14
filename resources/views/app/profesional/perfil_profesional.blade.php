@@ -108,23 +108,23 @@
                                             <div class="form-row">
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Rut</label>
-                                                    <div>{{ $profesional->rut }}</div>
+                                                    <div id="ver_rut">{{ $profesional->rut }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Nombres</label>
-                                                    <div>{{ $profesional->nombre }} </div>
+                                                    <div id="ver_nombre">{{ $profesional->nombre }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Primer Apellido</label>
-                                                    <div>{{ $profesional->apellido_uno }}</div>
+                                                    <div id="ver_apellido_uno">{{ $profesional->apellido_uno }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Segundo Apellido</label>
-                                                    <div>{{ $profesional->apellido_dos }}</div>
+                                                    <div id="ver_apellido_dos">{{ $profesional->apellido_dos }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Sexo</label>
-                                                    <div>
+                                                    <div id="ver_sexo">
                                                         @if ($profesional->sexo == 'M')
                                                             Masculino
                                                         @elseif ($profesional->sexo == 'F')
@@ -136,23 +136,23 @@
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Profesión</label>
-                                                    <div>{{ $txt_especialidades }}</div>
+                                                    <div id="ver_id_especialidad">{{ $txt_especialidades }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Especialidad</label>
-                                                    <div>{{ $txt_tipo_especialidades }}</div>
+                                                    <div id="ver_id_tipo_especialidad">{{ $txt_tipo_especialidades }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Sub Especialidad</label>
-                                                    <div>{{ $txt_sub_tipo_especialidades }}</div>
+                                                    <div id="ver_id_sub_tipo_especialidad">{{ $txt_sub_tipo_especialidades }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Número de colegio</label>
-                                                    <div>{{ $profesional->num_colegio }}</div>
+                                                    <div id="ver_num_colegio">{{ $profesional->num_colegio }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Tipo de atención</label>
-                                                    <div>
+                                                    <div id="ver_id_tipo_atencion">
                                                         @if ($profesional->id_tipo_atencion)
                                                             @switch($profesional->id_tipo_atencion)
                                                                 @case(1)
@@ -189,8 +189,7 @@
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Rut</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            value="{{ $profesional->rut }}" name="editar_rut"
-                                                            value="editar_rut">
+                                                            value="{{ $profesional->rut }}" name="editar_rut" id="editar_rut">
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Nombres</label>
@@ -214,7 +213,7 @@
                                                         <label class="floating-label-activo">Sexo</label>
                                                         <select class="form-control form-control-sm" id="editar_sexo"
                                                             name="editar_sexo">
-                                                            <option>Seleccione</option>
+                                                            <option value="">Seleccione</option>
                                                             <option value="M"
                                                                 @if ($profesional->sexo == 'M') selected @endif>Masculino
                                                             </option>
@@ -230,7 +229,7 @@
                                                         <select class="form-control form-control-sm" id="id_especialidad"
                                                             name="id_especialidad"
                                                             onchange="carga_tipo_especialidad('id_especialidad', 'id_tipo_especialidad', '');">
-                                                            <option>Seleccione</option>
+                                                            <option value="">Seleccione</option>
                                                             @foreach ($especialidades as $especialidad)
                                                                 @if ($especialidad->id == $profesional->id_especialidad)
                                                                     <option value="{{ $especialidad->id }}" selected>
@@ -249,7 +248,7 @@
                                                         <select class="form-control form-control-sm"
                                                             id="id_tipo_especialidad" name="id_tipo_especialidad"
                                                             onchange="carga_sub_tipo_especialidad('id_tipo_especialidad', 'id_sub_tipo_especialidad', '');">
-                                                            <option>Seleccione</option>
+                                                            <option value="">Seleccione</option>
                                                             @foreach ($tipo_especialidades as $tipo)
                                                                 @if ($tipo->id == $profesional->id_tipo_especialidad)
                                                                     <option value="{{ $tipo->id }}" selected>
@@ -284,7 +283,7 @@
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Número de colegio</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="editar_numero_colegio" name="editar_numero_colegio"
+                                                            id="num_colegio" name="num_colegio"
                                                             value="{{ $profesional->num_colegio }}">
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -342,11 +341,11 @@
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="font-weight-bolder ml-0 mb-0">Correo
                                                             electrónico</label>
-                                                        <div>{{ $profesional->email }}</div>
+                                                        <div id="ver_email">{{ $profesional->email }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="font-weight-bolder ml-0 mb-0">Teléfono</label>
-                                                        <div>{{ $profesional->telefono_uno }}</div>
+                                                        <div id="ver_telefono_uno">{{ $profesional->telefono_uno }}</div>
                                                     </div>
                                                 </div>
                                             </form>
@@ -403,18 +402,18 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="font-weight-bolder ml-0 mb-0">Región</label>
-                                                        <div>{{ $direccion_txt_region_profesional }}</div>
+                                                        <div id="ver_region">{{ $direccion_txt_region_profesional }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="font-weight-bolder ml-0 mb-0">Comuna</label>
-                                                        <div>{{ $direccion_txt_ciudad_profesional }}</div>
+                                                        <div id="ver_ciudad">{{ $direccion_txt_ciudad_profesional }}</div>
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                         <label class="font-weight-bolder ml-0 mb-0">Dirección</label>
-                                                        <div>
-                                                            {{ $profesional->Direccion()->first()->direccion . ' ' . $profesional->Direccion()->first()->numero_dir }}
+                                                        <div id="ver_direccion">
+                                                            {{ $profesional->Direccion()->first()?->direccion . ' ' . $profesional->Direccion()->first()?->numero_dir }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -434,7 +433,7 @@
                                                             @if (isset($regiones))
                                                                 @foreach ($regiones as $region)
                                                                     <option value="{{ $region->id }}"
-                                                                        @if ($region->id == $profesional->Direccion()->first()->Ciudad()->first()->Region()->first()->id) selected @endif>
+                                                                        @if ($region->id == $direccion_id_region_profesional) selected @endif>
                                                                         {{ $region->nombre }}
                                                                     </option>
                                                                 @endforeach
@@ -461,14 +460,14 @@
                                                         <label class="floating-label-activo">Dirección</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             placeholder="Dirección" name="perfil_dire" id="perfil_dire"
-                                                            value="{{ $profesional->Direccion()->first()->direccion }}">
+                                                            value="{{ $profesional->Direccion()->first()?->direccion }}">
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-3 col-lg-3 col-xl-3">
                                                         <label class="floating-label-activo">Nº</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             placeholder="n&uacute;mero #" name="perfil_numero_dir"
                                                             id="perfil_numero_dir"
-                                                            value="{{ $profesional->Direccion()->first()->numero_dir }}">
+                                                            value="{{ $profesional->Direccion()->first()?->numero_dir }}">
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
@@ -516,7 +515,7 @@
                                                 <div
                                                     class="card-header d-flex align-items-center justify-content-between bg-info">
                                                     <h5 class="mb-0 text-white">
-                                                        {{ $value_academico->TipoAntecedenteAcademico->nombre }}</h5>
+                                                        {{ $value_academico->TipoAntecedenteAcademico?->nombre ?? 'Antecedente académico' }}</h5>
                                                     <div class="float-md-right d-inline">
                                                         <button type="button" class="btn btn-light btn-icon "
                                                             data-toggle="collapse"
@@ -662,6 +661,7 @@
 @endsection
 
 @section('page-script')
+@include('general.seccion_perfil.guardar_perfil')
     <script>
         function eliminar_info_academica(id)
         {

@@ -5,13 +5,13 @@
 				<div class="main-menu-header">
 					<img class="img-radius" src="{{ asset('images/iconos/cm-perfiles.png') }}" alt="Administrador centro médico">
 					<div class="user-details">
-						<div id="more-details">Nombre Centro Médico <i class="fa fa-caret-down"></i></div>
+						<div id="more-details">{{ $institucion->nombre ?? Auth::user()->name }} <i class="fa fa-caret-down"></i></div>
 					</div>
 				</div>
 				<div id="nav-user-link">
 					<ul class="list-inline">
 						<li class="list-inline-item">
-							<a href="perfil_cm.php" data-toggle="tooltip" title="Mi Perfil Centro Médico">
+							<a href="{{ route('adm_cm.perfil_cm') }}" data-toggle="tooltip" title="Mi Perfil Centro Médico">
 								<i class="feather icon-user"></i>
 							</a>
 						</li>
