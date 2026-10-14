@@ -22,23 +22,21 @@
                         <h5 class="f-26 d-block mb-0">Mascotas y tutores</h5>
                     </div>
                     <div class="ml-auto">
-                        <button type="button" class="btn btn-icon btn-purple js-tooltip-accion" onclick="enviar_difusion_pacientes()"
+                        <button type="button" class="btn  btn-purple js-tooltip-accion" onclick="enviar_difusion_pacientes()"
                             title="Enviar mensaje de difusión" aria-label="Enviar mensaje de difusión" data-placement="left">
-                            <i class="feather icon-mail"></i>
+                            <i class="feather icon-mail"></i> Enviar mensaje de difusión
                         </button>
                     </div>
                 </div>
-            </div>
-
-            <!-- Tabla mis clientes -->
-            <!--Este formulario muestra los pacientes que alguna vez atendió el profesional (relacion: id_paciente/id_profesional)-->
-            <div class="col-sm-12">
+                <!-- Tabla mis clientes -->
+            <!--Este formulario muestra los pacientes (tutores mascotas) que alguna vez atendió el profesional (relacion: id_paciente/id_profesional)-->
+            <div class="col-12">
                 <div class="card">
                     <div class="card-body">
                         <form method="GET" action="{{ route('profesional.pacientes') }}" class="mb-4">
                             <div class="form-row align-items-end">
                                 <div class="col-md-4 mb-2">
-                                    <label class="floating-label-activo-sm mb-0">Centro activo</label>
+                                    <label class="floating-label-activo-sm mb-0">Lugar de atención</label>
                                     <select name="contexto" class="form-control form-control-sm">
                                         @forelse ($contextosCentro as $contexto)
                                             <option value="{{ $contexto['key'] ?? '' }}" @selected(($contextoActivo['key'] ?? '') === ($contexto['key'] ?? ''))>
@@ -50,7 +48,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6 mb-2">
-                                    <label class="floating-label-activo-sm mb-0">Buscador</label>
+                                    <label class="floating-label-activo-sm mb-0">Buscar</label>
                                     <input
                                         type="text"
                                         name="q"
@@ -59,8 +57,8 @@
                                         placeholder="Buscar por responsable, RUT o nombre de mascota">
                                 </div>
                                 <div class="col-md-2 mb-2">
-                                    <button class="btn btn-icon btn-info js-tooltip-accion" type="submit" title="Buscar" aria-label="Buscar">
-                                        <i class="feather icon-search"></i>
+                                    <button class="btn btn-sm btn-block btn-info js-tooltip-accion" type="submit" title="Buscar" aria-label="Buscar">
+                                        <i class="feather icon-search"></i> Buscar
                                     </button>
                                 </div>
                             </div>
@@ -78,7 +76,7 @@
                                                 <th>Raza</th>
                                                 <th>Convenio</th>
                                                 <th>Chip-Tatuaje</th>
-                                                <th>Centro</th>
+                                                <th>Lugar</th>
                                                 <th>Acción</th>
                                             </tr>
                                         </thead>
@@ -152,7 +150,7 @@
                                                                 <i class="fas fa-paw"></i>
                                                             </button>
                                                             <a href="{{ route('profesional.mascota.ficha_veterinaria', ['mascota' => $mascota->id]) }}"
-                                                                class="btn btn-icon btn-purple js-tooltip-accion"
+                                                                class="btn btn-icon btn-warning js-tooltip-accion"
                                                                 title="Ver ficha veterinaria" aria-label="Ver ficha veterinaria">
                                                                 <i class="feather icon-file-text"></i>
                                                             </a>
@@ -162,7 +160,7 @@
                                                                     title="Revisar consultas anteriores" aria-label="Revisar consultas anteriores">
                                                                     <i class="feather icon-clock"></i>
                                                                 </a>
-                                                                <button type="button" class="btn btn-icon btn-warning js-tooltip-accion"
+                                                                <button type="button" class="btn btn-icon btn-purple js-tooltip-accion"
                                                                     onclick="enviar_mensaje_paciente({{ $responsable->id }})"
                                                                     title="Envíe un mensaje al tutor" aria-label="Envíe un mensaje al tutor">
                                                                     <i class="feather icon-mail"></i>
@@ -183,6 +181,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
         <!-- Cierre: Tabla mis pacientes -->

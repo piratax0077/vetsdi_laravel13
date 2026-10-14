@@ -41,10 +41,6 @@
                                 <dt>Diagnóstico</dt>
                                 <dd id="texto_diagnostico"></dd>
                             </div>
-                            <div class="ficha-previa-dato">
-                                <dt>Diagnóstico CIE-10</dt>
-                                <dd id="texto_cie_10"></dd>
-                            </div>
                         </dl>
                     </div>
 
@@ -253,12 +249,6 @@
         if(ficha_hipotesis_diagnostico != '' && ficha_hipotesis_diagnostico != '0' && ficha_hipotesis_diagnostico != 'null' && ficha_hipotesis_diagnostico != null)
         {
             $('#texto_diagnostico').html(''+ficha_hipotesis_diagnostico+'')
-        }
-
-        var ficha_diagnostico_ce10 = data.registros.diagnostico_ce10;
-        if(ficha_diagnostico_ce10 != '' && ficha_diagnostico_ce10 != '0' && ficha_diagnostico_ce10 != 'null' && ficha_diagnostico_ce10 != null)
-        {
-            $('#texto_cie_10').html(''+ficha_diagnostico_ce10+'')
         }
 
         var indicaciones = data.registros.indicaciones;

@@ -3,28 +3,11 @@
 <!--Container Completo-->
 <div class="pcoded-main-container">
     <div class="pcoded-content">
+        @include('template.partials.boton_volver', ['url' => route('paciente.dependiente.receta', ['id_dependiente_activo' => $id_dependiente_activo])])
         <!--Header-->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <div class="page-header-title">
-                            <h5 class="m-b-10 font-weight-bold">Mis Certificados</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ ROUTE('paciente.dependiente.home', ['id_dependiente_activo' => $id_dependiente_activo]) }}"
-                                    data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio"><i
-                                        class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{{ ROUTE('paciente.dependiente.receta', ['id_dependiente_activo' => $id_dependiente_activo]) }}"
-                                    data-toggle="tooltip" data-placement="top"
-                                    title="Volver a inicio de receta online">Receta Online</a></li>
-                            <li class="breadcrumb-item"><a
-                                    href="{{ ROUTE('paciente.dependiente.receta.certificado', ['id_dependiente_activo' => $id_dependiente_activo]) }}">Mis
-                                    Certificados</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <h5 class="f-26 d-inline">Mis certificados</h5>
             </div>
         </div>
         <!--Cierre: Header-->
@@ -33,23 +16,17 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-12">
-                                <h4 class="text-c-blue f-20 d-inline ml-4">Mis Certificados</h4>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
                             <div class="col-sm-6 col-md-12">
                                 <table id="tabla_certificado_paciente_ro"
                                     class="display table table-striped table-hover dt-responsive nowrap table-sm"
                                     style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th class="text-wrap text-center align-middle">Fecha</th>
-                                            <th class="text-center align-middle">Profesional</th>
-                                            <th class="text-center align-middle">Tipo de certificado</th>
-                                            <th class="text-center align-middle">Estado</th>
-                                            <th class="text-center align-middle">Certificado</th>
+                                            <th class="text-wrap text-left align-middle">Fecha</th>
+                                            <th class="text-left align-middle">Profesional</th>
+                                            <th class="text-left align-middle">Tipo de certificado</th>
+                                            <th class="text-left align-middle">Estado</th>
+                                            <th class="text-left align-middle">Certificado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -57,15 +34,15 @@
                                             @foreach( $fichas as $f )
                                                 @foreach( $f->licencias()->get() as $l)
                                                     <tr>
-                                                        <td class="text-wrap text-center align-middle">{{ \Carbon\Carbon::parse($l->created_at)->format('d/m/Y') }}</td>
-                                                        <td class="align-middle text-center">
+                                                        <td class="text-wrap text-left align-middle">{{ \Carbon\Carbon::parse($l->created_at)->format('d/m/Y') }}</td>
+                                                        <td class="align-middle text-left">
                                                             <strong>{{ $f->Profesional()->first()->nombre }} {{ $f->Profesional()->first()->apellido_uno }} {{ $f->Profesional()->first()->apellido_dos }} </strong>
                                                             <br>
                                                             {{ $f->Profesional()->first()->especialidad()->first()->txt_esp }}
                                                         </td>
-                                                        <td class="text-wrap text-center align-middle">{{ $l->diagnostico_principal }}</td>
-                                                        <td class="align-middle text-center">Enviado</td>
-                                                        <td class="text-center align-middle">
+                                                        <td class="text-wrap text-left align-middle">{{ $l->diagnostico_principal }}</td>
+                                                        <td class="align-middle text-left">Enviado</td>
+                                                        <td class="text-left align-middle">
                                                             <button type="button" class="btn btn-primary btn-sm"
                                                                 data-toggle="modal" data-target="#m_cons_ex">
                                                                 <i class="feather icon-file-plus"></i> Ver Certificado</button>

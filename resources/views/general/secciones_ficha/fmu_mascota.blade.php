@@ -1080,7 +1080,7 @@
             }, 280);
         }
 
-        $(document).on('click', '.fvu-ver-mas-info', function () {
+        $(document).on('click', '.fvu-ver-mas-info, .fvu-ver-mas-morado', function () {
             var tabSelector = $(this).data('fvu-tab');
             var $panel = $('#cabecera_info');
 
@@ -1225,7 +1225,8 @@
             });
         }
 
-        $('a[data-toggle="tab"][href="#fvu"], #fvu-tab').on('shown.bs.tab', recargarRegistrosSanitariosFvu);
+        // En la ficha de atención la pestaña de la FVU se llama #fmu
+        $('a[data-toggle="tab"][href="#fvu"], #fvu-tab, a[data-toggle="tab"][href="#fmu"], #fmu-tab').on('shown.bs.tab', recargarRegistrosSanitariosFvu);
         $(document).on('fvu:sanitarios-actualizados', function () {
             recargarRegistrosSanitariosFvu();
         });

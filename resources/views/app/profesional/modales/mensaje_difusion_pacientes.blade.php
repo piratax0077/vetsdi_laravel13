@@ -11,7 +11,7 @@
         <div class="modal-header modal-header-purple">
 
           <h5 class="modal-title" id="modalMensajeDifusionPacientesLabel">Mensaje difusión a responsables</h5>
-          <button type="button" class="close"data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Cerrar" onclick="$('#modalMensajeDifusionPacientes').modal('hide');"><span aria-hidden="true">×</span></button>
 
         </div>
 
@@ -31,7 +31,7 @@
 
                     <label class="floating-label-activo-sm" for="exampleFormControlTextarea1">Mensaje</label>
 
-                    <textarea class="form-control form-control-sm" id="exampleFormControlTextarea1_difusion" rows="3"></textarea>
+                    <textarea class="form-control form-control-sm" id="exampleFormControlTextarea1_difusion" rows="5"></textarea>
 
                 </div>
 

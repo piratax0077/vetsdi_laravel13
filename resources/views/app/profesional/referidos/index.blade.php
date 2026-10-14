@@ -1,6 +1,6 @@
 @extends('template.profesional.template')
 
-{{-- El enlace para volver va dentro de la portada --}}
+{{-- Esta pantalla va sin botón para volver --}}
 @section('sin_boton_volver', '1')
 
 @section('content')
@@ -28,9 +28,6 @@
 
             <section class="referidos-portada">
                 <div class="referidos-portada-texto">
-                    <a href="{{ route('profesional.home') }}" class="referidos-volver">
-                        <i class="feather icon-arrow-left" aria-hidden="true"></i> Volver a mi escritorio
-                    </a>
                     <h3><i class="fa fa-gift" aria-hidden="true"></i> Invita y gana con VET SDI</h3>
                     <p>Invita a colegas veterinarios o a centros veterinarios. Comparte por correo o WhatsApp, sigue cada incorporación y suma puntos cuando comiencen a utilizar la plataforma.</p>
                 </div>

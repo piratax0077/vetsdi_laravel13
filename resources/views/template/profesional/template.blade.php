@@ -5900,10 +5900,13 @@
                 "bPaginate": true,
             });
 
-            $('#table_atenciones_profesional').DataTable({
-                responsive: true,
-                "bPaginate": false,
-            });
+            // Algunas vistas ya inicializan esta tabla por su cuenta; se evita inicializarla dos veces
+            if (!$.fn.DataTable.isDataTable('#table_atenciones_profesional')) {
+                $('#table_atenciones_profesional').DataTable({
+                    responsive: true,
+                    "bPaginate": false,
+                });
+            }
 
             $('#tabla_atenciones_previas_receta').DataTable({
                 responsive: true,

@@ -4,34 +4,22 @@
 <div class="pcoded-main-container">
     <div class="pcoded-content">
         <!--Header-->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-<ul class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{ ROUTE('paciente.home') }}" data-toggle="tooltip"
-                                    data-placement="top" title="Volver a mi escritorio"><i
-                                        class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{{ ROUTE('paciente.mis_profesionales') }}">Registro de vacunas</a></li>
-                        </ul>
-                    </div>
+        <div class="row">
+             <div class="col-md-12 mb-3 encabezado-pagina">
+                <div>
+                    <h5 class="f-26 d-block mb-0">Registro de vacunas</h5>
+                </div>
+                <div class="ml-auto">
+                    <button type="button" class="btn  btn-info " data-toggle="modal" data-target="#modal_vacuna">
+                            <i class="feather icon-plus"></i> Agregar registro
+                    </button>
                 </div>
             </div>
         </div>
         <!--Cierre: Header-->
         <div class="row">
             <div class="col-12">
-                <!--Card Nav Pills-->
                 <div class="card">
-                    <div class="card-header bg-info">
-                        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                            <h4 class="f-20 text-white mb-2 mb-md-0">Registro de vacunas</h4>
-                            <button type="button" class="btn btn-outline-light rounded-pill px-4 py-2" data-toggle="modal" data-target="#modal_vacuna">
-                                <i class="feather icon-plus"></i> Añadir registro
-                            </button>
-                        </div>
-                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="tabla_recetas_paciente_ro"
@@ -77,6 +65,22 @@
 </div>
 <!--Cierre: Container Completo-->
 
+@php
+    // Datos de la mascota que se precargan en el modal
+    $especieNombreMascota = trim((string) (optional($mascota->especieMascota)->nombre ?: ($mascota->otra_especie ?: $mascota->especie)));
+    $especieNormalizada = \Illuminate\Support\Str::lower(\Illuminate\Support\Str::ascii($especieNombreMascota));
+    if ($especieNombreMascota === '') {
+        $especieValorMascota = '';
+    } elseif (\Illuminate\Support\Str::startsWith($especieNormalizada, ['canin', 'perr'])) {
+        $especieValorMascota = 'canina';
+    } elseif (\Illuminate\Support\Str::startsWith($especieNormalizada, ['felin', 'gat'])) {
+        $especieValorMascota = 'felina';
+    } else {
+        $especieValorMascota = 'otra';
+    }
+    $nacimientoMascota = !empty($mascota->fecha_nacimiento) ? \Carbon\Carbon::parse($mascota->fecha_nacimiento)->format('Y-m-d') : '';
+@endphp
+
 <div class="modal fade" id="modal_vacuna" tabindex="-1" role="dialog" aria-labelledby="modal_vacuna_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
@@ -88,40 +92,46 @@
                 <div class="alert alert-info py-2">
                     Registre aquí una vacuna administrada a <strong>{{ $mascota->nombre ?? 'su mascota' }}</strong>.
                 </div>
-                <form id="form_vacuna_modal">
+                <form id="form_vacuna_modal" novalidate>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label class="floating-label-activo-sm">Fecha de la dosis *</label>
-                            <input type="date" class="form-control form-control-sm" id="vac_fecha_dosis_modal" required>
+                            <input type="date" class="form-control form-control-sm campo-obligatorio" id="vac_fecha_dosis_modal" required>
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="floating-label-activo-sm">Próxima dosis</label>
-                            <input type="date" class="form-control form-control-sm" id="vac_proxima_dosis_modal">
+                            <label class="floating-label-activo-sm">Próxima dosis *</label>
+                            <input type="date" class="form-control form-control-sm campo-obligatorio" id="vac_proxima_dosis_modal" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="floating-label-activo-sm">Vacuna *</label>
-                        <input type="text" class="form-control form-control-sm" id="vac_nombre_modal" maxlength="255" placeholder="Ej.: Antirrábica" required>
+                        <input type="text" class="form-control form-control-sm campo-obligatorio" id="vac_nombre_modal" maxlength="255" placeholder="Ej.: Antirrábica" required>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-7">
-                            <label class="floating-label-activo-sm">Edad al momento de la dosis</label>
-                            <input type="text" class="form-control form-control-sm" id="vac_edad_modal" maxlength="120" placeholder="Ej.: 1 año 3 meses">
+                            <label class="floating-label-activo-sm">Edad al momento de la dosis *</label>
+                            <input type="text" class="form-control form-control-sm campo-obligatorio" id="vac_edad_modal" maxlength="120" placeholder="Ej.: 1 año 3 meses" required>
                         </div>
                         <div class="form-group col-md-5">
-                            <label class="floating-label-activo-sm">Especie</label>
-                            <select class="form-control form-control-sm" id="vac_especie_modal">
-                                <option value="">No indicar</option>
-                                <option value="canina">Canina</option>
-                                <option value="felina">Felina</option>
-                                <option value="otra">Otra</option>
-                            </select>
+                            <label class="floating-label-activo-sm">Especie *</label>
+                            @if($especieNombreMascota !== '')
+                                {{-- La especie viene de la ficha de la mascota --}}
+                                <input type="text" class="form-control form-control-sm" value="{{ $especieNombreMascota }}" readonly>
+                                <input type="hidden" id="vac_especie_modal" value="{{ $especieValorMascota }}">
+                            @else
+                                <select class="form-control form-control-sm campo-obligatorio" id="vac_especie_modal" required>
+                                    <option value="">Seleccione</option>
+                                    <option value="canina">Canina</option>
+                                    <option value="felina">Felina</option>
+                                    <option value="otra">Otra</option>
+                                </select>
+                            @endif
                         </div>
                     </div>
                     <div class="text-right pt-2">
                         <button type="button" class="btn btn-outline-dark rounded-pill px-4" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-info rounded-pill px-4" id="btn_guardar_vacuna">
-                            <i class="feather icon-check"></i> Guardar vacuna
+                            <i class="feather icon-save"></i> Guardar vacuna
                         </button>
                     </div>
                 </form>
@@ -158,8 +168,80 @@
             });
         }
 
+        // Edad de la mascota a la fecha de la dosis, según su fecha de nacimiento
+        var nacimientoMascotaVacuna = "{{ $nacimientoMascota }}";
+        var edadVacunaEditada = false;
+
+        function calcularEdadVacuna(fechaDosis) {
+            if (!nacimientoMascotaVacuna || !fechaDosis) {
+                return '';
+            }
+            var nacimiento = moment(nacimientoMascotaVacuna, 'YYYY-MM-DD');
+            var dosis = moment(fechaDosis, 'YYYY-MM-DD');
+            if (!nacimiento.isValid() || !dosis.isValid() || dosis.isBefore(nacimiento)) {
+                return '';
+            }
+            var anios = dosis.diff(nacimiento, 'years');
+            var meses = dosis.diff(nacimiento.clone().add(anios, 'years'), 'months');
+            if (anios === 0 && meses === 0) {
+                var dias = dosis.diff(nacimiento, 'days');
+                return dias + (dias === 1 ? ' día' : ' días');
+            }
+            var partes = [];
+            if (anios > 0) { partes.push(anios + (anios === 1 ? ' año' : ' años')); }
+            if (meses > 0) { partes.push(meses + (meses === 1 ? ' mes' : ' meses')); }
+            return partes.join(' ');
+        }
+
+        function actualizarEdadVacuna() {
+            if (edadVacunaEditada) {
+                return;
+            }
+            $('#vac_edad_modal').val(calcularEdadVacuna($('#vac_fecha_dosis_modal').val()));
+        }
+
+        // Si el tutor escribe la edad a mano, se respeta lo que escribió
+        $(document).on('input', '#vac_edad_modal', function () {
+            edadVacunaEditada = $.trim($(this).val()) !== '';
+        });
+
+        $(document).on('change input', '#vac_fecha_dosis_modal', actualizarEdadVacuna);
+
+        $(document).on('show.bs.modal', '#modal_vacuna', function () {
+            edadVacunaEditada = false;
+            if (!$('#vac_fecha_dosis_modal').val()) {
+                $('#vac_fecha_dosis_modal').val(moment().format('YYYY-MM-DD'));
+            }
+            actualizarEdadVacuna();
+        });
+
+        // Todos los campos del modal son obligatorios
+        function validarCamposObligatorios(formulario) {
+            var $faltantes = $(formulario).find('.campo-obligatorio').removeClass('is-invalid').filter(function () {
+                return $.trim($(this).val() || '') === '';
+            });
+
+            if (!$faltantes.length) {
+                return true;
+            }
+
+            $faltantes.addClass('is-invalid');
+            $faltantes.first().trigger('focus');
+            swal({title: 'Faltan datos', text: 'Debe completar todos los campos para guardar el registro.', icon: 'warning'});
+            return false;
+        }
+
+        $(document).on('change input', '.campo-obligatorio', function () {
+            if ($.trim($(this).val() || '') !== '') {
+                $(this).removeClass('is-invalid');
+            }
+        });
+
         $(document).on('submit', '#form_vacuna_modal', function (e) {
             e.preventDefault();
+            if (!validarCamposObligatorios(this)) {
+                return;
+            }
             var $boton = $('#btn_guardar_vacuna').prop('disabled', true);
             var url = "{{ route('paciente.mascotas.vacunas.guardar', ['mascotaId' => $mascota->id]) }}";
 

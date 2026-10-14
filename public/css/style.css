@@ -37307,8 +37307,8 @@ table thead th,
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-    min-height: 44px;
-    padding: 8px 10px;
+    min-height: 36px;
+    padding: 5px 10px;
     color: #ffffff;
     font-family: 'Nunito', 'Nunito Sans', sans-serif;
     font-size: 13px;
@@ -37317,41 +37317,69 @@ table thead th,
     text-align: center;
     cursor: pointer;
     background: #19aaa2;
-    background: -webkit-linear-gradient(135deg, #1bb9b1 0%, #168c83 100%);
-    background: linear-gradient(135deg, #1bb9b1 0%, #168c83 100%);
+    background: -webkit-linear-gradient(135deg, #1aaea6 0%, #18a199 100%);
+    background: linear-gradient(135deg, #1aaea6 0%, #18a199 100%);
     border: 0;
-    border-radius: 12px;
-    box-shadow: 0 6px 14px rgba(22, 140, 131, .25);
-    -webkit-transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    border-radius: 10px;
+    box-shadow: none;
+    -webkit-transition: transform .18s ease, filter .18s ease, background .18s ease;
+    transition: transform .18s ease, filter .18s ease, background .18s ease;
 }
 
 .card-mascota-boton i {
     margin-right: 7px;
     font-size: 15px;
+    -webkit-transition: transform .18s ease;
+    transition: transform .18s ease;
 }
 
 .card-mascota-boton:hover,
 .card-mascota-boton:focus {
     color: #ffffff;
     text-decoration: none;
-    box-shadow: 0 9px 18px rgba(22, 140, 131, .32);
-    -webkit-transform: translateY(-1px);
-    transform: translateY(-1px);
+    background: #128077;
+    box-shadow: none;
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+}
+
+.card-mascota-boton:hover i,
+.card-mascota-boton:focus i {
+    -webkit-transform: scale(1.12);
+    transform: scale(1.12);
+}
+
+.card-mascota-boton:active {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    -webkit-filter: brightness(.94);
+    filter: brightness(.94);
 }
 
 /* Botón Escritorio en morado */
 .card-mascota-boton-morado {
     background: #6f42c1;
-    background: -webkit-linear-gradient(135deg, #7c4dcb 0%, #6f42c1 100%);
-    background: linear-gradient(135deg, #7c4dcb 0%, #6f42c1 100%);
-    box-shadow: 0 6px 14px rgba(111, 66, 193, .28);
+    background: -webkit-linear-gradient(135deg, #7547c7 0%, #6c3fbd 100%);
+    background: linear-gradient(135deg, #7547c7 0%, #6c3fbd 100%);
 }
 
 .card-mascota-boton-morado:hover,
 .card-mascota-boton-morado:focus {
-    background: #5e35b1;
-    box-shadow: 0 9px 18px rgba(111, 66, 193, .34);
+    background: #5a2ea6;
+}
+
+/* Botón "Ver mis mascotas" en la genealogía: hover suave */
+.genealogy-header-actions .btn-light {
+    -webkit-transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+    transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+}
+
+.genealogy-header-actions .btn-light:hover,
+.genealogy-header-actions .btn-light:focus {
+    color: #6f42c1;
+    background-color: #f1ebfa;
+    border-color: #e2d6f5;
+    box-shadow: none;
 }
 
 /* Accesos rápidos: FVU, carné y genealogía */
@@ -37493,9 +37521,13 @@ table thead th,
 
 .card-mascota-fallecida .card-mascota-boton {
     background: #6c757d;
-    background: -webkit-linear-gradient(135deg, #6c757d 0%, #495057 100%);
-    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-    box-shadow: 0 6px 14px rgba(73, 80, 87, .22);
+    background: -webkit-linear-gradient(135deg, #6c757d 0%, #626a72 100%);
+    background: linear-gradient(135deg, #6c757d 0%, #626a72 100%);
+}
+
+.card-mascota-fallecida .card-mascota-boton:hover,
+.card-mascota-fallecida .card-mascota-boton:focus {
+    background: #3d4349;
 }
 
 .card-mascota-fallecida .card-mascota-boton-suave {
@@ -37541,6 +37573,7 @@ table thead th,
     #card-lista-dependientes .card-mascota,
     .card-mascota-foto,
     .card-mascota-boton,
+    .card-mascota-boton i,
     .card-mascota-acceso {
         -webkit-transition: none;
         transition: none;
@@ -44675,22 +44708,6 @@ table.dataTable > tbody > tr.child span.dtr-data {
     color: rgba(255, 255, 255, .92);
 }
 
-.referidos-volver {
-    display: inline-block;
-    margin-bottom: 12px;
-    color: #fff;
-    font-size: .85rem;
-    font-weight: 700;
-    opacity: .9;
-}
-
-.referidos-volver:hover,
-.referidos-volver:focus {
-    color: #fff;
-    opacity: 1;
-    text-decoration: underline;
-}
-
 .referidos-codigo {
     -ms-flex-negative: 0;
     flex-shrink: 0;
@@ -45189,4 +45206,106 @@ div.dataTables_wrapper > .row > [class*="col-"] {
         flex: 1 1 auto;
         min-width: 0;
     }
+}
+
+/* Mensaje de difusión (Mis pacientes): el cuadro del mensaje mantiene siempre sus 5 líneas de alto */
+#modalMensajeDifusionPacientes textarea.form-control {
+    height: auto !important;
+    min-height: calc(1.5em * 5 + 0.7rem + 2px) !important;
+    resize: vertical;
+}
+
+/* Historial de atenciones previas de la ficha (tabla #table_atenciones_profesional):
+   botones de documentos (receta, exámenes, archivos), contador y punto de estado.
+   Todo va acotado a esa tabla para no tocar otros botones del sistema. */
+#table_atenciones_profesional .historial-doc-btn {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 16px;
+    font-weight: 600;
+    -webkit-transition: box-shadow .16s ease, -webkit-transform .16s ease;
+    transition: transform .16s ease, box-shadow .16s ease;
+}
+
+#table_atenciones_profesional .historial-doc-btn.tiene-contenido:hover {
+    -webkit-transform: translateY(-1px);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(33, 60, 77, .16);
+}
+
+#table_atenciones_profesional .historial-doc-btn.sin-contenido {
+    color: #98a2b3 !important;
+    background: #f2f4f7 !important;
+    border: 1px solid #e4e7ec !important;
+    cursor: not-allowed;
+    opacity: .82;
+}
+
+#table_atenciones_profesional .historial-count {
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    border-radius: 9px;
+    color: #fff;
+    background: rgba(30, 41, 59, .72);
+    font-size: 10px;
+    line-height: 1;
+}
+
+#table_atenciones_profesional .historial-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #19a99d;
+    box-shadow: 0 0 0 3px rgba(25, 169, 157, .15);
+}
+
+/* Escritorio del profesional: tarjeta de un módulo que todavía está en construcción.
+   Se ve apagada, no reacciona al pasar el mouse y no lleva a ninguna parte. */
+.card.modulo-en-construccion {
+    cursor: not-allowed;
+    box-shadow: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.card.modulo-en-construccion img,
+.card.modulo-en-construccion h6 {
+    opacity: .45;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+.modulo-en-construccion-etiqueta {
+    display: inline-block;
+    max-width: 100%;
+    margin-top: 2px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    color: #8a6d1d;
+    background: #fff4d6;
+    font-family: 'Nunito Sans', 'Nunito', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.4;
+    white-space: nowrap;
 }

@@ -4,34 +4,22 @@
 <div class="pcoded-main-container">
     <div class="pcoded-content">
         <!--Header-->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-<ul class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{ ROUTE('paciente.home') }}" data-toggle="tooltip"
-                                    data-placement="top" title="Volver a mi escritorio"><i
-                                        class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{{ ROUTE('paciente.mis_profesionales') }}">Registro de desparasitación</a></li>
-                        </ul>
-                    </div>
+        <div class="row">
+             <div class="col-md-12 mb-3 encabezado-pagina">
+                <div>
+                    <h5 class="f-26 d-block mb-0">Registro de desparasitación</h5>
+                </div>
+                <div class="ml-auto">
+                    <button type="button" class="btn  btn-info" data-toggle="modal" data-target="#modal_desparasitacion">
+                            <i class="feather icon-plus"></i> Agregar registro
+                    </button>
                 </div>
             </div>
         </div>
         <!--Cierre: Header-->
         <div class="row">
             <div class="col-12">
-                <!--Card Nav Pills-->
                 <div class="card">
-                    <div class="card-header bg-info">
-                        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                            <h4 class="f-20 text-white mb-2 mb-md-0">Registro de desparasitación</h4>
-                            <button type="button" class="btn btn-outline-light rounded-pill px-4 py-2" data-toggle="modal" data-target="#modal_desparasitacion">
-                                + Añadir registro
-                            </button>
-                        </div>
-                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="tabla_recetas_paciente_ro"
@@ -87,18 +75,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="form_desparasitacion_modal">
+                <form id="form_desparasitacion_modal" novalidate>
                     <div class="form-group col-12 px-0">
-                        <label class="floating-label-activo-sm">Fecha dosis</label>
-                        <input type="date" class="form-control form-control-sm" id="des_fecha_dosis_modal" name="fecha_dosis">
+                        <label class="floating-label-activo-sm">Fecha dosis *</label>
+                        <input type="date" class="form-control form-control-sm campo-obligatorio" id="des_fecha_dosis_modal" name="fecha_dosis" required>
                     </div>
                     <div class="form-group col-12 px-0">
-                        <label class="floating-label-activo-sm">Antiparasitario</label>
-                        <input type="text" class="form-control form-control-sm" id="des_antiparasitario_modal" name="antiparasitario">
+                        <label class="floating-label-activo-sm">Antiparasitario *</label>
+                        <input type="text" class="form-control form-control-sm campo-obligatorio" id="des_antiparasitario_modal" name="antiparasitario" required>
                     </div>
                     <div class="form-group col-12 px-0">
-                        <label class="floating-label-activo-sm">Tipo</label>
-                        <select class="form-control form-control-sm" id="des_tipo_modal" name="tipo">
+                        <label class="floating-label-activo-sm">Tipo *</label>
+                        <select class="form-control form-control-sm campo-obligatorio" id="des_tipo_modal" name="tipo" required>
                             <option value="">Seleccione</option>
                             <option value="Externo">Externo</option>
                             <option value="Interno">Interno</option>
@@ -106,11 +94,11 @@
                         </select>
                     </div>
                     <div class="form-group col-12 px-0">
-                        <label class="floating-label-activo-sm">Prox. Dosis</label>
-                        <input type="date" class="form-control form-control-sm" id="des_proxima_dosis_modal" name="proxima_dosis">
+                        <label class="floating-label-activo-sm">Prox. Dosis *</label>
+                        <input type="date" class="form-control form-control-sm campo-obligatorio" id="des_proxima_dosis_modal" name="proxima_dosis" required>
                     </div>
                     <div class="text-center pt-2">
-                        <button type="submit" class="btn btn-info rounded-pill px-4">Guardar</button>
+                        <button type="submit" class="btn btn-info rounded-pill px-4"><i class="feather icon-save"></i> Guardar</button>
                     </div>
                 </form>
             </div>
@@ -152,6 +140,7 @@
 
         function limpiarFormularioDesparasitacion() {
             $('#form_desparasitacion_modal')[0].reset();
+            $('#form_desparasitacion_modal .campo-obligatorio').removeClass('is-invalid');
         }
 
         function active_e(tipo_esp){
@@ -164,8 +153,33 @@
             }
         }
 
+        // Todos los campos del modal son obligatorios
+        function validarCamposObligatorios(formulario) {
+            var $faltantes = $(formulario).find('.campo-obligatorio').removeClass('is-invalid').filter(function () {
+                return $.trim($(this).val() || '') === '';
+            });
+
+            if (!$faltantes.length) {
+                return true;
+            }
+
+            $faltantes.addClass('is-invalid');
+            $faltantes.first().trigger('focus');
+            swal({title: 'Faltan datos', text: 'Debe completar todos los campos para guardar el registro.', icon: 'warning'});
+            return false;
+        }
+
+        $(document).on('change input', '.campo-obligatorio', function () {
+            if ($.trim($(this).val() || '') !== '') {
+                $(this).removeClass('is-invalid');
+            }
+        });
+
         $(document).on('submit', '#form_desparasitacion_modal', function(e) {
             e.preventDefault();
+            if (!validarCamposObligatorios(this)) {
+                return;
+            }
 
             var url = "{{ route('paciente.mascotas.desparasitaciones.guardar', ['mascotaId' => $mascota->id]) }}";
             var data = {

@@ -71,9 +71,10 @@
                                                     </a>
                                                     <p class="mb-3 text-muted">
                                                         <!--<i class="feather icon-calendar"></i></p>-->
+                                                    <div class="d-flex flex-wrap justify-content-center align-items-center">
                                                     <button
                                                         type="button"
-                                                        class="btn btn-sm btn-info"
+                                                        class="btn btn-sm btn-info mt-2"
                                                         data-profesional-id="{{ $p->id }}"
                                                         data-profesional-nombre="{{ $nombre_profesional }}"
                                                         data-profesional-especialidad="{{ $especialidad_profesional }}"
@@ -87,6 +88,7 @@
                                                         onclick="abrirFichaProfesionalMascota({{ $p->id }});">
                                                         <i class="feather icon-user"></i> Ver información profesional
                                                     </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

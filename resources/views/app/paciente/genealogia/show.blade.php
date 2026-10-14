@@ -29,7 +29,7 @@
             <div class="d-flex flex-wrap align-items-center justify-content-between">
                 <h5 class="text-dark mb-2 mb-md-0 f-24">Genealogía de {{ $mascota->nombre }}</h5>
                 <div class="d-flex flex-wrap genealogy-header-actions">
-                    <a href="{{ route('mascotas.genealogia.index') }}" class="btn btn-light btn-sm mr-2 mb-1">
+                    <a href="{{ route('paciente.mascotas.index') }}" class="btn btn-light btn-sm mr-2 mb-1">
                         <i class="fas fa-paw mr-1"></i> Ver mis mascotas
                     </a>
                     <button type="button" class="btn btn-info btn-sm mb-1 js-agregar-familiar">

@@ -83,6 +83,14 @@ class Mascota extends Model
         $this->attributes['nombre'] = $value ? mb_strtoupper(mb_substr($value, 0, 1)).mb_substr($value, 1) : $value;
     }
 
+    // Los nombres guardados antes en minúscula también se muestran con la primera letra en mayúscula
+    public function getNombreAttribute($value)
+    {
+        $value = is_string($value) ? ltrim($value) : $value;
+
+        return $value ? mb_strtoupper(mb_substr($value, 0, 1)).mb_substr($value, 1) : $value;
+    }
+
     public function getFotoUrlAttribute(): ?string
     {
         if (! empty($this->foto_perfil)) {

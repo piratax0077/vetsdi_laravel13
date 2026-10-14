@@ -145,50 +145,6 @@
         @include('general.secciones_ficha.modal_atencion_previa.hist_evoluciones_dental')
         @include('general.secciones_ficha.modal_atencion_previa.hist_cons')
         @include('general.secciones_ficha.modal_atencion_previa.evaluaciones_especialidad')
-        <style>
-            #table_atenciones_profesional .historial-doc-btn {
-                min-width: 88px;
-                min-height: 30px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
-                border-radius: 16px;
-                font-weight: 600;
-                transition: transform .16s ease, box-shadow .16s ease;
-            }
-            #table_atenciones_profesional .historial-doc-btn.tiene-contenido:hover {
-                transform: translateY(-1px);
-                box-shadow: 0 4px 10px rgba(33, 60, 77, .16);
-            }
-            #table_atenciones_profesional .historial-doc-btn.sin-contenido {
-                color: #98a2b3 !important;
-                background: #f2f4f7 !important;
-                border: 1px solid #e4e7ec !important;
-                cursor: not-allowed;
-                opacity: .82;
-            }
-            #table_atenciones_profesional .historial-count {
-                min-width: 18px;
-                height: 18px;
-                padding: 0 5px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 9px;
-                color: #fff;
-                background: rgba(30, 41, 59, .72);
-                font-size: 10px;
-                line-height: 1;
-            }
-            #table_atenciones_profesional .historial-status-dot {
-                width: 7px;
-                height: 7px;
-                border-radius: 50%;
-                background: #19a99d;
-                box-shadow: 0 0 0 3px rgba(25, 169, 157, .15);
-            }
-        </style>
         <script>
             $(document).ready(function() {
                 var selectorTablaHistorial = '#table_atenciones_profesional';
