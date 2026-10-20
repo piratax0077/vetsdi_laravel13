@@ -1520,3 +1520,9 @@
     color: var(--fvu-morado);
     opacity: 1;
 }
+
+/* Detalle clínico desplegable de cada atención en el historial */
+.fvu-detalle-ficha > summary {
+    cursor: pointer;
+    color: #272727;
+}
