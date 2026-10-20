@@ -52,6 +52,7 @@ class DocumentoVeterinarioCorreoController extends Controller
             'id_ficha_atencion' => $ficha->id,
             'id_interconsulta' => $documento->id,
             'id_tipo_informe' => $documento->id_tipo_informe ?? 1,
+            'id_informe_medico' => $tipo === 'informe' ? $documento->id : null,
         ]);
         try {
             $pdf = app(ficha_atencionController::class)->{$metodo}($pdfRequest);

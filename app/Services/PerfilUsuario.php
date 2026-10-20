@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\{Asistente, Bancos, Ciudad, Direccion, LiquidacionRecibo, Profesional, User};
+use App\Models\{Asistente, Bancos, Ciudad, Direccion, LiquidacionRecibo, Paciente, Profesional, User};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Auth, DB, Hash};
+use Illuminate\Support\Facades\{Auth, DB, Hash, Schema};
 use Illuminate\Validation\{Rule, ValidationException};
 
 class PerfilUsuario
@@ -41,7 +41,7 @@ class PerfilUsuario
             'apellido_uno' => 'required|string|max:255',
             'apellido_dos' => 'nullable|string|max:255',
             'sexo' => 'nullable|in:M,F,O',
-            'rut' => ['sometimes','required','string','max:20',Rule::unique($perfil->getTable(), 'rut')->ignore($perfil->id)],
+            'rut' => ['sometimes','required','string','max:20',Rule::unique($perfil->getTable(), 'rut')->ignore($perfil->id),Rule::unique('users', 'rut')->ignore(Auth::id())],
         ];
         if ($tipo === 'asistente') {
             $reglas['nacimiento'] = 'sometimes|nullable|date_format:Y-m-d|before_or_equal:today';
@@ -53,6 +53,11 @@ class PerfilUsuario
                 'id_tipo_atencion' => 'sometimes|nullable|integer|in:1,2,3,4',
                 'num_colegio' => 'sometimes|nullable|string|max:255',
             ];
+        }
+        if ($tipo === 'profesional') {
+            foreach (['id_especialidad','id_tipo_especialidad','id_sub_tipo_especialidad'] as $campo) {
+                if ($request->exists($campo) && (string)$request->input($campo) === '0') $request->merge([$campo=>null]);
+            }
         }
         $datos = $request->validate($reglas);
         if ($tipo === 'profesional') {
@@ -70,6 +75,10 @@ class PerfilUsuario
             foreach ($datos as $campo => $valor) $perfil->{$campo === 'nacimiento' ? 'fecha_nac' : $campo} = $valor;
             $perfil->saveOrFail();
             $usuario = User::findOrFail(Auth::id());
+            $usuario->nombres = $perfil->{$nombre};
+            $usuario->apellido_uno = $perfil->apellido_uno;
+            $usuario->apellido_dos = $perfil->apellido_dos;
+            if (array_key_exists('rut', $datos)) $usuario->rut = $datos['rut'];
             $usuario->name = trim(implode(' ', array_filter([$perfil->{$nombre},$perfil->apellido_uno,$perfil->apellido_dos])));
             $usuario->saveOrFail();
         });
@@ -79,6 +88,7 @@ class PerfilUsuario
     public function contacto(string $tipo, Request $request): array
     {
         $perfil = $this->propio($tipo, $request);
+        $request->merge(['email' => correo_normalizar($request->input('email'))]);
         $datos = $request->validate([
             'email'=>['required','email','max:255',Rule::unique('users','email')->ignore(Auth::id()),Rule::unique($perfil->getTable(),'email')->ignore($perfil->id)],
             'telefono_uno'=>'nullable|string|max:30',
@@ -86,9 +96,10 @@ class PerfilUsuario
         DB::transaction(function () use ($perfil, $datos) {
             $usuario=User::findOrFail(Auth::id());
             $usuario->email=$datos['email'];
+            if (array_key_exists('telefono_uno', $datos)) $usuario->telefono=$datos['telefono_uno'];
             $usuario->saveOrFail();
             $perfil->email=$datos['email'];
-            $perfil->telefono_uno=$datos['telefono_uno'] ?? null;
+            if (array_key_exists('telefono_uno', $datos)) $perfil->telefono_uno=$datos['telefono_uno'];
             $perfil->saveOrFail();
         });
         return ['success'=>true,'message'=>'Datos de contacto guardados.',$tipo=>$perfil];
@@ -104,7 +115,7 @@ class PerfilUsuario
             throw ValidationException::withMessages([$campo=>'La ciudad no pertenece a la región seleccionada.']);
         }
         $direccion=DB::transaction(function () use ($perfil,$datos,$campo) {
-            $direccion=Direccion::find($perfil->id_direccion) ?? new Direccion();
+            $direccion=DireccionesPerfil::editable($perfil);
             $direccion->id_ciudad=$datos[$campo];
             $direccion->direccion=$datos['direccion'];
             $direccion->numero_dir=$datos['numero_dir'] ?? null;

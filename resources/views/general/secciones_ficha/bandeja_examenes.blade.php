@@ -21,9 +21,7 @@
                 </ul>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <div class="tab-content" id="ped-contenido">
-                    <!--BANDEJA DE ENTRADA-->
-                    <div class="tab-pane fade show active" id="bandeja-entrada" role="tabpanel" aria-labelledby="bandeja-entrada-tab">
+                {{-- El visor es compartido por todas las pestañas de exámenes. --}}
                         <div id="lab-vet-visor" class="lab-vet-visor mb-3 d-none" aria-live="polite">
                             <div class="lab-vet-visor-header d-flex justify-content-between align-items-center mb-2 px-2">
                                 <h6 class="mb-0" id="lab-vet-visor-titulo"><i class="fas fa-file-medical mr-1"></i> Documento</h6>
@@ -33,6 +31,9 @@
                             </div>
                             <div id="lab-vet-visor-contenido" class="lab-vet-visor-contenido"></div>
                         </div>
+                <div class="tab-content" id="ped-contenido">
+                    <!--BANDEJA DE ENTRADA-->
+                    <div class="tab-pane fade show active" id="bandeja-entrada" role="tabpanel" aria-labelledby="bandeja-entrada-tab">
                         @include('general.secciones_ficha.documentos_laboratorio_mascota')
                         <div class="card">
                             <div class="card-top">

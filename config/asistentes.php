@@ -61,6 +61,7 @@ return [
         'agenda.agendar_hora*' => 'permiso_reservar_hora',
         'agenda.cancelar_hora' => 'permiso_anular_hora', 'agenda.confirmar_hora' => 'permiso_confirmar_hora',
         'agenda.recibir_bono' => 'permiso_entrega_caja',
+        'agenda.convenios_veterinarios' => 'permiso_entrega_caja',
         'agenda.buscar_hora_medica' => 'permiso_ver_agenda', 'hora_medica.ver' => 'permiso_ver_agenda',
         'agenda.buscar_info_profesional' => 'permiso_ver_agenda',
         'agenda.buscar_informacion_profesional' => 'permiso_ver_agenda',

@@ -27,7 +27,7 @@
             <div class="card text-center">
                 <div class="card-body">
                     <img src="{{ asset('images/logo_pais_vertical.png') }}" alt="" class="img-fluid mb-2 wid-120">
-                    <h5 class="mb-3">Te enviamos un correo para confirmar tu cuenta</h5>
+                    <h5 class="mb-3">{{ $correoEnviado ? 'Te enviamos un correo para confirmar tu cuenta' : 'Confirma tu correo para activar tu cuenta' }}</h5>
 
                     <div class="row div_mensaje">
                         @if(session('mensaje'))
@@ -44,7 +44,11 @@
                     </div>
 
                     <p class="text-muted">
-                        Lo enviamos a <strong>{{ $usuario->email }}</strong>. Abre el enlace del mensaje para activar tu cuenta.
+                        @if($correoEnviado)
+                            Lo enviamos a <strong>{{ $usuario->email }}</strong>. Abre el enlace del mensaje para activar tu cuenta.
+                        @else
+                            El correo de tu cuenta es <strong>{{ $usuario->email }}</strong>. Cuando el envío esté disponible, solicita un nuevo enlace.
+                        @endif
                         El enlace vence en {{ \App\Services\VerificacionCorreoService::HORAS_VIGENCIA }} horas.
                     </p>
 

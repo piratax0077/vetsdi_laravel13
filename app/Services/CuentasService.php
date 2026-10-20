@@ -19,7 +19,7 @@ use App\Models\UsuarioRol;
 class CuentasService
 {
     /** Los cuatro tipos de cuenta que ofrece el registro. */
-    public const TIPOS = ['tutor', 'profesional', 'asistente', 'clinica'];
+    public const TIPOS = ['tutor', 'profesional', 'asistente', 'clinica', 'peluqueria'];
 
     /** Equivalencia con los roles de spatie que ya usan los escritorios. */
     public const ROLES_SPATIE = [
@@ -27,6 +27,7 @@ class CuentasService
         'profesional' => 'Profesional',
         'asistente' => 'Asistente',
         'clinica' => 'Adm_Institucion',
+        'peluqueria' => 'Peluqueria',
     ];
 
     public const ETIQUETAS = [
@@ -34,6 +35,7 @@ class CuentasService
         'profesional' => 'Profesional',
         'asistente' => 'Asistente',
         'clinica' => 'Clínica veterinaria',
+        'peluqueria' => 'Peluquería',
     ];
 
     /** Reseña que aparece al elegir el tipo de cuenta en el registro. */
@@ -42,6 +44,7 @@ class CuentasService
         'profesional' => 'Médico veterinario u otro profesional del área que atiende pacientes.',
         'asistente' => 'Apoyo administrativo o clínico (secretaría, recepción, agenda) para profesionales o clínicas.',
         'clinica' => 'Centro que administra su equipo, pacientes y operación.',
+        'peluqueria' => 'Servicios de peluquería e higiene de mascotas, agenda y registro de atenciones.',
     ];
 
     /** Bajada corta de cada card en la pantalla "Elige tu perfil". */
@@ -50,6 +53,7 @@ class CuentasService
         'profesional' => 'Agenda, pacientes, ficha clínica y herramientas profesionales.',
         'asistente' => 'Escritorio de asistencia y gestión de pacientes.',
         'clinica' => 'Escritorio de la clínica y administración de su equipo.',
+        'peluqueria' => 'Agenda, tutores, mascotas y servicios realizados.',
     ];
 
     /** Ícono de la card en la pantalla "Elige tu perfil". */
@@ -58,6 +62,7 @@ class CuentasService
         'profesional' => 'images/logos/iconos-inicio-sesion/profesional.svg',
         'asistente' => 'images/logos/iconos-inicio-sesion/asistente.svg',
         'clinica' => 'images/logos/iconos-inicio-sesion/institucion.svg',
+        'peluqueria' => 'images/iconos/mascotas.svg',
     ];
 
     /** Escritorio al que entra cada rol cuando su perfil está completo. */
@@ -66,6 +71,7 @@ class CuentasService
         'profesional' => 'profesional.home',
         'asistente' => 'asistente.home',
         'clinica' => 'adm_cm.home',
+        'peluqueria' => 'peluqueria.home',
     ];
 
     /** Tabla de perfil propia de cada rol. */
@@ -74,6 +80,7 @@ class CuentasService
         'profesional' => Profesional::class,
         'asistente' => Asistente::class,
         'clinica' => Instituciones::class,
+        'peluqueria' => \App\Models\Peluqueria::class,
     ];
 
     /**

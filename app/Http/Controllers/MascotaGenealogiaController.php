@@ -100,6 +100,8 @@ class MascotaGenealogiaController extends Controller
 
         $especieId = (int) $datos['especie_id'];
         unset($datos['foto_mascota'], $datos['especie_id']);
+        $archivos = array_map(fn ($clave) => $clave.'_foto', array_keys(self::PARENTESCOS));
+        $request->validate(array_fill_keys($archivos, 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120'));
 
         $nuevasFotos = [];
         try {
@@ -179,9 +181,17 @@ class MascotaGenealogiaController extends Controller
             $fotoNueva = null;
         }
 
-        $mensaje = DB::transaction(fn () => $datos['parentesco'] === 'hermano'
-            ? $this->guardarHermano($mascota, $datos, $fotoNueva)
-            : $this->guardarProgenitor($mascota, $datos, $fotoNueva));
+        $nuevasFotos = [];
+        try {
+            $mensaje = DB::transaction(function () use ($mascota, $datos, $fotoNueva, &$nuevasFotos) {
+                return $datos['parentesco'] === 'hermano'
+                    ? $this->guardarHermano($mascota, $datos, $fotoNueva, $nuevasFotos)
+                    : $this->guardarProgenitor($mascota, $datos, $fotoNueva, $nuevasFotos);
+            });
+        } catch (\Throwable $error) {
+            foreach ($nuevasFotos as $ruta) app(Fotografias::class)->descartar($ruta);
+            throw $error;
+        }
 
         return redirect()->route('mascotas.genealogia.show', $mascota)->with('ok', $mensaje);
     }
@@ -197,11 +207,9 @@ class MascotaGenealogiaController extends Controller
 
         if ($datos['parentesco'] === 'hermano') {
             $registro = MascotaHermano::where('mascota_id', $mascota->id)->findOrFail($datos['registro_hermano_id']);
-            $this->eliminarFotoGenealogia($registro->foto);
             $registro->delete();
         } elseif ($genealogia = $mascota->genealogia) {
             $clave = $datos['parentesco'];
-            $this->eliminarFotoGenealogia($genealogia->{"{$clave}_foto"});
             foreach (['id', 'nombre', 'especie', 'foto'] as $campo) {
                 $genealogia->{"{$clave}_{$campo}"} = null;
             }
@@ -224,7 +232,7 @@ class MascotaGenealogiaController extends Controller
         ]);
     }
 
-    private function guardarProgenitor(Mascota $mascota, array $datos, $fotoNueva): string
+    private function guardarProgenitor(Mascota $mascota, array $datos, $fotoNueva, array &$nuevasFotos): string
     {
         $clave = $datos['parentesco'];
         $genealogia = MascotaGenealogia::firstOrNew(['mascota_id' => $mascota->id]);
@@ -242,13 +250,13 @@ class MascotaGenealogiaController extends Controller
             $genealogia->{"{$clave}_especie"} = $datos['especie'];
         }
 
-        $this->actualizarFoto($genealogia, "{$clave}_foto", $cambioFamiliar, $fotoNueva, $mascota->id);
-        $genealogia->save();
+        $this->actualizarFoto($genealogia, "{$clave}_foto", $cambioFamiliar, $fotoNueva, $mascota->id, $nuevasFotos);
+        $genealogia->saveOrFail();
 
         return $existia ? 'Familiar actualizado.' : 'Familiar agregado al árbol.';
     }
 
-    private function guardarHermano(Mascota $mascota, array $datos, $fotoNueva): string
+    private function guardarHermano(Mascota $mascota, array $datos, $fotoNueva, array &$nuevasFotos): string
     {
         $registro = !empty($datos['registro_hermano_id'])
             ? MascotaHermano::where('mascota_id', $mascota->id)->findOrFail($datos['registro_hermano_id'])
@@ -277,21 +285,22 @@ class MascotaGenealogiaController extends Controller
         }
 
         $registro->tipo = $datos['tipo'] ?? 'completo';
-        $this->actualizarFoto($registro, 'foto', $cambioFamiliar, $fotoNueva, $mascota->id);
-        $registro->save();
+        $this->actualizarFoto($registro, 'foto', $cambioFamiliar, $fotoNueva, $mascota->id, $nuevasFotos);
+        $registro->saveOrFail();
 
         return $existia ? 'Hermano actualizado.' : 'Hermano agregado al árbol.';
     }
 
     // Si cambió el familiar la foto anterior ya no le corresponde
-    private function actualizarFoto(Model $modelo, string $campo, bool $cambioFamiliar, $fotoNueva, int $mascotaId): void
+    private function actualizarFoto(Model $modelo, string $campo, bool $cambioFamiliar, $fotoNueva, int $mascotaId, array &$nuevasFotos): void
     {
         if ($cambioFamiliar || $fotoNueva) {
-            $this->eliminarFotoGenealogia($modelo->{$campo});
+            // Desvincular sin destruir archivos que pueden estar compartidos o ser
+            // necesarios si la transacción falla. Solo se limpian cargas nuevas fallidas.
             $modelo->{$campo} = null;
         }
         if ($fotoNueva) {
-            $modelo->{$campo} = $this->guardarFoto($fotoNueva, $mascotaId);
+            $modelo->{$campo} = $this->guardarFoto($fotoNueva, $mascotaId, $nuevasFotos);
         }
     }
 

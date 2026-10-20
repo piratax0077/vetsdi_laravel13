@@ -162,10 +162,6 @@
                                                             <label class="font-weight-bold ml-0"><strong>Edad: </strong></label>
                                                             <label class="ml-0">{{ \Carbon\Carbon::createFromDate($paciente->fecha_nac)->age; }}</label>
                                                         </div>
-                                                        <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-0">
-                                                            <label class="font-weight-bold ml-0"><strong>Previsión: </strong></label>
-                                                            <label class="ml-0">{{ $paciente->Prevision->first()->nombre }}</label>
-                                                        </div>
                                                         <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-2 mb-0">
                                                             <label class="font-weight-bold ml-0"><strong>Teléfono: </strong></label>
                                                             <label class="ml-0">{{ $paciente->telefono_uno }}</label>
@@ -232,9 +228,9 @@
                                                             <label class="font-weight-bold ml-0">Especialidad:</label>
                                                             <label class="ml-0">
                                                                 @if ($profesional->SubTipoEspecialidad()->first())
-                                                                    {{ $profesional->SubTipoEspecialidad()->first()->nombre }}
+                                                                    {{ optional($profesional->SubTipoEspecialidad)->nombre }}
                                                                 @else
-                                                                    {{ $profesional->TipoEspecialidad()->first()->nombre }}
+                                                                    {{ (optional($profesional->TipoEspecialidad)->nombre ?? 'Veterinario general') }}
                                                                 @endif
                                                             </label>
                                                         </div>

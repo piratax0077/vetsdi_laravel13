@@ -1,4 +1,4 @@
-﻿    <!--Sidebar 3 cda)-->
+    <!--Sidebar 3 cda)-->
 
     <div class="position-fixed w-100 h-100"></div>
 
@@ -10,7 +10,7 @@
 
             {{--  <button type="button" class="bs-canvas-close float-left close" aria-label="Close"><span aria-hidden="true" class="text-white">&times;</span></button>  --}}
 
-            <h5 class="d-inline-block text-light mb-0 float-right">Formularios CirugÃ­a General</h5>
+            <h5 class="d-inline-block text-light mb-0 float-right">Formularios de Cirugía Veterinaria</h5>
 
         </header>
 
@@ -54,61 +54,7 @@
 
 
 
-                  <div class="accordion" id="accordion_side_bar">
-
-                    <div class="card-header-sidebar" id="heading_consentimientos_informados">
-
-                        <h2 class="mb-0">
-
-                            <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_consentimientos_informados" aria-expanded="false" aria-controls="collapse_consentimientos_informados"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-
-                               CONSENTIMIENTOS INFORMADOS
-
-                            </button>
-
-                        </h2>
-
-                    </div>
-
-                        @include('general.sidebar.seccion_consentimientos')
-
-                        <!-- SECCION CONSENTIMIENTOS -->
-
-                  </div>
-
-                <div class="card-sidebar">
-
-                    <div class="card-header-sidebar" id="heading_utilidades">
-
-                        <h2 class="mb-0">
-
-                        <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_utilidades" aria-expanded="false" aria-controls="collapse_utilidades"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-
-                            UTILIDADES
-
-                        </button>
-
-                        </h2>
-
-                    </div>
-
-                    <div id="collapse_utilidades" class="collapse" aria-labelledby="heading_utilidades" data-parent="#accordion_side_bar">
-
-                        <div class="card-body-sidebar">
-
-                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="ufonasa()";>+ Buscador cÃ³digo FONASA</button>
-
-                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="imc()";>+ Calculadora de IMC</button>
-
-                        </div>
-
-                    </div>
-
-                         @include("general.modal.m_ucodigofonasa")
-
-                        @include("general.modal.m_uimc")
-
-                </div>
+                  @include('general.sidebar.seccion_consentimientos')
 
                 <div class="card-sidebar">
 

@@ -85,8 +85,10 @@
 
         $.ajax({
             url: url,
-            type: 'GET',
+            type: 'POST',
             data: {
+                _token: "{{ csrf_token() }}",
+                id_ficha_atencion: $('#id_fc').val(),
                 tipo_informe: tipo_informe,
                 comentarios_informe_medico: comentarios_informe_medico,
                 hora_medica: hora_medica,
@@ -128,7 +130,7 @@
             }
         })
         .fail(function(e) {
-            console.log("error");
+            swal({title: "No se pudo generar el certificado", text: e.status === 419 ? "La sesión venció. Recarga la página e inténtalo nuevamente." : "No se pudo guardar el certificado. Revisa la conexión e inténtalo nuevamente.", icon: "error"});
             console.log(e);
 
         })

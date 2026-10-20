@@ -1,0 +1,31 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+
+test('modal diagnoses refresh from encounter without touching history, other modals or postoperative findings',()=>{
+    const source=fs.readFileSync('public/js/diagnostico-formularios-veterinarios.js','utf8');
+    const origen={value:'Diagnóstico actual',closest:()=>null};
+    const modal={querySelectorAll:()=>fields};
+    const names=['diagnostico_cons','modal_solalta_diagnostico','m_rech_tto_diagnostico','hipotesis_interconsulta','hipotesis_certificado','diagnostico_rx','diagnostico_dental'];
+    const fields=names.map(id=>({id,value:'Anterior',closest:()=>modal}));
+    fields.push({id:'diagnostico_post',value:'Hallazgo',closest:()=>modal});
+    fields.push({id:'diagnostico_cons',value:'Firmado',disabled:true,closest:()=>modal});
+    fields.push({id:'diagnostico_cons',value:'Histórico',readOnly:true,closest:()=>modal});
+    fields.push({id:'diagnostico_cons',value:'Otro modal',closest:()=>({})});
+    const events={};
+    let hook;
+    const window={jQuery:()=>({on:(events,selector,fn)=>hook=fn})};
+    const document={querySelectorAll:()=>[origen],addEventListener:(name,fn)=>events[name]=fn};
+    vm.runInNewContext(source,{document,window});
+    events.DOMContentLoaded();
+    hook.call(modal);
+    names.forEach((_,i)=>assert.equal(fields[i].value,'Diagnóstico actual'));
+    assert.deepEqual(fields.slice(names.length).map(f=>f.value),['Hallazgo','Firmado','Histórico','Otro modal']);
+    origen.value='Cambio sin guardar';
+    events['shown.bs.modal']({target:modal});
+    assert.equal(fields[0].value,'Cambio sin guardar');
+    origen.value='';
+    hook.call(modal);
+    assert.equal(fields[0].value,'');
+});

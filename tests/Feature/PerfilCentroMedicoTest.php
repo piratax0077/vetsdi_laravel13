@@ -19,7 +19,7 @@ class PerfilCentroMedicoTest extends TestCase
         parent::setUp();
         config(['database.default'=>'sqlite','database.connections.sqlite.database'=>':memory:']);DB::purge('sqlite');
         foreach([
-            'users'=>['name','email','password'],
+            'users'=>['name','nombres','apellido_uno','apellido_dos','telefono','email','password'],
             'instituciones'=>['id_usuario','id_responsable','id_direccion','id_lugar_atencion','nombre','razon_social','rut','email','telefono','whatsapp','horario_atencion','sitio_web','certificado_supersalud','sucursales','foto_perfil','id_director_medico','id_subdirector_medico','id_director_comercial','id_director_tecnico','id_director_gestion_cuidado'],
             'servicios'=>['id_usuario','id_responsable','id_direccion','nombre','rut','email'],
             'admin_inst_serv'=>['id_admin','id_direccion','rut','nombres','apellido_uno','apellido_dos','sexo','fecha_nac','email','telefono_uno','telefono_dos'],
@@ -58,6 +58,27 @@ class PerfilCentroMedicoTest extends TestCase
         $this->servicio()->guardarCentro($this->req(['nombre'=>'Nombre editado','whatsapp'=>null]));
         $centro=Instituciones::find(10);
         $this->assertSame('Nombre editado',$centro->nombre);$this->assertSame('123',$centro->telefono);$this->assertNull($centro->whatsapp);
+    }
+
+    public function test_center_address_edit_does_not_change_another_profile(): void
+    {
+        DB::table('direcciones')->insert(['id'=>1,'id_ciudad'=>1,'direccion'=>'Original','numero_dir'=>'10']);
+        DB::table('instituciones')->where('id',10)->update(['id_direccion'=>1]);
+        DB::table('profesionales')->where('id',50)->update(['id_direccion'=>1]);
+        $this->servicio()->guardarCentro($this->req(['ciudad'=>1,'region'=>1,'direccion'=>'Nueva','numero_dir'=>'20']));
+        $this->assertNotEquals(1,Instituciones::find(10)->id_direccion);
+        $this->assertEquals(1,Profesional::find(50)->id_direccion);
+        $this->assertSame('Original',DB::table('direcciones')->where('id',1)->value('direccion'));
+    }
+
+    public function test_responsible_identity_and_phone_are_synced_with_account(): void
+    {
+        $this->servicio()->guardarResponsable($this->req(['nombres'=>'Nombre nuevo','apellido_uno'=>'Apellido','telefono_uno'=>'555','email'=>' NUEVO@example.test ']));
+        $user=User::find(1);
+        $this->assertSame('Nombre nuevo',$user->nombres);
+        $this->assertSame('Apellido',$user->apellido_uno);
+        $this->assertSame('555',$user->telefono);
+        $this->assertSame('nuevo@example.test',$user->email);
     }
 
     public function test_first_address_is_linked_and_reused(): void

@@ -1,10 +1,10 @@
 /* ==========================================================================
-   Módulo de Aranceles (Vet SDI) — solo front end
+   Módulo de Aranceles (Vet SDI) — datos por profesional en el servidor
    Vista: resources/views/app/profesional/aranceles_veterinaria_general.blade.php
 
    Este archivo tiene 3 partes independientes:
      1. CÁLCULO Y FORMATO  -> calcularPrecioFinal(), formatearCLP(), calcularMargen()
-     2. SERVICIO DE DATOS  -> listar / crear / editar / cambiarEstado (hoy en localStorage)
+     2. SERVICIO DE DATOS  -> listar / crear / editar / cambiarEstado por cuenta
      3. INTERFAZ           -> pestañas, tabla, modales y validaciones
 
    Para conectar la API real solo se reemplaza la parte 2 (el objeto "servicio"),
@@ -105,7 +105,7 @@
     }
 
     /* ======================================================================
-       2. SERVICIO DE DATOS (datos de ejemplo en localStorage)
+       2. SERVICIO DE DATOS (API autenticada por profesional)
 
        Forma de los datos
        ------------------
@@ -135,174 +135,35 @@
        Todas las funciones devuelven una promesa (jQuery), igual que $.ajax.
        ====================================================================== */
 
-    var CLAVE_ALMACEN = 'vetsdi_aranceles_v1';
-    var CATALOGOS_VALIDOS = ['aranceles', 'examenes', 'procedimientos'];
-    var almacen = null;
-
-    function copia(objeto) {
-        return JSON.parse(JSON.stringify(objeto));
-    }
-
     function nuevoId(prefijo) {
         return prefijo + '_' + Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36);
     }
-
-    function porTamano(valores, afectoIva) {
-        var ids = ['mini', 'pequeno', 'mediano', 'grande', 'gigante'];
-        return ids.map(function (id, i) {
-            return { tamanoId: id, valorNeto: valores[i], afectoIva: afectoIva, costoInterno: null, activo: true };
-        });
-    }
-
-    function datosDeEjemplo() {
-        return {
-            config: {
-                lugares: [
-                    { id: 'consulta', nombre: 'Consulta', recargo: 0 },
-                    { id: 'domicilio', nombre: 'Domicilio', recargo: 20 },
-                    { id: 'urgencia', nombre: 'Urgencia / nocturno', recargo: 30 },
-                    { id: 'telemedicina', nombre: 'Telemedicina', recargo: 0 },
-                    { id: 'hospitalizacion', nombre: 'Hospitalización', recargo: null }
-                ],
-                tamanos: [
-                    { id: 'mini', nombre: 'Mini', pesoDesde: null, pesoHasta: 5 },
-                    { id: 'pequeno', nombre: 'Pequeño', pesoDesde: 5.1, pesoHasta: 10 },
-                    { id: 'mediano', nombre: 'Mediano', pesoDesde: 10.1, pesoHasta: 25 },
-                    { id: 'grande', nombre: 'Grande', pesoDesde: 25.1, pesoHasta: 40 },
-                    { id: 'gigante', nombre: 'Gigante', pesoDesde: 40, pesoHasta: null }
-                ],
-                parametros: { iva: 19, retencion: 15.25 }
-            },
-            aranceles: [
-                { id: 'ara_1', codigo: 'CON-001', nombre: 'Consulta general', valorNeto: 25000, afectoIva: false, costoInterno: 8000, variaPorTamano: false, preciosTamano: [], activo: true,
-                  categoria: 'Consulta', descripcion: 'Evaluación clínica general.', especie: 'Todas', lugarId: 'consulta', vigenteDesde: '2026-01-01', vigenteHasta: '' },
-                { id: 'ara_2', codigo: 'VAC-001', nombre: 'Vacuna óctuple canina', valorNeto: 22000, afectoIva: true, costoInterno: 9000, variaPorTamano: false, preciosTamano: [], activo: true,
-                  categoria: 'Vacunación', descripcion: '', especie: 'Canino', lugarId: '', vigenteDesde: '2026-01-01', vigenteHasta: '' },
-                { id: 'ara_3', codigo: 'VAC-002', nombre: 'Vacuna triple felina', valorNeto: 24000, afectoIva: true, costoInterno: 10500, variaPorTamano: false, preciosTamano: [], activo: true,
-                  categoria: 'Vacunación', descripcion: '', especie: 'Felino', lugarId: '', vigenteDesde: '2026-01-01', vigenteHasta: '' },
-                { id: 'ara_4', codigo: 'DES-001', nombre: 'Desparasitación interna', valorNeto: 0, afectoIva: true, costoInterno: null, variaPorTamano: true, preciosTamano: porTamano([6000, 8000, 11000, 14000, 18000], true), activo: true,
-                  categoria: 'Desparasitación', descripcion: 'La dosis depende del peso del paciente.', especie: 'Canino', lugarId: '', vigenteDesde: '2026-01-01', vigenteHasta: '' },
-                { id: 'ara_5', codigo: 'CTR-001', nombre: 'Control post operatorio', valorNeto: 15000, afectoIva: false, costoInterno: null, variaPorTamano: false, preciosTamano: [], activo: false,
-                  categoria: 'Control', descripcion: '', especie: 'Todas', lugarId: 'consulta', vigenteDesde: '2025-01-01', vigenteHasta: '2025-12-31' }
-            ],
-            examenes: [
-                { id: 'exa_1', codigo: 'EXA-001', nombre: 'Hemograma completo', valorNeto: 15000, afectoIva: true, costoInterno: null, variaPorTamano: false, preciosTamano: [], activo: true,
-                  tipo: 'Laboratorio', realizacion: 'externo', laboratorio: 'Laboratorio externo de ejemplo', muestra: 'Sangre', tiempoEntrega: '24 horas', preparacion: 'Ayuno de 8 horas', costoLaboratorio: 7000 },
-                { id: 'exa_2', codigo: 'EXA-002', nombre: 'Ecografía abdominal', valorNeto: 0, afectoIva: false, costoInterno: null, variaPorTamano: true, preciosTamano: porTamano([30000, 32000, 36000, 42000, 48000], false), activo: true,
-                  tipo: 'Ecografía', realizacion: 'propio', laboratorio: '', muestra: '', tiempoEntrega: 'Inmediato', preparacion: 'Ayuno de 8 horas y vejiga llena', costoLaboratorio: null },
-                { id: 'exa_3', codigo: 'EXA-003', nombre: 'Citología de piel', valorNeto: 18000, afectoIva: false, costoInterno: 3000, variaPorTamano: false, preciosTamano: [], activo: true,
-                  tipo: 'Citología', realizacion: 'propio', laboratorio: '', muestra: 'Raspado o impronta de piel', tiempoEntrega: '3 días', preparacion: '', costoLaboratorio: null }
-            ],
-            procedimientos: [
-                { id: 'pro_1', codigo: 'CIR-001', nombre: 'Castración canino macho', valorNeto: 0, afectoIva: false, costoInterno: null, variaPorTamano: true, preciosTamano: porTamano([45000, 55000, 70000, 90000, 120000], false), activo: true,
-                  tipo: 'Cirugía', duracionMin: 45, requiereAnestesia: true, insumos: 'Sutura, gasas, anestesia' },
-                { id: 'pro_2', codigo: 'DEN-001', nombre: 'Limpieza dental (destartraje)', valorNeto: 60000, afectoIva: false, costoInterno: 18000, variaPorTamano: false, preciosTamano: [], activo: true,
-                  tipo: 'Dental', duracionMin: 60, requiereAnestesia: true, insumos: '' },
-                { id: 'pro_3', codigo: 'CUR-001', nombre: 'Curación simple', valorNeto: 12000, afectoIva: false, costoInterno: 2500, variaPorTamano: false, preciosTamano: [], activo: true,
-                  tipo: 'Curación', duracionMin: 15, requiereAnestesia: false, insumos: 'Gasas, suero, vendaje' }
-            ]
-        };
-    }
-
-    function leerAlmacen() {
-        if (almacen) return almacen;
-        try {
-            var texto = window.localStorage.getItem(CLAVE_ALMACEN);
-            if (texto) almacen = JSON.parse(texto);
-        } catch (e) { almacen = null; }
-        if (!almacen || !almacen.config) {
-            almacen = datosDeEjemplo();
-            escribirAlmacen();
+    var api = window.arancelesVeterinariosConfig || {};
+    var cargaRemota = null;
+    function cargarRemoto() {
+        if (!cargaRemota) {
+            cargaRemota = $.ajax({url:api.listar,headers:{Accept:'application/json'}}).then(function(respuesta){return respuesta;});
+            cargaRemota.fail(function(){cargaRemota=null;});
         }
-        return almacen;
+        return cargaRemota;
     }
-
-    function escribirAlmacen() {
-        // Si el navegador bloquea localStorage, los datos quedan solo en memoria.
-        try { window.localStorage.setItem(CLAVE_ALMACEN, JSON.stringify(almacen)); } catch (e) {}
-    }
-
-    function responder(operacion) {
-        var diferido = $.Deferred();
-        setTimeout(function () {
-            try { diferido.resolve(copia(operacion())); }
-            catch (error) { diferido.reject(error); }
-        }, 250);
+    function enviar(accion, catalogo, id, datos, activo) {
+        var diferido=$.Deferred();
+        $.ajax({url:api.guardar,method:'POST',contentType:'application/json',headers:{Accept:'application/json','X-CSRF-TOKEN':api.csrf},
+            data:JSON.stringify({accion:accion,catalogo:catalogo,id:id,datos:datos,activo:activo})
+        }).done(function(respuesta){cargaRemota=null;diferido.resolve(respuesta);})
+        .fail(function(xhr){var respuesta=xhr.responseJSON||{},errores=respuesta.errors||{},campo=Object.keys(errores)[0];
+            diferido.reject({campo:campo,mensaje:campo?errores[campo].join(' '):(respuesta.message||'No se pudo guardar. Inténtalo nuevamente.')});});
         return diferido.promise();
     }
-
-    function catalogoDe(nombre) {
-        if (CATALOGOS_VALIDOS.indexOf(nombre) === -1) throw { mensaje: 'Catálogo desconocido: ' + nombre };
-        return leerAlmacen()[nombre];
-    }
-
-    function exigirCodigoUnico(codigo, idPropio) {
-        var datos = leerAlmacen();
-        CATALOGOS_VALIDOS.forEach(function (nombre) {
-            datos[nombre].forEach(function (item) {
-                if (item.id !== idPropio && String(item.codigo).toUpperCase() === String(codigo).toUpperCase()) {
-                    throw { campo: 'codigo', mensaje: 'El código ' + codigo + ' ya está en uso por "' + item.nombre + '".' };
-                }
-            });
-        });
-    }
-
     var servicio = {
-        /** Lista todos los ítems de un catálogo: 'aranceles' | 'examenes' | 'procedimientos'. */
-        listar: function (catalogo) {
-            return responder(function () { return catalogoDe(catalogo); });
-        },
-        /** Crea un ítem. Rechaza con {campo, mensaje} si el código ya existe. */
-        crear: function (catalogo, datos) {
-            return responder(function () {
-                var lista = catalogoDe(catalogo);
-                exigirCodigoUnico(datos.codigo, null);
-                var item = $.extend({}, copia(datos), { id: nuevoId(catalogo.substr(0, 3)) });
-                lista.push(item);
-                escribirAlmacen();
-                return item;
-            });
-        },
-        /** Edita un ítem existente. */
-        editar: function (catalogo, id, datos) {
-            return responder(function () {
-                var item = buscar(catalogoDe(catalogo), 'id', id);
-                if (!item) throw { mensaje: 'El ítem ya no existe.' };
-                exigirCodigoUnico(datos.codigo, id);
-                $.extend(item, copia(datos), { id: id });
-                escribirAlmacen();
-                return item;
-            });
-        },
-        /** Activa o desactiva un ítem. */
-        cambiarEstado: function (catalogo, id, activo) {
-            return responder(function () {
-                var item = buscar(catalogoDe(catalogo), 'id', id);
-                if (!item) throw { mensaje: 'El ítem ya no existe.' };
-                item.activo = !!activo;
-                escribirAlmacen();
-                return item;
-            });
-        },
-        /** Lugares de atención, tamaños y parámetros (IVA, retención). */
-        obtenerConfiguracion: function () {
-            return responder(function () { return leerAlmacen().config; });
-        },
-        guardarConfiguracion: function (config) {
-            return responder(function () {
-                leerAlmacen().config = copia(config);
-                escribirAlmacen();
-                return almacen.config;
-            });
-        },
-        /** Borra los datos del navegador y vuelve a cargar los de ejemplo. */
-        restaurarEjemplos: function () {
-            return responder(function () {
-                almacen = datosDeEjemplo();
-                escribirAlmacen();
-                return true;
-            });
-        }
+        listar:function(catalogo){return cargarRemoto().then(function(estado){return estado[catalogo];});},
+        crear:function(catalogo,datos){return enviar('crear',catalogo,null,datos);},
+        editar:function(catalogo,id,datos){return enviar('editar',catalogo,id,datos);},
+        cambiarEstado:function(catalogo,id,activo){return enviar('estado',catalogo,id,null,activo);},
+        obtenerConfiguracion:function(){return cargarRemoto().then(function(estado){return estado.config;});},
+        guardarConfiguracion:function(config){return enviar('config',null,null,config);},
+        importar:function(datos){return enviar('importar',null,null,datos);}
     };
 
     // Disponible para otras pantallas (presupuestos, atención, etc.)
@@ -881,6 +742,17 @@
         });
     }
 
+    function filtrarCatalogoBase() {
+        var texto=String($('#arvBuscarBase').val()||'').toLocaleLowerCase('es');
+        var categoria=$('#arvCategoriaBase').val();
+        var html=(api.catalogo||[]).map(function(item,i){
+            if(categoria && item.categoria!==categoria)return '';
+            if(texto && (item.codigo+' '+item.nombre+' '+item.categoria).toLocaleLowerCase('es').indexOf(texto)===-1)return '';
+            return '<tr><td>'+esc(item.codigo)+'</td><td>'+esc(item.nombre)+'</td><td>'+esc(item.categoria)+'</td><td><button type="button" class="btn btn-outline-info btn-sm" data-base="'+i+'">Definir mi arancel</button></td></tr>';
+        }).join('');
+        $('#arvListaBase').html(html||'<tr><td colspan="4">No hay prestaciones que coincidan.</td></tr>');
+    }
+
     $(function () {
         if (!$('#arvTabla').length) return; // el archivo solo actúa en la pantalla de aranceles
 
@@ -890,6 +762,34 @@
         $('#arvFiltroEstado').on('change', function () { filtros[catalogo].estado = this.value; pintarLista(); });
         $('#arvSoloVaria').on('change', function () { filtros[catalogo].soloVaria = this.checked; pintarLista(); });
         $('#arvNuevo').on('click', function () { if (!cargando) abrirModal(null); });
+        $('#arvCatalogoBase').on('click',function(){if(!cargando)$('#arvModalCatalogo').modal('show');});
+        $('#arvBuscarBase, #arvCategoriaBase').on('input change',filtrarCatalogoBase);
+        $('#arvListaBase').on('click','[data-base]',function(){
+            var base=api.catalogo[Number($(this).attr('data-base'))];if(!base)return;
+            $('#arvModalCatalogo').one('hidden.bs.modal',function(){
+                cambiarPestana(base.catalogo);abrirModal(null);
+                $('#arvCodigo').val(base.codigo);$('#arvNombre').val(base.nombre);
+                $(base.catalogo==='examenes'?'#arvExaTipo':'#arvProTipo').val(base.tipo);
+                $('#arvValorNeto').val('');$('#arvVaria').prop('checked',false);alternarBloques();
+                $('#arvActivo').prop('checked',true);$('#arvValorNeto').trigger('focus');
+            }).modal('hide');
+        });
+        filtrarCatalogoBase();
+        try {
+            if(window.localStorage.getItem('vetsdi_aranceles_v1'))$('#arvImportarNavegador').prop('hidden',false);
+        } catch(error) {}
+        $('#arvImportarNavegador').on('click',function(){
+            swal({title:'Importar a mi cuenta',text:'Revisa que los aranceles guardados en este navegador sean tuyos. Se copiarán a tu cuenta sin borrar el respaldo local. Solo se puede importar si la cuenta aún no tiene aranceles.',icon:'info',buttons:['Cancelar','Importar mis aranceles']}).then(function(aceptado){
+                if(!aceptado)return;
+                var respaldo;
+                try{respaldo=JSON.parse(window.localStorage.getItem('vetsdi_aranceles_v1'));}catch(error){avisarError(null,'No se pudo leer el respaldo del navegador.');return;}
+                $('#arvImportarNavegador').prop('disabled',true);
+                servicio.importar(respaldo).done(function(){cargarTodo();$('#arvImportarNavegador').prop('hidden',true);})
+                .fail(function(error){avisarError(error,'No se pudieron importar los aranceles.');})
+                .always(function(){$('#arvImportarNavegador').prop('disabled',false);});
+            });
+        });
+
         $('#arvAbrirConfig').on('click', function () { if (!cargando) abrirConfiguracion(); });
 
         // Tabla

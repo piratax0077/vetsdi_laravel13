@@ -153,16 +153,16 @@
                             <div class="form-row mt-3 mb-5">
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
                                     <button type="button" class="btn btn-primary-light-c btn-xxs"
-                                        onclick="editarInformacionPaciente()"><i class="feather icon-edit"></i> Editar
+                                        onclick="editarTutorSidebar(this)"><i class="feather icon-edit"></i> Editar
                                         información</button>
                                 </div>
                             </div>
                         </div>
-                        <div id="info_paciente-edit" style="display: none">
+                        <div id="info_paciente-edit" data-tutor-id="{{ $paciente->id }}" data-url="{{ route('profesional.paciente.modificar') }}" style="display: none">
                             <div class="form-row pt-3">
                                 <label class="col-2 text-dark font-weight-bolder">Rut</label>
                                 <div class="col-9 ml-2 text-secondary">
-                                    <input type="text" id="paciente_rut_edit" class="form-control form-control-sm"
+                                    <input type="text" id="paciente_rut_edit" readonly class="form-control form-control-sm"
                                         value="{{ $paciente->rut }}">
                                 </div>
                             </div>
@@ -243,7 +243,8 @@
                                         <span class="error">No ha registrado dirección</span>
                                         @else
                                     <input type="text" class="form-control form-control-sm" id="paciente_dir_edit"
-                                        value="{{ $paciente->Direccion()->first()->direccion . ' ' . $paciente->Direccion()->first()->numero_dir }}">
+                                        value="{{ $paciente->Direccion()->first()->direccion }}">
+<label for="tutor_numero_direccion_edit">Número</label><input type="text" id="tutor_numero_direccion_edit" class="form-control form-control-sm" value="{{ $paciente->Direccion()->first()->numero_dir }}">
                                     @endif
                                 </div>
                             </div>
@@ -300,10 +301,10 @@
                             <div class="form-row mt-3 mb-5">
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
                                     <button type="button" class="btn btn-primary-light-c btn-xxs"
-                                        onclick="guardarInformacionPaciente()"><i class="feather icon-save"></i>
+                                        onclick="guardarTutorSidebar(this)"><i class="feather icon-save"></i>
                                         Guardar información</button>
                                     <button type="button" class="btn btn-danger-light-c btn-xxs"
-                                        onclick="cancelarInformacionPaciente()"><i class="feather icon-x"></i> Cancelar
+                                        onclick="cancelarTutorSidebar(this)"><i class="feather icon-x"></i> Cancelar
                                         edición</button>
                                 </div>
                             </div>
@@ -957,3 +958,5 @@
         </div>
     </div>
 </div>
+
+@include('atencion_veterinaria.sidebars.editar_tutor')

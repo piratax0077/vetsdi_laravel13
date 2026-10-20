@@ -85,8 +85,10 @@
 
         $.ajax({
             url: url,
-            type: 'GET',
+            type: 'POST',
             data: {
+                _token: "{{ csrf_token() }}",
+                id_ficha_atencion: $('#id_fc').val(),
                 tipo_informe: tipo_informe,
                 comentarios_informe_medico: comentarios_informe_medico,
                 hora_medica: hora_medica,

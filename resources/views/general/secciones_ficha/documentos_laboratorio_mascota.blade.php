@@ -11,7 +11,7 @@
     </div>
     <div class="card-body pt-2">
         <div class="row">
-            <div class="col-lg-5 mb-3 mb-lg-0">
+            <div class="col-md-3 mb-3 mb-md-0">
                 <label for="lab-vet-observacion-ficha" class="small text-muted mb-1">Observación del examen (opcional)</label>
                 <textarea id="lab-vet-observacion-ficha" class="form-control form-control-sm mb-2" rows="2"
                     placeholder="Nombre del examen, laboratorio u observación"></textarea>
@@ -26,7 +26,7 @@
                 </div>
                 <div id="lab-vet-cola-ficha" class="mt-2"></div>
             </div>
-            <div class="col-lg-7">
+            <div class="col-md-9">
                 <div class="table-responsive">
                     <table class="table table-sm align-middle mb-0">
                         <thead>
@@ -52,7 +52,7 @@
 
 <style>
     .lab-vet-dropzone-ficha {
-        min-height: 160px;
+        min-height: 120px;
         border: 2px dashed #17b8b5;
         border-radius: 12px;
         background: #f4ffff;
@@ -64,7 +64,7 @@
         color: #168a88;
         cursor: pointer;
         text-align: center;
-        padding: 18px;
+        padding: 12px;
         transition: .2s;
     }
 
@@ -80,7 +80,7 @@
     }
 
     .lab-vet-dropzone-ficha i {
-        font-size: 42px;
+        font-size: 30px;
         color: #17b8b5;
     }
 
@@ -293,6 +293,7 @@
     function mostrarDocumentoEnVisor(url, nodes, nombre, extension) {
         nodes.contenido.innerHTML = '<div class="lab-vet-visor-placeholder"><i class="fas fa-spinner fa-spin"></i> Cargando documento...</div>';
         nodes.visor.classList.remove('d-none');
+        nodes.visor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
         if (esImagen(extension)) {
             var imagen = document.createElement('img');

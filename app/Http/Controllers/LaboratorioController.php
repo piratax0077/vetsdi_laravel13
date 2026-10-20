@@ -6919,6 +6919,7 @@ class LaboratorioController extends Controller
         // var_dump(\Carbon\Carbon::parse($request->fecha_consulta)->format('Y-m-d'));
 
         $validar = HoraMedica::where('id_paciente', $paciente->id)
+                                ->paraMascotaAgenda($request->id_mascota)
 
                                 ->whereIn('id_estado',[1,2,4,5,6,8])
 
@@ -6963,6 +6964,7 @@ class LaboratorioController extends Controller
 
 
             $validar = HoraMedica::where('id_paciente', $paciente->id)
+                                ->paraMascotaAgenda($request->id_mascota)
 
                                 ->whereIn('id_estado',[1,2,4,5,6,8])
 

@@ -53,10 +53,6 @@
 				                                        <label class="label ml-0">{{ \Carbon\Carbon::createFromDate($paciente->fecha_nac)->age; }}</label>
 				                                    </div>
 				                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 mb-0">
-				                                        <label class="label font-weight-bold ml-0">Previsión</label>
-				                                        <label class="label ml-0">{{ $paciente->Prevision->first()->nombre }}</label>
-				                                    </div>
-				                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 mb-0">
 				                                        <label class="label font-weight-bold ml-0">Teléfono</label>
 				                                        <label class="label ml-0">{{ $paciente->telefono_uno }}</label>
 				                                    </div>
@@ -118,9 +114,9 @@
 				                                        <label class="label"><strong>Especialidad: </strong></label>
 				                                        <label class="label">
 				                                            @if($profesional->SubTipoEspecialidad()->first())
-				                                                {{ $profesional->SubTipoEspecialidad()->first()->nombre }}
+				                                                {{ optional($profesional->SubTipoEspecialidad)->nombre }}
 				                                            @else
-				                                                {{ $profesional->TipoEspecialidad()->first()->nombre }}
+				                                                {{ (optional($profesional->TipoEspecialidad)->nombre ?? 'Veterinario general') }}
 				                                            @endif
 				                                        </label>
 				                                    </div>

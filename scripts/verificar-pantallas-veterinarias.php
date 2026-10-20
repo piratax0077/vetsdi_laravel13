@@ -36,6 +36,11 @@ foreach($casos as [$nombre,$usuario,$ruta,$parametros]){
         $request=\Illuminate\Http\Request::create(route($ruta,$parametros),'GET');
         $response=$app->make(\Illuminate\Contracts\Http\Kernel::class)->handle($request);
         $registro=['pantalla'=>$nombre,'estado'=>$response->getStatusCode(),'bytes'=>strlen($response->getContent())];
+        if ($ruta === 'profesional.realizar_consulta' && $response->getStatusCode() === 200) {
+            $cantidad = preg_match_all('/id=["\x27]indicar_examenes_receta["\x27]/', $response->getContent());
+            $registro['ventanas_indicar_examen'] = $cantidad;
+            if ($cantidad !== 1) throw new RuntimeException('La ficha debe renderizar exactamente una ventana indicar_examenes_receta; encontradas: '.$cantidad);
+        }
         if(isset($response->exception))$registro['error']=substr(preg_replace('/\s+/',' ',explode('(SQL:', $response->exception->getMessage())[0]),0,450);
         if($response->isRedirection())$registro['destino']=parse_url($response->headers->get('Location'),PHP_URL_PATH);
         $resultados[]=$registro;

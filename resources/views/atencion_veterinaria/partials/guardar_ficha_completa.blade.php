@@ -1,5 +1,6 @@
 @if(isset($mascota) && $mascota)
 @once
+<script src="{{ asset('js/diagnostico-formularios-veterinarios.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const diagnostico = document.getElementById('descripcion_hipotesis');

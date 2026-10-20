@@ -319,6 +319,7 @@
                     </div>
 
                     <!-- Por correo: llega un enlace para escribir la contraseña nueva -->
+                    <p class="small text-muted">Tu contraseña es única para tu RUT y sirve para todos tus perfiles de Veterchile.</p>
                     <div id="recuperar-correo" role="tabpanel" aria-labelledby="pestana-correo" @if($recuperarPorCelular) hidden @endif>
                         <form method="POST" action="{{ route('home.recuperar_contrasena') }}">
                             @csrf

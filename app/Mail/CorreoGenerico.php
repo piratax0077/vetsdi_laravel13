@@ -45,7 +45,7 @@ class CorreoGenerico extends Mailable
             {
                 $this->attach($this->detalle['url_archivo']);
             }
-            $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+            $this->from(config('mail.from.address'), config('mail.from.name'))
                     ->view('app.mail.'.$this->detalle['blade'], $viewData)
                     ->subject($this->detalle['asunto']);
 
@@ -53,7 +53,7 @@ class CorreoGenerico extends Mailable
         }
         else
         {
-            return $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+            return $this->from(config('mail.from.address'), config('mail.from.name'))
                     ->view('app.mail.'.$this->detalle['blade'], $viewData)
                     ->subject($this->detalle['asunto']);
         }

@@ -92,6 +92,10 @@ class RecuperacionContrasenaService
     /** Envía el enlace al correo de la cuenta. Devuelve false si el correo no pudo salir. */
     public function enviarEnlace(User $usuario): bool
     {
+        if (in_array(config('mail.default'), ['log', 'array'], true) && !app()->runningUnitTests()) {
+            Log::warning('Recuperación no enviada: configure un transporte de correo real.');
+            return false;
+        }
         $resultado = SendMailController::envioCorreo(
             'restablecer_contrasena',
             [['email' => $usuario->email, 'name' => $usuario->nombreParaMostrar()]],
@@ -125,6 +129,10 @@ class RecuperacionContrasenaService
      */
     public function enviarCodigo(User $usuario): bool
     {
+        if (config('mensajeria.driver', 'log') === 'log' && !app()->runningUnitTests()) {
+            Log::warning('Código no enviado: configure un proveedor de mensajería real.');
+            return false;
+        }
         $codigo = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
         $vence = now()->addMinutes(self::MINUTOS_CODIGO);
 

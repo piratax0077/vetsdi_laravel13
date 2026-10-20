@@ -3,7 +3,7 @@
         <div class="modal-content" >
             <div class="modal-header bg-info">
                 <h5 class="modal-title text-center">Indicaciones Post Quirúrgicas</h5>
-                <button type="button" class="close text-white" data-bs-dismiss="modal"aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');" aria-label="Cerrar PDF"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body" style="height:600px" >
                 <form >

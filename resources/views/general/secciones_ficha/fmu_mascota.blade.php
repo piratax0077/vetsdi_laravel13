@@ -295,227 +295,13 @@
                 </div>
             </div>
 
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <div class="card-a">
-                                <div class="card-header-a" id="histo_medico">
-                                    <button class="accor-closed btn pt-1 pb-0 pl-1 btn-block text-left card-act-open collapsed" type="button" data-toggle="collapse" data-target="#histo_medico_c" aria-expanded="false" aria-controls="histo_medico_c">
-                                        Historial Veterinario
-                                    </button>
-                                </div>
-                                <div id="histo_medico_c" class="collapse" aria-labelledby="histo_medico" data-parent="#histo_medico">
-                                    <div class="card-body-aten-a">
-                                        <div class="row mt-3">
-                                            <div class="col-sm-12 pb-4">
-                                                <table class="display table table-striped table-xs dt-responsive nowrap pb-4" style="width:100%">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="align-middle">Fecha</th>
-                                                            <th class="align-middle">Profesional</th>
-                                                            <th class="align-middle">Diagnóstico</th>
-                                                            <th class="align-middle">Ficha</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @forelse ($fichasFvu as $ficha)
-                                                            @php
-                                                                $profesionalFicha = trim(
-                                                                    data_get($ficha, 'Profesional.nombre', '') . ' ' .
-                                                                    data_get($ficha, 'Profesional.apellido_uno', '') . ' ' .
-                                                                    data_get($ficha, 'Profesional.apellido_dos', '')
-                                                                );
-                                                                $fechaFicha = data_get($ficha, 'created_at');
-                                                                $diagnosticoFicha = data_get($ficha, 'hipotesis_diagnostico')
-                                                                    ?: data_get($ficha, 'diagnostico_ce10')
-                                                                    ?: data_get($ficha, 'motivo_consulta')
-                                                                    ?: data_get($ficha, 'observaciones')
-                                                                    ?: '-';
-                                                            @endphp
-                                                            <tr>
-                                                                <td class="align-middle">{{ $fechaFicha ? \Carbon\Carbon::parse($fechaFicha)->format('d-m-Y') : '-' }}</td>
-                                                                <td class="align-middle">{{ $profesionalFicha !== '' ? $profesionalFicha : '-' }}</td>
-                                                                <td class="align-middle">{{ $diagnosticoFicha }}</td>
-                                                                <td class="align-middle">
-                                                                    <details>
-                                                                        <summary>Ver ficha #{{ $ficha->id }}</summary>
-                                                                        @include('general.secciones_ficha.partials.detalle_fvu', ['fichaFvu' => $ficha, 'datosFvu' => $detallesClinicosFvu->get($ficha->id, [])])
-                                                                    </details>
-                                                                </td>
-                                                            </tr>
-                                                        @empty
-                                                            <tr>
-                                                                <td colspan="4">No existen registros</td>
-                                                            </tr>
-                                                        @endforelse
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <div class="card-a">
-                                <div class="card-header-a" id="vacunas">
-                                    <button class="accor-closed btn pt-1 pb-0 pl-1 btn-block text-left card-act-open collapsed" type="button" data-toggle="collapse" data-target="#vacunas_c" aria-expanded="false" aria-controls="vacunas_c">
-                                        Registro de Vacunas
-                                    </button>
-                                </div>
-                                <div id="vacunas_c" class="collapse" aria-labelledby="vacunas" data-parent="#vacunas">
-                                    <div class="card-body-aten-a">
-                                        <div class="table-responsive">
-                                            <table class="display table table-striped dt-responsive nowrap table-sm" style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="align-middle">Edad</th>
-                                                        <th class="align-middle">Fecha dosis</th>
-                                                        <th class="align-middle">Vacuna</th>
-                                                        <th class="align-middle">Próx.Dosis</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @forelse ($vacunasFvu as $vacuna)
-                                                        <tr>
-                                                            <td class="align-middle">{{ $vacuna['edad'] ?? '-' }}</td>
-                                                            <td class="align-middle"><span class="badge badge-secondary">{{ !empty($vacuna['fecha_dosis']) ? \Carbon\Carbon::parse($vacuna['fecha_dosis'])->format('d-m-Y') : '-' }}</span></td>
-                                                            <td class="align-middle">{{ $vacuna['vacuna'] ?? '-' }}</td>
-                                                            <td class="align-middle text-center"><span class="badge badge-info">{{ !empty($vacuna['proxima_dosis']) ? \Carbon\Carbon::parse($vacuna['proxima_dosis'])->format('d-m-Y') : '-' }}</span></td>
-                                                        </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <td colspan="4">Sin registros</td>
-                                                        </tr>
-                                                    @endforelse
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <div class="card-a">
-                                <div class="card-header-a" id="desparasitacion">
-                                    <button class="accor-closed btn pt-1 pb-0 pl-1 btn-block text-left card-act-open collapsed" type="button" data-toggle="collapse" data-target="#desparasitacion_c" aria-expanded="false" aria-controls="desparasitacion_c">
-                                        Registro de Desparasitación
-                                    </button>
-                                </div>
-                                <div id="desparasitacion_c" class="collapse" aria-labelledby="desparasitacion" data-parent="#desparasitacion">
-                                    <div class="card-body-aten-a">
-                                        <div class="table-responsive">
-                                            <table class="display table table-striped dt-responsive nowrap table-sm" style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="align-middle">Fecha dosis</th>
-                                                        <th class="align-middle">Antiparasitario</th>
-                                                        <th class="align-middle">Tipo</th>
-                                                        <th class="align-middle">Próx.Dosis</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @forelse ($desparasitacionesFvu as $registro)
-                                                        <tr>
-                                                            <td class="align-middle"><span class="badge badge-secondary">{{ !empty($registro['fecha_dosis']) ? \Carbon\Carbon::parse($registro['fecha_dosis'])->format('d-m-Y') : '-' }}</span></td>
-                                                            <td class="align-middle">{{ $registro['antiparasitario'] ?? '-' }}</td>
-                                                            <td class="align-middle">{{ $registro['tipo'] ?? '-' }}</td>
-                                                            <td class="align-middle text-center"><span class="badge badge-info">{{ !empty($registro['proxima_dosis']) ? \Carbon\Carbon::parse($registro['proxima_dosis'])->format('d-m-Y') : '-' }}</span></td>
-                                                        </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <td colspan="4">Sin registros</td>
-                                                        </tr>
-                                                    @endforelse
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <div class="card-a">
-                                <div class="card-header-a" id="odonto_felino">
-                                    <button class="accor-closed btn pt-1 pb-0 pl-1 btn-block text-left card-act-open collapsed" type="button" data-toggle="collapse" data-target="#odonto_felino_c" aria-expanded="false" aria-controls="odonto_felino_c">
-                                        Historial Odontológico
-                                    </button>
-                                </div>
-                                <div id="odonto_felino_c" class="collapse" aria-labelledby="odonto_felino" data-parent="#odonto_felino">
-                                    <div class="card-body-aten-a">
-                                        @if ($mostrarOdontogramaCanino || $mostrarOdontogramaFelino)
-                                            @include('general.secciones_ficha.partials.odontograma_mascota')
-                                        @else
-                                            <div class="alert alert-info mb-0">
-                                                El odontograma de mascota se muestra cuando la especie corresponde a perro o gato.
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <div class="card-a">
-                                <div class="card-header-a" id="documentos">
-                                    <button class="accor-closed btn pt-1 pb-0 pl-1 btn-block text-left card-act-open collapsed" type="button" data-toggle="collapse" data-target="#documentos_c" aria-expanded="false" aria-controls="documentos_c">
-                                        Documentación
-                                    </button>
-                                </div>
-                                <div id="documentos_c" class="collapse" aria-labelledby="documentos" data-parent="#documentos">
-                                    <div class="card-body-aten-a">
-                                        <div class="table-responsive">
-                                            <table class="display table table-striped dt-responsive nowrap table-sm" style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Tipo</th>
-                                                        <th>Nombre</th>
-                                                        <th>Fecha</th>
-                                                        <th>Estado</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @forelse ($documentosFvu as $documento)
-                                                        <tr>
-                                                            <td>{{ $documento['tipo'] ?? '-' }}</td>
-                                                            <td>{{ $documento['nombre'] ?? '-' }}</td>
-                                                            <td>{{ !empty($documento['fecha']) ? \Carbon\Carbon::parse($documento['fecha'])->format('d-m-Y') : '-' }}</td>
-                                                            <td>{{ $documento['estado'] ?? '-' }}</td>
-                                                        </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <td colspan="4">Sin documentos</td>
-                                                        </tr>
-                                                    @endforelse
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        @if ($galeriaFvu->isNotEmpty())
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="card-a">
-                                    <div class="card-header-a" id="galeria">
-                                        <button class="accor-closed btn pt-1 pb-0 pl-1 btn-block text-left card-act-open collapsed" type="button" data-toggle="collapse" data-target="#galeria_c" aria-expanded="false" aria-controls="galeria_c">
-                                            Fotos y Galería
-                                        </button>
-                                    </div>
-                                    <div id="galeria_c" class="collapse" aria-labelledby="galeria" data-parent="#galeria">
-                                        <div class="card-body-aten-a">
-                                            <div class="d-flex flex-wrap">
-                                                <img class="img-thumbnail mr-2 mb-2" src="{{ $fotoMascota }}" alt="Foto perfil" style="width: 110px; height: 110px; object-fit: cover;">
-                                                @foreach ($galeriaFvu as $foto)
-                                                    <img class="img-thumbnail mr-2 mb-2" src="{{ $foto }}" alt="Galería mascota" style="width: 110px; height: 110px; object-fit: cover;">
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <dl class="fvu-perfil__datos">
+                <div class="fvu-dato">
+                    <dt><i class="fas fa-birthday-cake" aria-hidden="true"></i> Edad</dt>
+                    <dd>
+                        {{ $edadTextoFvu }}
+                        @if ($fechaNacimientoFvu)
+                            <small title="Fecha de nacimiento">({{ $fechaNacimientoFvu }})</small>
                         @endif
                     </dd>
                 </div>
@@ -934,7 +720,12 @@
                                                 <td class="fvu-tabla__nowrap"><span class="badge badge-secondary">{{ $fechaFicha ? \Carbon\Carbon::parse($fechaFicha)->format('d-m-Y') : '-' }}</span></td>
                                                 <td class="fvu-tabla__fuerte">{{ $profesionalFicha !== '' ? $profesionalFicha : '-' }}</td>
                                                 <td>{{ $diagnosticoFicha }}</td>
-                                                <td><span class="fvu-etiqueta-ficha">#{{ data_get($ficha, 'id', '-') }}</span></td>
+                                                <td>
+                                                    <details class="fvu-detalle-ficha">
+                                                        <summary><span class="fvu-etiqueta-ficha">#{{ data_get($ficha, 'id', '-') }}</span> Ver detalle</summary>
+                                                        @include('general.secciones_ficha.partials.detalle_fvu', ['fichaFvu' => $ficha, 'datosFvu' => $detallesClinicosFvu->get($ficha->id, [])])
+                                                    </details>
+                                                </td>
                                             </tr>
                                         @empty
                                             <tr>

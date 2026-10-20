@@ -316,10 +316,7 @@
                                                             @endif
                                                         </select>
                                                     </div>
-                                                    <div class="form-group col-12">
-                                                        <label class="floating-label-activo">Dirección</label>
-                                                        <input type="text" class="form-control form-control-sm" placeholder="Dirección" name="perfil_dire" id="perfil_dire" value="{{ optional($direccion_paciente)->direccion }}">
-                                                    </div>
+
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="col-sm-12 d-flex justify-content-end">

@@ -92,6 +92,7 @@ class CompletarPerfilController extends Controller
             'profesional' => $this->guardarProfesional($request, $usuario),
             'asistente' => $this->guardarAsistente($request, $usuario),
             'clinica' => $this->guardarClinica($request, $usuario),
+            'peluqueria' => $this->guardarPeluqueria($request, $usuario),
         };
 
         $this->cuentas->marcarPerfilCompleto($usuario, $tipo);
@@ -104,6 +105,7 @@ class CompletarPerfilController extends Controller
     private function catalogos(string $tipo): array
     {
         return match ($tipo) {
+            'peluqueria' => [],
             'tutor' => [
                 'regiones' => Region::orderBy('nombre')->get(['id', 'nombre']),
                 'especies' => EspecieMascota::orderBy('id')->get(['id', 'nombre']),
@@ -123,6 +125,20 @@ class CompletarPerfilController extends Controller
         };
     }
 
+    private function validarCiudadRegion(array $datos): void
+    {
+        if (!\App\Models\Ciudad::where('id',$datos['id_ciudad'])->where('id_region',$datos['id_region'])->exists()) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['id_ciudad'=>'La comuna no pertenece a la región seleccionada.']);
+        }
+    }
+
+    private function guardarPeluqueria(Request $request, User $usuario): void
+    {
+        $datos=$request->validate(['nombre'=>'required|string|max:255','telefono'=>'required|string|max:30','direccion'=>'required|string|max:255']);
+        $perfil=$this->perfilDe(\App\Models\Peluqueria::class,$usuario);
+        $perfil->fill($datos)->saveOrFail();
+    }
+
     /** Tutor: dónde vive y su primera mascota. */
     private function guardarTutor(Request $request, User $usuario): void
     {
@@ -139,6 +155,8 @@ class CompletarPerfilController extends Controller
             'mascota_edad_aproximada' => ['nullable', 'integer', 'min:0', 'max:40'],
             'mascota_chip' => ['nullable', 'string', 'max:40'],
         ], $this->mensajes());
+
+        $this->validarCiudadRegion($datos);
 
         $direccion = $this->guardarDireccion(
             $this->unirDireccion($datos['direccion'], $datos['depto'] ?? null),
@@ -200,6 +218,10 @@ class CompletarPerfilController extends Controller
             'id_tipo_especialidad' => ['nullable', 'exists:tipos_especialidad,id'],
         ], $this->mensajes());
 
+        if (!empty($datos['id_tipo_especialidad']) && !TipoEspecialidad::where('id',$datos['id_tipo_especialidad'])->where('id_especialidad',$datos['id_especialidad'])->exists()) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['id_tipo_especialidad'=>'La especialidad no pertenece a la profesión seleccionada.']);
+        }
+
         [$nombres, $apellidoUno, $apellidoDos] = $usuario->partesDelNombre();
 
         $profesional = $this->perfilDe(Profesional::class, $usuario);
@@ -210,7 +232,7 @@ class CompletarPerfilController extends Controller
         $profesional->email = $usuario->email;
         $profesional->telefono_uno = $usuario->telefono;
         $profesional->id_especialidad = $datos['id_especialidad'];
-        $profesional->id_tipo_especialidad = $datos['id_tipo_especialidad'] ?: null;
+        $profesional->id_tipo_especialidad = $datos['id_tipo_especialidad'] ?? null;
         $profesional->estado = 1;
         $profesional->save();
     }
@@ -252,6 +274,8 @@ class CompletarPerfilController extends Controller
             'telefono' => ['required', 'string', 'regex:/^\+56 [29]\d? \d{4} \d{4}$/'],
             'email_contacto' => ['required', 'email:filter', 'max:255'],
         ], $this->mensajes());
+
+        $this->validarCiudadRegion($datos);
 
         $rutEmpresa = rut_normalizar($datos['rut_empresa']);
         $responsable = $this->responsableDeLaClinica($usuario);

@@ -54,7 +54,7 @@ class PerfilCentroMedico
         $datos=$request->validate(['ciudad'=>'required|integer|exists:ciudades,id','region'=>'sometimes|nullable|integer|exists:regiones,id','direccion'=>'required|string|max:255','numero_dir'=>'nullable|string|max:30']);
         $ciudad=Ciudad::findOrFail($datos['ciudad']);
         if(!empty($datos['region']) && (int)$ciudad->id_region !== (int)$datos['region'])throw ValidationException::withMessages(['ciudad'=>'La ciudad no pertenece a la región seleccionada.']);
-        $direccion=Direccion::find($perfil->id_direccion) ?? new Direccion();
+        $direccion=DireccionesPerfil::editable($perfil);
         $direccion->id_ciudad=$ciudad->id;
         $direccion->direccion=$datos['direccion'];
         $direccion->numero_dir=$datos['numero_dir'] ?? null;
@@ -94,6 +94,7 @@ class PerfilCentroMedico
     private function persona(Model $persona, Request $request, bool $profesional): void
     {
         $idUsuario=$profesional ? $persona->id_usuario : $persona->id_admin;
+        if ($request->exists('email')) $request->merge(['email'=>correo_normalizar($request->email)]);
         $datos=$request->validate([
             'rut'=>['sometimes','required','string','max:20',Rule::unique($persona->getTable(),'rut')->ignore($persona->id)],
             'nombres'=>'sometimes|required|string|max:255','apellido_uno'=>'sometimes|required|string|max:255','apellido_dos'=>'sometimes|nullable|string|max:255',
@@ -111,6 +112,12 @@ class PerfilCentroMedico
         if($idUsuario && ($usuario=User::find($idUsuario))){
             if(array_key_exists('email',$datos))$usuario->email=$datos['email'];
             if(array_intersect(['nombres','apellido_uno','apellido_dos'],array_keys($datos)))$usuario->name=trim(implode(' ',array_filter([$persona->{$profesional?'nombre':'nombres'},$persona->apellido_uno,$persona->apellido_dos])));
+            if(array_intersect(['nombres','apellido_uno','apellido_dos'],array_keys($datos))) {
+                $usuario->nombres=$persona->{$profesional?'nombre':'nombres'};
+                $usuario->apellido_uno=$persona->apellido_uno;
+                $usuario->apellido_dos=$persona->apellido_dos;
+            }
+            if(array_key_exists('telefono_uno',$datos))$usuario->telefono=$datos['telefono_uno'];
             $usuario->saveOrFail();
         }
     }

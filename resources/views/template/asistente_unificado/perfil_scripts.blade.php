@@ -458,7 +458,7 @@ var CalendarEl = null;
                                                                         var comentarios_confirmacion = '';
                                                                         if(comentarios_confirmacion != 'null')
                                                                             comentarios_confirmacion = element.comentarios_confirmacion+' | '
-                                                                        var nombre = element.paciente.prevision.nombre
+                                                                        var nombre = (element.paciente.prevision?.nombre || 'Sin convenio')
                                                                         var descripcion = '';
 
                                                                         if(element.tipo_hora_medica == 'B')
@@ -1173,8 +1173,9 @@ var CalendarEl = null;
             var bono_valor_consulta = $('#bono_valor_consulta').val();
             var bono_valor_bonificacion = $('#valor_bonificacion').val();
             var bono_valor_seguro = $('#valor_seguro').val();
-            var bono_prevision = $('#bono_prevision').val();
-            var bono_prevision_nombre = $('#bono_prevision option:selected').text();
+            var convenioVeterinario = $('.modal:visible .bono-convenio-veterinario').val() || '';
+            if (window.conveniosVeterinariosListos && !window.conveniosVeterinariosListos()) return;
+
             var recepcion_programa = $('#recepcion_programa').val();
             var bono_sn_sesiones = $('#bono_sn_sesiones').val();
 
@@ -1207,33 +1208,8 @@ var CalendarEl = null;
                 mensaje += 'Campo requerido RUT DEL PROFESIONAL\n';
                 valido = 0;
             }
-            if(bono_id_clase_bono != 6)
-            {
-                if(bono_numero == '')
-                {
-                    mensaje += 'Campo requerido NUMERO DEL BONO O PROGRAMA\n';
-                    valido = 0;
-                }
-            }
-            if(bono_valor_consulta == '')
-            {
-                mensaje += 'Campo requerido VALOR TOTAL\n';
-                valido = 0;
-            }
-            if(bono_valor_seguro == ''){
-                mensaje += 'Campo requerido VALOR SEGURO\n';
-                valido = 0;
-            }
-
-            if(bono_valor_bonificacion == '')
-            {
-                mensaje += 'Campo requerido VALOR BONIFICACION\n';
-                valido = 0;
-            }
-
-            if(bono_prevision == '' || bono_prevision == 0)
-            {
-                mensaje += 'Campo requerido CONVENIO\n';
+            if ((bono_valor_consulta === '' || bono_valor_consulta == null) && !bono_numero && bono_id_clase_bono != 2) {
+                mensaje += 'Ingrese el valor o código QR de la atención.\n';
                 valido = 0;
             }
 
@@ -1246,8 +1222,8 @@ var CalendarEl = null;
                     data: {
                         // _token: token,
                         _token: CSRF_TOKEN,
-                        convenio: bono_prevision,
-                        convenio_nombre: bono_prevision_nombre,
+                        convenio_veterinario_id: convenioVeterinario,
+
                         numero_bono: bono_numero,
                         valor_atencion: bono_valor_consulta,
                         valor_bonificacion: bono_valor_bonificacion,
@@ -1270,7 +1246,7 @@ var CalendarEl = null;
                         {
                             swal({
                                 title: "Recepción de bonos y programas",
-                                text: 'Pago Exitoso',
+                                text: data.msj || 'Recepción registrada',
                                 icon: "success",
                             });
                             cargarAgendaProfesional($('#id_tipo_agenda').val(),data.hora_medica.fecha_consulta);
@@ -1320,8 +1296,9 @@ var CalendarEl = null;
 
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    console.log('fail');
-                    console.log(jqXHR, ajaxOptions, thrownError)
+                    const respuesta = jqXHR.responseJSON || {};
+                    const errores = respuesta.errors ? Object.values(respuesta.errors).flat().join('\n') : '';
+                    swal({ title: 'No fue posible registrar la recepción', text: errores || respuesta.message || 'Intenta nuevamente.', icon: 'error' });
                 });
             }
             else
@@ -1473,8 +1450,8 @@ var CalendarEl = null;
                         $('#reserva_hora_telefono').text(data.telefono_uno);
                         $('#input_reserva_hora_telefono').val(data.telefono_uno);
 
-                        $('#reserva_convenio').text(data.prevision.nombre);
-                        $('#input_reserva_convenio').val(data.prevision.id);
+                        $('#reserva_convenio').text((data.prevision?.nombre || 'Sin convenio'));
+                        $('#input_reserva_convenio').val((data.prevision?.id || 0));
 
                         $('#reserva_direccion').text(data.direccion.direccion+' '+data.direccion.numero_dir+', '+data.direccion.ciudad.nombre);
                         $('#input_reserva_direccion_direccion').val(data.direccion.direccion);
@@ -1734,20 +1711,8 @@ var CalendarEl = null;
 
                 return;
             }
-            let reserva_hora_convenio = $('#reserva_hora_convenio').val();
-            if (reserva_hora_convenio == '0') {
+            let reserva_hora_convenio = 0; // No se utiliza previsión en veterinaria.
 
-                swal({
-                    title: "Error!",
-                    text: "Debe seleccionar la previsión del paciente",
-                    icon: "error",
-                    type: "danger",
-                    DangerMode: true,
-
-                });
-                return;
-
-            }
             let reserva_hora_direccion = $('#reserva_hora_direccion').val();
             if (reserva_hora_direccion == '') {
 

@@ -177,5 +177,13 @@ class AutorizacionesAsistentesTest extends TestCase
         });
         $this->assertSame(2, \App\Models\Bono::count());
     }
+    public function test_escritorio_asistente_no_es_capturado_por_el_sitio_publico(): void
+    {
+        $ruta = app('router')->getRoutes()->match(Request::create('/Asistentes', 'GET'));
+        $this->assertSame('asistentes.home', $ruta->getName());
+        $sitio = app('router')->getRoutes()->match(Request::create('/mi-clinica-publica', 'GET'));
+        $this->assertSame('sitio.ficha', $sitio->getName());
+    }
+
 }
 

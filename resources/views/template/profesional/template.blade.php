@@ -6632,6 +6632,7 @@
                         data: {
                             // _token: token,
                             _token: CSRF_TOKEN,
+                            convenio_veterinario_id: $('.bono-convenio-veterinario:visible').val() || '',
                             convenio: bono_prevision,
                             convenio_nombre: bono_prevision_nombre,
                             numero_bono: bono_numero,
@@ -6726,6 +6727,7 @@
         }
 
         function recepcion_pago() {
+            if (window.conveniosVeterinariosListos && !window.conveniosVeterinariosListos()) return;
             var $modalPago = $('.modal:visible').filter(function () {
                 return $(this).find('#bono_hora_medica').length > 0;
             }).last();
@@ -6773,7 +6775,8 @@
                 type: 'POST',
                 data: {
                     _token: CSRF_TOKEN,
-                    convenio: campo('#bono_prevision', '1') || '1',
+                    convenio_veterinario_id: campo('.bono-convenio-veterinario', ''),
+                    convenio: campo('#bono_prevision', '0') || '0',
                     numero_bono: codigoQr,
                     numero_presupuesto: numeroPresupuesto,
                     valor_bonificacion: campo('#valor_bonificacion', '0') || '0',

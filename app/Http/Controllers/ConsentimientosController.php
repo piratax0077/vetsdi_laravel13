@@ -80,6 +80,26 @@ class ConsentimientosController extends Controller
 
     public function registrar(Request $request)
     {
+        abort_unless(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->hasRole('Profesional'), 403);
+        $profesional = Profesional::where('id_usuario', \Illuminate\Support\Facades\Auth::id())->firstOrFail();
+        $ficha = FichaAtencion::where('id_profesional', $profesional->id)->findOrFail($request->id_ficha_atencion);
+        $mascota = Mascota::findOrFail($ficha->id_mascota);
+        abort_unless((int) $mascota->id_responsable === (int) $ficha->id_paciente, 403);
+        foreach (['id_paciente'=>$ficha->id_paciente, 'id_profesional'=>$profesional->id, 'id_mascota'=>$mascota->id] as $campo=>$id) {
+            abort_if($request->filled($campo) && (int) $request->input($campo) !== (int) $id, 403);
+            $request->merge([$campo=>$id]);
+        }
+        $resultado = \Illuminate\Support\Facades\DB::transaction(fn () => $this->registrarDocumentoTutor($request));
+        if (($resultado['estado'] ?? 0) === 1) {
+            $documento = DocumentoFcPaciente::findOrFail($resultado['documento']['id']);
+            $resultado['notificaciones'] = app(\App\Services\NotificarConsentimientoTutor::class)->enviar($documento);
+            $resultado['msj'] = 'Consentimiento disponible en Documentos del tutor para firma. '.$resultado['notificaciones']['resumen'];
+        }
+        return $resultado;
+    }
+
+    private function registrarDocumentoTutor(Request $request)
+    {
         $datos = array();
         $error = array();
         $valido = 1;
@@ -201,12 +221,14 @@ class ConsentimientosController extends Controller
             public_path($rutaRelativa)
         );
 
-        $documento = DocumentoFcPaciente::firstOrNew([
+        $identidad = [
             'id_ficha_atencion' => $registro->id_fc,
             'id_paciente' => $registro->id_paciente,
             'otro' => 'consentimiento_informado_veterinario',
             'documento' => $nombreArchivo,
-        ]);
+        ];
+        $documento = DocumentoFcPaciente::where($identidad)->first() ?? new DocumentoFcPaciente();
+        $documento->forceFill($identidad);
 
         $documento->id_tipo_documento = 1;
         $documento->id_profesional = $registro->id_profesional;

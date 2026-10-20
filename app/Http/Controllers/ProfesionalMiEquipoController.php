@@ -9,246 +9,89 @@ use Illuminate\Http\Request;
 
 class ProfesionalMiEquipoController extends Controller
 {
-    /**
-     * buscar listados de equipos del profesional
-     */
-    public function verEquiposProfesional(Request $request)
+    private function propio(): Profesional
     {
-
-        $datos = array();
-        $error = array();
-        $filtro = array();
-        $valido = 1;
-
-        if(empty($request->id_profesional))
-        {
-            $error['id_profesional'] = 'campo requerido';
-            $valido = 0;
-        }
-
-        if($valido)
-        {
-            $filtro[] = array('id_profesional', $request->id_profesional);
-            $filtro[] = array('estado', 1);
-
-            $registros = ProfesionalMiEquipo::where($filtro)
-                                            // ->with(['ProfesionalMiEquipoProfesionales' => function($query){
-                                            //     $query->select();
-                                            // }])
-                                            ->get();
-
-            $filtro_todos[] = array('id_profesional',$request->id_profesional);
-
-            $registros_todos = ProfesionalMiEquipo::where($filtro_todos)
-                                            // ->with(['ProfesionalMiEquipoProfesionales' => function($query){
-                                            //     $query->select();
-                                            // }])
-                                            ->get();
-
-            if($registros)
-            {
-                $datos['estado'] = 1;
-                $datos['msj'] = 'registros';
-                $datos['registros'] = $registros;
-                $datos['registros_'] = $registros_todos;
-            }
-            else
-            {
-                $datos['estado'] = 0;
-                $datos['msj'] = 'registros no encontrados';
-            }
-        }
-        else
-        {
-            $datos['estado'] = 0;
-            $datos['msj'] ='campo requerido';
-            $datos['error'] = $error;
-        }
-
-        return $datos;
+        return Profesional::where('id_usuario', \Illuminate\Support\Facades\Auth::id())->firstOrFail();
     }
 
-    /**
-     * buscar profesionales del equipo
-     */
+    private function equipoPropio($id): ProfesionalMiEquipo
+    {
+        return ProfesionalMiEquipo::where('id_profesional',$this->propio()->id)->findOrFail($id);
+    }
+
+    public function verEquiposProfesional(Request $request)
+    {
+        $profesional=$this->propio();
+        abort_if($request->filled('id_profesional') && (int)$request->id_profesional !== (int)$profesional->id,403);
+        $equipos=ProfesionalMiEquipo::where('id_profesional',$profesional->id)->get();
+        return ['estado'=>1,'msj'=>'registros','registros'=>$equipos->where('estado',1)->values(),'registros_'=>$equipos];
+    }
+
     public function verDetalleEquipoProfesional(Request $request)
     {
-        $datos = array();
-        $error = array();
-        $filtro = array();
-        $valido = 1;
+        $request->validate(['id_profesional_mi_equipo'=>'required|integer']);
+        $equipo=$this->equipoPropio($request->id_profesional_mi_equipo);
+        $miembros=ProfesionalMiEquipoProfesional::where('id_profesional_mi_equipo',$equipo->id)->where('estado',1)
+            ->with(['Profesional','TipoEspecialidad','SubTipoEspecialidad'])->orderBy('id')->get();
+        return ['estado'=>1,'msj'=>'registros','equipo'=>['id'=>$equipo->id,'nombre'=>$equipo->nombre,'descripcion'=>$equipo->descripcion], 'registros'=>$miembros];
+    }
 
-        if(empty($request->id_profesional_mi_equipo))
-        {
-            $error['id_profesional_mi_equipo'] = 'campo requerido';
-            $valido = 0;
+    private function integrantes(Request $request): array
+    {
+        $datos=$request->validate(['profesionales'=>'required|array|min:1|max:100','profesionales.*.profesional_id'=>'required|integer|exists:profesionales,id',
+            'profesionales.*.posicion'=>'required|string|max:100']);
+        return $datos['profesionales'];
+    }
+
+    private function guardarIntegrantes(int $equipo,array $integrantes): void
+    {
+        foreach($integrantes as $integrante){
+            $p=Profesional::findOrFail($integrante['profesional_id']);
+            $resultado=static::registroEquipoProfesional($equipo,$p->id_tipo_especialidad,$p->id_sub_tipo_especialidad,$integrante['posicion'],$p->id);
+            if($resultado->estado!==1)throw new \RuntimeException('No se pudo guardar un integrante del equipo.');
         }
-
-
-        if($valido)
-        {
-            $filtro[] = array('id_profesional_mi_equipo', $request->id_profesional_mi_equipo);
-            $filtro[] = array('estado', 1);
-
-            $registros = ProfesionalMiEquipoProfesional::where($filtro)
-                                                        ->with(['Profesional'=>function($query) {
-                                                            $query->select('id','nombre','apellido_uno','apellido_dos','rut','email','telefono_uno');
-                                                        } ])
-                                                        ->with(['TipoEspecialidad'=>function($query) {
-                                                            $query->select('id', 'nombre');
-                                                        }])
-                                                        ->with(['SubTipoEspecialidad'=>function($query) {
-                                                            $query->select('id', 'nombre');
-                                                        }])
-                                                        ->get();
-
-            if($registros)
-            {
-                $datos['estado'] = 1;
-                $datos['msj'] = 'registros';
-                $datos['registros'] = $registros;
-            }
-            else
-            {
-                $datos['estado'] = 0;
-                $datos['msj'] = 'registros no encontrados';
-            }
-        }
-        else
-        {
-            $datos['estado'] = 0;
-            $datos['msj'] ='campo requerido';
-            $datos['error'] = $error;
-        }
-
-        return $datos;
     }
 
     public function registroMiEquipoProfesionales(Request $request)
     {
-
-        $datos = array();
-        $registroEq = static::registrarEquipo( $request->nombre, $request->descripcion, $request->id_profesional );
-        if($registroEq->estado == 1)
-        {
-            $datos['estado'] = 1;
-            $datos['msj-equipo'] = 'Equipo Creado';
-            $datos['result-equipo'] = $registroEq;
-            $datos['cant-prof'] = 0;
-            $datos['cant-prof-reg'] = 0;
-            $datos['cant-prof-error'] = 0;
-
-            if(count($request->profesionales)>0)
-            {
-                $datos['cant-prof'] = count($request->profesionales);
-                foreach ($request->profesionales as $key => $profesional) {
-                    $p = Profesional::find($profesional['profesional_id']);
-                    $registroProf = static::registroEquipoProfesional( $registroEq->last_id, $p->id_tipo_especialidad, $p->id_sub_tipo_especialidad, $profesional['posicion'], $p->id );
-                    if($registroProf->estado == 1)
-                    {
-                        $datos['profesionales'][$key]['estado'] = 1;
-                        $datos['profesionales'][$key]['msj'] = 'Registrado';
-                        $datos['profesionales'][$key]['result'] = $registroProf;
-                        $datos['cant-prof-reg']++;
-                    }
-                    else
-                    {
-                        $datos['profesionales'][$key]['estado'] = 0;
-                        $datos['profesionales'][$key]['msj'] = 'Problema en registro';
-                        $datos['profesionales'][$key]['result'] = $registroProf;
-                        $datos['cant-prof-error']++;
-                    }
-
-                }
-
-            }
-        }
-        else
-        {
-            $datos['estado'] = 0;
-            $datos['msj'] = 'problema en registro de equipo';
-            $datos['result-equipo'] = $registroEq;
-        }
-
-        return $datos;
+        $profesional=$this->propio();
+        abort_if($request->filled('id_profesional') && (int)$request->id_profesional !== (int)$profesional->id,403);
+        $datos=$request->validate(['nombre'=>'required|string|max:255','descripcion'=>'required|string|max:2000']);
+        $integrantes=$this->integrantes($request);
+        return \Illuminate\Support\Facades\DB::transaction(function()use($datos,$profesional,$integrantes){
+            $resultado=static::registrarEquipo($datos['nombre'],$datos['descripcion'],$profesional->id);
+            if($resultado->estado!==1)throw new \RuntimeException('No se pudo guardar el equipo.');
+            $this->guardarIntegrantes($resultado->last_id,$integrantes);
+            return ['estado'=>1,'msj-equipo'=>'Equipo creado','result-equipo'=>$resultado,'cant-prof'=>count($integrantes),'cant-prof-reg'=>count($integrantes),'cant-prof-error'=>0];
+        });
     }
 
-    public function eliminarMiEquipoProfesionales(Request $request){
-        $id_equipo = $request->id;
-        $equipo = ProfesionalMiEquipo::find($id_equipo);
-        if($equipo->delete()){
-            return ['estado' => 1];
-        }else{
-            return ['estado' => 0];
-        }
+    public function modificarMiEquipoProfesionales(Request $request)
+    {
+        $request->validate(['id_equipo_modificar'=>'required|integer']);
+        $equipo=$this->equipoPropio($request->id_equipo_modificar);
+        // Validar toda la lista antes de reemplazar los integrantes existentes.
+        $integrantes=$this->integrantes($request);
+        return \Illuminate\Support\Facades\DB::transaction(function()use($equipo,$integrantes){
+            ProfesionalMiEquipo::whereKey($equipo->id)->lockForUpdate()->firstOrFail();
+            ProfesionalMiEquipoProfesional::where('id_profesional_mi_equipo',$equipo->id)->delete();
+            $this->guardarIntegrantes($equipo->id,$integrantes);
+            return ['estado'=>1,'msj-equipo'=>'Equipo actualizado','cant-prof'=>count($integrantes),'cant-prof-reg'=>count($integrantes),'cant-prof-error'=>0];
+        });
     }
 
-    public function modificarMiEquipoProfesionales(Request $request){
-
-        $datos = array();
-        $id_equipo = $request->id_equipo_modificar;
-        $registroEq = ProfesionalMiEquipo::find($id_equipo);
-
-        if($registroEq)
-        {
-            $datos['estado'] = 1;
-            $datos['msj-equipo'] = 'Equipo Encontrado';
-            $datos['result-equipo'] = $registroEq;
-            $datos['cant-prof'] = 0;
-            $datos['cant-prof-reg'] = 0;
-            $datos['cant-prof-error'] = 0;
-
-            // eliminamos la lista anterior para que no se dupliquen los registros
-            $registros = ProfesionalMiEquipoProfesional::where('id_profesional_mi_equipo',$registroEq->id)->get();
-
-            foreach($registros as $r) $r->delete();
-
-            if(count($request->profesionales)>0)
-            {
-                $datos['cant-prof'] = count($request->profesionales);
-                foreach ($request->profesionales as $key => $profesional) {
-                    $p = Profesional::find($profesional['profesional_id']);
-
-                    $registroProf = static::registroEquipoProfesional( $registroEq->id, $p->id_tipo_especialidad, $p->id_sub_tipo_especialidad, $profesional['posicion'], $p->id );
-                    if($registroProf->estado == 1)
-                    {
-                        $datos['profesionales'][$key]['estado'] = 1;
-                        $datos['profesionales'][$key]['msj'] = 'Registrado';
-                        $datos['profesionales'][$key]['result'] = $registroProf;
-                        $datos['cant-prof-reg']++;
-                    }
-                    else
-                    {
-                        $datos['profesionales'][$key]['estado'] = 0;
-                        $datos['profesionales'][$key]['msj'] = 'Problema en registro';
-                        $datos['profesionales'][$key]['result'] = $registroProf;
-                        $datos['cant-prof-error']++;
-                    }
-
-                }
-
-            }
-        }
-        else
-        {
-            $datos['estado'] = 0;
-            $datos['msj'] = 'problema en registro de equipo';
-            $datos['result-equipo'] = $registroEq;
-        }
-
-        return $datos;
+    public function eliminarMiEquipoProfesionales(Request $request)
+    {
+        $equipo=$this->equipoPropio($request->id);
+        return \Illuminate\Support\Facades\DB::transaction(function()use($equipo){
+            ProfesionalMiEquipoProfesional::where('id_profesional_mi_equipo',$equipo->id)->delete();$equipo->delete();return ['estado'=>1];
+        });
     }
 
-    public function modificarEstadoMiEquipoProfesionales(Request $request){
-
-        $id_equipo = $request->id;
-        $equipo = ProfesionalMiEquipo::find($id_equipo);
-        $equipo->estado = $request->habilitado;
-        if($equipo->save()){
-            return ['estado' => 1];
-        }else{
-            return ['estado' => 0];
-        }
+    public function modificarEstadoMiEquipoProfesionales(Request $request)
+    {
+        $request->validate(['habilitado'=>'required|boolean']);$equipo=$this->equipoPropio($request->id);
+        $equipo->estado=$request->habilitado;$equipo->saveOrFail();return ['estado'=>1];
     }
 
     static public function registrarEquipo( $nombre, $descripcion, $id_profesional )
@@ -314,16 +157,8 @@ class ProfesionalMiEquipoController extends Controller
             $error['id_profesional_mi_equipo'] = 'campor requerido';
             $valido = 0;
         }
-        if(empty($id_tipo_especialidad))
-        {
-            $error['id_tipo_especialidad'] = 'campor requerido';
-            $valido = 0;
-        }
-        if(empty($id_sub_tipo_especialidad))
-        {
-            $error['id_sub_tipo_especialidad'] = 'campor requerido';
-            $valido = 0;
-        }
+
+
         if(empty($posicion))
         {
             $error['posicion'] = 'campor requerido';

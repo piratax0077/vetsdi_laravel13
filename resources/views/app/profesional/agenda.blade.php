@@ -1394,16 +1394,7 @@
                         </div>
 
                         <div class="col-sm-6">
-                            <div class="input-group">
-                                <label class="floating-label-activo-sm">Convenio</label>
-                                <input type="text" class="form-control form-control-sm" name="bono_prevision_txt" id="bono_prevision_txt" disabled="disabled" value="">
-                                <select id="bono_prevision" name="bono_prevision" class="form-control form-control-sm"  style="display: none;" onchange="$('#bono_prevision_txt').val( $('#bono_prevision option:selected').text() );$('#bono_prevision_txt').show();$('#bono_prevision').hide();actualizar_prevision_paciente('bono_id_paciente', 'bono_prevision');">
-                                    <option value="0">Selecione una opción</option>
-                                    @foreach ($prevision as $prev)
-                                        <option value="{{ $prev->id }}">{{ $prev->nombre }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            @include('app.profesional.partials.select_convenio_veterinario')
                         </div>
                         <div class="col-sm-6 bono_valor">
                             <div class="form-group fill">
@@ -1555,21 +1546,9 @@
                                         id="bono_profesional_rut" disabled="disabled">
                                 </div>
                             </div>
-                            {{--  <div class="col-sm-6">
-                                <div class="input-group">
-                                    <label class="floating-label-activo-sm">Convenio</label>
-                                    <input type="text" class="form-control form-control-sm" name="bono_prevision_txt" id="bono_prevision_txt" disabled="disabled" value="">
-                                    <select id="bono_prevision" name="bono_prevision" class="form-control form-control-sm"  style="display: none;" onchange="$('#bono_prevision_txt').val( $('#bono_prevision option:selected').text() );$('#bono_prevision_txt').show();$('#bono_prevision').hide();actualizar_prevision_paciente('bono_id_paciente', 'bono_prevision');">
-                                        <option value="0">Selecione una opción</option>
-                                        @foreach ($prevision as $prev)
-                                            <option value="{{ $prev->id }}">{{ $prev->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-primary btn-sm" type="button" onclick="$('#bono_prevision_txt').hide();$('#bono_prevision').show();"><i class="feather icon-edit"></i></button>
-                                    </div>
-                                </div>
-                            </div>  --}}
+                            <div class="col-sm-6">
+                                @include('app.profesional.partials.select_convenio_veterinario')
+                            </div>
                             <div class="col-sm-6">
                                 <div class="form-group fill">
                                     <label class="floating-label-activo-sm">Servicio de atención</label>
@@ -1817,15 +1796,6 @@
     <script src="{{ asset('js/jQuery-Mask-Plugin-master/jquery.mask.js') }}"></script>
     <script>
         $(document).ready(function () {
-            function calcularSaldoConsulta() {
-                let valorConsulta = parseFloat($('#bono_valor_consulta').val()) || 0;
-                let valorAbono = parseFloat($('#bono_valor_abono_consulta').val()) || 0;
-                let saldo = valorConsulta - valorAbono;
-
-                $('#bono_valor_saldo_consulta').val(saldo);
-            }
-
-            $('#bono_valor_consulta, #bono_valor_abono_consulta').on('input', calcularSaldoConsulta);
             $('.mask_date').mask("dd/mm/0000", {
                 'translation': {
                     0: {pattern: /[0-9]/},

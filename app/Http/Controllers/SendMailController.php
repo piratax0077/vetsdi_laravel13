@@ -112,7 +112,7 @@ class SendMailController extends Controller
                  * .env, sin dejar correos personales codificados en el código.
                  */
                 $redirectTo = config('mail.redirect_to');
-                if (!empty($redirectTo)) {
+                if (!empty($redirectTo) && !in_array($blade, ['verificacion_cuenta', 'restablecer_contrasena'], true)) {
                     $to = array([
                         'email' => $redirectTo,
                         'name' => config('mail.redirect_name', 'Pruebas VET-SDI'),

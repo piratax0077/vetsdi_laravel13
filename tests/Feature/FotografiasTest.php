@@ -34,6 +34,16 @@ class FotografiasTest extends TestCase
         DB::table('mascotas')->insert(['id'=>1,'id_responsable'=>9,'especie_id'=>2,'foto_perfil'=>'mascotas/anterior.png']);
         DB::table('especies_mascotas')->insert(['id'=>2,'nombre'=>'Canina']);
         $user=new User(); $user->id=7; Auth::setUser($user);
+        Schema::table('mascota_genealogias', function (Blueprint $t) {
+            foreach (['padre','madre','abuelo_paterno','abuela_paterna','abuelo_materno','abuela_materna'] as $prefijo) {
+                foreach (['id','nombre','especie'] as $campo) $t->text($prefijo.'_'.$campo)->nullable();
+            }
+        });
+        Schema::create('mascota_hermanos', function (Blueprint $t) {
+            $t->id();
+            foreach (['mascota_id','hermano_id','nombre','especie','sexo','tipo','foto'] as $campo) $t->text($campo)->nullable();
+            $t->timestamps();
+        });
     }
 
     protected function tearDown(): void
@@ -46,6 +56,47 @@ class FotografiasTest extends TestCase
     private function foto(): UploadedFile
     {
         return UploadedFile::fake()->createWithContent('foto.png', base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1sAAAAASUVORK5CYII='));
+    }
+
+    public function test_relative_photos_can_be_uploaded_replaced_and_unlinked(): void
+    {
+        $controller=app(MascotaGenealogiaController::class);
+        foreach (['padre','madre','abuelo_paterno','abuela_paterna','abuelo_materno','abuela_materna','hermano'] as $parentesco) {
+            $datos=['parentesco'=>$parentesco,'origen'=>'externo','nombre'=>'Familiar','especie'=>'Canino'];
+            $controller->guardarFamiliar(Request::create('/','POST',$datos,[],['foto'=>$this->foto()]),Mascota::find(1));
+            $registro=$parentesco==='hermano' ? \App\Models\MascotaHermano::first() : MascotaGenealogia::first();
+            $campo=$parentesco==='hermano' ? 'foto' : $parentesco.'_foto';
+            $anterior=$registro->{$campo};
+            $this->assertFileExists(public_path('storage/'.$anterior));
+            if ($parentesco==='hermano') $datos['registro_hermano_id']=$registro->id;
+            $controller->guardarFamiliar(Request::create('/','POST',$datos,[],['foto'=>$this->foto()]),Mascota::find(1));
+            $actual=$registro->fresh()->{$campo};
+            $this->assertNotSame($anterior,$actual);
+            $this->assertFileExists(public_path('storage/'.$actual));
+            $controller->guardarFamiliar(new Request($datos+['observaciones'=>'Sin otra foto']),Mascota::find(1));
+            $this->assertSame($actual,$registro->fresh()->{$campo});
+            $controller->quitarFamiliar(new Request($datos),Mascota::find(1));
+            if ($parentesco==='hermano') $this->assertNull($registro->fresh());
+            else $this->assertNull($registro->fresh()->{$campo});
+        }
+    }
+
+    public function test_failed_relative_photo_replacement_preserves_original_and_cleans_upload(): void
+    {
+        Storage::disk('public')->put('mascotas/original.png','original');
+        DB::table('mascota_genealogias')->insert(['mascota_id'=>1,'padre_nombre'=>'Padre','padre_foto'=>'mascotas/original.png']);
+        DB::statement("CREATE TRIGGER fallo_familiar BEFORE UPDATE ON mascota_genealogias BEGIN SELECT RAISE(FAIL, 'Fallo familiar'); END");
+        try {
+            app(MascotaGenealogiaController::class)->guardarFamiliar(Request::create('/','POST',[
+                'parentesco'=>'padre','origen'=>'externo','nombre'=>'Padre','especie'=>'Canino',
+            ],[],['foto'=>$this->foto()]),Mascota::find(1));
+            $this->fail('Debe fallar el guardado.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            $this->assertStringContainsString('Fallo familiar',$e->getMessage());
+        }
+        $this->assertSame('mascotas/original.png',MascotaGenealogia::first()->padre_foto);
+        Storage::disk('public')->assertExists('mascotas/original.png');
+        $this->assertSame([],Storage::disk('public')->allFiles('mascotas/genealogia'));
     }
 
     public function test_assistant_upload_reaches_database_and_returns_public_url(): void

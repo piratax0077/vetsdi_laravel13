@@ -88,7 +88,7 @@
                                                     <button type="button" class="btn  btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="Enviar Certificado a Paciente"><i class="feather icon-navigation"></i></button>
                                                 </td>
                                                 <td class="align-middle text-center">Enviado</td>-->
-                                                    <td class="align-middle"> <div onclick="ver_pdf_informe_medico('{{ $informe->id_ficha_atencion }}')"><img src="{{ asset('images/documento.png') }}" alt="Documento" height="35px"></div></td>
+                                                    <td class="align-middle"> <a href="{{ route('pdf.informe_medico', ['id_informe_medico'=>$informe->id]) }}" target="_blank" rel="noopener" class="btn btn-outline-danger btn-sm"><i class="feather icon-file"></i> Ver PDF</a></td>
                                                 </tr>
                                             @endforeach
                                         @endif

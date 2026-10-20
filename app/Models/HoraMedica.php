@@ -52,6 +52,13 @@ class HoraMedica extends Model
             return $query->whereNotIn('id',$array);
     }
 
+    public function scopeParaMascotaAgenda($query, $idMascota)
+    {
+        // El tutor puede reservar para distintas mascotas el mismo día.
+        // Las horas antiguas sin mascota conservan su validación por paciente.
+        return $idMascota ? $query->where('id_mascota', $idMascota) : $query;
+    }
+
     public function Notificacionesconfirmacion()
     {
         return $this->hasOne(NotificacionConfirmacion::class, 'id_evento', 'id')->where('tipo_notificacion',1);

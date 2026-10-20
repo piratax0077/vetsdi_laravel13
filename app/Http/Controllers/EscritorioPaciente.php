@@ -120,12 +120,7 @@ class EscritorioPaciente extends Controller
                 $direccion = optional($lugarAtencion)->Direccion;
                 $mascota = $horaMedica->Mascota;
                 $estado = $horaMedica->Estado;
-                $fechaHoraAtencion = Carbon::parse($horaMedica->fecha_consulta . ' ' . $horaMedica->hora_inicio);
                 $estadoVisual = (int) $horaMedica->id_estado;
-
-                if ($fechaHoraAtencion->isFuture() && in_array($estadoVisual, [4, 5, 6, 7], true)) {
-                    $estadoVisual = 2;
-                }
 
                 $especialidad = '';
                 if (!empty(optional($profesional)->SubTipoEspecialidad->nombre)) {
@@ -134,6 +129,12 @@ class EscritorioPaciente extends Controller
                     $especialidad = $profesional->TipoEspecialidad->nombre;
                 } elseif (!empty(optional($profesional)->Especialidad->nombre)) {
                     $especialidad = $profesional->Especialidad->nombre;
+                }
+
+                // Evitar especialidades humanas heredadas en citas veterinarias.
+                if ($horaMedica->id_mascota && $profesional
+                    && !Str::contains(Str::lower($especialidad), ['veterin', 'felina', 'canina'])) {
+                    $especialidad = 'Veterinario general';
                 }
 
                 $especieMascota = '';
@@ -2842,6 +2843,11 @@ class EscritorioPaciente extends Controller
 
     public function getPacienteUser(Request $request)
     {
+        $tutor = Paciente::where('id_usuario', Auth::id())->firstOrFail();
+        if ($request->filled('id_dependiente_activo') && (int)$request->id_dependiente_activo !== (int)$tutor->id) {
+            abort_unless(PacientesDependientes::where('id_responsable', $tutor->id)
+                ->where('id_paciente', $request->id_dependiente_activo)->exists(), 403);
+        }
         // var_dump($request->all());
         // var_dump($request->id_dependiente_activo);
 

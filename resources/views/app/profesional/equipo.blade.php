@@ -170,12 +170,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header-purple">
-                    <h5 class="modal-title mt-1 f-18" id="eco_gine"> Ver equipo<script>
-                            var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-
-                            var f=new Date();
-                            document.write( f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
-                            </script></h5>
+                    <h5 class="modal-title mt-1 f-18" id="titulo_ver_equipo">Ver equipo quirúrgico</h5>
                     <button type="button" class="close text-white" aria-label="Close" onclick="$('#equipo_pab_modal').modal('hide')"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -414,7 +409,8 @@
                 }
             },
             error: function(error){
-                console.log(error.responseText);
+                var mensajes=Object.values(error.responseJSON?.errors||{}).flat().join('\n');
+                swal({title:'No se pudo guardar el equipo',text:mensajes||'Revisa los integrantes e inténtalo nuevamente.',icon:'error'});
             }
         })
     }
@@ -474,7 +470,8 @@
                 }
             },
             error: function(error){
-                console.log(error.responseText);
+                var mensajes=Object.values(error.responseJSON?.errors||{}).flat().join('\n');
+                swal({title:'No se pudo guardar el equipo',text:mensajes||'Revisa los integrantes e inténtalo nuevamente.',icon:'error'});
             }
         })
     }
@@ -575,82 +572,37 @@
     var lista_profesionales_eq = [];
     var lista_profesionales_eq_nuevo = [];
 
+    var peticion_ver_equipo = 0;
     function ver_equipo(id, tipo = null){
-        console.log(id);
-
-
+        var numero=++peticion_ver_equipo;
+        var destino=tipo?'#lista_profesionales_editar':'#lista_profesionales_equipo';
         if(tipo){
+            lista_profesionales_eq=[];
             $('#equipo_pab_modal_editar').modal('show');
-            var div_destino = 'lista_profesionales_editar';
-            profesional_autocomplete('equipo_profesional_1_editar', 'equipo_profesional_id_1_editar','equipo_nuevo');
-        }else{
-            $('#equipo_pab_modal').modal('show');
-            var div_destino = 'lista_profesionales_equipo';
-        }
-
-        $('#lista_profesionales').val('');
-        $('#lista_profesionales_editar').val('');
-        $('#'+div_destino).empty('');
-
-            let url = "{{ route('profesional.equipo.ver.profesional') }}";
-            $.ajax({
-                url: url,
-                type: "get",
-                data: {
-                    id_profesional_mi_equipo: id,
-                },
-            })
-            .done(function(resp) {
-                console.log(resp);
-
-                if (resp.estado == 1)
-                {
-
-                    var lista_id_profesionales = '';
-                    $.each(resp.registros, function(index, value)
-                    {
-                        html = '';
-                        html += '<div class="form-group col-md-6 col-lg-6 col-xl-6">';
-                        html += '    <label class="floating-label-activo-sm">'+value.posicion+'</label>';
-                        html += '    <input type="text" class="form-control form-control-sm" name="ingreso_sol_pab_modal_'+index+'" id="ingreso_sol_pab_modal_'+index+'" value="'+value.profesional.nombre+' '+value.profesional.apellido_uno+'">';
-                        html += '</div>';
-                        if(tipo){
-                        html += '<div class="form-group col-md-1 col-lg-1 col-xl-1" >';
-                        html += '<button type="button" class="btn btn-xs btn-danger  aling-right" style="" onclick="eliminar_nuevo_profesional_editar('+index+')"><i class="feather icon-x" aria-hidden="true"></i><span class="ripple ripple-animate"></span></button>';
-                        html += '</div>';
-                        }
-
-                    var temp_profesional = {
-                        tipo: 'existente',
-                        posicion: value.posicion,
-                        profesional_nombre: value.profesional.nombre+' '+value.profesional.apellido_uno,
-                        profesional_apellido: '',
-                        profesional_email: '',
-                        profesional_id: value.profesional.id,
-                    }
-                        if(tipo){
-                            lista_profesionales_eq.push(temp_profesional);
-                        }
-
-                        lista_id_profesionales += value.id_tipo_especialidad+','+value.id_sub_tipo_especialidad+','+value.posicion+','+value.id_profesional+'|';
-                        $('#ingreso_sol_pab_modal_lista_profesionales').val(lista_id_profesionales);
-                        $('#'+div_destino).append(html);
-                    });
-
+            profesional_autocomplete('equipo_profesional_1_editar','equipo_profesional_id_1_editar','equipo_nuevo');
+        }else $('#equipo_pab_modal').modal('show');
+        $(destino).empty().append($('<div class="col-12" role="status">').text('Cargando integrantes…'));
+        $.ajax({url:"{{ route('profesional.equipo.ver.profesional') }}",type:'GET',data:{id_profesional_mi_equipo:id}})
+        .done(function(resp){
+            if(numero!==peticion_ver_equipo)return;
+            $(destino).empty();
+            if(!tipo)$('#titulo_ver_equipo').text('Equipo: '+(resp.equipo?.nombre||''));
+            var miembros=resp.registros||[];
+            if(!miembros.length){$(destino).append($('<div class="col-12" role="status">').text('Este equipo no tiene integrantes registrados. Agrégalos desde Editar equipo.'));return;}
+            miembros.forEach(function(value,index){
+                var p=value.profesional;
+                var nombre=p?[p.nombre,p.apellido_uno,p.apellido_dos].filter(Boolean).join(' '):'Profesional no disponible (registro '+value.id_profesional+')';
+                var fila=$('<div class="col-12 mb-3">');
+                fila.append($('<strong class="d-block">').text(value.posicion||'Sin función registrada'));
+                fila.append($('<div class="d-flex align-items-center">').append($('<input type="text" class="form-control form-control-sm" readonly>').val(nombre)));
+                if(tipo){
+                    lista_profesionales_eq.push({tipo:'existente',posicion:value.posicion,profesional_nombre:nombre,profesional_apellido:'',profesional_email:p?.email||'',profesional_id:value.id_profesional});
+                    fila.append($('<button type="button" class="btn btn-xs btn-danger mt-1">').text('Quitar').on('click',function(){eliminar_nuevo_profesional_editar(index);}));
                 }
-                else
-                {
-                    $('#'+div_destino).append('<h5>Sin registro de equipo</h5>');
-                    $('#ingreso_sol_pab_modal_lista_profesionales').val('');
-                }
-                console.log(lista_profesionales_eq);
-                console.log(lista_profesionales_eq_nuevo);
-            })
-            .fail(function(jqXHR, ajaxOptions, thrownError) {
-                console.log(jqXHR, ajaxOptions, thrownError)
+                $(destino).append(fila);
             });
+        }).fail(function(){if(numero===peticion_ver_equipo)$(destino).empty().append($('<div class="col-12 text-danger" role="alert">').text('No se pudo cargar el equipo. Cierra esta ventana e inténtalo nuevamente.'));});
     }
-
 
     function guardar_profesional_equipo()
     {

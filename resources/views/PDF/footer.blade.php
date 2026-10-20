@@ -17,9 +17,9 @@
                     </th>
                     <th style="padding-top: 10px;width: 33%;">
                         <div class="div-qr">
-                            <img src="data:image/svg+xml;base64,{{ base64_encode($cuerpo['array_profesional']['qr']) }}" style="width: 100%;">
+                            @if($cuerpo['array_profesional']['firma_disponible'] ?? true)<img src="data:image/svg+xml;base64,{{ base64_encode($cuerpo['array_profesional']['qr']) }}" style="width: 100%;">@endif
                         </div>
-                        <div style="line-height: 10px; font-weight: lighter; font-family: Poppins; font-size: 10px;">Firma Digital Avanzada SDI</div>
+                        <div style="line-height: 10px; font-weight: lighter; font-family: Poppins; font-size: 10px;">{{ ($cuerpo['array_profesional']['firma_disponible'] ?? true) ? 'Firma Digital Avanzada SDI' : 'Sin firma digital registrada' }}</div>
                         <div style="line-height: 10px; font-weight: bold; font-family: Poppins;">Dr. {{ $cuerpo['array_profesional']['nombre'] }}</div>
                         <div style="line-height: 10px; font-weight: lighter; font-family: Poppins;">{{ $cuerpo['array_profesional']['token'] }}</div>
                     </th>
@@ -32,9 +32,9 @@
                     </th>
                     <th style="padding-top: 10px;width: 50%;">
                         <div class="div-qr">
-                            <img src="data:image/svg+xml;base64,{{ base64_encode($cuerpo['array_profesional']['qr']) }}" style="width: 100%;">
+                            @if($cuerpo['array_profesional']['firma_disponible'] ?? true)<img src="data:image/svg+xml;base64,{{ base64_encode($cuerpo['array_profesional']['qr']) }}" style="width: 100%;">@endif
                         </div>
-                        <div style="line-height: 10px; font-weight: lighter; font-family: Poppins; font-size: 10px;">Firma Digital Avanzada SDI</div>
+                        <div style="line-height: 10px; font-weight: lighter; font-family: Poppins; font-size: 10px;">{{ ($cuerpo['array_profesional']['firma_disponible'] ?? true) ? 'Firma Digital Avanzada SDI' : 'Sin firma digital registrada' }}</div>
                         <div style="line-height: 10px; font-weight: bold; font-family: Poppins;">Dr. {{ $cuerpo['array_profesional']['nombre'] }}</div>
                         {{-- <div style="line-height: 10px; font-weight: lighter; font-family: Poppins;">{{ $cuerpo['array_profesional']['token'] }}</div> --}}
                     </th>

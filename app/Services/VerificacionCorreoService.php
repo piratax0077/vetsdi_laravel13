@@ -29,6 +29,10 @@ class VerificacionCorreoService
      */
     public function enviar(User $usuario, ?string $correo = null): bool
     {
+        if (in_array(config('mail.default'), ['log', 'array'], true) && !app()->runningUnitTests()) {
+            Log::warning('Correo de verificación no enviado: configure un transporte de correo real.');
+            return false;
+        }
         $correo = correo_normalizar($correo ?? $usuario->email);
 
         // Un token a la vez: los anteriores quedan vencidos.

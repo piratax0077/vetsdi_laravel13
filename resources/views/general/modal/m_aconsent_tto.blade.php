@@ -130,7 +130,10 @@
 
                                                     <div class="form-group col-sm-12">
 
-                                                        <button type="button" id="btn_solicitar_consentimiento_app" class="btn btn-info btn-sm btn-block" onclick="registar_solicitar_autorizacion_cons('documentos');"><i class="feather icon-file-text"></i> Enviar a Documentos del tutor para firma</button>
+                                                        <button type="button" id="btn_solicitar_consentimiento_app" class="btn btn-info btn-sm btn-block" onclick="registrarConsentimientoTutor('documentos');"><i class="feather icon-file-text"></i> Enviar al tutor para firma y notificar</button>
+                                                        <a id="consentimiento-whatsapp-tutor" class="btn btn-success btn-sm mt-2" href="#" target="_blank" rel="noopener noreferrer" hidden>Compartir solicitud por WhatsApp</a>
+                                                        <p id="consentimiento-estado-envio" class="small mt-2" role="status"></p>
+                                                        <button type="button" id="consentimiento-nuevo-tutor" class="btn btn-outline-info btn-sm" onclick="limpiarConsentimientoTutor()" hidden>Crear nuevo consentimiento</button>
 
                                                     </div>
 
@@ -176,7 +179,7 @@
 
                                                     <div class="form-group col-sm-12">
 
-                                                        <button type="button" class="btn btn-info btn-sm btn-block" onclick="limpiar_consentimiento_informado()">Crear nuevo Consentimiento</button>
+                                                        <button type="button" class="btn btn-info btn-sm btn-block" onclick="limpiarConsentimientoTutor()">Crear nuevo Consentimiento</button>
 
                                                     </div>
 
@@ -568,7 +571,7 @@
 
         validarDiagnostico('diagnostico_cons','consentimiento');
 
-        mostrar_consentimientos_paciente();
+        mostrarConsentimientosTutor();
 
         $('#div_informacion_pasos_cons').show();
 
@@ -606,7 +609,7 @@
 
     var consentimientoEnProceso = false;
 
-    function registar_solicitar_autorizacion_cons(canal)
+    function registrarConsentimientoTutor(canal)
 
     {
         canal = canal || 'app';
@@ -713,6 +716,11 @@
                 if(data.estado == 1)
 
                 {
+                    var notificaciones = data.notificaciones || {};
+                    $('#consentimiento-estado-envio').text('Enviado a Documentos del tutor; pendiente de firma. ' + (notificaciones.resumen || ''));
+                    $('#consentimiento-nuevo-tutor').prop('hidden', false);
+                    $('#consentimiento-whatsapp-tutor').prop('hidden', !notificaciones.whatsapp_url)
+                        .attr('href', notificaciones.whatsapp_url || '#');
 
                     swal({
 
@@ -727,8 +735,7 @@
                     $('#id_consentimiento').val(data.last_id);
                     $('#div_btn_aprobacion_solicitud').show();
                     $('#div_btn_aprobacion_espera, #div_btn_aprobacion_ok').hide();
-                    mostrar_consentimientos_paciente();
-                    limpiar_consentimiento_informado();
+                    mostrarConsentimientosTutor();
 
                 }
 
@@ -753,7 +760,7 @@
                 }
 
                 consentimientoEnProceso = false;
-                $('#btn_solicitar_consentimiento_app').prop('disabled', false);
+                $('#btn_solicitar_consentimiento_app').prop('disabled', data.estado == 1);
 
             },
             error: function(xhr) {
@@ -829,7 +836,7 @@
 
                         });
 
-                        mostrar_consentimientos_paciente();
+                        mostrarConsentimientosTutor();
 
                         $('#diagnostico_cons').attr('disabled', true);
 
@@ -1069,7 +1076,7 @@
 
 
 
-    function mostrar_consentimientos_paciente()
+    function mostrarConsentimientosTutor()
 
     {
 
@@ -1223,11 +1230,14 @@
 
 
 
-    function limpiar_consentimiento_informado()
+    function limpiarConsentimientoTutor()
 
     {
+        $('#consentimiento-estado-envio').text('');
+        $('#consentimiento-whatsapp-tutor, #consentimiento-nuevo-tutor').prop('hidden', true);
+        $('#btn_solicitar_consentimiento_app').prop('disabled', false);
 
-        mostrar_consentimientos_paciente();
+        mostrarConsentimientosTutor();
 
 
 

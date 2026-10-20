@@ -88,12 +88,7 @@ class EscritorioPacienteDependiente extends Controller
                 $lugarAtencion = $horaMedica->LugarAtencion;
                 $direccion = optional($lugarAtencion)->Direccion;
                 $mascota = $horaMedica->Mascota;
-                $fechaHoraAtencion = Carbon::parse($horaMedica->fecha_consulta . ' ' . $horaMedica->hora_inicio);
                 $estadoVisual = (int) $horaMedica->id_estado;
-
-                if ($fechaHoraAtencion->isFuture() && in_array($estadoVisual, [4, 5, 6, 7], true)) {
-                    $estadoVisual = 2;
-                }
 
                 $especialidad = '';
                 if (!empty(optional($profesional)->SubTipoEspecialidad->nombre)) {
@@ -102,6 +97,11 @@ class EscritorioPacienteDependiente extends Controller
                     $especialidad = $profesional->TipoEspecialidad->nombre;
                 } elseif (!empty(optional($profesional)->Especialidad->nombre)) {
                     $especialidad = $profesional->Especialidad->nombre;
+                }
+
+                if ($horaMedica->id_mascota && $profesional
+                    && !\Illuminate\Support\Str::contains(\Illuminate\Support\Str::lower($especialidad), ['veterin', 'felina', 'canina'])) {
+                    $especialidad = 'Veterinario general';
                 }
 
                 $especieMascota = '';

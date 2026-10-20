@@ -41,6 +41,8 @@
                     <label class="arv-filtro-varia" for="arvSoloVaria">
                         <input type="checkbox" id="arvSoloVaria"> Solo los que varían por tamaño
                     </label>
+                    <button type="button" id="arvImportarNavegador" class="btn btn-outline-secondary" hidden>Importar mis aranceles del navegador</button>
+                    <button type="button" id="arvCatalogoBase" class="btn btn-outline-info">Catálogo de cirugías y procedimientos</button>
                     <button type="button" id="arvNuevo" class="btn btn-info"><i class="feather icon-plus"></i> <span class="js-texto">Nuevo arancel</span></button>
                 </div>
 
@@ -65,10 +67,12 @@
     </div>
 </div>
 
+@include('app.profesional.aranceles.modal_catalogo')
 @include('app.profesional.aranceles.modal_item')
 @include('app.profesional.aranceles.modal_configuracion')
 @endsection
 
 @section('page-script')
-<script src="{{ asset('js/aranceles.js') }}?v=20261004-2"></script>
+<script>window.arancelesVeterinariosConfig={listar:@json(route('profesional.aranceles_vet.listar')),guardar:@json(route('profesional.aranceles_vet.guardar')),csrf:@json(csrf_token()),catalogo:@json(config('catalogo_prestaciones_veterinarias'))};</script>
+<script src="{{ asset('js/aranceles.js') }}?v=20261019-1"></script>
 @endsection

@@ -5281,7 +5281,7 @@ Route::post('/profesional/convenio/nuevo',[App\Http\Controllers\ConveniosControl
 Route::post('/profesional/convenio/dame',[App\Http\Controllers\ConveniosController::class, 'dameConvenioProfesional'])->name('profesional.dame_convenio');
 Route::post('/profesional/convenio/editar',[App\Http\Controllers\ConveniosController::class, 'editarConvenioProfesional'])->name('profesional.editar_convenio');
 
-Route::get('/profesional/mis_convenios',[App\Http\Controllers\ConveniosController::class, 'misPropiosConvenios'])->name('profesional.mis_propios_convenios');
+Route::get('/profesional/mis_convenios',[App\Http\Controllers\ConveniosVeterinariosController::class, 'index'])->name('profesional.mis_propios_convenios');
 
 /** envio de correo prueba */
 
@@ -5910,9 +5910,21 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/documentos/mascotas/examenes/{documento}', [App\Http\Controllers\DocumentoLaboratorioMascotaController::class, 'ver'])->name('documentos.laboratorio.mascota.ver');
 });
 
+
+require __DIR__.'/asistentes.php';
+require __DIR__.'/peluqueria.php';
+Route::middleware('auth')->prefix('Profesional/aranceles-veterinarios')->name('profesional.aranceles_vet.')->group(function(){
+    Route::get('/',[App\Http\Controllers\ArancelesVeterinariosController::class,'listar'])->name('listar');
+    Route::post('/',[App\Http\Controllers\ArancelesVeterinariosController::class,'guardar'])->name('guardar');
+});
+
+
+Route::post('/profesional/convenios-veterinarios', [App\Http\Controllers\ConveniosVeterinariosController::class, 'guardar'])->middleware('auth')->name('profesional.convenios_veterinarios.guardar');
+Route::post('/profesional/convenios-veterinarios/{id}/desactivar', [App\Http\Controllers\ConveniosVeterinariosController::class, 'desactivar'])->middleware('auth')->name('profesional.convenios_veterinarios.desactivar');
+
+Route::get('/agenda/convenios-veterinarios', [App\Http\Controllers\ConveniosVeterinariosController::class, 'disponibles'])->middleware('auth')->name('agenda.convenios_veterinarios');
+
 // Debe permanecer al final para no capturar rutas funcionales de la aplicación.
 Route::get('/{slug}', [App\Http\Controllers\SitioWebController::class, 'ficha'])
     ->where('slug', '^[A-Za-z0-9\-]+$')
     ->name('sitio.ficha');
-
-require __DIR__.'/asistentes.php';

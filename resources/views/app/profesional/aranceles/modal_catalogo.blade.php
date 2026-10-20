@@ -1,0 +1,7 @@
+<div class="modal fade arv-modal" id="arvModalCatalogo" tabindex="-1" role="dialog" aria-labelledby="arvTituloCatalogo" aria-hidden="true">
+<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document"><div class="modal-content">
+<div class="modal-header"><h5 class="modal-title" id="arvTituloCatalogo">Catálogo de cirugías y procedimientos veterinarios</h5><button class="close" type="button" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">×</span></button></div>
+<div class="modal-body"><p>Selecciona una prestación y define tu precio. Puedes ajustar el nombre, la duración, la anestesia y los valores por tamaño antes de guardar.</p>
+<div class="row mb-3"><div class="col-md-7"><label for="arvBuscarBase">Buscar prestación</label><input class="form-control" type="search" id="arvBuscarBase" placeholder="Nombre, código o categoría"></div><div class="col-md-5"><label for="arvCategoriaBase">Categoría</label><select class="form-control" id="arvCategoriaBase"><option value="">Todas las categorías</option>@foreach(collect(config('catalogo_prestaciones_veterinarias'))->pluck('categoria')->unique() as $categoria)<option>{{ $categoria }}</option>@endforeach</select></div></div>
+<div class="table-responsive"><table class="table table-sm"><thead><tr><th>Código</th><th>Prestación</th><th>Categoría</th><th>Acción</th></tr></thead><tbody id="arvListaBase"></tbody></table></div>
+</div></div></div></div>

@@ -130,7 +130,7 @@
 	@include("atencion_veterinaria.formularios.modal_atencion_especialidad.cirugia.modal_biopsia_cirugia")
     @include('general.secciones_ficha.receta_examen.modal_recetario_sdi')
     @include('atencion_veterinaria.formularios.modal_atencion_general.modal_indicar_examenes')
-    @include('app.cirugia.modals.modals_cesarea.modal_indicar_examenes')
+    @include('app.cirugia.modals.modals_cesarea.modal_indicar_examenes', ['modalIndicarExamenesId' => 'indicar_examenes_receta'])
 @include('app.profesional.modales.boton_flotante_agenda_autorizacion')
 @endsection
 

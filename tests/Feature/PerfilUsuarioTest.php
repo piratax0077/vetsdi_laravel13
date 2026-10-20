@@ -21,7 +21,7 @@ class PerfilUsuarioTest extends TestCase
         config(['database.default'=>'sqlite','database.connections.sqlite.database'=>':memory:']);
         DB::purge('sqlite');
         foreach ([
-            'users'=>['name','email','password'],
+            'users'=>['name','nombres','apellido_uno','apellido_dos','rut','telefono','email','password'],
             'asistentes'=>['id_usuario','id_direccion','rut','nombres','apellido_uno','apellido_dos','sexo','fecha_nac','email','telefono_uno','curriculum','buscador','id_modalidad'],
             'profesionales'=>['id_usuario','id_direccion','rut','nombre','apellido_uno','apellido_dos','sexo','email','telefono_uno','num_colegio','id_especialidad','id_tipo_especialidad','id_sub_tipo_especialidad','id_tipo_atencion'],
             'direcciones'=>['id_ciudad','direccion','numero_dir'],
@@ -149,6 +149,61 @@ class PerfilUsuarioTest extends TestCase
         $this->assertSame(2,DB::table('direcciones')->count());
     }
 
+    public function test_professional_initial_profile_rejects_specialty_from_another_profession(): void
+    {
+        $controller=app(\App\Http\Controllers\Perfil\CompletarPerfilController::class);
+        $method=new \ReflectionMethod($controller,'guardarProfesional');
+        $this->expectException(ValidationException::class);
+        $method->invoke($controller,$this->req(['id_especialidad'=>2,'id_tipo_especialidad'=>1]),User::find(1));
+    }
+
+    public function test_professional_initial_profile_allows_omitted_optional_specialty(): void
+    {
+        Schema::table('profesionales',fn(Blueprint $t)=>$t->integer('estado')->nullable());
+        $controller=app(\App\Http\Controllers\Perfil\CompletarPerfilController::class);
+        (new \ReflectionMethod($controller,'guardarProfesional'))->invoke($controller,$this->req(['id_especialidad'=>1]),User::find(1));
+        $this->assertNull(Profesional::find(10)->id_tipo_especialidad);
+        $this->assertEquals(1,Profesional::find(10)->id_especialidad);
+    }
+
+    public function test_initial_profile_rejects_city_from_another_region(): void
+    {
+        $controller=app(\App\Http\Controllers\Perfil\CompletarPerfilController::class);
+        $this->expectException(ValidationException::class);
+        (new \ReflectionMethod($controller,'validarCiudadRegion'))->invoke($controller,['id_ciudad'=>1,'id_region'=>2]);
+    }
+
+    public function test_professional_address_edit_keeps_shared_tutor_and_assistant_address(): void
+    {
+        Schema::create('pacientes',function(Blueprint $t){$t->id();$t->integer('id_direccion')->nullable();});
+        DB::table('direcciones')->insert(['id'=>1,'id_ciudad'=>1,'direccion'=>'Original','numero_dir'=>'10']);
+        DB::table('profesionales')->where('id',10)->update(['id_direccion'=>1]);
+        DB::table('asistentes')->where('id',10)->update(['id_direccion'=>1]);
+        DB::table('pacientes')->insert(['id_direccion'=>1]);
+        $this->servicio()->direccion('profesional',$this->req(['ciudad'=>1,'direccion'=>'Nueva','numero_dir'=>'20']));
+        $this->assertNotEquals(1,Profesional::find(10)->id_direccion);
+        $this->assertEquals(1,Asistente::find(10)->id_direccion);
+        $this->assertSame('Original',DB::table('direcciones')->where('id',1)->value('direccion'));
+        $this->assertEquals(1,DB::table('pacientes')->value('id_direccion'));
+    }
+
+    public function test_professional_accepts_not_applicable_specialties(): void
+    {
+        DB::table('profesionales')->where('id',10)->update(['id_especialidad'=>1,'id_tipo_especialidad'=>1,'id_sub_tipo_especialidad'=>1]);
+        $this->servicio()->personales('profesional',$this->req(['nombre'=>'Vet','apellido_uno'=>'Apellido','id_tipo_especialidad'=>0,'id_sub_tipo_especialidad'=>0]));
+        $this->assertNull(Profesional::find(10)->id_tipo_especialidad);
+        $this->assertNull(Profesional::find(10)->id_sub_tipo_especialidad);
+        $this->assertEquals(1,Profesional::find(10)->id_especialidad);
+    }
+
+    public function test_professional_cannot_edit_another_profile_through_any_profile_endpoint(): void
+    {
+        foreach (['editar_datos_personales_perfil','editar_datos_contacto_perfil','editar_datos_residencia_perfil'] as $metodo) {
+            try {app(EscritorioProfesional::class)->{$metodo}($this->req(['id_profesional'=>20]));$this->fail('Debe rechazar un perfil ajeno.');}
+            catch (\Symfony\Component\HttpKernel\Exception\HttpException $error) {$this->assertSame(403,$error->getStatusCode());}
+        }
+    }
+
     public function test_wrong_city_region_does_not_create_an_address(): void
     {
         try{$this->servicio()->direccion('profesional',$this->req(['ciudad'=>1,'region'=>2,'direccion'=>'Calle']));$this->fail();}
@@ -239,4 +294,76 @@ class PerfilUsuarioTest extends TestCase
             }
         }
     }
+    public function test_crea_contacto_nuevo_y_repetirlo_no_duplica_su_vinculacion(): void
+    {
+        $controller = app(EscritorioAsistente::class);
+        $datos = ['rut' => '33333333-3', 'nombres' => 'Contacto', 'apellido_uno' => 'Nuevo', 'id_ciudad' => 1, 'telefono' => '912345678', 'parentezco' => 'Hermano'];
+        $primero = json_decode($controller->registrar_contacto_emergencia($this->req($datos)), true);
+        $segundo = json_decode($controller->registrar_contacto_emergencia($this->req($datos)), true);
+        $this->assertSame($primero['id'], $segundo['id']);
+        $this->assertSame(1, DB::table('asistente_contacto_emergencia')->count());
+        $this->assertSame(1, DB::table('contactos_emergencia')->count());
+        $this->assertNotNull($primero['id_direccion']);
+    }
+
+    public function test_registrar_un_rut_ajeno_no_modifica_el_contacto_de_otro_asistente(): void
+    {
+        DB::table('contactos_emergencia')->insert(['id' => 1, 'rut' => '33333333-3', 'nombre' => 'Original']);
+        DB::table('asistente_contacto_emergencia')->insert(['id_asistente' => 20, 'id_contacto' => 1]);
+        $nuevo = json_decode(app(EscritorioAsistente::class)->registrar_contacto_emergencia($this->req([
+            'rut' => '33333333-3', 'nombres' => 'Mi contacto', 'apellido_uno' => 'Apellido', 'id_ciudad' => 1,
+        ])), true);
+        $this->assertNotSame(1, $nuevo['id']);
+        $this->assertSame('Original', DB::table('contactos_emergencia')->where('id', 1)->value('nombre'));
+        $this->assertEquals(1, DB::table('asistente_contacto_emergencia')->where('id_asistente', 20)->value('id_contacto'));
+    }
+
+    public function test_editar_un_contacto_compartido_conserva_los_datos_del_otro_perfil(): void
+    {
+        DB::table('direcciones')->insert(['id' => 1, 'id_ciudad' => 1, 'direccion' => 'Dirección original']);
+        DB::table('contactos_emergencia')->insert(['id' => 1, 'rut' => '33333333-3', 'nombre' => 'Original', 'id_direccion' => 1]);
+        DB::table('asistente_contacto_emergencia')->insert([['id_asistente' => 10, 'id_contacto' => 1], ['id_asistente' => 20, 'id_contacto' => 1]]);
+        $editado = json_decode(app(EscritorioAsistente::class)->editar_contacto_emergencia($this->req([
+            'id_contacto' => 1, 'rut' => '33333333-3', 'nombres' => 'Modificado', 'apellido_uno' => 'Apellido', 'id_ciudad' => 1, 'direccion' => 'Dirección nueva',
+        ])), true);
+        $this->assertNotSame(1, $editado['id']);
+        $this->assertSame('Original', DB::table('contactos_emergencia')->where('id', 1)->value('nombre'));
+        $this->assertSame('Dirección original', DB::table('direcciones')->where('id', 1)->value('direccion'));
+        $this->assertEquals($editado['id'], DB::table('asistente_contacto_emergencia')->where('id_asistente', 10)->value('id_contacto'));
+    }
+
+    public function test_rutas_antiguas_aplican_propiedad_validacion_y_sincronizan_la_cuenta(): void
+    {
+        foreach ([EscritorioAsistente::class, \App\Http\Controllers\EscritorioAsistenteCmPublico::class, \App\Http\Controllers\EscritorioAsistenteCmJefe::class] as $clase) {
+            foreach (['editar_datos_personales_perfil', 'editar_datos_contacto_perfil', 'editar_datos_direccion_perfil'] as $metodo) {
+                try {
+                    app($clase)->{$metodo}($this->req(['id_asistente' => 20]));
+                    $this->fail('No debe editar perfiles ajenos.');
+                } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+                    $this->assertSame(403, $e->getStatusCode());
+                }
+            }
+            $respuesta = app($clase)->editar_datos_personales_perfil($this->req(['id_asistente' => 10, 'nombres' => 'Nombre Actual', 'apellido_uno' => 'Apellido', 'apellido_dos' => 'Segundo']));
+            $this->assertTrue($respuesta->getData(true)['success']);
+            $this->assertSame('Nombre Actual Apellido', User::find(1)->nombreParaMostrar());
+            $this->assertSame('Nombre Actual', User::find(1)->nombres);
+            $this->assertSame('Segundo', User::find(1)->apellido_dos);
+        }
+    }
+
+    public function test_cambiar_rut_rechaza_el_de_otra_cuenta_y_contacto_sincroniza_telefono(): void
+    {
+        DB::table('users')->where('id', 2)->update(['rut' => '33333333-3']);
+        try {
+            $this->servicio()->personales('asistente', $this->req(['nombres' => 'Nombre', 'apellido_uno' => 'Apellido', 'rut' => '33333333-3']));
+            $this->fail('No debe usar el RUT de otra identidad.');
+        } catch (ValidationException $e) {
+            $this->assertArrayHasKey('rut', $e->errors());
+        }
+        $this->servicio()->contacto('asistente', $this->req(['email' => 'NUEVO@EXAMPLE.TEST', 'telefono_uno' => '+56 9 1234 5678']));
+        $this->assertSame('nuevo@example.test', User::find(1)->email);
+        $this->assertSame('+56 9 1234 5678', User::find(1)->telefono);
+        $this->assertSame('nuevo@example.test', Asistente::find(10)->email);
+    }
+
 }

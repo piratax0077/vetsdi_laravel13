@@ -424,27 +424,33 @@
             });
         }
 
+        let cargandoHorasMedicas = false;
+
         function cargar_horas_medicas()
         {
+            if (cargandoHorasMedicas) return;
+            cargandoHorasMedicas = true;
             let url = "{{ route('paciente.hora.medica.ver') }}";
             let tabla = null;
 
             if ($.fn.DataTable.isDataTable('#simpletable')) {
                 tabla = $('#simpletable').DataTable();
-                tabla.clear().draw();
-            } else {
-                $('#simpletable tbody').html('');
             }
 
             $.ajax({
                 url: url,
                 type: "GET",
+                cache: false,
+                timeout: 10000,
+                complete: function() { cargandoHorasMedicas = false; },
                 data: {},
                 success: function(data) {
                     if(data != null)
                     {
                         if (data.estado == 1)
                         {
+                            if (tabla) tabla.clear();
+                            else $('#simpletable tbody').empty();
                             if(data.registros.length > 0)
                             {
                                 $.each(data.registros, function (key, value) {
@@ -528,12 +534,10 @@
                                     }
                                 });
 
-                                if (tabla) {
-                                    tabla.draw();
-                                }
                             } else if (!tabla) {
                                 $('#simpletable tbody').append('<tr><td colspan="5" class="text-center">No existen registros</td></tr>');
                             }
+                            if (tabla) tabla.draw(false);
                         }
                     }
                 }
@@ -689,6 +693,12 @@
 
         $(document).ready(function() {
             cargar_horas_medicas();
+            setInterval(function() {
+                if (!document.hidden) cargar_horas_medicas();
+            }, 15000);
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) cargar_horas_medicas();
+            });
             cargarVouchersVeterfarma();
 
             $(document).on('click', '#vouchers-veterfarma-recargar, .beneficios-mascota-reintentar', cargarVouchersVeterfarma);

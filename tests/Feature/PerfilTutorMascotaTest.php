@@ -17,9 +17,10 @@ class PerfilTutorMascotaTest extends TestCase
     {
         parent::setUp();config(['database.default'=>'sqlite','database.connections.sqlite.database'=>':memory:']);DB::purge('sqlite');
         foreach([
-            'users'=>['name','email','password'],
+            'users'=>['name','nombres','apellido_uno','apellido_dos','telefono','email','password'],
             'pacientes'=>['id_usuario','rut','nombres','apellido_uno','apellido_dos','sexo','fecha_nac','email','telefono_uno','id_direccion','foto_perfil','id_prevision'],
             'profesionales'=>['id_usuario','id_direccion','foto_perfil'],
+            'asistentes'=>['id_usuario','id_direccion'],'asistente_contacto_emergencia'=>['id_asistente','id_contacto'],'pacientes_dependientes'=>['id_responsable','id_paciente'],
             'direcciones'=>['id_ciudad','direccion','numero_dir'],'ciudades'=>['id_region','nombre'],'regiones'=>['nombre'],'previsiones'=>['nombre'],
             'especies_mascotas'=>['nombre','requiere_detalle'],'tamanos_mascotas'=>['nombre','slug'],'razas_mascotas'=>['nombre','slug','especie_id'],'especie_tamano_mascota'=>['especie_id','tamano_id'],
             'mascotas'=>['id_responsable','tiene_chip','chip','nombre','especie_id','especie','raza_id','otra_especie','tamano_id','tamano','fecha_nacimiento','sexo','foto_perfil','galeria','observaciones_fotos','esterilizado','fecha_esterilizacion','enfermedad_cronica','dieta','ultima_desparasitacion','producto_desparasitacion','cirugias','vacunas','viajes','vive_con_animales','vacunas_registro','desparasitaciones_registro','suscripciones_servicios_registro','reservas_servicios_registro','id_user','estado','ficha_incompleta_veterfarma','fallecida'],
@@ -55,6 +56,40 @@ class PerfilTutorMascotaTest extends TestCase
         foreach(['Perfil_email','Perfil_fono','perfil_dire','perfil_region','perfil_ciudad','perfil_numero_dir'] as $id)$this->assertSame(1,substr_count($html,'id="'.$id.'"'),$id);
         $this->assertSame(0,substr_count($html,'id="contacto_email"'));
         $this->assertStringNotContainsString('value="direccion }}',$html);
+    }
+
+    public function test_profile_syncs_account_identity_and_ignores_human_insurance(): void
+    {
+        $this->tutor()->guardar($this->req(['perfil_nombre'=>'Nuevo','perfil_apellido_uno'=>'Tutor','perfil_fono'=>'12345','perfil_email'=>' NUEVO@example.test ','perfil_prevision'=>999]));
+        $user=User::find(1);
+        $this->assertSame('Nuevo',$user->nombres);
+        $this->assertSame('Tutor',$user->apellido_uno);
+        $this->assertSame('12345',$user->telefono);
+        $this->assertSame('nuevo@example.test',$user->email);
+        $this->assertNull(Paciente::find(9)->id_prevision);
+    }
+
+    public function test_contact_shared_with_assistant_keeps_private_address_even_when_initial_edit_omits_it(): void
+    {
+        DB::table('direcciones')->insert(['id'=>1,'id_ciudad'=>1,'direccion'=>'Original']);
+        DB::table('contactos_emergencia')->insert(['id'=>1,'rut'=>'333','nombre'=>'Original','apellido_uno'=>'Apellido','id_direccion'=>1,'telefono'=>'123']);
+        DB::table('pacientes_contacto_emergencia')->insert(['id_paciente'=>9,'id_contacto'=>1]);
+        DB::table('asistente_contacto_emergencia')->insert(['id_asistente'=>5,'id_contacto'=>1]);
+        $controller=app(\App\Http\Controllers\PerfilTutorContactoController::class);
+        $data=['id_contacto'=>1,'rut'=>'333','nombres'=>'Editado','apellido_uno'=>'Apellido'];
+        $edited=json_decode($controller->guardar($this->req($data)),true);
+        $this->assertNotEquals(1,$edited['id_direccion']);
+        $this->assertSame('123',$edited['telefono']);
+        $data['id_contacto']=$edited['id'];$data['direccion']='Nueva';$data['id_ciudad']=1;
+        $controller->guardar($this->req($data));
+        $this->assertSame('Original',DB::table('direcciones')->where('id',1)->value('direccion'));
+        $this->assertSame('Original',DB::table('contactos_emergencia')->where('id',1)->value('nombre'));
+    }
+
+    public function test_tutor_cannot_read_an_unrelated_dependent(): void
+    {
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+        app(EscritorioPaciente::class)->getPacienteUser($this->req(['id_dependiente_activo'=>20]));
     }
 
     public function test_registering_pet_assigns_current_tutor_and_uses_uploaded_gallery_photo(): void

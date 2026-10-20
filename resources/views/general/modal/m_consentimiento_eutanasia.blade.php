@@ -52,7 +52,7 @@
 
                 						<label class="floating-label-activo-sm">Diagnóstico</label>
 
-                						<input type="text" class="form-control form-control-sm" data-input_igual="lic_descripcion_hipotesis,descripcion_hipotesis" id="diagnostico_cons" name="diagnostico_cons" value="" onchange="validarDiagnostico('diagnostico_cons','consentimiento');cargarIgual('diagnostico_cons');" >
+                						<input type="text" class="form-control form-control-sm" data-input_igual="lic_descripcion_hipotesis,descripcion_hipotesis" id="diagnostico_eutanasia" name="diagnostico_cons" value="" onchange="validarDiagnosticoEutanasia();" >
 
                 					</div>
 
@@ -399,7 +399,7 @@
 
         //                     var texto = data.registro.texto;
 
-        //                     texto = texto.replace('{diagnostico}', '<span style="font-size: 15px;font-weight: bold;">'+$('#diagnostico_cons').val()+'</span>');
+        //                     texto = texto.replace('{diagnostico}', '<span style="font-size: 15px;font-weight: bold;">'+$('#diagnostico_eutanasia').val()+'</span>');
 
         //                     texto = texto.replace('{cirugia}', '<span style="font-size: 15px;font-weight: bold;">'+$('#cirugia_cons').val()+'</span>');
 
@@ -457,11 +457,19 @@
 
     /** consentimientos informados**/
 
+    function validarDiagnosticoEutanasia() {
+        $('#m_aconsenteutanasia [name="consentimiento"]').prop('disabled', !$('#diagnostico_eutanasia').val());
+    }
+
+    function sincronizarDiagnosticoEutanasia() {
+        $('#diagnostico_eutanasia').val($('#descripcion_hipotesis').val() || '');
+        validarDiagnosticoEutanasia();
+    }
     function cons_eutan() {
 
         $('#m_aconsenteutanasia').modal('show');
 
-        validarDiagnostico('diagnostico_cons','consentimiento');
+        sincronizarDiagnosticoEutanasia();
 
         mostrar_consentimientos_paciente();
 
@@ -511,7 +519,7 @@
 
         var id_paciente = $('#id_paciente_fc').val();
 
-        var diagnostico_cons = $('#diagnostico_cons').val();
+        var diagnostico_cons = $('#diagnostico_eutanasia').val();
 
         var cirugia_cons = $('#cirugia_cons').val();
 
@@ -683,7 +691,7 @@
 
                         mostrar_consentimientos_paciente();
 
-                        $('#diagnostico_cons').attr('disabled', true);
+                        $('#diagnostico_eutanasia').attr('disabled', true);
 
                         $('#cirugia_cons').attr('disabled', true);
 
@@ -1079,7 +1087,7 @@
 
 
 
-        $('#diagnostico_cons').attr('disabled', false);
+        $('#diagnostico_eutanasia').attr('disabled', false);
 
         $('#cirugia_cons').attr('disabled', false);
 
@@ -1093,7 +1101,7 @@
 
 
 
-        $('#diagnostico_cons').val($('#descripcion_hipotesis').val());
+        $('#diagnostico_eutanasia').val($('#descripcion_hipotesis').val());
 
         $('#id_consentimiento').val('');
 

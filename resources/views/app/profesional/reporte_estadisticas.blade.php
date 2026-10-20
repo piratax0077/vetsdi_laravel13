@@ -48,6 +48,7 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <button type="submit" name="formato" value="csv" class="btn btn-outline-info">Descargar reporte CSV</button>
                                 </form>
                             </div>
                         </div>
@@ -64,7 +65,7 @@
                                 <i class="feather icon-users"></i>
                             </div>
                             <div>
-                                <p class="text-muted mb-1 small">Total de pacientes</p>
+                                <p class="text-muted mb-1 small">Mascotas atendidas</p>
                                 <h3 class="mb-1">{{ number_format($totalPacientes, 0, ',', '.') }}</h3>
                                 <span class="small text-c-purple"><span class="kpi-dot bg-c-purple"></span>En el período</span>
                             </div>
@@ -92,8 +93,9 @@
                                 <i class="feather icon-credit-card"></i>
                             </div>
                             <div>
-                                <p class="text-muted mb-1 small">Ingreso total</p>
+                                <p class="text-muted mb-1 small">Ingresos confirmados</p>
                                 <h3 class="mb-1">${{ number_format($ingresoTotal, 0, ',', '.') }}</h3>
+                                <small class="text-muted d-block">Sin confirmación de pago: ${{ number_format($cobrosPendientes, 0, ',', '.') }}</small>
                                 <span class="small text-c-green"><span class="kpi-dot bg-c-green"></span><span class="mes-caption-text">{{ $textoMes }}</span></span>
                             </div>
                         </div>
@@ -144,7 +146,7 @@
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="kpi-dot bg-c-yellow"></span>
-                                        <span class="flex-grow-1">Canceladas por paciente</span>
+                                        <span class="flex-grow-1">Canceladas por tutor</span>
                                         <span class="font-weight-bolder mr-2">{{ $canceladasPaciente }}</span>
                                         <span class="text-muted small">({{ $porcentaje($canceladasPaciente, $totalAgenda) }}%)</span>
                                     </div>
@@ -178,7 +180,7 @@
                     <div class="card reportes-card h-100">
                         <div class="card-header-new px-3 d-flex align-items-center justify-content-between">
                             <h6 class="mb-0 f-18 text-dark">Atenciones por mes</h6>
-                            <span class="badge badge-light">Últimos 6 meses</span>
+                            <span class="badge badge-light">6 meses hasta el período seleccionado</span>
                         </div>
                         <div class="card-body">
                             <div id="grafico_atenciones_mes"></div>
@@ -215,7 +217,7 @@
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
                     <div class="card reportes-card h-100">
                         <div class="card-header-new px-3">
-                            <h6 class="mb-0 f-18 text-dark">Pacientes según convenio</h6>
+                            <h6 class="mb-0 f-18 text-dark">Mascotas según convenio</h6>
                         </div>
                         <div class="card-body">
                             <div class="row align-items-center">
@@ -255,7 +257,7 @@
             new ApexCharts(document.querySelector('#grafico_asistencia_ausentismo'), {
                 chart: { type: 'donut', height: 230 },
                 series: {!! $serieAsistenciaJson !!},
-                labels: ['Asistieron', 'No asistieron', 'Canceladas por paciente', 'Canceladas por el lugar de atención'],
+                labels: ['Asistieron', 'No asistieron', 'Canceladas por tutor', 'Canceladas por el lugar de atención'],
                 colors: ['#A06CC1', '#ff5252', '#ffba57', '#72B02C'],
                 legend: { show: false },
                 dataLabels: { enabled: false },
@@ -310,7 +312,7 @@
                 yaxis: { min: 0, forceNiceScale: true }
             }).render();
 
-            // Donut: Pacientes según convenio
+            // Donut: Mascotas según convenio
             new ApexCharts(document.querySelector('#grafico_convenio'), {
                 chart: { type: 'donut', height: 230 },
                 series: {!! $serieConvenioJson !!},

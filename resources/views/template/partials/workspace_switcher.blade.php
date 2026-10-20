@@ -15,6 +15,9 @@
     $workspaceUser = Auth::user();
     $rolActivo = session(SeleccionCuentaController::SESION_ROL_ACTIVO);
     $nombreRolActivo = null;
+    // El encabezado también se renderiza sin contexto de escritorio del controlador.
+    $professionalActiveContext = $professionalActiveContext ?? null;
+    $adminActiveContext = $adminActiveContext ?? null;
 
     if ($workspaceUser) {
         $cuentas = app(CuentasService::class);
@@ -47,7 +50,7 @@
             ['rol' => 'AdministradorLaboratorio', 'ruta' => 'laboratorio.adm_general.home', 'label' => 'Escritorio Laboratorio'],
         ];
 
-        if ($hasProfessionalWorkspace && \Route::has('profesional.home')) {
+        if ($workspaceUser->hasRole('Profesional') && \Route::has('profesional.home')) {
             $workspaceOptions->push([
                 'key' => 'profesional',
                 'label' => 'Escritorio profesional',
@@ -66,9 +69,9 @@
             ]);
         }
 
-        if ($adminActiveContext && \Route::has('adm_cm.home')) {
+        if ($workspaceUser->hasAnyRole(['Adm_Institucion', 'Institucion', 'AsistenteAdm', 'Admin']) && \Route::has('adm_cm.home')) {
             $workspaceOptions->push([
-                'key' => 'adm_cm',
+                'key' => 'clinica',
                 'label' => 'Escritorio Centro Veterinario',
                 'url' => route('adm_cm.home', array_filter([
                     'contexto' => $adminActiveContext['key'] ?? null,
@@ -98,10 +101,10 @@
                 <ul class="pro-body">
                     @foreach ($workspaceOptions as $workspaceOption)
                         <li>
-                            <a href="{{ $workspaceOption['url'] }}" class="dropdown-item" @if($workspaceOption['activo']) aria-current="true" @endif>
+                            <a href="{{ $workspaceOption['url'] }}" class="dropdown-item" @if($workspaceOption['activo'] ?? false) aria-current="true" @endif>
                                 <i class="feather {{ $workspaceOption['icon'] ?? 'icon-user' }}"></i>
                                 {{ $workspaceOption['label'] }}
-                                @if ($workspaceOption['activo'])
+                                @if ($workspaceOption['activo'] ?? false)
                                     <i class="feather icon-check text-success ml-1" aria-label="Escritorio actual"></i>
                                 @endif
                                 @if (!empty($workspaceOption['note']))

@@ -92,6 +92,7 @@
                                     <option>Imagenología</option>
                                     <option>Ecografía</option>
                                     <option>Citología</option>
+                                    <option>Diagnóstico</option>
                                 </select>
                             </div>
                         </div>
@@ -147,6 +148,7 @@
                                 <label class="floating-label-activo-sm" for="arvProTipo">Tipo</label>
                                 <select id="arvProTipo" class="form-control form-control-sm">
                                     <option>Cirugía</option>
+                                    <option>Clínico</option>
                                     <option>Curación</option>
                                     <option>Dental</option>
                                     <option>Anestesia</option>

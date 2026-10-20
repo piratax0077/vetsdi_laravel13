@@ -8019,6 +8019,7 @@ $search = $request->search;
         // 8.  Llamando -> morado (monitor sala espera)
         // validar si paciente tiene otra consulta
         $validar = HoraMedica::where('id_paciente', $paciente->id)
+                                ->paraMascotaAgenda($request->id_mascota)
                 ->whereIn('id_estado',[1,2,4,5,6,8])
                 ->where('id_profesional',$profesional->id)
                 ->where('id_lugar_atencion',$request->id_lugar_atencion)
@@ -8041,6 +8042,7 @@ $search = $request->search;
             // DB::enableQueryLog(); // Habilitar el registro de consultas
 
             $validar = HoraMedica::where('id_paciente', $paciente->id)
+                                ->paraMascotaAgenda($request->id_mascota)
                                 ->whereIn('id_estado',[1,2,4,5,6,8])
                                 ->where('fecha_consulta',\Carbon\Carbon::parse($request->fecha_consulta)->format('Y-m-d'))
                                 ->where(function($query) use ($hora_cunsulta) {

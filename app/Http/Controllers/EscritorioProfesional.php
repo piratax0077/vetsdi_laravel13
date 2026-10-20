@@ -1211,12 +1211,15 @@ class EscritorioProfesional extends Controller
         $fin = $inicio->copy()->endOfMonth();
 
         $horasPeriodo = HoraMedica::where('horas_medicas.id_profesional', $profesional->id)
+            ->whereNotNull('horas_medicas.id_mascota')
             ->whereBetween('horas_medicas.fecha_consulta', [$inicio->toDateString(), $fin->toDateString()]);
         if ($idLugar) {
             $horasPeriodo->where('horas_medicas.id_lugar_atencion', $idLugar);
         }
 
         $atencionesQuery = FichaAtencion::where('id_profesional', $profesional->id)
+            ->whereNotNull('id_mascota')
+            ->where('finalizada', 1)
             ->whereBetween('created_at', [$inicio, $fin]);
         if ($idLugar) {
             $atencionesQuery->where('id_lugar_atencion', $idLugar);
@@ -1226,24 +1229,28 @@ class EscritorioProfesional extends Controller
         // Los pacientes del veterinario son las mascotas atendidas
         $totalPacientes = (clone $atencionesQuery)->whereNotNull('id_mascota')->distinct()->count('id_mascota');
 
-        $bonosQuery = DB::table('bonos')->where('id_profesional', $profesional->id)
-            ->whereBetween('fecha_atencion', [$inicio->toDateString(), $fin->toDateString()])
-            ->where('devuelto', 0);
-        if ($idLugar) {
-            $bonosQuery->whereExists(function ($query) use ($idLugar, $profesional) {
-                $query->select(DB::raw(1))->from('horas_medicas')
+        $bonosBase = DB::table('bonos')->where('id_profesional', $profesional->id)->where('devuelto', 0)
+            ->whereExists(function ($query) use ($idLugar, $profesional) {
+                $query->selectRaw('1')->from('horas_medicas')
                     ->whereColumn('horas_medicas.id', 'bonos.id_referencia')
                     ->where('horas_medicas.id_profesional', $profesional->id)
-                    ->where('horas_medicas.id_lugar_atencion', $idLugar);
+                    ->whereNotNull('horas_medicas.id_mascota')
+                    ->when($idLugar, fn ($q) => $q->where('horas_medicas.id_lugar_atencion', $idLugar));
             });
-        }
-        $ingresoTotal = (int) $bonosQuery->sum('a_pagar');
+        $ingresoTotal = (int) (clone $bonosBase)->whereNotNull('pago_confirmado_en')
+            ->whereBetween('pago_confirmado_en', [$inicio, $fin])->sum('a_pagar');
+        $cobrosPendientes = (int) (clone $bonosBase)->whereNull('pago_confirmado_en')
+            ->whereBetween('fecha_atencion', [$inicio, $fin])->sum('a_pagar');
 
         // Estados de la hora: 1 reservada, 2 confirmada, 3 rechazada, 4 en espera, 5 realizando, 6 realizada, 15 anulada por el profesional
         $asistieron = (clone $horasPeriodo)->whereIn('id_estado', [4, 5, 6])->count();
         // No asistió: la fecha ya pasó y la hora nunca salió de reservada o confirmada
-        $noAsistieron = (clone $horasPeriodo)->whereIn('id_estado', [1, 2])
-            ->where('fecha_consulta', '<', now()->toDateString())->count();
+        $noAsistieron = (clone $horasPeriodo)->where(function ($query) {
+            $query->where('id_estado', 7)->orWhere(function ($query) {
+                $query->whereIn('id_estado', [1, 2, 8])
+                    ->where('fecha_consulta', '<', now()->toDateString());
+            });
+        })->count();
         $canceladasTotal = (clone $horasPeriodo)->whereIn('id_estado', [3, 15])->count();
         $canceladasPaciente = (clone $horasPeriodo)->where('id_estado', 3)
             ->where(function ($query) {
@@ -1253,9 +1260,10 @@ class EscritorioProfesional extends Controller
         $canceladasLugar = $canceladasTotal - $canceladasPaciente;
         $totalAgenda = $asistieron + $noAsistieron + $canceladasPaciente + $canceladasLugar;
 
-        $atencionesMes = collect(range(5, 0))->map(function ($resta) use ($profesional, $idLugar) {
-            $fecha = now()->startOfMonth()->subMonths($resta);
+        $atencionesMes = collect(range(5, 0))->map(function ($resta) use ($profesional, $idLugar, $inicio) {
+            $fecha = $inicio->copy()->subMonths($resta);
             $query = FichaAtencion::where('id_profesional', $profesional->id)
+                ->whereNotNull('id_mascota')->where('finalizada', 1)
                 ->whereBetween('created_at', [$fecha->copy()->startOfMonth(), $fecha->copy()->endOfMonth()]);
             if ($idLugar) {
                 $query->where('id_lugar_atencion', $idLugar);
@@ -1263,12 +1271,21 @@ class EscritorioProfesional extends Controller
             return ['mes' => ucfirst(str_replace('.', '', $fecha->locale('es')->shortMonthName)), 'total' => $query->count()];
         });
 
-        // En veterinaria no hay previsiones (Fonasa ni isapres). Por ahora todos los pacientes
-        // quedan en "Sin convenio"; cuando existan convenios se agregan aquí como más ítems.
+        // Agrupar mascotas por el convenio efectivamente aplicado al cobro.
+        // Cada mascota se cuenta una vez, usando su última atención del período.
         $convenios = collect();
-        if ($totalPacientes > 0) {
-            $convenios->push((object) ['nombre' => 'Sin convenio', 'total' => $totalPacientes]);
+        $fichasPeriodo = (clone $atencionesQuery)->orderByDesc('created_at')->orderByDesc('id')->get();
+        $horasPorFicha = (clone $horasPeriodo)->whereIn('id_ficha_atencion', $fichasPeriodo->pluck('id'))->get()->keyBy('id_ficha_atencion');
+        $bonosPorHora = collect();
+        if (\Illuminate\Support\Facades\Schema::hasColumn('bonos', 'nombre_convenio_veterinario')) {
+            $bonosPorHora = DB::table('bonos')->whereIn('id_referencia', $horasPorFicha->pluck('id'))
+                ->where('id_profesional', $profesional->id)->where('id_tipo_bono', 1)->where('devuelto', 0)
+                ->orderBy('id')->get()->keyBy('id_referencia');
         }
+        $convenios = $fichasPeriodo->unique('id_mascota')->map(function ($ficha) use ($horasPorFicha, $bonosPorHora) {
+            $hora = $horasPorFicha->get($ficha->id);
+            return $hora ? ($bonosPorHora->get($hora->id)->nombre_convenio_veterinario ?? 'Sin convenio') : 'Sin convenio';
+        })->countBy()->map(fn ($total, $nombre) => (object) ['nombre' => $nombre, 'total' => $total])->values();
 
         $recetas = DB::table('detalles_receta')->join('fichas_atenciones', 'detalles_receta.id_ficha', '=', 'fichas_atenciones.id')
             ->where('fichas_atenciones.id_profesional', $profesional->id)
@@ -1277,16 +1294,51 @@ class EscritorioProfesional extends Controller
             $recetas->where('fichas_atenciones.id_lugar_atencion', $idLugar);
         }
 
+        $certificados = CertificadoReposo::where('id_profesional', $profesional->id)
+            ->whereBetween('created_at', [$inicio, $fin]);
+        $consentimientos = ConConsentimientosPcte::where('id_profesional', $profesional->id)
+            ->whereBetween('created_at', [$inicio, $fin]);
+        $ordenes = DB::table('examen_especialidad')->where('id_profesional', $profesional->id)
+            ->whereBetween('created_at', [$inicio, $fin]);
+        // Limitar también los documentos al lugar y a las fichas de mascotas.
+        $fichasDocumentos = FichaAtencion::where('id_profesional', $profesional->id)->whereNotNull('id_mascota')
+            ->when($idLugar, fn ($q) => $q->where('id_lugar_atencion', $idLugar))->select('id');
+        $recetas->whereIn('fichas_atenciones.id', clone $fichasDocumentos);
+        $certificados->whereIn('id_ficha_atencion', clone $fichasDocumentos);
+        $consentimientos->whereIn('id_fc', clone $fichasDocumentos);
+        $ordenes->whereIn('id_ficha_atencion', clone $fichasDocumentos);
         $documentos = [
-            'Recetas' => $recetas->distinct()->count('detalles_receta.id_ficha'),
-            'Certificados' => CertificadoReposo::where('id_profesional', $profesional->id)->whereBetween('created_at', [$inicio, $fin])->count(),
-            'Licencias médicas' => Licencia::where('id_profesional', $profesional->id)->whereBetween('created_at', [$inicio, $fin])->count(),
-            'Órdenes de examen' => DB::table('examen_especialidad')->where('id_profesional', $profesional->id)->whereBetween('created_at', [$inicio, $fin])->count(),
+            'Recetas veterinarias' => $recetas->distinct()->count('detalles_receta.id_ficha'),
+            'Certificados veterinarios' => $certificados->count(),
+            'Consentimientos informados' => $consentimientos->count(),
+            'Órdenes de examen' => $ordenes->count(),
         ];
+
+        if ($request->input('formato') === 'csv') {
+            $filas = [
+                ['Reporte veterinario', $inicio->format('m/Y')],
+                ['Lugar', $idLugar ? $lugares->firstWhere('id', $idLugar)->nombre : 'Todos los lugares'],
+                ['Mascotas atendidas', $totalPacientes], ['Atenciones finalizadas', $atencionesRealizadas],
+                ['Ingresos confirmados CLP', $ingresoTotal], ['Cobros sin confirmación CLP', $cobrosPendientes], ['Asistieron', $asistieron],
+                ['No asistieron', $noAsistieron], ['Canceladas por tutor', $canceladasPaciente],
+                ['Canceladas por el lugar', $canceladasLugar],
+            ];
+            foreach ($documentos as $nombre => $total) $filas[] = [$nombre, $total];
+            foreach ($convenios as $convenio) $filas[] = ['Mascotas: '.$convenio->nombre, $convenio->total];
+            return response()->streamDownload(function () use ($filas) {
+                $salida = fopen('php://output', 'w');
+                fwrite($salida, "\xEF\xBB\xBF");
+                foreach ($filas as $fila) {
+                    $fila = array_map(fn ($valor) => is_string($valor) && preg_match('/^[=+@\-\t\r]/', $valor) ? "'".$valor : $valor, $fila);
+                    fputcsv($salida, $fila, ';', '"', '');
+                }
+                fclose($salida);
+            }, 'reporte-veterinario-'.$inicio->format('Y-m').'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
+        }
 
         return view('app.profesional.reporte_estadisticas', compact(
             'profesional', 'lugares', 'mes', 'idLugar', 'totalPacientes', 'atencionesRealizadas',
-            'ingresoTotal', 'asistieron', 'noAsistieron', 'canceladasPaciente', 'canceladasLugar',
+            'ingresoTotal', 'cobrosPendientes', 'asistieron', 'noAsistieron', 'canceladasPaciente', 'canceladasLugar',
             'totalAgenda', 'atencionesMes', 'convenios', 'documentos'
         ));
     }
@@ -9411,11 +9463,11 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         $direccion->numero_dir = $request->numero_lugar_atencion;
         $direccion->id_ciudad = $request->ciudad_agregar;
 
-        $lugar_existente = LugarAtencion::where('email', $request->email_lugar_atencion)->first();
-
-        if ($lugar_existente != '') {
-            return back()->with('mensaje', 'email ya existe');
-        }
+        // El correo y teléfono son contactos compartibles entre varios lugares.
+        $request->validate([
+            'email_lugar_atencion' => ['nullable', 'email', 'max:255'],
+            'telefono_lugar_atencion' => ['nullable', 'string', 'max:50'],
+        ]);
 
         $ciudad = Ciudad::where('id', $direccion->id_ciudad)->first();
 
@@ -9902,6 +9954,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         // var_dump($filtro_tipo_hora_medica);
         // var_dump(\Carbon\Carbon::parse($request->fecha_consulta)->format('Y-m-d'));
         $validar = HoraMedica::where('id_paciente', $paciente->id)
+                                ->paraMascotaAgenda($request->id_mascota)
                                 ->whereIn('id_estado',[1,2,4,5,6,8])
                                 ->where('id_profesional',$profesional->id)
                                 ->whereIn('tipo_hora_medica',$filtro_tipo_hora_medica)
@@ -9925,6 +9978,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
             // DB::enableQueryLog(); // Habilitar el registro de consultas
 
             $validar = HoraMedica::where('id_paciente', $paciente->id)
+                                ->paraMascotaAgenda($request->id_mascota)
                                 ->whereIn('id_estado',[1,2,4,5,6,8])
                                 ->where('fecha_consulta',\Carbon\Carbon::parse($request->fecha_consulta)->format('Y-m-d'))
                                 ->where(function($query) use ($hora_cunsulta) {
@@ -10849,6 +10903,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
         return DB::transaction(function () use ($request) {
             $horaMedica = HoraMedica::lockForUpdate()->findOrFail($request->id_hora_medica);
+            if ($horaMedica->id_mascota) app(\App\Services\RecepcionPagoVeterinario::class)->autorizar($horaMedica);
             $fichaFinalizada = !empty($horaMedica->id_ficha_atencion)
                 && FichaAtencion::where('id', $horaMedica->id_ficha_atencion)
                     ->where('finalizada', 1)
@@ -10858,14 +10913,18 @@ public function eliminarPiezaCoronaProtesis(Request $req){
             $paciente = Paciente::find($horaMedica->id_paciente);
 
             $bono = Bono::where('id_referencia', $horaMedica->id)
-                ->where('id_tipo_bono', 1)
+                ->where('id_profesional', $horaMedica->id_profesional)
+                ->when(!$horaMedica->id_mascota, fn ($q) => $q->where('id_tipo_bono', 1))
                 ->where('devuelto', 0)
                 ->lockForUpdate()
                 ->first();
 
+            if ($bono?->pago_confirmado_en) {
+                return ['estado' => 1, 'msj' => 'El pago ya está confirmado.', 'bono' => $bono, 'estado_hora' => $horaMedica->id_estado, 'cobro_habilitado' => true];
+            }
             if (!$bono) {
                 $bono = new Bono();
-                $bono->convenio = $paciente->id_prevision ?? 1;
+                $bono->convenio = 0;
                 $bono->numero_boleta = 0;
                 $bono->fecha_atencion = now();
                 $bono->valor_atencion = 0;
@@ -10896,7 +10955,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
              * El estado 4 usa el color morado configurado para FullCalendar.
              * No se marca realizada ni cobrable hasta el cierre de la ficha.
              */
-            if (!$fichaFinalizada) {
+            if (!$fichaFinalizada && in_array((int) $horaMedica->id_estado, [1, 2, 8, 16], true)) {
                 $horaMedica->id_estado = 4;
                 $horaMedica->save();
             }
@@ -10921,6 +10980,9 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         $valido = 1;
 
         $horaParaCobro = HoraMedica::find($request->id_referencia);
+        if ($horaParaCobro && $horaParaCobro->id_mascota) {
+            return app(\App\Services\RecepcionPagoVeterinario::class)->recibir($request, $horaParaCobro->id);
+        }
         $fichaCerrada = $horaParaCobro
             && !empty($horaParaCobro->id_ficha_atencion)
             && FichaAtencion::where('id', $horaParaCobro->id_ficha_atencion)
@@ -10930,6 +10992,11 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         if (!$horaParaCobro) {
             return response()->json(['estado' => 0, 'msj' => 'No se encontró la hora médica asociada.'], 404);
         }
+
+        $request->validate([
+            'convenio_veterinario_id' => ['nullable', 'integer', 'min:1'],
+            'valor_atencion' => ['nullable', 'numeric', 'min:0', 'max:2147483647'],
+        ]);
 
         // La recepción previa al cierre acepta valor manual o código QR.
         // Queda pendiente y no cobrable hasta que el veterinario cierre la ficha.
@@ -10983,6 +11050,9 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                 $bono->numero_sesiones = $request->numero_sesiones ?: 0;
                 $bono->estado_consulta = 2;
                 $bono->devuelto = 0;
+                app(\App\Services\DescuentoConvenioVeterinario::class)->aplicar(
+                    $bono, $horaParaCobro, $request->integer('convenio_veterinario_id') ?: null, $valorAtencion
+                );
                 $bono->save();
 
                 $horaParaCobro->id_estado = 4;
@@ -11002,11 +11072,6 @@ public function eliminarPiezaCoronaProtesis(Request $req){
             });
         }
 
-        if(empty($request->convenio))
-        {
-            $error['convenio'] = 'campo requerido';
-            $valido = 0;
-        }
         // if(empty($request->numero_bono))
         // {
         //     $error['numero_bono'] = 'campo requerido';
@@ -11069,7 +11134,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
             // return $profesional;
             /** registro bono */
             $bono = new Bono();
-            $bono->convenio = $request->convenio;
+            $bono->convenio = $request->convenio ?: 0;
             // $bono->convenio = $request->convenio_nombre;
             $bono->numero_bono = $request->numero_bono;
             $bono->numero_boleta = empty($request->numero_boleta)?'0':$request->numero_boleta;
@@ -11101,6 +11166,10 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                 $bono->rendido = 1;
             }
 
+            app(\App\Services\DescuentoConvenioVeterinario::class)->aplicar(
+                $bono, $horaParaCobro, $request->integer('convenio_veterinario_id') ?: null,
+                (int) $request->valor_atencion
+            );
             if($bono->save())
             {
                 $datos['bono']['estado'] = 1;
