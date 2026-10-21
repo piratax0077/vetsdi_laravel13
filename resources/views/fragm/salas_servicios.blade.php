@@ -35,7 +35,9 @@
                             @endphp
                             <div class="col-md-3">
                                 <div class="card">
-                                    <div class="card-header d-flex align-items-center justify-content-between bg-info">Sala {{ $i }}</div>
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-grid"></i></span>Sala {{ $i }}</h5>
+                                    </div>
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="nombre_sala{{ $servicio->id }}-{{ $i }}" class="floating-label-activo-sm">Nombre (opcional)</label>

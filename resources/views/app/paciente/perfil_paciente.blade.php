@@ -101,43 +101,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
- 
-                                                <!--CONTACTO-->
-                                                <div class="form-row mb-4">
-                                                     <div class="col-12">
-                                                        <h6 class="titulo-sm">Contacto</h6>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Correo electrónico</label>
-                                                        <div data-tutor-mostrar="email">{{ $paciente->email }}</div>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-2">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Celular</label>
-                                                        <div data-tutor-mostrar="telefono_uno">{{ $paciente->telefono_uno }}</div>
-                                                    </div>
-                                                </div>
-                                                <!--RESIDENCIA-->
-                                                <div class="form-row">
-                                                    <div class="col-12">
-                                                        <h6 class="titulo-sm">Residencia</h6>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-12 col-lg-4 col-xl-3">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Dirección</label>
-                                                        <div data-tutor-mostrar="direccion">
-                                                            @if ($direccion_paciente)
-                                                                {{ $direccion_paciente->direccion }}
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Región</label>
-                                                        <div data-tutor-mostrar="region">{{ $direccion_txt_region_paciente }}</div>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Comuna</label>
-                                                        <div data-tutor-mostrar="ciudad">{{ $direccion_txt_ciudad_paciente }}</div>
-                                                    </div>
-                                                </div>
                                             </form>
                                         </div>
                                         <!--Cierre: Datos personales-->
@@ -203,11 +166,11 @@
                                             <div class="form-row">
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Correo electrónico</label>
-                                                    <div>{{ $paciente->email }}</div>
+                                                    <div data-tutor-mostrar="email">{{ $paciente->email }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Celular</label>
-                                                    <div>{{ $paciente->telefono_uno }}</div>
+                                                    <div data-tutor-mostrar="telefono_uno">{{ $paciente->telefono_uno }}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -228,7 +191,7 @@
                                                 <div class="form-row">
                                                     <div class="col-sm-12 d-flex justify-content-end">
                                                         <button type="reset" class="btn btn-outline-dark btn-sm mr-2"><i class="feather icon-x"></i> Cancelar</button>
-                                                        <button type="button" onclick="guardar_perfil_paciente();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
+                                                        <button type="button" onclick="editar_paciente_datos_contacto();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -247,23 +210,21 @@
                                         <!--Residencia-->
                                         <div class="card-body info_residencial collapse show" id="info_residencial_1">
                                             <div class="form-row">
-                                                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                    <label class="font-weight-bolder ml-0 mb-0">Región</label>
-                                                    <div>{{ $direccion_txt_region_paciente }}</div>
-                                                </div>
-                                                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                    <label class="font-weight-bolder ml-0 mb-0">Comuna</label>
-                                                    <div>{{ $direccion_txt_ciudad_paciente }}</div>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="form-group col-12">
                                                     <label class="font-weight-bolder ml-0 mb-0">Dirección</label>
-                                                    <div>
+                                                    <div data-tutor-mostrar="direccion">
                                                         @if ($direccion_paciente)
                                                             {{ $direccion_paciente->direccion }}
                                                         @endif
                                                     </div>
+                                                </div>
+                                                <div class="form-group col-12 col-sm-6">
+                                                    <label class="font-weight-bolder ml-0 mb-0">Comuna</label>
+                                                    <div data-tutor-mostrar="ciudad">{{ $direccion_txt_ciudad_paciente }}</div>
+                                                </div>
+                                                <div class="form-group col-12 col-sm-6">
+                                                    <label class="font-weight-bolder ml-0 mb-0">Región</label>
+                                                    <div data-tutor-mostrar="region">{{ $direccion_txt_region_paciente }}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -272,12 +233,30 @@
                                         <div class="card-body info_residencial collapse" id="info_residencial_2">
                                             <form>
                                                 <div class="form-row">
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <div class="form-group col-12">
                                                         <label class="floating-label-activo">Dirección</label>
                                                         <input type="text" class="form-control form-control-sm" placeholder="Dirección" name="perfil_dire" id="perfil_dire" value="{{ optional($direccion_paciente)->direccion }}">
-                                                        <label class="mt-2" for="perfil_numero_dir">Número</label><input class="form-control form-control-sm" id="perfil_numero_dir" name="perfil_numero_dir" value="{{ $direccion_paciente?->numero_dir }}">
                                                     </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3">
+                                                    <div class="form-group col-12 col-sm-6">
+                                                        <label class="floating-label-activo">Comuna</label>
+                                                        <select class="form-control form-control-sm" id="perfil_ciudad" name="perfil_ciudad">
+                                                            <option value="">Seleccione su comuna</option>
+                                                            @if (isset($ciudades))
+                                                                @foreach ($ciudades as $ciudad)
+                                                                    @if (!empty($direccion_id_ciudad_paciente))
+                                                                        <option value="{{ $ciudad->id }}" @if ($ciudad->id == $direccion_id_ciudad_paciente) selected @endif>
+                                                                            {{ $ciudad->nombre }}
+                                                                        </option>
+                                                                    @else
+                                                                        <option value="{{ $ciudad->id }}">
+                                                                            {{ $ciudad->nombre }}
+                                                                        </option>
+                                                                    @endif
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-12 col-sm-6">
                                                         <label class="floating-label-activo">Región</label>
                                                         <select class="form-control form-control-sm" onchange="buscar_ciudad();" id="perfil_region" name="perfil_region">
                                                             <option value="">Seleccione</option>
@@ -297,31 +276,11 @@
                                                             @endif
                                                         </select>
                                                     </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Ciudad</label>
-                                                        <select class="form-control form-control-sm" id="perfil_ciudad" name="perfil_ciudad">
-                                                            <option value="">Seleccione su comuna</option>
-                                                            @if (isset($ciudades))
-                                                                @foreach ($ciudades as $ciudad)
-                                                                    @if (!empty($direccion_id_ciudad_paciente))
-                                                                        <option value="{{ $ciudad->id }}" @if ($ciudad->id == $direccion_id_ciudad_paciente) selected @endif>
-                                                                            {{ $ciudad->nombre }}
-                                                                        </option>
-                                                                    @else
-                                                                        <option value="{{ $ciudad->id }}">
-                                                                            {{ $ciudad->nombre }}
-                                                                        </option>
-                                                                    @endif
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
-                                                    </div>
-
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="col-sm-12 d-flex justify-content-end">
                                                         <button type="reset" class="btn btn-outline-dark btn-sm mr-2"><i class="feather icon-x"></i> Cancelar</button>
-                                                        <button type="button" onclick="guardar_perfil_paciente();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
+                                                        <button type="button" onclick="editar_paciente_datos_residencia();" class="btn btn-info btn-sm"><i class="feather icon-save"></i> Guardar cambios</button>
                                                     </div>
                                                 </div>
                                             </form>

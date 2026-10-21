@@ -26,8 +26,8 @@
         </div>
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header bg-info">
-                    <h5 class="text-white font-weight-bolder">Bonos</h5>
+                <div class="card-header encabezado-card">
+                    <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-tag"></i></span>Bonos</h5>
                 </div>
                 <div class="card-body">
                     <table id="tabla_bonos_ingresos" class="display table table-striped table-hover dt-responsive nowrap table-sm" style="width:100%">

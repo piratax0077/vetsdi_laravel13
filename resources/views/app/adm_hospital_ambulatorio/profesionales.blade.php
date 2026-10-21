@@ -610,6 +610,7 @@ $(document).ready(function(){
         function historial(id){
             // abrir modal de historial
             $('#historial_mensajes_profesional').modal('show');
+            $('#historial_mensajes_profesional_body').html('<p class="historial-mensajes-cargando">Cargando mensajes...</p>');
             let url = "{{ ROUTE('adm_cm.historial_mensajes_profesional',['id' => '__ID__']) }}";
             url = url.replace('__ID__',id);
 
@@ -617,40 +618,8 @@ $(document).ready(function(){
                 type:'get',
                 url: url,
                 success: function(resp){
-                    console.log(resp);
-                    let mensajes = resp.mensajes;
-                    let html = '';
-                    if(mensajes.length == 0){
-                        html += '<div class="row">';
-                        html += '<div class="col-md-12">';
-                        html += '<div class="card">';
-                        html += '<div class="card-header">';
-                        html += '<h4 class="card-title">No hay mensajes</h4>';
-                        html += '</div>';
-                        html += '<div class="card-body">';
-                        html += '<p>No hay mensajes enviados a este profesional.</p>';
-                        html += '</div>';
-                        html += '</div>';
-                        html += '</div>';
-                        html += '</div>';
-                    }else{
-                        mensajes.forEach(mensaje => {
-                            html += '<div class="row">';
-                            html += '<div class="col-md-12">';
-                            html += '<div class="card">';
-                            html += '<div class="card-header">';
-                            html += '<h4 class="card-title">'+mensaje.datos_mensaje.titulo+'</h4>';
-                            html += '</div>';
-                            html += '<div class="card-body">';
-                            html += '<p>'+mensaje.datos_mensaje.mensaje+'</p>';
-                            html += '</div>';
-                            html += '</div>';
-                            html += '</div>';
-                            html += '</div>';
-                        });
-                    }
-
-                    $('#historial_mensajes_profesional_body').html(html);
+                    // El diseño de la lista está en el modal (historial_mensajes.blade.php)
+                    pintar_historial_mensajes(resp.mensajes);
                 },
                 error: function(error){
                     console.log(error);

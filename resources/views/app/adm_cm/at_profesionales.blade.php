@@ -58,14 +58,8 @@
                         <div class="row mb-n4">
                            <div class="col-sm-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                               <div class="col-md-12">
-                                                    <h4 class="text-white f-20 mt-2 mb-2 float-left"> Atenciones  Profesionales Médicos por mes</h4>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-bar-chart-2"></i></span>Atenciones  Profesionales Médicos por mes</h5>
                                     </div>
                                     <div class="card-body">
                                         <table id="at_profesionales" class="display table table-striped table-hover dt-responsive nowrap" style="width:100%">
@@ -148,21 +142,15 @@
                         <div class="row mb-n4">
                            <div class="col-sm-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                               <div class="col-md-6">
-                                                    <h4 class="text-white f-20 mt-2 mb-2 float-left">Profesionales Odontólogos</h4>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="btn-group mr-2 float-right mt- mb-">
-                                                        <button type="button" class="btn btn-sm btn-outline-light" onclick="registrar_asistente();"><i class="fa fa-plus" aria-hidden="true"></i> Registrar nuevo Odontólogo</button>
-                                                        <button type="button" class="btn btn-sm btn-outline-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
-                                                        <div class="dropdown-menu">
-                                                            <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="asociar_profesional();">Asociar Odontólogo</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-award"></i></span>Profesionales Odontólogos</h5>
+                                        <div class="encabezado-card-acciones">
+                                            <div class="btn-group">
+                                            <button type="button" class="btn btn-info btn-sm" onclick="registrar_asistente();"><i class="feather icon-plus"></i> Registrar nuevo Odontólogo</button>
+                                            <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
+                                            <div class="dropdown-menu">
+                                            <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="asociar_profesional();">Asociar Odontólogo</button>
+                                            </div>
                                             </div>
                                         </div>
                                     </div>
@@ -234,21 +222,15 @@
                         <div class="row mb-n4">
                            <div class="col-sm-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                               <div class="col-md-6">
-                                                    <h4 class="text-white f-20 mt-2 mb-2 float-left">Otros Profesionales de la Salud</h4>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="btn-group mr-2 float-right mt- mb-">
-                                                        <button type="button" class="btn btn-sm btn-outline-light" onclick="registrar_administrativo();"><i class="fa fa-plus" aria-hidden="true"></i> Registrar nuevo profesional</button>
-                                                        <button type="button" class="btn btn-sm btn-outline-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
-                                                        <div class="dropdown-menu">
-                                                            <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="asociar_profesional();">Asociar Otros profesionales</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-users"></i></span>Otros Profesionales de la Salud</h5>
+                                        <div class="encabezado-card-acciones">
+                                            <div class="btn-group">
+                                            <button type="button" class="btn btn-info btn-sm" onclick="registrar_administrativo();"><i class="feather icon-plus"></i> Registrar nuevo profesional</button>
+                                            <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
+                                            <div class="dropdown-menu">
+                                            <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="asociar_profesional();">Asociar Otros profesionales</button>
+                                            </div>
                                             </div>
                                         </div>
                                     </div>

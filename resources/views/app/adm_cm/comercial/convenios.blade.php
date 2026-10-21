@@ -32,9 +32,11 @@
         </div>
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header bg-info">
-                    <h5 class="text-white font-weight-bolder">Convenios</h5>
-                    <button class="btn btn-info btn-sm mx-2 has-ripple float-right" data-toggle="modal" data-target="#nuevoConvenioInstitucion"><i class="fa fa-plus" aria-hidden="true"></i>Registrar nuevo convenio</button>
+                <div class="card-header encabezado-card">
+                    <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-file-text"></i></span>Convenios</h5>
+                    <div class="encabezado-card-acciones">
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#nuevoConvenioInstitucion"><i class="feather icon-plus"></i>Registrar nuevo convenio</button>
+                    </div>
                 </div>
                 <div class="card-body" id="card_body_convenios_institucion">
                     <table id="tabla_convenios_institucion" class="display table table-striped table-hover dt-responsive nowrap table-sm" style="width:100%">

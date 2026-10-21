@@ -2,53 +2,20 @@
 
 @section('content')
 
-<style>
-    .usuarios-card {
-        overflow: hidden;
-    }
-    .usuarios-wrapper {
-        flex: 0 0 100% !important;
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-    .usuarios-buscador {
-        width: 100%;
-        max-width: 330px;
-    }
-    .usuarios-modulo {
-        border: 1px solid #e4e9f2;
-        border-radius: .5rem;
-        padding: 1rem;
-        text-align: center;
-        background: #fff;
-        transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .usuarios-modulo:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 .4rem 1rem rgba(35, 47, 62, .12);
-    }
-    .usuarios-modulo img {
-        width: 46px;
-        height: 46px;
-        object-fit: contain;
-        margin-bottom: .65rem;
-    }
-    .usuarios-modulo h6 {
-        margin-bottom: .35rem;
-        font-weight: 700;
-    }
-    .usuarios-modulo p {
-        min-height: 38px;
-        margin-bottom: .8rem;
-        color: #6c757d;
-        font-size: .82rem;
-    }
-    .usuarios-item {
-        margin-bottom: 1rem;
-    }
-</style>
+@php
+    $nombreAdministrador = trim(Auth::user()->name ?? Auth::user()->nombre ?? 'Administrador');
+    $primerNombreAdministrador = collect(preg_split('/\s+/', $nombreAdministrador))
+        ->filter()
+        ->first() ?? 'Administrador';
 
-
+    // Sin foto cargada en Configuración se muestra el mismo icono que usa esa pantalla
+    $fotoCentro = trim($institucion->foto_perfil ?? '');
+    if ($fotoCentro === '') {
+        $fotoCentro = asset('images/iconos/cm-perfiles.png');
+    } elseif (!\Illuminate\Support\Str::startsWith($fotoCentro, ['http://', 'https://', '/'])) {
+        $fotoCentro = asset('storage/' . $fotoCentro);
+    }
+@endphp
 
  <!--Container Completo-->
 
@@ -66,15 +33,15 @@
 
                         <div class="col-md-12">
 
-                            <div class="page-header-title">
-                                @php
-                                    $nombreAdministrador = trim(Auth::user()->name ?? Auth::user()->nombre ?? 'Administrador');
-                                    $primerNombreAdministrador = collect(preg_split('/\s+/', $nombreAdministrador))
-                                        ->filter()
-                                        ->first() ?? 'Administrador';
-                                @endphp
+                            <div class="page-header-title saludo-con-foto">
+                                <a href="{{ route('adm_cm.configuracion') }}" class="saludo-foto" title="Cambiar la foto en Configuración">
+                                    {{-- Si el archivo de la foto no está, queda el icono base igual que en Configuración --}}
+                                    <img src="{{ $fotoCentro }}" alt="Foto de {{ $institucion->nombre }}"
+                                        onerror="this.onerror=null;this.src='{{ asset('images/iconos/cm-perfiles.png') }}';">
+                                </a>
+                                <div class="saludo-texto">
                                 <h3>Hola, <span class="text-purple">{{ $primerNombreAdministrador }}</span></h3>
-                                <p>Bienvenido/a a tu escritorio de Administrador General de {{ mb_strtoupper($institucion->nombre) }}</p>
+                                <p class="text-dark">Bienvenido/a a tu escritorio de Administrador General de <strong>{{ mb_strtoupper($institucion->nombre) }}</strong></p>
                                 @if (false && !empty($contextosCentro) && !empty($contextoActivo))
                                     <form method="GET" action="{{ route('adm_cm.home') }}" class="mt-3">
                                         <div class="form-row align-items-end">
@@ -94,6 +61,7 @@
                                         </div>
                                     </form>
                                 @endif
+                                </div>
                             </div>
 
                         </div>
@@ -106,329 +74,227 @@
 
             <!--Cierre: Header-->
 
-            <!--Botones-->
+            <!--Indicadores: por ahora solo diseño, los valores se conectan más adelante-->
+
+            <div class="row escritorio-indicadores">
+                <div class="col-6 col-xl-3">
+                    <div class="tarjeta-indicador tarjeta-indicador--morado">
+                        <span class="tarjeta-indicador-icono"><i class="feather icon-credit-card"></i></span>
+                        <strong class="tarjeta-indicador-valor">$0</strong>
+                        <span class="tarjeta-indicador-etiqueta">Recaudado hoy</span>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <div class="tarjeta-indicador tarjeta-indicador--morado">
+                        <span class="tarjeta-indicador-icono"><i class="feather icon-trending-up"></i></span>
+                        <strong class="tarjeta-indicador-valor">$0</strong>
+                        <span class="tarjeta-indicador-etiqueta">Recaudado en el mes</span>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <div class="tarjeta-indicador tarjeta-indicador--morado">
+                        <span class="tarjeta-indicador-icono"><i class="feather icon-calendar"></i></span>
+                        <strong class="tarjeta-indicador-valor">0</strong>
+                        <span class="tarjeta-indicador-etiqueta">Citas hoy</span>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <div class="tarjeta-indicador tarjeta-indicador--morado">
+                        <span class="tarjeta-indicador-icono"><i class="feather icon-user-plus"></i></span>
+                        <strong class="tarjeta-indicador-valor">0</strong>
+                        <span class="tarjeta-indicador-etiqueta">Pacientes nuevos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--Accesos principales y áreas del centro-->
 
             <div class="row">
 
-                <div class="col-md-12">
-
-                    <div class="card subir py-auto bg-info">
-
-                        <div class="card-body text-center">
-
-                             <h5 class=" mb-0 text-white f-24">Veterinaria {{ mb_strtoupper($institucion->nombre) }}</h5>
-
+                <div class="col-lg-6">
+                    <div class="card escritorio-grupo escritorio-grupo--accesos">
+                        <div class="card-header encabezado-card">
+                            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-grid"></i></span>Accesos principales</h5>
                         </div>
-
+                        <div class="card-body">
+                            <div class="escritorio-grupo-accesos">
+                                <div class="card subir">
+                                    <a href="{{ route('adm_cm.configuracion') }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/panel_configuracion.svg') }}" alt="">
+                                            <h6>Configuración</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card subir">
+                                    <a href="{{ route('adm_cm.usuarios') }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/profesionales.svg') }}" alt="">
+                                            <h6>Usuarios</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card subir">
+                                    <a href="{{ route('adm_cm.pacientes') }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/mascotas.svg') }}" alt="">
+                                            <h6>Mascotas y tutores</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card subir">
+                                    <a href="{{ route('adm_cm.area_comercial') }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/adm_comercial.svg') }}" alt="">
+                                            <h6>Gestión comercial</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card subir">
+                                    <a href="{{ route('adm_cm.adm_medico') }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/adm_medica.png') }}" alt="">
+                                            <h6>Gestión médica</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card subir">
+                                    <a href="{{ route('adm_cm.profesionales', ['tab' => 'contratos']) }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/cotizacion.svg') }}" alt="">
+                                            <h6>Contratos</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
+                <div class="col-lg-6">
+                    <div class="card escritorio-grupo escritorio-grupo--areas">
+                        <div class="card-header encabezado-card">
+                            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-layers"></i></span>Áreas del centro</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="escritorio-grupo-accesos">
+                                <div class="card subir">
+                                    <a href="{{ route('adm_cm.laboratorio') }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/laboratorio.svg') }}" alt="">
+                                            <h6>Laboratorio</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card subir">
+                                    <a href="{{ route('adm_cm.dental') }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/dental.png') }}" alt="">
+                                            <h6>Dental</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card subir">
+                                    <a href="{{ route('adm_cm.examenes') }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/imagenologia.svg') }}" alt="">
+                                            <h6>Imagenología</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card subir">
+                                    <a href="{{ route('adm_cm.vacunatorio') }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/vacunatorio.svg') }}" alt="">
+                                            <h6>Vacunatorio</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                {{-- Estas dos áreas todavía no tienen pantalla de administración --}}
+                                <div class="card modulo-en-construccion" aria-disabled="true" title="Módulo en construcción">
+                                    <div class="card-body text-center">
+                                        <img src="{{ asset('images/iconos/hospitalizacion.svg') }}" alt="">
+                                        <h6>Hospitalización</h6>
+                                        <span class="modulo-en-construccion-etiqueta">En construcción</span>
+                                    </div>
+                                </div>
+                                <div class="card modulo-en-construccion" aria-disabled="true" title="Módulo en construcción">
+                                    <div class="card-body text-center">
+                                        <img src="{{ asset('images/iconos/huella.png') }}" alt="">
+                                        <h6>Peluquería y belleza</h6>
+                                        <span class="modulo-en-construccion-etiqueta">En construcción</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
 
-               
-
-               
-
-            <div class="row row-cols-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-4">
-
-                <div class="col">
-
-                    <div class="card subir py-auto">
-
-                        <a href="{{ ROUTE('adm_cm.configuracion') }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-50 text-center" src="{{ asset('images/iconos/panel_configuracion.svg') }}">
-
-                                <h6 class="mt-2 mb-0">Configurar mi VET</h6>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <div class="col">
-                    <div class="card subir py-auto">
-                        <a href="{{ route('sitio.configurar') }}">
-                            <div class="card-body text-center" style="cursor:pointer">
-                                <img class="wid-50 text-center" src="{{ asset('images/iconos/docs.svg') }}" alt="Página web institucional">
-                                <h6 class="mt-2 mb-0">Configurar página web institucional</h6>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col">
-
-                    <div class="card subir py-auto">
-
-                        <a href="{{ ROUTE('adm_cm.adm_medico') }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-50 text-center" src="{{ asset('images/iconos/adm_medica.png') }}">
-
-                                <h6 class="mt-2 mb-0">Administración médica</h6>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <div class="col">
-                    <div class="card subir usuarios-card">
-                        <a href="{{ ROUTE('adm_cm.usuarios') }}">
-                            <div class="card-body text-center" style="cursor:pointer">
-                                <img class="wid-50 text-center" src="{{ asset('images/iconos/profesionales.svg') }}" alt="Usuarios">
-                                <h6 class="mt-2 mb-0">Usuarios</h6>
-                            </div>
-                        </a>
-                        <div class="d-none card-header bg-info text-white flex-column flex-md-row align-items-md-center justify-content-between">
-                            <div>
-                                <h4 class="mb-1 text-white"><i class="feather icon-users mr-2"></i>Usuarios</h4>
-                                <small>Profesionales, contratos, asistentes, mascotas y tutores</small>
-                            </div>
-                            <div class="usuarios-buscador mt-3 mt-md-0">
-                                <div class="input-group input-group-sm">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-white"><i class="feather icon-search"></i></span>
-                                    </div>
-                                    <input type="search" id="buscar-modulo-usuario" class="form-control" placeholder="Buscar tipo de usuario..." aria-label="Buscar dentro de usuarios">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body d-none">
-                            <div class="row" id="modulos-usuarios">
-                                <div class="col-sm-6 col-xl usuarios-item" data-usuario-item="profesionales medicos veterinarios especialistas asociar">
-                                    <div class="usuarios-modulo h-100">
-                                        <img src="{{ asset('images/iconos/profesionales.svg') }}" alt="Profesionales">
-                                        <h6>Profesionales</h6>
-                                        <p>Buscar, revisar y asociar profesionales.</p>
-                                        <a class="btn btn-info btn-sm btn-block" href="{{ ROUTE('adm_cm.profesionales') }}"><i class="feather icon-search mr-1"></i>Buscar y administrar</a>
-                                        <a class="btn btn-outline-info btn-sm btn-block" href="{{ ROUTE('adm_cm.profesionales') }}"><i class="feather icon-user-plus mr-1"></i>Inscribir o asociar</a>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-xl usuarios-item" data-usuario-item="contratos incorporaciones personal rrhh contratar">
-                                    <div class="usuarios-modulo h-100">
-                                        <img src="{{ asset('images/iconos/cotizacion.svg') }}" alt="Contratos">
-                                        <h6>Contratos</h6>
-                                        <p>Contratos e incorporaciones del centro.</p>
-                                        <a class="btn btn-info btn-sm btn-block" href="{{ ROUTE('adm_cm.area_contratos_nuevos') }}"><i class="feather icon-search mr-1"></i>Buscar contratos</a>
-                                        <a class="btn btn-outline-info btn-sm btn-block" href="{{ ROUTE('adm_cm.area_contratos_nuevos') }}"><i class="feather icon-file-plus mr-1"></i>Nueva inscripci&oacute;n</a>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-xl usuarios-item" data-usuario-item="asistentes empleados personal registrar asociar">
-                                    <div class="usuarios-modulo h-100">
-                                        <img src="{{ asset('images/iconos/mis_asistentes.svg') }}" alt="Asistentes">
-                                        <h6>Asistentes</h6>
-                                        <p>Buscar, registrar y asociar asistentes.</p>
-                                        <a class="btn btn-info btn-sm btn-block" href="{{ ROUTE('adm_cm.personal') }}"><i class="feather icon-search mr-1"></i>Buscar asistentes</a>
-                                        <a class="btn btn-outline-info btn-sm btn-block" href="{{ ROUTE('adm_cm.personal') }}"><i class="feather icon-user-plus mr-1"></i>Registrar asistente</a>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-xl usuarios-item" data-usuario-item="mascotas pacientes animales registrar ficha">
-                                    <div class="usuarios-modulo h-100">
-                                        <img src="{{ asset('images/iconos/pacientes.svg') }}" alt="Mascotas">
-                                        <h6>Mascotas</h6>
-                                        <p>Buscar mascotas y administrar sus fichas.</p>
-                                        <a class="btn btn-info btn-sm btn-block" href="{{ ROUTE('adm_cm.pacientes') }}"><i class="feather icon-search mr-1"></i>Buscar mascotas</a>
-                                        <a class="btn btn-outline-info btn-sm btn-block" href="{{ ROUTE('adm_cm.pacientes') }}"><i class="feather icon-plus-circle mr-1"></i>Inscribir mascota</a>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-xl usuarios-item" data-usuario-item="tutores responsables propietarios clientes registrar">
-                                    <div class="usuarios-modulo h-100">
-                                        <img src="{{ asset('images/iconos/pacientes.svg') }}" alt="Tutores">
-                                        <h6>Tutores</h6>
-                                        <p>Buscar responsables y vincular mascotas.</p>
-                                        <a class="btn btn-info btn-sm btn-block" href="{{ ROUTE('adm_cm.pacientes') }}"><i class="feather icon-search mr-1"></i>Buscar tutores</a>
-                                        <a class="btn btn-outline-info btn-sm btn-block" href="{{ ROUTE('adm_cm.pacientes') }}"><i class="feather icon-user-plus mr-1"></i>Inscribir tutor</a>
-                                    </div>
-                                </div>
-                                <div class="col-12 d-none" id="usuarios-sin-resultados">
-                                    <div class="alert alert-light text-center mb-0">No se encontraron opciones de usuario.</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-
-
-
-                    <div class="card subir py-auto">
-
-                        <a href="{{ ROUTE('adm_cm.area_comercial') }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-50 text-center" src="{{ asset('images/iconos/adm_comercial.png') }}">
-
-                                <h6 class="mt-2 mb-0">Administración comercial</h6>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
-
-
-                </div>
-
-               {{-- <div class="col">
-
-                     <div class="card subir py-auto">
-
-                        <a href="{{ ROUTE('adm_cm.mis_profesionales') }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-45 text-center" src="{{ asset('images/iconos/agenda.svg') }}">
-
-                                <h6 class="mt-2 mb-0">Info profesionales del CM</h6>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
-                </div>--}}
-
-
-
-            </div>
-
-               
-
-           
-
-                
+            <!--Utilidades y notificaciones-->
 
             <div class="row">
 
-                <div class="col-md-12">
-
-                    <div class="card subir py-auto bg-warning">
-
-                        <div class="card-body text-center" style="cursor:pointer">
-
-                            <h6 class="mb-0 text-white f-20">Áreas del Centro Médico</h6>
-
+                <div class="col-lg-6">
+                    <div class="card escritorio-grupo">
+                        <div class="card-header encabezado-card">
+                            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-sliders"></i></span>Utilidades</h5>
                         </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <div class="card subir py-auto">
-
-                        <a href="{{ ROUTE('adm_cm.laboratorio') }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-50 text-center"  src="{{ asset('images/iconos/laboratorio.svg') }}">
-
-                                <h6 class="mt-2 mb-0">Laboratorio</h6>
-
+                        <div class="card-body">
+                            <div class="escritorio-grupo-accesos">
+                                <div class="card subir">
+                                    <a href="{{ route('sitio.configurar') }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/docs.svg') }}" alt="">
+                                            <h6>Configuración sitio web</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card subir">
+                                    <a href="#" onclick="en_construccion(); return false;">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/mis_asistentes.svg') }}" alt="">
+                                            <h6>Busca a tu asistente</h6>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-
-                        </a>
-
+                        </div>
                     </div>
-
                 </div>
 
-                <div class="col-md-3">
-
-                    <div class="card subir py-auto">
-
-                        <a href="{{ ROUTE('adm_cm.examenes') }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-50 text-center"  src="{{ asset('images/iconos/imagenologia.svg') }}">
-
-                                <h6 class="mt-2 mb-0">Imagenología</h6>
-
-                            </div>
-
-                        </a>
-
+                <div class="col-lg-6">
+                    <div class="card escritorio-grupo">
+                        <div class="card-header encabezado-card">
+                            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-bell"></i></span>Notificaciones<span class="badge badge-pill badge-danger ml-2">5 nuevas</span></h5>
+                        </div>
+                        <div class="card-body">
+                            @php
+                                // Avisos de ejemplo: por ahora solo diseño, se conectan más adelante
+                                $notificaciones = [
+                                    ['color' => 'rojo', 'icono' => 'package', 'titulo' => 'Stock bajo', 'texto' => 'Vacuna óctuple: quedan 3 unidades, hay que reponer.', 'cuando' => 'Hoy'],
+                                    ['color' => 'morado', 'icono' => 'message-square', 'titulo' => 'Mensaje nuevo', 'texto' => 'Dra. Camila Soto te escribió por el turno del viernes.', 'cuando' => 'Hace 1 h'],
+                                    ['color' => 'naranja', 'icono' => 'calendar', 'titulo' => 'Citas sin confirmar', 'texto' => '6 citas de mañana todavía no se confirman.', 'cuando' => 'Mañana'],
+                                    ['color' => '', 'icono' => 'trending-up', 'titulo' => 'Recaudación del mes', 'texto' => 'Este mes llevas $2.450.000, un 12% más que el mes pasado.', 'cuando' => 'Octubre'],
+                                    ['color' => 'azul', 'icono' => 'file-text', 'titulo' => 'Contrato por vencer', 'texto' => 'El contrato de un asistente vence en 7 días.', 'cuando' => '7 días'],
+                                ];
+                            @endphp
+                            <ul class="lista-notificaciones">
+                                @foreach ($notificaciones as $notificacion)
+                                    <li class="notificacion-item {{ $notificacion['color'] ? 'tarjeta-indicador--' . $notificacion['color'] : '' }}">
+                                        <span class="tarjeta-indicador-icono"><i class="feather icon-{{ $notificacion['icono'] }}"></i></span>
+                                        <div class="notificacion-contenido">
+                                            <strong>{{ $notificacion['titulo'] }}</strong>
+                                            <span>{{ $notificacion['texto'] }}</span>
+                                        </div>
+                                        <small class="notificacion-cuando">{{ $notificacion['cuando'] }}</small>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
-
                 </div>
-
-                <div class="col-md-3">
-
-                    <div class="card subir py-auto">
-
-                        <a href="{{ ROUTE('adm_cm.vacunatorio') }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-50 text-center"  src="{{ asset('images/iconos/vacunatorio.svg') }}">
-
-                                <h6 class="mt-2 mb-0">Vacunatorio</h6>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <div class="card subir py-auto">
-
-                        <a href="{{ ROUTE('adm_cm.dental') }}">
-
-                            <div class="card-body text-center" style="cursor:pointer">
-
-                                <img class="wid-50 text-center"  src="{{ asset('images/iconos/dental.png') }}">
-
-                                <h6 class="mt-2 mb-0">Dental</h6>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-				<div class="col-md-12">
-
-					<div class="card subir py-auto" onclick="en_construccion()";>
-
-						<a href="#">
-
-							<div class="card-body text-center" style="cursor:pointer">
-
-								<img class="wid-50 text-center rounded" src="{{ asset('images/iconos/mis_asistentes.svg') }}">
-
-								<h6 class="mt-1">Contratar asistentes en linea</h6>
-
-							</div>
-
-						</a>
-
-					</div>
-
-				</div>
 
             </div>
 
@@ -439,31 +305,5 @@
     <!--Cierre: Container Completo-->
 
     @include('app.adm_cm.modales.en_construccion')
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const buscador = document.getElementById('buscar-modulo-usuario');
-            const items = Array.from(document.querySelectorAll('[data-usuario-item]'));
-            const sinResultados = document.getElementById('usuarios-sin-resultados');
-
-            if (!buscador) {
-                return;
-            }
-
-            buscador.addEventListener('input', function () {
-                const termino = this.value.toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                let visibles = 0;
-
-                items.forEach(function (item) {
-                    const contenido = item.dataset.usuarioItem.toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                    const coincide = contenido.includes(termino);
-                    item.classList.toggle('d-none', !coincide);
-                    visibles += coincide ? 1 : 0;
-                });
-
-                sinResultados.classList.toggle('d-none', visibles !== 0);
-            });
-        });
-    </script>
 
 @endsection

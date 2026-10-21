@@ -26,8 +26,8 @@
                                 </div>
                             </td> --}}
                             <td class="align-middle">
-                                <button type="button" class="btn btn-warning btn-icon" onclick="dame_especialidad_cm({{ $especialidad->id }})"><i class="feather icon-edit"></i></button>
-                                <button type="button" class="btn btn-danger btn-icon" onclick="eliminar_especialidad_cm({{ $especialidad->id }});"><i class="feather icon-x"></i></button>
+                                <button title="Editar especialidad" type="button" class="btn btn-warning btn-icon" onclick="dame_especialidad_cm({{ $especialidad->id }})"><i class="feather icon-edit"></i></button>
+                                <button title="Eliminar especialidad" type="button" class="btn btn-danger btn-icon" onclick="eliminar_especialidad_cm({{ $especialidad->id }});"><i class="feather icon-x"></i></button>
                             </td>
                         </tr>
                         @endforeach

@@ -10,6 +10,12 @@
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav ml-auto">
+                {{-- Vuelve al escritorio del centro que se está administrando --}}
+                @include('template.partials.boton_escritorio_encabezado', [
+                    'rutaEscritorio' => \Route::has('adm_cm.home')
+                        ? route('adm_cm.home', array_filter(['contexto' => ($adminActiveContext ?? null)['key'] ?? null]))
+                        : null,
+                ])
                 @include('template.partials.workspace_switcher')
 			</li>
 			<li>

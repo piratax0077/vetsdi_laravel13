@@ -3734,7 +3734,8 @@ Route::group([
 
 	Route::get('/Profesionales', [App\Http\Controllers\AdministradorCmController::class, 'profesionales'])->name('adm_cm.profesionales');
 
-    Route::get('/Profesionales/{id}', [App\Http\Controllers\AdministradorCmController::class, 'profesionales_id'])->name('adm_cm.profesionales_id');
+    // Solo ids numéricos: si no, "/Profesionales/buscar" caía en esta ruta
+    Route::get('/Profesionales/{id}', [App\Http\Controllers\AdministradorCmController::class, 'profesionales_id'])->whereNumber('id')->name('adm_cm.profesionales_id');
 
     Route::get('/Profesionales_institucion', [App\Http\Controllers\AdministradorCmController::class, 'profesionales_institucion'])->name('adm_cm.profesionales_institucion');
 
@@ -3804,6 +3805,10 @@ Route::group([
 
 	Route::get('/Pacientes', [App\Http\Controllers\AdministradorCmController::class, 'adm_buscar_pacientes'])->name('adm_cm.pacientes');
     Route::post('/Pacientes/mensaje-difusion', [App\Http\Controllers\AdministradorCmController::class, 'enviarMensajeDifusionMascotasResponsables'])->name('adm_cm.pacientes.difusion');
+    Route::post('/Pacientes/mensaje-tutor', [App\Http\Controllers\AdministradorCmController::class, 'enviarMensajeResponsable'])->name('adm_cm.pacientes.mensaje');
+    Route::get('/Pacientes/tutor/{tutor}', [App\Http\Controllers\AdministradorCmController::class, 'ver_tutor'])
+        ->whereNumber('tutor')
+        ->name('adm_cm.tutor.informacion');
 
 
 

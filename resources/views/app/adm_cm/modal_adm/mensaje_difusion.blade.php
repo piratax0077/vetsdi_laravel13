@@ -1,53 +1,47 @@
-<div id="mensaje_difusion" class="modal fade">
-	<div class="modal-dialog modal-lg">
+<!--Mensaje de difusión: mismo diseño que "Mensaje al profesional"-->
+<div id="mensaje_difusion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mensaje_difusion_titulo" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header modal-header-purple">
-				<h4 class="modal-title">Mensaje Difusion</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="$(this).closest('.modal').modal('hide');">&times;</button>
+				<h5 class="modal-title d-inline mt-1" id="mensaje_difusion_titulo">Mensaje de difusión</h5>
+				<button type="button" class="close text-white" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
                 <form id="mensajeDifusionForm" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group">
-                        <label for="de" class="floating-label-activo-sm">De:</label>
-                        <input type="text" class="form-control" id="de_difusion" name="de_difusion" value="{{ Auth::user()->name }}" readonly>
+                    <div class="form-row">
+                        <div class="form-group fill col-md-5">
+                            <label class="floating-label-activo-sm" for="de_difusion">De</label>
+                            <input type="text" class="form-control form-control-sm" id="de_difusion" name="de_difusion" value="{{ Auth::user()->name }}" readonly>
+                        </div>
+                        <div class="form-group fill col-md-7">
+                            <label class="floating-label-activo-sm" for="msj_para_difusion">Para</label>
+                            <select class="form-control form-control-sm" name="msj_para_difusion" id="msj_para_difusion" multiple="multiple">
+                                <option value="0">A todos los roles</option>
+                                @foreach($roles as $rol)
+                                    <option value="{{ $rol->id }}">{{ $rol->alias }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="para" class="floating-label-activo-sm">Para:</label>
-
-                        <select class="form-control form-control-sm" name="msj_para_difusion" id="msj_para_difusion" multiple="multiple">
-                            <option value="0">A todos los roles</option>
-                            @foreach($roles as $rol)
-                                <option value="{{ $rol->id }}">{{ $rol->alias }}</option>
-                            @endforeach
-                        </select>
-
+                    <div class="form-group fill">
+                        <label class="floating-label-activo-sm" for="titulo_msj_difusion">Título</label>
+                        <input type="text" class="form-control form-control-sm" id="titulo_msj_difusion" name="titulo_msj_difusion" required>
                     </div>
-                    <div class="form-group">
-                        <label for="titulo_msj" class="floating-label-activo-sm">Título:</label>
-                        <input type="text" class="form-control" id="titulo_msj_difusion" name="titulo_msj_difusion" required>
+                    <div class="form-group fill">
+                        <label class="floating-label-activo-sm" for="detalle_msj_difusion">Asunto</label>
+                        <textarea class="form-control form-control-sm" rows="2" id="detalle_msj_difusion" name="detalle_msj_difusion" required></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="detalle_msj" class="floating-label-activo-sm">Asunto:</label>
-                        <textarea class="form-control" rows="3" id="detalle_msj_difusion" name="detalle_msj_difusion" required></textarea>
+                    <div class="form-group fill">
+                        <label class="floating-label-activo-sm" for="mensaje_msj_difusion">Mensaje</label>
+                        <textarea class="form-control form-control-sm" rows="5" id="mensaje_msj_difusion" name="mensaje_msj_difusion" required></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="mensaje_msj" class="floating-label-activo-sm">Mensaje:</label>
-                        <textarea class="form-control" rows="5" id="mensaje_msj_difusion" name="mensaje_msj_difusion" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <div class="card-a">
-                            <div class="card-header-a" id="img">
-                                <button class="accor-closed btn pt-1 pb-0 pl-1 btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#imagenes_elim_cicat_pre" aria-expanded="false" aria-controls="imagenes_elim_cicat_pre">
-                                    Adjuntar archivo
-                                </button>
-                            </div>
-                            <div id="img_cons_dermato_pre-c" class="collapse show" aria-labelledby="img_cons_dermato_pre" data-parent="#img_cons_dermato_pre">
-                                <div class="card-body-aten-a">
-                                    <!-- [ Main Content ] start -->
-                                    <div class="dropzone" id="misArchivosGes" action="{{ route('profesional.archivo.carga') }}"></div>
-                                    <!-- [ file-upload ] end -->
-                                </div>
+                    <div class="form-group mb-0">
+                        <label class="mensaje-profesional-adjunto-titulo">Adjuntar archivo</label>
+                        <div class="dropzone" id="misArchivosGes" action="{{ route('profesional.archivo.carga') }}">
+                            <div class="dz-message">
+                                <i class="feather icon-upload-cloud"></i>
+                                <span>Arrastre aquí sus archivos o haga clic para seleccionarlos</span>
                             </div>
                         </div>
                     </div>
@@ -144,8 +138,8 @@
 
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
-				<button type="button" class="btn btn-primary" onclick="enviar_mensaje_difusion_confirmar()">Enviar</button>
+				<button type="button" class="btn btn-outline-dark" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
+				<button type="button" class="btn btn-info" onclick="enviar_mensaje_difusion_confirmar()"><i class="feather icon-message-square mr-1"></i>Enviar</button>
 			</div>
 		</div>
 	</div>
@@ -227,7 +221,7 @@
                 });
             }
             // cerrar modal
-            $('#mensajeDifusionModal').modal('hide');
+            $('#mensaje_difusion').modal('hide');
         })
         .catch(error => {
             console.error('Error:', error.responseText);

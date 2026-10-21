@@ -182,11 +182,13 @@
                                 <div class="col-md-6">
                                     <!--Contraseña-->
                                     <div class="card">
-                                        <div class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Cambiar contraseña</h5>
-                                            <button type="button" class="btn btn-light btn-sm btn-icon m-0 float-right" data-toggle="collapse" data-target=".pass_personal" aria-expanded="false" aria-controls="pass_personal_1 pass_personal_2">
+                                        <div class="card-header encabezado-card">
+                                            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-lock"></i></span>Cambiar contraseña</h5>
+                                            <div class="encabezado-card-acciones">
+                                                <button type="button" class="btn btn-info btn-sm btn-icon" data-toggle="collapse" data-target=".pass_personal" aria-expanded="false" aria-controls="pass_personal_1 pass_personal_2">
                                                 <i class="feather icon-edit"></i>
-                                            </button>
+                                                </button>
+                                            </div>
                                         </div>
                                         <!--Contraseña-->
                                         <div class="card-body pass_personal collapse show" id="pass_personal_1">
@@ -411,11 +413,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="card">
-                                        <div class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Agregar Datos para Liquidaciones</h5>
-                                            <button type="button" class="btn btn-light btn-sm btn-icon m-0 float-right" data-toggle="collapse" data-target=".liquidaciones" aria-expanded="false" aria-controls="liquidaciones_1 liquidaciones_2">
+                                        <div class="card-header encabezado-card">
+                                            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-credit-card"></i></span>Agregar Datos para Liquidaciones</h5>
+                                            <div class="encabezado-card-acciones">
+                                                <button type="button" class="btn btn-info btn-sm btn-icon" data-toggle="collapse" data-target=".liquidaciones" aria-expanded="false" aria-controls="liquidaciones_1 liquidaciones_2">
                                                 <i class="feather icon-edit"></i>
-                                            </button>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="card-body border-top liquidaciones collapse show" id="liquidaciones_1">
                                             <form>
@@ -527,17 +531,16 @@
                                 @foreach($cuentas_bancarias as $cuenta_bancaria)
                                 <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <div class="card">
-                                        <div class="card-header d-flex align-items-center justify-content-between bg-info">
-                                            <h5 class="mb-0 text-white">Agregar Datos depósitos</h5>
-                                            <div>
-                                                <button type="button" class="btn btn-light btn-sm btn-icon m-0 "  onclick="eliminar_cuenta_bancaria({{ $cuenta_bancaria->id }})">
-                                                    <i class="feather icon-trash"></i>
+                                        <div class="card-header encabezado-card">
+                                            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-credit-card"></i></span>Agregar Datos depósitos</h5>
+                                            <div class="encabezado-card-acciones">
+                                                <button type="button" class="btn btn-danger btn-sm btn-icon"  onclick="eliminar_cuenta_bancaria({{ $cuenta_bancaria->id }})">
+                                                <i class="feather icon-x"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-light btn-sm btn-icon m-0" data-toggle="collapse" data-target=".liquidaciones_{{ $cuenta_bancaria->id }}" aria-expanded="false" aria-controls="liquidaciones_1_{{ $cuenta_bancaria->id }} liquidaciones_2_{{ $cuenta_bancaria->id }}">
-                                                    <i class="feather icon-edit"></i>
+                                                <button type="button" class="btn btn-info btn-sm btn-icon" data-toggle="collapse" data-target=".liquidaciones_{{ $cuenta_bancaria->id }}" aria-expanded="false" aria-controls="liquidaciones_1_{{ $cuenta_bancaria->id }} liquidaciones_2_{{ $cuenta_bancaria->id }}">
+                                                <i class="feather icon-edit"></i>
                                                 </button>
                                             </div>
-
                                         </div>
 
                                         <div class="card-body border-top liquidaciones_{{ $cuenta_bancaria->id }} collapse show" id="liquidaciones_1_{{ $cuenta_bancaria->id }}">

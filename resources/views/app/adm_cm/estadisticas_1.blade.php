@@ -23,14 +23,8 @@
         <!--Cierre: Header-->
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header bg-info">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-12">
-                                    <h4 class="text-white f-20 mt-2 mb-1">Estadísticas del centro</h4>
-                            </div>
-                        </div>
-                    </div>
+                <div class="card-header encabezado-card">
+                    <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-bar-chart-2"></i></span>Estadísticas del centro</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">

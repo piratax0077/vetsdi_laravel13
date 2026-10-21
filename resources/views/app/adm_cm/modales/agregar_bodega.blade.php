@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
-                <h5 class="modal-title text-center">Añadir bodega</h5>
+                <h5 class="modal-title text-center">Agregar bodega</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -76,7 +76,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info btn-sm mx-auto" onclick="guardar_bodega()"><i class="feather icon-plus"></i> Añadir</button>
+                <button type="button" class="btn btn-info mx-auto" onclick="guardar_bodega()"><i class="feather icon-plus"></i> Agregar</button>
             </div>
         </div>
     </div>
@@ -160,7 +160,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info btn-sm mx-auto" onclick="editar_registro_bodega()"><i class="feather icon-save"></i> Guardar cambios</button>
+                <button type="button" class="btn btn-info mx-auto" onclick="editar_registro_bodega()"><i class="feather icon-save"></i> Guardar cambios</button>
             </div>
         </div>
     </div>

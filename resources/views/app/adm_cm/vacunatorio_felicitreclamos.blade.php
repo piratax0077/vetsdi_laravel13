@@ -41,11 +41,11 @@
                         <div class="row mb-n4">
                             <div class="col-sm-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="col-md-12 align-botton">
-                                            <h4 class="text-white f-20 d-inline ml-4 mt-3">Estadísticas </h4>
-                                            <button type="button" class="btn btn-outline-light btn-sm d-inline float-right mr-4" data-toggle="modal" data-target="#registrar_profesional">
-                                                <i class="feather icon-plus"></i> Registrar Nuevo Profesional
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-bar-chart-2"></i></span>Estadísticas</h5>
+                                        <div class="encabezado-card-acciones">
+                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registrar_profesional">
+                                            <i class="feather icon-plus"></i> Registrar Nuevo Profesional
                                             </button>
                                         </div>
                                     </div>
@@ -116,14 +116,14 @@
                         <div class="row mb-n4">
                             <div class="col-sm-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="col-md-12 align-botton">
-                                            <h4 class="text-white f-20 d-inline ml-4 mt-3">Estadísticas felicitaciones y Reclamos </h4>
-                                            <button type="button" class="btn btn-outline-light btn-sm d-inline float-right mr-4" data-toggle="modal" data-target="#registrar_rec">
-                                                <i class="feather icon-plus"></i> Registrar nuevo reclamo
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-bar-chart-2"></i></span>Estadísticas felicitaciones y Reclamos</h5>
+                                        <div class="encabezado-card-acciones">
+                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registrar_rec">
+                                            <i class="feather icon-plus"></i> Registrar nuevo reclamo
                                             </button>
-                                            <button type="button" class="btn btn-outline-light btn-sm d-inline float-right mr-4" data-toggle="modal" data-target="#registrar_felicit">
-                                                <i class="feather icon-plus"></i> Registrar nuevas Felicitaciones
+                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registrar_felicit">
+                                            <i class="feather icon-plus"></i> Registrar nuevas Felicitaciones
                                             </button>
                                         </div>
                                     </div>

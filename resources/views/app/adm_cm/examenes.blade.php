@@ -22,18 +22,16 @@
             </div>
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header bg-info">
-                        <div class="row">
-                            <div class="col-md-12 align-botton">
-                                <h4 class="text-white f-20 d-inline ml-4 mt-3">Correspondencia</h4>
-                                <div class="btn-group mr-2 float-right mt- mb-">
-                                    <button type="button" class="btn btn-sm btn-outline-light" onclick="registrar_personal();"><i class="fa fa-plus" aria-hidden="true"></i> Ver correspondencia</button>
-                                    <button type="button" class="btn btn-sm btn-outline-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
-                                    <div class="dropdown-menu">
-                                        <button class="dropdown-item" type="button" class="btn  btn-primary" >Recibidos y difundidos</button>
-                                        <button class="dropdown-item" type="button" class="btn  btn-primary">Pendientes</button>
-                                    </div>
-                                </div>
+                    <div class="card-header encabezado-card">
+                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-mail"></i></span>Correspondencia</h5>
+                        <div class="encabezado-card-acciones">
+                            <div class="btn-group">
+                            <button type="button" class="btn btn-info btn-sm" onclick="registrar_personal();"><i class="feather icon-plus"></i> Ver correspondencia</button>
+                            <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
+                            <div class="dropdown-menu">
+                            <button class="dropdown-item" type="button" class="btn  btn-primary" >Recibidos y difundidos</button>
+                            <button class="dropdown-item" type="button" class="btn  btn-primary">Pendientes</button>
+                            </div>
                             </div>
                         </div>
                     </div>

@@ -20,14 +20,12 @@
         </div>
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header bg-info">
-                    <div class="row">
-                        <div class="col-md-12 align-botton">
-                            <h4 class="text-white f-20 d-inline ml-4 mt-3">Exámenes</h4>
-                            <button type="button" class="btn btn-outline-light btn-sm d-inline float-right mr-4" data-toggle="modal" data-target="#agregar_examen">
-                                <i class="feather icon-plus"></i> Agregar examen
-                            </button>
-                        </div>
+                <div class="card-header encabezado-card">
+                    <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-clipboard"></i></span>Exámenes</h5>
+                    <div class="encabezado-card-acciones">
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#agregar_examen">
+                        <i class="feather icon-plus"></i> Agregar examen
+                        </button>
                     </div>
                 </div>
                 <div class="card-body">

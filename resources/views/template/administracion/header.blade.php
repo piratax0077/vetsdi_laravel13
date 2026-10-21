@@ -10,7 +10,9 @@
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav ml-auto">
-			</li>
+				@include('template.partials.boton_escritorio_encabezado', [
+					'rutaEscritorio' => \Route::has('administracion.home') ? route('administracion.home') : null,
+				])
 			<li>
                 @include('template.partials.perfil_encabezado', ['tipoPerfil' => 'administrador'])
             </li>

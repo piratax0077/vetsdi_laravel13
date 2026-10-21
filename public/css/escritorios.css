@@ -1,3 +1,13 @@
+/* El fondo de la página va en html con el mismo gris del contenido. Así, cuando el scroll
+   rebota al llegar al final (touchpad o rueda), no asoma el degradado morado del body. */
+html {
+
+    background-color: #ecf0f5;
+
+}
+
+
+
 body {
 
     background: #560d75;
@@ -216,5 +226,11 @@ body {
 
     background-color: #A06CC1;
 
+}
+
+/* Configuración del administrador: boton-flotante.css deja transparente la línea
+   bajo el título de cada tarjeta; la devolvemos para que se vea igual que en el perfil del tutor */
+.configuracion-administrador .card .card-header {
+    border-bottom-color: rgba(0, 0, 0, 0.125);
 }
 

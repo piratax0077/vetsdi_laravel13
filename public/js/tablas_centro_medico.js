@@ -1,5 +1,10 @@
 /*-Tablas personal del centro médico-*/
 $(document).ready(function() {
+    $('#usuarios_profesionales_vet').DataTable({
+        responsive: true,
+    });
+});
+$(document).ready(function() {
     $('#profesionales_personal').DataTable({
         responsive: true,
     });

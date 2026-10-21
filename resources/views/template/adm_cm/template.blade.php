@@ -162,6 +162,7 @@
 {{-- autocomplete
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>--}}
     <script src="{{ asset('js/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('js/tooltip_negro.js') }}?t={{ filemtime(public_path('js/tooltip_negro.js')) }}"></script>
 
     <!-- fancy box -->
     <link rel="stylesheet" href="{{ asset('css/fancybox/fancybox.css') }}" />

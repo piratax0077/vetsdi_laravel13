@@ -45,14 +45,14 @@
 
                                         {{-- tv --}}
                                         <td class="align-middle text-center">
-                                            <button type="button" class="btn btn-primary btn-icon"
+                                            <button title="Televisores de la sala" type="button" class="btn btn-primary btn-icon"
                                                 onclick="abrir_modal_tv_sala({{ $sala_e->id }});"><i
                                                     class="feather icon-monitor"></i></button>
                                         </td>
 
                                         {{-- Boxs --}}
                                         <td class="align-middle text-center">
-                                            <button type="button" class="btn btn-purple btn-icon"
+                                            <button title="Boxes de la sala" type="button" class="btn btn-purple btn-icon"
                                                 onclick="abrir_modal_box_sala({{ $sala_e->id }});"><i
                                                     class="feather icon-home"></i></button>
                                         </td>
@@ -69,14 +69,14 @@
 
                                         {{-- editar --}}
                                         <td class="align-middle text-center">
-                                            <button type="button" class="btn btn-warning btn-icon"
+                                            <button title="Editar sala de espera" type="button" class="btn btn-warning btn-icon"
                                                 onclick="abrir_modificar_sala_espera({{ $sala_e->id }});"><i
                                                     class="feather icon-edit"></i></button>
                                         </td>
 
                                         {{-- eliminar --}}
                                         <td class="align-middle text-center">
-                                            <button type="button" class="btn btn-danger btn-icon"
+                                            <button title="Eliminar sala de espera" type="button" class="btn btn-danger btn-icon"
                                                 onclick="eliminar_sala_espera({{ $sala_e->id }})"><i
                                                     class="feather icon-x"></i></button>
                                         </td>
@@ -340,7 +340,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-wrap align-middle">Nombre</th>
-                                                <th class="text-wrap align-middle">Descripcion</th>
+                                                <th class="text-wrap align-middle">Descripción</th>
                                                 <th class="text-wrap align-middle">Alias</th>
                                                 <th class="text-wrap align-middle">Cantidad</th>
                                                 <th class="text-wrap align-right">Estado</th>
@@ -848,9 +848,9 @@
                         html += '       </div>';
                         html += '    </td>';
                         html += '    <td class="text-wrap align-right">';
-                        html += '        <button type="button" class="btn btn-danger btn-icon" onclick="eliminar_tv_sala(' + v.id + ',' + v.id_sala_espera + ')"><i class="feather icon-x"></i></button>';
-                        html += '        <button type="button" class="btn btn-warning btn-icon" onclick="cargar_modificar_tv_sala(' +v.id + ')"><i class="feather icon-edit"></i></button>';
-                        html += '        <button type="button" class="btn btn-warning btn-icon" onclick="cargar_url_tv_sala(\'' +v.token + '\')"><i class="feather icon-link"></i></button>';
+                        html += '        <button title="Eliminar televisor" type="button" class="btn btn-danger btn-icon" onclick="eliminar_tv_sala(' + v.id + ',' + v.id_sala_espera + ')"><i class="feather icon-x"></i></button>';
+                        html += '        <button title="Editar televisor" type="button" class="btn btn-warning btn-icon" onclick="cargar_modificar_tv_sala(' +v.id + ')"><i class="feather icon-edit"></i></button>';
+                        html += '        <button title="Enlace del televisor" type="button" class="btn btn-warning btn-icon" onclick="cargar_url_tv_sala(\'' +v.token + '\')"><i class="feather icon-link"></i></button>';
                         html += '    </td>';
                         html += '</tr>';
 
@@ -1290,8 +1290,8 @@
                         html += '       </div>';
                         html += '    </td>';
                         html += '    <td class="text-wrap align-right">';
-                        html += '        <button type="button" class="btn btn-danger btn-icon" onclick="eliminar_box_sala(' + v.id + ',' + v.id_sala_espera + ')"><i class="feather icon-x"></i></button>';
-                        html += '        <button type="button" class="btn btn-warning btn-icon" onclick="cargar_modificar_box_sala(' + v.id + ')"><i class="feather icon-edit"></i></button>';
+                        html += '        <button title="Quitar box" type="button" class="btn btn-danger btn-icon" onclick="eliminar_box_sala(' + v.id + ',' + v.id_sala_espera + ')"><i class="feather icon-x"></i></button>';
+                        html += '        <button title="Editar box" type="button" class="btn btn-warning btn-icon" onclick="cargar_modificar_box_sala(' + v.id + ')"><i class="feather icon-edit"></i></button>';
                         html += '    </td>';
                         html += '</tr>';
 
