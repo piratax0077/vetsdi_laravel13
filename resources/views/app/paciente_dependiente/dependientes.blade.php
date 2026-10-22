@@ -181,7 +181,8 @@
 @section('page-script')
 
     <script>
-        var especiesMascotas = @json($especiesMascotas->count() > 0 ? $especiesMascotas : collect([
+        @php
+            $especiesMascotasListado = $especiesMascotas->count() > 0 ? $especiesMascotas : collect([
             ['id' => 1, 'nombre' => 'Canina', 'slug' => 'canina', 'requiere_detalle' => false],
             ['id' => 2, 'nombre' => 'Felina', 'slug' => 'felina', 'requiere_detalle' => false],
             ['id' => 3, 'nombre' => 'Pez', 'slug' => 'pez', 'requiere_detalle' => false],
@@ -190,12 +191,17 @@
             ['id' => 6, 'nombre' => 'Roedores', 'slug' => 'roedores', 'requiere_detalle' => false],
             ['id' => 7, 'nombre' => 'Hurones', 'slug' => 'hurones', 'requiere_detalle' => false],
             ['id' => 8, 'nombre' => 'Otros', 'slug' => 'otros', 'requiere_detalle' => true],
-        ]));
-        var tamanosMascotas = @json($tamanosMascotas->count() > 0 ? $tamanosMascotas : collect([
+        ]);
+        @endphp
+        var especiesMascotas = @json($especiesMascotasListado);
+        @php
+            $tamanosMascotasListado = $tamanosMascotas->count() > 0 ? $tamanosMascotas : collect([
             ['id' => 1, 'nombre' => 'Pequeña', 'slug' => 'pequena'],
             ['id' => 2, 'nombre' => 'Mediana', 'slug' => 'mediana'],
             ['id' => 3, 'nombre' => 'Grande', 'slug' => 'grande'],
-        ]));
+        ]);
+        @endphp
+        var tamanosMascotas = @json($tamanosMascotasListado);
         var especieTamanosMascotas = @json($especieTamanosMascotas);
         var especiesLabel = {};
         var tamanoLabel = {};
@@ -1320,21 +1326,7 @@
                         $.each(data.registros, function (key, value) {
                             var img = '';
 
-                            if(value.foto_perfil)
-                            {
-                                if(value.foto_perfil.startsWith('/'))
-                                    img = value.foto_perfil;
-                                else
-                                    img = '/storage/imagenes/temp/'+value.foto_perfil;
-                            }
-                            else if(value.galeria && value.galeria.ven_pre && value.galeria.ven_pre.length>0 && value.galeria.ven_pre[0][0])
-                            {
-                                img = value.galeria.ven_pre[0][0];
-                            }
-                            else if(value.sexo == 'M')
-                                img = img_m;
-                            else
-                                img = img_f;
+                            img = value.foto_url || '{{ asset('images/iconos/mascotas.svg') }}';
 
                             var especie_label = obtenerLabelEspecie(value.especie_id || value.especie, value.otra_especie);
 

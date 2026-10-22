@@ -61,7 +61,11 @@ class GuardarFichaVeterinaria
             if ($request->exists('enf_cronico') || !$ficha->exists) $ficha->cronico = $request->boolean('enf_cronico');
             if ($request->exists('confidencial') || !$ficha->exists) $ficha->confidencial = $request->boolean('confidencial');
             $ficha->ges = 0;
-            $ficha->finalizada = 1;
+            if ((int) $request->input('cerrarsession') !== 2) {
+                $ficha->finalizada = 1;
+            } elseif (!$ficha->exists) {
+                $ficha->finalizada = 0;
+            }
             $ficha->saveOrFail();
 
             // Keep a complete clinical snapshot, including specialty fields without their own column.
@@ -103,6 +107,7 @@ class GuardarFichaVeterinaria
             $hora->id_ficha_atencion = $ficha->id;
             if ((int) $request->input('cerrarsession') !== 2) {
                 $hora->id_estado = 6;
+                $hora->fecha_realizacion_consulta = $hora->fecha_realizacion_consulta ?: now();
             }
             $hora->saveOrFail();
 
@@ -150,7 +155,9 @@ class GuardarFichaVeterinaria
                 }
             }
             foreach ($checks as $campo) {
-                $registro->{$campo} = $request->boolean($campo);
+                if ($request->exists($campo) || !$registro->exists) {
+                    $registro->{$campo} = $request->boolean($campo);
+                }
             }
             $registro->estado = 1;
             $registro->saveOrFail();

@@ -17,7 +17,13 @@ use Tests\TestCase;
  */
 class RegistroCuentaTest extends TestCase
 {
-    use DatabaseTransactions;
+    use \Tests\CuentasAisladas;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->prepararCuentasAisladas();
+    }
 
     private function datosValidos(array $cambios = []): array
     {

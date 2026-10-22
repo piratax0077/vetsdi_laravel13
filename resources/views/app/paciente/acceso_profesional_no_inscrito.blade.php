@@ -61,19 +61,25 @@
                                 <div class="col-sm-12">
                                         <div class="form-row">
 
-                                            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                                            <div class="form-group col-sm-12 col-md-4">
+                                        <label class="floating-label-activo-sm">Mascota atendida *</label>
+                                        <select class="form-control form-control-sm" id="atencion_id_mascota" required>
+                                            <option value="">Seleccione una mascota</option>
+                                            @foreach (($mascotas ?? []) as $mascota)
+                                                <option value="{{ $mascota->id }}" @selected((string) ($mascotaSeleccionada ?? '') === (string) $mascota->id)>{{ $mascota->nombre }}{{ $mascota->chip ? ' · Chip '.$mascota->chip : '' }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+<div class="form-group col-sm-12 col-md-4">
                                                 <label class="floating-label-activo-sm">Rut</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control form-control-sm" name="rut_profesional" id="rut_profesional" oninput="formatoRut(this);" placeholder="Ej.: 12.345.678-9">
-                                                    <div class="input-group-append">
-                                                        <button type="button" class="btn btn-info btn-sm" onclick="buscar_profesional(true)"><i class="feather icon-search"></i> Buscar</button>
-                                                    </div>
+                                                    <input type="text" class="form-control form-control-sm" name="rut_profesional" id="rut_profesional" required oninput="formatoRut(this);" placeholder="Ej.: 12.345.678-9">
                                                 </div>
                                             </div>
-                                            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                                            <div class="form-group col-sm-12 col-md-4">
                                                 <label class="floating-label-activo-sm">Correo electrónico</label>
-                                                <input type="text" class="form-control form-control-sm"
-                                                    name="email_profesional" id="email_profesional">
+                                                <input type="email" class="form-control form-control-sm"
+                                                    name="email_profesional" id="email_profesional" required>
                                             </div>
 
                                             <input type="hidden" name="nombre_profesional" id="nombre_profesional" value=''>
@@ -93,7 +99,7 @@
                                         <div class="row">
 
                                             <div class="col-sm-12 col-md-6 mx-auto mt-2">
-                                                <button type="button" onclick="buscar_profesional(true)" class="btn btn-block btn-info mb-2">
+                                                <button type="button" onclick="continuar_atencion_externa()" class="btn btn-block btn-info mb-2">
                                                 <i class="feather icon-arrow-right"></i> Continuar con la atención</button>
                                                 <div id="estado_busqueda_persona" class="small text-center mt-2"></div>
                                                 <!--
@@ -124,15 +130,7 @@
                             <div class="alert alert-info py-2">El procedimiento quedará registrado en la Ficha Veterinaria Única de la mascota.</div>
                             <form id="form_atencion_externa">
                                 <div class="form-row">
-                                    <div class="form-group col-md-7">
-                                        <label class="floating-label-activo-sm">Mascota atendida *</label>
-                                        <select class="form-control form-control-sm" id="atencion_id_mascota" required>
-                                            <option value="">Seleccione una mascota</option>
-                                            @foreach (($mascotas ?? []) as $mascota)
-                                                <option value="{{ $mascota->id }}">{{ $mascota->nombre }}{{ $mascota->chip ? ' · Chip '.$mascota->chip : '' }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+
                                     <div class="form-group col-md-5">
                                         <label class="floating-label-activo-sm">Fecha de atención *</label>
                                         <input type="date" class="form-control form-control-sm" id="atencion_fecha" max="{{ now()->format('Y-m-d') }}" value="{{ now()->format('Y-m-d') }}" required>
@@ -282,79 +280,17 @@
 
         }
 
-        function buscar_profesional()
-        {
-            $('#card_atencion_mascota').addClass('d-none');
-            $('#estado_busqueda_persona').removeClass('text-danger text-success').addClass('text-info').text('Buscando en Personas...');
-            $('#email_profesional').val('');
-            $('#nombre_profesional').val('');
-            $('#primer_apellido_profesional').val('');
-            $('#segundo_apellido_profesional').val('');
-            $('#lista_profesion').val('');
-            $('#lista_especialidad').val('');
-            $('#lista_sub_especialidad').val('');
-            $('#telefono_uno_profesional').val('');
-            $('#numero_dir_consulta_profesional').val('');
-            $('#direccion_consulta_profesional').val('');
-            $('#lista_region').val('');
-            $('#lista_ciudades').val('');
-
-            let url = "{{ route('paciente.buscar.prof.rut') }}";
-            var rut = $.trim($('#rut_profesional').val());
-            var datos = {};
-            datos.rut = rut;
-
-            $.ajax({
-                url: url,
-                type: "get",
-                data: datos,
-            })
-            .done(function(resp) {
-                console.log(resp);
-                if (resp.estado == 1)
-                {
-                    $('#email_profesional').val(resp.profesional.email);
-                    var nombreCompleto = [resp.profesional.nombre, resp.profesional.apellido_uno, resp.profesional.apellido_dos].filter(Boolean).join(' ');
-                    $('#estado_busqueda_persona').removeClass('text-info text-danger').addClass('text-success').text('Persona identificada: ' + (nombreCompleto || resp.profesional.rut));
-                    $('#card_atencion_mascota').removeClass('d-none');
-                    $('html, body').animate({scrollTop: $('#card_atencion_mascota').offset().top - 25}, 350);
-
-                    $('#nombre_profesional').val(resp.profesional.nombre);
-                    $('#primer_apellido_profesional').val(resp.profesional.apellido_uno);
-                    $('#segundo_apellido_profesional').val(resp.profesional.apellido_dos);
-                    $('#lista_profesion').val(resp.profesional.id_especialidad);
-                    $('#lista_especialidad').val(resp.profesional.id_tipo_especialidad);
-                    $('#lista_sub_especialidad').val(resp.profesional.id_sub_tipo_especialidad);
-                    $('#telefono_uno_profesional').val(resp.profesional.telefono_uno);
-                    $('#numero_dir_consulta_profesional').val(resp.profesional.telefono_dos);
-                    $('#direccion_consulta_profesional').val('');
-                    $('#lista_region').val('');
-                    $('#lista_ciudades').val('');
-                }
-                else
-                {
-                    $('#email_profesional').val('');
-                    $('#nombre_profesional').val('');
-                    $('#primer_apellido_profesional').val('');
-                    $('#segundo_apellido_profesional').val('');
-                    $('#lista_profesion').val('');
-                    $('#lista_especialidad').val('');
-                    $('#lista_sub_especialidad').val('');
-                    $('#telefono_uno_profesional').val('');
-                    $('#numero_dir_consulta_profesional').val('');
-                    $('#direccion_consulta_profesional').val('');
-                    $('#lista_region').val('');
-                    $('#lista_ciudades').val('');
-                }
-            })
-            .fail(function(jqXHR, ajaxOptions, thrownError) {
-                var json = jqXHR.responseJSON || {};
-                $('#estado_busqueda_persona').removeClass('text-info text-success').addClass('text-danger').text(json.msj || 'RUT no encontrado en Personas.');
-                $('#card_atencion_mascota').addClass('d-none');
-            });
-        }
-
-
+        function continuar_atencion_externa() {
+            for (const id of ['atencion_id_mascota', 'rut_profesional', 'email_profesional']) {
+                if (!document.getElementById(id).reportValidity()) return;
+            }
+            if (!validaRut($('#rut_profesional').val())) {
+                msg('RUT inválido', 'Ingrese un RUT válido del profesional.', 'warning'); return;
+            }
+            $('#card_atencion_mascota').removeClass('d-none');
+            $('#estado_busqueda_persona').text('Complete los datos de la atención de la mascota seleccionada.');
+        }
+
         $(document).on('submit', '#form_atencion_externa', function (event) {
             event.preventDefault();
             var $boton = $('#btn_guardar_atencion_externa').prop('disabled', true);

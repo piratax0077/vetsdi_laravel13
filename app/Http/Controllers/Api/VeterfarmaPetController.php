@@ -10,7 +10,8 @@ class VeterfarmaPetController extends Controller
 {
     public function store(Request $request): JsonResponse
     {
-        if (! hash_equals((string) config('services.sdi_sso.key'), (string) $request->input('_integration_key'))) {
+        $key = (string) config('services.sdi_sso.key');
+        if ($key === '' || ! hash_equals($key, (string) $request->input('_integration_key'))) {
             return response()->json(['message' => 'No fue posible validar la conexión con VET-SDI.'], 403);
         }
 

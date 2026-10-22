@@ -19,6 +19,7 @@ class FichaVeterinariaUnicaTest extends TestCase
             'profesionales'=>['nombre','apellido_uno','apellido_dos'],'lugares_atencion'=>['nombre'],
             'fichas_atenciones'=>['id_mascota','id_paciente','id_profesional','id_lugar_atencion','peso','hipotesis_diagnostico'],
             'ficha_veterinaria_general'=>['id_fichas_atenciones','datos'],
+            'recomendacion'=>['atencion'], 'examenes_ppf'=>['id_ficha_atencion'],
             'presupuestos_mascota'=>['id_ficha_atencion','tratamiento'],
             'con_consentimientos_pcte'=>['id_fc','id_consent','fecha_cons','confirmacion'],
             'con_consentimientos'=>['nombre'],
@@ -59,6 +60,19 @@ class FichaVeterinariaUnicaTest extends TestCase
     {
         $mascota=Mascota::find(1);$mascota->especie_id=2;
         $this->assertCount(0,app(FichaVeterinariaUnica::class)->datos($mascota)['odontograma']);
+    }
+
+    public function test_documentos_emitidos_aparecen_solo_en_la_mascota_correspondiente(): void
+    {
+        DB::table('recomendacion')->insert([['atencion'=>2], ['atencion'=>3]]);
+        DB::table('examenes_ppf')->insert([['id_ficha_atencion'=>2], ['id_ficha_atencion'=>3]]);
+        $documentos = app(FichaVeterinariaUnica::class)->datos(Mascota::find(1))['documentos'];
+        $emitidos = $documentos->filter(fn ($d) => isset($d['url']));
+        $this->assertCount(2, $emitidos);
+        foreach ($emitidos as $documento) {
+            $this->assertStringContainsString('id_ficha_atencion=2', $documento['url']);
+            $this->assertStringNotContainsString('id_ficha_atencion=3', $documento['url']);
+        }
     }
 
     public function test_fvu_renders_saved_history_prescription_weight_and_dental_findings(): void

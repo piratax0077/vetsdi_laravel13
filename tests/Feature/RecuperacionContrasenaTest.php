@@ -19,7 +19,7 @@ use Tests\TestCase;
  */
 class RecuperacionContrasenaTest extends TestCase
 {
-    use DatabaseTransactions;
+    use \Tests\CuentasAisladas;
 
     private const CORREO = 'camila.recupera@ejemplo.cl';
 
@@ -28,6 +28,7 @@ class RecuperacionContrasenaTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->prepararCuentasAisladas();
 
         // Los correos de prueba no se desvían a otra casilla.
         config(['mail.redirect_to' => null]);

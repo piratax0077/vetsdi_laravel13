@@ -48,12 +48,9 @@
                                                     @if (isset($fichas) && $fichas->count() > 0)
                                                         @foreach ($fichas as $f)
                                                             @php
-                                                                $cantidadRecetasHistorial = method_exists($f, 'Recetas')
-                                                                    ? $f->Recetas()->count()
-                                                                    : 0;
-                                                                $cantidadExamenesHistorial = method_exists($f, 'Examenes')
-                                                                    ? $f->Examenes()->count()
-                                                                    : 0;
+                                                                $recetaActualHistorial = method_exists($f, 'RecetasEmitidas') ? $f->RecetasEmitidas()->count() : 0;
+                                                                $cantidadRecetasHistorial = $recetaActualHistorial ?: (method_exists($f, 'Recetas') ? $f->Recetas()->count() : 0);
+                                                                $cantidadExamenesHistorial = method_exists($f, 'OrdenesExamenes') ? $f->OrdenesExamenes()->count() : 0;
                                                             @endphp
                                                             <tr>
                                                                 <td class="d-none">
@@ -93,7 +90,8 @@
                                                                     <button type="button"
                                                                         class="btn btn-xxs historial-doc-btn {{ $cantidadRecetasHistorial > 0 ? 'btn-warning-light-c tiene-contenido' : 'btn-light sin-contenido' }}"
                                                                         {{ $cantidadRecetasHistorial > 0 ? '' : 'disabled' }}
-                                                                        @if ($cantidadRecetasHistorial > 0 && isset($f->id)) onclick="buscar_receta({{ $f->id }});" @endif><i
+                                                                        @if ($recetaActualHistorial > 0 && isset($f->id)) onclick="window.open('{{ route('mascota.documento_emitido.ver', ['tipo'=>'receta', 'id_ficha_atencion'=>$f->id]) }}', '_blank', 'noopener');"
+                                                                        @elseif ($cantidadRecetasHistorial > 0 && isset($f->id)) onclick="buscar_receta({{ $f->id }});" @endif><i
                                                                             class="feather icon-file-plus"></i>
                                                                         {{ $cantidadRecetasHistorial > 0 ? 'Ver' : 'Sin registros' }}
                                                                         @if ($cantidadRecetasHistorial > 0)<span class="historial-count">{{ $cantidadRecetasHistorial }}</span>@endif

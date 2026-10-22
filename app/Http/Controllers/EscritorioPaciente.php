@@ -39,6 +39,7 @@ use App\Models\TipoEspecialidad;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
@@ -676,6 +677,8 @@ class EscritorioPaciente extends Controller
 
     public function miProfesionales($id_usuario_ = 0, $id_profesional_ = 0)
     {
+        abort_unless(Auth::check(), 401);
+        abort_if($id_usuario_ != 0 && (int) $id_usuario_ !== (int) Auth::id(), 403);
         // DESVINCULAR profesional
         if($id_usuario_ != 0 && $id_profesional_ != 0)
         {
@@ -694,6 +697,7 @@ class EscritorioPaciente extends Controller
 
         // VER lista de profesionales
         $paciente = Paciente::where('id_usuario', Auth::user()->id)->first();
+        abort_unless($paciente, 404);
         $fichas = FichaAtencion::where('id_paciente', $paciente->id)->get()->unique('id_profesional');
 
         $fichas_desvinculados = FichaAtencion::select('id_profesional')
@@ -708,7 +712,10 @@ class EscritorioPaciente extends Controller
         foreach ($fichas as $f) {
 
             $profesional_ = Profesional::with('Especialidad')->find($f->id_profesional);
-            $profesion[$profesional_->Especialidad->id] = $profesional_->Especialidad->nombre;
+            if (!$profesional_) continue;
+            if ($profesional_->Especialidad) {
+                $profesion[$profesional_->Especialidad->id] = $profesional_->Especialidad->nombre;
+            }
 
             // busqueda de imagen
             $array_rut = explode('-',$profesional_->rut);
@@ -719,7 +726,7 @@ class EscritorioPaciente extends Controller
                 $nombre_imagen = asset('images/img_perfil/'.$array_rut[0].'.png');
                 $profesional_temp['img_profesional2'] = $nombre_imagen;
             }
-            $profesional_temp = $f->profesional()->first();
+            $profesional_temp = $profesional_;
             $profesional_temp['img_profesional'] = $nombre_imagen;
 
 
@@ -1897,29 +1904,17 @@ class EscritorioPaciente extends Controller
     }
 
     /*Acceso Profecional no Inscrito*/
-    public function acceso_pni()
+    public function acceso_pni(Request $request)
     {
         $paciente = Paciente::where('id_usuario', Auth::id())->firstOrFail();
-        $mascotas = Mascota::where('id_responsable', $paciente->id)
-            ->where('estado', '!=', 0)
-            ->orderBy('nombre')
-            ->get(['id', 'nombre', 'chip']);
-        $regiones = Region::all();
-        $ciudades = Ciudad::all();
-
-
-        $especialidades = Especialidad::where('estado',1)->get();
-        $tipo_especialidad = TipoEspecialidad::where('estado',1)->get();
-        $sub_tipo_especialidad = SubTipoEspecialidad::where('estado',1)->get();
-
-        return view('app.paciente.acceso_profesional_no_inscrito')->with([
-            'regiones' => $regiones,
-            'ciudades' => $ciudades,
-
-            'profesion' => $especialidades,
-            'especialidad' => $tipo_especialidad,
-            'subespecialidad' => $sub_tipo_especialidad,
-            'mascotas' => $mascotas,
+        $mascotas = Mascota::where('id_responsable', $paciente->id)->vivas()
+            ->where(fn ($q) => $q->whereNull('estado')->orWhere('estado', '!=', 0))
+            ->orderBy('nombre')->get(['id', 'nombre', 'chip']);
+        $seleccionada = $request->input('id_mascota', $request->input('id_dependiente_activo'));
+        abort_if($seleccionada && !$mascotas->contains('id', $seleccionada), 403);
+        return view('app.paciente.acceso_profesional_no_inscrito', [
+            'mascotas'=>$mascotas, 'mascotaSeleccionada'=>$seleccionada,
+            'regiones'=>collect(), 'ciudades'=>collect(), 'profesion'=>collect(), 'especialidad'=>collect(), 'subespecialidad'=>collect(),
         ]);
     }
 
@@ -1953,72 +1948,20 @@ class EscritorioPaciente extends Controller
             }
         }
 
-        $previsiones = Prevision::all();
-
         $contacto = $paciente->ContactosEmergencia()->get();
-
-        $antecedentes = AntecedentesPaciente::where('id', $paciente->id_antecedente)->first();
-
-        $ant_confidenciales = AntConfidenciales::where('id_paciente', $paciente->id)->first();
-
-        if (isset($antecedentes)) {
-
-            $medicamentos_cronicos = AntecedenteMedicamentoCronico::where('id_antecedentes', $paciente->Antecedentes()->first()->id)->get();
-            $alergias = AntecedenteAlergiaPaciente::where('id_antecedentes', $paciente->Antecedentes()->first()->id)->get();
-            $antecedentes_quirurgicos = SolicitudPabellonQuirurgico::where('id_paciente', $paciente->id)->get();
-            $antecedentes_cirugias = AntecedentesCirugias::where('id_antecedentes', $paciente->Antecedentes()->first()->id)->get();
-            $patoligias_cronicas = AntecedenteEnferCronica::where('id_antecedentes', $paciente->Antecedentes()->first()->id)->get();
-        } else {
-            $medicamentos_cronicos = [];
-            $alergias = [];
-            $antecedentes_quirurgicos = [];
-            $patoligias_cronicas = [];
-            $antecedentes_cirugias = [];
-        }
-
-        $fichasConfi = FichaAtencion::where('id_paciente', $paciente->id)->where('confidencial', true)->get();
-        $grupo_sanguineo = GrupoSanguineo::all();
-
-        $id_usuario = Auth::user()->id;
-        $userData = Funciones::userData($id_usuario);
-
-        $log_datos_medicos = PacienteHistoricoDatosMedicos::select( 'paciente_historico_datos_medicos.id', 'paciente_historico_datos_medicos.id_paciente', 'paciente_historico_datos_medicos.id_profesional', 'paciente_historico_datos_medicos.datos', 'paciente_historico_datos_medicos.created_at',
-                                                        'profesionales.nombre', 'profesionales.apellido_uno', 'profesionales.apellido_dos', 'profesionales.rut',
-                                                        'especialidades.nombre as especialidad', 'tipos_especialidad.nombre as tipo_especialidad', 'sub_tipo_especialidad.nombre as sub_tipo_especialidad')
-                                    ->join('profesionales','profesionales.id', '=', 'paciente_historico_datos_medicos.id_profesional')
-                                    ->join('especialidades','especialidades.id', '=', 'profesionales.id_especialidad')
-                                    ->join('tipos_especialidad','tipos_especialidad.id', '=', 'profesionales.id_tipo_especialidad')
-                                    ->leftJoin('sub_tipo_especialidad','sub_tipo_especialidad.id', '=', 'profesionales.id_sub_tipo_especialidad')
-                                    ->where('id_paciente', $paciente->id)
-                                    ->orderBy('created_at', 'DESC')
-                                    ->get();
-
-
-        // echo json_encode($log_datos_medicos);
-        // die();
 
         return view('app.paciente.perfil_paciente',
             [
-                'userData' => $userData,
                 'paciente' => $paciente,
                 'direccion_paciente' => $direccion_paciente,
                 'direccion_id_ciudad_paciente' => $direccion_id_ciudad_paciente,
                 'direccion_txt_ciudad_paciente' => $direccion_txt_ciudad_paciente,
                 'direccion_id_region_paciente' => $direccion_id_region_paciente,
                 'direccion_txt_region_paciente' => $direccion_txt_region_paciente,
-                'previsiones' => $previsiones,
                 'regiones' => $regiones,
                 'ciudades' => $ciudades,
                 'contacto' => $contacto,
-                'alergias' => $alergias,
-                'antecedentes_quirurgicos' => $antecedentes_quirurgicos,
-                'antecedentes_cirugias' => $antecedentes_cirugias,
-                'ant_confidenciales' => $ant_confidenciales,
                 //'organosDonar'=>$organosDonar,
-                'patoligias_cronicas' => $patoligias_cronicas,
-                'medicamentos_cronicos' => $medicamentos_cronicos,
-                'grupo_sanguineo' => $grupo_sanguineo,
-                'log_datos_medicos' => $log_datos_medicos,
             ]
         );
     }
@@ -2959,50 +2902,7 @@ class EscritorioPaciente extends Controller
         $tutor = Paciente::where('id_usuario', Auth::id())->first();
         if (! $tutor) return response()->json(['estado' => 0, 'vouchers' => []], 404);
 
-        $fuentes = [
-            'veterfarma' => [
-                'url' => preg_replace('#/sso/vet-sdi/?$#', '', rtrim((string) config('services.sdi_sso.farmacia_url'), '/')).'/api/v1/vouchers/available',
-                'tienda_url' => preg_replace('#/sso/vet-sdi/?$#', '', rtrim((string) config('services.sdi_sso.farmacia_url'), '/')).'/',
-                'nombre' => 'Veterfarma',
-            ],
-            'alimentos' => [
-                'url' => preg_replace('#/sso/vet-sdi/?$#', '', rtrim((string) config('services.sdi_sso.alimentos_url'), '/')).'/api/vouchers/available',
-                'tienda_url' => preg_replace('#/sso/vet-sdi/?$#', '', rtrim((string) config('services.sdi_sso.alimentos_url'), '/')).'/',
-                'nombre' => 'Alimentos',
-            ],
-        ];
-
-        $vouchers = [];
-        $estadoFuentes = [];
-
-        foreach ($fuentes as $clave => $fuente) {
-            try {
-                $response = Http::acceptJson()->connectTimeout(2)->timeout(5)
-                    ->get($fuente['url'], ['email' => $tutor->email]);
-                $estadoFuentes[$clave] = $response->successful();
-
-                if ($response->successful()) {
-                    foreach ((array) $response->json('data', []) as $voucher) {
-                        $voucher['provider'] = $clave;
-                        $voucher['provider_name'] = $fuente['nombre'];
-                        $voucher['store_url'] = $fuente['tienda_url'];
-                        $vouchers[] = $voucher;
-                    }
-                }
-            } catch (\Throwable $e) {
-                $estadoFuentes[$clave] = false;
-                Log::warning('No fue posible consultar beneficios externos.', [
-                    'fuente' => $clave,
-                    'mensaje' => $e->getMessage(),
-                ]);
-            }
-        }
-
-        return response()->json([
-            'estado' => 1,
-            'vouchers' => $vouchers,
-            'fuentes' => $estadoFuentes,
-        ]);
+        return response()->json(app(\App\Services\BeneficiosComercioVeterinario::class)->consultar((string) $tutor->email));
     }
 
     public function agendar_horas(Request $request, VeterinaryVoucherService $voucherService)
@@ -4653,8 +4553,8 @@ class EscritorioPaciente extends Controller
     public function guardarAtencionProfesionalNoInscrito(Request $request)
     {
         $data = $request->validate([
-            'rut_profesional' => 'required|string|max:20',
-            'email_profesional' => 'nullable|email|max:255',
+            'rut_profesional' => ['required', 'string', new \App\Rules\RutChileno],
+            'email_profesional' => 'required|email|max:200',
             'id_mascota' => 'required|integer|exists:mascotas,id',
             'fecha_atencion' => 'required|date|before_or_equal:today',
             'procedimiento' => 'required|string|max:500',
@@ -4671,40 +4571,27 @@ class EscritorioPaciente extends Controller
         $paciente = Paciente::where('id_usuario', Auth::id())->firstOrFail();
         $mascota = Mascota::where('id', $data['id_mascota'])
             ->where('id_responsable', $paciente->id)
-            ->where('estado', '!=', 0)
+            ->vivas()->where(fn ($q) => $q->whereNull('estado')->orWhere('estado', '!=', 0))
             ->first();
 
         if (!$mascota) {
             return response()->json(['estado' => 0, 'msj' => 'La mascota no pertenece al usuario conectado.'], 403);
         }
 
-        $persona = $this->buscarPersonaProfesionalPorRut($data['rut_profesional']);
-        if (!$persona) {
-            return response()->json(['estado' => 0, 'msj' => 'Debe identificar primero al profesional en Personas.'], 422);
-        }
-
-        $nombreProfesional = trim(collect([
-            $persona['nombre'] ?? '',
-            $persona['apellido_uno'] ?? '',
-            $persona['apellido_dos'] ?? '',
-        ])->filter()->implode(' '));
-
-        $idProfesional = $persona['id_profesional'] ?? null;
-        if (!$idProfesional) {
-            $profesionalProvisional = new Profesional();
-            $profesionalProvisional->nombre = mb_substr((string) ($persona['nombre'] ?: 'Profesional'), 0, 50);
-            $profesionalProvisional->apellido_uno = mb_substr((string) ($persona['apellido_uno'] ?: 'Externo'), 0, 50);
-            $profesionalProvisional->apellido_dos = mb_substr((string) ($persona['apellido_dos'] ?: ''), 0, 50);
-            $profesionalProvisional->sexo = 'N';
-            $profesionalProvisional->rut = mb_substr((string) $data['rut_profesional'], 0, 12);
-            $profesionalProvisional->email = mb_substr((string) ($data['email_profesional'] ?: ($persona['email'] ?? '')), 0, 200);
-            $profesionalProvisional->telefono_uno = mb_substr((string) ($persona['telefono_uno'] ?? ''), 0, 20);
-            $profesionalProvisional->certificado = 0;
-            $profesionalProvisional->estado = 0;
-            $profesionalProvisional->provisorio = 1;
-            $profesionalProvisional->save();
-            $idProfesional = $profesionalProvisional->id;
-        }
+        return DB::transaction(function () use ($data, $paciente, $mascota) {
+        $nombreProfesional = 'Profesional externo';
+        $profesionalProvisional = new Profesional();
+        $profesionalProvisional->nombre = 'Profesional';
+        $profesionalProvisional->apellido_uno = 'Externo';
+        $profesionalProvisional->apellido_dos = '';
+        $profesionalProvisional->sexo = 'N';
+        $profesionalProvisional->rut = rut_normalizar($data['rut_profesional']);
+        $profesionalProvisional->email = correo_normalizar($data['email_profesional']);
+        $profesionalProvisional->certificado = 0;
+        $profesionalProvisional->estado = 0;
+        $profesionalProvisional->provisorio = 1;
+        $profesionalProvisional->saveOrFail();
+        $idProfesional = $profesionalProvisional->id;
 
         $ficha = new FichaAtencion();
         $ficha->id_paciente = $paciente->id;
@@ -4726,6 +4613,7 @@ class EscritorioPaciente extends Controller
             'msj' => 'Atención guardada en la Ficha Veterinaria Única de '.$mascota->nombre.'.',
             'ficha_id' => $ficha->id,
         ]);
+        });
     }
 
     private function buscarPersonaProfesionalPorRut(string $rut): ?array

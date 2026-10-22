@@ -79,7 +79,7 @@
                                                 $fotoRespaldo = optional($mascota)->sexo === 'F'
                                                     ? asset('images/iconos/paciente-f.svg')
                                                     : asset('images/iconos/paciente-m.svg');
-                                                $fotoMascota = optional($mascota)->foto_url ?: $fotoRespaldo;
+                                                $fotoMascota = optional($mascota)->foto_url ?: asset('images/iconos/mascotas.svg');
                                                 $ingreso = $hospitalizado->created_at;
                                                 $diasHospitalizado = $ingreso ? (int) $ingreso->copy()->startOfDay()->diffInDays(now()->startOfDay()) : null;
                                                 $lugar = $hospitalizado->obs_hospen ?: ($lugaresHospitalizacion[$hospitalizado->hospen] ?? null);

@@ -99,6 +99,30 @@ class PerfilUsuarioTest extends TestCase
         }
     }
 
+    public function test_general_veterinarian_profile_does_not_offer_unrelated_subspecialties(): void
+    {
+        DB::table('profesionales')->where('id',10)->update(['id_especialidad'=>1]);
+        $datos=app(EscritorioProfesional::class)->mi_perfil()->getData();
+        $this->assertSame([1],$datos['tipo_especialidades']->pluck('id')->all());
+        $this->assertCount(0,$datos['sub_tipo_especialidades']);
+        $this->assertSame('',$datos['txt_sub_tipo_especialidades']);
+    }
+
+    public function test_professional_specialty_options_submit_their_own_ids(): void
+    {
+        DB::table('profesionales')->where('id',10)->update(['id_especialidad'=>1]);
+        DB::table('tipos_especialidad')->insert(['id'=>7,'nombre'=>'Medicina veterinaria general','id_especialidad'=>1]);
+        $vista=app(EscritorioProfesional::class)->mi_perfil();
+        $fuente=file_get_contents(resource_path('views/app/profesional/perfil_profesional.blade.php'));
+        $fuente=str_replace('@endsection','',preg_replace('/@(?:extends|section)\([^\n]*\)/','',$fuente));
+        $html=\Illuminate\Support\Facades\Blade::render($fuente,$vista->getData());
+        preg_match('/<select[^>]+id="id_tipo_especialidad"[^>]*>(.*?)<\/select>/s',$html,$select);
+        $this->assertMatchesRegularExpression('/<option value="7">\s*Medicina veterinaria general\s*<\/option>/',$select[1]);
+        $this->servicio()->personales('profesional',$this->req(['nombre'=>'Veterinario','apellido_uno'=>'General','id_tipo_especialidad'=>7]));
+        $this->assertEquals(7,Profesional::find(10)->id_tipo_especialidad);
+        $this->assertNull(Profesional::find(10)->id_sub_tipo_especialidad);
+    }
+
     public function test_contact_without_address_can_be_edited_only_by_its_owner(): void
     {
         DB::table('contactos_emergencia')->insert(['id'=>1,'rut'=>'33333333-3','nombre'=>'Contacto']);

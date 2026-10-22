@@ -492,11 +492,6 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group fill">
-                                    @include('app.profesional.partials.select_convenio_veterinario', ['soloSeleccion' => true])
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group fill">
                                     <label class="floating-label-activo-sm">Valor Bonificación</label>
                                     <input type="number" class="form-control form-control-sm" name="valor_bonificacion" id="valor_bonificacion" value="">
                                 </div>
@@ -728,11 +723,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6">
-                                <div class="input-group">
-                                    @include('app.profesional.partials.select_convenio_veterinario', ['soloSeleccion' => true])
-                                </div>
-                            </div>
                             <div class="col-sm-6">
                                 <div class="form-group fill">
                                     <label class="floating-label-activo-sm">Valor total</label>

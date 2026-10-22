@@ -136,12 +136,6 @@ class RecuperacionContrasenaService
         $codigo = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
         $vence = now()->addMinutes(self::MINUTOS_CODIGO);
 
-        Cache::put($this->claveCodigo($usuario), [
-            'huella' => $this->huella($codigo),
-            'intentos' => 0,
-            'vence' => $vence->timestamp,
-        ], $vence);
-
         $resultado = $this->mensajeria->enviarWhatsapp(
             (string) $usuario->telefono,
             'Tu código de '.config('app.name').' para cambiar la contraseña es '.$codigo
@@ -150,8 +144,6 @@ class RecuperacionContrasenaService
         );
 
         if ((int) ($resultado['estado'] ?? 0) !== 1) {
-            Cache::forget($this->claveCodigo($usuario));
-
             Log::warning('No se pudo enviar el código para cambiar la contraseña', [
                 'id_usuario' => $usuario->id,
                 'detalle' => $resultado['msj'] ?? null,
@@ -159,6 +151,13 @@ class RecuperacionContrasenaService
 
             return false;
         }
+
+        // Reemplazar el código anterior solo cuando el proveedor acepta el nuevo.
+        Cache::put($this->claveCodigo($usuario), [
+            'huella' => $this->huella($codigo),
+            'intentos' => 0,
+            'vence' => $vence->timestamp,
+        ], $vence);
 
         return true;
     }
@@ -169,7 +168,7 @@ class RecuperacionContrasenaService
         $clave = $this->claveCodigo($usuario);
         $guardado = Cache::get($clave);
 
-        if (! is_array($guardado) || $guardado['vence'] < now()->timestamp) {
+        if (! is_array($guardado) || $guardado['vence'] <= now()->timestamp) {
             return false;
         }
 

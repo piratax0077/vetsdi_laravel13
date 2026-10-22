@@ -8180,7 +8180,7 @@ return $ficha;
 
         $especialidades = Especialidad::all();
 
-        $tipo_especialidades = TipoEspecialidad::all();
+        $tipo_especialidades = collect();
         if($profesional->id_especialidad)
         {
             $tipo_especialidades = TipoEspecialidad::where('id_especialidad', $profesional->id_especialidad)->get();
@@ -8190,7 +8190,7 @@ return $ficha;
                 $txt_especialidades = $especialidad_temp->nombre;
         }
 
-        $sub_tipo_especialidades = SubTipoEspecialidad::all();
+        $sub_tipo_especialidades = collect();
         if($profesional->id_tipo_especialidad)
         {
             $sub_tipo_especialidades = SubTipoEspecialidad::where('id_tipo_especialidad', $profesional->id_tipo_especialidad)->get();
@@ -11569,6 +11569,15 @@ public function eliminarPiezaCoronaProtesis(Request $req){
             ->orderBy('hora_inicio')
             ->get();
 
+        if ($request->boolean('incluir_disponibilidad')) {
+            $todosHorarios = ProfesionalHorario::where('id_profesional', $profesional->id)->get();
+            return response()->json([
+                'estado' => 1,
+                'horarios_lugar' => $horario,
+                'horarios_disponibles' => app(\App\Services\DisponibilidadHorarioProfesional::class)->calcular($todosHorarios),
+            ]);
+        }
+
         return response()->json($horario);
     }
 
@@ -11615,11 +11624,10 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
         // 🔎 Validar si ya existe un horario que se cruce en alguno de esos días
         $validate = ProfesionalHorario::where('id_profesional', $profesional->id)
-            ->where('id_lugar_atencion', $idLugarAtencion)
-            ->where('tipo_agenda', $tipoAgenda)
             ->where(function ($q) use ($diasSeleccionados) {
                 foreach ($diasSeleccionados as $dia) {
                     $q->orWhereRaw('FIND_IN_SET(?, dia)', [$dia]);
+                    if ($dia === '0') $q->orWhereRaw('FIND_IN_SET(?, dia)', ['7']);
                 }
             })
             ->where('hora_inicio', '<', $hora_termino)
@@ -11630,7 +11638,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
             return response()->json([
                 'estado' => 0,
                 'codigo' => 'HORARIO_DUPLICADO',
-                'msj' => 'El horario se cruza con otro ya registrado para ese día.',
+                'msj' => 'El horario se cruza con otro ya registrado para ese día en uno de sus lugares de atención.',
             ], 422);
         }
 

@@ -21,6 +21,11 @@ class ArancelesVeterinariosController extends Controller
         $prof=$this->profesional();$fila=DB::table('aranceles_profesionales')->where('id_profesional',$prof->id)->first();
         return response()->json($fila?json_decode($fila->datos,true):self::inicial());
     }
+    public function procedimientos() {
+        $prof = $this->profesional();
+        $fila = DB::table('aranceles_profesionales')->where('id_profesional', $prof->id)->first();
+        return response()->json(['estado' => 1, 'registro' => app(\App\Services\ProcedimientosArancelados::class)->opciones($fila ? json_decode($fila->datos, true) : self::inicial())]);
+    }
     private function validarItem(array $item): array {
         Validator::make($item,[
             'codigo'=>'required|string|max:20','nombre'=>'required|string|max:120','activo'=>'required|boolean','variaPorTamano'=>'required|boolean',

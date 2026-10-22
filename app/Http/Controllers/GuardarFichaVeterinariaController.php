@@ -32,11 +32,6 @@ class GuardarFichaVeterinariaController extends Controller
         if ($request->expectsJson()) {
             return response()->json(['estado' => 'ok', 'mensaje' => 'Ficha veterinaria guardada correctamente.']);
         }
-        if ((int) $request->input('cerrarsession') === 1) {
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-            return redirect()->route('home.ingreso');
-        }
         return redirect()->route('profesional.mi_agenda', ['lugares_atencion' => $request->id_lugar_atencion])
             ->with('success', 'Ficha veterinaria guardada correctamente.');
     }

@@ -9,6 +9,29 @@ class ProcedimientosCentroLugarAtencionProfesionalController extends Controller
 {
     public function registrar_r(Request $request)
     {
+        if ($request->filled('arancel_procedimiento_id')) {
+            $prof = \App\Models\Profesional::where('id_usuario', auth()->id())->firstOrFail();
+            abort_unless($prof->LugaresAtencion()->where('lugares_atencion.id', $request->id_lugar_atencion)->exists(), 403);
+            $request->validate(['minutos_bloque' => 'required|integer|min:1|max:1440', 'cantidad_bloques' => 'required|integer|min:1|max:1440']);
+            $fila = \Illuminate\Support\Facades\DB::table('aranceles_profesionales')->where('id_profesional', $prof->id)->first();
+            $opciones = app(\App\Services\ProcedimientosArancelados::class)->opciones($fila ? json_decode($fila->datos, true) : []);
+            $opcion = collect($opciones)->firstWhere('id', $request->arancel_procedimiento_id);
+            abort_unless($opcion, 422, 'Seleccione un procedimiento activo con valor configurado.');
+            return \Illuminate\Support\Facades\DB::transaction(function () use ($request, $prof, $opcion) {
+                $origen = 'arancel:'.$prof->id.':'.$opcion['id'];
+                $centro = \App\Models\ProcedimientosCentro::where('id_lugar_atencion', $request->id_lugar_atencion)->where('otros', $origen)->first() ?? new \App\Models\ProcedimientosCentro();
+                $centro->id_lugar_atencion = $request->id_lugar_atencion;
+                $centro->nombre = $opcion['nombre'];
+                $centro->valor = $opcion['valor'];
+                $centro->minutos_bloque = $request->minutos_bloque;
+                $centro->cantidad_bloques = $request->cantidad_bloques;
+                $centro->tipo_ficha_atencion = 1;
+                $centro->estado = 1;
+                $centro->otros = $origen;
+                $centro->save();
+                return static::registrar($centro->id, $request->id_lugar_atencion, $prof->id, $opcion['nombre'], null, $request->minutos_bloque, $request->cantidad_bloques, $origen);
+            });
+        }
         return static::registrar( $request->id_procedimiento_centro, $request->id_lugar_atencion, $request->id_profesional,  $request->nombre, $request->descripcion, $request->minutos_bloque, $request->cantidad_bloques, $request->otros );
     }
     static public function registrar( $id_procedimiento_centro, $id_lugar_atencion, $id_profesional,  $nombre, $descripcion, $minutos_bloque, $cantidad_bloques, $otros )

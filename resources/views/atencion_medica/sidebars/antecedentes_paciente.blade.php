@@ -2148,7 +2148,7 @@
 
 @if (isset($mascota) && $mascota)
     @php
-        $fotoMascota = $mascota->foto_perfil ?: ($mascota->sexo === 'M' ? asset('images/iconos/paciente-m.svg') : asset('images/iconos/paciente-f.svg'));
+        $fotoMascota = $mascota->foto_url ?: asset('images/iconos/mascotas.svg');
         $especieMascota = optional($mascota->especieMascota)->nombre ?? $mascota->otra_especie ?? $mascota->especie ?? 'Sin registro';
         $chipMascota = $mascota->tiene_chip ? ($mascota->chip ?: 'Si') : 'No';
         $galeriaMascota = [];

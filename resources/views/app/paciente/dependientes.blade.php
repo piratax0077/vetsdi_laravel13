@@ -1193,14 +1193,6 @@
             {
                 return mascota.foto_url;
             }
-            if(mascota.foto_perfil)
-            {
-                return normalizarRutaImagen(mascota.foto_perfil);
-            }
-            if(mascota.galeria && mascota.galeria.ven_pre && mascota.galeria.ven_pre.length>0 && mascota.galeria.ven_pre[0][0])
-            {
-                return normalizarRutaImagen(mascota.galeria.ven_pre[0][0]);
-            }
             // Sin foto cargada: se usa la patita por defecto
             return img_patita;
         }
@@ -3690,16 +3682,7 @@
                 registrarMascotaCache(value);
                 var img = '';
 
-                if (value.foto_url) {
-                    img = value.foto_url;
-                } else if (value.foto_perfil) {
-                    img = normalizarRutaImagen(value.foto_perfil);
-                } else if (value.galeria && value.galeria.ven_pre && value.galeria.ven_pre.length > 0 && value.galeria.ven_pre[0][0]) {
-                    img = normalizarRutaImagen(value.galeria.ven_pre[0][0]);
-                } else {
-                    // Sin foto cargada: se usa la patita por defecto
-                    img = img_patita;
-                }
+                img = value.foto_url || img_patita;
 
                 var especie_label = obtenerLabelEspecie(value.especie_id || value.especie, value.otra_especie);
                 var genealogia_url = urlMascotaDesdePlantilla(plantillaRutaGenealogia, value.id);

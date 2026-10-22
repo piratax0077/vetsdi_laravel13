@@ -1654,8 +1654,8 @@
                 if(data.falla == '0'){
                     swal({
                         title: "Ingreso de medicamento(s).",
-                        text: 'Medicamentos registrados con Exito.',
-                        icon: "success",
+                        text: data.mensaje_correo || 'Medicamentos registrados con Exito.',
+                        icon: data.correo_enviado === false ? 'warning' : 'success',
                         // buttons: "Aceptar",
                         //SuccessMode: true,
                     });
@@ -1685,6 +1685,8 @@
 
         })
         .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    const respuesta = jqXHR.responseJSON || {};
+                    swal({title: 'No se pudo emitir la receta', text: Object.values(respuesta.errors || {}).flat().join('\n') || respuesta.message || 'Intente nuevamente. El documento no fue enviado.', icon: 'error'});
             console.log(jqXHR, ajaxOptions, thrownError)
         });
     }

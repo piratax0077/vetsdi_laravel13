@@ -28,7 +28,7 @@
                             <tr>
                                 <td style="background-color: #fff; padding: 0 24px;" align="center">
                                     <p style="font-family: Helvetica, Arial, sans-serif; font-size: 17px; font-weight: 400; color: #272727; line-height: 1.5;">
-                                        Creaste una cuenta en {{ config('app.name') }}. Confirma tu correo para poder ingresar.
+                                        Creaste una cuenta en {{ config('app.name') }}. Confirma tu correo para ingresar y completar los datos de tu perfil.
                                     </p>
                                 </td>
                             </tr>

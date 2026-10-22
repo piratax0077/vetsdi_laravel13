@@ -10,7 +10,7 @@ class FichaVeterinariaUnica
 {
     public function datos(Mascota $mascota): array
     {
-        $fichas = FichaAtencion::with(['Profesional', 'LugarAtencion', 'PresupuestosMascota'])
+        $fichas = FichaAtencion::with(['Profesional', 'LugarAtencion', 'PresupuestosMascota', 'RecetasEmitidas', 'OrdenesExamenes'])
             ->where('id_mascota', $mascota->id)->orderByDesc('created_at')->orderByDesc('id')->get();
         // Pet identity stays stable when its tutor changes.
         $detalles = FichaVeterinariaGeneral::whereIn('id_fichas_atenciones', $fichas->pluck('id'))
@@ -37,7 +37,16 @@ class FichaVeterinariaUnica
         ]))->concat(DocumentoLaboratorioMascota::where('id_mascota', $mascota->id)->get()->map(fn ($documento) => [
             'tipo' => 'Examen de laboratorio', 'nombre' => $documento->nombre_original,
             'fecha' => $documento->created_at?->format('Y-m-d'), 'estado' => $documento->estado,
-        ]))->sortByDesc('fecha')->values();
+        ]))->concat($fichas->flatMap(function ($ficha) {
+            $emitidos = collect();
+            foreach (['RecetasEmitidas'=>['Receta veterinaria','receta'], 'OrdenesExamenes'=>['Orden de exámenes','examenes']] as $relacion=>[$nombre,$tipo]) {
+                if ($ficha->{$relacion}->isNotEmpty()) $emitidos->push([
+                    'tipo'=>$nombre, 'nombre'=>$nombre, 'fecha'=>$ficha->{$relacion}->first()->created_at?->format('Y-m-d'), 'estado'=>'Emitida',
+                    'url'=>route('mascota.documento_emitido.ver', ['tipo'=>$tipo, 'id_ficha_atencion'=>$ficha->id]),
+                ]);
+            }
+            return $emitidos;
+        }))->sortByDesc('fecha')->values();
         return ['fichas' => $fichas, 'detalles' => $detalles, 'peso' => $peso, 'odontograma' => $odontograma, 'documentos' => $documentos];
     }
 }

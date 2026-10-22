@@ -838,7 +838,7 @@ Route::post('Convenios/eliminar', [App\Http\Controllers\EscritorioPaciente::clas
 Route::post('Convenios/dame', [App\Http\Controllers\EscritorioPaciente::class, 'dameConvenioUsuario'])->name('paciente.convenios.dame');
 Route::post('Convenios/editar', [App\Http\Controllers\EscritorioPaciente::class, 'editarConvenioUsuario'])->name('paciente.convenios.editar');
 
-    Route::get('desvincular_profesional/{id_usuario}/{id_profesional}', [App\Http\Controllers\EscritorioPaciente::class, 'miProfesionales'])->name('paciente.desvincular_profesional');
+    Route::post('desvincular_profesional/{id_usuario}/{id_profesional}', [App\Http\Controllers\EscritorioPaciente::class, 'miProfesionales'])->name('paciente.desvincular_profesional');
 
 
 
@@ -1082,7 +1082,7 @@ Route::post('Convenios/editar', [App\Http\Controllers\EscritorioPaciente::class,
 
     Route::get('dependiente/Mi_Profesionales/{id_dependiente_activo}', [App\Http\Controllers\EscritorioPacienteDependiente::class, 'miProfesionales'])->name('paciente.dependiente.mis_profesionales');
 
-    Route::get('dependiente/desvincular_profesional/{id_dependiente_activo}/{id_usuario}/{id_profesional}', [App\Http\Controllers\EscritorioPacienteDependiente::class, 'miProfesionales'])->name('paciente.dependiente.desvincular_profesional');
+    Route::post('dependiente/desvincular_profesional/{id_dependiente_activo}/{id_usuario}/{id_profesional}', [App\Http\Controllers\EscritorioPacienteDependiente::class, 'miProfesionales'])->name('paciente.dependiente.desvincular_profesional');
 
     Route::get('dependiente/Mi_Ficha_Medica/{id_dependiente_activo}', function ($idDependienteActivo) {
         return redirect()->route('paciente.mascota.ficha_veterinaria', [
@@ -1926,7 +1926,7 @@ Route::group([
 
     /** REGISTRO DE RECOMENDACION */
 
-    Route::post('/receta/registro', [App\Http\Controllers\RecomendacionController::class, 'registroRecomendacion'])->name('profesional.receta.registro');
+    Route::post('/receta/registro', [App\Http\Controllers\RecomendacionController::class, 'registroRecomendacion'])->middleware(\App\Http\Middleware\AutorizarFichaVeterinaria::class)->name('profesional.receta.registro');
 
     Route::get('/receta/ver', [App\Http\Controllers\RecomendacionController::class, 'verRecomendaciones'])->name('profesional.receta.ver');
 
@@ -5914,6 +5914,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 require __DIR__.'/asistentes.php';
 require __DIR__.'/peluqueria.php';
 Route::middleware('auth')->prefix('Profesional/aranceles-veterinarios')->name('profesional.aranceles_vet.')->group(function(){
+    Route::get('/procedimientos',[App\Http\Controllers\ArancelesVeterinariosController::class,'procedimientos'])->name('procedimientos');
     Route::get('/',[App\Http\Controllers\ArancelesVeterinariosController::class,'listar'])->name('listar');
     Route::post('/',[App\Http\Controllers\ArancelesVeterinariosController::class,'guardar'])->name('guardar');
 });
@@ -5923,6 +5924,11 @@ Route::post('/profesional/convenios-veterinarios', [App\Http\Controllers\Conveni
 Route::post('/profesional/convenios-veterinarios/{id}/desactivar', [App\Http\Controllers\ConveniosVeterinariosController::class, 'desactivar'])->middleware('auth')->name('profesional.convenios_veterinarios.desactivar');
 
 Route::get('/agenda/convenios-veterinarios', [App\Http\Controllers\ConveniosVeterinariosController::class, 'disponibles'])->middleware('auth')->name('agenda.convenios_veterinarios');
+
+Route::middleware(['auth', \App\Http\Middleware\AutorizarFichaVeterinaria::class])->group(function () {
+    Route::get('/mascota/documento-emitido/{tipo}', [App\Http\Controllers\DocumentoEmitidoMascotaController::class, 'ver'])->name('mascota.documento_emitido.ver');
+    Route::post('/mascota/documento-emitido/{tipo}/enviar', [App\Http\Controllers\DocumentoEmitidoMascotaController::class, 'enviar'])->name('mascota.documento_emitido.enviar');
+});
 
 // Debe permanecer al final para no capturar rutas funcionales de la aplicación.
 Route::get('/{slug}', [App\Http\Controllers\SitioWebController::class, 'ficha'])

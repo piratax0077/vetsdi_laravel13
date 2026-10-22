@@ -4388,12 +4388,30 @@
 
         };
 
+        function mostrarHorariosDisponiblesProfesional(disponibles) {
+            const $contenedor = $('#horarios_disponibles_profesional').empty();
+            const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+            [1, 2, 3, 4, 5, 6, 0].forEach(function (dia) {
+                const $columna = $('<div>', {class: 'col-6 col-md-3 mb-2'});
+                const $tarjeta = $('<div>', {class: 'bg-light rounded p-2 h-100'});
+                $('<strong>', {class: 'small text-primary d-block', text: dias[dia]}).appendTo($tarjeta);
+                const bloques = disponibles.filter(function (bloque) { return Number(bloque.dia) % 7 === dia; });
+                bloques.forEach(function (bloque) {
+                    $('<div>', {class: 'small', text: bloque.hora_inicio + ' – ' + bloque.hora_termino}).appendTo($tarjeta);
+                });
+                if (!bloques.length) $('<div>', {class: 'small text-muted', text: 'Sin bloques libres'}).appendTo($tarjeta);
+                $columna.append($tarjeta).appendTo($contenedor);
+            });
+        }
+
         function mi_horario_lugar_atencion(id) {
             let array_tipo_agenda = ['', 'Atención General', 'Atención Dental', 'Atención Telemedicina', 'Exámenes',
                 'Procedimiento'
             ]
             let id_lugar_atencion = id;
             let url = "{{ route('profesional.mi_horario_lugar_atencion') }}";
+
+            $('#horarios_disponibles_profesional').text('Consultando disponibilidad...');
 
             $('#mi_horario_table tbody').html(
                 '<tr><td colspan="5" class="text-center text-info py-3">' +
@@ -4412,6 +4430,7 @@
                     data: {
                         //_token: _token,
                         id_lugar_atencion: id_lugar_atencion,
+                        incluir_disponibilidad: 1,
                     },
                 })
                 .done(function(data) {
@@ -4421,6 +4440,8 @@
                         if (typeof data === 'string') {
                             data = JSON.parse(data);
                         }
+                        mostrarHorariosDisponiblesProfesional(data.horarios_disponibles || []);
+                        data = data.horarios_lugar || [];
                         // console.log(data);
 
                         $('#modal_editar_horario_atencion').modal('show');
@@ -4485,6 +4506,7 @@
 
                 })
                 .fail(function(jqXHR) {
+                    $('#horarios_disponibles_profesional').text('No fue posible consultar la disponibilidad. Vuelva a abrir el horario para reintentar.');
                     $('#mi_horario_table tbody').html(
                         '<tr><td colspan="5" class="text-center text-danger py-3">No fue posible actualizar los horarios.</td></tr>'
                     );
@@ -6632,7 +6654,6 @@
                         data: {
                             // _token: token,
                             _token: CSRF_TOKEN,
-                            convenio_veterinario_id: $('.bono-convenio-veterinario:visible').val() || '',
                             convenio: bono_prevision,
                             convenio_nombre: bono_prevision_nombre,
                             numero_bono: bono_numero,
@@ -6727,7 +6748,6 @@
         }
 
         function recepcion_pago() {
-            if (window.conveniosVeterinariosListos && !window.conveniosVeterinariosListos()) return;
             var $modalPago = $('.modal:visible').filter(function () {
                 return $(this).find('#bono_hora_medica').length > 0;
             }).last();
@@ -6775,7 +6795,6 @@
                 type: 'POST',
                 data: {
                     _token: CSRF_TOKEN,
-                    convenio_veterinario_id: campo('.bono-convenio-veterinario', ''),
                     convenio: campo('#bono_prevision', '0') || '0',
                     numero_bono: codigoQr,
                     numero_presupuesto: numeroPresupuesto,
@@ -7274,6 +7293,10 @@
 
         function carga_tipo_especialidad(input_origen, input_destino, id) {
             var id_especialidad = $('#' + input_origen).val();
+            $('#' + input_destino).empty().append('<option value="">Seleccione</option>');
+            if (input_destino === 'id_tipo_especialidad') {
+                $('#id_sub_tipo_especialidad').empty().append('<option value="">Seleccione</option>');
+            }
 
             if (id_especialidad) {
                 let url = "{{ route('web.profesional.buscar_tipo_especialidad') }}";
@@ -7286,7 +7309,7 @@
                         },
                     })
                     .done(function(data) {
-
+                        if ($('#' + input_origen).val() !== id_especialidad) return;
                         if (data.estado == 1) {
                             let tipo_especialidades = $('#' + input_destino);
 
@@ -7316,6 +7339,7 @@
 
         function carga_sub_tipo_especialidad(input_origen, input_destino, id) {
             var id_tipo_especialidad = $('#' + input_origen).val();
+            $('#' + input_destino).empty().append('<option value="">Seleccione</option>');
 
             if (id_tipo_especialidad) {
                 let url = "{{ route('web.profesional.buscar_sub_tipo_especialidad') }}";
@@ -7328,7 +7352,7 @@
                         },
                     })
                     .done(function(data) {
-
+                        if ($('#' + input_origen).val() !== id_tipo_especialidad) return;
                         if (data.estado == 1) {
                             let sub_tipo_especialidades = $('#' + input_destino);
 

@@ -636,6 +636,10 @@
                                 {{-- <button type="button" id="cerrar_modal_horario2" class="btn btn-danger">Cancelar</button> --}}
                             </div>
                             <div class="col-sm-12 mt-2 mb-2">
+                                <h6 class="text-primary">Horarios disponibles</h6>
+                                <p class="small text-muted">Bloques libres entre 08:00 y 20:00, considerando todos sus lugares de atención para evitar cruces de agenda.</p>
+                                <div id="horarios_disponibles_profesional" class="row" aria-live="polite"></div>
+                                <h6 class="text-primary mt-3">Horario guardado</h6>
                                 <table id="mi_horario_table" class="table table-sm">
                                     <thead>
                                         <tr>
@@ -761,7 +765,7 @@
                         </div>
 
                         <div class="col-sm-12 mb-3 mt-2">
-                            <button type="button" onclick="registrar_mi_procedimiento_lugar_atencion()" class="btn btn-info float-md-right btn-sm"><i class="fa fa-plus"></i> Agregar convenio y valor</button>
+                            <button type="button" onclick="registrar_mi_procedimiento_lugar_atencion()" class="btn btn-info float-md-right btn-sm"><i class="fa fa-plus"></i> Agregar procedimiento</button>
                         </div>
                         <div class="col-sm-12 mt-3 mb-3">
                             {{--  <table id="" class="table table-sm table-responsive">  --}}
@@ -1088,8 +1092,9 @@
         function cargar_procedimientos_lugar_atencion(id_lugar_atencion)
         {
 
-            $('#agrear_editar_procedimientos_id_procedimiento').html('');
-            let url = "{{ route('centro.procedimientos') }}";
+            const $select = $('#agrear_editar_procedimientos_id_procedimiento');
+            $select.empty().append(new Option('Cargando procedimientos...', '')).prop('disabled', true);
+            let url = "{{ route('profesional.aranceles_vet.procedimientos') }}";
 
             $.ajax({
                     url: url,
@@ -1105,21 +1110,31 @@
                     if (data.estado == 1)
                     {
 
+                        $select.empty().append(new Option(data.registro.length ? 'Seleccione un procedimiento' : 'Configure procedimientos activos con valor en Aranceles', ''));
                         $.each(data.registro, function (index, value) {
-                            var html = '<option value="'+value.id+'">'+value.nombre+' '+value.cantidad_bloques+'Blq.</option>';
-                            $('#agrear_editar_procedimientos_id_procedimiento').append(html);
+                            const $opcion = $(new Option(value.nombre + ' — $' + Number(value.valor).toLocaleString('es-CL'), value.id));
+                            $opcion.data('duracion', value.duracion);
+                            $select.append($opcion);
                         });
+                        $select.prop('disabled', !data.registro.length);
 
 
                     } else {
-                        console.log(resp)
+                        $select.empty().append(new Option('No fue posible cargar los procedimientos', ''));
                     }
 
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    $select.empty().append(new Option('No fue posible cargar los procedimientos. Vuelva a abrir para reintentar.', ''));
                     console.log(jqXHR, ajaxOptions, thrownError)
                 });
         }
+
+        $('#agrear_editar_procedimientos_id_procedimiento').on('change', function () {
+            const duracion = Number($(this).find('option:selected').data('duracion')) || 15;
+            $('#agrear_editar_procedimientos_minutos_bloque').val(15);
+            $('#agrear_editar_procedimientos_cantidad_bloques').val(Math.ceil(duracion / 15));
+        });
 
         function registrar_mi_procedimiento_lugar_atencion()
         {
@@ -1129,6 +1144,10 @@
             let nombre_procedimiento = $('#agrear_editar_procedimientos_id_procedimiento option:selected').text();
             let minutos_bloque = $('#agrear_editar_procedimientos_minutos_bloque').val();
             let cantidad_bloques = $('#agrear_editar_procedimientos_cantidad_bloques').val();
+            if (!id_procedimiento || Number(minutos_bloque) <= 0 || Number(cantidad_bloques) <= 0) {
+                swal({title: 'Procedimiento', text: 'Seleccione un procedimiento y complete los minutos y la cantidad de bloques.', icon: 'warning'});
+                return;
+            }
             let url = "{{ route('profesional.mis_procedimientos_lugar_atencion.registrar') }}";
 
             $.ajax({
@@ -1138,7 +1157,7 @@
                         //_token: _token,
                         id_lugar_atencion : id_lugar_atencion,
                         id_profesional : id_profesional,
-                        id_procedimiento_centro : id_procedimiento,
+                        arancel_procedimiento_id : id_procedimiento,
                         nombre : nombre_procedimiento,
                         minutos_bloque : minutos_bloque,
                         cantidad_bloques : cantidad_bloques,

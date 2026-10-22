@@ -32,28 +32,28 @@
                                         <tbody>
                                             @if (isset($fichas))
                                                 @foreach ($fichas as $f)
-                                                    @foreach ($f->Recetas()->get() as $r)
+                                                    @if ($f->RecetasEmitidas->isNotEmpty() || $f->Recetas->isNotEmpty())
                                                         <tr>
                                                             <td class="text-wrap text-left align-middle">
-                                                                {{ \Carbon\Carbon::parse($r->created_at)->format('d/m/Y') }}
+                                                                {{ \Carbon\Carbon::parse($f->RecetasEmitidas->first()?->created_at ?? $f->Recetas->first()?->created_at)->format('d/m/Y') }}
                                                             </td>
                                                             <td class="align-middle text-left">
-                                                                <strong>{{ $f->Profesional()->first()->nombre }}
-                                                                    {{ $f->Profesional()->first()->apellido_uno }}
-                                                                    {{ $f->Profesional()->first()->apellido_dos }}
+                                                                <strong>{{ $f->Profesional->nombre ?? '' }}
+                                                                    {{ $f->Profesional->apellido_uno ?? '' }}
+                                                                    {{ $f->Profesional->apellido_dos ?? '' }}
                                                                 </strong>
                                                                 <br>
-                                                                {{ $f->Profesional()->first()->especialidad()->first()->txt_esp }}
+                                                                {{ $f->Profesional?->Especialidad?->nombre ?? 'Veterinaria' }}
                                                             </td>
-                                                            <td class="align-middle text-left">{{ $f->diagnostico }}</td>
-                                                            <td class="align-middle text-left">Enviado</td>
+                                                            <td class="align-middle text-left">{{ $f->hipotesis_diagnostico }}</td>
+                                                            <td class="align-middle text-left">Emitida</td>
                                                             <td class="text-left align-middle">
-                                                                <button href="#!" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#m_cons_receta">
+                                                                <a href="{{ route('mascota.documento_emitido.ver', ['tipo' => 'receta', 'id_ficha_atencion' => $f->id]) }}" target="_blank" rel="noopener" class="btn btn-danger btn-sm">
                                                                     <i class="feather icon-file-plus"></i> Ver Receta
-                                                                </button>
+                                                                </a>
                                                             </td>
                                                         </tr>
-                                                    @endforeach
+                                                    @endif
                                                 @endforeach
                                             @endif
                                         </tbody>

@@ -574,17 +574,6 @@
 
                             </div>
 
-                            <div class="col-sm-6">
-
-                                <div class="input-group">
-
-                                    @include('app.profesional.partials.select_convenio_veterinario', ['soloSeleccion' => true])
-
-
-
-                                </div>
-
-                            </div>
 
                             <div class="col-sm-6">
 

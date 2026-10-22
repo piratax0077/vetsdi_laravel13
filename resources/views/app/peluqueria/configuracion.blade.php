@@ -1,0 +1,7 @@
+@extends('app.peluqueria.layout')
+@section('content')
+<div class="page-header"><h4>Panel de configuración</h4><p>Configura cada procedimiento de peluquería y belleza.</p></div>
+<div class="card"><div class="card-header"><h5>Nuevo procedimiento</h5></div><div class="card-body">@include('app.peluqueria.procedimiento_form',['procedimiento'=>null])</div></div>
+<div class="row">@forelse($procedimientos as $procedimiento)<div class="col-lg-6"><div class="card"><div class="card-header"><h5>{{ $procedimiento->nombre }}</h5><span class="badge {{ $procedimiento->activo?'badge-success':'badge-secondary' }} float-right">{{ $procedimiento->activo?'Activo':'Inactivo' }}</span></div><div class="card-body">@include('app.peluqueria.procedimiento_form')</div></div></div>@empty<div class="col-12"><div class="alert alert-info">Agrega baño, corte de pelo, corte de uñas u otros procedimientos con su duración y precio.</div></div>@endforelse</div>
+<div class="card"><div class="card-header"><h5>Mi perfil de peluquería</h5></div><div class="card-body"><form method="post" action="{{ route('peluqueria.perfil') }}">@csrf<div class="form-row">@foreach(['nombre'=>'Nombre','telefono'=>'Teléfono','direccion'=>'Dirección'] as $campo=>$etiqueta)<div class="form-group col-md-4"><label>{{ $etiqueta }}</label><input class="form-control form-control-sm" name="{{ $campo }}" value="{{ $perfil->$campo }}" required></div>@endforeach</div><button class="btn btn-info">Guardar perfil</button></form></div></div>
+@endsection

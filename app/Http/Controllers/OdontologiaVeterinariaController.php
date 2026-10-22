@@ -187,6 +187,7 @@ class OdontologiaVeterinariaController extends Controller
         $profesional = $this->profesional();
         [$ficha, $mascota, $especie] = $servicio->contexto($datos, $profesional->id);
         $presupuestos = PresupuestosDental::where('id_mascota', $mascota->id)->where('id_profesional', $profesional->id)
+            ->where('id_paciente', $ficha->id_paciente)
             ->where('id_lugar_atencion', $ficha->id_lugar_atencion)->where('estado', 1)->orderByDesc('id')->get();
         return response()->json(['estado' => 1, 'especie' => $especie, 'presupuestos' => $presupuestos->map(fn ($p) => $servicio->resumen($p))]);
     }

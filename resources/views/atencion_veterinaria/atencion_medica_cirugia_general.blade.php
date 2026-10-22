@@ -120,14 +120,12 @@
     </div>
     <!--Cierre: Container Completo-->
      @include('atencion_veterinaria.formularios.modal_atencion_especialidad.cirugia.modal_clasif_colon')
-	@include('atencion_veterinaria.formularios.modal_atencion_especialidad.cirugia.modal_biopsia_cirugia')
     @include('atencion_veterinaria.formularios.modal_atencion_especialidad.cirugia.modal_sol_gastro_endosc')
     {{--  @include('atencion_veterinaria.formularios.modal_atencion_especialidad.cirugia.modal_sol_gastro_func')  --}}
     @include('atencion_veterinaria.formularios.modal_atencion_especialidad.cirugia.modal_sol_gastro_rx')
      @include('atencion_veterinaria.formularios.modal_atencion_especialidad.cirugia.modal_sol_examenes_com')
     @include('general.hospitalizacion.modals.in_solic_pabellon')
 	@include("general.modal.modal_no_disponible")
-	@include("atencion_veterinaria.formularios.modal_atencion_especialidad.cirugia.modal_biopsia_cirugia")
     @include('general.secciones_ficha.receta_examen.modal_recetario_sdi')
     @include('atencion_veterinaria.formularios.modal_atencion_general.modal_indicar_examenes')
     @include('app.cirugia.modals.modals_cesarea.modal_indicar_examenes', ['modalIndicarExamenesId' => 'indicar_examenes_receta'])

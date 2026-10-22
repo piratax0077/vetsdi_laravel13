@@ -119,6 +119,34 @@ class PerfilTutorMascotaTest extends TestCase
         $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);$controller->datos($this->req(['id_contacto'=>1]));
     }
 
+    public function test_tutor_profile_opens_without_human_clinical_tables(): void
+    {
+        $datos=app(EscritorioPaciente::class)->perfil()->getData();
+        $this->assertEquals(9,$datos['paciente']->id);
+        $this->assertNull($datos['direccion_paciente']);
+        $this->assertCount(0,$datos['contacto']);
+        $this->assertCount(2,$datos['regiones']);
+    }
+
+    public function test_editing_contact_address_keeps_shared_tutor_address_and_omitted_fields(): void
+    {
+        DB::table('direcciones')->insert(['id'=>1,'id_ciudad'=>1,'direccion'=>'Original','numero_dir'=>'12']);
+        DB::table('pacientes')->where('id',20)->update(['id_direccion'=>1]);
+        DB::table('contactos_emergencia')->insert(['id'=>1,'rut'=>'333','nombre'=>'Contacto','apellido_uno'=>'Apellido','id_direccion'=>1,'parentezco'=>'Hermano']);
+        DB::table('pacientes_contacto_emergencia')->insert(['id_paciente'=>9,'id_contacto'=>1,'relacion'=>'Hermano']);
+        app(\App\Http\Controllers\PerfilTutorContactoController::class)->guardar($this->req([
+            'id_contacto'=>1,'rut'=>'333','nombres'=>'Contacto','apellido_uno'=>'Apellido','direccion'=>'Nueva calle',
+        ]));
+        $contacto=Paciente::find(9)->ContactosEmergencia()->first();
+        $direccion=DB::table('direcciones')->where('id',$contacto->id_direccion)->first();
+        $this->assertNotEquals(1,$contacto->id_direccion);
+        $this->assertSame('Original',DB::table('direcciones')->where('id',1)->value('direccion'));
+        $this->assertSame('Nueva calle',$direccion->direccion);
+        $this->assertEquals(1,$direccion->id_ciudad);
+        $this->assertSame('12',$direccion->numero_dir);
+        $this->assertSame('Hermano',$contacto->pivot->relacion);
+    }
+
     public function test_tutor_saves_optional_birthdate_and_syncs_name_and_email(): void
     {
         $resultado=$this->tutor()->guardar($this->req(['perfil_nombre'=>'Tutor editado','perfil_apellido_uno'=>'Apellido','perfil_nac'=>null,'perfil_email'=>'nuevo@example.test']));
@@ -156,6 +184,42 @@ class PerfilTutorMascotaTest extends TestCase
     {
         $respuesta=$this->actualizar(['nombre'=>'Mascota editada','id_responsable'=>20]);$this->assertSame(200,$respuesta->getStatusCode());
         $m=Mascota::find(1);$this->assertSame('Mascota editada',$m->nombre);$this->assertEquals(9,$m->id_responsable);$this->assertSame('Dieta registrada',$m->dieta);$this->assertSame('Antecedente',$m->enfermedad_cronica);$this->assertSame('Vacunada',$m->vacunas);$this->assertSame('mascotas/foto.png',$m->foto_perfil);$this->assertNotEmpty($m->galeria);$this->assertSame('2021-01-01',$m->fecha_esterilizacion->format('Y-m-d'));
+    }
+
+    public function test_pet_profile_uses_photo_from_second_gallery_section_when_first_is_empty(): void
+    {
+        $mascota = new Mascota([
+            'foto_perfil' => null,
+            'galeria' => ['ven_pre' => [], 'ven_post' => [['imagenes/temp/segunda.png']]],
+        ]);
+        $this->assertSame(storage_public_url('imagenes/temp/segunda.png'), $mascota->foto_url);
+        $mascota->foto_perfil = 'mascotas/principal.png';
+        $this->assertSame(storage_public_url('mascotas/principal.png'), $mascota->foto_url);
+        $mascota->foto_perfil = null;
+        $mascota->galeria = null;
+        $this->assertNull($mascota->foto_url);
+    }
+
+    public function test_updated_pet_photo_is_shared_by_menu_booking_carnet_and_json(): void
+    {
+        $this->assertSame(200, $this->actualizar(['foto_perfil' => 'mascotas/nueva.png'])->getStatusCode());
+        $mascota = Mascota::find(1);
+        $url = storage_public_url('mascotas/nueva.png');
+        $this->assertSame($url, $mascota->toArray()['foto_url']);
+        foreach ([
+            'template/paciente_dependiente/menu' => 'fotoMascota',
+            'app/general/buscador_profesionales/buscador' => 'foto_mascota_reserva',
+            'app/paciente/carnet_sanitario_mascota' => 'imgMascota',
+        ] as $vista => $variable) {
+            preg_match('/@php\b.*?@endphp/s', file_get_contents(resource_path('views/'.$vista.'.blade.php')), $bloque);
+            $html = Blade::render($bloque[0]."\n".'{{ $'.$variable.' }}', [
+                'mascota' => $mascota, 'paciente' => Paciente::find(9),
+                'responsable' => Paciente::find(9),
+            ]);
+            $this->assertSame(e($url), trim($html), $vista);
+        }
+        $this->actualizar(['nombre' => 'Nombre nuevo']);
+        $this->assertSame($url, Mascota::find(1)->foto_url);
     }
 
     public function test_pet_optional_fields_can_be_cleared_explicitly(): void

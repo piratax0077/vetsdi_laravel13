@@ -96,6 +96,16 @@ class FichaAtencion extends Model
 
 
 
+    public function RecetasEmitidas()
+    {
+        return $this->hasMany(Recomendacion::class, 'atencion', 'id');
+    }
+
+    public function OrdenesExamenes()
+    {
+        return $this->hasMany(ExamenPPF::class, 'id_ficha_atencion', 'id');
+    }
+
     public function Recetas()
 
     {

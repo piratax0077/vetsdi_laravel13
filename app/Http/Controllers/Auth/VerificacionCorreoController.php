@@ -29,12 +29,12 @@ class VerificacionCorreoController extends Controller
         }
 
         // Se mantiene en sesión para que el botón de reenvío siga funcionando.
-        $request->session()->keep(['registro_pendiente']);
+        $request->session()->keep(['registro_pendiente', 'correo_enviado']);
         $request->session()->put('registro_pendiente', $usuario->id);
 
         return view('auth.verificacion_enviada', [
             'usuario' => $usuario,
-            'correoEnviado' => $request->session()->get('correo_enviado', true),
+            'correoEnviado' => $request->session()->get('correo_enviado', false),
             'segundosEspera' => $this->verificacion->segundosParaReenviar($usuario),
         ]);
     }

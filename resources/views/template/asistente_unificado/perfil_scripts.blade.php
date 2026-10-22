@@ -1173,8 +1173,6 @@ var CalendarEl = null;
             var bono_valor_consulta = $('#bono_valor_consulta').val();
             var bono_valor_bonificacion = $('#valor_bonificacion').val();
             var bono_valor_seguro = $('#valor_seguro').val();
-            var convenioVeterinario = $('.modal:visible .bono-convenio-veterinario').val() || '';
-            if (window.conveniosVeterinariosListos && !window.conveniosVeterinariosListos()) return;
 
             var recepcion_programa = $('#recepcion_programa').val();
             var bono_sn_sesiones = $('#bono_sn_sesiones').val();
@@ -1222,7 +1220,6 @@ var CalendarEl = null;
                     data: {
                         // _token: token,
                         _token: CSRF_TOKEN,
-                        convenio_veterinario_id: convenioVeterinario,
 
                         numero_bono: bono_numero,
                         valor_atencion: bono_valor_consulta,

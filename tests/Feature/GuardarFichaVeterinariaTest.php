@@ -15,6 +15,21 @@ use Tests\TestCase;
 
 class GuardarFichaVeterinariaTest extends TestCase
 {
+    public function test_finalizar_conserva_la_ficha_y_la_incluye_en_historial_sin_duplicarla(): void
+    {
+        $servicio = app(GuardarFichaVeterinaria::class);
+        $ficha = $servicio->guardar(new Request(['hora_medica'=>1, 'descripcion_hipotesis'=>'Control', 'motivo'=>'Revisión', 'cerrarsession'=>2]), 3, 'general');
+        $this->assertEquals(0, $ficha->finalizada);
+        $this->assertEquals(5, HoraMedica::find(1)->id_estado);
+        $final = $servicio->guardar(new Request(['hora_medica'=>1, 'descripcion_hipotesis'=>'Diagnóstico definitivo', 'indicaciones'=>'Control en siete días', 'cerrarsession'=>1]), 3, 'general');
+        $this->assertEquals($ficha->id, $final->id);
+        $this->assertSame('Revisión', $final->motivo);
+        $this->assertEquals(6, HoraMedica::find(1)->id_estado);
+        $this->assertNotEmpty(HoraMedica::find(1)->fecha_realizacion_consulta);
+        $this->assertEquals($final->id, FichaAtencion::where('id_mascota',4)->where('id_profesional',3)->where('finalizada',1)->sole()->id);
+        $this->assertSame('Control en siete días', $this->datos()['indicaciones']);
+    }
+
     public function test_uploaded_image_is_persisted_and_published_for_each_specialty(): void
     {
         \Illuminate\Support\Facades\Storage::fake('public');
@@ -62,6 +77,7 @@ class GuardarFichaVeterinariaTest extends TestCase
             'fichas_atenciones' => ['id_paciente', 'id_profesional', 'id_mascota', 'id_lugar_atencion', 'motivo', 'antecedentes', 'examen_fisico', 'hipotesis_diagnostico', 'diagnostico_ce10', 'indicaciones', 'peso', 'temperatura', 'pulso', 'cronico', 'confidencial', 'ges', 'finalizada'],
             'ficha_veterinaria_general' => ['id_fichas_atenciones', 'id_paciente', 'id_profesional', 'datos', 'estado'],
             'control_post_quirurgico' => ['id_ficha_atencion', 'id_profesional', 'id_paciente', 'eg_cpq_cg', 'hoc_cpa_cg', 'masas_cpq_cg', 'obs_egp_cpq_cg', 'estado'],
+            'ficha_cir_general_adulto' => ['id_ficha_atencion','id_profesional','id_paciente','est_grl','ex_seg','cir_grl_urgencia','obs_est_grl','rec_tto_cg','tipo_proc_cg','plan_proc_cg','otro','otro1','tto_med_cg','pr_cg','plan_cirugia','estado'],
             'bonos' => ['id_referencia', 'id_tipo_bono', 'estado_consulta', 'devuelto', 'glosa'],
             'profesionales' => ['id_usuario'],
             'especies_mascotas' => ['nombre'],
@@ -163,6 +179,30 @@ class GuardarFichaVeterinariaTest extends TestCase
             $this->assertSame($campos['medicamentos'], $this->datos()['medicamentos']);
         }
         $this->assertSame(1, DB::table('control_post_quirurgico')->count());
+    }
+
+    public function test_partial_surgery_save_preserves_plan_and_explicit_uncheck_clears_it(): void
+    {
+        $servicio=app(GuardarFichaVeterinaria::class);
+        $servicio->guardar(new Request([
+            'hora_medica'=>1,'descripcion_hipotesis'=>'Control quirúrgico',
+            'est_grl'=>'Estado registrado','tto_med_cg'=>1,'pr_cg'=>1,'plan_cirugia'=>1,
+        ]),3,'cirugia');
+        $servicio->guardar(new Request([
+            'hora_medica'=>1,'descripcion_hipotesis'=>'Control quirúrgico',
+            'obs_est_grl'=>'Nueva observación',
+        ]),3,'cirugia');
+        $registro=DB::table('ficha_cir_general_adulto')->sole();
+        foreach(['tto_med_cg','pr_cg','plan_cirugia'] as $campo) $this->assertEquals(1,$registro->{$campo});
+        $this->assertSame('Estado registrado',$registro->est_grl);
+        $servicio->guardar(new Request([
+            'hora_medica'=>1,'descripcion_hipotesis'=>'Control quirúrgico','plan_cirugia'=>0,
+        ]),3,'cirugia');
+        $registro=DB::table('ficha_cir_general_adulto')->sole();
+        $this->assertEquals(0,$registro->plan_cirugia);
+        $this->assertEquals(1,$registro->tto_med_cg);
+        $this->assertEquals(1,$this->datos()['tto_med_cg']);
+        $this->assertEquals(0,$this->datos()['plan_cirugia']);
     }
 
     public function test_missing_or_whitespace_diagnosis_does_not_save(): void

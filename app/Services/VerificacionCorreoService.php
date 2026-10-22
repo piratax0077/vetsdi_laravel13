@@ -35,17 +35,12 @@ class VerificacionCorreoService
         }
         $correo = correo_normalizar($correo ?? $usuario->email);
 
-        // Un token a la vez: los anteriores quedan vencidos.
-        VerificacionCorreo::where('id_usuario', $usuario->id)
-            ->whereNull('verificado_en')
-            ->update(['expira_en' => now()->subSecond()]);
-
         $verificacion = VerificacionCorreo::create([
             'id_usuario' => $usuario->id,
             'email' => $correo,
             'token' => Str::random(64),
             'expira_en' => now()->addHours(self::HORAS_VIGENCIA),
-            'enviado_en' => now(),
+            'enviado_en' => null,
         ]);
 
         $resultado = SendMailController::envioCorreo(
@@ -64,6 +59,7 @@ class VerificacionCorreoService
         );
 
         if ((int) ($resultado['estado'] ?? 0) !== 1) {
+            $verificacion->delete();
             Log::warning('No se pudo enviar el correo de verificación', [
                 'id_usuario' => $usuario->id,
                 'detalle' => $resultado['msj'] ?? null,
@@ -71,6 +67,14 @@ class VerificacionCorreoService
 
             return false;
         }
+
+        $verificacion->enviado_en = now();
+        $verificacion->save();
+        // Un envío fallido conserva el enlace anterior y permite reintentar.
+        VerificacionCorreo::where('id_usuario', $usuario->id)
+            ->where('id', '!=', $verificacion->id)
+            ->whereNull('verificado_en')
+            ->update(['expira_en' => now()->subSecond()]);
 
         return true;
     }

@@ -175,9 +175,9 @@ class MascotaGenealogiaController extends Controller
             'foto' => 'foto',
         ]);
 
-        // si la mascota registrada ya tiene foto de perfil no se guarda otra
+        // Las mascotas registradas usan exclusivamente su foto de perfil compartida.
         $fotoNueva = $request->file('foto');
-        if ($fotoNueva && !$esExterno && optional(Mascota::find($datos['mascota_id']))->foto_url) {
+        if ($fotoNueva && !$esExterno) {
             $fotoNueva = null;
         }
 
@@ -331,7 +331,7 @@ class MascotaGenealogiaController extends Controller
                 'especie' => $registrado ? $registrado->tipo_especie : ($especieExterna ?: 'Especie no indicada'),
                 'especie_externa' => $especieExterna,
                 'sexo' => $parentesco['sexo'],
-                'foto' => optional($registrado)->foto_url ?: $fotoGenealogia,
+                'foto' => $registrado ? $registrado->foto_url : $fotoGenealogia,
                 'foto_genealogia' => $fotoGenealogia,
             ];
         }
@@ -359,7 +359,7 @@ class MascotaGenealogiaController extends Controller
                     'sexo' => $sexo,
                     'tipo' => $registro->tipo,
                     'etiqueta' => $this->etiquetaHermano($sexo, $registro->tipo),
-                    'foto' => optional($hermano)->foto_url ?: $fotoGenealogia,
+                    'foto' => $hermano ? $hermano->foto_url : $fotoGenealogia,
                     'foto_genealogia' => $fotoGenealogia,
                 ];
             })

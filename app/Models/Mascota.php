@@ -103,7 +103,7 @@ class Mascota extends Model
             $galeria = is_array($decoded) ? $decoded : [];
         }
 
-        $primera = $galeria['ven_pre'][0][0] ?? null;
+        $primera = resolver_foto_perfil_mascota(null, $galeria);
         if ($primera) {
             return storage_public_url($primera);
         }

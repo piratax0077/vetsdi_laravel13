@@ -12,7 +12,7 @@ class SdiRegistry
 
     private function post(string $resource, array $data): ?array
     {
-        if (!config('services.sdi_hub.enabled')) return null;
+        if (!config('services.sdi_hub.enabled') || empty(config('services.sdi_hub.key')) || empty(config('services.sdi_hub.url'))) return null;
         try {
             $response = Http::acceptJson()->timeout((int) config('services.sdi_hub.timeout', 5))
                 ->withHeaders(['X-SDI-App' => config('services.sdi_hub.app'), 'X-SDI-Key' => config('services.sdi_hub.key')])

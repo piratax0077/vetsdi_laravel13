@@ -16,6 +16,7 @@ class ComercioSsoController extends Controller
     {
         $user = Auth::user();
         abort_unless($user, 401);
+        abort_if(empty(config('services.sdi_sso.key')), 503, 'La conexión con Veterfarma no está configurada.');
 
         $paciente = Paciente::where('id_usuario', $user->id)->first();
         $direccion = $paciente?->id_direccion ? Direccion::find($paciente->id_direccion) : null;
@@ -48,6 +49,7 @@ class ComercioSsoController extends Controller
     {
         $user = Auth::user();
         abort_unless($user, 401);
+        abort_if(empty(config('services.sdi_sso.key')) || empty(config('services.sdi_sso.alimentos_url')), 503, 'La conexión con Alimentos no está configurada.');
 
         $paciente = Paciente::where('id_usuario', $user->id)->first();
         $direccion = $paciente?->id_direccion
@@ -80,7 +82,7 @@ class ComercioSsoController extends Controller
                         'numero_chip' => $mascota->chip,
                         'esterilizado' => (bool) $mascota->esterilizado,
                         'observaciones' => $mascota->enfermedad_cronica,
-                        'foto_url' => $this->urlFotoMascota($mascota->foto_perfil),
+                        'foto_url' => $mascota->foto_url,
                     ];
                 })
                 ->values()
@@ -136,28 +138,6 @@ class ComercioSsoController extends Controller
             in_array($valor, ['f', 'hembra', 'femenino', '2'], true) => 'hembra',
             default => 'desconocido',
         };
-    }
-
-    private function urlFotoMascota(?string $ruta): ?string
-    {
-        $ruta = str_replace('\\', '/', trim((string) $ruta));
-        if ($ruta === '') {
-            return null;
-        }
-        if (str_starts_with($ruta, 'http://') || str_starts_with($ruta, 'https://')) {
-            return $ruta;
-        }
-        if (str_starts_with($ruta, '/storage/')) {
-            return url($ruta);
-        }
-        if (str_starts_with($ruta, 'storage/')) {
-            return asset($ruta);
-        }
-        if (str_contains($ruta, '/')) {
-            return asset('storage/' . ltrim($ruta, '/'));
-        }
-
-        return asset('storage/imagenes/temp/' . $ruta);
     }
 
     private function textoDireccion(?Direccion $direccion): ?string

@@ -34,21 +34,7 @@
 
 @section('content')
 @php
-    $imgMascota = $mascota->sexo === 'M'
-        ? asset('images/iconos/paciente-m.svg')
-        : asset('images/iconos/paciente-f.svg');
-    if (!empty($mascota->foto_perfil)) {
-        $rutaFoto = str_replace('\\', '/', $mascota->foto_perfil);
-        if (\Illuminate\Support\Str::startsWith($rutaFoto, ['http://', 'https://', '/'])) {
-            $imgMascota = $rutaFoto;
-        } elseif (\Illuminate\Support\Str::startsWith($rutaFoto, 'storage/')) {
-            $imgMascota = asset($rutaFoto);
-        } elseif (str_contains($rutaFoto, '/')) {
-            $imgMascota = asset('storage/' . ltrim($rutaFoto, '/'));
-        } else {
-            $imgMascota = asset('storage/imagenes/temp/' . $rutaFoto);
-        }
-    }
+    $imgMascota = $mascota->foto_url ?: asset('images/iconos/mascotas.svg');
     $especie = optional($mascota->especieMascota)->nombre ?: ($mascota->otra_especie ?: 'Sin registro');
     $raza = optional($mascota->razaMascota)->nombre ?: 'Sin registro';
 @endphp

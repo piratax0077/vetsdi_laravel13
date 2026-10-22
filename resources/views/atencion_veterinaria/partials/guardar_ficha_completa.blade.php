@@ -13,11 +13,12 @@
                 diagnostico.reportValidity();
                 return;
             }
-            if (typeof agregar_medicamentos_ficha === 'function') agregar_medicamentos_ficha();
-            if (typeof agregar_examenes_ficha === 'function') agregar_examenes_ficha();
-            const datos = new FormData(form);
-            datos.set('cerrarsession', '2');
             try {
+                if (typeof agregar_medicamentos_ficha === 'function') agregar_medicamentos_ficha();
+                if (typeof agregar_examenes_ficha === 'function') agregar_examenes_ficha();
+                if (typeof window.odontologiaVetPrepararGuardado === 'function') await window.odontologiaVetPrepararGuardado();
+                const datos = new FormData(form);
+                datos.set('cerrarsession', '2');
                 const respuesta = await fetch(form.action, {method: 'POST', body: datos, headers: {Accept: 'application/json'}});
                 const resultado = await respuesta.json();
                 if (!respuesta.ok) {
@@ -48,6 +49,12 @@
                     control.value = valor ?? '';
                 }
             });
+        });
+
+        // Mostrar los detalles de las opciones quirúrgicas restauradas.
+        ['showContentTmcg', 'showContentProc_cg', 'showContentCir_cg'].forEach(nombre => {
+            const campos = {showContentTmcg: 'tto_med_cg', showContentProc_cg: 'pr_cg', showContentCir_cg: 'plan_cirugia'};
+            if (document.getElementById(campos[nombre]) && typeof window[nombre] === 'function') window[nombre]();
         });
 
         // An unchecked checkbox must explicitly replace its previously saved value.

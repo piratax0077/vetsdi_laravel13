@@ -58,7 +58,7 @@
                                                                     <i class="feather icon-more-horizontal" data-toggle="tooltip" data-placement="top" title="Opciones"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href='{{ url("Paciente/dependiente/desvincular_profesional/{$paciente->id}/{$paciente->id}/{$p->id}") }}'>Desvincular Veterinario</a>
+                                                                    <form method="post" action="{{ route('paciente.dependiente.desvincular_profesional', ['id_dependiente_activo'=>$paciente->id, 'id_usuario'=>$paciente->id, 'id_profesional'=>$p->id]) }}">@csrf<button type="submit" class="dropdown-item">Desvincular Veterinario</button></form>
                                                                 </div>
                                                             </div>
                                                         </div>

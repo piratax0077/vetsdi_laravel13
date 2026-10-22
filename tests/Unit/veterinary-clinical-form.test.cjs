@@ -26,11 +26,12 @@ function setup(saved = {}, old = {}) {
     const script = source.match(/<script>([\s\S]*?)<\/script>/)[1]
         .replace(/@json\(\$fichaVeterinariaGeneralData \?\? \[\]\)/, JSON.stringify(saved))
         .replace(/@json\(session\(\)->getOldInput\(\)\)/, JSON.stringify(old));
-    vm.runInNewContext(script, {
+    const context = {
         document: {addEventListener: (_, callback) => callback(), getElementById: () => controls[0], createElement: () => ({})},
         window: {}, agregar_medicamentos_ficha: () => serialized++, agregar_examenes_ficha: () => serialized++,
-    });
-    return {controls, get serialized() {return serialized;}, get prevented() {return prevented;},
+    };
+    vm.runInNewContext(script, context);
+    return {controls, context, get serialized() {return serialized;}, get prevented() {return prevented;},
         submit() {events.submit({preventDefault() {prevented = true;}});}};
 }
 
@@ -56,4 +57,26 @@ test('submitting with Enter also includes prescriptions and examinations', () =>
     s.submit();
     assert.equal(s.prevented, false);
     assert.equal(s.serialized, 2);
+});
+
+test('quick save waits for dental changes before sending the clinical record', async () => {
+    const s=setup();let finish,requests=0;
+    s.context.window.odontologiaVetPrepararGuardado=()=>new Promise(resolve=>finish=resolve);
+    s.context.FormData=class {set(){}};
+    s.context.fetch=async()=>{requests++;return {ok:true,json:async()=>({mensaje:'Guardado'})};};
+    s.context.swal=()=>{};
+    const saving=s.context.window.guardarFichaVeterinariaAjax();
+    assert.equal(requests,0);
+    finish();await saving;
+    assert.equal(requests,1);
+});
+
+test('a failed dental change prevents quick save and explains the error', async () => {
+    const s=setup();let requests=0,notice;
+    s.context.window.odontologiaVetPrepararGuardado=async()=>{throw Error('Error al guardar la pieza');};
+    s.context.fetch=async()=>{requests++;};
+    s.context.swal=data=>notice=data;
+    await s.context.window.guardarFichaVeterinariaAjax();
+    assert.equal(requests,0);
+    assert.equal(notice.text,'Error al guardar la pieza');
 });

@@ -31,6 +31,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach (($fichas ?? collect()) as $ficha)
+                                            @foreach ($ficha->OrdenesExamenes as $orden)
+                                                <tr>
+                                                    <td>{{ optional($orden->created_at)->format('d/m/Y') }}</td>
+                                                    <td>{{ $orden->id }}</td>
+                                                    <td>{{ trim(($ficha->Profesional->nombre ?? '').' '.($ficha->Profesional->apellido_uno ?? '').' '.($ficha->Profesional->apellido_dos ?? '')) }}</td>
+                                                    <td>{{ $orden->examen }}</td>
+                                                    <td>{{ $orden->observacion }}</td>
+                                                    <td>Emitida</td>
+                                                    <td><a class="btn btn-secondary btn-sm" target="_blank" rel="noopener" href="{{ route('mascota.documento_emitido.ver', ['tipo' => 'examenes', 'id_ficha_atencion' => $ficha->id]) }}">Ver orden</a></td>
+                                                </tr>
+                                            @endforeach
+                                        @endforeach
                                         <!-- Pendiente
                                         <tr>
                                             <td class="text-wrap text-left align-middle">11/09/2020</td>

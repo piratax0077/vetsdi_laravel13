@@ -107,7 +107,7 @@
                                             $raza = optional($mascota->razaMascota)->nombre ?? $mascota->otra_especie ?? '-';
                                             $convenio = optional(optional($responsable)->Prevision)->nombre ?? '-';
                                             $chip = $mascota->tiene_chip ? ($mascota->chip ?: 'Si') : 'No';
-                                            $fotoMascota = $mascota->foto_perfil ?: ($mascota->sexo === 'M' ? asset('images/iconos/paciente-m.svg') : asset('images/iconos/paciente-f.svg'));
+                                            $fotoMascota = $mascota->foto_url ?: asset('images/iconos/mascotas.svg');
                                             $sexoMascota = $mascota->sexo === 'M' ? 'Macho' : ($mascota->sexo === 'F' ? 'Hembra' : ($mascota->sexo ?? 'Sin registro'));
                                             $tamanoMascota = optional($mascota->tamanoMascota)->nombre ?? $mascota->tamano ?? 'Sin registro';
                                             $galeriaMascota = [];

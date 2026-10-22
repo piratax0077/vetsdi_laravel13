@@ -1,0 +1,161 @@
+
+[
+    {
+        "perfil": "Paciente",
+        "ruta": "paciente.home",
+        "estado": 200
+    },
+    {
+        "perfil": "Paciente",
+        "ruta": "paciente.perfil",
+        "estado": 200
+    },
+    {
+        "perfil": "Paciente",
+        "ruta": "paciente.mascotas.index",
+        "estado": 200
+    },
+    {
+        "perfil": "Paciente",
+        "ruta": "paciente.agendar_hora",
+        "estado": 200
+    },
+    {
+        "perfil": "Paciente",
+        "ruta": "paciente.mis_profesionales",
+        "estado": 200
+    },
+    {
+        "perfil": "Paciente",
+        "ruta": "paciente.acceso_pni",
+        "estado": 200
+    },
+    {
+        "perfil": "Paciente",
+        "ruta": "paciente.referidos.index",
+        "estado": 200
+    },
+    {
+        "perfil": "Profesional",
+        "ruta": "profesional.home",
+        "estado": 200
+    },
+    {
+        "perfil": "Profesional",
+        "ruta": "profesional.mi_perfil",
+        "estado": 200
+    },
+    {
+        "perfil": "Profesional",
+        "ruta": "profesional.pacientes",
+        "estado": 200
+    },
+    {
+        "perfil": "Profesional",
+        "ruta": "profesional.lugares_atencion",
+        "estado": 200
+    },
+    {
+        "perfil": "Profesional",
+        "ruta": "profesional.configuracion",
+        "estado": 200
+    },
+    {
+        "perfil": "Profesional",
+        "ruta": "profesional.mis_asistentes",
+        "estado": 200
+    },
+    {
+        "perfil": "Profesional",
+        "ruta": "profesional.hospitalizacion",
+        "estado": 200
+    },
+    {
+        "perfil": "Profesional",
+        "ruta": "profesional.referidos.index",
+        "estado": 200
+    },
+    {
+        "perfil": "Asistente",
+        "ruta": "asistentes.home",
+        "estado": 200
+    },
+    {
+        "perfil": "Asistente",
+        "ruta": "asistentes.perfil",
+        "estado": 200
+    },
+    {
+        "perfil": "Asistente",
+        "ruta": "asistentes.agenda",
+        "estado": 403,
+        "error": "Esta función no está autorizada por su profesional o centro médico."
+    },
+    {
+        "perfil": "Asistente",
+        "ruta": "asistentes.pacientes",
+        "estado": 403,
+        "error": "Esta función no está autorizada por su profesional o centro médico."
+    },
+    {
+        "perfil": "Asistente",
+        "ruta": "asistentes.permisos",
+        "estado": 200
+    },
+    {
+        "perfil": "Peluqueria",
+        "ruta": "peluqueria.home",
+        "estado": 200
+    },
+    {
+        "perfil": "Peluqueria",
+        "ruta": "peluqueria.agenda.ver",
+        "estado": 200
+    },
+    {
+        "perfil": "Peluqueria",
+        "ruta": "peluqueria.mascotas",
+        "estado": 200
+    },
+    {
+        "perfil": "Peluqueria",
+        "ruta": "peluqueria.historial",
+        "estado": 200
+    },
+    {
+        "perfil": "Peluqueria",
+        "ruta": "peluqueria.configuracion",
+        "estado": 200
+    },
+    {
+        "perfil": "clinica",
+        "ruta": "adm_cm.home",
+        "estado": 200
+    },
+    {
+        "perfil": "clinica",
+        "ruta": "adm_cm.perfil_cm",
+        "estado": 200
+    },
+    {
+        "perfil": "clinica",
+        "ruta": "adm_cm.usuarios",
+        "estado": 302,
+        "destino": "\/Administrador\/Profesionales"
+    },
+    {
+        "perfil": "clinica",
+        "ruta": "adm_cm.configuracion",
+        "estado": 200
+    },
+    {
+        "perfil": "clinica",
+        "ruta": "adm_cm.profesionales",
+        "estado": 200
+    },
+    {
+        "perfil": "clinica",
+        "ruta": "adm_cm.departamentos_servicios",
+        "estado": 200
+    }
+]

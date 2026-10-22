@@ -1393,9 +1393,6 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6">
-                            @include('app.profesional.partials.select_convenio_veterinario')
-                        </div>
                         <div class="col-sm-6 bono_valor">
                             <div class="form-group fill">
                                 <label class="floating-label-activo-sm">Valor total</label>
@@ -1545,9 +1542,6 @@
                                     <input type="text" class="form-control form-control-sm" name="bono_profesional_rut"
                                         id="bono_profesional_rut" disabled="disabled">
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
-                                @include('app.profesional.partials.select_convenio_veterinario')
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group fill">

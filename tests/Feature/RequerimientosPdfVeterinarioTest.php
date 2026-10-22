@@ -232,6 +232,23 @@ class RequerimientosPdfVeterinarioTest extends TestCase
         $this->assertFalse($servicio->codigoCorrecto($usuario, $codigo));
     }
 
+    public function test_reenvio_fallido_conserva_codigo_vigente_del_celular(): void
+    {
+        $usuario = User::findOrFail(1); $usuario->telefono = '+56 9 1234 5678';
+        $codigo = null;
+        $mensajeria = \Mockery::mock(\App\Services\Mensajeria\MensajeriaService::class);
+        $mensajeria->shouldReceive('enviarWhatsapp')->once()->andReturnUsing(function ($telefono, $texto) use (&$codigo) {
+            preg_match('/es (\d{6})/', $texto, $captura); $codigo = $captura[1];
+            return ['estado'=>1];
+        });
+        $mensajeria->shouldReceive('enviarWhatsapp')->once()->andReturn(['estado'=>0]);
+        $servicio = new RecuperacionContrasenaService($mensajeria);
+        $this->assertTrue($servicio->enviarCodigo($usuario));
+        $this->assertFalse($servicio->enviarCodigo($usuario));
+        $this->assertTrue($servicio->codigoCorrecto($usuario, $codigo));
+        $this->assertFalse($servicio->codigoCorrecto($usuario, $codigo));
+    }
+
     public function test_migracion_agrega_convenios_y_se_revierte_sin_borrar_bonos(): void
     {
         Schema::drop('convenios_veterinarios');

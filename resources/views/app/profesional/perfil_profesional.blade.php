@@ -222,7 +222,7 @@
                                                                         {{ $tipo->nombre }}
                                                                     </option>
                                                                 @else
-                                                                    <option value="{{ $especialidad->id }}">
+                                                                    <option value="{{ $tipo->id }}">
                                                                         {{ $tipo->nombre }}
                                                                     </option>
                                                                 @endif

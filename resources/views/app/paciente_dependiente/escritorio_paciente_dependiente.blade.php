@@ -6,6 +6,24 @@
 
     <div class="pcoded-content">
 
+        @if(isset($documentos_emitidos) && $documentos_emitidos->isNotEmpty())
+        <div class="card">
+            <div class="card-header"><h5>Recetas y órdenes de exámenes</h5></div>
+            <div class="card-body">
+                @foreach($documentos_emitidos as $fichaEmitida)
+                <div class="d-flex flex-wrap align-items-center mb-2">
+                    <span class="mr-3">{{ optional($fichaEmitida->updated_at)->format('d/m/Y') }} · {{ $fichaEmitida->Profesional->nombre ?? '' }} {{ $fichaEmitida->Profesional->apellido_uno ?? '' }}</span>
+                    @if($fichaEmitida->RecetasEmitidas->isNotEmpty())
+                    <a class="btn btn-sm btn-outline-primary mr-2" target="_blank" rel="noopener" href="{{ route('mascota.documento_emitido.ver', ['tipo'=>'receta', 'id_ficha_atencion'=>$fichaEmitida->id]) }}">Ver receta</a>
+                    @endif
+                    @if($fichaEmitida->OrdenesExamenes->isNotEmpty())
+                    <a class="btn btn-sm btn-outline-info" target="_blank" rel="noopener" href="{{ route('mascota.documento_emitido.ver', ['tipo'=>'examenes', 'id_ficha_atencion'=>$fichaEmitida->id]) }}">Ver orden de exámenes</a>
+                    @endif
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
         <!--Header-->
 
         <div class="page-header mt-n3">
@@ -19,8 +37,7 @@
                         @php
                             // Sin foto se muestra el mismo icono que usa el menú lateral
                             $nombreMascota = $mascota->nombres ?? $mascota->nombre;
-                            $fotoMascota = $mascota->foto_url
-                                ?: asset('images/iconos/' . (empty($mascota->sexo) ? 'usuario' : ($mascota->sexo === 'M' ? 'paciente-m' : 'paciente-f')) . '.svg');
+                            $fotoMascota = $mascota->foto_url ?: asset('images/iconos/mascotas.svg');
                         @endphp
 
                         <div class="page-header-title pt-2 d-flex align-items-center">
@@ -250,7 +267,7 @@
                 <!-- Atención con profesional que no está en la plataforma -->
                 <div class="card subir h-100 tarjeta-atencion-externa">
 
-                    <a href="{{ ROUTE('paciente.acceso_pni') }}" class="card-body">
+                    <a href="{{ route('paciente.acceso_pni', ['id_mascota' => $mascota->id]) }}" class="card-body">
 
                         <span class="tarjeta-atencion-externa-icono" aria-hidden="true">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

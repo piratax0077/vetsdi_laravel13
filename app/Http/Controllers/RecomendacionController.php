@@ -171,7 +171,7 @@ class RecomendacionController extends Controller
             $valido = 0;
         }
 
-        if(empty($control)) //id_tipo_control
+        if ($control === null || $control === '' || !is_numeric($control) || !in_array((int) $control, [0, 1, 2, 3, 4, 5, 6, 7, 8], true)) // 0 también es un tipo válido.
         {
             $error['TIPO CONTROL'] = 'campo requerido';
             $valido = 0;
@@ -353,6 +353,30 @@ class RecomendacionController extends Controller
 
     /** REGISTRO DE RECETA  */
     public function registroRecomendacion(Request $request)
+    {
+        $request->validate(['medicamentos' => 'required|string']);
+        $lista = json_decode($request->medicamentos, true);
+        \Illuminate\Support\Facades\Validator::make(['medicamentos' => $lista], [
+            'medicamentos' => 'required|array|min:1|max:200',
+            'medicamentos.*.producto' => 'required|string',
+            'medicamentos.*.dosis' => 'required',
+            'medicamentos.*.posologia' => 'required',
+            'medicamentos.*.via_administracion' => 'required',
+            'medicamentos.*.periodo' => 'required',
+        ])->validate();
+        $datos = DB::transaction(function () use ($request) {
+            $resultado = $this->guardarRecomendacion($request);
+            if (empty($resultado['estado']) || !empty($resultado['falla']) || !empty($resultado['fallo_registro'])) {
+                throw \Illuminate\Validation\ValidationException::withMessages(['medicamentos' => 'No se pudo guardar la receta completa.']);
+            }
+            return $resultado;
+        });
+        $ficha = FichaAtencion::findOrFail($request->id_ficha);
+        if ($ficha->id_mascota) $datos += app(\App\Services\EnviarDocumentoMascota::class)->enviar($ficha, 'receta');
+        return $datos;
+    }
+
+    private function guardarRecomendacion(Request $request)
     {
         $datos = array();
         $error = array();
@@ -552,6 +576,7 @@ class RecomendacionController extends Controller
                             {
                                 $datos['recomendacion'][$key_2]['detalle'][$key_3] = $detalle_registro;
                                 $falla++;
+                                $datos['fallo_registro'] = true;
                             }
                         }
                         $datos['exito'] = $exito;
@@ -561,6 +586,7 @@ class RecomendacionController extends Controller
                     {
                         $datos['estado'] = 0;
                         $datos['msj'] = 'Falla registro de Receta';
+                        $datos['fallo_registro'] = true;
                     }
                 }
             }

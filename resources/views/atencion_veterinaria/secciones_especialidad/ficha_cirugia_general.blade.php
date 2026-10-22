@@ -78,7 +78,7 @@
                                         @include('general.secciones_ficha.motivo')
 
 										<!--CIRUGIA GENERAL-->
-                                        {{--  @include('general.secciones_ficha.cirugia_general.cirugia_adulto')  --}}
+                                        @include('general.secciones_ficha.cirugia_general.cirugia_adulto')
 
                                         <!-- hospitalizar -->
                                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">

@@ -26,7 +26,7 @@ class OdontologiaVeterinariaTest extends TestCase
             'mascotas' => ['id_responsable','especie_id','especie','otra_especie','nombre'],
             'profesionales' => ['id_usuario','nombre','apellido_uno','apellido_dos'],
             'fichas_atenciones' => ['id_mascota','id_paciente','id_profesional','id_lugar_atencion','finalizada','hipotesis_diagnostico','diagnostico_ce10','cronico','confidencial','ges'],
-            'horas_medicas' => ['id_ficha_atencion','id_mascota','id_paciente','id_profesional','id_lugar_atencion','id_estado'],
+            'horas_medicas' => ['id_ficha_atencion','id_mascota','id_paciente','id_profesional','id_lugar_atencion','id_estado','fecha_realizacion_consulta'],
             'ficha_veterinaria_general' => ['id_fichas_atenciones','id_paciente','id_profesional','datos','estado'],
             'bonos' => ['id_referencia','id_tipo_bono','estado_consulta','devuelto','glosa'],
             'presupuestos_dental' => ['id_paciente','id_profesional','id_ficha_atencion','id_lugar_atencion','datos_piezas_dentales','estado','aprobado','fecha_control','fecha','boca','observaciones','valor_total','valor_abonado'],
@@ -173,6 +173,19 @@ class OdontologiaVeterinariaTest extends TestCase
         $datos=json_decode(DB::table('ficha_veterinaria_general')->value('datos'),true);
         $this->assertSame('Registro de monitorización',$datos['anestesia_dental']);
         $this->assertSame('felino',$datos['odontograma_veterinario']['especie']);
+    }
+
+    public function test_current_tutor_does_not_receive_budgets_from_a_previous_tutor(): void
+    {
+        $anterior=$this->servicio()->agregarTratamiento($this->datos(),10);
+        DB::table('mascotas')->where('id',1)->update(['id_responsable'=>30]);
+        DB::table('fichas_atenciones')->insert(['id'=>102,'id_mascota'=>1,'id_paciente'=>30,'id_profesional'=>10,'id_lugar_atencion'=>20]);
+        $actual=$this->servicio()->agregarTratamiento($this->datos(['ficha_atencion_id'=>102,'paciente_id'=>30]),10);
+        $respuesta=app(OdontologiaVeterinariaController::class)->estado(Request::create('/','GET',[
+            'mascota_id'=>1,'ficha_atencion_id'=>102,
+        ]),$this->servicio())->getData(true);
+        $this->assertSame([$actual->id],array_column($respuesta['presupuestos'],'id'));
+        $this->assertNotNull($anterior->fresh());
     }
 
     public function test_budget_pdf_is_generated_and_state_does_not_mix_pets(): void

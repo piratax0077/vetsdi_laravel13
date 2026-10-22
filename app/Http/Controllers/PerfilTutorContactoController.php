@@ -45,20 +45,25 @@ class PerfilTutorContactoController extends Controller
         $contacto=DB::transaction(function()use($request,$datos,$tutor){
             Paciente::whereKey($tutor->id)->lockForUpdate()->firstOrFail();
             $contacto=$request->filled('id_contacto')?$tutor->ContactosEmergencia()->where('contactos_emergencia.id',$request->id_contacto)->firstOrFail():($tutor->ContactosEmergencia()->where('rut',$datos['rut'])->first() ?? new ContactoEmergencia());
+            $relacion=array_key_exists('parentezco',$datos)?$datos['parentezco']:($contacto->pivot?->relacion ?? $contacto->parentezco);
             $direccion=Direccion::find($contacto->id_direccion) ?? new Direccion();
             if($contacto->exists && (PacienteContactoEmergencia::where('id_contacto',$contacto->id)->where('id_paciente','<>',$tutor->id)->exists() || (Schema::hasTable('asistente_contacto_emergencia') && DB::table('asistente_contacto_emergencia')->where('id_contacto',$contacto->id)->exists()))){
                 $viejo=$contacto->id;$contacto=$contacto->replicate();
                 $tutor->ContactosEmergencia()->detach($viejo);
                 if($direccion->exists){$direccion=$direccion->replicate();$direccion->saveOrFail();$contacto->id_direccion=$direccion->id;}
             }
-            if(!empty($datos['id_ciudad'])||!empty($datos['direccion'])){
-                $direccion->id_ciudad=$datos['id_ciudad']??null;$direccion->direccion=$datos['direccion']??null;$direccion->numero_dir=$datos['numero_dir']??null;$direccion->saveOrFail();$contacto->id_direccion=$direccion->id;
+            if(array_intersect(['id_ciudad','direccion','numero_dir'],array_keys($datos))){
+                $direccion=\App\Services\DireccionesPerfil::editable($contacto);
+                foreach (['id_ciudad','direccion','numero_dir'] as $campo) {
+                    if (array_key_exists($campo, $datos)) $direccion->{$campo}=$datos[$campo];
+                }
+                $direccion->saveOrFail();$contacto->id_direccion=$direccion->id;
             }
             foreach(['rut','apellido_uno','apellido_dos','email','telefono','parentezco','prioridad'] as $campo)if(array_key_exists($campo,$datos))$contacto->{$campo}=$datos[$campo];
             $contacto->nombre=$datos['nombres'];
             if(array_key_exists('fecha',$datos))$contacto->fecha_nac=$datos['fecha'];
             $contacto->saveOrFail();
-            $tutor->ContactosEmergencia()->syncWithoutDetaching([$contacto->id=>['relacion'=>$datos['parentezco']??null]]);
+            $tutor->ContactosEmergencia()->syncWithoutDetaching([$contacto->id=>['relacion'=>$relacion]]);
             return $contacto;
         });
         // Compatible con el formulario existente, que interpreta el JSON explícitamente.

@@ -187,7 +187,7 @@
                                                     $fotoRespaldoMascota = $mascota->sexo === 'F'
                                                         ? asset('images/iconos/paciente-f.svg')
                                                         : asset('images/iconos/paciente-m.svg');
-                                                    $fotoMascota = $mascota->foto_url ?: (mascota_imagenes_publicas($mascota)[0] ?? $fotoRespaldoMascota);
+                                                    $fotoMascota = $mascota->foto_url ?: asset('images/iconos/mascotas.svg');
                                                     $especie = optional($mascota->especieMascota)->nombre ?? $mascota->especie ?? 'Sin especie';
                                                     $raza = optional($mascota->razaMascota)->nombre ?? $mascota->otra_especie;
                                                 @endphp

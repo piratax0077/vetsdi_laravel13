@@ -123,7 +123,7 @@
 @section('content')
 @php
     $memorial = is_array($mascota->memorial_registro) ? $mascota->memorial_registro : [];
-    $imgMascota = $mascota->foto_url ?: asset('images/iconos/paciente-' . ($mascota->sexo === 'M' ? 'm' : 'f') . '.svg');
+    $imgMascota = $mascota->foto_url ?: asset('images/iconos/mascotas.svg');
     $especie = optional($mascota->especieMascota)->nombre ?: ($mascota->otra_especie ?: 'Sin registro');
     $raza = optional($mascota->razaMascota)->nombre ?: 'Sin registro';
     $fechaFallecimiento = optional($mascota->fecha_fallecimiento)->format('d/m/Y');

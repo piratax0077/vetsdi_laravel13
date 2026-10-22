@@ -222,6 +222,10 @@ class EscritorioPacienteDependiente extends Controller
                 'paciente' => $mascota_dependiente,
                 'responsable' => $paciente_responsable,
                 'mascota' => $mascota_dependiente,
+                'documentos_emitidos' => FichaAtencion::with(['Profesional', 'RecetasEmitidas', 'OrdenesExamenes'])
+                    ->where('id_mascota', $mascota_dependiente->id)->where('id_paciente', $paciente_responsable->id)
+                    ->where(fn ($q) => $q->whereHas('RecetasEmitidas')->orWhereHas('OrdenesExamenes'))
+                    ->orderByDesc('updated_at')->limit(10)->get(),
                 'hora_medica' => $this->obtenerHorasAgendadasMascota($paciente_responsable->id, $mascota_dependiente->id),
             ]);
         }
@@ -469,11 +473,10 @@ class EscritorioPacienteDependiente extends Controller
 
         foreach ($fichas as $f) {
 
-            array_push($profesional, $f->profesional()->first());
-
             $profesional_ = Profesional::with('Especialidad')->find($f->id_profesional);
-
-            array_push($profesion,$profesional_->Especialidad->nombre);
+            if (!$profesional_) continue;
+            $profesional[] = $profesional_;
+            $profesion[] = $profesional_->Especialidad?->nombre ?? 'Veterinaria';
 
         }
 
@@ -624,6 +627,9 @@ class EscritorioPacienteDependiente extends Controller
         }
 
         return view('app.paciente_dependiente.receta.mis_examenes', [
+            'fichas' => FichaAtencion::with(['Profesional', 'OrdenesExamenes'])
+                ->where('id_mascota', $paciente->id)->where('id_paciente', $paciente_responsable->id)
+                ->whereHas('OrdenesExamenes')->orderByDesc('created_at')->get(),
             'id_dependiente_activo' => $mascotaId,
             'id_mascota' => $mascotaId,
             'paciente' => $paciente,
@@ -654,7 +660,7 @@ class EscritorioPacienteDependiente extends Controller
             return back()->with('error', 'Mascota no encontrada');
         }
 
-        $fichas = FichaAtencion::where('id_mascota', $paciente->id)
+        $fichas = FichaAtencion::with(['Profesional', 'RecetasEmitidas', 'Recetas'])->where('id_mascota', $paciente->id)
             ->where('id_paciente', $paciente_responsable->id)
             ->get();
 
@@ -747,7 +753,7 @@ class EscritorioPacienteDependiente extends Controller
 
     {
 
-        $fichas = FichaAtencion::with(['Profesional', 'LugarAtencion', 'PresupuestosMascota'])
+        $fichas = FichaAtencion::with(['Profesional', 'LugarAtencion', 'PresupuestosMascota', 'RecetasEmitidas', 'OrdenesExamenes'])
 
             ->where('id_mascota', $mascota->id)
 
@@ -822,6 +828,18 @@ class EscritorioPacienteDependiente extends Controller
         $documentos = $documentosConsentimiento
 
             ->merge($documentosPresupuesto)
+
+            ->merge($fichas->flatMap(function ($ficha) {
+                $emitidos = collect();
+                foreach (['RecetasEmitidas' => ['Receta', 'receta'], 'OrdenesExamenes' => ['Orden de exámenes', 'examenes']] as $relacion => [$nombre, $tipo]) {
+                    if ($ficha->{$relacion}->isNotEmpty()) {
+                        $emitidos->push(['tipo' => $nombre, 'nombre' => $nombre.' veterinaria',
+                            'fecha' => optional($ficha->{$relacion}->first()->created_at)->format('Y-m-d'),
+                            'estado' => 'Emitida', 'url' => route('mascota.documento_emitido.ver', ['tipo' => $tipo, 'id_ficha_atencion' => $ficha->id])]);
+                    }
+                }
+                return $emitidos;
+            }))
 
             ->sortByDesc(function ($documento) {
 

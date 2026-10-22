@@ -238,6 +238,11 @@
             <!-- AGREGAR GEOLOCALIZACION -->
         </div>
 
+        <div class="card mb-3"><div class="card-body">
+            <h5>Atención por profesional no registrado</h5>
+            <p>Selecciona tu mascota e ingresa el RUT y correo del profesional para registrar su atención.</p>
+            <a class="btn btn-info" href="{{ route('paciente.acceso_pni') }}">Ingresar atención</a>
+        </div></div>
         <!--Cierre: Botones acceso examenes y profesional no inscrito-->
 
         <!--Row Botones-->
@@ -660,11 +665,18 @@
                 const vouchers = Array.isArray(data.vouchers) ? data.vouchers : [];
                 const caidas = tiendasBeneficiosCaidas(data);
                 contenedor.empty();
+                Object.values(data.tiendas || {}).forEach(function(tienda) {
+                    const estado = !tienda.conectado ? 'Sin conexión' : (tienda.cantidad > 0 ? tienda.cantidad + ' beneficio(s) disponible(s)' : 'Sin beneficios vigentes');
+                    contenedor.append($('<div>', {class: 'small mb-2'}).append(
+                        $('<strong>', {text: tienda.nombre + ': '}),
+                        $('<span>', {class: tienda.conectado ? 'text-success' : 'text-muted', text: estado})
+                    ));
+                });
 
                 if (!vouchers.length) {
                     contenedor.append(caidas.length
                         ? estadoBeneficios('icon-wifi-off', 'No pudimos consultar ' + unirNombresTiendas(caidas) + '.', 'Intenta de nuevo en unos minutos.', 'aviso', true)
-                        : estadoBeneficios('icon-gift', 'Sin vouchers vigentes por ahora.', 'Cuando tengas uno nuevo aparecerá aquí.'));
+                        : estadoBeneficios('icon-gift', 'Sin beneficios vigentes por ahora.', 'Cuando tengas uno nuevo aparecerá aquí.'));
                     return;
                 }
 

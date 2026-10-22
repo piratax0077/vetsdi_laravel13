@@ -23,14 +23,7 @@
                             @if(!empty($es_veterinaria_busqueda))
                                 @php
                                     // Misma foto que muestra el menú lateral de la mascota
-                                    $foto_mascota_reserva = asset('images/iconos/usuario.svg');
-                                    if (!empty($mascota) && !empty($mascota->foto_perfil)) {
-                                        $foto_mascota_reserva = \Illuminate\Support\Str::startsWith($mascota->foto_perfil, ['http://', 'https://', '/'])
-                                            ? $mascota->foto_perfil
-                                            : asset('storage/' . $mascota->foto_perfil);
-                                    } elseif (!empty($mascota) && !empty($mascota->sexo)) {
-                                        $foto_mascota_reserva = $mascota->sexo === 'M' ? asset('images/iconos/paciente-m.svg') : asset('images/iconos/paciente-f.svg');
-                                    }
+                                    $foto_mascota_reserva = $mascota->foto_url ?? asset('images/iconos/mascotas.svg');
                                 @endphp
                                 <!--Para quién es la hora; al elegir veterinario su nombre queda a la derecha-->
                                 <div class="reserva-vet-profesional">

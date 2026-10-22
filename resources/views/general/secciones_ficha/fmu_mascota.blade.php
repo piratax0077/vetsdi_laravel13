@@ -81,7 +81,7 @@
         }
     }
 
-    $fotoMascota = $mascota->foto_url ?? storage_public_url($mascota->foto_perfil ?? null) ?? asset('images/iconos/usuario_profesional.svg');
+    $fotoMascota = $mascota->foto_url ?: asset('images/iconos/mascotas.svg');
     $sexoMascota = $mascota->sexo === 'M' ? 'Masculino' : ($mascota->sexo === 'F' ? 'Femenino' : 'Sin registro');
     $especieMascota = optional($mascota->especieMascota)->nombre ?: ($mascota->otra_especie ?: $mascota->especie ?: 'N/N');
     $especieMascotaNormalizada = strtolower(trim((string) $especieMascota));
@@ -505,7 +505,7 @@
                                     @forelse ($documentosFvu as $documento)
                                         <tr>
                                             <td class="fvu-tabla__fuerte">{{ $documento['tipo'] ?? '-' }}</td>
-                                            <td>{{ $documento['nombre'] ?? '-' }}</td>
+                                            <td>@if(!empty($documento['url']))<a href="{{ $documento['url'] }}" target="_blank" rel="noopener">{{ $documento['nombre'] ?? '-' }}</a>@else{{ $documento['nombre'] ?? '-' }}@endif</td>
                                             <td class="fvu-tabla__nowrap">{{ !empty($documento['fecha']) ? \Carbon\Carbon::parse($documento['fecha'])->format('d-m-Y') : '-' }}</td>
                                         </tr>
                                     @empty
@@ -880,7 +880,7 @@
                                         @forelse ($documentosFvu as $documento)
                                             <tr>
                                                 <td class="fvu-tabla__fuerte">{{ $documento['tipo'] ?? '-' }}</td>
-                                                <td>{{ $documento['nombre'] ?? '-' }}</td>
+                                                <td>@if(!empty($documento['url']))<a href="{{ $documento['url'] }}" target="_blank" rel="noopener">{{ $documento['nombre'] ?? '-' }}</a>@else{{ $documento['nombre'] ?? '-' }}@endif</td>
                                                 <td class="fvu-tabla__nowrap">{{ !empty($documento['fecha']) ? \Carbon\Carbon::parse($documento['fecha'])->format('d-m-Y') : '-' }}</td>
                                                 <td>{{ $documento['estado'] ?? '-' }}</td>
                                             </tr>

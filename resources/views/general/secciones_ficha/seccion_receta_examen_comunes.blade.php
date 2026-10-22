@@ -20,6 +20,26 @@
             </div>
         </div>
     </div>
+    @if(isset($mascota) && $mascota)
+    <div class="row mt-2">
+        <div class="col-md-6 text-center"><button type="button" class="btn btn-sm btn-outline-primary" onclick="reenviarDocumentoMascota(this, 'receta')">Reenviar receta al tutor</button></div>
+        <div class="col-md-6 text-center"><button type="button" class="btn btn-sm btn-outline-primary" onclick="reenviarDocumentoMascota(this, 'examenes')">Reenviar orden al tutor</button></div>
+    </div>
+    <script>
+        async function reenviarDocumentoMascota(boton, tipo) {
+            boton.disabled = true;
+            try {
+                const url = @json(route('mascota.documento_emitido.enviar', ['tipo' => 'TIPO'])).replace('TIPO', tipo);
+                const respuesta = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF-TOKEN': @json(csrf_token())}, body: JSON.stringify({id_ficha_atencion: document.getElementById('id_fc').value})});
+                const resultado = await respuesta.json();
+                if (!respuesta.ok) throw new Error(resultado.message || 'No se pudo enviar el documento.');
+                swal({title: 'Envío al tutor', text: resultado.mensaje_correo, icon: resultado.correo_enviado ? 'success' : 'warning'});
+            } catch (error) {
+                swal({title: 'Envío al tutor', text: error.message, icon: 'error'});
+            } finally { boton.disabled = false; }
+        }
+    </script>
+    @endif
 </div>
 
 
@@ -918,8 +938,8 @@
                             ver_examenes_ficha_medica();
                             swal({
                                 title: "Ingreso de examen(es).",
-                                text: 'Examenes registrados con Exito.',
-                                icon: "success",
+                                text: data.mensaje_correo || 'Examenes registrados con Exito.',
+                                icon: data.correo_enviado === false ? 'warning' : 'success',
                                 // buttons: "Aceptar",
                                 //SuccessMode: true,
                             });
@@ -951,6 +971,8 @@
 
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    const respuesta = jqXHR.responseJSON || {};
+                    swal({title: 'No se pudo emitir la orden', text: Object.values(respuesta.errors || {}).flat().join('\n') || respuesta.message || 'Intente nuevamente. El documento no fue enviado.', icon: 'error'});
                     console.log(jqXHR, ajaxOptions, thrownError)
                 });
         }

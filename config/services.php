@@ -40,16 +40,18 @@ return [
     ],
 
     'sdi_sso' => [
-        'key' => env('SDI_SSO_KEY', 'sdi-local-integracion-2026-cambiar-en-produccion'),
+        'alimentos_api_url' => env('ALIMENTOS_BENEFICIOS_API_URL'),
+        'farmacia_api_url' => env('VETERFARMA_BENEFICIOS_API_URL'),
+        'key' => env('SDI_SSO_KEY', env('APP_ENV') === 'production' ? null : 'sdi-local-integracion-2026-cambiar-en-produccion'),
         'alimentos_url' => env('ALIMENTOS_SSO_URL', 'http://localhost:8086/sso/vet-sdi'),
         'farmacia_url' => env('VETERFARMA_URL', 'http://localhost:8086/sso/vet-sdi'),
     ],
 
     'sdi_hub' => [
-        'enabled' => env('SDI_HUB_ENABLED', true),
+        'enabled' => env('SDI_HUB_ENABLED', env('APP_ENV') !== 'production'),
         'url' => env('SDI_HUB_URL', 'http://servidor-local.test'),
         'app' => env('SDI_HUB_APP', 'vet-sdi-v13'),
-        'key' => env('SDI_HUB_KEY', 'sdi-local-vet-2026'),
+        'key' => env('SDI_HUB_KEY', env('APP_ENV') === 'production' ? null : 'sdi-local-vet-2026'),
         'timeout' => env('SDI_HUB_TIMEOUT', 5),
     ],
 

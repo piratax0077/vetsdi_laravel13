@@ -54,11 +54,16 @@ class ExamenesPPFController extends Controller
     public function registroExamenes_r(Request $request)
     {
         $request->mergeIfMissing(['tipo_ficha'=>1]);
-        return app(\App\Services\ColeccionClinica::class)->reemplazar($request, 'examenes', [
+        $resultado = app(\App\Services\ColeccionClinica::class)->reemplazar($request, 'examenes', [
             'id_examen'=>'required|integer|min:1', 'nombre_examen'=>'required|string',
             'nombre_examen_especialidad'=>'required|string', 'tipo'=>'required|string',
             'prioridad'=>'required|in:Baja,Media,Alta,Urgente',
         ], ['prioridad'=>'Media','con_contraste'=>'N/C'], fn ()=>$this->reemplazarExamenes($request));
+        $ficha = FichaAtencion::findOrFail($request->id_ficha_atencion);
+        if ($ficha->id_mascota && json_decode($request->examenes, true)) {
+            $resultado += app(\App\Services\EnviarDocumentoMascota::class)->enviar($ficha, 'examenes');
+        }
+        return $resultado;
     }
 
     private function reemplazarExamenes(Request $request)

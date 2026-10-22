@@ -22,13 +22,14 @@ use Tests\TestCase;
  */
 class SeleccionCuentaTest extends TestCase
 {
-    use DatabaseTransactions;
+    use \Tests\CuentasAisladas;
 
     private CuentasService $cuentas;
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->prepararCuentasAisladas();
 
         $this->cuentas = app(CuentasService::class);
     }

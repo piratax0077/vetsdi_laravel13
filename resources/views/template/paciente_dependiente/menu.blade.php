@@ -12,14 +12,7 @@
 					$nombreResponsable = trim(($responsable->nombres ?? '') . ' ' . ($responsable->apellido_uno ?? '') . ' ' . ($responsable->apellido_dos ?? ''));
 				}
 
-				$fotoMascota = asset('images/iconos/usuario.svg');
-				if (!empty($perfilMascota) && !empty($perfilMascota->foto_perfil)) {
-					$fotoMascota = \Illuminate\Support\Str::startsWith($perfilMascota->foto_perfil, ['http://', 'https://', '/'])
-						? $perfilMascota->foto_perfil
-						: asset('storage/' . $perfilMascota->foto_perfil);
-				} elseif (!empty($perfilMascota) && !empty($perfilMascota->sexo)) {
-					$fotoMascota = $perfilMascota->sexo === 'M' ? asset('images/iconos/paciente-m.svg') : asset('images/iconos/paciente-f.svg');
-				}
+				$fotoMascota = $perfilMascota->foto_url ?? asset('images/iconos/mascotas.svg');
 			@endphp
 			<div class="">
                 <div class="main-menu-header">

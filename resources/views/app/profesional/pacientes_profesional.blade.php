@@ -101,7 +101,7 @@
                                                     $fotoRespaldoMascota = $mascota->sexo === 'F'
                                                         ? asset('images/iconos/paciente-f.svg')
                                                         : asset('images/iconos/paciente-m.svg');
-                                                    $fotoMascota = $mascota->foto_url ?: ($imagenesMascota[0] ?? $fotoRespaldoMascota);
+                                                    $fotoMascota = $mascota->foto_url ?: asset('images/iconos/mascotas.svg');
                                                     $sexoMascota = $mascota->sexo === 'M' ? 'Macho' : ($mascota->sexo === 'F' ? 'Hembra' : ($mascota->sexo ?? 'Sin registro'));
                                                     $tamanoMascota = optional($mascota->tamanoMascota)->nombre ?? $mascota->tamano ?? 'Sin registro';
                                                     $galeriaMascota = $imagenesMascota;
