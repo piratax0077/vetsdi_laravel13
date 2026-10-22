@@ -2892,6 +2892,12 @@ class AdministradorCmController extends Controller
 
         $servicios = Servicios::all();
 
+        /** Pestañas Asistentes y Contratos: se cargan aquí para no salir de la página */
+        $lista_asistente = $this->dame_asistentes_lugar($institucion);
+        $profesionales_contratados = $this->dame_profesionales_contratados($institucion);
+        $lista_tipo_asistente = AsistenteTipo::select('id', 'nombre')->where('estado',1)->get();
+        $lista_tipo_contrato = $this->dame_lista_tipo_contrato($lista_tipo_asistente);
+
         return view('app.adm_cm.profesionales')->with([
             'responsable' => $responsable,
             'institucion' => $institucion,
@@ -2906,7 +2912,99 @@ class AdministradorCmController extends Controller
             'contextosCentro' => $contextosCentro,
             'contextoActivo' => $contextoActivo,
             'scopeLugarIds' => $scopeLugarIds,
+            'lista_asistente' => $lista_asistente,
+            'lista_tipo_asistente' => $lista_tipo_asistente,
+            'lista_tipo_contrato' => (object)$lista_tipo_contrato,
+            'profesionales_contratados' => $profesionales_contratados,
+            'regiones' => $region,
+            'bancos' => Bancos::all(),
+            'especialidades' => $especialidad,
         ]);
+    }
+
+    /** Asistentes del lugar de atención con sus roles, tipo y contrato */
+    private function dame_asistentes_lugar($institucion)
+    {
+        $LugarAtencion = LugarAtencion::where('id',$institucion->id_lugar_atencion)->first();
+        $lista_asistente = array();
+        if(!$LugarAtencion)
+            return $lista_asistente;
+
+        $lista_asistente = $LugarAtencion->AsistenteIntitucion()->get();
+        foreach ($lista_asistente as $key => $value)
+        {
+            /** roles */
+            $usuario = User::where('id', $value->id_usuario)->first();
+            if($usuario) {
+                $lista_asistente[$key]->roles = implode(",", $usuario->roles()->pluck('name')->toArray());
+            } else {
+                $lista_asistente[$key]->roles = '';
+                \Log::warning('Usuario no encontrado para asistente', ['id_asistente' => $value->id]);
+            }
+
+            /** tipo asistente */
+            $asistente_tipo = AsistenteTipo::find($value->id_asistente_tipo);
+            if($asistente_tipo) {
+                $lista_asistente[$key]->asistente_tipo = $asistente_tipo;
+            } else {
+                $lista_asistente[$key]->asistente_tipo = (object)['nombre' => 'Sin tipo asignado', 'id' => null];
+                \Log::warning('Tipo de asistente no encontrado', [
+                    'id_asistente' => $value->id,
+                    'id_asistente_tipo' => $value->id_asistente_tipo
+                ]);
+            }
+
+            /** info contrato */
+            $lista_asistente[$key]->contrato = ContratoDependiente::select('id', 'id_empleado', 'id_lugar_atencion')
+                ->where('id_lugar_atencion', $institucion->id_lugar_atencion)
+                ->where('id_empleado', $value->id)
+                ->first();
+        }
+
+        return $lista_asistente;
+    }
+
+    /** Profesionales del lugar de atención con su contrato (o convenio si no tienen) */
+    private function dame_profesionales_contratados($institucion)
+    {
+        $profesionales_contratados = ProfesionalesLugaresAtencion::select('profesionales.*','especialidades.nombre as especialidad','tipos_especialidad.nombre as tipo_especialidad','sub_tipo_especialidad.nombre as sub_tipo_especialidad')
+            ->join('profesionales','profesionales_lugares_atencion.id_profesional','=','profesionales.id')
+            ->join('especialidades','profesionales.id_especialidad','=','especialidades.id')
+            ->leftjoin('tipos_especialidad','profesionales.id_tipo_especialidad','=','tipos_especialidad.id')
+            ->leftjoin('sub_tipo_especialidad','profesionales.id_sub_tipo_especialidad','=','sub_tipo_especialidad.id')
+            ->where('profesionales_lugares_atencion.id_lugar_atencion',$institucion->id_lugar_atencion)
+            ->get();
+
+        foreach($profesionales_contratados as $profesional){
+            $contrato = ContratoDependienteProfesional::where('id_profesional',$profesional->id)->where('id_lugar_atencion',$institucion->id_lugar_atencion)->first();
+            if($contrato){
+                $profesional->contrato = $contrato;
+                $profesional->es_convenio = false;
+                $profesional->especialidad_contrato = Especialidad::find($contrato->id_especialidad);
+                $tipo_especialidad = TipoEspecialidad::find($contrato->id_tipo_especialidad);
+                if($tipo_especialidad) $profesional->tipo_especialidad_contrato = $tipo_especialidad->nombre;
+                $sub_tipo_especialidad = SubTipoEspecialidad::find($contrato->id_sub_tipo_especialidad);
+                if($sub_tipo_especialidad) $profesional->sub_tipo_especialidad_contrato = $sub_tipo_especialidad->nombre;
+            }else{
+                $profesional->contrato = null;
+            }
+            $profesional->horas_semanales = 45;
+        }
+
+        return $profesionales_contratados;
+    }
+
+    /** Tipos de contrato: tipos de asistente + tipos de administrador */
+    private function dame_lista_tipo_contrato($lista_tipo_asistente)
+    {
+        $lista_tipo_contrato = array();
+        foreach ($lista_tipo_asistente as $value) {
+            $lista_tipo_contrato[] = array('id' => $value->id, 'nombre' => strtoupper($value->nombre));
+        }
+        foreach (TipoAdministrador::select('id', 'nombres')->where('estado',1)->get() as $value) {
+            $lista_tipo_contrato[] = array('id' => $value->id, 'nombre' => strtoupper($value->nombres));
+        }
+        return $lista_tipo_contrato;
     }
 
     public function perfiladm_dental(){
@@ -4054,6 +4152,145 @@ class AdministradorCmController extends Controller
         return response()->json(['estado' => 1, 'mensaje' => 'Mensaje enviado correctamente']);
     }
 
+    // solo se le puede escribir a tutores que tengan mascotas en este centro
+    public function enviarMensajeResponsable(Request $request)
+    {
+        $request->validate([
+            'id_responsable' => 'required|integer',
+            'asunto' => 'required|string',
+            'mensaje' => 'required|string',
+        ]);
+
+        $context = UserCenterContext::forAdmin(Auth::user(), $request);
+        $activeContext = $context['active'];
+        if (!$activeContext) {
+            return response()->json(['estado' => 0, 'mensaje' => 'No hay contexto activo'], 422);
+        }
+
+        $scopeLugarIds = collect($activeContext['scope_lugar_ids'] ?? [])
+            ->filter()
+            ->map(fn ($id) => (int) $id)
+            ->unique()
+            ->values();
+
+        $perteneceAlCentro = $this->buscarMascotasResponsablesPorScope($scopeLugarIds, '')
+            ->contains('id_responsable', (int) $request->id_responsable);
+
+        if (!$perteneceAlCentro) {
+            return response()->json(['estado' => 0, 'mensaje' => 'El tutor no pertenece al centro seleccionado'], 403);
+        }
+
+        $nuevoMensaje = new Mensajes();
+        $nuevoMensaje->id_usuario = Auth::user()->id;
+        $nuevoMensaje->id_receptor = (int) $request->id_responsable;
+        $nuevoMensaje->estado = 1;
+        $nuevoMensaje->datos_mensaje = json_encode([
+            'asunto' => $request->asunto,
+            'mensaje' => $request->mensaje,
+        ]);
+        $nuevoMensaje->tipo_mensaje = 3;
+        $nuevoMensaje->fecha_envio = Carbon::now()->format('Y-m-d H:i:s');
+        $nuevoMensaje->save();
+
+        return response()->json(['estado' => 1, 'mensaje' => 'Mensaje enviado correctamente']);
+    }
+
+    public function ver_tutor($idTutor)
+    {
+        $context = UserCenterContext::forAdmin(Auth::user(), request());
+        $activeContext = $context['active'];
+        if (!$activeContext) {
+            return back()->with('error', 'No hay instituciones o sucursales disponibles para este usuario.');
+        }
+
+        $scopeLugarIds = collect($activeContext['scope_lugar_ids'] ?? [])
+            ->filter()
+            ->map(fn ($id) => (int) $id)
+            ->unique()
+            ->values();
+
+        $tutor = Paciente::with(['Prevision', 'Direccion.Ciudad'])->find($idTutor);
+        if (!$tutor) {
+            return redirect()->route('adm_cm.pacientes')->with('error', 'Tutor no encontrado');
+        }
+
+        $mascotas = $this->buscarMascotasResponsablesPorScope($scopeLugarIds, '')
+            ->where('id_responsable', $tutor->id)
+            ->values();
+
+        if ($mascotas->isEmpty()) {
+            return redirect()->route('adm_cm.pacientes')->with('error', 'Este tutor no tiene mascotas en el centro seleccionado');
+        }
+
+        $fichasTutor = FichaAtencion::where('id_paciente', $tutor->id)
+            ->whereIn('id_lugar_atencion', $scopeLugarIds);
+
+        $totalAtenciones = (clone $fichasTutor)->count();
+        $ultimaAtencion = (clone $fichasTutor)->max('created_at');
+        $fichaIds = (clone $fichasTutor)->pluck('id');
+
+        $consentimientos = \App\Models\ConConsentimientosPcte::with('Consentimiento')
+            ->where('id_paciente', $tutor->id)
+            ->whereIn('id_fc', $fichaIds)
+            ->orderByDesc('id')
+            ->get();
+
+        $nombresDocumento = [
+            'consentimiento_informado_veterinario' => 'Consentimiento informado veterinario',
+            'presupuesto_odontologico_veterinario' => 'Presupuesto odontológico veterinario',
+        ];
+        $documentosFirmados = \App\Models\DocumentoFcPaciente::where('id_paciente', $tutor->id)
+            ->where(function ($query) use ($scopeLugarIds, $fichaIds) {
+                $query->whereIn('id_lugar_atencion', $scopeLugarIds)
+                    ->orWhereIn('id_ficha_atencion', $fichaIds);
+            })
+            ->whereIn('otro', array_keys($nombresDocumento))
+            ->where('estado', 1)
+            ->orderByDesc('id')
+            ->get()
+            ->map(function ($documento) use ($nombresDocumento) {
+                $firma = json_decode((string) $documento->cuerpo, true)['firma_tutor'] ?? [];
+
+                return (object) [
+                    'nombre' => $nombresDocumento[$documento->otro],
+                    'fecha' => $documento->created_at,
+                    'firmado' => !empty($firma['token']),
+                    'fecha_firma' => $firma['fecha'] ?? null,
+                    'url' => $firma['url'] ?? null,
+                ];
+            });
+
+        // el cobro no guarda la sucursal, se saca de la hora médica a la que pertenece
+        $cobros = \App\Models\Bono::with('TipoBono')
+            ->where('id_paciente', $tutor->id)
+            ->whereExists(function ($query) use ($scopeLugarIds) {
+                $query->selectRaw('1')->from('horas_medicas')
+                    ->whereColumn('horas_medicas.id', 'bonos.id_referencia')
+                    ->whereIn('horas_medicas.id_lugar_atencion', $scopeLugarIds);
+            })
+            ->orderByDesc('fecha_atencion')
+            ->get();
+
+        $cobrosVigentes = $cobros->where('devuelto', 0);
+        $cuenta = [
+            'pagado' => $cobrosVigentes->sum(fn ($cobro) => (float) $cobro->a_pagar),
+            'cobrado' => $cobrosVigentes->sum(fn ($cobro) => (float) $cobro->valor_atencion),
+            'devuelto' => $cobros->where('devuelto', 1)->sum(fn ($cobro) => (float) $cobro->a_pagar),
+        ];
+
+        return view('app.adm_cm.tutor', [
+            'tutor' => $tutor,
+            'mascotas' => $mascotas,
+            'consentimientos' => $consentimientos,
+            'documentosFirmados' => $documentosFirmados,
+            'cobros' => $cobros,
+            'cuenta' => $cuenta,
+            'totalAtenciones' => $totalAtenciones,
+            'ultimaAtencion' => $ultimaAtencion,
+            'contextoActivo' => $activeContext,
+        ]);
+    }
+
     public function detalle_paciente(Request $req)
     {
         // Cargar paciente con su estado más reciente y relaciones anidadas
@@ -5133,16 +5370,41 @@ class AdministradorCmController extends Controller
             if($profesional)
             {
                 $direccion_text = 'No Informada';
+                // Residencia separada, igual que en el perfil del profesional
+                $residencia = ['direccion' => '', 'comuna' => '', 'region' => ''];
                 if($profesional->id_direccion != '' || $profesional->id_direccion!=0)
                 {
                     $direccion = Direccion::where('id', $profesional->id_direccion)->first();
                     if($direccion)
+                    {
                         $direccion_text = $direccion->direccion.', '.$direccion->ciudad->nombre;
+                        $residencia['direccion'] = trim($direccion->direccion.' '.$direccion->numero_dir);
+                        $residencia['comuna'] = $direccion->ciudad?->nombre ?? '';
+                        $residencia['region'] = $direccion->ciudad?->Region?->nombre ?? '';
+                    }
                 }
                 $datos['estado'] = 1;
                 $datos['msj'] = 'registro';
                 $datos['registro'] = $profesional;
                 $datos['direccion'] = $direccion_text;
+                $datos['residencia'] = $residencia;
+
+                // Datos personales con los mismos textos que muestra el perfil del profesional
+                $sexo = 'Otro';
+                if ($profesional->sexo == 'M') {
+                    $sexo = 'Masculino';
+                } elseif ($profesional->sexo == 'F') {
+                    $sexo = 'Femenino';
+                }
+                $datos['perfil'] = [
+                    'rut' => $profesional->rut,
+                    'nombres' => $profesional->nombre,
+                    'apellido_uno' => $profesional->apellido_uno,
+                    'apellido_dos' => $profesional->apellido_dos,
+                    'sexo' => $sexo,
+                    'profesion' => $profesional->id_especialidad ? (Especialidad::find($profesional->id_especialidad)?->nombre ?? '') : '',
+                    'especialidad' => $profesional->id_tipo_especialidad ? (TipoEspecialidad::find($profesional->id_tipo_especialidad)?->nombre ?? '') : '',
+                    'sub_especialidad' => $profesional->id_sub_tipo_especialidad ? (SubTipoEspecialidad::find($profesional->id_sub_tipo_especialidad)?->nombre ?? '') : '',                ];
             }
             else
             {
@@ -8319,10 +8581,11 @@ class AdministradorCmController extends Controller
 
     public function dame_convenio_profesional(Request $request){
 
-        $profesional_convenios = UsuariosConvenio::where('id_profesional', $request->id_profesional)->where('id_lugar_atencion', $request->id_lugar_atencion)->first();
-        if($profesional_convenios)
+        // Todos los convenios del profesional en ese lugar; 'profesional_convenios' sigue siendo el primero
+        $convenios = UsuariosConvenio::where('id_profesional', $request->id_profesional)->where('id_lugar_atencion', $request->id_lugar_atencion)->get();
+        if($convenios->isNotEmpty())
         {
-            return ['estado' => 1, 'profesional_convenios' => $profesional_convenios];
+            return ['estado' => 1, 'profesional_convenios' => $convenios->first(), 'convenios' => $convenios];
         }
         else
         {

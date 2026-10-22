@@ -54,19 +54,11 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <h4 class="text-white f-20 mt-2 mb-2 float-left">Profesionales médicos</h4>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="btn-group mr-2 float-right mt- mb-">
-                                                        <button type="button" class="btn btn-sm btn-outline-light mr-3" onclick="enviar_mensaje_difusion()" @if(!$adm_medico) disabled @endif><i class="feather icon-mail"></i> Difusión</button>
-                                                        <button type="button" class="btn btn-sm btn-outline-light" onclick="asociar_profesional();" @if(!$adm_medico) disabled @endif><i class="fa fa-plus" aria-hidden="true"></i> Asociar profesional</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-users"></i></span>Profesionales médicos</h5>
+                                        <div class="encabezado-card-acciones">
+                                            <button type="button" class="btn btn-info btn-sm" onclick="enviar_mensaje_difusion()" @if(!$adm_medico) disabled @endif><i class="feather icon-mail"></i> Difusión</button>
+                                            <button type="button" class="btn btn-info btn-sm" onclick="asociar_profesional();" @if(!$adm_medico) disabled @endif><i class="feather icon-plus"></i> Asociar profesional</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -157,21 +149,15 @@
                         <div class="row">
                             <div class="col-md-12 col-md-12 col-lg-12 col-xl-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <h4 class="text-white f-20 mt-2 mb-2 float-left">Profesionales odontólogos</h4>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="btn-group mr-2 float-right mt- mb-">
-                                                        <button type="button" class="btn btn-sm btn-outline-light" onclick="registrar_asistente();"><i class="fa fa-plus" aria-hidden="true"></i> Registrar nuevo odontólogo</button>
-                                                        <button type="button" class="btn btn-sm btn-outline-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
-                                                        <div class="dropdown-menu">
-                                                            <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="asociar_profesional();">Asociar odontólogo</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-award"></i></span>Profesionales odontólogos</h5>
+                                        <div class="encabezado-card-acciones">
+                                            <div class="btn-group">
+                                            <button type="button" class="btn btn-info btn-sm" onclick="registrar_asistente();"><i class="feather icon-plus"></i> Registrar nuevo odontólogo</button>
+                                            <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
+                                            <div class="dropdown-menu">
+                                            <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="asociar_profesional();">Asociar odontólogo</button>
+                                            </div>
                                             </div>
                                         </div>
                                     </div>
@@ -261,19 +247,15 @@
                         <div class="row">
                           <div class="col-md-12 col-md-12 col-lg-12 col-xl-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="row">
-                                           <div class="col-md-6">
-                                                <h4 class="text-white f-20 mt-2 mb-2 float-left">Otros profesionales de la salud</h4>
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-users"></i></span>Otros profesionales de la salud</h5>
+                                        <div class="encabezado-card-acciones">
+                                            <div class="btn-group">
+                                            <button type="button" class="btn btn-info btn-sm" onclick="registrar_administrativo();"><i class="feather icon-plus"></i> Registrar nuevo profesional</button>
+                                            <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
+                                            <div class="dropdown-menu">
+                                            <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="asociar_profesional();">Asociar Otros profesionales</button>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="btn-group mr-2 float-right mt- mb-">
-                                                    <button type="button" class="btn btn-sm btn-outline-light" onclick="registrar_administrativo();"><i class="fa fa-plus" aria-hidden="true"></i> Registrar nuevo profesional</button>
-                                                    <button type="button" class="btn btn-sm btn-outline-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
-                                                    <div class="dropdown-menu">
-                                                        <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="asociar_profesional();">Asociar Otros profesionales</button>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -686,6 +668,7 @@
         function historial(id){
             // abrir modal de historial
             $('#historial_mensajes_profesional').modal('show');
+            $('#historial_mensajes_profesional_body').html('<p class="historial-mensajes-cargando">Cargando mensajes...</p>');
             let url = "{{ ROUTE('adm_cm.historial_mensajes_profesional',['id' => '__ID__']) }}";
             url = url.replace('__ID__',id);
 
@@ -693,40 +676,8 @@
                 type:'get',
                 url: url,
                 success: function(resp){
-                    console.log(resp);
-                    let mensajes = resp.mensajes;
-                    let html = '';
-                    if(mensajes.length == 0){
-                        html += '<div class="row">';
-                        html += '<div class="col-md-12">';
-                        html += '<div class="card">';
-                        html += '<div class="card-header">';
-                        html += '<h4 class="card-title">No hay mensajes</h4>';
-                        html += '</div>';
-                        html += '<div class="card-body">';
-                        html += '<p>No se han enviado mensajes a este profesional.</p>';
-                        html += '</div>';
-                        html += '</div>';
-                        html += '</div>';
-                        html += '</div>';
-                    }else{
-                        mensajes.forEach(mensaje => {
-                            html += '<div class="row">';
-                            html += '<div class="col-md-12">';
-                            html += '<div class="card">';
-                            html += '<div class="card-header">';
-                            html += '<h4 class="card-title">'+mensaje.titulo+'</h4>';
-                            html += '</div>';
-                            html += '<div class="card-body">';
-                            html += '<p>'+mensaje.mensaje+'</p>';
-                            html += '</div>';
-                            html += '</div>';
-                            html += '</div>';
-                            html += '</div>';
-                        });
-                    }
-
-                    $('#historial_mensajes_profesional_body').html(html);
+                    // El diseño de la lista está en el modal (historial_mensajes.blade.php)
+                    pintar_historial_mensajes(resp.mensajes);
                 },
                 error: function(error){
                     console.log(error);

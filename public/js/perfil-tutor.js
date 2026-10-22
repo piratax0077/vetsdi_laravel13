@@ -27,7 +27,7 @@
                 var p=resultado.paciente,d=resultado.direccion;
                 if(p){
                     var mostrar={nombres:p.nombres,apellido_uno:p.apellido_uno,apellido_dos:p.apellido_dos,email:p.email,telefono_uno:p.telefono_uno,sexo:({M:'Hombre',F:'Mujer',O:'Otro',N:'Sin registro'})[p.sexo]||'Sin registro',fecha_nac:p.fecha_nac?p.fecha_nac.slice(0,10).split('-').reverse().join('/'):'Sin registro'};
-                    if(d){mostrar.direccion=[d.direccion,d.numero_dir].filter(Boolean).join(' #');mostrar.region=resultado.region?.nombre;mostrar.ciudad=resultado.ciudad?.nombre;}
+                    if(d){mostrar.direccion=d.direccion;mostrar.region=resultado.region?.nombre;mostrar.ciudad=resultado.ciudad?.nombre;}
                     document.querySelectorAll('[data-tutor-mostrar]').forEach(function(el){if(Object.hasOwn(mostrar,el.dataset.tutorMostrar))el.textContent=mostrar[el.dataset.tutorMostrar]??'';});
                     // Mantener sincronizados los otros editores sin descartar sus borradores.
                     var valores={Perfil_email:p.email,Perfil_fono:p.telefono_uno};if(d)Object.assign(valores,{perfil_dire:d.direccion,perfil_numero_dir:d.numero_dir,perfil_ciudad:d.id_ciudad});

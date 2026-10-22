@@ -77,8 +77,13 @@
     $grupoPerfil = $gruposPerfil[$tipoPerfil] ?? $gruposPerfil['otro'];
     $textoRol = $rolElegido[1] ?? $grupoPerfil[0];
     $rutaPerfil = !empty($rolElegido[2]) && \Route::has($rolElegido[2]) ? route($rolElegido[2]) : null;
-    if ($tipoPerfil === 'institucion' && \Route::has('adm_cm.perfil_cm')) {
-        $rutaPerfil = route('adm_cm.perfil_cm');
+    // En el escritorio del centro el menú lleva a su configuración
+    $textoEnlacePerfil = 'Mi perfil';
+    $iconoEnlacePerfil = 'icon-user';
+    if ($tipoPerfil === 'institucion' && \Route::has('adm_cm.configuracion')) {
+        $rutaPerfil = route('adm_cm.configuracion');
+        $textoEnlacePerfil = 'Configuración';
+        $iconoEnlacePerfil = 'icon-settings';
     }
 
     // Nombre y foto desde la ficha del tipo de usuario
@@ -165,7 +170,7 @@
             @if ($rutaPerfil)
                 <li>
                     <a href="{{ $rutaPerfil }}" class="dropdown-item">
-                        <i class="feather icon-user"></i> Mi perfil
+                        <i class="feather {{ $iconoEnlacePerfil }}"></i> {{ $textoEnlacePerfil }}
                     </a>
                 </li>
             @endif

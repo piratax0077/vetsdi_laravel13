@@ -62,24 +62,14 @@
                         <div class="row mb-n10">
                             <div class="col-sm-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <h4 class="text-white f-20 mt-2 mb-2 float-left">Profesionales contratados</h4>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="btn-group mr-2  float-md-right">
-                                                        <div class="btn-group mr-2 float-right mt- mb-">
-                                                            <button type="button" class="btn btn-outline-light btn-sm d-inline float-right mr-4" data-toggle="modal" data-target="#registrar_contratoprofesional">
-                                                            <i class="feather icon-plus"></i> Registrar Contrato Profesional </button>
-                                                            {{-- <button type="button" class="btn btn-outline-light btn-sm d-inline float-right mr-4" data-toggle="modal" data-target="#liq_prof_institucion">
-                                                                <i class="feather icon-plus"></i> Registrar Convenio Profesional </button> --}}
-                                                                <button type="button" class="btn btn-sm btn-outline-light" onclick="asociar_profesional();">Asociar Otros profesionales</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-users"></i></span>Profesionales contratados</h5>
+                                        <div class="encabezado-card-acciones">
+                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registrar_contratoprofesional">
+                                            <i class="feather icon-plus"></i> Registrar Contrato Profesional </button>
+                                            {{-- <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#liq_prof_institucion">
+                                            <i class="feather icon-plus"></i> Registrar Convenio Profesional </button> --}}
+                                            <button type="button" class="btn btn-info btn-sm" onclick="asociar_profesional();">Asociar Otros profesionales</button>
                                         </div>
                                     </div>
                                     <div class="card-body" id="card_body_profesionales_contratados">
@@ -166,21 +156,15 @@
                             <div class="row mb-n4">
                                 <div class="col-sm-12">
                                     <div class="card">
-                                        <div class="card-header bg-info">
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <h4 class="text-white f-20 mt-2 mb-2 float-left">Personal administrativo</h4>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="btn-group mr-2  float-md-right">
-                                                            <button type="button" class="btn btn-sm btn-outline-light" onclick="registrar_administrativo();"><i class="fa fa-plus" aria-hidden="true"></i> Registrar nuevo/a personal administrativo</button>
-                                                            <button type="button" class="btn btn-sm btn-outline-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
-                                                            <div class="dropdown-menu">
-                                                                <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="Asociar_personal();">Asociar personal administrativo</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                        <div class="card-header encabezado-card">
+                                            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-users"></i></span>Personal administrativo</h5>
+                                            <div class="encabezado-card-acciones">
+                                                <div class="btn-group">
+                                                <button type="button" class="btn btn-info btn-sm" onclick="registrar_administrativo();"><i class="feather icon-plus"></i> Registrar nuevo/a personal administrativo</button>
+                                                <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
+                                                <div class="dropdown-menu">
+                                                <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="Asociar_personal();">Asociar personal administrativo</button>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -244,21 +228,15 @@
                             <div class="row mb-n4">
                                 <div class="col-sm-12">
                                     <div class="card">
-                                        <div class="card-header bg-info">
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <h4 class="text-white f-20 mt-2 mb-2 float-left">Limpieza y mantención</h4>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="btn-group mr-2 float-md-right">
-                                                            <button type="button" class="btn btn-sm btn-outline-light" onclick="registrar_limpieza_mantencion();"><i class="fa fa-plus" aria-hidden="true"></i> Registrar nuevo/a personal de limpieza y mantención</button>
-                                                            {{-- <button type="button" class="btn btn-sm btn-outline-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
-                                                            <div class="dropdown-menu">
-                                                                <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="Asociar_personal();">Asociar personal de limpieza y mantencion</button>
-                                                            </div> --}}
-                                                        </div>
-                                                    </div>
+                                        <div class="card-header encabezado-card">
+                                            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-settings"></i></span>Limpieza y mantención</h5>
+                                            <div class="encabezado-card-acciones">
+                                                <div class="btn-group">
+                                                <button type="button" class="btn btn-info btn-sm" onclick="registrar_limpieza_mantencion();"><i class="feather icon-plus"></i> Registrar nuevo/a personal de limpieza y mantención</button>
+                                                {{-- <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
+                                                <div class="dropdown-menu">
+                                                <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="Asociar_personal();">Asociar personal de limpieza y mantencion</button>
+                                                </div> --}}
                                                 </div>
                                             </div>
                                         </div>

@@ -57,7 +57,8 @@ class PerfilCentroMedico
         $direccion=DireccionesPerfil::editable($perfil);
         $direccion->id_ciudad=$ciudad->id;
         $direccion->direccion=$datos['direccion'];
-        $direccion->numero_dir=$datos['numero_dir'] ?? null;
+        // El formulario ya no pide el número; si no viene se conserva el que estaba guardado.
+        if(array_key_exists('numero_dir',$datos))$direccion->numero_dir=$datos['numero_dir'];
         $direccion->saveOrFail();
         $perfil->id_direccion=$direccion->id;
     }

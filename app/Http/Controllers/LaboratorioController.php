@@ -2469,7 +2469,10 @@ class LaboratorioController extends Controller
 
             $direccion->direccion = $request->direccion_laboratorio;
 
-            $direccion->numero_dir = $request->numero_laboratorio;
+            // El formulario ya no pide el número; si no viene se conserva el guardado
+            if ($request->exists('numero_laboratorio')) {
+                $direccion->numero_dir = $request->numero_laboratorio;
+            }
 
             $direccion->id_ciudad = $request->ciudad_laboratorio;
 

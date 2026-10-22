@@ -11,10 +11,10 @@
                         <div class="card-body">
                             <ul class="nav nav-pills" id="pills-tab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="btn btn-outline-info btn-sm mr-1 my-1 active"  id="pills-instalac-tab" data-toggle="pill" href="#pills-instalac" role="tab" aria-controls="pills-instalac" aria-selected="true">Boxes de Vacunación</a>
+                                    <a class="btn btn-outline-info mr-1 my-1 active"  id="pills-instalac-tab" data-toggle="pill" href="#pills-instalac" role="tab" aria-controls="pills-instalac" aria-selected="true">Boxes de Vacunación</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="btn btn-outline-info btn-sm mr-1 my-1" id="pills-equipamiento-tab" data-toggle="pill" href="#pills-equipamiento" role="tab" aria-controls="pills-equipamiento" aria-selected="false">Equipamiento</a>
+                                    <a class="btn btn-outline-info mr-1 my-1" id="pills-equipamiento-tab" data-toggle="pill" href="#pills-equipamiento" role="tab" aria-controls="pills-equipamiento" aria-selected="false">Equipamiento</a>
                                 </li>
                             </ul>
                         </div>
@@ -32,7 +32,7 @@
                                                     <div class="col-md-12 align-botton">
                                                         <h4 class="text-white f-20 d-inline ml-4 mt-3">Boxes</h4>
                                                         <div class="btn-group float-right" role="group" aria-label="Basic example">
-                                                        <button type="button" class="btn btn-outline-light btn-sm" onclick="box();"><i class="feather icon-plus"></i>Agregar Nuevo Box</button>
+                                                        <button type="button" class="btn btn-outline-light" onclick="box();"><i class="feather icon-plus"></i>Agregar Nuevo Box</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -91,7 +91,7 @@
                                                     <div class="col-md-12 align-botton">
                                                         <h4 class="text-white f-20 d-inline ml-4 mt-3">Boxes</h4>
                                                         <div class="btn-group float-right" role="group" aria-label="Basic example">
-                                                        <button type="button" class="btn btn-outline-light btn-sm" onclick="equipo();"><i class="feather icon-plus"></i>Agregar Nuevo Equipamiento</button>
+                                                        <button type="button" class="btn btn-outline-light" onclick="equipo();"><i class="feather icon-plus"></i>Agregar Nuevo Equipamiento</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -160,7 +160,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-info btn-sm mx-auto" >Añadir</button>
+                <button type="submit" class="btn btn-info mx-auto" >Agregar</button>
             </div>
 
         </div>

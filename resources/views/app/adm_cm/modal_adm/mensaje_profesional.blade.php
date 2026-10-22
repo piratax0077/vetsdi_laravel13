@@ -1,51 +1,46 @@
-<div id="mensaje_profesional" class="modal fade">
-	<div class="modal-dialog">
+<div id="mensaje_profesional" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mensaje_profesional_titulo" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header modal-header-purple">
-				<h4 class="modal-title">Mensaje Profesional</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="$(this).closest('.modal').modal('hide');">&times;</button>
+				<h5 class="modal-title d-inline mt-1" id="mensaje_profesional_titulo">Mensaje al profesional</h5>
+				<button type="button" class="close text-white" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
-                <div class="form-group fill">
-                    <label class="floating-label-activo-sm" for="de">De:</label>
-                    <input type="text" class="form-control" id="de" name="de" value="{{ Auth::user()->name }}" readonly>
+                <div class="form-row">
+                    <div class="form-group fill col-md-6">
+                        <label class="floating-label-activo-sm" for="de">De</label>
+                        <input type="text" class="form-control form-control-sm" id="de" name="de" value="{{ Auth::user()->name }}" readonly>
+                    </div>
+                    <div class="form-group fill col-md-6">
+                        <label class="floating-label-activo-sm" for="para_destino">Para</label>
+                        <input type="text" class="form-control form-control-sm" id="para_destino" name="para_destino" value="" readonly>
+                    </div>
                 </div>
-                <div class="form-group fill">
-                    <label class="floating-label-activo-sm" for="para">Para:</label>
-                    <input type="text" name="para_destino" class="form-control" id="para_destino" value="" readonly>
-                </div>
 				<div class="form-group fill">
-					<label class="floating-label-activo-sm" for="titulo">Título:</label>
-					<input type="text" class="form-control" id="titulo_a_profesional" name="titulo_a_profesional" required>
+					<label class="floating-label-activo-sm" for="titulo_a_profesional">Título</label>
+					<input type="text" class="form-control form-control-sm" id="titulo_a_profesional" name="titulo_a_profesional" required>
 				</div>
 				<div class="form-group fill">
-					<label class="floating-label-activo-sm" for="detalle">Asunto:</label>
-					<textarea class="form-control" rows="3" id="detalle_a_profesional" name="detalle_a_profesional" required></textarea>
+					<label class="floating-label-activo-sm" for="detalle_a_profesional">Asunto</label>
+					<textarea class="form-control form-control-sm" rows="2" id="detalle_a_profesional" name="detalle_a_profesional" required></textarea>
 				</div>
 				<div class="form-group fill">
-					<label class="floating-label-activo-sm" for="mensaje">Mensaje:</label>
-					<textarea class="form-control" rows="5" id="mensaje_a_profesional" name="mensaje_a_profesional" required></textarea>
+					<label class="floating-label-activo-sm" for="mensaje_a_profesional">Mensaje</label>
+					<textarea class="form-control form-control-sm" rows="5" id="mensaje_a_profesional" name="mensaje_a_profesional" required></textarea>
 				</div>
-                <div class="form-group">
-                    <div class="card-a">
-                        <div class="card-header-a" id="img">
-                            <button class="accor-closed btn pt-1 pb-0 pl-1 btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#imagenes_elim_cicat_pre" aria-expanded="false" aria-controls="imagenes_elim_cicat_pre">
-                                Adjuntar archivo
-                            </button>
+                <div class="form-group mb-0">
+                    <label class="mensaje-profesional-adjunto-titulo">Adjuntar archivo</label>
+                    <div class="dropzone" id="mis-archivos-a-profesional" action="{{ route('profesional.archivo.carga') }}">
+                        <div class="dz-message">
+                            <i class="feather icon-upload-cloud"></i>
+                            <span>Arrastre aquí sus archivos o haga clic para seleccionarlos</span>
                         </div>
-
-                        <div class="card-body-aten-a">
-                            <!-- [ Main Content ] start -->
-                            <div class="dropzone" id="mis-archivos-a-profesional" action="{{ route('profesional.archivo.carga') }}"></div>
-                            <!-- [ file-upload ] end -->
-                        </div>
-
                     </div>
                 </div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
-				<button type="button" id="submit-all-profesional" class="btn btn-primary" onclick="enviar_mensaje_a_profesional()">Enviar</button>
+				<button type="button" class="btn btn-outline-dark" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
+				<button type="button" id="submit-all-profesional" class="btn btn-info" onclick="enviar_mensaje_a_profesional()"><i class="feather icon-message-square mr-1"></i>Enviar</button>
 			</div>
 		</div>
 	</div>

@@ -1,5 +1,11 @@
+/* El fondo de la página va en html con el mismo gris del contenido. Así, cuando el scroll
+   rebota al llegar al final (touchpad o rueda), no asoma el degradado verde del body. */
+html {
+    background-color: #ecf0f5;
+}
+
 body {
-    background: #0F6B62; 
+    background: #0F6B62;
     background: -webkit-linear-gradient(90deg, #0F6B62 0%, #178F80 100%);
     background: -moz-linear-gradient(90deg, #0F6B62 0%, #178F80 100%);
     background: -o-linear-gradient(90deg, #0F6B62 0%, #178F80 100%);

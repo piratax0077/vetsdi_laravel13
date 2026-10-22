@@ -38,8 +38,6 @@
 
             <!--Cierre: Header-->
 
-            @include('app.adm_cm.partials.usuarios_tablas_nav', ['seccionUsuarios' => 'pacientes'])
-
             <!--Buscador de pacientes-->
 
             <div class="row">

@@ -8,7 +8,9 @@
     @if($centros->count() > 1)
     <form method="get" action="{{ route('adm_cm.perfil_cm') }}" class="mb-3"><input type="hidden" name="tipo_institucion" value="{{ $tipo_institucion }}"><label>Centro</label><div class="d-flex"><select name="id_institucion" class="form-control mr-2">@foreach($centros as $centro)<option value="{{ $centro->id }}" @selected($centro->id === $institucion->id)>{{ $centro->nombre }}</option>@endforeach</select><button type="submit" class="btn btn-info">Abrir</button></div></form>
     @endif
-    <div class="card"><div class="card-header bg-info"><h5 class="text-white mb-0">{{ $institucion->nombre }}</h5></div><div class="card-body">
+    <div class="card"><div class="card-header encabezado-card">
+        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-grid"></i></span>{{ $institucion->nombre }}</h5>
+    </div><div class="card-body">
         <img id="foto-centro" src="{{ storage_public_url($institucion->foto_perfil) ?: asset('images/iconos/cm-perfiles.png') }}" alt="Foto del centro" style="width:120px;height:120px;object-fit:cover;border-radius:12px" class="mb-3">
         <form action="{{ route('adm_cm.actualizar.foto') }}" method="post" enctype="multipart/form-data" data-centro-form="foto" class="mb-2">
             @csrf<input type="hidden" name="id_institucion" value="{{ $institucion->id }}"><input type="hidden" name="tipo_institucion" value="{{ $tipo_institucion }}">

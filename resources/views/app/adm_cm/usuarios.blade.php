@@ -47,17 +47,15 @@
         </div>
 
         <div class="card usuarios-panel">
-            <div class="card-header bg-info text-white">
-                <div class="row align-items-center">
-                    <div class="col-md-7">
-                        <h4 class="text-white mb-1"><i class="feather icon-users mr-2"></i>Usuarios</h4>
-                        <span>Busca, inscribe y administra todos los usuarios del centro desde un solo lugar.</span>
-                    </div>
-                    <div class="col-md-5 mt-3 mt-md-0">
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text bg-white"><i class="feather icon-search"></i></span></div>
-                            <input id="buscar-vista-usuario" type="search" class="form-control" placeholder="Buscar profesionales, mascotas, tutores...">
-                        </div>
+            <div class="card-header encabezado-card">
+                <div>
+                    <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-users"></i></span>Usuarios</h5>
+                    <p class="encabezado-card-subtitulo">Busca, inscribe y administra todos los usuarios del centro desde un solo lugar.</p>
+                </div>
+                <div class="encabezado-card-acciones">
+                    <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text bg-white"><i class="feather icon-search"></i></span></div>
+                    <input id="buscar-vista-usuario" type="search" class="form-control" placeholder="Buscar profesionales, mascotas, tutores...">
                     </div>
                 </div>
             </div>
@@ -108,16 +106,16 @@
                         <div class="text-center py-4">
                             <img class="usuario-icono mb-3" src="{{ asset('images/iconos/cotizacion.svg') }}" alt="Contratos">
                             <h5>Contratos e incorporaciones</h5><p class="text-muted">Administra contratos de profesionales y personal del centro.</p>
-                            <a class="btn btn-info accion-usuario" href="{{ route('adm_cm.area_contratos_nuevos') }}"><i class="feather icon-search mr-1"></i>Buscar contratos</a>
-                            <a class="btn btn-outline-info accion-usuario" href="{{ route('adm_cm.area_contratos_nuevos') }}"><i class="feather icon-file-plus mr-1"></i>Nueva inscripci&oacute;n</a>
+                            <a class="btn btn-info accion-usuario" href="{{ route('adm_cm.profesionales', ['tab' => 'contratos']) }}"><i class="feather icon-search mr-1"></i>Buscar contratos</a>
+                            <a class="btn btn-outline-info accion-usuario" href="{{ route('adm_cm.profesionales', ['tab' => 'contratos']) }}"><i class="feather icon-file-plus mr-1"></i>Nueva inscripci&oacute;n</a>
                         </div>
                     </div>
                     <div class="tab-pane fade usuario-vista" id="usuarios-asistentes">
                         <div class="text-center py-4">
                             <img class="usuario-icono mb-3" src="{{ asset('images/iconos/mis_asistentes.svg') }}" alt="Asistentes">
                             <h5>Asistentes</h5><p class="text-muted">Busca, registra, asocia y administra los asistentes.</p>
-                            <a class="btn btn-info accion-usuario" href="{{ route('adm_cm.personal') }}"><i class="feather icon-search mr-1"></i>Buscar asistentes</a>
-                            <a class="btn btn-outline-info accion-usuario" href="{{ route('adm_cm.personal') }}"><i class="feather icon-user-plus mr-1"></i>Registrar asistente</a>
+                            <a class="btn btn-info accion-usuario" href="{{ route('adm_cm.profesionales', ['tab' => 'asistentes']) }}"><i class="feather icon-search mr-1"></i>Buscar asistentes</a>
+                            <a class="btn btn-outline-info accion-usuario" href="{{ route('adm_cm.profesionales', ['tab' => 'asistentes']) }}"><i class="feather icon-user-plus mr-1"></i>Registrar asistente</a>
                         </div>
                     </div>
                     <div class="tab-pane fade usuario-vista" id="usuarios-mascotas">

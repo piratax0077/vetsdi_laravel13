@@ -21156,6 +21156,11 @@ f-w-800 {
     color: rgba(39, 39, 39, .65) !important;
 }
 
+/* Si la vista pide el texto oscuro, se respeta */
+.page-header.encabezado-escritorio .page-header-title p.text-dark {
+    color: #343a40 !important;
+}
+
 @media only screen and (max-width: 575px) {
     .page-header.encabezado-escritorio .page-header-title h3 {
         font-size: 1.5rem;
@@ -29889,21 +29894,22 @@ body.box-layout .pcoded-navbar.theme-horizontal ~ .pcoded-header {
     border-radius: 3px;
 }
 
+/* Etiquetas del select múltiple: fondo purple light y letra purple (en plugins/select2.min.css está la regla que manda) */
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-    background-color: #4680ff;
-    border: 1px solid #4680ff;
-    color: #fff;
+    background-color: #eee1f0;
+    border: 1px solid #eee1f0;
+    color: #7f4fa6;
     border-radius: 3px;
     padding: 2px 10px;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-    color: #fff;
+    color: #7f4fa6;
     margin-right: 8px;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
-    color: #fff;
+    color: #6f4a80;
 }
 
 .select2-container--default[dir="rtl"] .select2-selection--multiple .select2-selection__choice__remove {
@@ -36575,6 +36581,182 @@ transition: 0.2s!important;
     border-radius: 8px;
 }
 
+/* Encabezado general de card: ícono morado, título y botones btn-info a la derecha */
+.card .card-header.encabezado-card {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.card .card-header.encabezado-card .encabezado-card-titulo {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 0;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.card .card-header.encabezado-card .encabezado-card-titulo:after {
+    display: none;
+}
+
+.card .card-header.encabezado-card .encabezado-card-icono {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-right: 7px;
+    color: #fff;
+    background-color: #6f42c1;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.card .card-header.encabezado-card .encabezado-card-acciones {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.card .card-header.encabezado-card .encabezado-card-acciones .btn {
+    margin: 0;
+}
+
+.card .card-header.encabezado-card .encabezado-card-acciones .btn-group {
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+}
+
+.card .card-header.encabezado-card .encabezado-card-acciones .input-group {
+    width: 280px;
+    max-width: 100%;
+}
+
+.card .card-header.encabezado-card .encabezado-card-subtitulo {
+    margin: 4px 0 0 39px;
+    color: #6b7a90;
+    font-size: 12.5px;
+}
+
+@media (max-width: 575.98px) {
+    .card .card-header.encabezado-card {
+        padding: 12px 14px;
+    }
+
+    .card .card-header.encabezado-card .encabezado-card-titulo {
+        font-size: 15.5px;
+    }
+
+    .card .card-header.encabezado-card .encabezado-card-acciones {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .card .card-header.encabezado-card .encabezado-card-acciones .btn {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+    }
+
+    .card .card-header.encabezado-card .encabezado-card-acciones .btn-group,
+    .card .card-header.encabezado-card .encabezado-card-acciones .input-group {
+        width: 100%;
+    }
+
+    .card .card-header.encabezado-card .encabezado-card-acciones .dropdown-toggle-split {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+    }
+
+    .card .card-header.encabezado-card .encabezado-card-subtitulo {
+        margin-left: 0;
+    }
+}
+
+/* Aviso general "Sin registros": ícono chico, título y una explicación de qué falta */
+.aviso-sin-registros {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    text-align: left;
+    white-space: normal;
+    background: #f7f9fc;
+    border-radius: 10px;
+}
+
+.aviso-sin-registros-icono {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: #6b7280;
+    background: #eceff4;
+    border-radius: 50%;
+    font-size: 15px;
+}
+
+.aviso-sin-registros-titulo {
+    margin: 0;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+}
+
+.aviso-sin-registros-texto {
+    margin: 1px 0 0;
+    color: #6b7a90;
+    font-size: 12.5px;
+    line-height: 1.4;
+}
+
 .icono-purple-light {
     background-color: #EBD9FF;
     margin-right: 5px;
@@ -36852,6 +37034,49 @@ transition: 0.2s!important;
 .pcoded-header.header-blue .drp-user .dropdown-toggle:hover,
 .pcoded-header.header-blue .drp-user .dropdown-toggle:focus {
     background-color: rgba(255, 255, 255, .16);
+}
+
+/* Botón para volver al escritorio, con forma de pastilla al lado del cambio de escritorio */
+.pcoded-header.header-blue .boton-escritorio-encabezado {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 36px;
+    margin-right: 8px;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, .45);
+    border-radius: 18px;
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: .9rem;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background-color .2s ease-in-out;
+}
+
+.pcoded-header.header-blue .boton-escritorio-encabezado i {
+    font-size: 1.1rem;
+}
+
+.pcoded-header.header-blue .boton-escritorio-encabezado:hover,
+.pcoded-header.header-blue .boton-escritorio-encabezado:focus {
+    background-color: rgba(255, 255, 255, .16);
+    color: #fff;
+}
+
+/* En pantallas chicas queda solo el icono */
+@media (max-width: 575.98px) {
+    .pcoded-header.header-blue .boton-escritorio-encabezado {
+        width: 38px;
+        padding: 0;
+        justify-content: center;
+    }
+
+    .boton-escritorio-encabezado-texto {
+        display: none;
+    }
 }
 
 /* Perfil del usuario en el encabezado: nombre, rol y foto redonda.
@@ -40035,7 +40260,9 @@ button.reserva-vet-lugar-caja:focus {
     outline: none;
 }
 
-#modal_fallecimiento_mascota .dropzone {
+#modal_fallecimiento_mascota .dropzone,
+#mensaje_profesional .dropzone,
+#mensaje_difusion .dropzone {
     min-height: 120px;
     padding: 18px;
     background: #fff;
@@ -40045,9 +40272,505 @@ button.reserva-vet-lugar-caja:focus {
     transition: border-color .18s ease, background .18s ease;
 }
 
-#modal_fallecimiento_mascota .dropzone:hover {
+#modal_fallecimiento_mascota .dropzone:hover,
+#mensaje_profesional .dropzone:hover,
+#mensaje_difusion .dropzone:hover {
     border-color: #7c4dcb;
     background: #faf7ff;
+}
+
+/* Modales "Mensaje al profesional" y "Mensaje de difusión" (adm. centro) */
+#mensaje_profesional .mensaje-profesional-adjunto-titulo,
+#mensaje_difusion .mensaje-profesional-adjunto-titulo {
+    margin-bottom: 6px;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#mensaje_profesional .dropzone .dz-message,
+#mensaje_difusion .dropzone .dz-message {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 8px 0;
+    color: #6b7a90;
+    font-size: 12.5px;
+    text-align: center;
+}
+
+/* Con archivos cargados se oculta el texto, como hace Dropzone por defecto */
+#mensaje_profesional .dropzone.dz-started .dz-message,
+#mensaje_difusion .dropzone.dz-started .dz-message {
+    display: none;
+}
+
+#mensaje_profesional .dropzone .dz-message i,
+#mensaje_difusion .dropzone .dz-message i {
+    margin-bottom: 6px;
+    color: #7c4dcb;
+    font-size: 26px;
+}
+
+#mensaje_profesional .modal-footer,
+#mensaje_difusion .modal-footer {
+    border-top: 1px solid #f0edf6;
+}
+
+/* ==========================================================================
+   Modal "Historial de mensajes" del profesional (adm. centro)
+   ========================================================================== */
+
+#historial_mensajes_profesional .modal-body {
+    padding: 16px 18px;
+    background: #fafbfd;
+}
+
+#historial_mensajes_profesional .modal-footer {
+    border-top: 1px solid #f0edf6;
+}
+
+#historial_mensajes_profesional .historial-mensajes-cargando {
+    margin: 0;
+    padding: 18px 0;
+    color: #8a94a6;
+    font-size: 12.5px;
+    text-align: center;
+}
+
+#historial_mensajes_profesional .historial-mensajes-total {
+    margin: 0 0 10px;
+    color: #8a94a6;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+}
+
+#historial_mensajes_profesional .historial-mensaje {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    background: #fff;
+    border: 1px solid #e6ebf2;
+    border-radius: 12px;
+}
+
+#historial_mensajes_profesional .historial-mensaje:last-child {
+    margin-bottom: 0;
+}
+
+#historial_mensajes_profesional .historial-mensaje-icono {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    color: #7c4dcb;
+    background: #f1eafd;
+    border-radius: 50%;
+    font-size: 15px;
+}
+
+#historial_mensajes_profesional .historial-mensaje-contenido {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+#historial_mensajes_profesional .historial-mensaje-encabezado {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 4px 8px;
+}
+
+#historial_mensajes_profesional .historial-mensaje-titulo {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    word-break: break-word;
+}
+
+#historial_mensajes_profesional .historial-mensaje-fecha {
+    color: #8a94a6;
+    font-size: 11.5px;
+    white-space: nowrap;
+}
+
+#historial_mensajes_profesional .historial-mensaje-encabezado .badge {
+    font-size: 10.5px;
+}
+
+#historial_mensajes_profesional .historial-mensaje-asunto {
+    margin: 2px 0 0;
+    color: #6f42c1;
+    font-size: 12.5px;
+    font-weight: 700;
+}
+
+#historial_mensajes_profesional .historial-mensaje-texto {
+    margin: 4px 0 0;
+    color: #4a5568;
+    font-size: 13px;
+    line-height: 1.45;
+    white-space: pre-line;
+    word-break: break-word;
+}
+
+#historial_mensajes_profesional .historial-mensaje-archivos {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+#historial_mensajes_profesional .historial-mensaje-archivo {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 4px;
+    max-width: 100%;
+    padding: 3px 9px;
+    color: #1a49a3;
+    background: #eef3f9;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#historial_mensajes_profesional .historial-mensaje-archivo span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#historial_mensajes_profesional .historial-mensaje-archivo:hover {
+    background: #e2eaf5;
+}
+
+/* Aviso "Sin registros", igual que en el modal Información */
+#historial_mensajes_profesional .historial-mensajes-vacio {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid #e6ebf2;
+    border-radius: 10px;
+}
+
+#historial_mensajes_profesional .historial-mensajes-vacio-icono {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: #6b7280;
+    background: #eceff4;
+    border-radius: 50%;
+    font-size: 15px;
+}
+
+#historial_mensajes_profesional .historial-mensajes-vacio-titulo {
+    margin: 0;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+}
+
+#historial_mensajes_profesional .historial-mensajes-vacio-texto {
+    margin: 1px 0 0;
+    color: #6b7a90;
+    font-size: 12.5px;
+    line-height: 1.4;
+}
+
+@media (max-width: 575.98px) {
+    #historial_mensajes_profesional .modal-body {
+        padding: 14px 12px;
+    }
+
+    #historial_mensajes_profesional .historial-mensaje {
+        padding: 10px 12px;
+    }
+
+    #historial_mensajes_profesional .historial-mensaje-icono {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   Modal "Información" del profesional (adm. centro)
+   ========================================================================== */
+
+#info_prof_vet .modal-body {
+    padding: 16px 18px;
+}
+
+#info_prof_vet .modal-footer {
+    border-top: 1px solid #f0edf6;
+}
+
+/* Ficha superior: nombre completo y RUT debajo */
+#info_prof_vet .info-prof-vet-ficha {
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    background: -webkit-linear-gradient(left, #f6f1ff, #eef3f9);
+    background: linear-gradient(90deg, #f6f1ff, #eef3f9);
+    border-radius: 12px;
+}
+
+#info_prof_vet .info-prof-vet-nombre {
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 15.5px;
+    font-weight: 800;
+    line-height: 1.25;
+    word-break: break-word;
+}
+
+#info_prof_vet .info-prof-vet-rut {
+    margin-top: 2px;
+    color: #6b7a90;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+#info_prof_vet .info-prof-vet-rut strong {
+    color: #272727;
+    font-weight: 700;
+}
+
+/* Bloques con datos compactos */
+#info_prof_vet .info-prof-vet-bloques > [class*="col-"] {
+    margin-bottom: 12px;
+}
+
+#info_prof_vet .info-prof-vet-bloques {
+    margin-bottom: -12px;
+}
+
+#info_prof_vet .info-prof-vet-bloque {
+    height: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e6ebf2;
+    border-radius: 12px;
+}
+
+#info_prof_vet .info-prof-vet-bloque-titulo {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 8px;
+    color: #6f42c1;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+}
+
+#info_prof_vet .info-prof-vet-bloque-titulo i {
+    font-size: 13px;
+}
+
+#info_prof_vet .info-prof-vet-dato {
+    padding: 5px 0;
+    border-top: 1px dashed #edf0f5;
+}
+
+#info_prof_vet .info-prof-vet-dato:first-child {
+    padding-top: 0;
+    border-top: 0;
+}
+
+#info_prof_vet .info-prof-vet-dato-etiqueta {
+    display: block;
+    color: #8a94a6;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+}
+
+#info_prof_vet .info-prof-vet-dato-valor {
+    display: block;
+    color: #272727;
+    font-size: 13px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+#info_prof_vet .info-prof-vet-dato-valor.sin-dato {
+    color: #a0a8b6;
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* Cuentas bancarias: datos en dos columnas dentro de cada cuenta */
+#info_prof_vet .info-prof-vet-cuenta {
+    height: auto;
+    margin-bottom: 12px;
+}
+
+#info_prof_vet .info-prof-vet-cuenta .badge {
+    margin-left: auto;
+    text-transform: none;
+}
+
+#info_prof_vet .info-prof-vet-cuenta-datos {
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    -webkit-column-gap: 12px;
+    column-gap: 12px;
+}
+
+#info_prof_vet .info-prof-vet-cuenta-datos .info-prof-vet-dato {
+    padding: 4px 0;
+    border-top: 0;
+}
+
+/* Tablas de convenios y horario */
+#info_prof_vet .info-prof-vet-tabla th {
+    padding: 6px 8px;
+    color: #8a94a6;
+    background: #f7f9fc;
+    border: 0;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+}
+
+#info_prof_vet .info-prof-vet-tabla td {
+    padding: 6px 8px;
+    color: #272727;
+    border-top: 1px solid #edf0f5;
+    font-size: 12.5px;
+    vertical-align: middle;
+}
+
+#info_prof_vet .info-prof-vet-mensaje {
+    margin: 0;
+    padding: 14px 0;
+    color: #8a94a6;
+    font-size: 12.5px;
+    text-align: center;
+}
+
+/* Aviso "Sin registros": ícono chico y texto explicativo */
+#info_prof_vet .info-prof-vet-vacio {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #f7f9fc;
+    border-radius: 10px;
+}
+
+#info_prof_vet .info-prof-vet-vacio-icono {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: #6b7280;
+    background: #eceff4;
+    border-radius: 50%;
+    font-size: 15px;
+}
+
+#info_prof_vet .info-prof-vet-vacio-titulo {
+    margin: 0;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+}
+
+#info_prof_vet .info-prof-vet-vacio-texto {
+    margin: 1px 0 0;
+    color: #6b7a90;
+    font-size: 12.5px;
+    line-height: 1.4;
+}
+
+@media (max-width: 575.98px) {
+    #info_prof_vet .modal-body {
+        padding: 14px 12px;
+    }
+
+    #info_prof_vet .info-prof-vet-cuenta-datos {
+        grid-template-columns: 1fr;
+    }
 }
 
 #modal_fallecimiento_mascota .modal-footer,
@@ -41910,6 +42633,257 @@ tbody tr.codigo th::first-letter {
 
     .tarjeta-indicador-valor {
         font-size: 34px;
+    }
+}
+
+/* Saludo de escritorio con la foto del centro a la izquierda */
+.page-header-title.saludo-con-foto {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.saludo-foto {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 68px;
+    height: 68px;
+    margin-right: 16px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background: #fff;
+    -webkit-box-shadow: 0 4px 14px rgba(31, 45, 61, .12);
+    box-shadow: 0 4px 14px rgba(31, 45, 61, .12);
+    overflow: hidden;
+}
+
+.saludo-foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.saludo-texto {
+    min-width: 0;
+}
+
+/* Lista corta de avisos: ícono en círculo (mismos colores de tarjeta-indicador),
+   título, detalle y cuándo pasó a la derecha */
+.lista-notificaciones {
+    --indicador-color: #16aaa8;
+    --indicador-fondo: #e3f4f3;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.notificacion-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.notificacion-item:first-child {
+    padding-top: 0;
+}
+
+.notificacion-item:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.notificacion-item .tarjeta-indicador-icono {
+    margin-right: 12px;
+}
+
+.notificacion-contenido {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    line-height: 1.3;
+}
+
+.notificacion-contenido strong {
+    display: block;
+    color: #272727;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.notificacion-contenido span {
+    display: block;
+    color: #6c757d;
+    font-family: "Nunito Sans", "Nunito", sans-serif;
+    font-size: 13px;
+}
+
+.notificacion-cuando {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-left: 10px;
+    color: #9aa3b0;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* Escritorio del administrador: fila de indicadores y cards que agrupan accesos
+   (Accesos principales, Áreas del centro, Utilidades). */
+.escritorio-indicadores > [class*="col-"] {
+    margin-bottom: 24px;
+}
+
+.card.escritorio-grupo {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* En el escritorio el ícono del título va sin cuadro, solo en morado */
+.card.escritorio-grupo .card-header.encabezado-card .encabezado-card-icono {
+    width: auto;
+    height: auto;
+    margin-right: 10px;
+    color: #6f42c1;
+    color: var(--purple);
+    background-color: transparent;
+    border-radius: 0;
+    font-size: 22px;
+}
+
+/* Cada grupo con su color en el encabezado (título e ícono blancos),
+   para que accesos y áreas no se vean iguales: morado y turquesa */
+.card.escritorio-grupo--accesos .card-header.encabezado-card,
+.card.escritorio-grupo--areas .card-header.encabezado-card {
+    border-bottom: 0;
+}
+
+.card.escritorio-grupo--accesos .card-header.encabezado-card .encabezado-card-titulo,
+.card.escritorio-grupo--accesos .card-header.encabezado-card .encabezado-card-icono,
+.card.escritorio-grupo--areas .card-header.encabezado-card .encabezado-card-titulo,
+.card.escritorio-grupo--areas .card-header.encabezado-card .encabezado-card-icono {
+    color: #fff;
+}
+
+.card.escritorio-grupo--accesos .card-header.encabezado-card {
+    background-color: #6f42c1;
+    background-color: var(--purple);
+}
+
+.card.escritorio-grupo--areas .card-header.encabezado-card {
+    background-color: #0cb9b9;
+}
+
+/* Las cards de un mismo par quedan a la misma altura */
+@media (min-width: 992px) {
+    .row > .col-lg-6 > .card.escritorio-grupo {
+        height: calc(100% - 30px);
+    }
+}
+
+/* Accesos en grilla: 2 por fila en celular y en escritorio, 3 en tablet */
+.escritorio-grupo-accesos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.escritorio-grupo-accesos .card {
+    height: 100%;
+    margin-bottom: 0;
+    border: 1px solid #e4e9f2;
+    border-radius: 12px;
+    box-shadow: none;
+}
+
+.escritorio-grupo-accesos .card.subir:hover {
+    -webkit-box-shadow: 0 .4rem 1rem rgba(35, 47, 62, .12);
+    box-shadow: 0 .4rem 1rem rgba(35, 47, 62, .12);
+}
+
+.escritorio-grupo-accesos .card > a {
+    display: block;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.escritorio-grupo-accesos .card-body {
+    padding: 16px 10px;
+}
+
+.escritorio-grupo-accesos img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+
+.escritorio-grupo-accesos h6 {
+    margin: 8px 0 0;
+    color: #272727;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+@media (min-width: 576px) and (max-width: 991.98px) {
+    .escritorio-grupo-accesos {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 575.98px) {
+    .escritorio-indicadores > [class*="col-"] {
+        margin-bottom: 16px;
+    }
+
+    .saludo-foto {
+        width: 52px;
+        height: 52px;
+        margin-right: 12px;
+    }
+
+    /* Van de a dos por fila, así que se achican para que el ícono no se salga */
+    .escritorio-indicadores .tarjeta-indicador {
+        -webkit-column-gap: 6px;
+        column-gap: 6px;
+        min-height: 0;
+        padding: 16px 14px;
+        border-radius: 16px;
+    }
+
+    .escritorio-indicadores .tarjeta-indicador-valor {
+        font-size: 1.5rem;
+    }
+
+    .escritorio-indicadores .tarjeta-indicador-etiqueta {
+        font-size: 13px;
+    }
+
+    .escritorio-indicadores .tarjeta-indicador-icono {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+    }
+
+    .escritorio-grupo-accesos {
+        gap: 12px;
+    }
+
+    .escritorio-grupo-accesos .card-body {
+        padding: 14px 8px;
+    }
+
+    .escritorio-grupo-accesos img {
+        width: 36px;
+        height: 36px;
     }
 }
 
@@ -45308,4 +46282,111 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     font-weight: 700;
     line-height: 1.4;
     white-space: nowrap;
+}
+
+/* Pestañas tipo pill (mismo diseño que MedSDI) */
+.pill-moderno,
+.pill-moderno-sm {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 4px;
+    margin-bottom: 1rem;
+    padding: 4px;
+    border: 0 !important;
+    border-radius: 12px;
+    background-color: #eef3f9;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.pill-moderno::-webkit-scrollbar,
+.pill-moderno-sm::-webkit-scrollbar {
+    display: none;
+}
+
+.pill-moderno > *,
+.pill-moderno-sm > * {
+    flex: 1 1 auto;
+}
+
+.pill-moderno a,
+.pill-moderno a:hover,
+.pill-moderno a.active,
+.pill-moderno-sm a,
+.pill-moderno-sm a:hover,
+.pill-moderno-sm a.active {
+    display: block;
+    margin: 0 !important;
+    padding: 9px 14px !important;
+    border: 0 !important;
+    border-radius: 9px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    line-height: 1.3;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color .15s ease, color .15s ease, box-shadow .15s ease !important;
+}
+
+.pill-moderno a,
+.pill-moderno-sm a {
+    background-color: transparent !important;
+    color: #6b7a90 !important;
+    box-shadow: none;
+}
+
+.pill-moderno a:hover,
+.pill-moderno-sm a:hover {
+    background-color: rgba(255, 255, 255, .65) !important;
+    color: #1a49a3 !important;
+}
+
+.pill-moderno a.active,
+.pill-moderno-sm a.active {
+    background-color: #fff !important;
+    color: #1a49a3 !important;
+    box-shadow: 0 2px 8px -2px rgba(26, 73, 163, .25);
+}
+
+/* Versión compacta */
+.pill-moderno-sm {
+    gap: 3px;
+    padding: 3px;
+    border-radius: 9px;
+}
+
+.pill-moderno-sm a,
+.pill-moderno-sm a:hover,
+.pill-moderno-sm a.active {
+    padding: 4px 12px !important;
+    border-radius: 7px !important;
+    font-size: 12px !important;
+}
+
+@media (max-width: 575.98px) {
+    .pill-moderno a,
+    .pill-moderno a:hover,
+    .pill-moderno a.active {
+        padding: 8px 12px !important;
+        font-size: 12.5px !important;
+    }
+}
+
+/* Variante sobre fondo blanco: la pestaña activa va en azul */
+.pill-moderno.pill-moderno-white {
+    background-color: #fff;
+    box-shadow: 0 2px 10px -4px rgba(26, 73, 163, .18);
+}
+
+.pill-moderno.pill-moderno-white a:hover {
+    background-color: #f4f5f8 !important;
+    color: #6f42c1 !important;
+}
+
+/* Activo en morado suave, sin sombra */
+.pill-moderno.pill-moderno-white a.active {
+    background-color: #efe4fb !important;
+    color: #6f42c1 !important;
+    box-shadow: none;
 }

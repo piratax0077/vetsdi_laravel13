@@ -1,14 +1,8 @@
 <div class="row mb-2">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header bg-info">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h4 class="text-white f-20 mt-2 mb-2 float-left">Servicio {{ $servicio->nombre_servicio }}</h4>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-header encabezado-card">
+                <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-grid"></i></span>Servicio {{ $servicio->nombre_servicio }}</h5>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -82,7 +76,9 @@
                                 @endphp
                                 <div class="col-md-4">
                                     <div class="card">
-                                        <div class="card-header d-flex align-items-center justify-content-between bg-info">Sala {{ $i }}</div>
+                                        <div class="card-header encabezado-card">
+                                            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-grid"></i></span>Sala {{ $i }}</h5>
+                                        </div>
                                         <div class="card-body">
                                             @if($salaInfo)
                                                 <p>Cantidad de camas: {{ $salaInfo->cantidad_camas }}</p>

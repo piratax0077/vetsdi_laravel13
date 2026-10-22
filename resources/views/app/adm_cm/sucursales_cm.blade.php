@@ -20,23 +20,15 @@
         </div>
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header bg-info">
-                    <div class="col-md-12">
-                        <div class="row">
-                           <div class="col-md-6 d-inline">
-                                <h4 class="text-white f-20 mt-2 mb-1">Sucursales</h4>
-                            </div>
-                            <div class="col-md-6 d-inline">
-                                <div class="float-right">
-                                    <div class="btn-group mr-2">
-                                        <button type="button" class="btn  btn-sm btn-outline-light" onclick="nueva_sucursal();"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nueva sucursal</button>
-                                        <button type="button" class="btn  btn-sm btn-outline-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
-                                        <div class="dropdown-menu">
-                                            <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="agregar_desasociar();">Desasociar o Agregar sucursal existente</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="card-header encabezado-card">
+                    <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-map-pin"></i></span>Sucursales</h5>
+                    <div class="encabezado-card-acciones">
+                        <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-sm" onclick="nueva_sucursal();"><i class="feather icon-plus"></i> Agregar nueva sucursal</button>
+                        <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
+                        <div class="dropdown-menu">
+                        <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="agregar_desasociar();">Desasociar o Agregar sucursal existente</button>
+                        </div>
                         </div>
                     </div>
                 </div>

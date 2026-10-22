@@ -1,23 +1,20 @@
 @php($seccionUsuarios = $seccionUsuarios ?? 'profesionales')
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav nav-pills bg-white align-items-center" role="tablist">
-                    @if($seccionUsuarios === 'profesionales')
-                        <li class="nav-item"><a class="btn btn-outline-info btn-sm mr-1 my-1 active" data-toggle="tab" href="#prof-salud" role="tab">M&eacute;dicos</a></li>
-                        <li class="nav-item"><a class="btn btn-outline-info btn-sm mr-1 my-1" data-toggle="tab" href="#odontologos" role="tab">Odont&oacute;logos</a></li>
-                        <li class="nav-item"><a class="btn btn-outline-info btn-sm mr-1 my-1" data-toggle="tab" href="#otros_prof" role="tab">Otros Profesionales de la salud</a></li>
-                    @else
-                        <li class="nav-item"><a class="btn btn-outline-info btn-sm mr-1 my-1" href="{{ route('adm_cm.profesionales') }}">M&eacute;dicos</a></li>
-                        <li class="nav-item"><a class="btn btn-outline-info btn-sm mr-1 my-1" href="{{ route('adm_cm.profesionales', ['tab' => 'odontologos']) }}">Odont&oacute;logos</a></li>
-                        <li class="nav-item"><a class="btn btn-outline-info btn-sm mr-1 my-1" href="{{ route('adm_cm.profesionales', ['tab' => 'otros_prof']) }}">Otros Profesionales de la salud</a></li>
-                    @endif
-                    <li class="nav-item flex-fill mx-lg-2"><a class="btn btn-outline-info btn-sm btn-block my-1 {{ $seccionUsuarios === 'contratos' ? 'active' : '' }}" href="{{ route('adm_cm.area_contratos_nuevos') }}">Contratos</a></li>
-                    <li class="nav-item flex-fill mx-lg-2"><a class="btn btn-outline-info btn-sm btn-block my-1 {{ $seccionUsuarios === 'asistentes' ? 'active' : '' }}" href="{{ route('adm_cm.personal') }}">Asistentes</a></li>
-                    <li class="nav-item flex-fill mx-lg-2"><a class="btn btn-outline-info btn-sm btn-block my-1 {{ $seccionUsuarios === 'pacientes' ? 'active' : '' }}" href="{{ route('adm_cm.pacientes') }}">Tutores / Mascotas</a></li>
-                </ul>
-            </div>
-        </div>
+        <ul class="nav pill-moderno pill-moderno-white" role="tablist">
+            {{-- Médicos, odontólogos y otros profesionales quedan juntos en "Profesionales veterinarios" --}}
+            {{-- Todas las pestañas viven en la página de profesionales; desde otras páginas se llega con ?tab= --}}
+            @if($seccionUsuarios === 'profesionales')
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#prof-vet" role="tab">Profesionales veterinarios</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#asistentes" role="tab">Asistentes</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#otros_trabajadores" role="tab">Otros</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#contratos" role="tab">Contratos</a></li>
+            @else
+                <li class="nav-item"><a class="nav-link" href="{{ route('adm_cm.profesionales') }}">Profesionales veterinarios</a></li>
+                <li class="nav-item"><a class="nav-link {{ $seccionUsuarios === 'asistentes' ? 'active' : '' }}" href="{{ route('adm_cm.profesionales', ['tab' => 'asistentes']) }}">Asistentes</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('adm_cm.profesionales', ['tab' => 'otros_trabajadores']) }}">Otros</a></li>
+                <li class="nav-item"><a class="nav-link {{ $seccionUsuarios === 'contratos' ? 'active' : '' }}" href="{{ route('adm_cm.profesionales', ['tab' => 'contratos']) }}">Contratos</a></li>
+            @endif
+        </ul>
     </div>
 </div>

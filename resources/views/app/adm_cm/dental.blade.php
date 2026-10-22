@@ -18,8 +18,8 @@
         </div>
 
         <div class="card mb-4">
-            <div class="card-header bg-info text-center">
-                <h4 class="text-white mb-0">Área Dental · {{ $institucion->nombre ?? 'Centro veterinario' }}</h4>
+            <div class="card-header encabezado-card">
+                <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-award"></i></span>Área Dental · {{ $institucion->nombre ?? 'Centro veterinario' }}</h5>
             </div>
         </div>
 
@@ -58,11 +58,11 @@
         </div>
 
         <div class="card mt-4">
-            <div class="card-header bg-info">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h4 class="text-white f-20 mb-0">Equipo odontológico</h4>
-                    <a class="btn btn-sm btn-outline-light" href="{{ route('adm_cm.profesionales', ['tab' => 'odontologos']) }}">
-                        <i class="feather icon-plus"></i> Administrar odontólogos
+            <div class="card-header encabezado-card">
+                <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-award"></i></span>Equipo odontológico</h5>
+                <div class="encabezado-card-acciones">
+                    <a class="btn btn-info btn-sm" href="{{ route('adm_cm.profesionales', ['tab' => 'odontologos']) }}">
+                    <i class="feather icon-plus"></i> Administrar odontólogos
                     </a>
                 </div>
             </div>

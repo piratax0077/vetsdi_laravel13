@@ -2,6 +2,11 @@
 
 @section('title', 'Configurar sitio web · Vet SDI')
 @section('body-class', 'sw-page-config')
+@section('logo-menu', asset('images/logo_pais_vertical.png'))
+@section('logo-pie', asset('images/logo_pais.png'))
+@section('estilos-base')
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+@endsection
 
 @section('content')
 <section class="sw-config">
@@ -24,7 +29,7 @@
         @if(session('mensaje'))
             <p class="sw-flash">{{ session('mensaje') }}</p>
         @endif
-        <div class="sw-editor-shortcut"><div><strong>{{ $sitio->esClinica() ? 'Contenido institucional' : 'Contenido profesional' }}</strong><span>Publica consejos, novedades y artículos para tutores de mascotas.</span></div><a class="sw-btn sw-btn-solid" href="{{ route('sitio.articulos.index') }}">Administrar artículos</a></div>
+        <div class="sw-editor-shortcut"><div><strong>{{ $sitio->esClinica() ? 'Contenido institucional' : 'Contenido profesional' }}</strong><span>Publica consejos, novedades y artículos para tutores de mascotas.</span></div><a class="btn btn-purple" href="{{ route('sitio.articulos.index') }}">Administrar artículos</a></div>
 
         <form method="POST" action="{{ route('sitio.configurar.guardar') }}" class="sw-config-form">
             @csrf
@@ -87,7 +92,7 @@
                 </div>
                 <div class="sw-social-promo-callout">
                     <div><strong>¿Quieres promocionar tu perfil?</strong><span>Elige redes, duración y un plan para aumentar alcance y reservas.</span></div>
-                    <a class="sw-btn sw-btn-solid" href="{{ route('sitio.promocion.index') }}">Ver planes de promoción</a>
+                    <a class="btn btn-purple" href="{{ route('sitio.promocion.index') }}">Ver planes de promoción</a>
                 </div>
             </section>
 
@@ -112,9 +117,9 @@
             </section>
 
             <div class="sw-config-actions">
-                <button type="submit" class="sw-btn sw-btn-solid">Guardar cambios</button>
+                <button type="submit" class="btn btn-purple">Guardar cambios</button>
                 @if($sitio->publicado && $sitio->slug)
-                    <a class="sw-btn sw-btn-ghost" href="{{ route('sitio.ficha', $sitio->slug) }}" target="_blank">Ver página pública</a>
+                    <a class="btn btn-outline-info" href="{{ route('sitio.ficha', $sitio->slug) }}" target="_blank">Ver página pública</a>
                 @endif
             </div>
         </form>

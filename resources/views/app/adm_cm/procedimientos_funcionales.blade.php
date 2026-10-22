@@ -18,11 +18,11 @@
         </div>
 
         <div class="card">
-            <div class="card-header bg-info">
-                <div class="d-flex align-items-center justify-content-between">
-                    <h4 class="text-white f-20 mb-0">Procedimientos del centro</h4>
-                    <button type="button" class="btn btn-sm btn-outline-light" onclick="nuevoProcedimiento()">
-                        <i class="feather icon-plus"></i> Agregar procedimiento
+            <div class="card-header encabezado-card">
+                <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-activity"></i></span>Procedimientos del centro</h5>
+                <div class="encabezado-card-acciones">
+                    <button type="button" class="btn btn-info btn-sm" onclick="nuevoProcedimiento()">
+                    <i class="feather icon-plus"></i> Agregar procedimiento
                     </button>
                 </div>
             </div>

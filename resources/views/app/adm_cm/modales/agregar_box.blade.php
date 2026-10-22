@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
-                <h5 class="modal-title d-inline mt-1">Añadir box de atención</h5>
+                <h5 class="modal-title d-inline mt-1">Agregar box de atención</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -102,8 +102,8 @@
                     </div>
 
 					<div class="col-sm-12 text-center">
-                        <button type="button" onclick="guardar_box_servicio()" class="btn btn-info btn-sm mx-auto" data-toggle="collapse" data-target=".info-basica" aria-expanded="false" aria-controls="info-basica-1 info-basica-2">
-                            <i class="feather icon-plus"></i> Añadir
+                        <button type="button" onclick="guardar_box_servicio()" class="btn btn-info mx-auto" data-toggle="collapse" data-target=".info-basica" aria-expanded="false" aria-controls="info-basica-1 info-basica-2">
+                            <i class="feather icon-plus"></i> Agregar
                         </button>
                     </div>
                 </div>

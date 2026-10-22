@@ -119,7 +119,9 @@
         if (!boton || evento.ojo_atendido) return;
         evento.ojo_atendido = true;
 
-        var campo = document.getElementById(boton.getAttribute('data-ver-clave'));
+        // Se busca primero el campo del mismo recuadro, por si en la página hay id repetidos
+        var envoltura = boton.closest('.campo-clave');
+        var campo = (envoltura && envoltura.querySelector('input')) || document.getElementById(boton.getAttribute('data-ver-clave'));
         if (!campo) return;
 
         var visible = campo.type === 'password';

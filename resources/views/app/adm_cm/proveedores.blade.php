@@ -21,14 +21,10 @@
         </div>
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header bg-info">
-                    <div class="row">
-                        <div class="col-md-12 align-botton">
-                            <h4 class="text-white f-20 d-inline ml-4 mt-3">Proveedores</h4>
-                            <div class="btn-group float-right" role="group" aria-label="Basic example">
-                              <button type="button" class="btn btn-outline-light btn-sm" onclick="agregar_proveedor();"><i class="feather icon-plus"></i>Agregar proveedor</button>
-                            </div>
-                        </div>
+                <div class="card-header encabezado-card">
+                    <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-layers"></i></span>Proveedores</h5>
+                    <div class="encabezado-card-acciones">
+                        <button type="button" class="btn btn-info btn-sm" onclick="agregar_proveedor();"><i class="feather icon-plus"></i>Agregar proveedor</button>
                     </div>
                 </div>
                 <div class="card-body">

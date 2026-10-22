@@ -42,8 +42,8 @@
                         </td>
                         <td>
                             @if ($prof && $dir)
-                                {{ $dir->direccion }} {{ $dir->numero_dir }}<br>
-                                {{ $ciudad_dir ? $ciudad_dir->nombre : '-' }}, {{ $region_dir ? $region_dir->nombre : '-' }}
+                                {{ \Illuminate\Support\Str::ucfirst($dir->direccion ?? '') }} {{ $dir->numero_dir }}<br>
+                                {{ \Illuminate\Support\Str::ucfirst($ciudad_dir ? $ciudad_dir->nombre : '-') }}, {{ \Illuminate\Support\Str::ucfirst($region_dir ? $region_dir->nombre : '-') }}
                             @else
                                 <span class="text-muted">-</span>
                             @endif
@@ -56,7 +56,7 @@
                                         <i class="feather icon-edit"></i>
                                     </button>
                                 @endif
-                                <button type="button" class="btn btn-danger btn-icon"
+                                <button title="Eliminar administrador" type="button" class="btn btn-danger btn-icon"
                                     onclick="eliminar_admin_cm({{ $tipo_id }}, {{ $institucion->id }})" title="Eliminar">
                                     <i class="fas fa-trash"></i>
                                 </button>

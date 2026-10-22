@@ -9,14 +9,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/sitio_web.css') }}?v=20260819-2">
+    @yield('estilos-base')
+    <link rel="stylesheet" href="{{ asset('css/sitio_web.css') }}?v=20261021-3">
     @yield('page-styles')
 </head>
 <body class="@yield('body-class')">
     <header class="sw-nav">
         <div class="sw-wrap sw-nav-inner">
             <a class="sw-brand" href="{{ route('sitio.inicio') }}">
-                <img src="{{ asset('images/logo_pais_horizontal.svg') }}" alt="Vet SDI">
+                <img src="@yield('logo-menu', asset('images/logo_pais_horizontal.svg'))" alt="Vet SDI">
             </a>
             <nav class="sw-links">
                 <a href="{{ route('sitio.inicio') }}#profesionales">Profesionales</a>
@@ -72,7 +73,7 @@
             <div class="sw-wrap sw-foot-grid">
                 <section class="sw-foot-brand">
                     <a href="{{ route('sitio.inicio') }}" aria-label="VeterChile, ir al inicio">
-                        <img src="{{ asset('images/logos/logo_pais_horizontal_blanco.svg') }}" alt="VeterChile">
+                        <img src="@yield('logo-pie', asset('images/logos/logo_pais_horizontal_blanco.svg'))" alt="VeterChile">
                     </a>
                     <p>Salud Digital Integrada para conectar mascotas, tutores, profesionales y centros veterinarios.</p>
                     <span class="sw-foot-badge"><b>♡</b> Cuidamos su historia contigo</span>

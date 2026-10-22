@@ -20,12 +20,8 @@
         </div>
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header bg-info">
-                    <div class="row">
-                        <div class="col-md-12 align-botton">
-                            <h4 class="text-white f-20 d-inline ml-4 mt-3">Sueldos Personal</h4>
-                        </div>
-                    </div>
+                <div class="card-header encabezado-card">
+                    <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-credit-card"></i></span>Sueldos Personal</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">

@@ -45,14 +45,10 @@
                         <div class="row mb-n4">
                            <div class="col-sm-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="row">
-                                            <div class="col-md-12 align-botton">
-                                                <h4 class="text-white f-20 d-inline ml-4 mt-3">Solicitudes y Pedidos de Insumos</h4>
-                                                <div class="btn-group float-right" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-light btn-sm" onclick="pedir_vacunas();"><i class="feather icon-plus"></i>Agregar Pedido vacunas</button>
-                                                </div>
-                                            </div>
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-package"></i></span>Solicitudes y Pedidos de Insumos</h5>
+                                        <div class="encabezado-card-acciones">
+                                            <button type="button" class="btn btn-info btn-sm" onclick="pedir_vacunas();"><i class="feather icon-plus"></i>Agregar Pedido vacunas</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -120,14 +116,10 @@
                         <div class="row mb-n4">
                             <div class="col-sm-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="row">
-                                            <div class="col-md-12 align-botton">
-                                                <h4 class="text-white f-20 d-inline ml-4 mt-3">Solicitudes y Pedidos de Insumos</h4>
-                                                <div class="btn-group float-right" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-light btn-sm" onclick="hacer_pedido();"><i class="feather icon-plus"></i>Agregar Nuevo Pedido</button>
-                                                </div>
-                                            </div>
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-package"></i></span>Solicitudes y Pedidos de Insumos</h5>
+                                        <div class="encabezado-card-acciones">
+                                            <button type="button" class="btn btn-info btn-sm" onclick="hacer_pedido();"><i class="feather icon-plus"></i>Agregar Nuevo Pedido</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -196,12 +188,8 @@
                         <div class="row mb-n4">
                            <div class="col-sm-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="row">
-                                            <div class="col-md-12 align-botton">
-                                                <h4 class="text-white f-20 d-inline ml-4 mt-3">Solicitudes Pendientes de Entrega</h4>
-                                            </div>
-                                        </div>
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-package"></i></span>Solicitudes Pendientes de Entrega</h5>
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
@@ -273,14 +261,10 @@
                         <div class="row mb-n4">
                             <div class="col-sm-12">
                                 <div class="card">
-                                    <div class="card-header bg-info">
-                                        <div class="row">
-                                            <div class="col-md-12 align-botton">
-                                                <h4 class="text-white f-20 d-inline ml-4 mt-3">Solicitud Incluir Vacuna en Farmacia</h4>
-                                                <div class="btn-group float-right" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-light btn-sm" onclick="solicita_incluir();"><i class="feather icon-plus"></i>Solicitar Nuevo Producto</button>
-                                                </div>
-                                            </div>
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-package"></i></span>Solicitud Incluir Vacuna en Farmacia</h5>
+                                        <div class="encabezado-card-acciones">
+                                            <button type="button" class="btn btn-info btn-sm" onclick="solicita_incluir();"><i class="feather icon-plus"></i>Solicitar Nuevo Producto</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
