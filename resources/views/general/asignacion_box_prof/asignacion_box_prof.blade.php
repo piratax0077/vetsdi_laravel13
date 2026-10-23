@@ -7,7 +7,7 @@
         @csrf
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
-                <h5 class="modal-title text-center">Asigancion de Box</h5>
+                <h5 class="modal-title text-center">Asignación de Box</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
                     onclick="$('#m_modificar_box_prf').modal('hide');"><span aria-hidden="true">&times;</span></button>
             </div>
@@ -136,7 +136,7 @@
                     console.log(response);
                     if (response['estado'] == '1') {
                         swal({
-                            title: "Asignacion Box",
+                            title: "Asignación Box",
                             text: response['msj'],
                             icon: "success",
                         })
@@ -155,7 +155,7 @@
 
                     } else {
                         swal({
-                            title: "Asignacion Box",
+                            title: "Asignación Box",
                             text: response['msj'],
                             icon: "error",
                         })
@@ -233,7 +233,7 @@
                     console.log(response);
                     if (response['estado'] == '1') {
                         swal({
-                            title: "Asignacion Box",
+                            title: "Asignación Box",
                             text: response['msj'],
                             icon: "success",
                         })
@@ -251,7 +251,7 @@
                         }
                     } else {
                         swal({
-                            title: "Asignacion Box",
+                            title: "Asignación Box",
                             text: response['msj'],
                             icon: "error",
                         })

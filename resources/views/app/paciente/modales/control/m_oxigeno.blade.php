@@ -35,7 +35,7 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-						<h6 class="text-c-blue"> REGISTRO DE CONTROLES OXIGENO</h6>
+						<h6 class="text-c-blue"> REGISTRO DE CONTROLES OXÍGENO</h6>
 					</div>
 					<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<table id="reg_c_oxigeno" class="display table table-striped dt-responsive nowrap table-xs" style="width:100%">
@@ -102,7 +102,7 @@
                 {
                     swal({
                         title: "Ingreso de Control de Oximetría.",
-                        text: 'Falla en el registro, Intente nuevamente.',
+                        text: 'Falla en el registro, intente nuevamente.',
                         icon: "warning",
                     });
                 }
@@ -195,7 +195,7 @@
                 if(data.estado == 1)
                 {
                     swal({
-                        title: "Eliminar  Control de Oximetria.",
+                        title: "Eliminar  Control de Oximetría.",
                         text: 'Control eliminado con Exito.',
                         icon: "success",
                     });

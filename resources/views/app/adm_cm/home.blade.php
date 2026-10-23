@@ -159,7 +159,7 @@
                                     </a>
                                 </div>
                                 <div class="card subir">
-                                    <a href="{{ route('adm_cm.profesionales', ['tab' => 'contratos']) }}">
+                                    <a href="{{ route('adm_cm.contratos') }}">
                                         <div class="card-body text-center">
                                             <img src="{{ asset('images/iconos/cotizacion.svg') }}" alt="">
                                             <h6>Contratos</h6>

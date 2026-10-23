@@ -14,7 +14,7 @@
                     <div class="form-row">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                             <div class="form-group">
-                                <label id="label_rut_contacto" class="floating-label-activo">Rut</label>
+                                <label id="label_rut_contacto" class="floating-label-activo">RUT</label>
                                 <input type="text" class="form-control form-control-sm" name="rut_contacto" id="rut_contacto"
                                     value="">
                             </div>
@@ -96,7 +96,7 @@
 
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                             <div class="form-group">
-                                <label id="label_parentesco_contacto" class="floating-label-activo">Parentezco</label>
+                                <label id="label_parentesco_contacto" class="floating-label-activo">Parentesco</label>
                                 <select id="parentezco_contacto" name="parentezco_contacto" class="form-control form-control-sm">
                                     <option>Seleccione una opción</option>
                                     <option>Pareja</option>

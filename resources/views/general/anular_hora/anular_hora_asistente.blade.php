@@ -4,7 +4,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header" style="background-color: rgb(28, 190, 190);">
-        <h5 class="modal-title" id="modal_anular_horaLabel">Anular hora Medica</h5>
+        <h5 class="modal-title" id="modal_anular_horaLabel">Anular hora médica</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modal_anular_hora').modal('hide');">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -48,7 +48,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background-color: rgb(28, 190, 190);">
-          <h5 class="modal-title" id="modal_anular_hora_comentarioLabel">Anular hora Medica Comentario</h5>
+          <h5 class="modal-title" id="modal_anular_hora_comentarioLabel">Anular hora médica Comentario</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modal_anular_hora_comentario').modal('hide');">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -160,7 +160,7 @@
                     if(data.registros.horario_agenda_laboral != '')
                     {
                         console.log(data);
-                        let dias = ['','LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
+                        let dias = ['','LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
                         var dias_activos = data.registros.horario_agenda_laboral.split(',');
                         var dias_texto = '';
                         var cant = 0;
@@ -251,7 +251,7 @@
                     var html = '';
                     html += '<div class="row" style="border: 2px solid #aba8a8; border-radius: 13px; margin: 1em;padding: 10px 0px;">';
                     html += '    <div class="col-md-6 mb-2" style="text-align: left;"><span class="font-weight-bold">Paciente:</span> '+value.paciente.nombres+' '+value.paciente.apellido_uno+' '+value.paciente.apellido_dos+'</div>';
-                    html += '    <div class="col-md-6 mb-2" style="text-align: left;"><span class="font-weight-bold">Rut:</span> '+value.paciente.rut+'</div>';
+                    html += '    <div class="col-md-6 mb-2" style="text-align: left;"><span class="font-weight-bold">RUT:</span> '+value.paciente.rut+'</div>';
                     html += '    <div class="col-md-6 mb-2" style="text-align: left;"><span class="font-weight-bold">Hora inicio:</span> '+String(value.hora_inicio || '').substring(0, 5)+'</div>';
                     html += '    <div class="col-md-6 mb-2" style="text-align: left;"><span class="font-weight-bold">Hora termino:</span> '+String(value.hora_termino || '').substring(0, 5)+'</div>';
                     html += '    <div class="col-md-12 mb-2" style="text-align: left;background-color:'+value.estado.color+';"><span class="font-weight-bold">Estado: '+value.estado.valor+'</span></div>';
@@ -349,8 +349,8 @@
                     console.log(data);
                     $('#consulta').modal('hide');
                     swal({
-                        title: "Exito!",
-                        text: "Hora medica cancelada correctamente",
+                        title: "¡Éxito!",
+                        text: "Hora médica cancelada correctamente",
                         type: "success",
                         confirmButtonText: "Cool"
                     });
@@ -364,7 +364,7 @@
                     cargarAgendaProfesional($('#id_tipo_agenda').val(),$('#anular_fecha_consulta').val())
 
                 } else {
-                    alert('No se pudo Confirmar Anulacion');
+                    alert('No se pudo confirmar la anulación');
                 }
 
             })

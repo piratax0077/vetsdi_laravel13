@@ -95,7 +95,7 @@
 
                                 <div class="col-sm-12 col-md-12">
                                     <div class="form-group">
-                                        <label class="floating-label-activo-sm">Rut del Tutor</label>
+                                        <label class="floating-label-activo-sm">RUT del Tutor</label>
                                         <input type="person" class="form-control" name="rut_paciente" id="rut_paciente" >
                                     </div>
                                 </div>

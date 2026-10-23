@@ -11,8 +11,8 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h5>
-                            Usted esta por <span style="color:red">Finalizar el contrato y Desasociar</span> a <span id="modal_finalizar_empleado_nombre" style="font-weight: bold; color:#1317d6"></span> de forma definitiva.<br>
-                            Si esta seguro presione el botón de "Finalizar / Desasociar"
+                            Usted esta por <span style="color:red">Finalizar el contrato y Desvincular</span> a <span id="modal_finalizar_empleado_nombre" style="font-weight: bold; color:#1317d6"></span> de forma definitiva.<br>
+                            Si esta seguro presione el botón de "Finalizar / Desvincular"
                         </h5>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
-                <button type="button" class="btn btn-danger" onclick="finalizar_personal_profesional();">Finalizar / Desasociar</button>
+                <button type="button" class="btn btn-danger" onclick="finalizar_personal_profesional();">Finalizar / Desvincular</button>
             </div>
         </div>
     </div>
@@ -40,8 +40,8 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h5>
-                            Usted esta por <span style="color:red">Finalizar el contrato y Desasociar</span> a <span id="modal_finalizar_otro_nombre" style="font-weight: bold; color:#1317d6"></span> de forma definitiva.<br>
-                            Si esta seguro presione el botón de "Finalizar / Desasociar"
+                            Usted esta por <span style="color:red">Finalizar el contrato y Desvincular</span> a <span id="modal_finalizar_otro_nombre" style="font-weight: bold; color:#1317d6"></span> de forma definitiva.<br>
+                            Si esta seguro presione el botón de "Finalizar / Desvincular"
                         </h5>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
-                <button type="button" class="btn btn-danger" onclick="finalizar_personal_otro_profesional();">Finalizar / Desasociar</button>
+                <button type="button" class="btn btn-danger" onclick="finalizar_personal_otro_profesional();">Finalizar / Desvincular</button>
             </div>
         </div>
     </div>
@@ -87,7 +87,7 @@
                 if(data.estado == 1)
                 {
                     swal({
-                        title: "Finalizar Contrato / Desasociar Personal",
+                        title: "Finalizar Contrato / Desvincular Personal",
                         text: 'Proceso Exitoso',
                         icon: "succes",
                     })
@@ -111,7 +111,7 @@
                     }
 
                     swal({
-                        title: "Finalizar Contrato / Desasociar Personal",
+                        title: "Finalizar Contrato / Desvincular Personal",
                         text: mensaje,
                         icon: "error",
                         buttons: "Aceptar",
@@ -123,7 +123,7 @@
             else
             {
                 swal({
-                    title: "Finalizar Contrato / Desasociar Personal",
+                    title: "Finalizar Contrato / Desvincular Personal",
                     text: "Se presenteo problema en el momento, Intente de nuevo.",
                     icon: "error",
                     buttons: "Aceptar",
@@ -169,7 +169,7 @@
                 if(data.estado == 1)
                 {
                     swal({
-                        title: "Finalizar Contrato / Desasociar Personal",
+                        title: "Finalizar Contrato / Desvincular Personal",
                         text: 'Proceso Exitoso',
                         icon: "succes",
                     })
@@ -193,7 +193,7 @@
                     }
 
                     swal({
-                        title: "Finalizar Contrato / Desasociar Personal",
+                        title: "Finalizar Contrato / Desvincular Personal",
                         text: mensaje,
                         icon: "error",
                         buttons: "Aceptar",
@@ -205,7 +205,7 @@
             else
             {
                 swal({
-                    title: "Finalizar Contrato / Desasociar Personal",
+                    title: "Finalizar Contrato / Desvincular Personal",
                     text: "Se presenteo problema en el momento, Intente de nuevo.",
                     icon: "error",
                     buttons: "Aceptar",

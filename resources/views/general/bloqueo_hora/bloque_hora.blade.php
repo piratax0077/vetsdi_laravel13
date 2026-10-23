@@ -540,7 +540,7 @@
                     if(data.registros.horario_agenda_laboral != '')
                     {
                         console.log(data);
-                        let dias = ['','LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
+                        let dias = ['','LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
                         var dias_activos = data.registros.horario_agenda_laboral.split(',');
                         var dias_texto = '';
                         var cant = 0;

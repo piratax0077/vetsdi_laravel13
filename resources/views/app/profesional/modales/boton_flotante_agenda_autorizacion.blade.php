@@ -188,7 +188,7 @@
                 <div class="form-row">
                     <div class="col-12">
                         <div class="form-group fill">
-                            <label for="rut_tons" class="floating-label-activo-sm">Rut de tons</label>
+                            <label for="rut_tons" class="floating-label-activo-sm">RUT de tons</label>
                             <input type="text" name="rut_tons" id="rut_tons" class="form-control form-control-sm" >
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                 </div>
                 <button type="button" class="btn btn-outline-success btn-sm w-100 my-3" onclick="buscar_tons()"><i class="fas fa-search"></i> Buscar</button>
                 <div class="form-row d-none" id="contenedor_tons">
-                    <span class="badge badge-info" style="font-size: 15px;text-align: center;align-items: center;margin: 10px auto;">No se ha encontrado información. Si desea inscribirla valla al panel de configuración usando este <a href="{{ ROUTE('profesional.tons') }}" _target="blank">link</a>. </span>
+                    <span class="badge badge-info" style="font-size: 15px;text-align: center;align-items: center;margin: 10px auto;">No se ha encontrado información. Si desea inscribirla vaya al panel de configuración usando este <a href="{{ ROUTE('profesional.tons') }}" _target="blank">link</a>. </span>
                 </div>
                 <div class="form-row d-none" id="contenedor_datos_tons">
                     <input type="hidden" name="id_tons" id="id_tons" value="">
@@ -285,7 +285,7 @@
                                     <tr>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Apellidos</th>
-                                        <th scope="col">Rut</th>
+                                        <th scope="col">RUT</th>
                                         <th scope="col">Teléfono</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Activar/Desactivar</th>
@@ -952,7 +952,7 @@
             swal({
                 title:'info',
                 icon:'info',
-                text:'Debe ingresar rut'
+                text:'Debe ingresar RUT'
             });
             return false;
         }

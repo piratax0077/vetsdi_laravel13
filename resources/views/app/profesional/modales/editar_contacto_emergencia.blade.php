@@ -14,7 +14,7 @@
                      <div class="row">
                          <div class="col-sm-12 col-md-12">
                              <div class="form-group">
-                                 <label id="label_rut_contacto" class="floating-label-activo">Rut</label>
+                                 <label id="label_rut_contacto" class="floating-label-activo">RUT</label>
                                  <input type="text" class="form-control form-control-sm" name="rut_contacto" id="rut_contacto"
                                      value="">
                              </div>

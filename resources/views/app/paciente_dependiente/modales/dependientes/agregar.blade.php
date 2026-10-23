@@ -8,7 +8,7 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
-                <h5 class="modal-title mt-1" id="modal_indicar_examen">Buscar Rut Dependiente</h5>
+                <h5 class="modal-title mt-1" id="modal_indicar_examen">Buscar RUT Dependiente</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
@@ -46,7 +46,7 @@
                         <label class="label text-bolt">Apellido:</label><label name="label_agregar_apellido_paciente" id="label_agregar_apellido_paciente"></label>
                     </div>
                     <div class="col-md-6">
-                        <label class="label text-bolt">Rut:</label><label name="label_agregar_rut_paciente" id="label_agregar_rut_paciente"></label>
+                        <label class="label text-bolt">RUT:</label><label name="label_agregar_rut_paciente" id="label_agregar_rut_paciente"></label>
                     </div>
                 </div>
                 <hr>
@@ -76,7 +76,7 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="agregar_fecha_termino"><span style="color: red;">*</span>Fecha Termino</label>
+                                <label for="agregar_fecha_termino"><span style="color: red;">*</span>Fecha Término</label>
                                 <input type="date" name="agregar_fecha_termino" id="agregar_fecha_termino" value="">
                             </div>
                         </div>
@@ -115,7 +115,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
-                        <label class="floating-label-activo-sm"><span class="requerido" style="color: red;" id="requerido_modal_agregar_dep_nuevo_rut">*</span>Rut</label>
+                        <label class="floating-label-activo-sm"><span class="requerido" style="color: red;" id="requerido_modal_agregar_dep_nuevo_rut">*</span>RUT</label>
                         <input type="text" required class="form-control form-control-sm" name="modal_agregar_dep_nuevo_rut" id="modal_agregar_dep_nuevo_rut">
                     </div>
                 </div>
@@ -152,7 +152,7 @@
                     <div class="form-group">
                         <label class="floating-label-activo-sm"><span class="requerido" style="color: red;" id="requerido_sm">*</span>Sexo</label>
                         <select id="modal_agregar_dep_nuevo_sexo" name="modal_agregar_dep_nuevo_sexo" class="form-control form-control-sm">
-                            <option value="0">Selecione una opci&oacute;n</option>
+                            <option value="0">Seleccione una opci&oacute;n</option>
                             <option value="F">Femenino</option>
                             <option value="M">Masculino</option>
                         </select>
@@ -162,7 +162,7 @@
                     <div class="form-group">
                         <label class="floating-label-activo-sm"><span class="requerido" style="color: red;" id="requerido_sm">*</span>Previsi&oacute;n</label>
                         <select id="modal_agregar_dep_nuevo_convenio" name="modal_agregar_dep_nuevo_convenio" class="form-control form-control-sm">
-                            <option value="0">Selecione una opci&oacute;n</option>
+                            <option value="0">Seleccione una opci&oacute;n</option>
                             @if (isset($prevision))
                                 @foreach ($prevision as $p)
                                     <option value="{{ $p->id }}">{{ $p->nombre }}</option>
@@ -187,7 +187,7 @@
 
                 <div class="col-sm-6 col-md-6">
                     <div class="form-group">
-                        <label class="floating-label-activo-sm"><span class="requerido" style="color: red;" id="requerido_sm">*</span>Region</label>
+                        <label class="floating-label-activo-sm"><span class="requerido" style="color: red;" id="requerido_sm">*</span>Región</label>
                         <select onchange="buscar_ciudad('modal_agregar_dep_nuevo_region', 'modal_agregar_dep_nuevo_ciudad',$('#modal_agregar_dep_nuevo_region').val());" name="modal_agregar_dep_nuevo_region" id="modal_agregar_dep_nuevo_region"  class="form-control form-control-sm" required>
                             <option value="0">Seleccione Regio&oacute;n</option>
                             @if (isset($region))
@@ -244,13 +244,13 @@
                 <div class="modal_agregar_dep_nuevo_fechas" name="modal_agregar_dep_nuevo_fechas" id="modal_agregar_dep_nuevo_fechas" style="display: none;">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="modal_agregar_dep_nuevo_fecha_inicio"><span class="requerido" style="color: red;" id="equerido_')">*</span>Fecha Ir nicio</label>
+                            <label for="modal_agregar_dep_nuevo_fecha_inicio"><span class="requerido" style="color: red;" id="equerido_')">*</span>Fecha Inicio</label>
                             <input class="form-control form-control-sm" type="date" name="modal_agregar_dep_nuevo_fecha_inicio" id="modal_agregar_dep_nuevo_fecha_inicio" value="{{ date('Y-m-d') }}">
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="modal_agregar_dep_nuevo_fecha_termino"><span class="requerido" style="color: red;" id="">*</span>Fecha requerido_Tvalueermino</label>
+                            <label for="modal_agregar_dep_nuevo_fecha_termino"><span class="requerido" style="color: red;" id="">*</span>Fecha Término</label>
                             <input type="date" name="modal_agregar_dep_nuevo_fecha_termino" id="modal_agregar_dep_nuevo_fecha_termino" value="">
                         </div>
                     </div>

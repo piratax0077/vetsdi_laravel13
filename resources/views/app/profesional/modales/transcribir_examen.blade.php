@@ -202,7 +202,7 @@
         {
             swal({
                 title: "Transcripción de Examen",
-                text: "Falla de Hora medica",
+                text: "Falla de hora médica",
                 icon: "error",
                 buttons: "Aceptar",
                 DangerMode: true,
@@ -279,7 +279,7 @@
                 }
 
                 swal({
-                    title: "Edicion de Personal",
+                    title: "Edición de Personal",
                     text: mensaje,
                     icon: "error",
                     buttons: "Aceptar",
@@ -354,7 +354,7 @@
                 }
                 else
                 {
-                    mensaje = 'Se presento un problema en la busqueda intente nuevamente';
+                    mensaje = 'Se presentó un problema en la búsqueda, intente nuevamente';
                     $('#'+div_mensaje).show();
                     $('#'+text_mensaje).html(mensaje);
                     // $('#'+input_nombre_completo).attr('readonly', false);
@@ -430,7 +430,7 @@
                  * Si el tamaño del archivo es demasiado grande.
                  * `{ {filesize} }` y `{ {maxFilesize} }` serán reemplazados con los respectivos valores de configuración.
                  */
-                dictFileTooBig: "El archivo es demasiado grande. Max tamaño de archivo: 4 MiB.",
+                dictFileTooBig: "El archivo es demasiado grande. Tamaño máximo de archivo: 4 MiB.",
 
                 /** Si el archivo no coincide con el tipo de archivo. */
                 dictInvalidFileType: "No puedes subir archivos de este tipo.",
@@ -544,7 +544,7 @@
                  * Si el tamaño del archivo es demasiado grande.
                  * `{ {filesize} }` y `{ {maxFilesize} }` serán reemplazados con los respectivos valores de configuración.
                  */
-                dictFileTooBig: "El archivo es demasiado grande. Max tamaño de archivo: 4 MiB.",
+                dictFileTooBig: "El archivo es demasiado grande. Tamaño máximo de archivo: 4 MiB.",
 
                 /** Si el archivo no coincide con el tipo de archivo. */
                 dictInvalidFileType: "No puedes subir archivos de este tipo.",
@@ -657,7 +657,7 @@
                  * Si el tamaño del archivo es demasiado grande.
                  * `{ {filesize} }` y `{ {maxFilesize} }` serán reemplazados con los respectivos valores de configuración.
                  */
-                dictFileTooBig: "El archivo es demasiado grande. Max tamaño de archivo: 4 MiB.",
+                dictFileTooBig: "El archivo es demasiado grande. Tamaño máximo de archivo: 4 MiB.",
 
                 /** Si el archivo no coincide con el tipo de archivo. */
                 dictInvalidFileType: "No puedes subir archivos de este tipo.",

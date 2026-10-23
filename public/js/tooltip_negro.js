@@ -26,10 +26,26 @@
         });
     }
 
+    /*
+     * pcoded.min.js hace $('[data-toggle="tooltip"]').tooltip() al cargar y, con jQuery UI, eso deja un tooltip blanco
+     * que además quita el title del botón. Se desarma antes de crear el negro, así el title vuelve a su lugar.
+     */
+    function quitarTooltipJqueryUi(elemento) {
+        var jq = window.jQuery;
+        if (jq && jq(elemento).data('ui-tooltip')) {
+            jq(elemento).tooltip('destroy');
+        }
+    }
+
+    // Se escucha en captura para adelantarse al manejador de jQuery UI, que corre en el mismo botón
     document.addEventListener('mouseover', function (evento) {
         var Tooltip = claseTooltip();
         var elemento = Tooltip && evento.target.closest ? evento.target.closest(selectorTooltip) : null;
-        if (!elemento || elemento.hasAttribute('data-tooltip-negro') || !elemento.getAttribute('title')) {
+        if (!elemento || elemento.hasAttribute('data-tooltip-negro')) {
+            return;
+        }
+        quitarTooltipJqueryUi(elemento);
+        if (!elemento.getAttribute('title')) {
             return;
         }
 
@@ -40,10 +56,14 @@
             placement: elemento.getAttribute('data-placement') || 'top',
             trigger: 'hover focus'
         });
+        // Bootstrap busca la instancia en los datos del botón al recibir su mouseenter; sin esto crea un segundo tooltip
+        if (window.jQuery) {
+            window.jQuery(elemento).data('bs.tooltip', tooltip);
+        }
         tooltipsCreados.push(tooltip);
         // La primera vez se muestra al tiro, porque el mouse ya está encima
         tooltip.show();
-    });
+    }, true);
 
     // Al hacer clic (por ejemplo para abrir un modal) el tooltip no debe quedar pegado
     document.addEventListener('click', ocultarTodos, true);

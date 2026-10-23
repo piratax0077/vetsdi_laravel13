@@ -314,7 +314,6 @@ class PerfilTutorMascotaTest extends TestCase
         $this->assertSame(1,$controller->obtenerRegistrosSanitarios(1)['estado']);
         foreach([
             fn()=> $controller->guardarVacunaDesdeModal($this->req(['fecha_dosis'=>'2026-01-01','vacuna'=>'No permitida']),1),
-            fn()=> $controller->guardarDesparasitacionDesdeModal($this->req(['fecha_dosis'=>'2026-01-01','antiparasitario'=>'No permitido','tipo'=>'Interno']),1),
             fn()=> $this->actualizar(['vacunas'=>'Cambio no autorizado']),
             fn()=> $this->actualizar(['enfermedad_cronica'=>null]),
             fn()=> $this->actualizar(['esterilizado'=>0]),
@@ -325,5 +324,21 @@ class PerfilTutorMascotaTest extends TestCase
         }
         $this->assertSame('Vacunada',Mascota::find(1)->vacunas);
         $this->assertSame('Antecedente',Mascota::find(1)->enfermedad_cronica);
+    }
+
+    public function test_tutor_registers_deworming_indicating_who_did_it(): void
+    {
+        $controller=app(MascotasController::class);
+        $datos=['fecha_dosis'=>'2026-01-01','antiparasitario'=>'Antiparasitario','tipo'=>'Interno'];
+        $this->assertSame(422,$controller->guardarDesparasitacionDesdeModal($this->req($datos),1)->status());
+
+        $respuesta=$controller->guardarDesparasitacionDesdeModal($this->req($datos+['realizado_por'=>'tutor']),1);
+        $this->assertSame('Tutor: Tutor Uno',$respuesta['desparasitaciones'][0]['realizado_por']);
+        $respuesta=$controller->guardarDesparasitacionDesdeModal($this->req($datos+['realizado_por'=>'profesional_externo']),1);
+        $this->assertSame('Profesional externo',$respuesta['desparasitaciones'][1]['realizado_por']);
+        $this->assertCount(2,Mascota::find(1)->desparasitaciones_registro);
+
+        // La mascota de otro tutor no se encuentra para este usuario
+        $this->assertSame(404,$controller->guardarDesparasitacionDesdeModal($this->req($datos+['realizado_por'=>'tutor']),2)->status());
     }
 }

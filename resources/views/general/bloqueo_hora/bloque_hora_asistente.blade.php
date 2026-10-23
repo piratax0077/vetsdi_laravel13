@@ -56,7 +56,7 @@
                                 <input type="time" class="form-control form-control-sm" name="bloqueo_hora_inicio" id="bloqueo_hora_inicio">
                             </div>
                             <div class="form-group col-md-6">
-                                <label class="floating-label-activo-sm">Hora de termino</label>
+                                <label class="floating-label-activo-sm">Hora de término</label>
                                 <input type="time" class="form-control form-control-sm" name="bloqueo_hora_termino" id="bloqueo_hora_termino">
                             </div>
 
@@ -535,7 +535,7 @@
                     if(data.registros.horario_agenda_laboral != '')
                     {
                         console.log(data);
-                        let dias = ['','LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
+                        let dias = ['','LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
                         var dias_activos = data.registros.horario_agenda_laboral.split(',');
                         var dias_texto = '';
                         var cant = 0;

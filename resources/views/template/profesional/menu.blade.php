@@ -362,8 +362,8 @@
             <div class="modal-body">
                 <input type="hidden" name="menu_url_destino" id="menu_url_destino" value="">
                 <input type="hidden" name="menu_nombre_destino" id="menu_nombre_destino" value="">
-                <p>Esta por salir de la Ficha de Atención, los datos serán eliminados.</p>
-                <p>¿Esta seguro que desea continuar?</p>
+                <p>Está por salir de la Ficha de Atención, los datos serán eliminados.</p>
+                <p>¿Está seguro de que desea continuar?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i>Cancelar</button>

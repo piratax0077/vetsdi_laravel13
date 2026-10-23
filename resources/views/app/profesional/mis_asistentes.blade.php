@@ -120,7 +120,7 @@
 
                                                 <th>Lugar Atención</th>
 
-                                                <th>Rut</th>
+                                                <th>RUT</th>
 
                                                 <th>Nombre</th>
 

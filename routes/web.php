@@ -3739,6 +3739,9 @@ Route::group([
 
     Route::get('/Profesionales_institucion', [App\Http\Controllers\AdministradorCmController::class, 'profesionales_institucion'])->name('adm_cm.profesionales_institucion');
 
+    // Contratos tiene su propia página (antes era una pestaña dentro de Personal)
+    Route::get('/Contratos', [App\Http\Controllers\AdministradorCmController::class, 'contratos'])->name('adm_cm.contratos');
+
     Route::get('/Mis/Profesionales', [App\Http\Controllers\AdministradorCmController::class, 'adm_inst_mis_profesionales'])->name('adm_cm.mis_profesionales');
 
 	Route::post('/Profesionales/asociar/existente', [App\Http\Controllers\AdministradorCmController::class, 'asociarProfesionalExistente'])->name('adm_cm.asociar_profesional_existente');

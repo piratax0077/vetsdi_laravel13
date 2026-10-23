@@ -1729,6 +1729,13 @@ class ManejoContratoController extends Controller
             {
                 $registro_contrato = ContratoDependienteProfesional::find($request->id_contrato);
 
+                // Profesional vinculado sin contrato en este lugar: el contrato se crea al guardar
+                if(!$registro_contrato && empty($request->id_contrato))
+                {
+                    $registro_contrato = new ContratoDependienteProfesional();
+                    $registro_contrato->estado = 2;
+                }
+
                 if($registro_contrato)
                 {
                     $filtro = array();
@@ -1760,10 +1767,10 @@ class ManejoContratoController extends Controller
                         {
                             /** update de direccion */
                             $registro_direccion->direccion = $request->direccion;
-                            $registro_direccion->numero = $request->numero;
-                            $registro_direccion->ciudad = $request->ciudad;
+                            $registro_direccion->numero_dir = $request->numero;
+                            $registro_direccion->id_ciudad = $request->ciudad;
 
-                            if($registro_profesional->save())
+                            if($registro_direccion->save())
                             {
                                 $datos['update_profesionales']['direccion']['estado'] = 1;
                                 $datos['update_profesionales']['direccion']['msj'] = 'Datos Direccion Profesional Actualizados';
@@ -1780,8 +1787,8 @@ class ManejoContratoController extends Controller
                             /** registro direccion */
                             $registro_direccion = new Direccion();
                             $registro_direccion->direccion = $request->direccion;
-                            $registro_direccion->numero = $request->numero;
-                            $registro_direccion->ciudad = $request->ciudad;
+                            $registro_direccion->numero_dir = $request->numero;
+                            $registro_direccion->id_ciudad = $request->ciudad;
 
                             if($registro_direccion->save())
                             {
@@ -1853,7 +1860,7 @@ class ManejoContratoController extends Controller
                     $registro_contrato->asignacion_familiar_cantidad = $request->asignacion_familiar_cantidad;
                     $registro_contrato->caja_compensacion = $request->caja_compensacion;
                     $registro_contrato->caja_compensacion_porcentaje = $request->caja_compensacion_porcentaje;
-                    $registro_contrato->otro = $request->otro;
+                    $registro_contrato->otro = $request->otro ?? '';
                     $registro_contrato->dias_laborales = implode(',', $request->dias_laborales);
                     $registro_contrato->hora_ingreso = $request->hora_entrada;
                     $registro_contrato->hora_salida = $request->hora_salida;

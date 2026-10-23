@@ -369,7 +369,7 @@
                     {
                         swal({
                             title: "Exito!",
-                            text: "Se ha confirmado su hora medica",
+                            text: "Se ha confirmado su hora médica",
                             type: "success",
                         });
 
@@ -379,7 +379,7 @@
                     {
                         swal({
                             title: "Error!",
-                            text: "Se ha presentado un problema en la confirmación su hora medica.\n Intente de nuevo.",
+                            text: "Se ha presentado un problema en la confirmación de su hora médica.\n Intente de nuevo.",
                             type: "success",
                         });
 
@@ -409,7 +409,7 @@
                     {
                         swal({
                             title: "Exito!",
-                            text: "Se ha Cancelado su hora medica",
+                            text: "Se ha cancelado su hora médica",
                             type: "success",
                         });
 
@@ -419,7 +419,7 @@
                     {
                         swal({
                             title: "Error!",
-                            text: "Se ha presentado un problema en la Cancelación su hora medica.\n Intente de nuevo.",
+                            text: "Se ha presentado un problema en la cancelación de su hora médica.\n Intente de nuevo.",
                             type: "success",
                         });
 

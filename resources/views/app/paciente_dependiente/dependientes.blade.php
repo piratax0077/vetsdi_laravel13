@@ -62,7 +62,7 @@
 
                         <div class="card-header text-center bg-c-info">
 
-                            <h5 class="text-white d-inline text-center" style="font-size: 1.2rem;">Mis Dependientesx</h5>
+                            <h5 class="text-white d-inline text-center" style="font-size: 1.2rem;">Mis Dependientes</h5>
 
                         </div>
 
@@ -537,9 +537,9 @@
 
                 swal({
 
-                    title: "Busqueda de Paciente por RUT",
+                    title: "Búsqueda de Paciente por RUT",
 
-                    text:"Debe ingresar un RUT para la busqueda.",
+                    text:"Debe ingresar un RUT para la búsqueda.",
 
                     icon: "error",
 

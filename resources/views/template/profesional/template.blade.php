@@ -201,7 +201,7 @@
 
             // Verificar que la fecha tenga el formato correcto
             if (parts.length !== 3) {
-                throw new Error('formato invalido');
+                throw new Error('formato inválido');
             }
 
             let day = parts[0];
@@ -888,7 +888,7 @@
 
                     if (response.success) {
                         swal({
-                            title: "Cirugia agregada correctamente",
+                            title: "Cirugía agregada correctamente",
                             icon: "success",
                             buttons: "Aceptar",
                             DangerMode: true,
@@ -933,7 +933,7 @@
                         }
                     } else {
                         swal({
-                            title: "Error al agregar la cirugia",
+                            title: "Error al agregar la cirugía",
                             icon: "error",
                             buttons: "Aceptar",
                             DangerMode: true,
@@ -967,7 +967,7 @@
 
                     if (response.success) {
                         swal({
-                            title: "Cirugia eliminada correctamente",
+                            title: "Cirugía eliminada correctamente",
                             icon: "success",
                             buttons: "Aceptar",
                             DangerMode: true,
@@ -1035,7 +1035,7 @@
         function autorizacion_ficha_medica_unica(id) {
 
             swal({
-                    title: "¿Desea solicitar el codigo de autorización?",
+                    title: "¿Desea solicitar el código de autorización?",
                     text: "Favor confirme o cancele la solicitud",
                     icon: "warning",
                     buttons: ["Cancelar", "Solicitar"],
@@ -1335,7 +1335,7 @@
 
                         console.log(data);
 
-                        $('#mensaje_email').text('el email ya esta en nuestros registros');
+                        $('#mensaje_email').text('el email ya está en nuestros registros');
                         $('#mensaje_email').show();
                         $('#email_paciente_agregar').focus();
 
@@ -1493,7 +1493,7 @@
             var mensaje = ''
             if (rut == '') {
                 valido = 0;
-                mensaje += 'Debe ingresar rut.\n';
+                mensaje += 'Debe ingresar RUT.\n';
             }
             if (nombres == '') {
                 valido = 0;
@@ -1514,7 +1514,7 @@
             }  --}}
             if (direccion == '') {
                 valido = 0;
-                mensaje += 'Debe ingresar direccion.\n';
+                mensaje += 'Debe ingresar dirección.\n';
             }
             if (id_ciudad == '' || id_ciudad == '0') {
                 valido = 0;
@@ -1526,11 +1526,11 @@
             }
             if (telefono == '') {
                 valido = 0;
-                mensaje += 'Debe ingresar telefono.\n';
+                mensaje += 'Debe ingresar teléfono.\n';
             }
             if (parentezco == '' || parentezco == '0') {
                 valido = 0;
-                mensaje += 'Debe ingresar parentezco.\n';
+                mensaje += 'Debe ingresar parentesco.\n';
             }
             if (prioridad == '' || prioridad == '0') {
                 valido = 0;
@@ -1703,7 +1703,7 @@
 
                          if (data == 'existe') {
 
-                             alert('Asistente ya esta agregado a su lista');
+                             alert('Asistente ya está agregado a su lista');
                              $('#rut_nuevo_asistente').val('');
 
                          } else {
@@ -1812,13 +1812,13 @@
 
 
                         swal({
-                            title: "Rut no encontrado en el sistema, complete registro",
+                            title: "RUT no encontrado en el sistema, complete registro",
                             icon: "warning",
                             buttons: "Aceptar",
                             //SuccessMode: true,
                         })
 
-                        // alert('Rut no encontrado en el sistema, complete registro');
+                        // alert('RUT no encontrado en el sistema, complete registro');
                         $('#form_contacto_nuevo').show();
 
                     }
@@ -1854,12 +1854,12 @@
                         if (data == 'existe') {
 
                             swal({
-                                title: "Asistente ya esta agregado a su lista",
+                                title: "Asistente ya está agregado a su lista",
                                 icon: "info",
                                 buttons: "Aceptar",
                                 // DangerMode: true,
                             })
-                            // alert('Asistente ya esta agregado a su lista');
+                            // alert('Asistente ya está agregado a su lista');
                             $('#rut_nuevo_asistente').val('');
 
                         } else {
@@ -2072,7 +2072,7 @@
 
                         console.log(data);
 
-                        $('#ape_ficha_id').text('Examenes de Ficha Clinica Nro: ' + id);
+                        $('#ape_ficha_id').text('Exámenes de Ficha Clínica Nro.: ' + id);
                         for (i = 0; i < data.length; i++) {
 
                             var fecha = formatDate(data[i].created_at);
@@ -2264,7 +2264,7 @@
 
                         // console.log(data);
 
-                        $('#mensaje_email_reserva').text('El email ya esta en nuestros registros');
+                        $('#mensaje_email_reserva').text('El email ya está en nuestros registros');
                         $('#mensaje_email_reserva').show();
                         $('#reserva_hora_correo').focus();
 
@@ -2286,7 +2286,7 @@
                             $("#guardar_reserva_paciente").prop('disabled', true);
                             $('#mensaje_reserva_hora_fecha_nac').html('');
                             $('#mensaje_reserva_hora_fecha_nac').show();
-                            $('#mensaje_reserva_hora_fecha_nac').html('La fecha cargada no es valida');
+                            $('#mensaje_reserva_hora_fecha_nac').html('La fecha cargada no es válida');
 
                             $('#mensaje_email_reserva').text('');
                             $('#mensaje_email_reserva').hide();
@@ -2334,7 +2334,7 @@
 
                         // console.log(data);
 
-                        $('#mensaje_email_reserva_representante').text('el email ya esta en nuestros registros');
+                        $('#mensaje_email_reserva_representante').text('el email ya está en nuestros registros');
                         $('#mensaje_email_reserva_representante').show();
                         $('#reserva_hora_representante_correo').focus();
 
@@ -2454,7 +2454,7 @@
                                         if (data.edad > 18) {
                                             swal({
                                                 title: "Reserva de hora",
-                                                text: "El paciente es mayor de edad, el profesional es Pediatrico",
+                                                text: "El paciente es mayor de edad, el profesional es Pediátrico",
                                                 icon: "warning",
                                                 buttons: "Aceptar",
                                             });
@@ -2977,7 +2977,7 @@
 
 
                             swal({
-                                title: "Rut ya registrado",
+                                title: "RUT ya registrado",
                                 icon: "warning",
                                 buttons: "Aceptar",
                                 // DangerMode: true,
@@ -2987,10 +2987,10 @@
                             // }, 4000);
                             // alert('rut ya registrado');
 
-                            $('#mensaje_asistente').text('Ya esta registrado el rut como asistente');
+                            $('#mensaje_asistente').text('Ya está registrado el RUT como asistente');
                         } else {
                             swal({
-                                title: "Rut valido",
+                                title: "RUT válido",
                                 icon: "success",
                                 buttons: "Aceptar",
                                 // DangerMode: true,
@@ -3261,7 +3261,7 @@
 
                         console.log(data);
 
-                        $('#ap_ficha_id').text('Receta de Ficha Clinica Nro: ' + id);
+                        $('#ap_ficha_id').text('Receta de Ficha Clínica Nro.: ' + id);
                         for (i = 0; i < data.length; i++) {
 
                             var fecha = formatDate(data[i].created_at);
@@ -3571,7 +3571,7 @@
             if (rut_paciente_reserva == '') {
                 swal({
                     title: "Error!",
-                    text: "Debe ingresar el Rut",
+                    text: "Debe ingresar el RUT",
                     icon: "error",
                     type: "danger",
                     DangerMode: true,
@@ -3688,7 +3688,7 @@
 
                 swal({
                     title: "Error!",
-                    text: "Debe ingresar un numero a su dirección",
+                    text: "Debe ingresar un número a su dirección",
                     icon: "error",
                     type: "danger",
                     DangerMode: true,
@@ -3990,7 +3990,7 @@
                     if (reserva_hora_representante_direccion == '') {
                         swal({
                             title: "Error!",
-                            text: "Direccion del Representante requerido",
+                            text: "Dirección del representante requerida",
                             icon: "error",
                             type: "danger",
                             DangerMode: true,
@@ -4164,8 +4164,8 @@
                         // console.log(data);
                         if (data.estado == 1) {
                             swal({
-                                title: "Exito!",
-                                text: "Hora medica agendada correctamente",
+                                title: "¡Éxito!",
+                                text: "Hora médica agendada correctamente",
                                 type: "success",
                                 confirmButtonText: "Cool"
                             });
@@ -4178,7 +4178,7 @@
                             $('#agenda_agregar_paciente').modal('hide');
                         } else {
                             swal({
-                                title: "Hora medica",
+                                title: "Hora médica",
                                 text: data.msj,
                                 type: "error",
                                 confirmButtonText: "Cool"
@@ -4204,7 +4204,7 @@
 
             $('#datos_hora_medica').hide();
             $('#cancelacion_hora_medica').hide();
-            $('#cabecera_hora_medica').text('Confirmar Hora Medica');
+            $('#cabecera_hora_medica').text('Confirmar Hora Médica');
             $('#hm_anular_hora').hide();
             $('#hm_atender_hora').hide();
             $('#hm_confirmar_hora').hide();
@@ -4219,7 +4219,7 @@
 
             $('#datos_hora_medica').hide();
             $('#cancelacion_hora_medica').show();
-            $('#cabecera_hora_medica').text('Cancelar Hora Medica');
+            $('#cabecera_hora_medica').text('Cancelar Hora Médica');
             $('#hm_anular_hora').hide();
             $('#hm_atender_hora').hide();
             $('#hm_confirmar_hora').hide();
@@ -4250,8 +4250,8 @@
                         console.log(data);
                         $('#consulta').modal('hide');
                         swal({
-                            title: "Exito!",
-                            text: "Hora medica cancelada correctamente",
+                            title: "¡Éxito!",
+                            text: "Hora médica cancelada correctamente",
                             type: "success",
                             confirmButtonText: "Cool"
                         });
@@ -4294,7 +4294,7 @@
                         data = JSON.parse(data);
                         console.log(data);
                         swal({
-                            title: "Exito!",
+                            title: "¡Éxito!",
                             text: "Paciente esperando",
                             type: "success",
                             // DangerMode: true,
@@ -4350,8 +4350,8 @@
                         data = JSON.parse(data);
                         console.log(data);
                         swal({
-                            title: "Exito!",
-                            text: "Se ha confirmado su hora medica",
+                            title: "¡Éxito!",
+                            text: "Se ha confirmado su hora médica",
                             type: "success",
                             // DangerMode: true,
                             confirmButtonText: "Cool"
@@ -4817,7 +4817,7 @@
                     if (data != 'failed') {
 
                         swal({
-                            title: "se modifico antecedentes del paciente",
+                            title: "se modificó antecedentes del paciente",
                             icon: "success",
                             buttons: "Aceptar",
                             //SuccessMode: true,
@@ -4825,7 +4825,7 @@
                         setTimeout(function() {
                             location.reload()
                         }, 100);
-                        // alert('se modifico antecedentes del paciente');
+                        // alert('se modificó antecedentes del paciente');
                         // location.reload();
 
                     } else {
@@ -4853,7 +4853,7 @@
             if (duracion == 0) {
                 swal({
                     title: "Error",
-                    text: "Debe ingresar una duracion",
+                    text: "Debe ingresar una duración",
                     icon: "error",
                     buttons: "Aceptar",
                     DangerMode: true,
@@ -4880,7 +4880,7 @@
             if (dia == '') {
                 swal({
                     title: "Error",
-                    text: "Debe ingresar un dia",
+                    text: "Debe ingresar un día",
                     icon: "error",
                     buttons: "Aceptar",
                     DangerMode: true,
@@ -4904,7 +4904,7 @@
             if (hora_termino == 0) {
                 swal({
                     title: "Error",
-                    text: "Debe ingresar una hora de termino",
+                    text: "Debe ingresar una hora de término",
                     icon: "error",
                     buttons: "Aceptar",
                     DangerMode: true,
@@ -4975,7 +4975,7 @@
 
             if ($('#estado_lugar_atencion_' + id).prop('checked')) {
                 swal({
-                        title: "¿Esta seguro que desea habilitar el lugar de atención?",
+                        title: "¿Está seguro de que desea habilitar el lugar de atención?",
                         text: "Favor confirme o cancele la solicitud",
                         icon: "warning",
                         buttons: ["Cancelar", "Solicitar"],
@@ -5001,7 +5001,7 @@
                                     if (data == 'ok') {
                                         $('#estado_lugar_atencion_' + id).prop('checked', true);
                                         swal({
-                                            title: "Lugar de atencion habilitado",
+                                            title: "Lugar de atención habilitado",
                                             icon: "success",
                                             buttons: "Aceptar",
                                             //SuccessMode: true,
@@ -5011,7 +5011,7 @@
                                     } else {
                                         swal({
                                             title: "Error",
-                                            text: "Error al habilitar el lugar de atencion",
+                                            text: "Error al habilitar el lugar de atención",
                                             icon: "error",
                                             buttons: "Aceptar",
                                             DangerMode: true,
@@ -5056,7 +5056,7 @@
                 //             if (data == 'ok') {
                 //                 $('#estado_lugar_atencion_' + id).prop('checked', true);
                 //                 swal({
-                //                     title: "Lugar de atencion habilitado",
+                //                     title: "Lugar de atención habilitado",
                 //                     icon: "success",
                 //                     buttons: "Aceptar",
                 //                     //SuccessMode: true,
@@ -5066,7 +5066,7 @@
                 //             } else {
                 //                 swal({
                 //                     title: "Error",
-                //                     text: "Error al habilitar el lugar de atencion",
+                //                     text: "Error al habilitar el lugar de atención",
                 //                     icon: "error",
                 //                     buttons: "Aceptar",
                 //                     DangerMode: true,
@@ -5086,7 +5086,7 @@
             } else {
 
                 swal({
-                        title: "¿Esta seguro que desea deshabilitar el lugar de atención??",
+                        title: "¿Está seguro de que desea deshabilitar el lugar de atención?",
                         text: "Favor confirme o cancele la solicitud",
                         icon: "warning",
                         buttons: ["Cancelar", "Deshabilitar"],
@@ -5190,7 +5190,7 @@
             let url = "{{ route('profesional.cambio_estado_asistente') }}";
 
             if ($('#estado_asistente').prop('checked')) {
-                let confirmacion = confirm('Esta seguro que desea habilitar al o la asistente?');
+                let confirmacion = confirm('¿Está seguro de que desea habilitar al o la asistente?');
                 if (confirmacion == true) {
 
                     let estado = 1;
@@ -5233,7 +5233,7 @@
                     $('#estado_asistente').prop("checked", false);
                 }
             } else {
-                let confirmacion = confirm('Esta seguro que desea deshabilitar al o la asistente?');
+                let confirmacion = confirm('¿Está seguro de que desea deshabilitar al o la asistente?');
                 if (confirmacion == true) {
 
                     let estado = 0;
@@ -5508,7 +5508,7 @@
             var mensaje = ''
             if (rut == '') {
                 valido = 0;
-                mensaje += 'Debe ingresar rut.\n';
+                mensaje += 'Debe ingresar RUT.\n';
             }
             if (nombres == '') {
                 valido = 0;
@@ -5528,7 +5528,7 @@
             }
             if (direccion == '') {
                 valido = 0;
-                mensaje += 'Debe ingresar direccion.\n';
+                mensaje += 'Debe ingresar dirección.\n';
             }
             if (id_ciudad == '' || id_ciudad == '0') {
                 valido = 0;
@@ -5540,11 +5540,11 @@
             }
             if (telefono == '') {
                 valido = 0;
-                mensaje += 'Debe ingresar telefono.\n';
+                mensaje += 'Debe ingresar teléfono.\n';
             }
             if (parentezco == '' || parentezco == '0') {
                 valido = 0;
-                mensaje += 'Debe ingresar parentezco.\n';
+                mensaje += 'Debe ingresar parentesco.\n';
             }
             if (prioridad == '' || prioridad == '0') {
                 valido = 0;
@@ -6170,20 +6170,20 @@
                 messages: {
 
                     rut_paciente_agregar: {
-                        required: "Debe Ingresar Rut",
-                        minlength: "Por favor ingrese un Rut valido 1111111-1"
+                        required: "Debe Ingresar RUT",
+                        minlength: "Por favor ingrese un RUT válido 1111111-1"
                     },
                     nombres_paciente_agregar: {
                         required: "Debe Ingresar un Nombre",
-                        minlength: "Por favor ingrese un nombre valido"
+                        minlength: "Por favor ingrese un nombre válido"
                     },
                     apellidos_paciente_agregar: {
                         required: "Debe Ingresar los Apellidos",
-                        minlength: "Por favor ingrese apellidos validos"
+                        minlength: "Por favor ingrese apellidos válidos"
                     },
                     direccion_paciente_agregar: {
-                        required: "Debe Ingresar una direccion",
-                        minlength: "Por favor ingrese una dirección valida"
+                        required: "Debe ingresar una dirección",
+                        minlength: "Por favor ingrese una dirección válida"
 
                     },
                     fecha_nac_paciente_agregar: {
@@ -6199,11 +6199,11 @@
                     },
                     email_paciente_agregar: {
                         required: "Debe Ingresar un email",
-                        minlength: "Por favor ingrese un email valido"
+                        minlength: "Por favor ingrese un email válido"
                     },
                     telefono_paciente_agregar: {
                         required: "Debe Ingresar teléfono",
-                        minlength: "Por favor ingrese un teléfono valido"
+                        minlength: "Por favor ingrese un teléfono válido"
                     },
 
                 },
@@ -6220,8 +6220,8 @@
                 messages: {
 
                     rut_paciente_reserva: {
-                        required: "Debe Ingresar Rut",
-                        minlength: "Por favor ingrese un Rut valido 1111111-1"
+                        required: "Debe Ingresar RUT",
+                        minlength: "Por favor ingrese un RUT válido 1111111-1"
                     },
                 },
             });
@@ -6310,24 +6310,24 @@
                 messages: {
 
                     rut_paciente_reserva: {
-                        required: "Debe Ingresar Rut",
-                        minlength: "Por favor ingrese un Rut valido 1111111-1"
+                        required: "Debe Ingresar RUT",
+                        minlength: "Por favor ingrese un RUT válido 1111111-1"
                     },
                     reserva_hora_nombres_paciente: {
                         required: "Debe Ingresar un Nombre",
-                        minlength: "Por favor ingrese un nombre valido"
+                        minlength: "Por favor ingrese un nombre válido"
                     },
                     reserva_hora_apellido_uno: {
                         required: "Debe Ingresar los Apellidos",
-                        minlength: "Por favor ingrese apellidos validos"
+                        minlength: "Por favor ingrese apellidos válidos"
                     },
                     reserva_hora_apellido_dos: {
                         required: "Debe Ingresar los Apellidos",
-                        minlength: "Por favor ingrese apellidos validos"
+                        minlength: "Por favor ingrese apellidos válidos"
                     },
                     reserva_hora_direccion: {
-                        required: "Debe Ingresar una direccion",
-                        minlength: "Por favor ingrese una dirección valida"
+                        required: "Debe ingresar una dirección",
+                        minlength: "Por favor ingrese una dirección válida"
 
                     },
                     reserva_hora_fecha_nac: {
@@ -6342,11 +6342,11 @@
                     },
                     reserva_hora_correo: {
                         required: "Debe Ingresar un email",
-                        minlength: "Por favor ingrese un email valido"
+                        minlength: "Por favor ingrese un email válido"
                     },
                     reserva_hora_telefono_uno: {
                         required: "Debe Ingresar teléfono",
-                        minlength: "Por favor ingrese un teléfono valido"
+                        minlength: "Por favor ingrese un teléfono válido"
                     },
 
                 },
@@ -6364,8 +6364,8 @@
                 messages: {
 
                     rut_paciente_reserva: {
-                        required: "Debe Ingresar Rut",
-                        minlength: "Por favor ingrese un Rut valido 1111111-1"
+                        required: "Debe Ingresar RUT",
+                        minlength: "Por favor ingrese un RUT válido 1111111-1"
                     },
                 },
             });
@@ -6376,7 +6376,7 @@
                     return re.test(value);
                 } else
                     return true;
-            }, "Numero no valido. Ejemplo: 912341234");
+            }, "Número no válido. Ejemplo: 912341234");
 
         });
     </script>
@@ -7166,7 +7166,7 @@
                     if (data != null) {
                         if (data.estado == 1) {
                             swal({
-                                title: "Registro de Diagnostico Cie10",
+                                title: "Registro de Diagnóstico CIE10",
                                 text: "Registros modificados con Exito",
                                 icon: "success"
                             })
@@ -7207,7 +7207,7 @@
                     if (data != 'failed') {
 
                         swal({
-                            title: "se modifico antecedentes confidenciales del paciente",
+                            title: "se modificó antecedentes confidenciales del paciente",
                             icon: "success",
                             buttons: "Aceptar",
                             //SuccessMode: true,
@@ -7215,7 +7215,7 @@
                         setTimeout(function() {
                             location.reload()
                         }, 100);
-                        // alert('se modifico antecedentes del paciente');
+                        // alert('se modificó antecedentes del paciente');
                         // location.reload();
 
                     } else {
@@ -7264,7 +7264,7 @@
                     if (data.estado == 1) {
 
                         swal({
-                            title: "se modifico antecedentes académicos",
+                            title: "se modificó antecedentes académicos",
                             icon: "success",
                             buttons: "Aceptar",
                             //SuccessMode: true,
@@ -7272,7 +7272,7 @@
                         setTimeout(function() {
                             location.reload()
                         }, 100);
-                        // alert('se modifico antecedentes del paciente');
+                        // alert('se modificó antecedentes del paciente');
                         // location.reload();
 
                     } else {

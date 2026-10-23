@@ -172,7 +172,7 @@
                                                             <th class="align-middle">Id Recepción</th>
                                                             <th class="align-middle">Fecha</th>
                                                             <th class="align-middle">Enviado por</th>
-                                                            <th class="align-middle">Tipo autorizacion</th>
+                                                            <th class="align-middle">Tipo autorización</th>
                                                             <th class="align-middle">Estado</th>
                                                             <th class="align-middle">Acciones</th>
                                                         </tr>
@@ -562,7 +562,7 @@
                                                                                         <td class="align-middle">{{ $value_br->TipoBono()->first()->nombre }}</td>
                                                                                         <td class="align-middle">
                                                                                             @if($value_br->id_clase_bono == 1)
-                                                                                                        Bono Emitido por Institucion
+                                                                                                        Bono Emitido por Institución
                                                                                                     @elseif($value_br->id_clase_bono == 2 || $value_br->id_clase_bono == 3)
                                                                                                         Boucher
                                                                                                     @elseif($value_br->id_clase_bono == 4)
@@ -633,7 +633,7 @@
                                                                                         <td class="align-middle">{{ $value_br->TipoBono()->first()->nombre }}</td>
                                                                                         <td class="align-middle">
                                                                                             @if($value_br->id_clase_bono == 1)
-                                                                                                Bono Emitido por Institucion
+                                                                                                Bono Emitido por Institución
                                                                                             @elseif($value_br->id_clase_bono == 2 || $value_br->id_clase_bono == 3)
                                                                                                 Boucher
                                                                                             @elseif($value_br->id_clase_bono == 4)
@@ -864,12 +864,12 @@
                                             <th class="text-center align-middle">Estado</th>
                                             <th class="text-center align-middle">Fecha</th>
                                             <th class="text-center align-middle">Valor</th>
-                                            <th class="text-center align-middle">Ap.Seguro</th>
+                                            <th class="text-center align-middle">Ap. Seguro</th>
                                             <th class="text-center align-middle">T.Copago</th>
-                                            <th class="text-center align-middle"><label>Rut Prestador</label><br><label>Nombre</label></th>
+                                            <th class="text-center align-middle"><label>RUT Prestador</label><br><label>Nombre</label></th>
                                             <th class="text-center align-middle">Convenio</th>
                                             {{-- <th class="text-center align-middle">Asegurador</th> --}}
-                                            <th class="text-center align-middle">Accion</th>
+                                            <th class="text-center align-middle">Acción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1240,7 +1240,7 @@
             // preguntar si desea generar el archivo csv
             swal({
                 title: "¿Está seguro de generar el archivo CSV?",
-                text: "Una vez generado el archivo. \nSera destinado a la carpeta Descargas de su equipo.",
+                text: "Una vez generado el archivo. \nSerá destinado a la carpeta Descargas de su equipo.",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -1494,7 +1494,7 @@
                         fila += '    <td class="align-middle text-center">'+data.registros.bonos_rendidos[i].tipo_bono.nombre+'</td>';
                         fila += '    <td class="align-middle text-center">';
                         if(data.registros.bonos_rendidos[i].id_clase_bono == 1)
-                            fila += 'Bono Emitido por Institucion';
+                            fila += 'Bono Emitido por Institución';
                         else if(data.registros.bonos_rendidos[i].id_clase_bono == 2 || data.registros.bonos_rendidos[i].id_clase_bono == 3)
                             fila += 'Boucher';
                         else if(data.registros.bonos_rendidos[i].id_clase_bono == 4)
@@ -1530,7 +1530,7 @@
                         fila += '    <td class="align-middle text-center">'+data.registros.bonos_rendidos_generados[i].tipo_bono.nombre+'</td>';
                         fila += '    <td class="align-middle text-center">';
                         if(data.registros.bonos_rendidos_generados[i].id_clase_bono == 1)
-                            fila += 'Bono Emitido por Institucion';
+                            fila += 'Bono Emitido por Institución';
                         else if(data.registros.bonos_rendidos_generados[i].id_clase_bono == 2 || data.registros.bonos_rendidos_generados[i].id_clase_bono == 3)
                             fila += 'Boucher';
                         else if(data.registros.bonos_rendidos_generados[i].id_clase_bono == 4)

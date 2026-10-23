@@ -115,7 +115,10 @@
         ->map(function ($item) {
             return trim($item);
         })
-        ->filter()
+        // Respuestas como "no" o "ninguna" no son una cirugía registrada
+        ->reject(function ($item) {
+            return in_array(mb_strtolower(trim($item, " .-")), ['', 'no', 'ninguna', 'ninguno', 'sin', 'sin cirugias', 'sin cirugías', 'n/a'], true);
+        })
         ->values();
 
     $tratamientosLista = $fichasFvu->flatMap(function ($ficha) {
@@ -150,63 +153,70 @@
 
     $esVistaPacienteMascota = request()->routeIs('paciente.mascota.ficha_veterinaria');
 
+    // Igual que la FMU de MedSDI: "SI" con botón Ver cuando hay registros y "Sin registro" cuando no
     $tarjetasVitalesFvu = [
         [
             'titulo' => 'Vacunas',
             'icono' => 'gruposanguineo.png',
-            'tono' => 'verde',
-            'valor' => $cantidadVacunas > 0 ? $cantidadVacunas . ' registro(s)' : 'Sin registro',
-            'alerta' => false,
-            'mostrar_ver' => $cantidadVacunas > 0,
+            'tiene' => $cantidadVacunas > 0,
             'ver_modal' => '#modal_fvu_vacunas',
-            'ver_target' => '#vacunas_c',
         ],
         [
             'titulo' => 'Alergias',
             'icono' => 'alergias.png',
-            'valor' => $cantidadAlergias > 0 ? 'SI' : 'Sin registro',
-            'valor_clase' => $cantidadAlergias > 0 ? 'text-danger' : 'text-info',
-            'mostrar_ver' => $cantidadAlergias > 0,
-            'ver_url' => null,
-            'ver_target' => '#seccion_alergias',
-            'ver_mas_info' => true,
+            'tiene' => $cantidadAlergias > 0,
+            'ver_modal' => '#modal_fvu_alergias',
         ],
         [
             'titulo' => 'Desparasitaciones',
             'icono' => 'transfusion.jpg',
-            'tono' => 'ambar',
-            'valor' => $cantidadDesparasitaciones > 0 ? $cantidadDesparasitaciones . ' registro(s)' : 'Sin registro',
-            'alerta' => false,
-            'mostrar_ver' => $cantidadDesparasitaciones > 0,
+            'tiene' => $cantidadDesparasitaciones > 0,
             'ver_modal' => '#modal_fvu_desparasitaciones',
-            'ver_target' => '#desparasitacion_c',
         ],
         [
             'titulo' => 'Condición crónica',
             'icono' => 'enfermedad-cronica.png',
-            'tono' => 'morado',
-            'valor' => $tieneCronico ? 'Sí' : 'No',
-            'alerta' => $tieneCronico,
-            'mostrar_ver' => $tieneCronico,
-            'ver_url' => null,
-            'ver_target' => '#seccion_enfer_cronicas',
-            'ver_mas_info' => true,
+            'tiene' => $tieneCronico,
+            'ver_modal' => '#modal_fvu_cronicas',
         ],
         [
             'titulo' => 'Esterilizado/a',
             'icono' => 'esterilizacion.png',
-            'tono' => 'azul',
-            'valor' => $mascota->esterilizado ? 'Sí' : 'No',
-            'alerta' => false,
-            'mostrar_ver' => false,
+            'valor' => $mascota->esterilizado ? 'SI' : 'NO',
+            'alerta' => (bool) $mascota->esterilizado,
         ],
         [
             'titulo' => 'Peso',
             'icono' => 'peso.png',
-            'tono' => 'celeste',
             'valor' => $pesoMascota,
-            'alerta' => false,
-            'mostrar_ver' => false,
+            'vacio' => $resumenFvu['peso'] === null,
+        ],
+    ];
+
+    $tarjetasResumenFvu = [
+        [
+            'titulo' => 'Tratamientos en curso',
+            'icono' => 'tto-curso.png',
+            'tiene' => $tratamientosLista->isNotEmpty(),
+            'ver_modal' => '#modal_fvu_tratamientos',
+        ],
+        [
+            'titulo' => 'Enfermedades crónicas',
+            'icono' => 'meds-cronicos.png',
+            'tiene' => $tieneCronico,
+            'ver_modal' => '#modal_fvu_cronicas',
+        ],
+        [
+            'titulo' => 'Cirugías recientes',
+            'icono' => 'ant-qx.png',
+            'tiene' => $cirugiasLista->isNotEmpty(),
+            'ver_modal' => '#modal_fvu_cirugias',
+        ],
+        [
+            'titulo' => 'Documentos clínicos',
+            'icono' => 'prot-ort.png',
+            'tiene' => $cantidadDocumentos > 0,
+            'ver_modal' => '#modal_fvu_documentos',
         ],
     ];
 
@@ -525,40 +535,30 @@
             {{-- Indicadores de salud --}}
             <section class="fvu-zone-vitals" aria-labelledby="fvu_titulo_salud">
                 <div class="fvu-seccion__encabezado">
-                    <div>
-                        <h3 class="fvu-seccion__titulo" id="fvu_titulo_salud">Estado de salud</h3>
-                        <p class="fvu-seccion__bajada">Indicadores clave de {{ $nombreMascotaFvu }}</p>
-                    </div>
+                    <h3 class="fvu-seccion__titulo" id="fvu_titulo_salud">Estado de salud</h3>
                 </div>
 
                 <div class="fvu-indicadores">
                     @foreach ($tarjetasVitalesFvu as $tarjetaVital)
+                        @php
+                            $conRegistroFvu = array_key_exists('tiene', $tarjetaVital);
+                            $valorTarjetaFvu = $conRegistroFvu ? ($tarjetaVital['tiene'] ? 'SI' : 'Sin registro') : $tarjetaVital['valor'];
+                            $claseValorFvu = $conRegistroFvu
+                                ? ($tarjetaVital['tiene'] ? 'fvu-vital-value--alerta' : 'fvu-vital-value--vacio')
+                                : (!empty($tarjetaVital['alerta']) ? 'fvu-vital-value--alerta' : (!empty($tarjetaVital['vacio']) ? 'fvu-vital-value--vacio' : ''));
+                        @endphp
                         <div class="fvu-vital-item fvu-indicador fvu-tono--morado">
-                            <div class="fvu-indicador__superior">
-                                <span class="fvu-icono fvu-icono--imagen"><img src="{{ asset('images/iconos/' . $tarjetaVital['icono']) }}" alt="" aria-hidden="true"></span>
-                                @if (!empty($tarjetaVital['mostrar_ver']))
-                                    @if (!empty($tarjetaVital['ver_modal']))
-                                        <button type="button" class="fvu-card-ver-btn fvu-ver-modal" data-toggle="modal"
-                                            data-target="{{ $tarjetaVital['ver_modal'] }}"
-                                            aria-label="Ver {{ $tarjetaVital['titulo'] }}">Ver <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
-                                    @elseif (!empty($tarjetaVital['ver_url']))
-                                        <a href="{{ $tarjetaVital['ver_url'] }}" class="fvu-card-ver-btn"
-                                            aria-label="Ver {{ $tarjetaVital['titulo'] }}">Ver <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
-                                    @elseif (!empty($tarjetaVital['ver_mas_info']))
-                                        <button type="button" class="fvu-card-ver-btn fvu-ver-mas-info"
-                                            data-fvu-tab="{{ $tarjetaVital['ver_target'] }}"
-                                            aria-label="Ver {{ $tarjetaVital['titulo'] }}">Ver <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
-                                    @else
-                                        <button type="button" class="fvu-card-ver-btn fvu-ver-collapse"
-                                            data-target="{{ $tarjetaVital['ver_target'] }}"
-                                            aria-label="Ver {{ $tarjetaVital['titulo'] }}">Ver <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
-                                    @endif
-                                @endif
-                            </div>
-                            <div>
+                            <span class="fvu-icono fvu-icono--imagen"><img src="{{ asset('images/iconos/' . $tarjetaVital['icono']) }}" alt="" aria-hidden="true"></span>
+                            <div class="fvu-indicador__texto">
                                 <h5 class="fvu-vital-title">{{ $tarjetaVital['titulo'] }}</h5>
-                                <span class="fvu-vital-value {{ !empty($tarjetaVital['alerta']) ? 'fvu-vital-value--alerta' : '' }}">{{ $tarjetaVital['valor'] }}</span>
+                                <span class="fvu-vital-value {{ $claseValorFvu }}">{{ $valorTarjetaFvu }}</span>
                             </div>
+                            @if (!empty($tarjetaVital['ver_modal']))
+                                <button type="button" class="fvu-card-ver-btn fvu-ver-modal" data-toggle="modal"
+                                    data-target="{{ $tarjetaVital['ver_modal'] }}"
+                                    aria-label="Ver {{ $tarjetaVital['titulo'] }}"
+                                    @unless ($tarjetaVital['tiene']) style="display: none;" @endunless>Ver <i class="fas fa-caret-right" aria-hidden="true"></i></button>
+                            @endif
                         </div>
                     @endforeach
                 </div>
@@ -567,100 +567,24 @@
             {{-- Resumen de antecedentes --}}
             <section class="fvu-zone-summaries" aria-labelledby="fvu_titulo_resumen">
                 <div class="fvu-seccion__encabezado">
-                    <div>
-                        <h3 class="fvu-seccion__titulo" id="fvu_titulo_resumen">Resumen clínico</h3>
-                        <p class="fvu-seccion__bajada">Lo más relevante de sus antecedentes</p>
-                    </div>
+                    <h3 class="fvu-seccion__titulo" id="fvu_titulo_resumen">Resumen clínico</h3>
                 </div>
 
                 <div class="fvu-resumenes">
-                    <article class="fvu-resumen fvu-tono--morado">
-                        <div class="fvu-resumen__cabecera">
-                            <span class="fvu-icono fvu-icono--imagen"><img src="{{ asset('images/iconos/tto-curso.png') }}" alt="" aria-hidden="true"></span>
-                            <h5 class="fvu-resumen__titulo">Tratamientos en curso</h5>
-                            @if ($tratamientosLista->isNotEmpty())
-                                <span class="fvu-contador">{{ $tratamientosLista->count() }}</span>
+                    @foreach ($tarjetasResumenFvu as $tarjetaResumen)
+                        <article class="fvu-resumen fvu-tono--morado">
+                            <span class="fvu-icono fvu-icono--imagen"><img src="{{ asset('images/iconos/' . $tarjetaResumen['icono']) }}" alt="" aria-hidden="true"></span>
+                            <div class="fvu-indicador__texto">
+                                <h5 class="fvu-resumen__titulo">{{ $tarjetaResumen['titulo'] }}</h5>
+                                <span class="fvu-vital-value {{ $tarjetaResumen['tiene'] ? 'fvu-vital-value--alerta' : 'fvu-vital-value--vacio' }}">{{ $tarjetaResumen['tiene'] ? 'SI' : 'Sin registro' }}</span>
+                            </div>
+                            @if ($tarjetaResumen['tiene'])
+                                <button type="button" class="fvu-card-ver-btn fvu-ver-modal" data-toggle="modal"
+                                    data-target="{{ $tarjetaResumen['ver_modal'] }}"
+                                    aria-label="Ver {{ $tarjetaResumen['titulo'] }}">Ver detalles <i class="fas fa-caret-right" aria-hidden="true"></i></button>
                             @endif
-                        </div>
-                        @if ($tratamientosLista->isNotEmpty())
-                            <ul class="fvu-resumen__lista">
-                                @foreach ($tratamientosLista->take(3) as $tratamiento)
-                                    <li>{{ $tratamiento }}</li>
-                                @endforeach
-                                @if ($tratamientosLista->count() > 3)
-                                    <li class="fvu-resumen__mas">y {{ $tratamientosLista->count() - 3 }} más</li>
-                                @endif
-                            </ul>
-                            <button type="button" class="fvu-card-ver-btn fvu-ver-mas-morado"
-                                data-fvu-tab="#seccion_ultimo_tratamiento">Ver detalle <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
-                        @else
-                            <p class="fvu-vacio"><i class="feather icon-inbox" aria-hidden="true"></i> No hay registros</p>
-                        @endif
-                    </article>
-
-                    <article class="fvu-resumen fvu-tono--morado">
-                        <div class="fvu-resumen__cabecera">
-                            <span class="fvu-icono fvu-icono--imagen"><img src="{{ asset('images/iconos/meds-cronicos.png') }}" alt="" aria-hidden="true"></span>
-                            <h5 class="fvu-resumen__titulo">Enfermedades crónicas</h5>
-                            @if ($tieneCronico && $cronicosRegistradosFvu->isNotEmpty())
-                                <span class="fvu-contador">{{ $cronicosRegistradosFvu->count() }}</span>
-                            @endif
-                        </div>
-                        @if ($tieneCronico)
-                            <ul class="fvu-resumen__lista">
-                                @foreach ($cronicosRegistradosFvu as $cronico)
-                                    <li>{{ $cronico['nombre'] }}</li>
-                                @endforeach
-                            </ul>
-                            <button type="button" class="fvu-card-ver-btn fvu-ver-mas-info"
-                                data-fvu-tab="#seccion_enfer_cronicas">Ver detalle <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
-                        @else
-                            <p class="fvu-vacio"><i class="feather icon-inbox" aria-hidden="true"></i> No hay registros</p>
-                        @endif
-                    </article>
-
-                    <article class="fvu-resumen fvu-tono--morado">
-                        <div class="fvu-resumen__cabecera">
-                            <span class="fvu-icono fvu-icono--imagen"><img src="{{ asset('images/iconos/ant-qx.png') }}" alt="" aria-hidden="true"></span>
-                            <h5 class="fvu-resumen__titulo">Cirugías recientes</h5>
-                            @if ($cirugiasLista->isNotEmpty())
-                                <span class="fvu-contador">{{ $cirugiasLista->count() }}</span>
-                            @endif
-                        </div>
-                        @if ($cirugiasLista->isNotEmpty())
-                            <ul class="fvu-resumen__lista">
-                                @foreach ($cirugiasLista->take(3) as $cirugia)
-                                    <li>{{ $cirugia }}</li>
-                                @endforeach
-                                @if ($cirugiasLista->count() > 3)
-                                    <li class="fvu-resumen__mas">y {{ $cirugiasLista->count() - 3 }} más</li>
-                                @endif
-                            </ul>
-                            <button type="button" class="fvu-card-ver-btn fvu-ver-mas-info"
-                                data-fvu-tab="#seccion_ultimas_cirugia">Ver detalle <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
-                        @else
-                            <p class="fvu-vacio"><i class="feather icon-inbox" aria-hidden="true"></i> No hay registros</p>
-                        @endif
-                    </article>
-
-                    <article class="fvu-resumen fvu-tono--morado">
-                        <div class="fvu-resumen__cabecera">
-                            <span class="fvu-icono fvu-icono--imagen"><img src="{{ asset('images/iconos/prot-ort.png') }}" alt="" aria-hidden="true"></span>
-                            <h5 class="fvu-resumen__titulo">Documentos clínicos</h5>
-                            @if ($cantidadDocumentos > 0)
-                                <span class="fvu-contador">{{ $cantidadDocumentos }}</span>
-                            @endif
-                        </div>
-                        @if ($cantidadDocumentos > 0)
-                            <ul class="fvu-resumen__lista">
-                                <li>{{ $cantidadDocumentos }} documento(s) registrado(s)</li>
-                            </ul>
-                            <button type="button" class="fvu-card-ver-btn fvu-ver-mas-info"
-                                data-fvu-tab="#discap">Ver detalle <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
-                        @else
-                            <p class="fvu-vacio"><i class="feather icon-inbox" aria-hidden="true"></i> No hay registros</p>
-                        @endif
-                    </article>
+                        </article>
+                    @endforeach
                 </div>
             </section>
         </div>
@@ -760,6 +684,7 @@
                                             <th>Fecha dosis</th>
                                             <th>Vacuna</th>
                                             <th>Próx. dosis</th>
+                                            <th>Realizado por</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -769,10 +694,11 @@
                                                 <td class="align-middle"><span class="badge badge-secondary">{{ !empty($vacuna['fecha_dosis']) ? \Carbon\Carbon::parse($vacuna['fecha_dosis'])->format('d-m-Y') : '-' }}</span></td>
                                                 <td class="align-middle">{{ $vacuna['vacuna'] ?? '-' }}</td>
                                                 <td class="align-middle"><span class="badge badge-info">{{ !empty($vacuna['proxima_dosis']) ? \Carbon\Carbon::parse($vacuna['proxima_dosis'])->format('d-m-Y') : '-' }}</span></td>
+                                                <td class="align-middle">{{ $vacuna['realizado_por'] ?? '-' }}</td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="4">Sin registros</td>
+                                                <td colspan="5">Sin registros</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -803,6 +729,7 @@
                                             <th>Antiparasitario</th>
                                             <th>Tipo</th>
                                             <th>Próx. dosis</th>
+                                            <th>Realizado por</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -812,10 +739,11 @@
                                                 <td class="align-middle">{{ $registro['antiparasitario'] ?? '-' }}</td>
                                                 <td class="align-middle">{{ $registro['tipo'] ?? '-' }}</td>
                                                 <td class="align-middle"><span class="badge badge-info">{{ !empty($registro['proxima_dosis']) ? \Carbon\Carbon::parse($registro['proxima_dosis'])->format('d-m-Y') : '-' }}</span></td>
+                                                <td class="align-middle">{{ $registro['realizado_por'] ?? '-' }}</td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="4">Sin registros</td>
+                                                <td colspan="5">Sin registros</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -1008,6 +936,7 @@
                                 <th>Fecha dosis</th>
                                 <th>Vacuna</th>
                                 <th>Próx. dosis</th>
+                                <th>Realizado por</th>
                             </tr>
                         </thead>
                         <tbody id="modal_fvu_vacunas_body">
@@ -1017,10 +946,11 @@
                                     <td>{{ $fmtFechaFvu($vacuna['fecha_dosis'] ?? null) }}</td>
                                     <td>{{ $vacuna['vacuna'] ?? '-' }}</td>
                                     <td>{{ $fmtFechaFvu($vacuna['proxima_dosis'] ?? null) }}</td>
+                                    <td>{{ $vacuna['realizado_por'] ?? '-' }}</td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center text-muted py-3">Sin registros</td>
+                                    <td colspan="5" class="text-center text-muted py-3">Sin registros</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -1051,6 +981,7 @@
                                 <th>Antiparasitario</th>
                                 <th>Tipo</th>
                                 <th>Próx. dosis</th>
+                                <th>Realizado por</th>
                             </tr>
                         </thead>
                         <tbody id="modal_fvu_desparasitaciones_body">
@@ -1060,10 +991,153 @@
                                     <td>{{ $registro['antiparasitario'] ?? '-' }}</td>
                                     <td>{{ $registro['tipo'] ?? '-' }}</td>
                                     <td>{{ $fmtFechaFvu($registro['proxima_dosis'] ?? null) }}</td>
+                                    <td>{{ $registro['realizado_por'] ?? '-' }}</td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center text-muted py-3">Sin registros</td>
+                                    <td colspan="5" class="text-center text-muted py-3">Sin registros</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade fvu-modal" id="modal_fvu_alergias" tabindex="-1" role="dialog" aria-labelledby="modal_fvu_alergias_titulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title" id="modal_fvu_alergias_titulo">Alergias — {{ $nombreMascotaFvu }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center text-muted mb-0">Sin registros de alergias</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade fvu-modal" id="modal_fvu_cronicas" tabindex="-1" role="dialog" aria-labelledby="modal_fvu_cronicas_titulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title" id="modal_fvu_cronicas_titulo">Enfermedades crónicas — {{ $nombreMascotaFvu }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="fvu-tabla-envoltura">
+                    <table class="fvu-tabla">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Comentario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($cronicosRegistradosFvu as $cronico)
+                                <tr>
+                                    <td class="fvu-tabla__fuerte">{{ $cronico['nombre'] }}</td>
+                                    <td>{{ $cronico['comentario'] ?? '-' }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="2" class="text-center text-muted py-3">Sin registros</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade fvu-modal" id="modal_fvu_tratamientos" tabindex="-1" role="dialog" aria-labelledby="modal_fvu_tratamientos_titulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title" id="modal_fvu_tratamientos_titulo">Tratamientos en curso — {{ $nombreMascotaFvu }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @if ($tratamientosLista->isNotEmpty())
+                    <ul class="fvu-modal__registros">
+                        @foreach ($tratamientosLista as $tratamiento)
+                            <li>{{ $tratamiento }}</li>
+                        @endforeach
+                    </ul>
+                @else
+                    <p class="text-center text-muted mb-0">Sin registros</p>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade fvu-modal" id="modal_fvu_cirugias" tabindex="-1" role="dialog" aria-labelledby="modal_fvu_cirugias_titulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title" id="modal_fvu_cirugias_titulo">Cirugías recientes — {{ $nombreMascotaFvu }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @if ($cirugiasLista->isNotEmpty())
+                    <ul class="fvu-modal__registros">
+                        @foreach ($cirugiasLista as $cirugia)
+                            <li>{{ $cirugia }}</li>
+                        @endforeach
+                    </ul>
+                @else
+                    <p class="text-center text-muted mb-0">Sin registros</p>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade fvu-modal" id="modal_fvu_documentos" tabindex="-1" role="dialog" aria-labelledby="modal_fvu_documentos_titulo" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title" id="modal_fvu_documentos_titulo">Documentos clínicos — {{ $nombreMascotaFvu }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="fvu-tabla-envoltura">
+                    <table class="fvu-tabla">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Nombre</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($documentosFvu as $documento)
+                                <tr>
+                                    <td class="fvu-tabla__fuerte">{{ $documento['tipo'] ?? '-' }}</td>
+                                    <td>@if(!empty($documento['url']))<a href="{{ $documento['url'] }}" target="_blank" rel="noopener">{{ $documento['nombre'] ?? '-' }}</a>@else{{ $documento['nombre'] ?? '-' }}@endif</td>
+                                    <td class="fvu-tabla__nowrap">{{ $fmtFechaFvu($documento['fecha'] ?? null) }}</td>
+                                    <td>{{ $documento['estado'] ?? '-' }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted py-3">Sin documentos</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -1078,41 +1152,6 @@
 @push('page-scripts')
 <script>
     (function ($) {
-        function fvuScrollToElement($element) {
-            if (!$element || !$element.length) {
-                return;
-            }
-
-            $('html, body').animate({
-                scrollTop: Math.max($element.offset().top - 90, 0)
-            }, 280);
-        }
-
-        $(document).on('click', '.fvu-ver-mas-info, .fvu-ver-mas-morado', function () {
-            var tabSelector = $(this).data('fvu-tab');
-            var $panel = $('#cabecera_info');
-
-            $panel.collapse('show');
-
-            if (tabSelector) {
-                $(tabSelector + '-tab').tab('show');
-            }
-
-            fvuScrollToElement($panel);
-        });
-
-        $(document).on('click', '.fvu-ver-collapse', function () {
-            var target = $(this).data('target');
-            var $target = $(target);
-
-            if (!$target.length) {
-                return;
-            }
-
-            $target.collapse('show');
-            fvuScrollToElement($target);
-        });
-
         $(document).on('click', '.fvu-ver-modal', function (e) {
             e.preventDefault();
             var target = $(this).attr('data-target');
@@ -1144,7 +1183,7 @@
         function renderTablaVacunasFvu(vacunas) {
             var $body = $('#modal_fvu_vacunas_body').empty();
             if (!vacunas || !vacunas.length) {
-                $body.append('<tr><td colspan="4" class="text-center text-muted py-3">Sin registros</td></tr>');
+                $body.append('<tr><td colspan="5" class="text-center text-muted py-3">Sin registros</td></tr>');
                 return;
             }
             vacunas.forEach(function (item) {
@@ -1152,7 +1191,8 @@
                     '<tr><td>' + textoSeguroFvu(item.edad) + '</td>' +
                     '<td>' + fechaCortaFvu(item.fecha_dosis) + '</td>' +
                     '<td>' + textoSeguroFvu(item.vacuna) + '</td>' +
-                    '<td>' + fechaCortaFvu(item.proxima_dosis) + '</td></tr>'
+                    '<td>' + fechaCortaFvu(item.proxima_dosis) + '</td>' +
+                    '<td>' + textoSeguroFvu(item.realizado_por) + '</td></tr>'
                 );
             });
         }
@@ -1160,7 +1200,7 @@
         function renderTablaDesparasitacionesFvu(registros) {
             var $body = $('#modal_fvu_desparasitaciones_body').empty();
             if (!registros || !registros.length) {
-                $body.append('<tr><td colspan="4" class="text-center text-muted py-3">Sin registros</td></tr>');
+                $body.append('<tr><td colspan="5" class="text-center text-muted py-3">Sin registros</td></tr>');
                 return;
             }
             registros.forEach(function (item) {
@@ -1168,9 +1208,17 @@
                     '<tr><td>' + fechaCortaFvu(item.fecha_dosis) + '</td>' +
                     '<td>' + textoSeguroFvu(item.antiparasitario) + '</td>' +
                     '<td>' + textoSeguroFvu(item.tipo) + '</td>' +
-                    '<td>' + fechaCortaFvu(item.proxima_dosis) + '</td></tr>'
+                    '<td>' + fechaCortaFvu(item.proxima_dosis) + '</td>' +
+                    '<td>' + textoSeguroFvu(item.realizado_por) + '</td></tr>'
                 );
             });
+        }
+
+        // La tarjeta muestra SI o Sin registro, igual que al cargar la página
+        function marcarTarjetaFvu($valor, tieneRegistros) {
+            $valor.text(tieneRegistros ? 'SI' : 'Sin registro')
+                .toggleClass('fvu-vital-value--alerta', tieneRegistros)
+                .toggleClass('fvu-vital-value--vacio', !tieneRegistros);
         }
 
         function actualizarTarjetasSanitariasFvu(vacunas, desparasitaciones) {
@@ -1185,11 +1233,11 @@
                 var $valor = $(this).find('.fvu-vital-value');
                 var $ver = $(this).find('.fvu-card-ver-btn');
                 if ($titulo.text().trim() === 'Vacunas') {
-                    $valor.text(vacunas.length > 0 ? (vacunas.length + ' registro(s)') : 'Sin registro');
+                    marcarTarjetaFvu($valor, vacunas.length > 0);
                     $ver.toggle(vacunas.length > 0);
                 }
                 if ($titulo.text().trim() === 'Desparasitaciones') {
-                    $valor.text(desparasitaciones.length > 0 ? (desparasitaciones.length + ' registro(s)') : 'Sin registro');
+                    marcarTarjetaFvu($valor, desparasitaciones.length > 0);
                     $ver.toggle(desparasitaciones.length > 0);
                 }
             });

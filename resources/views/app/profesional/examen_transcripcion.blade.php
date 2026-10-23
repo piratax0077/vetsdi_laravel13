@@ -7,7 +7,7 @@
             <!--Header-->
             <div class="row">
                 <div class="col-md-12 mb-2">
-                    <h5 class="f-26 d-inline">Examenes Transcritos</h5>
+                    <h5 class="f-26 d-inline">Exámenes Transcritos</h5>
                 </div>
             </div>
             <!--Cierre: Header-->
@@ -19,7 +19,7 @@
                         <div class="card-header text-center bg-c-info">
                             <div class="row">
                                 <div class="col-sm-4 d-inline text-left">
-                                    <h5 class="text-white my-2" style="font-size: 1.1rem;">Examenes</h5>
+                                    <h5 class="text-white my-2" style="font-size: 1.1rem;">Exámenes</h5>
                                 </div>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                                             <th class="text-center align-left">Paciente</th>
                                             <th class="text-center align-left">Examen</th>
                                             <th class="text-center align-middle">Asistente</th>
-                                            <th class="text-center align-middle">Accion</th>
+                                            <th class="text-center align-middle">Acción</th>
                                         </tr>
                                     </thead>
                                    <tbody>

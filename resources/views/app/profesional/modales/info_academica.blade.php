@@ -7,7 +7,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md" role="document">
 		<div class="modal-content">
 			<div class="modal-header modal-header-purple">
-				<h5 class="modal-title mt-1">Antecendente académico</h5>
+				<h5 class="modal-title mt-1">Antecedente académico</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_info_academica_m();"><span aria-hidden="true">×</span></button>
 			</div>
 			<div class="modal-body">
@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <label class="floating-label-activo">Año de Titulo</label>
+                        <label class="floating-label-activo">Año de Título</label>
                         <input type="text" class="form-control form-control-sm" id="agregar_ant_academico_anio" value="">
                     </div>
 

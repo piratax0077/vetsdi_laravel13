@@ -686,7 +686,7 @@
                                             {
                                                 swal({
                                                     title: "Toma de Hora",
-                                                    text: "Hora con profesional ya esta tomada",
+                                                    text: "Hora con profesional ya está tomada",
                                                     icon: "error",
                                                     buttons: "Aceptar",
                                                     DangerMode: true,

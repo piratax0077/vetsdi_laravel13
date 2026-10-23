@@ -27,7 +27,7 @@
                                         {{--  <th class="text-wrap align-middle" hidden="hidden">Nº de Orden</th>  --}}
                                         <th class="align-middle">Fecha</th>
                                         <th class="align-middle">Remitente</th>
-                                        <th class="align-middle">Titulo</th>
+                                        <th class="align-middle">Título</th>
                                         <th class="align-middle">Tipo</th>
                                         <th class="align-middle">Estado</th>
                                         <th class="align-middle">Ver Mensaje</th>
@@ -93,7 +93,7 @@
                              <input type="text" class="form-control form-control-sm" id="remitente_msj" name="remitente_msj" disabled>
                         </div>
                          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <label class="floating-label-activo-sm">Titulo</label>
+                            <label class="floating-label-activo-sm">Título</label>
                              <input type="text" class="form-control form-control-sm" id="titulo_msj" name="titulo_msj" disabled>
                         </div>
                          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -178,7 +178,7 @@
                                     <input type="date" class="form-control form-control-sm" id="fecha_msj_de_profesional" name="fecha_msj_de_profesional" value="<?php echo date('Y-m-d') ?>">
                                 </div>
                                 <div class="form-group col-sm-10 col-xl-7">
-                                    <label class="floating-label-activo-sm">Rut</label>
+                                    <label class="floating-label-activo-sm">RUT</label>
                                     <input type="text" class="form-control form-control-sm" name="agregar_profesional_int_rut" id="agregar_profesional_int_rut">
                                 </div>
                                 <div class="form-group col-sm-2 col-xl-1">
@@ -198,7 +198,7 @@
                                 </div>
                                 <input type="hidden" id="id_profesional" name="id_profesional" value="">
                                 <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <label class="floating-label-activo-sm">Titulo</label>
+                                    <label class="floating-label-activo-sm">Título</label>
                                     <input type="text" class="form-control form-control-sm" id="titulo_msj_de_profesional" name="titulo_msj_de_profesional">
                                 </div>
                                 <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -401,7 +401,7 @@
         }
         if(titulo == ''){
             valido = 0;
-            mensaje += "<li>Debe ingresar titulo</li>";
+            mensaje += "<li>Debe ingresar título</li>";
         }
         if(asunto == ''){
             valido = 0;
@@ -517,7 +517,7 @@
             if(!$.validateRut(rut))
             {
                 swal({
-                    title: "Debe ingresar un RUT valido",
+                    title: "Debe ingresar un RUT válido",
                     icon: "error",
                 });
                 return false;

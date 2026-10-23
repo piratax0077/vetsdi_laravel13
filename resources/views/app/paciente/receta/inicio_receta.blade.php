@@ -126,7 +126,7 @@
                         <a href="{{ ROUTE('paciente.receta.examen') }}">
                             <div class="card-body text-center" style="cursor:pointer">
                                 <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/examen.svg') }}"
-                                    alt="Mis Examenes">
+                                    alt="Mis Exámenes">
                                 <h4 class="titulos_tarjetas">
                                     Mis Exámenes
                                 </h4>

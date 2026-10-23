@@ -129,7 +129,7 @@
                 {
                     swal({
                         title: "Ingreso de Control de Peso.",
-                        text: 'Falla en el registro, Intente nuevamente.',
+                        text: 'Falla en el registro, intente nuevamente.',
                         icon: "warning",
                     });
                 }
@@ -299,7 +299,7 @@
         else
         {
             swal({
-                title: "Calculo de IMC",
+                title: "Cálculo de IMC",
                 text: mensaje,
                 icon: "warning",
             });

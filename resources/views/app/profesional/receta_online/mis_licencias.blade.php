@@ -28,7 +28,7 @@
                                                 <th class="text-center align-middle">Tutor</th>
                                                 <th class="text-center align-middle">Mascota</th>
                                                 <th class="text-center align-middle">F. Inicio</th>
-                                                <th class="text-center align-middle">F. Termino</th>
+                                                <th class="text-center align-middle">F. Término</th>
                                                 <th class="text-center align-middle">Diagnóstico</th>
                                                 <th class="text-center align-middle">Lugar Atención</th>
                                                 <th class="text-center align-middle">ver documento</th>

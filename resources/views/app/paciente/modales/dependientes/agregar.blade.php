@@ -51,7 +51,7 @@
 
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
 
-                        <h6 class="modal-title text-c-blue mt-1 mb-b" id="modal_indicar_examen">Ingrese Rut de dependiente</h6>
+                        <h6 class="modal-title text-c-blue mt-1 mb-b" id="modal_indicar_examen">Ingrese RUT de dependiente</h6>
 
                     </div>
 
@@ -129,7 +129,7 @@
 
                     <div class="col-md-6">
 
-                        <label class="label text-bolt">Rut:</label><label name="label_agregar_rut_paciente" id="label_agregar_rut_paciente"></label>
+                        <label class="label text-bolt">RUT:</label><label name="label_agregar_rut_paciente" id="label_agregar_rut_paciente"></label>
 
                     </div>
 
@@ -189,7 +189,7 @@
 
                             <div class="form-group">
 
-                                <label for="agregar_fecha_termino"><span style="color: red;">*</span>Fecha Termino</label>
+                                <label for="agregar_fecha_termino"><span style="color: red;">*</span>Fecha Término</label>
 
                                 <input type="date" name="agregar_fecha_termino" id="agregar_fecha_termino" value="">
 
@@ -426,7 +426,7 @@
                     <div class="form-group">
                         <label class="floating-label-activo-sm"><span class="requerido" style="color: red;" id="requerido_sm">*</span>Sexo</label>
                         <select id="modal_agregar_dep_nuevo_sexo" name="modal_agregar_dep_nuevo_sexo" class="form-control form-control-sm">
-                            <option value="0">Selecione una opci&oacute;n</option>
+                            <option value="0">Seleccione una opci&oacute;n</option>
                             <option value="M">Macho</option>
                             <option value="F">Hembra</option>
                         </select>
@@ -474,7 +474,7 @@
 
                         <select id="modal_agregar_dep_nuevo_convenio" name="modal_agregar_dep_nuevo_convenio" class="form-control form-control-sm">
 
-                            <option value="0">Selecione una opci&oacute;n</option>
+                            <option value="0">Seleccione una opci&oacute;n</option>
 
                             @if (isset($prevision))
 
@@ -652,7 +652,7 @@
 
                             <div class="form-group">
 
-                                <label for="modal_agregar_dep_nuevo_fecha_termino"><span class="requerido" style="color: red;" id="requerido_5">*</span>Fecha Termino</label>
+                                <label for="modal_agregar_dep_nuevo_fecha_termino"><span class="requerido" style="color: red;" id="requerido_5">*</span>Fecha Término</label>
 
                                 <input class="form-control form-control-sm" type="date" name="modal_agregar_dep_nuevo_fecha_termino" id="modal_agregar_dep_nuevo_fecha_termino" value="">
 

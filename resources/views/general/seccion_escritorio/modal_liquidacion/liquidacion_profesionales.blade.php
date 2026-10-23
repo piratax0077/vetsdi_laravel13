@@ -384,7 +384,7 @@
                                                 <input type="date" class="form-control form-control-sm" name="edit_empleado_fecha_inicio" id="edit_empleado_fecha_inicio">
                                             </div>
                                             <div class="form-group col-sm-12 col-md-3 col-lg-3">
-                                                <label class="floating-label-activo-sm">Fecha Termino Liq</label>
+                                                <label class="floating-label-activo-sm">Fecha Término Liq</label>
                                                 <input type="date" class="form-control form-control-sm" name="edit_empleado_fecha_termino" id="edit_empleado_fecha_termino">
                                             </div>
                                             <div class="col-sm-3 col-md-3">

@@ -1,7 +1,7 @@
 <table class="table">
     <tbody>
         <tr>
-            <td class="alin-center">Fecha Rendicion</td>
+            <td class="alin-center">Fecha Rendición</td>
             <td class="alin-center">{{ $rendicion->fecha_rendicion }}</td>
         </tr>
         <tr>
@@ -29,7 +29,7 @@
             <td class="alin-center">{{ $rendicion->rendicion == 0 ? 'Rendido' : '' }}</td>
         </tr>
         <tr>
-            <td class="alin-center">Observacion</td>
+            <td class="alin-center">Observación</td>
             <td class="alin-center">{{ $rendicion->observacion }}</td>
         </tr>
     </tbody>

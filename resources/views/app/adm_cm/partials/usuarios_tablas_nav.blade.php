@@ -8,12 +8,10 @@
                 <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#prof-vet" role="tab">Profesionales veterinarios</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#asistentes" role="tab">Asistentes</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#otros_trabajadores" role="tab">Otros</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#contratos" role="tab">Contratos</a></li>
             @else
                 <li class="nav-item"><a class="nav-link" href="{{ route('adm_cm.profesionales') }}">Profesionales veterinarios</a></li>
                 <li class="nav-item"><a class="nav-link {{ $seccionUsuarios === 'asistentes' ? 'active' : '' }}" href="{{ route('adm_cm.profesionales', ['tab' => 'asistentes']) }}">Asistentes</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('adm_cm.profesionales', ['tab' => 'otros_trabajadores']) }}">Otros</a></li>
-                <li class="nav-item"><a class="nav-link {{ $seccionUsuarios === 'contratos' ? 'active' : '' }}" href="{{ route('adm_cm.profesionales', ['tab' => 'contratos']) }}">Contratos</a></li>
             @endif
         </ul>
     </div>

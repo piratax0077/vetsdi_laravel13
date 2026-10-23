@@ -54,7 +54,7 @@
                                                     </td>
                                                     <td class="align-middle">
                                                         @if ($l->tipo == 1)
-                                                            Centro Medico
+                                                            Centro Médico
                                                         @else
                                                             Particular
                                                         @endif
@@ -322,7 +322,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header-purple">
-                    <h5 class="modal-title text-center" id="">Desasociar o Agregar lugar existente</h5>
+                    <h5 class="modal-title text-center" id="">Desvincular o Agregar lugar existente</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -332,7 +332,7 @@
                                 <table id="tabla_lugares_existentes" class="table table-striped table-bordered nowrap">
                                     <thead>
                                         <tr>
-                                            <th class="text-center align-middle">Desasociar /Agregar</th>
+                                            <th class="text-center align-middle">Desvincular / Agregar</th>
                                             <th class="text-center align-middle">Nombre</th>
                                             <th class="text-center align-middle">Dirección</th>
                                             <th class="text-center align-middle">Tipo</th>
@@ -404,13 +404,13 @@
                         <input type="hidden" name="mi_asistente_id_lugar_atencion" id="mi_asistente_id_lugar_atencion">
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2">
-                                <h6 class="text-c-blue">Escriba RUT de el o la asistente que desea asociar a su lugar de atención</h6>
+                                <h6 class="text-c-blue">Escriba el RUT del o de la asistente que desea vincular a su lugar de atención</h6>
                             </div>
                             <div id="buscar_datos_asistente" class="col-sm-6 col-md-6 mb-3">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" placeholder="Rut de asistente" name="rut_asistente" id="rut_asistente" aria-label="Rut" aria-describedby="button-addon2" onkeyup="formatoRut(this);">
+                                    <input type="text" class="form-control" placeholder="RUT de asistente" name="rut_asistente" id="rut_asistente" aria-label="RUT" aria-describedby="button-addon2" onkeyup="formatoRut(this);">
                                     <div class="input-group-append">
-                                        <button class="btn btn-info" onclick="buscar_asistente($('#mi_asistente_id_lugar_atencion').val());" type="button" id="button-addon2">Asociar</button>
+                                        <button class="btn btn-info" onclick="buscar_asistente($('#mi_asistente_id_lugar_atencion').val());" type="button" id="button-addon2">Vincular</button>
                                     </div>
                                 </div>
                             </div>
@@ -456,7 +456,7 @@
                                     <thead>
                                         <tr>
                                             <th>Habilitar / Deshabilitar</th>
-                                            <th>Rut</th>
+                                            <th>RUT</th>
                                             <th>Nombre</th>
                                         </tr>
                                     </thead>
@@ -1270,7 +1270,7 @@
 
 
                 swal({
-                    title: "¿Esta seguro que desea ELIMINAR el lugar de atención?",
+                    title: "¿Está seguro de que desea ELIMINAR el lugar de atención?",
                     text: "Favor confirme o cancele la solicitud",
                     icon: "warning",
                     buttons: ["Cancelar", "Solicitar"],
@@ -1294,7 +1294,7 @@
                             if (data == 'ok')
                             {
                                 swal({
-                                    title: "Lugar de atencion ELIMINADO",
+                                    title: "Lugar de atención ELIMINADO",
                                     icon: "success",
                                     buttons: "Aceptar",
                                     //SuccessMode: true,
@@ -1305,7 +1305,7 @@
                             {
                                 swal({
                                     title: "Error",
-                                    text: "Error al ELIMINAR el lugar de atencion",
+                                    text: "Error al ELIMINAR el lugar de atención",
                                     icon: "error",
                                     buttons: "Aceptar",
                                     DangerMode: true,

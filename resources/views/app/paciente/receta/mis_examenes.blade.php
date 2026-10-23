@@ -155,11 +155,11 @@
                                 <input type="date" class="form-control form-control-sm" name="examen_fecha" id="examen_fecha">
                             </div>
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <label class="floating-label-activo-sm">Nº Órden</label>
+                                <label class="floating-label-activo-sm">Nº Orden</label>
                                 <input type="text" class="form-control form-control-sm" name="examen_numero_orden" id="examen_numero_orden">
                             </div>
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <label class="floating-label-activo-sm">Rut Profesional</label>
+                                <label class="floating-label-activo-sm">RUT Profesional</label>
                                 <input type="text" class="form-control form-control-sm" name="examen_rut" id="examen_rut" onchange="buscar_nombre_profesional('examen_rut', 'examen_nombre_profesional');" onkeyup="buscar_nombre_profesional('examen_rut', 'examen_nombre_profesional')">
                             </div>
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -483,7 +483,7 @@
                  * Si el tamaño del archivo es demasiado grande.
                  * `{ {filesize} }` y `{ {maxFilesize} }` serán reemplazados con los respectivos valores de configuración.
                  */
-                dictFileTooBig: "El archivo es demasiado grande. Max tamaño de archivo: 4 MiB.",
+                dictFileTooBig: "El archivo es demasiado grande. Tamaño máximo de archivo: 4 MiB.",
 
                 /** Si el archivo no coincide con el tipo de archivo. */
                 dictInvalidFileType: "No puedes subir archivos de este tipo.",

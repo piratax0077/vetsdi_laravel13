@@ -105,13 +105,13 @@
     <div class="row div_rut_buscar">
         <div class="col-sm-12 col-md-12">
             <div class="form-group">
-                <h6 class="text-c-blue ml-2 mb-3">Ingrese el rut del paciente</h6>
+                <h6 class="text-c-blue ml-2 mb-3">Ingrese el RUT del paciente</h6>
             </div>
         </div>
         <div class="col-sm-8 col-md-8 mb-3">
             <form id="validacion_rut_form">
                 <div class="form-group" id="validacion_rut_div">
-                    <input type="text" id="rut_paciente_reserva" name="rut_paciente_reserva" class="form-control" placeholder="Rut del paciente" aria-label="Rut del paciente" aria-describedby="button-addon2" required oninput="formatoRut(this)">
+                    <input type="text" id="rut_paciente_reserva" name="rut_paciente_reserva" class="form-control" placeholder="RUT del paciente" aria-label="RUT del paciente" aria-describedby="button-addon2" required oninput="formatoRut(this)">
                 </div>
             </form>
         </div>
@@ -180,7 +180,7 @@
                     <h6 class="titulo-item mt-0"><i class="feather icon-user mr-2"></i>{{ !empty($es_veterinaria_busqueda) ? 'Datos del tutor' : 'Datos del paciente' }}</h6>
                     <dl class="ficha-previa-datos">
                         <div class="ficha-previa-dato">
-                            <dt>Rut</dt>
+                            <dt>RUT</dt>
                             <dd id="reserva_rut_paciente"></dd>
                         </div>
                         <div class="ficha-previa-dato">
@@ -336,7 +336,7 @@
                     <div class="form-group">
                         <label class="floating-label-activo-sm">Sexo</label>
                         <select id="reserva_hora_sexo" name="reserva_hora_sexo" class="form-control form-control-sm">
-                            <option value="0">Selecione una opci&oacute;n</option>
+                            <option value="0">Seleccione una opci&oacute;n</option>
                             <option value="F">Femenino</option>
                             <option value="M">Masculino</option>
                         </select>
@@ -346,7 +346,7 @@
                     <div class="form-group">
                         <label class="floating-label-activo-sm">Profesión u Oficio</label>
                         <select id="reserva_hora_profesion" name="reserva_hora_profesion" class="form-control form-control-sm">
-                            <option value="0">Selecione una opci&oacute;n</option>
+                            <option value="0">Seleccione una opci&oacute;n</option>
                             @if (isset($profesion_oficio))
                                 @foreach ($profesion_oficio as $prof_ofic)
                                     <option value="{{ $prof_ofic->id }}">{{ $prof_ofic->nombre }}</option>
@@ -359,7 +359,7 @@
                     <div class="form-group">
                         <label class="floating-label-activo-sm">Previsi&oacute;n</label>
                         <select id="reserva_hora_convenio" name="reserva_hora_convenio" class="form-control form-control-sm">
-                            <option value="0">Selecione una opci&oacute;n</option>
+                            <option value="0">Seleccione una opci&oacute;n</option>
                             @if (isset($prevision))
                                 @foreach ($prevision as $p)
                                     <option value="{{ $p->id }}">{{ $p->nombre }}</option>
@@ -385,7 +385,7 @@
 
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
-                        <label class="floating-label-activo-sm">Region</label>
+                        <label class="floating-label-activo-sm">Región</label>
                         <select id="region_agregar" onchange="buscar_ciudad();" name="region_agregar" class="form-control" required>
                             <option value="0">Seleccione Regi&oacute;n</option>
                             @if (isset($region))

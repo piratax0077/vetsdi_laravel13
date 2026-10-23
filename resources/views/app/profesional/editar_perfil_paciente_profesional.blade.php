@@ -69,7 +69,7 @@
                                         <div class="card-body border-top info_basica collapse show" id="info_basica-1">
                                             <form>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-5 col-form-label font-weight-bolder">Rut</label>
+                                                    <label class="col-sm-5 col-form-label font-weight-bolder">RUT</label>
                                                     <div class="col-sm-6 my-auto ml-2">{{ $paciente->rut }} </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -296,7 +296,7 @@
                                                 <div class="col-md-6">
                                                     <form>
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label font-weight-bolder">Rut del Profesional</label>
+                                                            <label class="col-sm-4 col-form-label font-weight-bolder">RUT del Profesional</label>
                                                             <div class="col-sm-7 my-auto ml-2">{{ $profesional->rut }}</div>
                                                         </div>
                                                         <div class="form-group row">
@@ -326,11 +326,11 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group row">
-                                                        <label class="col-sm-4 col-form-label font-weight-bolder">Rut del
+                                                        <label class="col-sm-4 col-form-label font-weight-bolder">RUT del
                                                             Profesional</label>
                                                         <div class="col-sm-7">
                                                             <input type="text" class="form-control"
-                                                                placeholder="Rut Profesional " value="00000000-0">
+                                                                placeholder="RUT Profesional " value="00000000-0">
                                                         </div>
                                                     </div>
                                                 </div>

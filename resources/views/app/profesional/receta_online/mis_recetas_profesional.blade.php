@@ -77,7 +77,7 @@
                         <div class="row">
                             <div class="col-sm-6 col-md-6">
                                 <div class="form-group">
-                                    <label class="floating-label">Rut</label>
+                                    <label class="floating-label">RUT</label>
                                     <input type="person" class="form-control" name="rut_paciente" id="rut_paciente">
                                 </div>
                             </div>

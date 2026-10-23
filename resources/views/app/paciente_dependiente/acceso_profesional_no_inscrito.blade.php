@@ -61,7 +61,7 @@
                                         @endif
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
-                                                <label class="floating-label">Rut</label>
+                                                <label class="floating-label">RUT</label>
                                                 <input type="text" class="form-control form-control-sm"
                                                     name="rut_profesional" id="rut_profesional">
                                             </div>
@@ -79,7 +79,7 @@
                                                     name="primer_apellido_profesional" id="primer_apellido_profesional">
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label class="floating-label">Segundo Apellidos</label>
+                                                <label class="floating-label">Segundo Apellido</label>
                                                 <input type="text" class="form-control form-control-sm"
                                                     name="segundo_apellido_profesional"
                                                     id="segundo_apellido_profesional">
@@ -107,7 +107,7 @@
                                                     name="email_profesional" id="email_profesional">
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label class="floating-label">Teléfono Pricipal</label>
+                                                <label class="floating-label">Teléfono Principal</label>
                                                 <input type="text" class="form-control form-control-sm"
                                                     name="telefono_uno_profesional" id="telefono_uno_profesional">
                                             </div>

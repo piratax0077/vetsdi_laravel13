@@ -3027,12 +3027,12 @@
                             {
                                 var mensaje = '';
                                 if(edad_temp < 18 && $('#dependencia').val() == 2)
-                                    mensaje = 'Esta intentando registrar\n El Paciente '+data.apellido_uno + ' ' + data.apellido_dos+' que es Menor de Edad como Dependiente Mayor de Edad.';
+                                    mensaje = 'Está intentando registrar\n al paciente '+data.apellido_uno + ' ' + data.apellido_dos+' que es menor de edad como Dependiente Mayor de Edad.';
                                 else if(edad_temp >= 18 && $('#dependencia').val() == 1)
-                                    mensaje = 'Esta intentando registrar\n El Paciente '+data.apellido_uno + ' ' + data.apellido_dos+' que es Mayor de Edad como Dependiente Menor de Edad.';
+                                    mensaje = 'Está intentando registrar\n al paciente '+data.apellido_uno + ' ' + data.apellido_dos+' que es mayor de edad como Dependiente Menor de Edad.';
 
                                 swal({
-                                    title: "Busqueda de Paciente por RUT",
+                                    title: "Búsqueda de Paciente por RUT",
                                     text:mensaje,
                                     icon: "error",
                                     // buttons: "Aceptar",
@@ -3087,8 +3087,8 @@
             else
             {
                 swal({
-                    title: "Busqueda de Paciente por RUT",
-                    text:"Debe ingresar un RUT para la busqueda.",
+                    title: "Búsqueda de Paciente por RUT",
+                    text:"Debe ingresar un RUT para la búsqueda.",
                     icon: "error",
                     // buttons: "Aceptar",
                     //SuccessMode: true,

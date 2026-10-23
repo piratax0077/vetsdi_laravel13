@@ -126,7 +126,7 @@
                 {
                     swal({
                         title: "Ingreso de Control de Glicemia.",
-                        text: 'Falla en el registro, Intente nuevamente.',
+                        text: 'Falla en el registro, intente nuevamente.',
                         icon: "warning",
                     });
                 }

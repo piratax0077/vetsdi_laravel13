@@ -71,8 +71,8 @@ show active  @endif"
                                         <div class="row">
                                             <div class="col-sm-12 col-md-4">
                                                 <div class="form-group">
-                                                    <label class="floating-label">Rut o Nombre del
-                                                        veterinaro/a</label>
+                                                    <label class="floating-label">RUT o Nombre del
+                                                        veterinario/a</label>
 
                                                     <input type="text" class="form-control" name="rut_profesional"
                                                         id="rut_profesional">
@@ -214,14 +214,14 @@ show active  @endif"
                                             <div class="col-sm-12 col-md-12">
                                                 <div class="form-group">
                                                     <h6 class="mb-4 mt-2">Ingrese los datos solicitados para buscar
-                                                        hora por veterinaro/a</h6>
+                                                        hora por veterinario/a</h6>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12 col-md-6">
                                                 <div class="form-group">
-                                                    <label class="floating-label">Nombre o Rut del veterinaro/a</label>
+                                                    <label class="floating-label">Nombre o RUT del veterinario/a</label>
                                                     <input type="text"
                                                         class="form-control @error('nombrerut_profesional') is-invalid @enderror"
                                                         name="nombrerut_profesional" id="nombrerut_profesional">
@@ -377,7 +377,7 @@ show active  @endif"
                                         </a>
 
                                         <p class="mb-3 text-muted"><i class="feather icon-calendar"></i>
-                                            Dias de atenci&oacute;n:
+                                            Días de atenci&oacute;n:
 
                                             @if ($p->dias_atencion)
                                                 @foreach ($p->dias_atencion as $d)
@@ -407,7 +407,7 @@ show active  @endif"
 
                                                         @case(3)
                                                             <span class="badge badge-success mt-2">
-                                                                Miercoles
+                                                                Miércoles
                                                             </span>
                                                         @break
 

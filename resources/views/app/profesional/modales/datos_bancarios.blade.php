@@ -39,7 +39,7 @@
 
                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                         <label class="floating-label-activo">Cuenta</label>
-                        <input type="text" class="form-control" placeholder="Cuenta Numero" id="liquidacion_cuenta" value="">
+                        <input type="text" class="form-control" placeholder="Cuenta Número" id="liquidacion_cuenta" value="">
                     </div>
 
                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">

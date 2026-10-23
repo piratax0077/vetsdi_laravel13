@@ -127,7 +127,7 @@
                     if(data.registros.horario_agenda_laboral != '')
                     {
                         console.log(data);
-                        let dias = ['','LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
+                        let dias = ['','LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
                         var dias_activos = data.registros.horario_agenda_laboral.split(',');
                         var dias_texto = '';
                         var cant = 0;
@@ -213,7 +213,7 @@
                     html += '<div class="card-informacion">';
                     html += '<div class="card-body px-1 pb-1">';
                     html += '    <div class="col-md-12 text-left mb-2"><span class="font-weight-bold text-c-blue">Paciente:</span> '+value.paciente.nombres+' '+value.paciente.apellido_uno+' '+value.paciente.apellido_dos+'</div>';
-                    html += '    <div class="col-md-12 text-left mb-2"><span class="font-weight-bold text-c-blue">Rut:</span> '+value.paciente.rut+'</div>';
+                    html += '    <div class="col-md-12 text-left mb-2"><span class="font-weight-bold text-c-blue">RUT:</span> '+value.paciente.rut+'</div>';
                     html += '    <div class="col-md-12 text-left mb-2"><span class="font-weight-bold text-c-blue">Hora inicio:</span> '+String(value.hora_inicio || '').substring(0, 5)+'</div>';
                     html += '    <div class="col-md-12 text-left mb-2"><span class="font-weight-bold text-c-blue">Hora término:</span> '+String(value.hora_termino || '').substring(0, 5)+'</div>';
                     html += '    <div class="col-md-12 text-left mb-2"><span class="font-weight-bold text-c-blue">Estado:</span> <span style="background-color:'+value.estado.color+'; color:#fff; padding:2px 5px; border-radius:5px; font-weight:600;">'+value.estado.valor+'</span></div>';
@@ -300,8 +300,8 @@
                     console.log(data);
                     $('#consulta').modal('hide');
                     swal({
-                        title: "Exito!",
-                        text: "Hora medica cancelada correctamente",
+                        title: "¡Éxito!",
+                        text: "Hora médica cancelada correctamente",
                         type: "success",
                         confirmButtonText: "Cool"
                     });
@@ -315,7 +315,7 @@
                     cargarAgendaProfesional($('#id_tipo_agenda').val(), id_lugar_atencion, id_profesional, $('#anular_fecha_consulta').val());
 
                 } else {
-                    alert('No se pudo Confirmar Anulacion');
+                    alert('No se pudo confirmar la anulación');
                 }
 
             })

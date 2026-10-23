@@ -200,7 +200,7 @@ p {
             </div>
 
 
-            <button type="button" class="btn btn-info btn-sm float-right" id="btn_guardar_procedimiento" onclick="agregar_otro_procedimiento()"><i class="fas fa-plus"></i>  Agregar otro diagnostico</button>
+            <button type="button" class="btn btn-info btn-sm float-right" id="btn_guardar_procedimiento" onclick="agregar_otro_procedimiento()"><i class="fas fa-plus"></i>  Agregar otro diagnóstico</button>
             {{-- <table class="table w-100" id="table_procedimientos_propios_dental">
                 <thead>
                     <tr>
@@ -418,7 +418,7 @@ p {
         function eliminar_procedimiento(id){
             swal({
                 title:'Eliminar Procedimiento Dental',
-                text:'¿Está seguro que desea eliminar el procedimiento dental?',
+                text:'¿Está seguro de que desea eliminar el procedimiento dental?',
                 icon:'warning',
                 buttons:["Cancelar","Aceptar"],
                 DangerMode: true,

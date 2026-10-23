@@ -14,14 +14,14 @@
                 <div class="form-row">
                     <div class="col-md-6">
                         <div class="form-group fill">
-                            <label class="floating-label-activo-sm"><span style="color: red;">*</span>Rut:</label>
+                            <label class="floating-label-activo-sm"><span style="color: red;">*</span>RUT:</label>
                             <input type="text" class="form-control form-control-sm" name="modal_agregar_acompanante_rut" id="modal_agregar_acompanante_rut" value="" onchange="buscar_rut_acompanante();"/>
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group fill">
-                            <label class="floating-label-activo-sm"><span style="color: red;">*</span>Numero Documento:</label>
+                            <label class="floating-label-activo-sm"><span style="color: red;">*</span>Número Documento:</label>
                             <input type="text" class="form-control form-control-sm" name="modal_agregar_acompanante_numero_documento" id="modal_agregar_acompanante_numero_documento" value=""/>
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                     $('#modal_agregar_acompanante_tipo').val('1');
 
                     swal({
-                        title: "Asignacion Responsable",
+                        title: "Asignación Responsable",
                         text: 'Responsable Asignado a Dependiente',
                         icon: "success",
                     });
@@ -217,7 +217,7 @@
                     }
 
                     swal({
-                        title: "Asignacion Responsable",
+                        title: "Asignación Responsable",
                         text: mensaje,
                         icon: "error",
                         buttons: "Aceptar",
@@ -241,7 +241,7 @@
                 }
 
                 swal({
-                    title: "Asignacion Responsable",
+                    title: "Asignación Responsable",
                     text: mensaje,
                     icon: "error",
                     buttons: "Aceptar",

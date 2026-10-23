@@ -328,7 +328,7 @@ class TranscripcionController extends Controller
             else
             {
                 $datos['estado'] = 0;
-                $datos['msj'] = 'problema procesando informacion del examen';
+                $datos['msj'] = 'problema procesando información del examen';
                 $datos['examen_json'] = $examen_json;
             }
         }
@@ -741,7 +741,7 @@ class TranscripcionController extends Controller
 
                     $mensaje_correo = '';
                     if($tiene_biopsia == 1)
-                        $mensaje_correo = 'El resultado de Biopsia se encontrara disponible en los proximos 20 dias.<br/>';
+                        $mensaje_correo = 'El resultado de Biopsia se encontrará disponible en los próximos 20 días.<br/>';
                     else
                         $mensaje_correo = 'No se realizo Biopsia.<br/>';
 
@@ -794,7 +794,7 @@ class TranscripcionController extends Controller
             else
             {
                 $datos['estado'] = 0;
-                $datos['msj'] = 'problema procesando informacion del examen';
+                $datos['msj'] = 'problema procesando información del examen';
                 $datos['examen_json'] = $examen_json;
             }
         }

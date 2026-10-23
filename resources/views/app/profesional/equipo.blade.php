@@ -523,7 +523,7 @@
 
     function eliminar_equipo(id){
         swal({
-            title: "¿Esta seguro que desea ELIMINAR el equipo?",
+            title: "¿Está seguro de que desea ELIMINAR el equipo?",
             text: "Favor confirme o cancele la solicitud",
             icon: "warning",
             buttons: ["Cancelar", "Solicitar"],
@@ -637,7 +637,7 @@
             var valido = 1;
             if(nuevo_posicion == '')
             {
-                mensaje += 'Posicion - Campo requerido\n';
+                mensaje += 'Posición - Campo requerido\n';
                 $('#equipo_nuevo_posicion_1').focus();
                 valido = 0;
             }
@@ -723,7 +723,7 @@
         //     var valido = 1;
         //     if(nuevo_posicion == '')
         //     {
-        //         mensaje += 'Posicion - Campo requerido\n';
+        //         mensaje += 'Posición - Campo requerido\n';
         //         $('#equipo_nuevo_posicion_1').focus();
         //         valido = 0;
         //     }

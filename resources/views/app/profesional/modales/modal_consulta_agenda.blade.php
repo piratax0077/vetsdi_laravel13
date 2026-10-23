@@ -24,7 +24,7 @@
 
                             <dl class="ficha-previa-datos reserva-hora-filas">
                                 <div class="ficha-previa-dato reserva-hora-dato-mitad reserva-hora-dato-angosto reserva-hora-dato-fijo">
-                                    <dt>Rut</dt>
+                                    <dt>RUT</dt>
                                     <dd><span id="datos_consulta_rut"></span></dd>
                                 </div>
                                 <div class="ficha-previa-dato reserva-hora-dato-mitad reserva-hora-dato-amplio">
@@ -322,7 +322,7 @@
                         <div class="form-group">
                             <label class="floating-label-activo-sm">Sexo</label>
                             <select class="form-control form-control-sm" id="agenda_mascota_sexo">
-                                <option value="0">Selecione una opción</option>
+                                <option value="0">Seleccione una opción</option>
                                 <option value="M">Macho</option>
                                 <option value="F">Hembra</option>
                             </select>

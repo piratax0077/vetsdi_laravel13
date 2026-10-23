@@ -6,7 +6,7 @@
             <!--Header-->
             <div class="row">
                 <div class="col-md-12 mb-2">
-                    <h5 class="f-26 d-inline">Configuracion de Diagnósticos Frecuentes</h5>
+                    <h5 class="f-26 d-inline">Configuración de Diagnósticos Frecuentes</h5>
                 </div>
             </div>
             <!--Cierre: Header-->
@@ -34,7 +34,7 @@
                                         <tbody>
                                             <tr>
                                                 <td class="text-wrap text-center align-middle">1</td>
-                                                <td class="align-middle text-center">Hematrocrito</td>
+                                                <td class="align-middle text-center">Hematocrito</td>
                                                 <td class="align-middle text-center">Sangre</td>
                                                 <td class="align-middle text-center">
                                                     <div class="switch switch-success d-inline m-r-10">
@@ -46,7 +46,7 @@
                                             <tr>
                                                 <td class="text-wrap text-center align-middle">Nº</td>
                                                 <td class="align-middle text-center">Nombre del examen</td>
-                                                <td class="align-middle text-center">Imagenes</td>
+                                                <td class="align-middle text-center">Imágenes</td>
                                                 <td class="align-middle text-center">
                                                     <div class="switch switch-success d-inline m-r-10">
                                                         <input type="checkbox" id="examen_2">

@@ -111,7 +111,7 @@
                                                 style="width:100%">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-wrap text-center align-middle">Cod Examen</th>
+                                                        <th class="text-wrap text-center align-middle">Cód. Examen</th>
                                                         <th class="text-center align-middle">Tipo del Examen</th>
                                                         <th class="text-center align-middle">Nombre del Examen</th>
                                                         <th class="text-center align-middle">Código Fonasa</th>
@@ -157,7 +157,7 @@
                                                                 <option>Seleccione una opción</option>
                                                                 <option>Jaime Kriman Astorga</option>
                                                                 <option>Laboratorio A</option>
-                                                                <option>Centro Medico A</option>
+                                                                <option>Centro Médico A</option>
                                                             </select>
                                                         </div>
                                                     </div>

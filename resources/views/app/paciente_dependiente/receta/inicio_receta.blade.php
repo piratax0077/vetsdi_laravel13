@@ -29,7 +29,7 @@
                         <a href="{{ ROUTE('paciente.dependiente.receta.examen', ['id_dependiente_activo' => $id_dependiente_activo]) }}">
                             <div class="card-body text-center" style="cursor:pointer">
                                 <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/examenes-ro.svg') }}"
-                                    alt="Mis Examenes">
+                                    alt="Mis Exámenes">
                                 <h4 class="titulos_tarjetas">
                                     Exámenes
                                 </h4>

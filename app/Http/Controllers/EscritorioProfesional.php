@@ -603,7 +603,7 @@ class EscritorioProfesional extends Controller
             return response()->json(
                 [
                     'success' => true,
-                    'message' => 'Cirugia agregada correctamente.',
+                    'message' => 'Cirugía agregada correctamente.',
                     'cirugias' => $antCirugias
                 ]
             );
@@ -623,7 +623,7 @@ class EscritorioProfesional extends Controller
         return response()->json(
             [
                 'success' => true,
-                'message' => 'Cirugia eliminada correctamente.',
+                'message' => 'Cirugía eliminada correctamente.',
                 'cirugias' => $antCirugias,
                 'result' => $antCirugia
             ]
@@ -737,7 +737,7 @@ class EscritorioProfesional extends Controller
                 'body' => 'Estimado/a ' . $paciente->nombres . ' ' . $paciente->apellido_uno . ' ' . $paciente->apellido_dos . ',<br/>
                         Junto con saludar, por medio de este correo le informamos que el profesional Dr. ' .
                     $profesional->nombre . ' ' . $profesional->apellido_uno . ' ' . $profesional->apellido_dos .
-                    ' <br/> ha solicitado acceder a su Ficha Medica Unica (FMU), favor entregar siguiente codigo al profesional:  <br/>' .
+                    ' <br/> ha solicitado acceder a su Ficha Médica Única (FMU), favor entregar el siguiente código al profesional:  <br/>' .
                     $paciente->codigo_autorizacion . ' <br/>' .
                     '<br/> Que tenga un excelente día. <br/><br/> \n' .
                     ' Saludos.',
@@ -1104,7 +1104,7 @@ class EscritorioProfesional extends Controller
         else
         {
             $datos['estado'] = 0;
-            $datos['msj'] = 'debe ingresar lista de diagnostico cie 10';
+            $datos['msj'] = 'debe ingresar lista de diagnóstico CIE10';
         }
         return $datos;
 
@@ -2320,7 +2320,7 @@ class EscritorioProfesional extends Controller
             $existe = ProfesionalTons::where('id_profesional',$id_profesional)->where('estado',2)->first();
 
             if($existe){
-                return ['estado' => 0, 'mensaje' => 'El profesional ya tiene una solicitud de atencion en espera para Tons'];
+                return ['estado' => 0, 'mensaje' => 'El profesional ya tiene una solicitud de atención en espera para Tons'];
             }
             // buscamos el profesional tons
             $relacion = ProfesionalTons::find($req->id_tons);
@@ -2461,7 +2461,7 @@ class EscritorioProfesional extends Controller
                                         /** cerrar envio de correo de confirmacion  */
                                     }else{
                                         $datos['tons']['user']['mail']['estado'] = 0;
-                                        $datos['tons']['user']['mail']['msj'] = 'El tons no tiene email valido';
+                                        $datos['tons']['user']['mail']['msj'] = 'El Tons no tiene email válido';
                                     }
                                     $datos['estado'] = 1;
                                     $datos['msj'] = 'Tons creada';
@@ -2489,7 +2489,7 @@ class EscritorioProfesional extends Controller
             }
         }else{
             $datos['estado'] = 0;
-            $datos['msj'] = 'el correo ya esta siendo utilizado por otro profesional.';
+            $datos['msj'] = 'el correo ya está siendo utilizado por otro profesional.';
         }
 
         return $datos;
@@ -2503,7 +2503,7 @@ class EscritorioProfesional extends Controller
             $existe = ProfesionalTons::where('id_profesional', $profesional->id)->where('estado',2)->first();
 
             if($existe){
-                return ['estado' => 0,'msj' => 'Ya estan asociados con anterioridad.'];
+                return ['estado' => 0,'msj' => 'Ya están asociados con anterioridad.'];
             }
             $relacion = new ProfesionalTons;
             $relacion->id_profesional = $profesional->id;
@@ -10086,9 +10086,9 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         }
 
         $details = [
-            'title' => 'Hora medica Reservada',
+            'title' => 'Hora médica reservada',
             'body' => 'Estimado/a ' . $paciente->nombres . ' ' . $paciente->apellido_uno . ' ' . $paciente->apellido_dos . ',<br>
-                    Junto con saludar, por medio de este correo le informamos que se ha reservado su hora medida <br>' .
+                    Junto con saludar, por medio de este correo le informamos que se ha reservado su hora médica <br>' .
                 'Fecha: ' . $hora_medica->fecha_consulta . '<br>' .
                 'Hora : ' . substr((string) $hora_medica->hora_inicio, 0, 5) . '<br>' .
                 'Profesional: <b>' . $profesional->nombre . ' ' . $profesional->apellido_uno . ' ' . $profesional->apellido_dos . '<b> <br><br>' .
@@ -10342,7 +10342,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                                         /** cerrar envio de correo de confirmacion  */
                                     }else{
                                         $datos['paciente']['user']['mail']['estado'] = 0;
-                                        $datos['paciente']['user']['mail']['msj'] = 'El paciente no tiene email valido';
+                                        $datos['paciente']['user']['mail']['msj'] = 'El paciente no tiene email válido';
                                     }
 
                                 }
@@ -10668,7 +10668,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                 if ($hora_medica->save())
                 {
                     $datos['estado'] = 1;
-                    $datos['msj'] = 'Hora Medica creada';
+                    $datos['msj'] = 'Hora médica creada';
                     $datos['hora_medica'] = $hora_medica;
 
                     $lugar_atencion = LugarAtencion::find($request->id_lugar_atencion);
@@ -10731,7 +10731,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                 else
                 {
                     $datos['estado'] = 0;
-                    $datos['msj'] = 'Problema al crear Hora Medica';
+                    $datos['msj'] = 'Problema al crear hora médica';
                 }
             }
             else
@@ -10743,7 +10743,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         else
         {
             $datos['estado'] = 0;
-            $datos['msj'] = 'el correo ya esta siendo utilizado por otro paciente.';
+            $datos['msj'] = 'el correo ya está siendo utilizado por otro paciente.';
         }
 
         return $datos;
@@ -11184,13 +11184,13 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                                 $datos['estado'] = 1;
                                 $datos['msj'] = 'Bono registrado';
                                 $datos['hora_medica']['estado'] = 1;
-                                $datos['hora_medica']['msj'] = 'Hora medica actualizada';
+                                $datos['hora_medica']['msj'] = 'Hora médica actualizada';
                                 $datos['hora_medica']['fecha_consulta'] = $hora_medica->fecha_consulta;
                             }
                             else
                             {
                                 $datos['hora_medica']['estado'] = 0;
-                                $datos['hora_medica']['msj'] = 'Problema a actualizar hora medica';
+                                $datos['hora_medica']['msj'] = 'Problema al actualizar hora médica';
                             }
                     break;
                     case  '2': /** Bono de Examen */
@@ -11202,13 +11202,13 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                                 $datos['estado'] = 1;
                                 $datos['msj'] = 'Bono registrado';
                                 $datos['hora_medica']['estado'] = 1;
-                                $datos['hora_medica']['msj'] = 'Hora medica actualizada';
+                                $datos['hora_medica']['msj'] = 'Hora médica actualizada';
                                 $datos['hora_medica']['fecha_consulta'] = $hora_medica->fecha_consulta;
                             }
                             else
                             {
                                 $datos['hora_medica']['estado'] = 0;
-                                $datos['hora_medica']['msj'] = 'Problema a actualizar hora medica';
+                                $datos['hora_medica']['msj'] = 'Problema al actualizar hora médica';
                             }
                     break;
                     case  '3': /** Bonos de Cirugía */
@@ -11220,13 +11220,13 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                                 $datos['estado'] = 1;
                                 $datos['msj'] = 'Bono registrado';
                                 $datos['hora_medica']['estado'] = 1;
-                                $datos['hora_medica']['msj'] = 'Hora medica actualizada';
+                                $datos['hora_medica']['msj'] = 'Hora médica actualizada';
                                 $datos['hora_medica']['fecha_consulta'] = $hora_medica->fecha_consulta;
                             }
                             else
                             {
                                 $datos['hora_medica']['estado'] = 0;
-                                $datos['hora_medica']['msj'] = 'Problema a actualizar hora medica';
+                                $datos['hora_medica']['msj'] = 'Problema al actualizar hora médica';
                             }
                     break;
                     case  '4': /** Bonos Parto Normal */
@@ -11238,13 +11238,13 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                                 $datos['estado'] = 1;
                                 $datos['msj'] = 'Bono registrado';
                                 $datos['hora_medica']['estado'] = 1;
-                                $datos['hora_medica']['msj'] = 'Hora medica actualizada';
+                                $datos['hora_medica']['msj'] = 'Hora médica actualizada';
                                 $datos['hora_medica']['fecha_consulta'] = $hora_medica->fecha_consulta;
                             }
                             else
                             {
                                 $datos['hora_medica']['estado'] = 0;
-                                $datos['hora_medica']['msj'] = 'Problema a actualizar hora medica';
+                                $datos['hora_medica']['msj'] = 'Problema al actualizar hora médica';
                             }
                     break;
                     case  '5': /** Bonos de Cesarea */
@@ -11256,13 +11256,13 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                                 $datos['estado'] = 1;
                                 $datos['msj'] = 'Bono registrado';
                                 $datos['hora_medica']['estado'] = 1;
-                                $datos['hora_medica']['msj'] = 'Hora medica actualizada';
+                                $datos['hora_medica']['msj'] = 'Hora médica actualizada';
                                 $datos['hora_medica']['fecha_consulta'] = $hora_medica->fecha_consulta;
                             }
                             else
                             {
                                 $datos['hora_medica']['estado'] = 0;
-                                $datos['hora_medica']['msj'] = 'Problema a actualizar hora medica';
+                                $datos['hora_medica']['msj'] = 'Problema al actualizar hora médica';
                             }
                     break;
                     case  '6': /** Bonos de Laboratorio */
@@ -11274,13 +11274,13 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                                 $datos['estado'] = 1;
                                 $datos['msj'] = 'Bono registrado';
                                 $datos['hora_medica']['estado'] = 1;
-                                $datos['hora_medica']['msj'] = 'Hora medica actualizada';
+                                $datos['hora_medica']['msj'] = 'Hora médica actualizada';
                                 $datos['hora_medica']['fecha_consulta'] = $hora_medica->fecha_consulta;
                             }
                             else
                             {
                                 $datos['hora_medica']['estado'] = 0;
-                                $datos['hora_medica']['msj'] = 'Problema a actualizar hora medica';
+                                $datos['hora_medica']['msj'] = 'Problema al actualizar hora médica';
                             }
                     break;
                     case  '7': /** Bonos de Radiologia */
@@ -11292,13 +11292,13 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                                 $datos['estado'] = 1;
                                 $datos['msj'] = 'Bono registrado';
                                 $datos['hora_medica']['estado'] = 1;
-                                $datos['hora_medica']['msj'] = 'Hora medica actualizada';
+                                $datos['hora_medica']['msj'] = 'Hora médica actualizada';
                                 $datos['hora_medica']['fecha_consulta'] = $hora_medica->fecha_consulta;
                             }
                             else
                             {
                                 $datos['hora_medica']['estado'] = 0;
-                                $datos['hora_medica']['msj'] = 'Problema a actualizar hora medica';
+                                $datos['hora_medica']['msj'] = 'Problema al actualizar hora médica';
                             }
                     break;
                     case  '8': /** Bonos de Fonaudiología */
@@ -11310,13 +11310,13 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                                 $datos['estado'] = 1;
                                 $datos['msj'] = 'Bono registrado';
                                 $datos['hora_medica']['estado'] = 1;
-                                $datos['hora_medica']['msj'] = 'Hora medica actualizada';
+                                $datos['hora_medica']['msj'] = 'Hora médica actualizada';
                                 $datos['hora_medica']['fecha_consulta'] = $hora_medica->fecha_consulta;
                             }
                             else
                             {
                                 $datos['hora_medica']['estado'] = 0;
-                                $datos['hora_medica']['msj'] = 'Problema a actualizar hora medica';
+                                $datos['hora_medica']['msj'] = 'Problema al actualizar hora médica';
                             }
                     break;
                     case  '9': /** Bonos de Kinesiología */
@@ -11328,13 +11328,13 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                                 $datos['estado'] = 1;
                                 $datos['msj'] = 'Bono registrado';
                                 $datos['hora_medica']['estado'] = 1;
-                                $datos['hora_medica']['msj'] = 'Hora medica actualizada';
+                                $datos['hora_medica']['msj'] = 'Hora médica actualizada';
                                 $datos['hora_medica']['fecha_consulta'] = $hora_medica->fecha_consulta;
                             }
                             else
                             {
                                 $datos['hora_medica']['estado'] = 0;
-                                $datos['hora_medica']['msj'] = 'Problema a actualizar hora medica';
+                                $datos['hora_medica']['msj'] = 'Problema al actualizar hora médica';
                             }
                     break;
                     case '10': /** Bonos de Nutrición */
@@ -11773,9 +11773,9 @@ public function eliminarPiezaCoronaProtesis(Request $req){
             }
 
             /*  $details = [
-                      'title' => 'Hora medica Reservada',
+                      'title' => 'Hora médica reservada',
                       'body' => 'Estimado/a '.$contacto->nombres.' '.$contacto->apellido_uno.' '.$contacto->apellido_dos.',<br>
-                      Junto con saludar, por medio de este correo le informamos que se ha reservado su hora medida <br>'.
+                      Junto con saludar, por medio de este correo le informamos que se ha reservado su hora médica <br>'.
                       'Fecha: '.$contacto->fecha_consulta.'<br>'.
                       'Hora : '.substr((string) $hora_medica->hora_inicio, 0, 5).'<br>'.
                       'Profesional: <b>'.$profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos.'<b> <br><br>'.
@@ -11834,9 +11834,9 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
         if ($contacto->save()) {
             /*  $details = [
-                      'title' => 'Hora medica Reservada',
+                      'title' => 'Hora médica reservada',
                       'body' => 'Estimado/a '.$contacto->nombres.' '.$contacto->apellido_uno.' '.$contacto->apellido_dos.',<br>
-                      Junto con saludar, por medio de este correo le informamos que se ha reservado su hora medida <br>'.
+                      Junto con saludar, por medio de este correo le informamos que se ha reservado su hora médica <br>'.
                       'Fecha: '.$contacto->fecha_consulta.'<br>'.
                       'Hora : '.substr((string) $hora_medica->hora_inicio, 0, 5).'<br>'.
                       'Profesional: <b>'.$profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos.'<b> <br><br>'.
@@ -13031,7 +13031,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         {
             return view('app.profesional.estado_acceso_profesional_no_inscrito')->with([
                 'estado' => 0,
-                'error' => 'Token invalido'
+                'error' => 'Token inválido'
             ]);
         }
 
@@ -13185,7 +13185,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
                 if($direcciones->save())
                 {
-                    $error = 'direccion creado';
+                    $error = 'Dirección creada';
                     $profesionales->id_direccion = $direcciones->id;
                     if($validar_user == NULL)
                     $profesionales->id_usuario = $user->id;
@@ -13226,7 +13226,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
 
                 }else{
-                    $error = 'direccion no creado';
+                    $error = 'Dirección no creada';
                 }
 
                 $error = 'Profesional creado';
@@ -13254,10 +13254,10 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         $hora_medica->descripcion = $hora_medica->descripcion = $paciente->nombres . ' ' . $paciente->apellido_uno . ' ' . $paciente->apellido_dos;
         if($hora_medica->save()){
             $id_hora_realizar_ = $hora_medica->id;
-            $datos['hora_medica_msg'] = 'Hora Medica Creada';
+            $datos['hora_medica_msg'] = 'Hora médica creada';
         }else{
-            $datos['hora_medica_msg'] = 'Hora Medica no Creada';
-            $error['hora_medica_msg'] = 'Hora Medica no Creada';
+            $datos['hora_medica_msg'] = 'Hora médica no creada';
+            $error['hora_medica_msg'] = 'Hora médica no creada';
         }
 
 

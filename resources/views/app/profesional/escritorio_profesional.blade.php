@@ -192,7 +192,7 @@
                             <a href="{{ ROUTE('adm_cm.adm_medico') }}" class="btn" type="button">
                                 <div class="card-body">
                                     <img class="wid-30 mb-3" src="{{ asset('images/iconos/otros_servicios.svg') }}">
-                                    <h5 class="my-auto text-white">Dirección medica</h5>
+                                    <h5 class="my-auto text-white">Dirección médica</h5>
                                 </div>
                             </a>
                         </div>

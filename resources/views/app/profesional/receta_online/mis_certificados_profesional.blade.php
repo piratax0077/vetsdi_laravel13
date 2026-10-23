@@ -83,7 +83,7 @@
                                                         {{ $informe->Paciente()->first()->rut }}
                                                     </td>
                                                     <td>{{ $informe->mascota_descripcion ?? '-' }}</td>
-                                                    <td>Informe Medico</td>
+                                                    <td>Informe Médico</td>
                                                     <!--<td class="align-middle text-center">
                                                     <button type="button" class="btn  btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="Enviar Certificado a Paciente"><i class="feather icon-navigation"></i></button>
                                                 </td>
@@ -164,7 +164,7 @@
                         <div class="row">
                             <div class="col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <label class="floating-label">Rut</label>
+                                    <label class="floating-label">RUT</label>
                                     <input type="person" class="form-control" name="rut_paciente" id="rut_paciente">
                                 </div>
                             </div>

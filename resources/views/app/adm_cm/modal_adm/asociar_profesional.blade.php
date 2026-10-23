@@ -1,212 +1,221 @@
-<!--Modal Asociar Profesional-->
-<div id="asociar_profesional_cm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="asociar_profesional_cm" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered " role="document">
+<!--Modal Vincular profesional: búsqueda por RUT, profesional encontrado o formulario para uno nuevo-->
+<div id="asociar_profesional_cm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="asociar_profesional_cm_titulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
-                <h5 class="modal-title text-center">Asociar Profesional</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
+                <h5 class="modal-title d-inline mt-1" id="asociar_profesional_cm_titulo">Vincular profesional</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    {{--  DIV PARA BUSQUEDA DE PROFESIONAL  --}}
-                    <div id="div_agregar_profesional_busqueda" style="display:;" class="col-sm-12 mb-3">
+                {{--  PASO 1: BÚSQUEDA DEL PROFESIONAL POR RUT  --}}
+                <div id="div_agregar_profesional_busqueda">
+                    <p class="vincular-prof-ayuda">Ingrese el RUT del profesional y elija la sucursal donde atenderá. Si no está registrado, podrá completar sus datos para enviarle la invitación.</p>
+
+                    <div class="vincular-prof-bloque">
+                        <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-search"></i>Buscar profesional</h6>
+                        <div class="vincular-prof-busqueda">
+                            <div class="form-group fill vincular-prof-busqueda-campo">
+                                <label class="floating-label-activo-sm" for="agregar_profesional_int_rut">RUT</label>
+                                <input type="text" class="form-control form-control-sm" name="agregar_profesional_int_rut" id="agregar_profesional_int_rut" placeholder="Ej: 12345678-9">
+                            </div>
+                            <button type="button" class="btn btn-info" id="agregar_profesional_btn_buscar_rut" onclick="buscar_profesional();"><i class="feather icon-search mr-1"></i>Buscar</button>
+                        </div>
+                    </div>
+
+                    <div class="vincular-prof-bloque">
+                        <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-map-pin"></i>Lugar y cargo</h6>
                         <div class="row">
-                            <div class="col-sm-12 mb-3">
-                                <h6 class="text-c-blue">Escriba rut y seleccione la sucursal</h6>
-                            </div>
-                            <div class="col-sm-7">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Rut</label>
-                                    <input type="text" class="form-control form-control-sm" name="agregar_profesional_int_rut" id="agregar_profesional_int_rut">
-                                </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <button type="button" class="btn btn-info btn-sm "  id="agregar_profesional_btn_buscar_rut" onclick="buscar_profesional();">Buscar Profesional</button>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="form-group fill">
                                     @if($institucion->sucursales == 0)
-                                        <label class="floating-label-activo-sm">Casa Matriz</label>
+                                        <label class="floating-label-activo-sm">Casa matriz</label>
                                         <input type="text" class="form-control form-control-sm" value="{{ $institucion->LugarAtencion()->first()->nombre }}" readonly>
                                         <input type="hidden" name="agregar_profesional_int_id_lugar_atencion" id="agregar_profesional_int_id_lugar_atencion" value="{{ $institucion->LugarAtencion()->first()->id }}">
                                     @else
-                                        <label class="floating-label-activo-sm">Sucursal</label>
+                                        <label class="floating-label-activo-sm" for="agregar_profesional_int_id_lugar_atencion">Sucursal</label>
                                         <select class="form-control form-control-sm" name="agregar_profesional_int_id_lugar_atencion" id="agregar_profesional_int_id_lugar_atencion">
                                             <option>Seleccione una opción</option>
-                                                <option value="">Sucursal</option>
-                                                <option value="1">Sucursal Demo</option>
+                                            <option value="">Sucursal</option>
+                                            <option value="1">Sucursal Demo</option>
                                         </select>
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">En el cargo de</label>
-                                        <select class="form-control form-control-sm" name="agregar_profesional_cargo_int" id="agregar_profesional_cargo_int" onchange="registrar_nuevo_servicio(event)">
-                                                <option value="0">Seleccione una opción</option>
-                                                <option value="1">Profesional</option>
-                                                <option value="2">Jefe de servicio</option>
-                                                <option value="3">Subjefe de servicio</option>
-                                                <option value="4">Director medico</option>
-                                                <option value="5">Tens</option>
-                                                <option value="6">Tons</option>
-                                        </select>
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_cargo_int">En el cargo de</label>
+                                    <select class="form-control form-control-sm" name="agregar_profesional_cargo_int" id="agregar_profesional_cargo_int" onchange="registrar_nuevo_servicio(event)">
+                                        <option value="0">Seleccione una opción</option>
+                                        <option value="1">Profesional</option>
+                                        <option value="2">Jefe de servicio</option>
+                                        <option value="3">Subjefe de servicio</option>
+                                        <option value="4">Director médico</option>
+                                        <option value="5">TENS</option>
+                                        <option value="6">TONS</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6 d-none" id="div_nuevo_servicio">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Nombre del servicio</label>
+                            <div class="col-md-6 d-none" id="div_nuevo_servicio">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_servicio_int">Nombre del servicio</label>
                                     <input type="text" class="form-control form-control-sm" name="agregar_profesional_servicio_int" id="agregar_profesional_servicio_int">
                                 </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <button class="btn btn-outline-success btn-sm"><i class="fas fa-save"></i> Guardar</button>
                             </div>
                         </div>
                     </div>
 
-                    {{--  DIV PARA MOSTRAR RESULTADO DE BUSQUEDA DE PROFESIONAL ENCONTRADO  --}}
-                    <div id="div_agregar_profesional_ver_info_prof" style="display:none;" class="col-sm-12 mb-3">
-                        <input type="hidden" name="agregar_profesional_ver_nombre_profesional" id="agregar_profesional_ver_nombre_profesional">
-                        <input type="hidden" name="agregar_profesional_ver_telefono" id="agregar_profesional_ver_telefono">
-                        <input type="hidden" name="agregar_profesional_ver_email" id="agregar_profesional_ver_email">
-                        <input type="hidden" name="agregar_profesional_id_profesional" id="agregar_profesional_id_profesional">
-                        <div class="row">
-                            <div class="col-sm-4"><strong>Nombre: </strong></div>
-                            <div class="col-sm-6" name="agregar_profesional_texto_ver_nombre_profesional" id="agregar_profesional_texto_ver_nombre_profesional"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4"><strong>Telefono: </strong></div>
-                            <div class="col-sm-6" name="agregar_profesional_texto_ver_telefono" id="agregar_profesional_texto_ver_telefono"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4"><strong>Email: </strong></div>
-                            <div class="col-sm-6" name="agregar_profesional_texto_ver_email" id="agregar_profesional_texto_ver_email"></div>
-                        </div>
+                    <div class="vincular-prof-acciones">
+                        <button type="button" class="btn btn-danger" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
+                        <button type="button" class="btn btn-info"><i class="feather icon-save mr-1"></i>Guardar</button>
+                    </div>
+                </div>
 
-                        <hr/>
+                {{--  PASO 2A: PROFESIONAL YA REGISTRADO  --}}
+                <div id="div_agregar_profesional_ver_info_prof" style="display:none;">
+                    <input type="hidden" name="agregar_profesional_ver_nombre_profesional" id="agregar_profesional_ver_nombre_profesional">
+                    <input type="hidden" name="agregar_profesional_ver_telefono" id="agregar_profesional_ver_telefono">
+                    <input type="hidden" name="agregar_profesional_ver_email" id="agregar_profesional_ver_email">
+                    <input type="hidden" name="agregar_profesional_id_profesional" id="agregar_profesional_id_profesional">
 
-                        <div class="row m-t-15">
-                            <div class="col-sm-4"><strong>Tipo Convenio: </strong></div>
-                            <div class="col-sm-6">
-                                <select class="form-control form-control-sm" name="agregar_profesional_id_tipo_convenio_institucion" id="agregar_profesional_id_tipo_convenio_institucion" onchange="mostar_div_montos_tipo_convenio('agregar_profesional_id_tipo_convenio_institucion');">
-                                    <option value="">Seleccione</option>
-                                    @if(isset($tipo_convenio))
-                                        @foreach ($tipo_convenio as $tc )
-                                            <option value="{{ $tc->id }}">{{ $tc->nombre }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
+                    <!--Ficha del profesional encontrado-->
+                    <div class="vincular-prof-ficha">
+                        <span class="vincular-prof-ficha-icono"><i class="feather icon-user-check"></i></span>
+                        <div class="vincular-prof-ficha-datos">
+                            <span class="vincular-prof-ficha-etiqueta">Profesional encontrado</span>
+                            <div class="vincular-prof-ficha-nombre" name="agregar_profesional_texto_ver_nombre_profesional" id="agregar_profesional_texto_ver_nombre_profesional"></div>
+                            <div class="vincular-prof-ficha-contacto">
+                                <span><i class="feather icon-phone"></i><span name="agregar_profesional_texto_ver_telefono" id="agregar_profesional_texto_ver_telefono"></span></span>
+                                <span><i class="feather icon-mail"></i><span name="agregar_profesional_texto_ver_email" id="agregar_profesional_texto_ver_email"></span></span>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="div_fijo" style="display: none;">
-                            <div class="row mt-1">
-                                <div class="col-sm-4">Cobro Unico</div>
-                                <div class="col-sm-6">
+                    <div class="vincular-prof-bloque">
+                        <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-file-text"></i>Convenio</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_id_tipo_convenio_institucion">Tipo de convenio</label>
+                                    <select class="form-control form-control-sm" name="agregar_profesional_id_tipo_convenio_institucion" id="agregar_profesional_id_tipo_convenio_institucion" onchange="mostar_div_montos_tipo_convenio('agregar_profesional_id_tipo_convenio_institucion');">
+                                        <option value="">Seleccione</option>
+                                        @if(isset($tipo_convenio))
+                                            @foreach ($tipo_convenio as $tc )
+                                                <option value="{{ $tc->id }}">{{ $tc->nombre }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 div_fijo" style="display: none;">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_fijo">Cobro único</label>
                                     <input type="number" class="form-control form-control-sm" name="agregar_profesional_fijo" id="agregar_profesional_fijo" value="">
                                 </div>
                             </div>
                         </div>
-                        <div class="div_variable" style="display: none;">
-                            <div class="row mt-1">
-                                <div class="col-sm-4">Porcentaje por Atenciones</div>
-                                <div class="col-sm-6">
+                        <div class="row div_variable" style="display: none;">
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_atencion">Porcentaje por atenciones</label>
                                     <input type="number" class="form-control form-control-sm" min="0" max="100" step="0.1" name="agregar_profesional_atencion" id="agregar_profesional_atencion" value="">
                                 </div>
                             </div>
-                            <div class="row mt-1">
-                                <div class="col-sm-4">Cobro por Confirmaicon de Agenda</div>
-                                <div class="col-sm-6">
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_confirmacion_agenda">Cobro por confirmación de agenda</label>
                                     <input type="number" class="form-control form-control-sm" min="0" step="1" name="agregar_profesional_confirmacion_agenda" id="agregar_profesional_confirmacion_agenda" value="">
                                 </div>
                             </div>
-                            <div class="row mt-1">
-                                <div class="col-sm-4">Cobro por GGCC</div>
-                                <div class="col-sm-6">
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_ggcc">Cobro por GGCC</label>
                                     <input type="number" class="form-control form-control-sm" min="0" step="1" name="agregar_profesional_ggcc" id="agregar_profesional_ggcc" value="">
                                 </div>
                             </div>
-                            <div class="row mt-1">
-                                <div class="col-sm-4">Cobro arriendo BOX</div>
-                                <div class="col-sm-6">
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_box">Cobro arriendo de box</label>
                                     <input type="number" class="form-control form-control-sm" min="0" step="1" name="agregar_profesional_box" id="agregar_profesional_box" value="">
                                 </div>
                             </div>
                         </div>
-
-                        <hr/>
-
-                        <div class="row m-t-15">
-                            <div class="col-sm-6 text-center">
-                                <button type="button" class="btn btn-info" onclick="regresar_a_busqueda();">Regresar a Busqueda</button>
-                            </div>
-                            <div class="col-sm-6 text-center">
-                                <button type="button" class="btn btn-success" onclick="asociar_profesional_existente();">Enviar invitación</button>
-                            </div>
-                        </div>
-
-
                     </div>
 
-                    {{--  DIV PARA CARGAR PROFESIONAL NUEVO  --}}
-                    <div id="div_agregar_profesional_formulario_nuevo_prof" style="display:none;" class="col-sm-12 mb-3">
-                        {{--  --}}
+                    <div class="vincular-prof-acciones">
+                        <button type="button" class="btn btn-outline-secondary" onclick="regresar_a_busqueda();"><i class="feather icon-arrow-left mr-1"></i>Regresar a búsqueda</button>
+                        <button type="button" class="btn btn-success" onclick="asociar_profesional_existente();"><i class="feather icon-send mr-1"></i>Enviar invitación</button>
+                    </div>
+                </div>
+
+                {{--  PASO 2B: PROFESIONAL NUEVO  --}}
+                <div id="div_agregar_profesional_formulario_nuevo_prof" style="display:none;">
+                    <p class="vincular-prof-ayuda">El RUT no está registrado. Complete los datos del profesional para enviarle la invitación. Los campos con <span class="vincular-prof-obligatorio">*</span> son obligatorios.</p>
+
+                    <div class="vincular-prof-bloque">
+                        <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-user"></i>Datos personales</h6>
                         <div class="row">
-                            <div class="col-sm-12 col-md-12">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">RUT<span style="color: red; font-size: 10px;">*</span></label>
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_rut">RUT<span class="vincular-prof-obligatorio">*</span></label>
                                     <input type="text" required class="form-control form-control-sm" name="agregar_profesional_nuevo_rut" id="agregar_profesional_nuevo_rut">
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-12">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Sexo<span style="color: red; font-size: 10px;">*</span></label>
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_sexo">Sexo<span class="vincular-prof-obligatorio">*</span></label>
                                     <select name="agregar_profesional_sexo" id="agregar_profesional_sexo" class="form-control form-control-sm">
                                         <option value="0">Seleccione</option>
                                         <option value="M">Masculino</option>
                                         <option value="F">Femenino</option>
-
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-12">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Nombres<span style="color: red; font-size: 10px;">*</span></label>
+                            <div class="col-md-12">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_nombre">Nombres<span class="vincular-prof-obligatorio">*</span></label>
                                     <input type="text" required class="form-control form-control-sm" name="agregar_profesional_nuevo_nombre" id="agregar_profesional_nuevo_nombre">
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-12">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Primer Apellido<span style="color: red; font-size: 10px;">*</span></label>
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_apellido_uno">Primer apellido<span class="vincular-prof-obligatorio">*</span></label>
                                     <input type="text" class="form-control form-control-sm" name="agregar_profesional_nuevo_apellido_uno" id="agregar_profesional_nuevo_apellido_uno">
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-12">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Segundo Apellido<span style="color: red; font-size: 10px;">*</span></label>
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_apellido_dos">Segundo apellido<span class="vincular-prof-obligatorio">*</span></label>
                                     <input type="text" class="form-control form-control-sm" name="agregar_profesional_nuevo_apellido_dos" id="agregar_profesional_nuevo_apellido_dos">
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="col-sm-12 col-md-12">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Correo Electr&oacute;nico<span style="color: red; font-size: 10px;">*</span></label>
+                    <div class="vincular-prof-bloque">
+                        <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-phone"></i>Contacto</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_correo">Correo electr&oacute;nico<span class="vincular-prof-obligatorio">*</span></label>
                                     <input type="text" class="form-control form-control-sm" onblur="validar_email_agenda()" name="agregar_profesional_nuevo_correo" id="agregar_profesional_nuevo_correo">
                                     <span id="mensaje_email_reserva" style="display:none"></span>
                                 </div>
                             </div>
-
-                            <div class="col-sm-12 col-md-12">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Tel&eacute;fono<span style="color: red; font-size: 10px;">*</span></label>
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_telefono_uno">Tel&eacute;fono<span class="vincular-prof-obligatorio">*</span></label>
                                     <input type="tel" class="form-control form-control-sm" name="agregar_profesional_nuevo_telefono_uno" id="agregar_profesional_nuevo_telefono_uno">
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="col-sm-12 col-md-12">
-                                <div class="form-group fill ">
-                                    <label class="floating-label-activo-sm">Profesión<span style="color: red; font-size: 10px;">*</span></label>
+                    <div class="vincular-prof-bloque">
+                        <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-briefcase"></i>Profesi&oacute;n</h6>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_profesion">Profesi&oacute;n<span class="vincular-prof-obligatorio">*</span></label>
                                     <select class="form-control form-control-sm" id="agregar_profesional_nuevo_profesion" name="agregar_profesional_nuevo_profesion" onchange="buscar_tipo_especialidad()">
                                         <option selected value="0">Seleccione</option>
                                         @if (isset($especialidad))
@@ -216,94 +225,82 @@
                                         @endif
                                     </select>
                                 </div>
-
                             </div>
-
-                            <div class="col-sm-12 col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group fill">
-                                    <label class="floating-label-activo-sm">Especialidad<span style="color: red; font-size: 10px;">*</span></label>
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_especialidad">Especialidad<span class="vincular-prof-obligatorio">*</span></label>
                                     <select class="form-control form-control-sm" id="agregar_profesional_nuevo_especialidad" name="agregar_profesional_nuevo_especialidad" onchange="buscar_sub_tipo_especialidad()">
                                         <option selected value="0">Seleccione</option>
                                         <option>-</option>
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="col-sm-12 col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group fill">
-                                    <label class="floating-label-activo-sm">Tipo Especialidad<span style="color: red; font-size: 10px;">*</span></label>
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_sub_tipo_especialidad">Tipo de especialidad<span class="vincular-prof-obligatorio">*</span></label>
                                     <select class="form-control form-control-sm" id="agregar_profesional_nuevo_sub_tipo_especialidad" name="agregar_profesional_nuevo_sub_tipo_especialidad">
                                         <option selected value="0">Seleccione</option>
                                         <option>-</option>
                                     </select>
                                 </div>
-
-                            </div>
-
-                        </div>
-                        {{--  --}}
-
-                        <hr/>
-
-                        <div class="row m-t-15">
-                            <div class="col-sm-4"><strong>Tipo Convenio: </strong></div>
-                            <div class="col-sm-6">
-                                <select class="form-control form-control-sm" name="agregar_profesional_nuevo_id_tipo_convenio_institucion" id="agregar_profesional_nuevo_id_tipo_convenio_institucion" onchange="mostar_div_montos_tipo_convenio('agregar_profesional_nuevo_id_tipo_convenio_institucion');">
-                                    <option value="">Seleccione</option>
-                                    @if(isset($tipo_convenio))
-                                        @foreach ($tipo_convenio as $tc )
-                                            <option value="{{ $tc->id }}">{{ $tc->nombre }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="div_fijo" style="display: none;">
-                            <div class="row mt-1">
-                                <div class="col-sm-4">Cobro Unico</div>
-                                <div class="col-sm-6">
+                    <div class="vincular-prof-bloque">
+                        <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-file-text"></i>Convenio</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_id_tipo_convenio_institucion">Tipo de convenio</label>
+                                    <select class="form-control form-control-sm" name="agregar_profesional_nuevo_id_tipo_convenio_institucion" id="agregar_profesional_nuevo_id_tipo_convenio_institucion" onchange="mostar_div_montos_tipo_convenio('agregar_profesional_nuevo_id_tipo_convenio_institucion');">
+                                        <option value="">Seleccione</option>
+                                        @if(isset($tipo_convenio))
+                                            @foreach ($tipo_convenio as $tc )
+                                                <option value="{{ $tc->id }}">{{ $tc->nombre }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 div_fijo" style="display: none;">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_fijo">Cobro único</label>
                                     <input type="number" class="form-control form-control-sm" name="agregar_profesional_nuevo_fijo" id="agregar_profesional_nuevo_fijo" value="">
                                 </div>
                             </div>
                         </div>
-                        <div class="div_variable" style="display: none;">
-                            <div class="row mt-1">
-                                <div class="col-sm-4">Porcentaje por Atenciones</div>
-                                <div class="col-sm-6">
+                        <div class="row div_variable" style="display: none;">
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_atencion">Porcentaje por atenciones</label>
                                     <input type="number" class="form-control form-control-sm" min="0" max="100" step="0.1" name="agregar_profesional_nuevo_atencion" id="agregar_profesional_nuevo_atencion" value="">
                                 </div>
                             </div>
-                            <div class="row mt-1">
-                                <div class="col-sm-4">Cobro por Confirmaicon de Agenda</div>
-                                <div class="col-sm-6">
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_confirmacion_agenda">Cobro por confirmación de agenda</label>
                                     <input type="number" class="form-control form-control-sm" min="0" step="1" name="agregar_profesional_nuevo_confirmacion_agenda" id="agregar_profesional_nuevo_confirmacion_agenda" value="">
                                 </div>
                             </div>
-                            <div class="row mt-1">
-                                <div class="col-sm-4">Cobro por GGCC</div>
-                                <div class="col-sm-6">
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_ggcc">Cobro por GGCC</label>
                                     <input type="number" class="form-control form-control-sm" min="0" step="1" name="agregar_profesional_nuevo_ggcc" id="agregar_profesional_nuevo_ggcc" value="">
                                 </div>
                             </div>
-                            <div class="row mt-1">
-                                <div class="col-sm-4">Cobro arriendo BOX</div>
-                                <div class="col-sm-6">
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_box">Cobro arriendo de box</label>
                                     <input type="number" class="form-control form-control-sm" min="0" step="1" name="agregar_profesional_nuevo_box" id="agregar_profesional_nuevo_box" value="">
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <hr/>
-
-                        <div class="row m-t-15">
-                            <div class="col-sm-6 text-center">
-                                <button type="button" class="btn btn-info" onclick="regresar_a_busqueda();">Regresar a Busqueda</button>
-                            </div>
-                            <div class="col-sm-6 text-center">
-                                <button type="button" class="btn btn-success" onclick="asociar_nuevo_profesional();" >Enviar invitación</button>
-                            </div>
-                        </div>
+                    <div class="vincular-prof-acciones">
+                        <button type="button" class="btn btn-outline-secondary" onclick="regresar_a_busqueda();"><i class="feather icon-arrow-left mr-1"></i>Regresar a búsqueda</button>
+                        <button type="button" class="btn btn-success" onclick="asociar_nuevo_profesional();"><i class="feather icon-send mr-1"></i>Enviar invitación</button>
                     </div>
                 </div>
             </div>

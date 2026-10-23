@@ -103,7 +103,7 @@
 
                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
 
-                                        <label class="font-weight-bolder ml-0 mb-0">Rut</label>
+                                        <label class="font-weight-bolder ml-0 mb-0">RUT</label>
 
                                         <div>{{ $value_liqu->serie }}</div>
 
@@ -192,7 +192,7 @@
 
                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
 
-                                    <label class="floating-label-activo-sm">Rut</label>
+                                    <label class="floating-label-activo-sm">RUT</label>
 
                                     <input type="text" class="form-control form-control-sm" id="{{ $value_liqu->id }}_liquidacion_rut" value="{{ $value_liqu->serie }}">
 
@@ -510,7 +510,7 @@
 
         {
 
-            mensaje += 'Campo rut requerido\n';
+            mensaje += 'Campo RUT requerido\n';
 
             valido = 0;
 
@@ -609,7 +609,7 @@
 
                     swal({
 
-                        title: "se a agregado datos de liquidacion con exito",
+                        title: "se han agregado datos de liquidación con éxito",
 
                         icon: "success",
 
@@ -625,7 +625,7 @@
 
                     }, 100);
 
-                    // alert('se modifico antecedentes del paciente');
+                    // alert('se modificó antecedentes del paciente');
 
                     // location.reload();
 
@@ -635,7 +635,7 @@
 
                     swal({
 
-                        title: "Error al agregar datos de liquidacion",
+                        title: "Error al agregar datos de liquidación",
 
                         icon: "error",
 
@@ -723,7 +723,7 @@
 
         {
 
-            mensaje += 'Campo rut requerido\n';
+            mensaje += 'Campo RUT requerido\n';
 
             valido = 0;
 
@@ -840,7 +840,7 @@
 
                     }, 100);
 
-                    // alert('se modifico antecedentes del paciente');
+                    // alert('se modificó antecedentes del paciente');
 
                     // location.reload();
 
@@ -937,7 +937,7 @@
 
                 swal({
 
-                    title: "Se Elimino datos de liquidacion",
+                    title: "Se eliminaron datos de liquidación",
 
                     icon: "success",
 
@@ -953,7 +953,7 @@
 
                 }, 1000);
 
-                // alert('se modifico antecedentes del paciente');
+                // alert('se modificó antecedentes del paciente');
 
                 // location.reload();
 

@@ -608,7 +608,7 @@
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-inline mb-2">
                                         <h6 class="text-c-blue d-inline float-left pt-3 f-16">ANESTESIAS PACIENTE</h6>
                                         @if(Auth::user()->hasRole('Profesional'))
-                                        <button type="button" class="btn btn-info btn-sm float-right d-inline" onclick="verModalAgregar('show',1,0)"><i class="fas fa-plus"></i> Añadir antecedente</button>
+                                        <button type="button" class="btn btn-info btn-sm float-right d-inline" onclick="verModalAgregar('show',1,0)"><i class="fas fa-plus"></i> Agregar antecedente</button>
                                         @endif
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -710,11 +710,11 @@
                                 </div>
                             </div>
 
-                            <!--HEMORAGIAS-->
+                            <!--HEMORRAGIAS-->
                             <div class="tab-pane fade show" id="cirug-proce" role="tabpanel" aria-labelledby="cirug-proce-tab">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-inline">
-                                        <h6 class="text-c-blue d-inline">HEMORAGIAS</h6>
+                                        <h6 class="text-c-blue d-inline">HEMORRAGIAS</h6>
                                         @if(Auth::user()->hasRole('Profesional'))
                                         <button class="btn btn-info btn-xxs  feather icon-plus d-inline" onclick="verModalAgregar('show',4,0)"></button>
                                         @endif

@@ -125,7 +125,7 @@ class profesionalController extends Controller
                 }
             }else{
                 $status = '02';
-                $mesagge = 'Direccion no guardada';
+                $mesagge = 'Dirección no guardada';
             }
         }
 

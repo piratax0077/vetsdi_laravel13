@@ -13,7 +13,7 @@
                         <table class="table table-borderless">
                             <tbody>
                                 <tr>
-                                    <th scope="row">Rut</th>
+                                    <th scope="row">RUT</th>
                                     <td>
                                         <span id="ver_rut_contacto"></span>
                                     </td>

@@ -22,7 +22,7 @@
                     <div class="row">
                         <div class="col-sm-9 col-md-9 col-lg-9 col-xl-9">
                             <div class="form-group">
-                                <label class="floating-label-activo">Rut</label>
+                                <label class="floating-label-activo">RUT</label>
                                 <input type="text" class="form-control form-control-sm" name="rut_nuevo_contacto" id="rut_nuevo_contacto">
                                 <span id="mensaje_asistente"></span>
                             </div>
@@ -104,7 +104,7 @@
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                             <div class="form-group">
-                                <label class="floating-label-activo">Parentezco</label>
+                                <label class="floating-label-activo">Parentesco</label>
                                 <select id="parentezco_contacto_emergencia" name="parentezco_contacto_emergencia" class="form-control form-control-sm">
                                     <option value="0">Seleccione una opción</option>
                                     <option value="Pareja">Pareja</option>

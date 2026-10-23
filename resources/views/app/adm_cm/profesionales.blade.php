@@ -80,7 +80,7 @@
                                         <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-users"></i></span>Profesionales veterinarios</h5>
                                         <div class="encabezado-card-acciones">
                                             <button type="button" class="btn btn-info btn-sm" onclick="enviar_mensaje_difusion()" @if(!$adm_medico) disabled @endif><i class="feather icon-mail mr-1"></i>Difusión</button>
-                                            <button type="button" class="btn btn-info btn-sm" onclick="asociar_profesional();" @if(!$adm_medico) disabled @endif><i class="feather icon-plus mr-1"></i>Asociar profesional</button>
+                                            <button type="button" class="btn btn-info btn-sm" onclick="asociar_profesional();" @if(!$adm_medico) disabled @endif><i class="feather icon-plus mr-1"></i>Vincular profesional</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -218,7 +218,7 @@
                     <!--Cierre: Tab otros trabajadores-->
 
                     @include('app.adm_cm.partials.pestana_asistentes')
-                    @include('app.adm_cm.partials.pestana_contratos')
+                    {{-- Contratos ahora tiene su propia página (adm_cm.contratos) --}}
 
                     <!--Tab medicos-->
                     <div class="tab-pane fade" id="prof-salud" role="tabpanel" aria-labelledby="prof-salud-tab">
@@ -229,7 +229,7 @@
                                         <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-activity"></i></span>Profesionales médicos</h5>
                                         <div class="encabezado-card-acciones">
                                             <button type="button" class="btn btn-info btn-sm" onclick="enviar_mensaje_difusion()" @if(!$adm_medico) disabled @endif><i class="feather icon-mail mr-1"></i>Difusión</button>
-                                            <button type="button" class="btn btn-info btn-sm" onclick="asociar_profesional();" @if(!$adm_medico) disabled @endif><i class="feather icon-plus mr-1"></i>Asociar profesional</button>
+                                            <button type="button" class="btn btn-info btn-sm" onclick="asociar_profesional();" @if(!$adm_medico) disabled @endif><i class="feather icon-plus mr-1"></i>Vincular profesional</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -330,7 +330,7 @@
                                     <div class="card-header encabezado-card">
                                         <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-award"></i></span>Profesionales odontólogos</h5>
                                         <div class="encabezado-card-acciones">
-                                            <button type="button" class="btn btn-info btn-sm" onclick="asociar_profesional();"><i class="feather icon-plus mr-1"></i>Asociar odontólogo</button>
+                                            <button type="button" class="btn btn-info btn-sm" onclick="asociar_profesional();"><i class="feather icon-plus mr-1"></i>Vincular odontólogo</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -430,7 +430,7 @@
                                     <div class="card-header encabezado-card">
                                         <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-briefcase"></i></span>Otros profesionales de la salud</h5>
                                         <div class="encabezado-card-acciones">
-                                            <button type="button" class="btn btn-info btn-sm" onclick="asociar_profesional();"><i class="feather icon-plus mr-1"></i>Asociar otros profesionales</button>
+                                            <button type="button" class="btn btn-info btn-sm" onclick="asociar_profesional();"><i class="feather icon-plus mr-1"></i>Vincular otros profesionales</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -675,13 +675,19 @@ $(document).ready(function(){
 @section('page-script')
 <script>
     $(function () {
-        const pestanasPersonal = ['prof-vet', 'asistentes', 'otros_trabajadores', 'contratos', 'prof-salud', 'odontologos', 'otros_prof'];
+        const pestanasPersonal = ['prof-vet', 'asistentes', 'otros_trabajadores', 'prof-salud', 'odontologos', 'otros_prof'];
         const tab = new URLSearchParams(window.location.search).get('tab');
+        // Los enlaces antiguos a la pestaña Contratos se llevan a su nueva página
+        if (tab === 'contratos') {
+            window.location.replace("{{ route('adm_cm.contratos') }}");
+            return;
+        }
         if (pestanasPersonal.includes(tab)) {
             $('.pill-moderno a[href="#' + tab + '"]').first().tab('show');
         }
 
-        $('.pill-moderno a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        // Las pestañas de los modales (Información) no van a la URL; si no, al recargar se perdería la pestaña de la página
+        $('.pill-moderno a[data-toggle="tab"]').not('.modal .pill-moderno a').on('shown.bs.tab', function (e) {
             // La pestaña queda en la URL para que al recargar (después de guardar) se vuelva a la misma
             const url = new URL(window.location.href);
             url.searchParams.set('tab', $(e.target).attr('href').substring(1));
@@ -717,19 +723,12 @@ $(document).ready(function(){
 
     {{-- Pestaña Asistentes --}}
     @include('app.adm_cm.modales.personal.registrar_personal')
-    @include('app.adm_cm.modales.personal.contacto_personal')
-    @include('app.adm_cm.modales.personal.datos_banco')
-    @include('app.adm_cm.modales.personal.horario_personal')
-    @include('app.adm_cm.modales.personal.permisos_rol')
+    {{-- Banco, horario y roles ahora se ven en el modal Información del asistente --}}
+    {{-- @include('app.adm_cm.modales.personal.datos_banco') --}}
+    {{-- @include('app.adm_cm.modales.personal.horario_personal') --}}
+    {{-- @include('app.adm_cm.modales.personal.permisos_rol') --}}
+    @include('app.adm_cm.modales.personal.info_asistente')
     @include('app.adm_cm.modales.personal.editar_personal')
     @include('app.adm_cm.modales.personal.finalizar_personal')
     @include('app.adm_cm.modales.personal.asociar_personal')
-
-    {{-- Pestaña Contratos --}}
-    @include('app.contabilidad.modals.datos_profesional')
-    @include('app.contabilidad.modals.datoscuenta')
-    @include('app.adm_cm.modales.personal.editar_profesional')
-    @include('app.adm_cm.modales.personal.editar_profesional_convenio')
-    @include('app.adm_cm.modales.personal.finalizar_contrato')
-    @include('app.adm_cm.amodales_nuevos.liquidacion_profesionales')
 @endsection

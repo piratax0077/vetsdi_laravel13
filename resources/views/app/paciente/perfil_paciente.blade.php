@@ -1690,7 +1690,7 @@
             if(rut == '')
             {
                 valido = 0;
-                mensaje += 'Debe ingresar rut.\n';
+                mensaje += 'Debe ingresar RUT.\n';
             }
             if(nombres == '')
             {
@@ -1710,7 +1710,7 @@
             if(direccion == '')
             {
                 valido = 0;
-                mensaje += 'Debe ingresar direccion.\n';
+                mensaje += 'Debe ingresar dirección.\n';
             }
             if(id_ciudad == '' || id_ciudad == '0')
             {
@@ -1725,12 +1725,12 @@
             if(telefono == '')
             {
                 valido = 0;
-                mensaje += 'Debe ingresar telefono.\n';
+                mensaje += 'Debe ingresar teléfono.\n';
             }
             if(parentezco == '' || parentezco == '0')
             {
                 valido = 0;
-                mensaje += 'Debe ingresar parentezco.\n';
+                mensaje += 'Debe ingresar parentesco.\n';
             }
             if(prioridad == '' || prioridad == '0')
             {
@@ -1741,7 +1741,7 @@
             if(numero_dir == '')
             {
                 valido = 0;
-                mensaje += 'Debe ingresar numero direccion.\n';
+                mensaje += 'Debe ingresar número de dirección.\n';
             }
             --}}
 
@@ -1948,7 +1948,7 @@
                 if(data.estado == 1)
                 {
                     swal({
-                        title: "Modificacion de autorizaciones",
+                        title: "Modificación de autorizaciones",
                         text: "Actualizacion con Exito",
                         icon: "success",
                     });
@@ -2005,8 +2005,8 @@
                         mensaje += 'Intente nuevamente.';
                     }
                     swal({
-                        title: "Modificacion de autorizaciones",
-                        text: "Se presento un problema.\n"+mensaje,
+                        title: "Modificación de autorizaciones",
+                        text: "Se presentó un problema.\n"+mensaje,
                         icon: "error",
                     });
                 }

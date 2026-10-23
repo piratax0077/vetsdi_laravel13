@@ -1,43 +1,52 @@
-<!--datos Contacto-->
-<div id="contacto_usuario" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="contacto_usuario" aria-hidden="true">
+<!--Datos de contacto-->
+<div id="contacto_usuario" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="contacto_usuario_titulo" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
-                <h5 class="modal-title d-inline mt-1">Info de Contacto</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
+                <h5 class="modal-title d-inline mt-1" id="contacto_usuario_titulo">Informaci&oacute;n de contacto</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <div class="row info-basica" id="info-basica-1">
-                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                        <div class="form-group">
-                            <h6 class="text-c-blue">Rut</h6>
-                            <div id="contacto_prof_rut"></div>
+                <div class="ficha-profesional__datos">
+                    <div class="ficha-profesional__dato">
+                        <span class="ficha-profesional__icono"><i class="feather icon-credit-card" aria-hidden="true"></i></span>
+                        <div>
+                            <span class="ficha-profesional__etiqueta">RUT</span>
+                            <span class="ficha-profesional__valor" id="contacto_prof_rut"></span>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                        <div class="form-group">
-                            <h6 class="text-c-blue">Correo electrónico</h6>
-                            <div id="contacto_prof_email"></div>
+                    <div class="ficha-profesional__dato">
+                        <span class="ficha-profesional__icono"><i class="feather icon-mail" aria-hidden="true"></i></span>
+                        <div>
+                            <span class="ficha-profesional__etiqueta">Correo electr&oacute;nico</span>
+                            <span class="ficha-profesional__valor" id="contacto_prof_email"></span>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                        <div class="form-group">
-                            <h6 class="text-c-blue">Teléfonos</h6>
-                            <div  >
-                                <ul>
-                                    <li id="contacto_prof_telefono1"><span></span></li>
-                                    <li id="contacto_prof_telefono2"><span></span></li>
-                                </ul>
-                            </div>
+                    <div class="ficha-profesional__dato">
+                        <span class="ficha-profesional__icono"><i class="feather icon-phone" aria-hidden="true"></i></span>
+                        <div>
+                            <span class="ficha-profesional__etiqueta">Tel&eacute;fono</span>
+                            <span class="ficha-profesional__valor" id="contacto_prof_telefono1"></span>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                        <div class="form-group">
-                            <h6 class="text-c-blue">Dirección</h6>
-                            <div id="contacto_prof_direccion"></div>
+                    <div class="ficha-profesional__dato">
+                        <span class="ficha-profesional__icono"><i class="feather icon-smartphone" aria-hidden="true"></i></span>
+                        <div>
+                            <span class="ficha-profesional__etiqueta">Tel&eacute;fono secundario</span>
+                            <span class="ficha-profesional__valor" id="contacto_prof_telefono2"></span>
+                        </div>
+                    </div>
+                    <div class="ficha-profesional__dato ficha-profesional__dato--ancho">
+                        <span class="ficha-profesional__icono"><i class="feather icon-map-pin" aria-hidden="true"></i></span>
+                        <div>
+                            <span class="ficha-profesional__etiqueta">Direcci&oacute;n</span>
+                            <span class="ficha-profesional__valor" id="contacto_prof_direccion"></span>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -66,11 +75,11 @@
             if (data.estado == 1)
             {
                 /** encontrado */
-                $('#contacto_prof_rut').html(data.registro.rut);
-                $('#contacto_prof_email').html(data.registro.email);
-                $('#contacto_prof_telefono1').html(data.registro.telefono_uno);
-                $('#contacto_prof_telefono2').html(data.registro.telefono_dos);
-                $('#contacto_prof_direccion').html(data.direccion);
+                $('#contacto_prof_rut').text(data.registro.rut || 'No informado');
+                $('#contacto_prof_email').text(data.registro.email || 'No informado');
+                $('#contacto_prof_telefono1').text(data.registro.telefono_uno || 'No informado');
+                $('#contacto_prof_telefono2').text(data.registro.telefono_dos || 'No informado');
+                $('#contacto_prof_direccion').text(data.direccion || 'No informado');
                 $('#contacto_usuario').modal('show');
             }
             else

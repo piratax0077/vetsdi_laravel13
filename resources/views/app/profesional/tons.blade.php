@@ -37,7 +37,7 @@
                                 <thead>
                                     <tr>
                                         <th class="align-middle">Lugar de atención</th>
-                                        <th class="align-middle">Rut</th>
+                                        <th class="align-middle">RUT</th>
                                         <th class="align-middle">Tons</th>
                                         <th class="align-middle">Deshabilitar</th>
                                         <th class="align-middle">Eliminar</th>
@@ -105,7 +105,7 @@
                     <div class="form-row">
                         <div class="col-12">
                             <div class="form-group fill">
-                                <label for="rut_tons" class="floating-label-activo-sm">Rut de tons</label>
+                                <label for="rut_tons" class="floating-label-activo-sm">RUT de tons</label>
                                 <input type="text" name="rut_tons" id="rut_tons" class="form-control form-control-sm" oninput="formatoRut(this)">
                             </div>
                         </div>
@@ -310,7 +310,7 @@
             swal({
                 title:'info',
                 icon:'info',
-                text:'Debe ingresar rut'
+                text:'Debe ingresar RUT'
             });
             return false;
         }
@@ -569,7 +569,7 @@
 
     function eliminar_relacion_tons(id){
         swal({
-            title: "¿Esta seguro que desea ELIMINAR la relación tons profesional?",
+            title: "¿Está seguro de que desea ELIMINAR la relación tons profesional?",
             text: "Favor confirme o cancele la solicitud",
             icon: "warning",
             buttons: ["Cancelar", "Solicitar"],

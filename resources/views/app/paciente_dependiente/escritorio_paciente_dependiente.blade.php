@@ -458,13 +458,13 @@
                     if (data != null && parseInt(data.estado, 10) === 1) {
                         swal({
                             title: "Exito!",
-                            text: "Se ha confirmado su hora medica",
+                            text: "Se ha confirmado su hora médica",
                             type: "success",
                         });
                     } else {
                         swal({
                             title: "Error!",
-                            text: "Se ha presentado un problema en la confirmación de su hora medica.\nIntente de nuevo.",
+                            text: "Se ha presentado un problema en la confirmación de su hora médica.\nIntente de nuevo.",
                             type: "error",
                         });
                     }
@@ -495,13 +495,13 @@
                     if (data != null && parseInt(data.estado, 10) === 1) {
                         swal({
                             title: "Exito!",
-                            text: "Se ha cancelado su hora medica",
+                            text: "Se ha cancelado su hora médica",
                             type: "success",
                         });
                     } else {
                         swal({
                             title: "Error!",
-                            text: "Se ha presentado un problema en la cancelación de su hora medica.\nIntente de nuevo.",
+                            text: "Se ha presentado un problema en la cancelación de su hora médica.\nIntente de nuevo.",
                             type: "error",
                         });
                     }

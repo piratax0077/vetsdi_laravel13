@@ -82,7 +82,7 @@
                             </div>
                             <div class="form-group col-md-3 ">
                                 <label></label>
-                                <button type="button" class="btn btn-info btn-sm btn-block mt-n3" onclick="agregar_medicamento()" name="button" id="button"><i class="feather icon-check"></i> Añadir</button>
+                                <button type="button" class="btn btn-info btn-sm btn-block mt-n3" onclick="agregar_medicamento()" name="button" id="button"><i class="feather icon-check"></i> Agregar</button>
                             </div>
                         </div>
 

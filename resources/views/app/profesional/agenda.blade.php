@@ -936,7 +936,7 @@
 
                                                 <dl class="ficha-previa-datos reserva-hora-filas">
                                                     <div class="ficha-previa-dato reserva-hora-dato-mitad reserva-hora-dato-angosto reserva-hora-dato-fijo">
-                                                        <dt>Rut</dt>
+                                                        <dt>RUT</dt>
                                                         <dd><span id="reserva_rut_paciente"></span></dd>
                                                     </div>
                                                     <div class="ficha-previa-dato reserva-hora-dato-mitad reserva-hora-dato-amplio">
@@ -1340,7 +1340,7 @@
                     <div class="form-row mb-2">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                             <div class="alert alert-danger">
-                                <h6 class="text-danger p-16">Recuerde que siempre se debe validar datos del paciente, profesional y convenio con los datos del bono físico</h6>
+                                <h6 class="text-danger p-16">Recuerde que siempre se deben validar los datos del paciente, profesional y convenio con los datos del bono físico</h6>
                             </div>
                         </div>
                     </div>
@@ -1351,7 +1351,7 @@
                         <input type="hidden" name="bono_id_tipo_bono" id="bono_id_tipo_bono" value="1">
                         <div class="col-sm-6">
                             <div class="form-group fill">
-                                <label class="floating-label-activo-sm">Rut del Paciente</label>
+                                <label class="floating-label-activo-sm">RUT del Paciente</label>
                                 <input type="person" class="form-control form-control-sm" name="bono_paciente_rut"
                                     id="bono_paciente_rut" disabled="disabled">
                             </div>
@@ -1372,7 +1372,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group fill">
-                                <label class="floating-label-activo-sm"> Rut Profesional</label>
+                                <label class="floating-label-activo-sm"> RUT Profesional</label>
                                 <input type="text" class="form-control form-control-sm" name="bono_profesional_rut"
                                     id="bono_profesional_rut" disabled="disabled">
                             </div>
@@ -1506,7 +1506,7 @@
                         <div class="form-row mb-2">
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <div class="alert alert-danger">
-                                    <h6 class="text-danger p-16">Recuerde que siempre se debe validar datos del paciente, profesional y convenio con los datos del bono físico</h6>
+                                    <h6 class="text-danger p-16">Recuerde que siempre se deben validar los datos del paciente, profesional y convenio con los datos del bono físico</h6>
                                 </div>
                             </div>
                         </div>
@@ -1517,7 +1517,7 @@
                             <input type="hidden" name="bono_id_tipo_bono" id="bono_id_tipo_bono" value="1">
                             <div class="col-sm-6">
                                 <div class="form-group fill">
-                                    <label class="floating-label-activo-sm">Rut del Tutor</label>
+                                    <label class="floating-label-activo-sm">RUT del Tutor</label>
                                     <input type="person" class="form-control form-control-sm" name="bono_paciente_rut"
                                         id="bono_paciente_rut" disabled="disabled">
                                 </div>
@@ -1538,7 +1538,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group fill">
-                                    <label class="floating-label-activo-sm"> Rut Profesional</label>
+                                    <label class="floating-label-activo-sm"> RUT Profesional</label>
                                     <input type="text" class="form-control form-control-sm" name="bono_profesional_rut"
                                         id="bono_profesional_rut" disabled="disabled">
                                 </div>
@@ -1823,7 +1823,7 @@
 
                                 $('#mensaje_reserva_hora_fecha_nac').html('');
                                 $('#mensaje_reserva_hora_fecha_nac').show();
-                                $('#mensaje_reserva_hora_fecha_nac').html('La fecha cargada no es valida');
+                                $('#mensaje_reserva_hora_fecha_nac').html('La fecha cargada no es válida');
 
                                 console.log('validacion:');
                                 console.log(year);
@@ -1840,7 +1840,7 @@
                                 $("#guardar_reserva_paciente").prop('disabled', true);
                                 $('#mensaje_reserva_hora_fecha_nac').html('');
                                 $('#mensaje_reserva_hora_fecha_nac').show();
-                                $('#mensaje_reserva_hora_fecha_nac').html('La fecha cargada no es valida');
+                                $('#mensaje_reserva_hora_fecha_nac').html('La fecha cargada no es válida');
                             }
 
 
@@ -2339,7 +2339,7 @@
             {
                 swal({
                     title: "Actualización de Paciente",
-                    text: "Esta actualizando al paciente sin haber inicado proceso de edición",
+                    text: "Está actualizando al paciente sin haber iniciado el proceso de edición",
                     icon: "error",
                 });
             }
@@ -2489,7 +2489,7 @@
             {
                 swal({
                     title: "Actualización de Paciente",
-                    text: "Esta actualizando al paciente sin haber inicado proceso de edición",
+                    text: "Está actualizando al paciente sin haber iniciado el proceso de edición",
                     icon: "error",
                 });
             }
@@ -2570,7 +2570,7 @@
                     if(data.estado == 1)
                     {
                         swal({
-                            title: "Actualizacion de Convenio del Paciente.",
+                            title: "Actualización de Convenio del Paciente.",
                             text: "Convenio del Paciente actualizado.",
                             icon: "success",
                         });
@@ -2578,8 +2578,8 @@
                     else
                     {
                         swal({
-                            title: "Actualizacion de Convenio del Paciente.",
-                            text: "Se presento una falla al intentar actualizar el Convenio del Paciente.",
+                            title: "Actualización de Convenio del Paciente.",
+                            text: "Se presentó una falla al intentar actualizar el Convenio del Paciente.",
                             icon: "error",
                         });
                     }
@@ -2587,8 +2587,8 @@
                 else
                 {
                     swal({
-                        title: "Actualizacion de Convenio del Paciente.",
-                        text: "Se presento una falla al intentar actualizar el Convenio del Paciente.",
+                        title: "Actualización de Convenio del Paciente.",
+                        text: "Se presentó una falla al intentar actualizar el Convenio del Paciente.",
                         icon: "error",
                     });
                 }

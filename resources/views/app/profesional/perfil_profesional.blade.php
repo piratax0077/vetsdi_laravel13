@@ -74,7 +74,7 @@
                                         <div class="card-body info_basica collapse show" id="info_basica-1">
                                             <div class="form-row">
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                    <label class="font-weight-bolder ml-0 mb-0">Rut</label>
+                                                    <label class="font-weight-bolder ml-0 mb-0">RUT</label>
                                                     <div id="ver_rut">{{ $profesional->rut }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -110,7 +110,7 @@
                                                     <div id="ver_id_tipo_especialidad">{{ $txt_tipo_especialidades }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                    <label class="font-weight-bolder ml-0 mb-0">Sub Especialidad</label>
+                                                    <label class="font-weight-bolder ml-0 mb-0">Subespecialidad</label>
                                                     <div id="ver_id_sub_tipo_especialidad">{{ $txt_sub_tipo_especialidades }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -230,7 +230,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Sub Especialidad</label>
+                                                        <label class="floating-label-activo">Subespecialidad</label>
                                                         <select class="form-control form-control-sm"
                                                             id="id_sub_tipo_especialidad" name="id_sub_tipo_especialidad">
                                                             <option value="">Seleccione</option>
@@ -470,7 +470,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <h5 class="f-20 d-inline mr-2 pt-1">Antecedentes académicos</h5>
                                     <button type="button" class="btn btn-info btn-sm d-inline float-right mb-2"
-                                        onclick="info_academica_m();"><i class="fas fa-plus"></i> Añadir</button>
+                                        onclick="info_academica_m();"><i class="fas fa-plus"></i> Agregar</button>
                                 </div>
                             </div>
                             <div class="row">
@@ -539,7 +539,7 @@
                                                             <div class="col-sm-6 pt-2 ml-2 font-weight-bolder"> {{ $value_academico->nombre }}</div>
                                                             <label class="col-sm-5 col-form-label">Universidad</label>
                                                             <div class="col-sm-6 pt-2 ml-2 font-weight-bolder"> {{ $value_academico->universidad }}</div>
-                                                            <label class="col-sm-5 col-form-label">Año de Titulo</label>
+                                                            <label class="col-sm-5 col-form-label">Año de Título</label>
                                                             <div class="col-sm-6 pt-2 ml-2 font-weight-bolder"> {{ $value_academico->anio }}</div>
                                                             <label class="col-sm-5 col-form-label">Ciudad y País</label>
                                                             <div class="col-sm-6 pt-2 ml-2 font-weight-bolder"> {{ $value_academico->ciudad_pais }}</div>

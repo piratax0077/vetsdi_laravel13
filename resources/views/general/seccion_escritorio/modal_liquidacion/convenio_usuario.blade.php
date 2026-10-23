@@ -11,7 +11,7 @@
 
                 <div class="row info-basica collapse show" id="info-basica-1">
                     <div class="col-md-12">
-                        <h6 class="mb-0 d-inline">Rut</h6>
+                        <h6 class="mb-0 d-inline">RUT</h6>
                         <button type="button" class="btn btn-link text-primary btn-sm float-right" data-toggle="collapse" data-target=".info-basica" aria-expanded="false" aria-controls="info-basica-1 info-basica-2">
                             <i class="feather icon-edit"></i> Editar información
                         </button>
@@ -38,7 +38,7 @@
                 <div class="row info-basica collapse" id="info-basica-2">
                     <div class="col-sm-12">
                         <div class="form-group fill">
-                            <label class="floating-label">Rut</label>
+                            <label class="floating-label">RUT</label>
                             <input class="form-control form-control-sm" type="text" name="rut" id="rut">
                         </div>
                     </div>

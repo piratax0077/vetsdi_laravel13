@@ -30,7 +30,8 @@
                                                 <th class="align-middle">Fecha dosis</th>
                                                 <th class="align-middle">Antiparasitario</th>
                                                 <th class="align-middle">Tipo</th>
-                                                <th class="align-middle">Próx.Dosis</th>
+                                                <th class="align-middle">Próx. Dosis</th>
+                                                <th class="align-middle">Realizado por</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tabla_desparasitaciones_body">
@@ -48,10 +49,11 @@
                                                             {{ !empty($registro['proxima_dosis']) ? \Carbon\Carbon::parse($registro['proxima_dosis'])->format('d-m-Y') : '-' }}
                                                         </span>
                                                     </td>
+                                                    <td class="align-middle">{{ $registro['realizado_por'] ?? '-' }}</td>
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td class="align-middle text-center text-muted" colspan="4">Sin registros</td>
+                                                    <td class="align-middle text-center text-muted" colspan="5">Sin registros</td>
                                                 </tr>
                                             @endforelse
                                         </tbody>
@@ -69,13 +71,21 @@
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
-                <h5 class="modal-title" id="modal_desparasitacion_label">Añadir registro de desparasitación</h5>
+                <h5 class="modal-title" id="modal_desparasitacion_label">Agregar registro de desparasitación</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form id="form_desparasitacion_modal" novalidate>
+                    <div class="form-group col-12 px-0">
+                        <label class="floating-label-activo-sm">¿Quién realizó la desparasitación? *</label>
+                        <select class="form-control form-control-sm campo-obligatorio" id="des_realizado_por_modal" name="realizado_por" required>
+                            <option value="">Seleccione</option>
+                            <option value="tutor">Yo (tutor)</option>
+                            <option value="profesional_externo">Un profesional externo</option>
+                        </select>
+                    </div>
                     <div class="form-group col-12 px-0">
                         <label class="floating-label-activo-sm">Fecha dosis *</label>
                         <input type="date" class="form-control form-control-sm campo-obligatorio" id="des_fecha_dosis_modal" name="fecha_dosis" required>
@@ -94,7 +104,7 @@
                         </select>
                     </div>
                     <div class="form-group col-12 px-0">
-                        <label class="floating-label-activo-sm">Prox. Dosis *</label>
+                        <label class="floating-label-activo-sm">Próx. Dosis *</label>
                         <input type="date" class="form-control form-control-sm campo-obligatorio" id="des_proxima_dosis_modal" name="proxima_dosis" required>
                     </div>
                     <div class="text-center pt-2">
@@ -117,12 +127,16 @@
             return moment(fecha).format('DD-MM-YYYY');
         }
 
+        function escaparDesparasitacion(valor) {
+            return $('<div>').text(valor == null ? '' : valor).html();
+        }
+
         function renderTablaDesparasitaciones(registros) {
             var $tbody = $('#tabla_desparasitaciones_body');
             $tbody.html('');
 
             if (!registros || registros.length === 0) {
-                $tbody.append('<tr><td class="align-middle text-center text-muted" colspan="4">Sin registros</td></tr>');
+                $tbody.append('<tr><td class="align-middle text-center text-muted" colspan="5">Sin registros</td></tr>');
                 return;
             }
 
@@ -130,9 +144,10 @@
                 var html = '';
                 html += '<tr>';
                 html += '    <td class="align-middle"><span class="badge badge-secondary">' + formatearFechaDesparasitacion(registro.fecha_dosis) + '</span></td>';
-                html += '    <td class="align-middle">' + (registro.antiparasitario || '-') + '</td>';
-                html += '    <td class="align-middle">' + (registro.tipo || '-') + '</td>';
+                html += '    <td class="align-middle">' + escaparDesparasitacion(registro.antiparasitario || '-') + '</td>';
+                html += '    <td class="align-middle">' + escaparDesparasitacion(registro.tipo || '-') + '</td>';
                 html += '    <td class="align-middle text-center"><span class="badge badge-info">' + formatearFechaDesparasitacion(registro.proxima_dosis) + '</span></td>';
+                html += '    <td class="align-middle">' + escaparDesparasitacion(registro.realizado_por || '-') + '</td>';
                 html += '</tr>';
                 $tbody.append(html);
             });
@@ -184,6 +199,7 @@
             var url = "{{ route('paciente.mascotas.desparasitaciones.guardar', ['mascotaId' => $mascota->id]) }}";
             var data = {
                 _token: CSRF_TOKEN,
+                realizado_por: $('#des_realizado_por_modal').val(),
                 fecha_dosis: $('#des_fecha_dosis_modal').val(),
                 antiparasitario: $('#des_antiparasitario_modal').val(),
                 tipo: $('#des_tipo_modal').val(),
@@ -218,5 +234,3 @@
         });
     </script>
 @endsection
-
-@include('general.secciones_ficha.partials.sanitarios_solo_lectura')

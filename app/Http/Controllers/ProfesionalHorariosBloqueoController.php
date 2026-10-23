@@ -161,7 +161,7 @@ class ProfesionalHorariosBloqueoController extends Controller
                                             );
                                         $cc = array();
                                         $bcc = array();
-                                        $asunto = 'VET-SDI - Hora Medica Anulada';
+                                        $asunto = 'VET-SDI - Hora médica anulada';
                                         $body = array(
                                             'nombre_paciente'=> $paciente->nombres . ' ' . $paciente->apellido_uno . ' ' . $paciente->apellido_dos,
                                             'fecha'=> $value_hma->fecha_consulta,

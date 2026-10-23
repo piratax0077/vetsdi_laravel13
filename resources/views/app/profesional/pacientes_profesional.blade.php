@@ -429,7 +429,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <h5>DESPUES DE SELECCIONAR, ACÁ SE CARGA EL FORMULARIO DEL DOCUMENTO.<h5>
+                                <h5>DESPUÉS DE SELECCIONAR, ACÁ SE CARGA EL FORMULARIO DEL DOCUMENTO.<h5>
                             </div>
                         </div>
                         <div class="form-row">

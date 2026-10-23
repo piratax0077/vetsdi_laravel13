@@ -94,7 +94,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label class="floating-label">Rut</label>
+                                <label class="floating-label">RUT</label>
                                 <input type="person" class="form-control" name="rut_paciente" id="rut_paciente">
                             </div>
                         </div>

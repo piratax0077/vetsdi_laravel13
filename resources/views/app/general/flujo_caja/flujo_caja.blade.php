@@ -61,7 +61,7 @@
 
                                 <li class="nav-item">
                                     <a class="btn btn-sm btn-outline-info mr-1" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">
-                                        Rendiciones de caja Historico
+                                        Rendiciones de caja Histórico
                                     </a>
                                 </li>
 
@@ -382,7 +382,7 @@
                                                         <tr>
                                                             <th class="text-wrap text-center align-middle">Convenio</th>
                                                             <th class="text-center align-middle">Nº de Programa</th>
-                                                            <th class="text-center align-middle">Codigo</th>
+                                                            <th class="text-center align-middle">Código</th>
                                                             <th class="text-center align-middle">Tipo</th>
                                                             <th class="text-center align-middle">Fecha de Atención</th>
                                                             <th class="text-center align-middle">Paciente</th>
@@ -518,13 +518,13 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="text-wrap text-center align-middle">Convenio</th>
-                                                        <th class="text-center align-middle">Codigo</th>
+                                                        <th class="text-center align-middle">Código</th>
                                                         <th class="text-center align-middle">Tipo</th>
                                                         <th class="text-center align-middle">Fecha de Atención</th>
                                                         <th class="text-center align-middle">Paciente</th>
                                                         <th class="text-center align-middle">Valor Total</th>
                                                         <th class="text-center align-middle">Estado Consulta</th>
-                                                        <th class="text-center align-middle">Accion</th>
+                                                        <th class="text-center align-middle">Acción</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -639,13 +639,13 @@
                                                     <tr>
                                                         <th class="text-wrap text-center align-middle">Convenio</th>
                                                         <th class="text-center align-middle">Nº de Programa</th>
-                                                        <th class="text-center align-middle">Codigo</th>
+                                                        <th class="text-center align-middle">Código</th>
                                                         <th class="text-center align-middle">Tipo</th>
                                                         <th class="text-center align-middle">Fecha de Atención</th>
                                                         <th class="text-center align-middle">Paciente</th>
                                                         <th class="text-center align-middle">Valor Total</th>
                                                         <th class="text-center align-middle">Estado consulta</th>
-                                                        <th class="text-center align-middle">Accion</th>
+                                                        <th class="text-center align-middle">Acción</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -747,10 +747,10 @@
                                                             <th class="text-center align-middle">Valor</th>
                                                             <th class="text-center align-middle">Ap.Seguro</th>
                                                             <th class="text-center align-middle">T.Copago</th>
-                                                            <th class="text-center align-middle"><label>Rut Prestador</label><br><label>Nombre</label></th>
+                                                            <th class="text-center align-middle"><label>RUT Prestador</label><br><label>Nombre</label></th>
                                                             <th class="text-center align-middle">Convenio</th>
                                                             {{-- <th class="text-center align-middle">Asegurador</th> --}}
-                                                            <th class="text-center align-middle">Accion</th>
+                                                            <th class="text-center align-middle">Acción</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>

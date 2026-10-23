@@ -2892,9 +2892,8 @@ class AdministradorCmController extends Controller
 
         $servicios = Servicios::all();
 
-        /** Pestañas Asistentes y Contratos: se cargan aquí para no salir de la página */
+        /** Pestaña Asistentes: se carga aquí para no salir de la página */
         $lista_asistente = $this->dame_asistentes_lugar($institucion);
-        $profesionales_contratados = $this->dame_profesionales_contratados($institucion);
         $lista_tipo_asistente = AsistenteTipo::select('id', 'nombre')->where('estado',1)->get();
         $lista_tipo_contrato = $this->dame_lista_tipo_contrato($lista_tipo_asistente);
 
@@ -2915,10 +2914,47 @@ class AdministradorCmController extends Controller
             'lista_asistente' => $lista_asistente,
             'lista_tipo_asistente' => $lista_tipo_asistente,
             'lista_tipo_contrato' => (object)$lista_tipo_contrato,
-            'profesionales_contratados' => $profesionales_contratados,
             'regiones' => $region,
             'bancos' => Bancos::all(),
             'especialidades' => $especialidad,
+        ]);
+    }
+
+    /** Página de contratos de los profesionales (acceso desde el escritorio) */
+    public function contratos(){
+        $contextData = $this->resolveAdminInstitutionContext(request());
+        $institucion = $contextData['institucion'];
+
+        if (!$institucion) {
+            return back()->with('error','Institución no encontrada');
+        }
+
+        $region = Region::all();
+        $especialidad = Especialidad::all();
+
+        /** Asistentes con su contrato vigente; si les cambiaron el tipo, el contrato sigue con el tipo anterior */
+        $lista_asistente = $this->dame_asistentes_lugar($institucion);
+        foreach ($lista_asistente as $asistente) {
+            $asistente->contrato_vigente = ContratoDependiente::where('id_empleado', $asistente->id)
+                ->where('id_lugar_atencion', $institucion->id_lugar_atencion)
+                ->where('estado', 2)
+                ->where('tipo_empleado', 'like', 'ASISTENTE%')
+                ->first();
+        }
+
+        return view('app.adm_cm.contratos')->with([
+            'responsable' => $contextData['responsable'],
+            'institucion' => $institucion,
+            'tipo_institucion' => $contextData['tipo_institucion'],
+            'profesionales_contratados' => $this->dame_profesionales_contratados($institucion),
+            'lista_asistente' => $lista_asistente,
+            'lista_tipo_asistente' => AsistenteTipo::select('id', 'nombre')->where('estado', 1)->get(),
+            'tipo_convenio' => TipoConvenioInstitucion::where('estado', 1)->get(),
+            'region' => $region,
+            'regiones' => $region,
+            'especialidad' => $especialidad,
+            'especialidades' => $especialidad,
+            'bancos' => Bancos::all(),
         ]);
     }
 

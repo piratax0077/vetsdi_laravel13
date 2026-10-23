@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="servicioAdheridoTitulo">
+    <title id="servicioAdheridoTitulo">Lugar adherido de servicios para mascotas</title>
+    <defs>
+        <linearGradient id="servicioAdheridoFondo" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#e9f8f8"/>
+            <stop offset="1" stop-color="#f1ebfd"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Fondo -->
+    <circle cx="256" cy="256" r="244" fill="url(#servicioAdheridoFondo)"/>
+
+    <!-- Letrero con corazón -->
+    <rect x="200" y="50" width="112" height="46" rx="14" fill="#6f42c1"/>
+    <path d="M256 86 l-17 -16 a10 10 0 0 1 17 -12 a10 10 0 0 1 17 12 z" fill="#ffffff"/>
+
+    <!-- Local -->
+    <rect x="124" y="190" width="264" height="196" rx="14" fill="#ffffff" stroke="#e3d8fb" stroke-width="8"/>
+
+    <!-- Toldo a rayas -->
+    <path d="M96 106 h64 v52 a32 32 0 0 1 -64 0 z" fill="#31bebe"/>
+    <path d="M160 106 h64 v52 a32 32 0 0 1 -64 0 z" fill="#dff5f5"/>
+    <path d="M224 106 h64 v52 a32 32 0 0 1 -64 0 z" fill="#31bebe"/>
+    <path d="M288 106 h64 v52 a32 32 0 0 1 -64 0 z" fill="#dff5f5"/>
+    <path d="M352 106 h64 v52 a32 32 0 0 1 -64 0 z" fill="#31bebe"/>
+    <rect x="96" y="100" width="320" height="14" rx="7" fill="#1f9d9d"/>
+
+    <!-- Vitrina con huella -->
+    <rect x="152" y="234" width="112" height="96" rx="14" fill="#e9f8f8" stroke="#31bebe" stroke-width="7"/>
+    <ellipse cx="208" cy="296" rx="21" ry="17" fill="#6f42c1"/>
+    <circle cx="181" cy="272" r="9" fill="#6f42c1"/>
+    <circle cx="199" cy="259" r="9" fill="#6f42c1"/>
+    <circle cx="217" cy="259" r="9" fill="#6f42c1"/>
+    <circle cx="235" cy="272" r="9" fill="#6f42c1"/>
+
+    <!-- Puerta -->
+    <rect x="286" y="250" width="76" height="136" rx="10" fill="#6f42c1"/>
+    <rect x="298" y="264" width="52" height="40" rx="6" fill="#8a6bd1"/>
+    <circle cx="346" cy="326" r="6" fill="#ffffff"/>
+
+    <!-- Vereda -->
+    <rect x="96" y="380" width="320" height="16" rx="8" fill="#1f9d9d"/>
+</svg>

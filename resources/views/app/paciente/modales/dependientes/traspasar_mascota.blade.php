@@ -216,7 +216,7 @@
                         <i class="feather icon-alert-triangle"></i>
                         <span>
                             Al confirmar, el nuevo tutor queda como responsable de la mascota. La FVU, el carné de vacunas
-                            y las desparasitaciones se mantienen asociados a ella.
+                            y las desparasitaciones se mantienen asociadas a ella.
                         </span>
                     </div>
                 </div>

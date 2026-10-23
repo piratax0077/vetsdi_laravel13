@@ -61,7 +61,7 @@
                                                                 <span>{{ $paciente->apellido_dos }}</span>
                                                             </li>
                                                             <li class="mt-2 mb-2">
-                                                                <span><strong>Rut: </strong>
+                                                                <span><strong>RUT: </strong>
                                                                 </span>
                                                                 &nbsp;&nbsp;&nbsp;
                                                                 <span>{{ $paciente->rut }}</span>
@@ -124,7 +124,7 @@
                                                                 </li>
                                                                 <li class="mt-2 mb-2">
                                                                     <span>
-                                                                        <strong>Rut: </strong>
+                                                                        <strong>RUT: </strong>
                                                                     </span>
                                                                     &nbsp;&nbsp;&nbsp;
                                                                     <span>{{ $paciente->ContactosEmergencia()->first()->rut }}</span>
@@ -178,7 +178,7 @@
                                                                 </li>
                                                                 <li class="mt-2 mb-2">
                                                                     <span>
-                                                                        <strong>Rut: </strong>
+                                                                        <strong>RUT: </strong>
                                                                     </span>
                                                                     &nbsp;&nbsp;&nbsp;
                                                                     <span>N/A</span>
@@ -436,7 +436,7 @@
                                                 </div>
                                                 <div class="card rounded mt-3 mb-3 border-primary">
                                                     <div class="card-header titulo-card rounded-top">
-                                                        <h6 class="card-title titulo-text mt-2 mb-2">Organos a Donar</h6>
+                                                        <h6 class="card-title titulo-text mt-2 mb-2">Órganos a Donar</h6>
                                                     </div>
                                                     <div class="card-body pt-3 pb-1">
                                                         @if (isset($paciente->Antecedentes()->first()->id))
@@ -667,7 +667,7 @@
                                                             <td>81 mmHg</td>
                                                             <td>100/77 mmHg</td>
                                                             <td>Aspirina 1 al día</td>
-                                                            <td>Cardevilol 1 al dia</td>
+                                                            <td>Carvedilol 1 al día</td>
                                                         </tr>
                                                         <tr>
                                                             <td>01/01/2021</td>
@@ -678,7 +678,7 @@
                                                             <td>81 mmHg</td>
                                                             <td>100/77 mmHg</td>
                                                             <td>Aspirina 1 al día</td>
-                                                            <td>Cardevilol 1 al dia</td>
+                                                            <td>Carvedilol 1 al día</td>
                                                         </tr>
                                                         <tr>
                                                             <td>01/01/2021</td>
@@ -689,7 +689,7 @@
                                                             <td>81 mmHg</td>
                                                             <td>100/77 mmHg</td>
                                                             <td>Aspirina 1 al día</td>
-                                                            <td>Cardevilol 1 al dia</td>
+                                                            <td>Carvedilol 1 al día</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -739,7 +739,7 @@
                                                             <td>6 </td>
                                                             <td>70kg</td>
                                                             <td>Aspirina 1 al día</td>
-                                                            <td>Cardevilol 1 al dia</td>
+                                                            <td>Carvedilol 1 al día</td>
                                                         </tr>
                                                         <tr>
                                                             <td>01/01/2021</td>
@@ -750,7 +750,7 @@
                                                             <td>-5 </td>
                                                             <td>70kg</td>
                                                             <td>Aspirina 1 al día</td>
-                                                            <td>Cardevilol 1 al dia</td>
+                                                            <td>Carvedilol 1 al día</td>
                                                         </tr>
                                                         <tr>
                                                             <td>01/01/2021</td>
@@ -761,7 +761,7 @@
                                                             <td>-5 </td>
                                                             <td>70kg</td>
                                                             <td>Aspirina 1 al día</td>
-                                                            <td>Cardevilol 1 al dia</td>
+                                                            <td>Carvedilol 1 al día</td>
                                                         </tr>
                                                         <tr>
                                                             <td>01/01/2021</td>
@@ -772,7 +772,7 @@
                                                             <td>-5 </td>
                                                             <td>70kg</td>
                                                             <td>Aspirina 1 al día</td>
-                                                            <td>Cardevilol 1 al dia</td>
+                                                            <td>Carvedilol 1 al día</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -911,8 +911,8 @@
                                                             <td class="align-middle text-center">20</td>
                                                             <td class="align-middle text-center">10 cm</td>
                                                             <td class="align-middle text-center">12/10/2021</td>
-                                                            <td class="align-middle">Aspirina 1 al dia</td>
-                                                            <td class="align-middle">Vitaminas 1 al dia</td>
+                                                            <td class="align-middle">Aspirina 1 al día</td>
+                                                            <td class="align-middle">Vitaminas 1 al día</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -966,9 +966,9 @@
                                                                 <td class="align-middle text-center">12/05/2021</td>
                                                                 <td class="align-middle">Jaime Kriman Astorga<br />
                                                                     Obstétra</td>
-                                                                <td class="align-middle">Francisco Fernandez<br />
+                                                                <td class="align-middle">Francisco Fernández<br />
                                                                     Neonatólogo</td>
-                                                                <td class="align-middle">Maria Oyarzún valle</td>
+                                                                <td class="align-middle">María Oyarzún Valle</td>
                                                                 <td class="align-middle text-center">40</td>
                                                                 <td class="align-middle text-center">3000</td>
                                                                 <td class="align-middle text-center">50</td>
@@ -981,9 +981,9 @@
                                                                 <td class="align-middle text-center">12/05/2021</td>
                                                                 <td class="align-middle">Jaime Kriman Astorga<br />
                                                                     Obstétra</td>
-                                                                <td class="align-middle">Francisco Fernandez<br />
+                                                                <td class="align-middle">Francisco Fernández<br />
                                                                     Neonatólogo</td>
-                                                                <td class="align-middle">Maria Oyarzún valle</td>
+                                                                <td class="align-middle">María Oyarzún Valle</td>
                                                                 <td class="align-middle text-center">40</td>
                                                                 <td class="align-middle text-center">3000</td>
                                                                 <td class="align-middle text-center">50</td>
@@ -1033,7 +1033,7 @@
                                                                     gestación</th>
                                                                 <th class="align-middle text-center">Peso</th>
                                                                 <th class="align-middle text-center">talla</th>
-                                                                <th class="align-middle text-center">Perimetro c</th>
+                                                                <th class="align-middle text-center">Perímetro c</th>
                                                                 <th class="align-middle text-center">APGAR</th>
                                                                 <th class="align-middle text-center">Sufrimiento Fetal</th>
                                                                 <th class="align-middle text-center">Maniobras x suf fetal
@@ -1045,7 +1045,7 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td class="align-middle text-center">12/05/2021</td>
-                                                                <td class="align-middle">Francisco Fernandez
+                                                                <td class="align-middle">Francisco Fernández
                                                                     <br />Neonatólogo
                                                                 </td>
                                                                 <td class="align-middle text-center">40</td>
@@ -1200,8 +1200,8 @@
                                                                         <td class="align-middle text-center">Bueno</td>
                                                                         <td class="align-middle text-center">n/c</td>
                                                                         <td class="align-middle">Apoyo lactancia</td>
-                                                                        <td class="align-middle">Vit c 1 al dia</td>
-                                                                        <td class="align-middle">Vit c 1 al dia</td>
+                                                                        <td class="align-middle">Vit. C 1 al día</td>
+                                                                        <td class="align-middle">Vit. C 1 al día</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="align-middle text-center">12/05/2021
@@ -1214,8 +1214,8 @@
                                                                         <td class="align-middle text-center">Bueno</td>
                                                                         <td class="align-middle text-center">n/c</td>
                                                                         <td class="align-middle">Apoyo lactancia</td>
-                                                                        <td class="align-middle">Vit c 1 al dia</td>
-                                                                        <td class="align-middle">Vit c 1 al dia</td>
+                                                                        <td class="align-middle">Vit. C 1 al día</td>
+                                                                        <td class="align-middle">Vit. C 1 al día</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="align-middle text-center">12/05/2021
@@ -1228,8 +1228,8 @@
                                                                         <td class="align-middle text-center">Bueno</td>
                                                                         <td class="align-middle text-center">n/c</td>
                                                                         <td class="align-middle">Apoyo lactancia</td>
-                                                                        <td class="align-middle">Vit c 1 al dia</td>
-                                                                        <td class="align-middle">Vit c 1 al dia</td>
+                                                                        <td class="align-middle">Vit. C 1 al día</td>
+                                                                        <td class="align-middle">Vit. C 1 al día</td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -1498,7 +1498,7 @@
                                                     <td class="align-middle text-center">12/05/2021</td>
                                                     <td class="align-middle">Jaime Kriman Astorga<br />Dermatología</td>
                                                     <td class="align-middle text-center">00.000.000-1</td>
-                                                    <td class="align-middle text-center">Apendicectomia</td>
+                                                    <td class="align-middle text-center">Apendicectomía</td>
                                                     <td class="align-middle text-center">Buena</td>
                                                     <td class="align-middle">Hospital Van Buren</td>
                                                     <td class="align-middle text-center">Media</td>

@@ -98,7 +98,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label class="mt-4">El Profesional atiende los dias <span id="modal_reserva_dias_atencion" class="hljs-strong"></span></label>
+                            <label class="mt-4">El profesional atiende los días <span id="modal_reserva_dias_atencion" class="hljs-strong"></span></label>
                             {{--  <div class="form-row">
                                 <div class="form-group col-md-12 mb-2 mt-0">
                                 </div>
@@ -157,13 +157,13 @@
                     <div class="row div_rut_buscar">
                         <div class="col-sm-12 col-md-12">
                             <div class="form-group">
-                                <h6 class="text-c-blue ml-2 mb-3">Ingrese el rut del paciente</h6>
+                                <h6 class="text-c-blue ml-2 mb-3">Ingrese el RUT del paciente</h6>
                             </div>
                         </div>
                         <div class="col-sm-8 col-md-8 mb-3">
                             <form id="validacion_rut_form">
                                 <div class="form-group" id="validacion_rut_div">
-                                    <input type="text" id="rut_paciente_reserva" name="rut_paciente_reserva" class="form-control" placeholder="Rut del paciente" aria-label="Rut del paciente" aria-describedby="button-addon2" required oninput="formatoRut(this)">
+                                    <input type="text" id="rut_paciente_reserva" name="rut_paciente_reserva" class="form-control" placeholder="RUT del paciente" aria-label="RUT del paciente" aria-describedby="button-addon2" required oninput="formatoRut(this)">
                                 </div>
                             </form>
                         </div>
@@ -192,7 +192,7 @@
                                 <tbody>
                                     <tr>
                                         <th scope="row">
-                                            <strong>Rut</strong>
+                                            <strong>RUT</strong>
                                         </th>
                                         <td><span id="reserva_rut_paciente"></span></td>
                                     </tr>
@@ -292,7 +292,7 @@
                                     <div class="form-group">
                                         <label class="floating-label-activo-sm">Sexo</label>
                                         <select id="reserva_hora_sexo" name="reserva_hora_sexo" class="form-control form-control-sm">
-                                            <option value="0">Selecione una opci&oacute;n</option>
+                                            <option value="0">Seleccione una opci&oacute;n</option>
                                             <option value="F">Femenino</option>
                                             <option value="M">Masculino</option>
                                         </select>
@@ -302,7 +302,7 @@
                                     <div class="form-group">
                                         <label class="floating-label-activo-sm">Profesión u Oficio</label>
                                         <select id="reserva_hora_profesion" name="reserva_hora_profesion" class="form-control form-control-sm">
-                                            <option value="0">Selecione una opci&oacute;n</option>
+                                            <option value="0">Seleccione una opci&oacute;n</option>
                                             @if (isset($profesion_oficio))
                                                 @foreach ($profesion_oficio as $prof_ofic)
                                                     <option value="{{ $prof_ofic->id }}">{{ $prof_ofic->nombre }}</option>
@@ -315,7 +315,7 @@
                                     <div class="form-group">
                                         <label class="floating-label-activo-sm">Previsi&oacute;n</label>
                                         <select id="reserva_hora_convenio" name="reserva_hora_convenio" class="form-control form-control-sm">
-                                            <option value="0">Selecione una opci&oacute;n</option>
+                                            <option value="0">Seleccione una opci&oacute;n</option>
                                             @if (isset($prevision))
                                                 @foreach ($prevision as $p)
                                                     <option value="{{ $p->id }}">{{ $p->nombre }}</option>
@@ -341,7 +341,7 @@
 
                                 <div class="col-sm-12 col-md-12">
                                     <div class="form-group">
-                                        <label class="floating-label-activo-sm">Region</label>
+                                        <label class="floating-label-activo-sm">Región</label>
                                         <select id="region_agregar" onchange="buscar_ciudad();" name="region_agregar" class="form-control" required>
                                             <option value="0">Seleccione Regi&oacute;n</option>
                                             @if (isset($region))
@@ -492,8 +492,8 @@
 
             } else {
                 swal({
-                    title: "Informacion del Profesional",
-                    text: 'Problema al cargar Informacion del Profesional.',
+                    title: "Información del Profesional",
+                    text: 'Problema al cargar Información del Profesional.',
                     icon: "error",
                     // buttons: "Aceptar",
                     //SuccessMode: true,
@@ -809,7 +809,7 @@
         else
         {
             swal({
-                title: "Busqueda por especialidad, campos Minimos Requeridos",
+                title: "Búsqueda por especialidad, campos mínimos requeridos",
                 text: error,
                 icon: "error",
                 // buttons: "Aceptar",
@@ -888,7 +888,7 @@
                     if(data.registros.horario_agenda_laboral != '')
                     {
                         console.log(data);
-                        let dias = ['','LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
+                        let dias = ['','LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
                         var dias_activos = data.registros.horario_agenda_laboral.split(',');
                         var dias_texto = '';
                         var cant = 0;
@@ -1008,7 +1008,7 @@
                     {
                         swal({
                             title: "Toma de Hora",
-                            text: "Dia No disponible para toma de Hora",
+                            text: "Día no disponible para toma de hora",
                             icon: "error",
                             buttons: "Aceptar",
                             DangerMode: true,
@@ -1032,14 +1032,14 @@
 
                         if( $.inArray(dia_semana,dias_laborales_array) != -1)
                         {
-                            console.log('dia valido');
+                            console.log('día válido');
                             cargar_horas_disponibles_calendario_profesion(info.dateStr);
                         }
                         else
                         {
                             swal({
                                 title: "Toma de Hora",
-                                text: "Dia No disponible para toma de Hora",
+                                text: "Día no disponible para toma de hora",
                                 icon: "error",
                                 buttons: "Aceptar",
                                 DangerMode: true,
@@ -1050,7 +1050,7 @@
                     {
                         swal({
                             title: "Toma de Hora",
-                            text: "No se puede tomar Hora para Dias previos.",
+                            text: "No se puede tomar hora para días previos.",
                             icon: "error",
                             buttons: "Aceptar",
                             DangerMode: true,
@@ -1089,7 +1089,7 @@
         .done(function(data) {
             console.log(data);
             if (data.estado == 1) {
-                $('#modal_reserva_fecha_seleccionada').html('Horas disponibles para el dia: '+data.text_fecha);
+                $('#modal_reserva_fecha_seleccionada').html('Horas disponibles para el día: '+data.text_fecha);
 
                 $('#modal_reserva_hora_lista_horas').html('');
                 $.each(data.registros, function(index, value)

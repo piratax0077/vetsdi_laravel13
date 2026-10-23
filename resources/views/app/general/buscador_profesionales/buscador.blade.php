@@ -196,11 +196,11 @@
                                     <!--Hora por profesional-->
                                     <div class="tab-pane fade" id="buscar_profesional" role="tabpanel" aria-labelledby="buscar_profesional-tab">
                                         <form onsubmit="event.preventDefault(); buscar_profesional_profesional();">
-                                            <p class="small text-muted mb-4">{{ !empty($es_veterinaria_busqueda) ? 'Ingrese nombre o rut del veterinario/a. Región y comuna son opcionales para acotar la búsqueda.' : 'Ingrese los datos solicitados para buscar horas por profesional.' }}</p>
+                                            <p class="small text-muted mb-4">{{ !empty($es_veterinaria_busqueda) ? 'Ingrese nombre o RUT del veterinario/a. Región y comuna son opcionales para acotar la búsqueda.' : 'Ingrese los datos solicitados para buscar horas por profesional.' }}</p>
                                             <div class="form-row">
                                                 <div class="col-sm-12 col-md-12">
                                                     <div class="form-group">
-                                                        <label class="floating-label-activo-sm">{{ !empty($es_veterinaria_busqueda) ? 'Nombre o Rut del veterinario/a' : 'Nombre o Rut del profesional' }}</label>
+                                                        <label class="floating-label-activo-sm">{{ !empty($es_veterinaria_busqueda) ? 'Nombre o RUT del veterinario/a' : 'Nombre o RUT del profesional' }}</label>
                                                         <input type="text" class="form-control form-control-sm" name="buscar_profesional_dato_profesional" id="buscar_profesional_dato_profesional">
                                                     </div>
                                                 </div>

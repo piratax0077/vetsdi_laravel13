@@ -38,13 +38,13 @@
                         <div class="col-md-12 mt-md-2">
                             <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="btn btn-outline-info btn-sm mb-2 mx-2 active" id="personal-tab" data-toggle="tab" href="#info_personal" role="tab" aria-controls="info_personal" aria-selected="true"><i class="feather icon-user mr-2"></i>InformaciónPersonal</a>
+                                    <a class="btn btn-outline-info btn-sm mb-2 mx-2 active" id="personal-tab" data-toggle="tab" href="#info_personal" role="tab" aria-controls="info_personal" aria-selected="true"><i class="feather icon-user mr-2"></i>Información Personal</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="btn btn-outline-info btn-sm mb-2 mx-2" id="emergencia-tab" data-toggle="tab" href="#emergencia" role="tab" aria-controls="emergencia" aria-selected="false"><i class="feather icon-user-plus mr-2"></i>Contacto deEmergencia</a>
+                                    <a class="btn btn-outline-info btn-sm mb-2 mx-2" id="emergencia-tab" data-toggle="tab" href="#emergencia" role="tab" aria-controls="emergencia" aria-selected="false"><i class="feather icon-user-plus mr-2"></i>Contacto de Emergencia</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="btn btn-outline-info btn-sm mb-2 mx-2" id="datmedicos-tab" data-toggle="tab" href="#datmedicos" role="tab" aria-controls="datmedicos" aria-selected="false"><i class="feather icon-plus-circle mr-2"></i>DatosMédicos</a>
+                                    <a class="btn btn-outline-info btn-sm mb-2 mx-2" id="datmedicos-tab" data-toggle="tab" href="#datmedicos" role="tab" aria-controls="datmedicos" aria-selected="false"><i class="feather icon-plus-circle mr-2"></i>Datos Médicos</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="btn btn-outline-info btn-sm mb-2 mx-2" id="pass-tab" data-toggle="tab" href="#pass" role="tab" aria-controls="pass" aria-selected="false"><i class="feather icon-lock mr-2"></i>Cambiar Contraseñas</a>
@@ -1039,8 +1039,8 @@
                                                     <p class="text-justify">Este botón autoriza a Salud Digital
                                                         Integrada a entregar un rompe clave para que un
                                                         <strong>PROFESIONAL DE UN SERVICIO DE URGENCIAS</strong> acceda
-                                                        a su Ficha Médica Única en el caso de que usted esé inconsciente
-                                                        o no este en condiciones de permitirlo personalmente. Tenga en
+                                                        a su Ficha Médica Única en el caso de que usted esté inconsciente
+                                                        o no esté en condiciones de permitirlo personalmente. Tenga en
                                                         cuenta que el acceder a sus datos médicos puede contribuir a
                                                         salvar su vida o recuperar valiosos minutos que ayudarán en lo
                                                         posible a disminuir las secuelas de una
@@ -1972,7 +1972,7 @@
         if(rut == '')
         {
             valido = 0;
-            mensaje += 'Debe ingresar rut.\n';
+            mensaje += 'Debe ingresar RUT.\n';
         }
         if(nombres == '')
         {
@@ -1992,7 +1992,7 @@
         if(direccion == '')
         {
             valido = 0;
-            mensaje += 'Debe ingresar direccion.\n';
+            mensaje += 'Debe ingresar dirección.\n';
         }
         if(id_ciudad == '' || id_ciudad == '0')
         {
@@ -2007,12 +2007,12 @@
         if(telefono == '')
         {
             valido = 0;
-            mensaje += 'Debe ingresar telefono.\n';
+            mensaje += 'Debe ingresar teléfono.\n';
         }
         if(parentezco == '' || parentezco == '0')
         {
             valido = 0;
-            mensaje += 'Debe ingresar parentezco.\n';
+            mensaje += 'Debe ingresar parentesco.\n';
         }
         if(prioridad == '' || prioridad == '0')
         {
@@ -2023,7 +2023,7 @@
         if(numero_dir == '')
         {
             valido = 0;
-            mensaje += 'Debe ingresar numero direccion.\n';
+            mensaje += 'Debe ingresar número de dirección.\n';
         }
         --}}
 

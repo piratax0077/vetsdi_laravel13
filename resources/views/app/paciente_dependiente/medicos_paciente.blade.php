@@ -11,8 +11,24 @@
             </div>
         </div>
         <!--Cierre: Header-->
+        @php
+            // Solo cuentan los veterinarios que ya atendieron a la mascota y no fueron desvinculados
+            $profesionales_visibles = collect($profesional ?? [])->filter(function ($p) use ($desvinculados) {
+                return !in_array($p->id, $desvinculados);
+            });
+        @endphp
         <div class="row">
             <div class="col-md-12">
+                @if($profesionales_visibles->isEmpty())
+                <!--Sin atenciones todavía: no se muestran las pestañas-->
+                <div class="mascotas-vacio">
+                    <div class="mascotas-vacio-ilustracion">
+                        <i class="feather icon-users" aria-hidden="true"></i>
+                    </div>
+                    <h5 class="mascotas-vacio-titulo">No hay registros</h5>
+                    <p class="mascotas-vacio-texto mb-0">Cuando {{ \Illuminate\Support\Str::ucfirst(trim($paciente->nombre ?? '')) ?: 'su mascota' }} tenga su primera atención con un veterinario, aparecerá aquí.</p>
+                </div>
+                @else
                 <!--Pestañas por especialidad: todas muestran el mismo panel y filtran las tarjetas-->
                 <ul class="nav nav-general mt-3" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation" onclick="active_e('all')">
@@ -102,6 +118,7 @@
                     <!--Cierre: Pills Medicina General-->
                 </div>
                 <!--Cierre: Pills-->
+                @endif
             </div>
         </div>
     </div>

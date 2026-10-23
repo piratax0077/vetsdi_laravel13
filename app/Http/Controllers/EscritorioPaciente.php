@@ -3002,12 +3002,12 @@ class EscritorioPaciente extends Controller
         if($validar)
         {
             $datos['estado'] = 0;
-            $datos['msj'] = 'Paciente ya tiene Hora para este dia';
+            $datos['msj'] = 'Paciente ya tiene hora para este día';
             $valido = 0;
             return json_encode(array(
                 'estado' => 'error',
                 'id_profesional' => $profesional->id,
-                'msj' => 'Paciente ya tiene Hora para este dia'
+                'msj' => 'Paciente ya tiene hora para este día'
             ));
         }
 
@@ -3260,7 +3260,7 @@ class EscritorioPaciente extends Controller
         }
 
         // $details = [
-        //     'title' => 'Hora medica Reservada',
+        //     'title' => 'Hora médica reservada',
         //     'body' => 'Estimado/a ' . $paciente->nombres . ' ' . $paciente->apellido_uno . ' ' . $paciente->apellido_dos . ',<br>
         //             Junto con saludar, por medio de este correo le informamos que se ha reservado su hora con exito <br>' .
         //         'Fecha: ' . $hora_medica->fecha_consulta . '<br>' .
@@ -3310,7 +3310,7 @@ class EscritorioPaciente extends Controller
 
             if (!password_verify($password, $user->password)) {
                 if($user == NULL){
-                    $error['contrasena_actual'] = 'Contraseña actual no es valida';
+                    $error['contrasena_actual'] = 'La contraseña actual no es válida';
                     $valido = 0;
                 }
             }

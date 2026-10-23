@@ -45,7 +45,7 @@
                             </div>
                             <div class="col-sm-12 mt-2">
                                 <div class="form-group fill">
-                                    <label class="floating-label">Rut</label>
+                                    <label class="floating-label">RUT</label>
                                     <input name="dni" id="dni" type="text" class="form-control">
                                 </div>
                             </div>
@@ -166,7 +166,7 @@
                         <div class="form-row">
                             <div class="col-sm-12 mt-2">
                                 <div class="form-group">
-                                    <label class="floating-label">Rut</label>
+                                    <label class="floating-label">RUT</label>
                                     <input type="person" class="form-control" name="rut" id="rut"
                                         placeholder="7.727.734-0 (bloqueado)">
                                 </div>
@@ -187,7 +187,7 @@
                                 <div class="form-group">
                                     <label class="floating-label">Previsión</label>
                                     <select id="prevision" name="previsioon" class="form-control">
-                                        <option value="0">Selecione una opción</option>
+                                        <option value="0">Seleccione una opción</option>
                                         <option value="particular">Particular</option>
                                         <option value="fonasa">Fonasa</option>
                                         <option value="banmedica">Banmedica</option>

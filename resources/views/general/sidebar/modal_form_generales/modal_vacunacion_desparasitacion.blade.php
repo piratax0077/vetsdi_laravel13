@@ -83,6 +83,7 @@
                                         <th>Fecha dosis</th>
                                         <th>Vacuna</th>
                                         <th>Próxima dosis</th>
+                                        <th>Realizado por</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tabla_vacunas_mascotas_body"></tbody>
@@ -202,6 +203,7 @@
                                         <th>Cobertura / vía</th>
                                         <th>Dosis / peso</th>
                                         <th>Próximo control</th>
+                                        <th>Realizado por</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tabla_desparasitacion_body"></tbody>
@@ -532,19 +534,20 @@ window.cerrarVacunacionVeterinaria = function () {
     function renderVacunas(items) {
         var $body = $('#tabla_vacunas_mascotas_body').empty();
         if (!items.length) {
-            $body.append('<tr><td colspan="3" class="text-center text-muted">Sin registros</td></tr>');
+            $body.append('<tr><td colspan="4" class="text-center text-muted">Sin registros</td></tr>');
             return;
         }
         items.forEach(function (item) {
             $body.append('<tr><td>' + fechaCorta(item.fecha_dosis) + '</td><td>' +
-                escapar(item.vacuna || '-') + '</td><td>' + fechaCorta(item.proxima_dosis) + '</td></tr>');
+                escapar(item.vacuna || '-') + '</td><td>' + fechaCorta(item.proxima_dosis) + '</td><td>' +
+                escapar(item.realizado_por || '-') + '</td></tr>');
         });
     }
 
     function renderDesparasitaciones(items) {
         var $body = $('#tabla_desparasitacion_body').empty();
         if (!items.length) {
-            $body.append('<tr><td colspan="5" class="text-center text-muted">Sin registros</td></tr>');
+            $body.append('<tr><td colspan="6" class="text-center text-muted">Sin registros</td></tr>');
             return;
         }
         items.forEach(function (item) {
@@ -552,7 +555,8 @@ window.cerrarVacunacionVeterinaria = function () {
                 escapar(item.antiparasitario || '-') + '</td><td>' +
                 escapar((item.tipo || '-') + (item.via ? ' / ' + item.via : '')) + '</td><td>' +
                 escapar((item.dosis || '-') + (item.peso ? ' · ' + item.peso + ' kg' : '')) + '</td><td>' +
-                fechaCorta(item.proxima_dosis) + '</td></tr>');
+                fechaCorta(item.proxima_dosis) + '</td><td>' +
+                escapar(item.realizado_por || '-') + '</td></tr>');
         });
     }
 

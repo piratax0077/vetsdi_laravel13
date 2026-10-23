@@ -106,8 +106,8 @@
                         <div class="text-center py-4">
                             <img class="usuario-icono mb-3" src="{{ asset('images/iconos/cotizacion.svg') }}" alt="Contratos">
                             <h5>Contratos e incorporaciones</h5><p class="text-muted">Administra contratos de profesionales y personal del centro.</p>
-                            <a class="btn btn-info accion-usuario" href="{{ route('adm_cm.profesionales', ['tab' => 'contratos']) }}"><i class="feather icon-search mr-1"></i>Buscar contratos</a>
-                            <a class="btn btn-outline-info accion-usuario" href="{{ route('adm_cm.profesionales', ['tab' => 'contratos']) }}"><i class="feather icon-file-plus mr-1"></i>Nueva inscripci&oacute;n</a>
+                            <a class="btn btn-info accion-usuario" href="{{ route('adm_cm.contratos') }}"><i class="feather icon-search mr-1"></i>Buscar contratos</a>
+                            <a class="btn btn-outline-info accion-usuario" href="{{ route('adm_cm.contratos') }}"><i class="feather icon-file-plus mr-1"></i>Nueva inscripci&oacute;n</a>
                         </div>
                     </div>
                     <div class="tab-pane fade usuario-vista" id="usuarios-asistentes">

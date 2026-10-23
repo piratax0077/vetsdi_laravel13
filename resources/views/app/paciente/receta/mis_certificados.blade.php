@@ -123,7 +123,7 @@
                                                 {{-- {{ mb_strtoupper( $im->profesional->TipoEspecialidad->nombre ) }} --}}
                                                 {{-- {{ mb_strtoupper( $im->profesional->SubTipoEspecialidad->nombre ) }}     --}}
                                             </td>
-                                            <td>Informe Medico</td>
+                                            <td>Informe Médico</td>
                                             <td>
                                                 <button type="button" class="btn btn-secondary-light-c btn-xxs" onclick="ver_pdf_informe_medico({{ $im->id_ficha_atencion }});"><i class="feather icon-file"></i> Ver certificado</button>
                                             </td>
@@ -186,7 +186,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label class="floating-label">Rut</label>
+                                <label class="floating-label">RUT</label>
                                 <input type="person" class="form-control" name="rut_paciente" id="rut_paciente">
                             </div>
                         </div>

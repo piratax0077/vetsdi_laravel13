@@ -409,13 +409,19 @@
     flex: 1;
 }
 
-.fvu-indicador {
+/* Tarjeta compacta: ícono | título y valor | botón Ver (igual que la FMU de MedSDI) */
+.fvu-indicador,
+.fvu-resumen {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: auto 12px minmax(0, 1fr) 12px auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "icono texto ver";
+    column-gap: 12px;
+    align-items: center;
     min-width: 0;
-    padding: 14px 15px 15px;
+    padding: 12px 14px;
     background: #fff;
     border: 1px solid var(--fvu-borde);
     border-radius: 14px;
@@ -424,17 +430,26 @@
     transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
 }
 
-.fvu-indicador:hover {
+.fvu-indicador:hover,
+.fvu-resumen:hover {
     transform: translateY(-2px);
     box-shadow: var(--fvu-sombra-hover);
     border-color: var(--fvu-tono-borde, var(--fvu-borde));
 }
 
-.fvu-indicador__superior {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
+.fvu-indicador > .fvu-icono,
+.fvu-resumen > .fvu-icono {
+    grid-area: icono;
+}
+
+.fvu-indicador__texto {
+    grid-area: texto;
+    min-width: 0;
+}
+
+.fvu-indicador > .fvu-card-ver-btn,
+.fvu-resumen > .fvu-card-ver-btn {
+    grid-area: ver;
 }
 
 .fvu-icono {
@@ -463,28 +478,36 @@
     object-fit: cover;
 }
 
-.fvu-vet-shell .fvu-vital-title {
+.fvu-vet-shell .fvu-vital-title,
+.fvu-vet-shell .fvu-resumen__titulo {
+    margin: 0 0 2px;
     font-size: 12.5px;
     font-weight: 700;
-    color: var(--fvu-texto-suave);
     line-height: 1.25;
-    margin-bottom: 2px;
+    color: var(--fvu-texto-suave);
 }
 
 .fvu-vet-shell .fvu-vital-value {
     display: block;
     font-size: 16px;
     font-weight: 800;
-    line-height: 1.25;
+    line-height: 1.3;
     color: var(--fvu-titulo);
     word-break: break-word;
 }
+
+/* "Sin registro" va más tenue para que el SI resalte */
+.fvu-vet-shell .fvu-vital-value--vacio {
+    font-size: 15px;
+    color: var(--fvu-texto-suave);
+}
+
 
 .fvu-vet-shell .fvu-vital-value--alerta {
     color: var(--fvu-rojo);
 }
 
-/* Enlace "Ver"; su ::after cubre la tarjeta completa para que toda sea clickeable */
+/* Botón "Ver"; su ::after cubre la tarjeta completa para que toda sea clickeable */
 .fvu-card-ver-btn {
     display: inline-flex;
     align-items: center;
@@ -495,9 +518,11 @@
     border-radius: 999px;
     background: var(--fvu-morado-suave);
     color: var(--fvu-morado);
+    font-family: inherit;
     font-size: 11.5px;
     font-weight: 800;
     line-height: 1.4;
+    white-space: nowrap;
     text-decoration: none !important;
     cursor: pointer;
     -webkit-transition: background-color .18s ease, color .18s ease;
@@ -512,7 +537,7 @@
     bottom: 0;
     left: 0;
     z-index: 1;
-    border-radius: inherit;
+    border-radius: 14px;
 }
 
 .fvu-card-ver-btn i {
@@ -549,49 +574,6 @@
     flex: 1;
 }
 
-.fvu-resumen {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-width: 0;
-    padding: 15px 16px 16px;
-    background: #fff;
-    border: 1px solid var(--fvu-borde);
-    border-radius: 14px;
-    box-shadow: var(--fvu-sombra);
-    -webkit-transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-}
-
-.fvu-resumen:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--fvu-sombra-hover);
-    border-color: var(--fvu-tono-borde, var(--fvu-borde));
-}
-
-.fvu-resumen__cabecera {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.fvu-resumen__cabecera .fvu-icono {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    font-size: 14px;
-}
-
-.fvu-vet-shell .fvu-resumen__titulo {
-    flex: 1;
-    min-width: 0;
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--fvu-titulo);
-    line-height: 1.25;
-}
-
 .fvu-contador {
     display: inline-flex;
     align-items: center;
@@ -606,60 +588,52 @@
     background: var(--fvu-tono-suave, var(--fvu-morado-suave));
 }
 
-.fvu-resumen__lista {
+/* Listados dentro de los modales del resumen */
+.fvu-modal__registros {
     list-style: none;
     margin: 0;
     padding: 0;
-    font-size: 13px;
-    color: var(--fvu-texto);
-    line-height: 1.4;
 }
 
-.fvu-resumen__lista li {
+.fvu-modal__registros li {
     position: relative;
-    padding-left: 14px;
+    padding: 10px 12px 10px 28px;
+    border: 1px solid var(--fvu-borde);
+    border-radius: 10px;
+    font-size: 13.5px;
+    color: var(--fvu-texto);
     word-break: break-word;
 }
 
-.fvu-resumen__lista li + li {
-    margin-top: 5px;
+.fvu-modal__registros li + li {
+    margin-top: 8px;
 }
 
-.fvu-resumen__lista li::before {
+.fvu-modal__registros li::before {
     content: "";
     position: absolute;
-    left: 0;
-    top: .55em;
-    width: 6px;
-    height: 6px;
+    left: 12px;
+    top: 17px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background: var(--fvu-tono, var(--fvu-morado));
+    background: var(--fvu-morado);
 }
 
-.fvu-resumen__lista li.fvu-resumen__mas {
-    color: var(--fvu-texto-suave);
-    font-weight: 700;
-}
+/* En celular el ícono y el botón quedan arriba y el texto abajo */
+@media (max-width: 575.98px) {
+    .fvu-indicador {
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+            "icono ver"
+            "texto texto";
+        row-gap: 8px;
+    }
 
-.fvu-resumen__lista li.fvu-resumen__mas::before {
-    display: none;
-}
-
-.fvu-vacio {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--fvu-texto-suave);
-}
-
-.fvu-vacio i {
-    color: #b4bcc9;
-}
-
-.fvu-resumen .fvu-card-ver-btn {
-    align-self: flex-start;
-    margin-top: auto;
+    .fvu-indicador > .fvu-card-ver-btn {
+        justify-self: end;
+        align-self: start;
+    }
 }
 
 /* Tonos de color por tarjeta */

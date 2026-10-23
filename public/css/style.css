@@ -34048,9 +34048,20 @@ font-family: 'Nunito', sans-serif;
     border-radius:3px!important;
     font-weight:600!important;
     /* z-index: 10000!important;*/
+    /* Por encima del campo que acompaña (select2 incluido), igual que en formulario_sm.css */
+    z-index: 1;
     cursor: text!important;
     padding: 0px 3px!important;
     pointer-events: none !important;
+}
+
+/*
+ * Varias páginas suben .select2-container--open a z-index 9999999 para que la lista se vea sobre los modales.
+ * Esa clase también la recibe la caja que va junto al select y tapaba la etiqueta flotante al abrirla;
+ * a esa caja se le devuelve su capa normal. La lista va en otro contenedor y mantiene su z-index.
+ */
+select + .select2-container.select2-container--open {
+    z-index: auto !important;
 }
 
 
@@ -36757,6 +36768,17 @@ transition: 0.2s!important;
     line-height: 1.4;
 }
 
+/* Variante roja para confirmar acciones definitivas */
+.aviso-sin-registros--peligro {
+    background: #fdf2f2;
+    border: 1px solid #f5c6cb;
+}
+
+.aviso-sin-registros--peligro .aviso-sin-registros-icono {
+    color: #dc3545;
+    background: #fbdcdf;
+}
+
 .icono-purple-light {
     background-color: #EBD9FF;
     margin-right: 5px;
@@ -37304,6 +37326,13 @@ table thead th,
     height: 74px;
 }
 
+/* Variante con ícono feather (ej. "Mis Veterinarios" sin atenciones) */
+.mascotas-vacio-ilustracion > .feather {
+    color: #128b82;
+    font-size: 56px;
+    line-height: 1;
+}
+
 .mascotas-vacio-titulo {
     margin: 0 0 12px;
     color: #272727;
@@ -37369,6 +37398,9 @@ table thead th,
     .mascotas-vacio-ilustracion svg {
         width: 52px;
         height: 52px;
+    }
+    .mascotas-vacio-ilustracion > .feather {
+        font-size: 40px;
     }
     .mascotas-vacio-titulo {
         font-size: 18px;
@@ -38930,7 +38962,8 @@ table thead th,
 
 #modal_reserva_veterinaria .reserva-vet-lugar,
 #modal_agendar_proximo_control .reserva-vet-lugar,
-#vista_reserva_veterinaria .reserva-vet-lugar {
+#vista_reserva_veterinaria .reserva-vet-lugar,
+.servicios-cercanos .reserva-vet-lugar {
     position: relative;
     display: block;
     min-width: 0;
@@ -39268,7 +39301,8 @@ button.reserva-vet-lugar-caja:focus-visible {
 
 #modal_reserva_veterinaria .flatpickr-calendar.inline,
 #modal_agendar_proximo_control .flatpickr-calendar.inline,
-#vista_reserva_veterinaria .flatpickr-calendar.inline {
+#vista_reserva_veterinaria .flatpickr-calendar.inline,
+#flujoAgenda .flatpickr-calendar.inline {
     width: 100%;
     max-width: 380px;
     margin: 0 auto;
@@ -39284,15 +39318,18 @@ button.reserva-vet-lugar-caja:focus-visible {
 #modal_reserva_veterinaria .flatpickr-rContainer,
 #modal_agendar_proximo_control .flatpickr-rContainer,
 #vista_reserva_veterinaria .flatpickr-rContainer,
+#flujoAgenda .flatpickr-rContainer,
 #modal_reserva_veterinaria .flatpickr-days,
 #modal_agendar_proximo_control .flatpickr-days,
-#vista_reserva_veterinaria .flatpickr-days {
+#vista_reserva_veterinaria .flatpickr-days,
+#flujoAgenda .flatpickr-days {
     width: 100%;
 }
 
 #modal_reserva_veterinaria .dayContainer,
 #modal_agendar_proximo_control .dayContainer,
-#vista_reserva_veterinaria .dayContainer {
+#vista_reserva_veterinaria .dayContainer,
+#flujoAgenda .dayContainer {
     width: 100%;
     min-width: 0;
     max-width: none;
@@ -39303,7 +39340,8 @@ button.reserva-vet-lugar-caja:focus-visible {
 /* El borde transparente con background-clip deja un espacio entre días, como baldosas */
 #modal_reserva_veterinaria .flatpickr-day,
 #modal_agendar_proximo_control .flatpickr-day,
-#vista_reserva_veterinaria .flatpickr-day {
+#vista_reserva_veterinaria .flatpickr-day,
+#flujoAgenda .flatpickr-day {
     max-width: none;
     height: 44px;
     border: 3px solid transparent;
@@ -39317,18 +39355,22 @@ button.reserva-vet-lugar-caja:focus-visible {
 #modal_reserva_veterinaria .flatpickr-weekday,
 #modal_agendar_proximo_control .flatpickr-weekday,
 #vista_reserva_veterinaria .flatpickr-weekday,
+#flujoAgenda .flatpickr-weekday,
 #modal_reserva_veterinaria .flatpickr-current-month input.cur-year,
 #modal_agendar_proximo_control .flatpickr-current-month input.cur-year,
 #vista_reserva_veterinaria .flatpickr-current-month input.cur-year,
+#flujoAgenda .flatpickr-current-month input.cur-year,
 #modal_reserva_veterinaria .flatpickr-current-month .flatpickr-monthDropdown-months,
 #modal_agendar_proximo_control .flatpickr-current-month .flatpickr-monthDropdown-months,
-#vista_reserva_veterinaria .flatpickr-current-month .flatpickr-monthDropdown-months {
+#vista_reserva_veterinaria .flatpickr-current-month .flatpickr-monthDropdown-months,
+#flujoAgenda .flatpickr-current-month .flatpickr-monthDropdown-months {
     font-size: 15px;
 }
 
 #modal_reserva_veterinaria .flatpickr-weekday,
 #modal_agendar_proximo_control .flatpickr-weekday,
-#vista_reserva_veterinaria .flatpickr-weekday {
+#vista_reserva_veterinaria .flatpickr-weekday,
+#flujoAgenda .flatpickr-weekday {
     color: #9aa2b4;
     font-size: 12px;
     font-weight: 700;
@@ -39337,41 +39379,49 @@ button.reserva-vet-lugar-caja:focus-visible {
 
 #modal_reserva_veterinaria .flatpickr-current-month,
 #modal_agendar_proximo_control .flatpickr-current-month,
-#vista_reserva_veterinaria .flatpickr-current-month {
+#vista_reserva_veterinaria .flatpickr-current-month,
+#flujoAgenda .flatpickr-current-month {
     font-weight: 800;
 }
 
 #modal_reserva_veterinaria .flatpickr-months .flatpickr-prev-month,
 #modal_agendar_proximo_control .flatpickr-months .flatpickr-prev-month,
 #vista_reserva_veterinaria .flatpickr-months .flatpickr-prev-month,
+#flujoAgenda .flatpickr-months .flatpickr-prev-month,
 #modal_reserva_veterinaria .flatpickr-months .flatpickr-next-month,
 #modal_agendar_proximo_control .flatpickr-months .flatpickr-next-month,
-#vista_reserva_veterinaria .flatpickr-months .flatpickr-next-month {
+#vista_reserva_veterinaria .flatpickr-months .flatpickr-next-month,
+#flujoAgenda .flatpickr-months .flatpickr-next-month {
     border-radius: 10px;
 }
 
 #modal_reserva_veterinaria .flatpickr-months .flatpickr-prev-month:hover,
 #modal_agendar_proximo_control .flatpickr-months .flatpickr-prev-month:hover,
 #vista_reserva_veterinaria .flatpickr-months .flatpickr-prev-month:hover,
+#flujoAgenda .flatpickr-months .flatpickr-prev-month:hover,
 #modal_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover,
 #modal_agendar_proximo_control .flatpickr-months .flatpickr-next-month:hover,
-#vista_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover {
+#vista_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover,
+#flujoAgenda .flatpickr-months .flatpickr-next-month:hover {
     background: #f4effe;
 }
 
 #modal_reserva_veterinaria .flatpickr-months .flatpickr-prev-month:hover svg,
 #modal_agendar_proximo_control .flatpickr-months .flatpickr-prev-month:hover svg,
 #vista_reserva_veterinaria .flatpickr-months .flatpickr-prev-month:hover svg,
+#flujoAgenda .flatpickr-months .flatpickr-prev-month:hover svg,
 #modal_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover svg,
 #modal_agendar_proximo_control .flatpickr-months .flatpickr-next-month:hover svg,
-#vista_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover svg {
+#vista_reserva_veterinaria .flatpickr-months .flatpickr-next-month:hover svg,
+#flujoAgenda .flatpickr-months .flatpickr-next-month:hover svg {
     fill: var(--purple);
 }
 
 /* Días con atención: se pintan para que se vean de un vistazo */
 #modal_reserva_veterinaria .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):not(.selected),
 #modal_agendar_proximo_control .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):not(.selected),
-#vista_reserva_veterinaria .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):not(.selected) {
+#vista_reserva_veterinaria .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):not(.selected),
+#flujoAgenda .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):not(.selected) {
     background-color: #f4effe;
     color: var(--purple);
     font-weight: 700;
@@ -39381,9 +39431,11 @@ button.reserva-vet-lugar-caja:focus-visible {
 #modal_reserva_veterinaria .flatpickr-day.prevMonthDay:not(.flatpickr-disabled):not(.selected),
 #modal_agendar_proximo_control .flatpickr-day.prevMonthDay:not(.flatpickr-disabled):not(.selected),
 #vista_reserva_veterinaria .flatpickr-day.prevMonthDay:not(.flatpickr-disabled):not(.selected),
+#flujoAgenda .flatpickr-day.prevMonthDay:not(.flatpickr-disabled):not(.selected),
 #modal_reserva_veterinaria .flatpickr-day.nextMonthDay:not(.flatpickr-disabled):not(.selected),
 #modal_agendar_proximo_control .flatpickr-day.nextMonthDay:not(.flatpickr-disabled):not(.selected),
-#vista_reserva_veterinaria .flatpickr-day.nextMonthDay:not(.flatpickr-disabled):not(.selected) {
+#vista_reserva_veterinaria .flatpickr-day.nextMonthDay:not(.flatpickr-disabled):not(.selected),
+#flujoAgenda .flatpickr-day.nextMonthDay:not(.flatpickr-disabled):not(.selected) {
     background-color: #faf8ff;
     color: rgba(111, 66, 193, .55);
     font-weight: 700;
@@ -39392,9 +39444,11 @@ button.reserva-vet-lugar-caja:focus-visible {
 #modal_reserva_veterinaria .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):hover,
 #modal_agendar_proximo_control .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):hover,
 #vista_reserva_veterinaria .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):hover,
+#flujoAgenda .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):hover,
 #modal_reserva_veterinaria .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):focus,
 #modal_agendar_proximo_control .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):focus,
-#vista_reserva_veterinaria .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):focus {
+#vista_reserva_veterinaria .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):focus,
+#flujoAgenda .dayContainer .flatpickr-day:not(.flatpickr-disabled):not(.selected):focus {
     border-color: transparent;
     background-color: #e6dcfb;
     color: var(--purple);
@@ -39403,13 +39457,15 @@ button.reserva-vet-lugar-caja:focus-visible {
 /* Hoy se marca con un punto bajo el número */
 #modal_reserva_veterinaria .flatpickr-day.today,
 #modal_agendar_proximo_control .flatpickr-day.today,
-#vista_reserva_veterinaria .flatpickr-day.today {
+#vista_reserva_veterinaria .flatpickr-day.today,
+#flujoAgenda .flatpickr-day.today {
     border-color: transparent;
 }
 
 #modal_reserva_veterinaria .flatpickr-day.today::after,
 #modal_agendar_proximo_control .flatpickr-day.today::after,
-#vista_reserva_veterinaria .flatpickr-day.today::after {
+#vista_reserva_veterinaria .flatpickr-day.today::after,
+#flujoAgenda .flatpickr-day.today::after {
     content: "";
     position: absolute;
     bottom: 4px;
@@ -39424,12 +39480,15 @@ button.reserva-vet-lugar-caja:focus-visible {
 #modal_reserva_veterinaria .flatpickr-day.selected,
 #modal_agendar_proximo_control .flatpickr-day.selected,
 #vista_reserva_veterinaria .flatpickr-day.selected,
+#flujoAgenda .flatpickr-day.selected,
 #modal_reserva_veterinaria .flatpickr-day.selected:hover,
 #modal_agendar_proximo_control .flatpickr-day.selected:hover,
 #vista_reserva_veterinaria .flatpickr-day.selected:hover,
+#flujoAgenda .flatpickr-day.selected:hover,
 #modal_reserva_veterinaria .flatpickr-day.selected:focus,
 #modal_agendar_proximo_control .flatpickr-day.selected:focus,
-#vista_reserva_veterinaria .flatpickr-day.selected:focus {
+#vista_reserva_veterinaria .flatpickr-day.selected:focus,
+#flujoAgenda .flatpickr-day.selected:focus {
     border-color: transparent;
     background-color: var(--purple);
     color: #fff;
@@ -39439,16 +39498,19 @@ button.reserva-vet-lugar-caja:focus-visible {
 
 #modal_reserva_veterinaria .flatpickr-day.selected.today::after,
 #modal_agendar_proximo_control .flatpickr-day.selected.today::after,
-#vista_reserva_veterinaria .flatpickr-day.selected.today::after {
+#vista_reserva_veterinaria .flatpickr-day.selected.today::after,
+#flujoAgenda .flatpickr-day.selected.today::after {
     background: #fff;
 }
 
 #modal_reserva_veterinaria .flatpickr-day.flatpickr-disabled,
 #modal_agendar_proximo_control .flatpickr-day.flatpickr-disabled,
 #vista_reserva_veterinaria .flatpickr-day.flatpickr-disabled,
+#flujoAgenda .flatpickr-day.flatpickr-disabled,
 #modal_reserva_veterinaria .flatpickr-day.flatpickr-disabled:hover,
 #modal_agendar_proximo_control .flatpickr-day.flatpickr-disabled:hover,
-#vista_reserva_veterinaria .flatpickr-day.flatpickr-disabled:hover {
+#vista_reserva_veterinaria .flatpickr-day.flatpickr-disabled:hover,
+#flujoAgenda .flatpickr-day.flatpickr-disabled:hover {
     border-color: transparent;
     background: transparent;
     color: rgba(57, 57, 57, .25);
@@ -39624,7 +39686,8 @@ button.reserva-vet-lugar-caja:focus-visible {
 
 #modal_reserva_veterinaria .reserva-vet-hora,
 #modal_agendar_proximo_control .reserva-vet-hora,
-#vista_reserva_veterinaria .reserva-vet-hora {
+#vista_reserva_veterinaria .reserva-vet-hora,
+.servicios-agenda .reserva-vet-hora {
     min-height: 42px;
     padding: 0 6px;
     border: 1.5px solid #e3d8fb;
@@ -39641,7 +39704,8 @@ button.reserva-vet-lugar-caja:focus-visible {
 
 #modal_reserva_veterinaria .reserva-vet-hora:hover,
 #modal_agendar_proximo_control .reserva-vet-hora:hover,
-#vista_reserva_veterinaria .reserva-vet-hora:hover {
+#vista_reserva_veterinaria .reserva-vet-hora:hover,
+.servicios-agenda .reserva-vet-hora:hover {
     border-color: var(--purple);
     background: #f4effe;
     -webkit-transform: translateY(-1px);
@@ -39650,20 +39714,23 @@ button.reserva-vet-lugar-caja:focus-visible {
 
 #modal_reserva_veterinaria .reserva-vet-hora:focus,
 #modal_agendar_proximo_control .reserva-vet-hora:focus,
-#vista_reserva_veterinaria .reserva-vet-hora:focus {
+#vista_reserva_veterinaria .reserva-vet-hora:focus,
+.servicios-agenda .reserva-vet-hora:focus {
     outline: none;
 }
 
 #modal_reserva_veterinaria .reserva-vet-hora:focus-visible,
 #modal_agendar_proximo_control .reserva-vet-hora:focus-visible,
-#vista_reserva_veterinaria .reserva-vet-hora:focus-visible {
+#vista_reserva_veterinaria .reserva-vet-hora:focus-visible,
+.servicios-agenda .reserva-vet-hora:focus-visible {
     -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .3);
     box-shadow: 0 0 0 3px rgba(111, 66, 193, .3);
 }
 
 #modal_reserva_veterinaria .reserva-vet-hora.active,
 #modal_agendar_proximo_control .reserva-vet-hora.active,
-#vista_reserva_veterinaria .reserva-vet-hora.active {
+#vista_reserva_veterinaria .reserva-vet-hora.active,
+.servicios-agenda .reserva-vet-hora.active {
     border-color: var(--purple);
     background: var(--purple);
     color: #fff;
@@ -39923,7 +39990,8 @@ button.reserva-vet-lugar-caja:focus-visible {
 
     #modal_reserva_veterinaria .flatpickr-day,
     #modal_agendar_proximo_control .flatpickr-day,
-    #vista_reserva_veterinaria .flatpickr-day {
+    #vista_reserva_veterinaria .flatpickr-day,
+    #flujoAgenda .flatpickr-day {
         height: 42px;
         line-height: 36px;
     }
@@ -39971,13 +40039,15 @@ button.reserva-vet-lugar-caja:focus-visible {
 
     #modal_reserva_veterinaria .flatpickr-calendar.inline,
     #modal_agendar_proximo_control .flatpickr-calendar.inline,
-    #vista_reserva_veterinaria .flatpickr-calendar.inline {
+    #vista_reserva_veterinaria .flatpickr-calendar.inline,
+    #flujoAgenda .flatpickr-calendar.inline {
         padding: 4px 4px 6px;
     }
 
     #modal_reserva_veterinaria .flatpickr-day,
     #modal_agendar_proximo_control .flatpickr-day,
-    #vista_reserva_veterinaria .flatpickr-day {
+    #vista_reserva_veterinaria .flatpickr-day,
+    #flujoAgenda .flatpickr-day {
         height: 40px;
         border-width: 2px;
         border-radius: 10px;
@@ -40019,14 +40089,16 @@ button.reserva-vet-lugar-caja:focus-visible {
     .reserva-vet-lugar-marca,
     #modal_reserva_veterinaria .reserva-vet-hora,
     #modal_agendar_proximo_control .reserva-vet-hora,
-    #vista_reserva_veterinaria .reserva-vet-hora {
+    #vista_reserva_veterinaria .reserva-vet-hora,
+    .servicios-agenda .reserva-vet-hora {
         -webkit-transition: none;
         transition: none;
     }
 
     #modal_reserva_veterinaria .reserva-vet-hora:hover,
     #modal_agendar_proximo_control .reserva-vet-hora:hover,
-    #vista_reserva_veterinaria .reserva-vet-hora:hover {
+    #vista_reserva_veterinaria .reserva-vet-hora:hover,
+    .servicios-agenda .reserva-vet-hora:hover {
         -webkit-transform: none;
         transform: none;
     }
@@ -40060,7 +40132,8 @@ button.reserva-vet-lugar-caja:focus {
 }
 
 /* Botones de cada paso: en el modal los ordena el pie, acá la misma fila */
-#vista_reserva_veterinaria .reserva-vet-acciones {
+#vista_reserva_veterinaria .reserva-vet-acciones,
+.servicios-agenda .reserva-vet-acciones {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -40551,19 +40624,22 @@ button.reserva-vet-lugar-caja:focus {
 }
 
 /* ==========================================================================
-   Modal "Información" del profesional (adm. centro)
+   Modales "Información" del profesional y del asistente (adm. centro)
    ========================================================================== */
 
-#info_prof_vet .modal-body {
+#info_prof_vet .modal-body,
+#info_asistente .modal-body {
     padding: 16px 18px;
 }
 
-#info_prof_vet .modal-footer {
+#info_prof_vet .modal-footer,
+#info_asistente .modal-footer {
     border-top: 1px solid #f0edf6;
 }
 
 /* Ficha superior: nombre completo y RUT debajo */
-#info_prof_vet .info-prof-vet-ficha {
+#info_prof_vet .info-prof-vet-ficha,
+#info_asistente .info-prof-vet-ficha {
     margin-bottom: 12px;
     padding: 10px 14px;
     background: -webkit-linear-gradient(left, #f6f1ff, #eef3f9);
@@ -40571,7 +40647,8 @@ button.reserva-vet-lugar-caja:focus {
     border-radius: 12px;
 }
 
-#info_prof_vet .info-prof-vet-nombre {
+#info_prof_vet .info-prof-vet-nombre,
+#info_asistente .info-prof-vet-nombre {
     color: #272727;
     font-family: 'Nunito', 'Nunito Sans', sans-serif;
     font-size: 15.5px;
@@ -40580,35 +40657,41 @@ button.reserva-vet-lugar-caja:focus {
     word-break: break-word;
 }
 
-#info_prof_vet .info-prof-vet-rut {
+#info_prof_vet .info-prof-vet-rut,
+#info_asistente .info-prof-vet-rut {
     margin-top: 2px;
     color: #6b7a90;
     font-size: 12.5px;
     font-weight: 600;
 }
 
-#info_prof_vet .info-prof-vet-rut strong {
+#info_prof_vet .info-prof-vet-rut strong,
+#info_asistente .info-prof-vet-rut strong {
     color: #272727;
     font-weight: 700;
 }
 
 /* Bloques con datos compactos */
-#info_prof_vet .info-prof-vet-bloques > [class*="col-"] {
+#info_prof_vet .info-prof-vet-bloques > [class*="col-"],
+#info_asistente .info-prof-vet-bloques > [class*="col-"] {
     margin-bottom: 12px;
 }
 
-#info_prof_vet .info-prof-vet-bloques {
+#info_prof_vet .info-prof-vet-bloques,
+#info_asistente .info-prof-vet-bloques {
     margin-bottom: -12px;
 }
 
-#info_prof_vet .info-prof-vet-bloque {
+#info_prof_vet .info-prof-vet-bloque,
+#info_asistente .info-prof-vet-bloque {
     height: 100%;
     padding: 10px 12px;
     border: 1px solid #e6ebf2;
     border-radius: 12px;
 }
 
-#info_prof_vet .info-prof-vet-bloque-titulo {
+#info_prof_vet .info-prof-vet-bloque-titulo,
+#info_asistente .info-prof-vet-bloque-titulo {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -40625,21 +40708,25 @@ button.reserva-vet-lugar-caja:focus {
     text-transform: uppercase;
 }
 
-#info_prof_vet .info-prof-vet-bloque-titulo i {
+#info_prof_vet .info-prof-vet-bloque-titulo i,
+#info_asistente .info-prof-vet-bloque-titulo i {
     font-size: 13px;
 }
 
-#info_prof_vet .info-prof-vet-dato {
+#info_prof_vet .info-prof-vet-dato,
+#info_asistente .info-prof-vet-dato {
     padding: 5px 0;
     border-top: 1px dashed #edf0f5;
 }
 
-#info_prof_vet .info-prof-vet-dato:first-child {
+#info_prof_vet .info-prof-vet-dato:first-child,
+#info_asistente .info-prof-vet-dato:first-child {
     padding-top: 0;
     border-top: 0;
 }
 
-#info_prof_vet .info-prof-vet-dato-etiqueta {
+#info_prof_vet .info-prof-vet-dato-etiqueta,
+#info_asistente .info-prof-vet-dato-etiqueta {
     display: block;
     color: #8a94a6;
     font-size: 10.5px;
@@ -40648,7 +40735,8 @@ button.reserva-vet-lugar-caja:focus {
     text-transform: uppercase;
 }
 
-#info_prof_vet .info-prof-vet-dato-valor {
+#info_prof_vet .info-prof-vet-dato-valor,
+#info_asistente .info-prof-vet-dato-valor {
     display: block;
     color: #272727;
     font-size: 13px;
@@ -40656,24 +40744,28 @@ button.reserva-vet-lugar-caja:focus {
     word-break: break-word;
 }
 
-#info_prof_vet .info-prof-vet-dato-valor.sin-dato {
+#info_prof_vet .info-prof-vet-dato-valor.sin-dato,
+#info_asistente .info-prof-vet-dato-valor.sin-dato {
     color: #a0a8b6;
     font-weight: 400;
     font-style: italic;
 }
 
 /* Cuentas bancarias: datos en dos columnas dentro de cada cuenta */
-#info_prof_vet .info-prof-vet-cuenta {
+#info_prof_vet .info-prof-vet-cuenta,
+#info_asistente .info-prof-vet-cuenta {
     height: auto;
     margin-bottom: 12px;
 }
 
-#info_prof_vet .info-prof-vet-cuenta .badge {
+#info_prof_vet .info-prof-vet-cuenta .badge,
+#info_asistente .info-prof-vet-cuenta .badge {
     margin-left: auto;
     text-transform: none;
 }
 
-#info_prof_vet .info-prof-vet-cuenta-datos {
+#info_prof_vet .info-prof-vet-cuenta-datos,
+#info_asistente .info-prof-vet-cuenta-datos {
     display: -ms-grid;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -40681,13 +40773,15 @@ button.reserva-vet-lugar-caja:focus {
     column-gap: 12px;
 }
 
-#info_prof_vet .info-prof-vet-cuenta-datos .info-prof-vet-dato {
+#info_prof_vet .info-prof-vet-cuenta-datos .info-prof-vet-dato,
+#info_asistente .info-prof-vet-cuenta-datos .info-prof-vet-dato {
     padding: 4px 0;
     border-top: 0;
 }
 
 /* Tablas de convenios y horario */
-#info_prof_vet .info-prof-vet-tabla th {
+#info_prof_vet .info-prof-vet-tabla th,
+#info_asistente .info-prof-vet-tabla th {
     padding: 6px 8px;
     color: #8a94a6;
     background: #f7f9fc;
@@ -40698,7 +40792,8 @@ button.reserva-vet-lugar-caja:focus {
     text-transform: uppercase;
 }
 
-#info_prof_vet .info-prof-vet-tabla td {
+#info_prof_vet .info-prof-vet-tabla td,
+#info_asistente .info-prof-vet-tabla td {
     padding: 6px 8px;
     color: #272727;
     border-top: 1px solid #edf0f5;
@@ -40706,7 +40801,8 @@ button.reserva-vet-lugar-caja:focus {
     vertical-align: middle;
 }
 
-#info_prof_vet .info-prof-vet-mensaje {
+#info_prof_vet .info-prof-vet-mensaje,
+#info_asistente .info-prof-vet-mensaje {
     margin: 0;
     padding: 14px 0;
     color: #8a94a6;
@@ -40715,7 +40811,8 @@ button.reserva-vet-lugar-caja:focus {
 }
 
 /* Aviso "Sin registros": ícono chico y texto explicativo */
-#info_prof_vet .info-prof-vet-vacio {
+#info_prof_vet .info-prof-vet-vacio,
+#info_asistente .info-prof-vet-vacio {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -40728,7 +40825,8 @@ button.reserva-vet-lugar-caja:focus {
     border-radius: 10px;
 }
 
-#info_prof_vet .info-prof-vet-vacio-icono {
+#info_prof_vet .info-prof-vet-vacio-icono,
+#info_asistente .info-prof-vet-vacio-icono {
     -ms-flex-negative: 0;
     flex-shrink: 0;
     display: -webkit-box;
@@ -40748,7 +40846,8 @@ button.reserva-vet-lugar-caja:focus {
     font-size: 15px;
 }
 
-#info_prof_vet .info-prof-vet-vacio-titulo {
+#info_prof_vet .info-prof-vet-vacio-titulo,
+#info_asistente .info-prof-vet-vacio-titulo {
     margin: 0;
     color: #272727;
     font-family: 'Nunito', 'Nunito Sans', sans-serif;
@@ -40756,7 +40855,8 @@ button.reserva-vet-lugar-caja:focus {
     font-weight: 800;
 }
 
-#info_prof_vet .info-prof-vet-vacio-texto {
+#info_prof_vet .info-prof-vet-vacio-texto,
+#info_asistente .info-prof-vet-vacio-texto {
     margin: 1px 0 0;
     color: #6b7a90;
     font-size: 12.5px;
@@ -40764,11 +40864,126 @@ button.reserva-vet-lugar-caja:focus {
 }
 
 @media (max-width: 575.98px) {
-    #info_prof_vet .modal-body {
+    #info_prof_vet .modal-body,
+    #info_asistente .modal-body {
         padding: 14px 12px;
     }
 
-    #info_prof_vet .info-prof-vet-cuenta-datos {
+    #info_prof_vet .info-prof-vet-cuenta-datos,
+    #info_asistente .info-prof-vet-cuenta-datos {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Propio del asistente: ficha con el tipo a la derecha */
+#info_asistente .info-asistente-ficha {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+#info_asistente .info-asistente-tipo {
+    padding: 4px 12px;
+    color: #6f42c1;
+    background: #fff;
+    border: 1px solid #e3d8f7;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Semana con los días trabajados destacados */
+#info_asistente .info-asistente-semana {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+#info_asistente .info-asistente-dia {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    color: #a0a8b6;
+    background: #f3f5f9;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#info_asistente .info-asistente-dia.activo {
+    color: #fff;
+    background: #6f42c1;
+}
+
+#info_asistente .info-asistente-horas {
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    -webkit-column-gap: 12px;
+    column-gap: 12px;
+}
+
+#info_asistente .info-asistente-horas .info-prof-vet-dato {
+    padding: 5px 0;
+    border-top: 1px dashed #edf0f5;
+}
+
+#info_asistente .info-asistente-horas .info-prof-vet-dato:nth-child(-n+2) {
+    padding-top: 0;
+    border-top: 0;
+}
+
+/* Lista de roles con interruptor */
+#info_asistente .info-asistente-ayuda {
+    margin: 0 0 10px;
+    color: #6b7a90;
+    font-size: 12.5px;
+}
+
+#info_asistente .info-asistente-roles {
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+#info_asistente .info-asistente-rol {
+    padding: 9px 12px;
+    background: #f7f9fc;
+    border: 1px solid #edf0f5;
+    border-radius: 10px;
+}
+
+#info_asistente .info-asistente-rol .custom-control-label {
+    color: #272727;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@media (max-width: 575.98px) {
+    #info_asistente .info-asistente-roles {
         grid-template-columns: 1fr;
     }
 }
@@ -46345,8 +46560,8 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 .pill-moderno a.active,
 .pill-moderno-sm a.active {
     background-color: #fff !important;
-    color: #1a49a3 !important;
-    box-shadow: 0 2px 8px -2px rgba(26, 73, 163, .25);
+    color: #6f42c1 !important;
+    box-shadow: 0 2px 8px -2px rgba(111, 66, 193, .25);
 }
 
 /* Versión compacta */
@@ -46389,4 +46604,186 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     background-color: #efe4fb !important;
     color: #6f42c1 !important;
     box-shadow: none;
+}
+
+/* ==========================================================================
+   Modal "Vincular profesional" (adm. centro, página Personal)
+   ========================================================================== */
+
+#asociar_profesional_cm .modal-body {
+    padding: 16px 18px;
+}
+
+#asociar_profesional_cm .vincular-prof-ayuda {
+    margin: 0 0 12px;
+    color: #6b7a90;
+    font-size: 12.5px;
+    line-height: 1.45;
+}
+
+/* Bloques con título morado, igual que en el modal Información */
+#asociar_profesional_cm .vincular-prof-bloque {
+    margin-bottom: 12px;
+    padding: 12px 12px 0;
+    border: 1px solid #e6ebf2;
+    border-radius: 12px;
+}
+
+#asociar_profesional_cm .vincular-prof-bloque-titulo {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 16px;
+    color: #6f42c1;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+}
+
+#asociar_profesional_cm .vincular-prof-bloque-titulo i {
+    font-size: 13px;
+}
+
+#asociar_profesional_cm .vincular-prof-obligatorio {
+    margin-left: 2px;
+    color: #e5484d;
+}
+
+/* Búsqueda: campo RUT y botón en la misma línea */
+#asociar_profesional_cm .vincular-prof-busqueda {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+#asociar_profesional_cm .vincular-prof-busqueda-campo {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+#asociar_profesional_cm .vincular-prof-busqueda .btn {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+
+/* Ficha del profesional encontrado */
+#asociar_profesional_cm .vincular-prof-ficha {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 12px 14px;
+    background: -webkit-linear-gradient(left, #f6f1ff, #eef3f9);
+    background: linear-gradient(90deg, #f6f1ff, #eef3f9);
+    border-radius: 12px;
+}
+
+#asociar_profesional_cm .vincular-prof-ficha-icono {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    color: #fff;
+    background: #6f42c1;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+#asociar_profesional_cm .vincular-prof-ficha-datos {
+    min-width: 0;
+}
+
+#asociar_profesional_cm .vincular-prof-ficha-etiqueta {
+    display: block;
+    color: #8a94a6;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+}
+
+#asociar_profesional_cm .vincular-prof-ficha-nombre {
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 15.5px;
+    font-weight: 800;
+    line-height: 1.25;
+    word-break: break-word;
+}
+
+#asociar_profesional_cm .vincular-prof-ficha-contacto {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin-top: 4px;
+    color: #4a5568;
+    font-size: 12.5px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+#asociar_profesional_cm .vincular-prof-ficha-contacto i {
+    margin-right: 5px;
+    color: #6f42c1;
+}
+
+/* Botones de cada paso, alineados a la derecha */
+#asociar_profesional_cm .vincular-prof-acciones {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    gap: 8px;
+    margin: 4px -18px -16px;
+    padding: 12px 18px;
+    border-top: 1px solid #f0edf6;
+}
+
+@media (max-width: 575.98px) {
+    #asociar_profesional_cm .modal-body {
+        padding: 14px 12px;
+    }
+
+    #asociar_profesional_cm .vincular-prof-acciones {
+        margin: 4px -12px -14px;
+        padding: 12px;
+    }
+
+    #asociar_profesional_cm .vincular-prof-acciones .btn {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+    }
 }

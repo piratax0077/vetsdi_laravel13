@@ -1857,7 +1857,7 @@ class MascotasController extends Controller
             'proxima_dosis' => $request->input('proxima_dosis'),
             'especie' => $request->input('especie'),
             'created_at' => now()->toDateTimeString(),
-        ];
+        ] + $this->autorRegistroSanitario('profesional');
 
         $mascota->vacunas_registro = $vacunas;
         $mascota->save();
@@ -1880,10 +1880,14 @@ class MascotasController extends Controller
             ], 404);
         }
 
-        app(\App\Services\AccesoSanitarioMascota::class)->exigirEscritura($mascota);
+        $acceso = app(\App\Services\AccesoSanitarioMascota::class);
+        $acceso->exigirEscrituraDesparasitacion($mascota);
+        // Si no es el profesional tratante, el registro lo hace el tutor e indica quién desparasitó
+        $registraTutor = !$acceso->puedeEscribir($mascota);
         $validator = Validator::make(
             $request->all(),
             [
+                'realizado_por' => $registraTutor ? 'required|string|in:tutor,profesional_externo' : 'nullable',
                 'fecha_dosis' => 'required|date',
                 'antiparasitario' => 'required|string|max:255',
                 'tipo' => 'required|string|in:Externo,Interno,Interno y Externo',
@@ -1894,6 +1898,8 @@ class MascotasController extends Controller
                 'proxima_dosis' => 'nullable|date|after_or_equal:fecha_dosis',
             ],
             [
+                'realizado_por.required' => 'Debe indicar quién realizó la desparasitación.',
+                'realizado_por.in' => 'La opción de quién realizó la desparasitación no es válida.',
                 'fecha_dosis.required' => 'Debe ingresar la fecha de dosis.',
                 'fecha_dosis.date' => 'La fecha de dosis no es válida.',
                 'antiparasitario.required' => 'Debe ingresar el antiparasitario.',
@@ -1913,7 +1919,9 @@ class MascotasController extends Controller
             ], 422);
         }
 
-        return DB::transaction(function () use ($mascota, $request) {
+        $autor = $this->autorRegistroSanitario($registraTutor ? $request->input('realizado_por') : 'profesional');
+
+        return DB::transaction(function () use ($mascota, $request, $autor) {
         $mascota = Mascota::whereKey($mascota->id)->lockForUpdate()->firstOrFail();
         $desparasitaciones = $this->normalizarRegistros($mascota->desparasitaciones_registro);
         $desparasitaciones[] = [
@@ -1927,7 +1935,7 @@ class MascotasController extends Controller
             'lote' => trim((string) $request->input('lote', '')),
             'proxima_dosis' => $request->input('proxima_dosis'),
             'created_at' => now()->toDateTimeString(),
-        ];
+        ] + $autor;
 
         $mascota->desparasitaciones_registro = $desparasitaciones;
         $ultima = collect($desparasitaciones)->sortByDesc('fecha_dosis')->first();
@@ -1943,6 +1951,24 @@ class MascotasController extends Controller
             'desparasitaciones' => $this->normalizarRegistros($mascota->desparasitaciones_registro),
         ];
         });
+    }
+
+    // Deja en el registro sanitario quién lo hizo, para mostrarlo en las tablas
+    private function autorRegistroSanitario(string $tipo): array
+    {
+        if ($tipo === 'profesional_externo') {
+            return ['realizado_por_tipo' => $tipo, 'realizado_por' => 'Profesional externo'];
+        }
+
+        if ($tipo === 'tutor') {
+            $tutor = Paciente::where('id_usuario', Auth::id())->first();
+            $nombre = trim(($tutor->nombres ?? '') . ' ' . ($tutor->apellido_uno ?? ''));
+            return ['realizado_por_tipo' => $tipo, 'realizado_por' => $nombre !== '' ? 'Tutor: ' . $nombre : 'Tutor'];
+        }
+
+        $profesional = Profesional::where('id_usuario', Auth::id())->first();
+        $nombre = trim(($profesional->nombre ?? '') . ' ' . ($profesional->apellido_uno ?? ''));
+        return ['realizado_por_tipo' => 'profesional', 'realizado_por' => $nombre !== '' ? 'Profesional: ' . $nombre : 'Profesional'];
     }
 
     private function serviciosReservaCercanosPermitidos(): array

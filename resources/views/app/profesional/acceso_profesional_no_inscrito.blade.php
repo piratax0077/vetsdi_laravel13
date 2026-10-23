@@ -58,7 +58,7 @@
                                 <div class="col-sm-12">
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
-                                                <label class="floating-label-activo-sm">Rut</label>
+                                                <label class="floating-label-activo-sm">RUT</label>
                                                 <input type="text" class="form-control form-control-sm" name="rut_profesional" id="rut_profesional" value="{{$registro->rut}}" oninput="formatoRut(this)">
                                             </div>
 
@@ -73,7 +73,7 @@
                                                 <input type="text" class="form-control form-control-sm" name="primer_apellido_profesional" id="primer_apellido_profesional" value="{{$registro->apellido_uno}}">
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label class="floating-label-activo-sm">Segundo Apellidos</label>
+                                                <label class="floating-label-activo-sm">Segundo Apellido</label>
                                                 <input type="text" class="form-control form-control-sm" name="segundo_apellido_profesional" id="segundo_apellido_profesional" value="{{$registro->apellido_dos}}">
                                             </div>
 
@@ -104,9 +104,9 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label class="floating-label-activo-sm">Sub Especialidad</label>
+                                                <label class="floating-label-activo-sm">Subespecialidad</label>
                                                 <select id="lista_sub_especialidad" name="lista_sub_especialidad" class="form-control form-control-sm">
-                                                    <option value="0">Sub Especialidad</option>
+                                                    <option value="0">Subespecialidad</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
@@ -114,7 +114,7 @@
                                                 <input type="text" class="form-control form-control-sm" name="email_profesional" id="email_profesional" value="{{$registro->email}}">
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label class="floating-label-activo-sm">Teléfono Pricipal</label>
+                                                <label class="floating-label-activo-sm">Teléfono Principal</label>
                                                 <input type="text" class="form-control form-control-sm" name="telefono_uno_profesional" id="telefono_uno_profesional" value="{{$registro->telefono_uno}}">
                                             </div>
                                             <div class="form-group col-md-3">
@@ -335,7 +335,7 @@
 
             if(validaRut(rut)==false)
             {
-                msg('Validar campo','Debe ingresar un rut valido.','error');
+                msg('Validar campo','Debe ingresar un RUT válido.','error');
                 $('#rut_profesional').select().focus();
                 return false;
             }
@@ -377,28 +377,28 @@
 
             if(id_sub_tipo_especialidad==0)
             {
-                msg('Validar campo','debe seleccionar una sub tipo especialidad.','error');
+                msg('Validar campo','debe seleccionar un subtipo de especialidad.','error');
                 $('#lista_sub_especialidad').select().focus();
                 return false;
             }
 
             if(validarEmail(email)==false)
             {
-                msg('Validar campo','Debe ingresar un email valido.','error');
+                msg('Validar campo','Debe ingresar un email válido.','error');
                 $('#email_profesional').select().focus();
                 return false;
             }
 
             if(telefono_uno=='')
             {
-                msg('Validar campo','Debe ingresar el telefono uno.','error');
+                msg('Validar campo','Debe ingresar el teléfono uno.','error');
                 $('#telefono_uno_profesional').select().focus();
                 return false;
             }
 
             if(telefono_dos=='')
             {
-                msg('Validar campo','Debe ingresar el telefono dos.','error');
+                msg('Validar campo','Debe ingresar el teléfono dos.','error');
                 $('#telefono_dos_profesional').select().focus();
                 return false;
             }
@@ -412,7 +412,7 @@
 
             if(numero_dir=='')
             {
-                msg('Validar campo','Debe ingresar el numero dir.','error');
+                msg('Validar campo','Debe ingresar el número de dirección.','error');
                 $('#numero_dir_consulta_profesional').select().focus();
                 return false;
             }

@@ -59,12 +59,12 @@
                             <thead>
                                 <tr>
                                     <th class="text-wrap text-center align-middle">Convenio</th>
-                                    <th class="align-middle">Rut</th>
+                                    <th class="align-middle">RUT</th>
                                     <th class="align-middle">Tipo</th>
                                     <th class="align-middle">Fecha Inicial</th>
                                     <th class="align-middle">Fecha Final</th>
                                     <th class="align-middle">Descuento</th>
-                                    <th class="align-middle">Accion</th>
+                                    <th class="align-middle">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>

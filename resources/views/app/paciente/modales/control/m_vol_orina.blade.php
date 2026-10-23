@@ -104,7 +104,7 @@
                 {
                     swal({
                         title: "Ingreso de Control de Volumen de Orina diaria.",
-                        text: 'Falla en el registro, Intente nuevamente.',
+                        text: 'Falla en el registro, intente nuevamente.',
                         icon: "warning",
                     });
                 }

@@ -80,7 +80,7 @@
 
                                     {{--  <input class="form-control form-control-sm" type="text" name="busqueda_rut" id="busqueda_rut" placeholder="RUT" value="" oninput="formatoRut(this)">  --}}
 
-                                    <label class="floating-label-activo-sm">Rut</label>
+                                    <label class="floating-label-activo-sm">RUT</label>
 
                                     <input class="form-control form-control-sm" type="text" name="busqueda_rut" id="busqueda_rut" value="">
 
@@ -282,9 +282,9 @@
 
                     rut_paciente_reserva: {
 
-                        required: "Debe Ingresar Rut",
+                        required: "Debe Ingresar RUT",
 
-                        minlength: "Por favor ingrese un Rut valido 1111111-1"
+                        minlength: "Por favor ingrese un RUT válido 1111111-1"
 
                     },
 
@@ -314,7 +314,7 @@
 
                 swal({
 
-                    title: "Busqueda de Paciente.",
+                    title: "Búsqueda de Paciente.",
 
                     text:"Debe Ingresar al menos un datos de busqueda.",
 

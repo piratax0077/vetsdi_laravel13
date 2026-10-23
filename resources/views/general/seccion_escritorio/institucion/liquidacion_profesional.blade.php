@@ -123,7 +123,7 @@
                                                         <tr>
                                                             <th class="align-middle">Fecha</th>
                                                             <th class="align-middle">Profesional</th>
-                                                            <th class="align-middle">Periodo</th>
+                                                            <th class="align-middle">Período</th>
                                                             <th class="align-middle">N° Liquidación</th>
                                                             <th class="align-middle">Estado</th>
                                                             <th class="align-middle">Info</th>
@@ -193,7 +193,7 @@
                                                         <tr>
                                                             <th class="align-middle">Fecha</th>
                                                             <th class="align-middle">Profesional</th>
-                                                            <th class="align-middle">Periodo</th>
+                                                            <th class="align-middle">Período</th>
                                                             <th class="align-middle">N°Liquidación</th>
                                                             <th class="align-middle">Estado</th>
                                                             <th class="align-middle">Info</th>
@@ -297,7 +297,7 @@
                 {
                     /** no encontrado */
                     swal({
-                        title: "Problema al cargar informacion del Profesional.",
+                        title: "Problema al cargar información del Profesional.",
                         icon: "error",
                     });
                 }

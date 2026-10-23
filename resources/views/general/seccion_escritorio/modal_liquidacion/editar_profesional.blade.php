@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="floating-label">Rut</label>
+                            <label class="floating-label">RUT</label>
                             <input type="number" class="form-control form-control-sm" name="rut" id="rut">
                         </div>
                     </div>
@@ -70,8 +70,8 @@
                                 <option>Seleccione una opción</option>
                                 <option>Medicina General</option>
                                 <option>Medicina Interna</option>
-                                <option>Otorrinolaringologo</option>
-                                <option>Odontologo</option>
+                                <option>Otorrinolaringólogo</option>
+                                <option>Odontólogo</option>
                             </select>
                         </div>
                     </div>

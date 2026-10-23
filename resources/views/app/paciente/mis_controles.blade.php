@@ -55,7 +55,7 @@
                     <a href="#" onclick="ctrl_oxig();">
                         <div class="card-body text-center" style="cursor:pointer">
                             <img class="wid-60 text-center mb-1" src="{{ asset('images/iconos/oxigeno.png') }}">
-                            <h5 class="mt-1 mb-0">Control Oxigeno</h5>
+                            <h5 class="mt-1 mb-0">Control Oxígeno</h5>
                         </div>
                     </a>
                 </div>
