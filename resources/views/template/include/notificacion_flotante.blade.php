@@ -1,39 +1,51 @@
-{{-- Notificación flotante para el mensaje de sesión ('mensaje'). Se cierra sola a los 6 segundos. --}}
-@if(Session::has('mensaje'))
-    @php
-        $tipoNotificacion = Session::get('tipo_notificacion', 'exito');
-        $iconoNotificacion = ['exito' => 'icon-check', 'info' => 'icon-info', 'error' => 'icon-alert-circle'][$tipoNotificacion] ?? 'icon-check';
-        $tituloNotificacion = ['exito' => 'Listo', 'info' => 'Información', 'error' => 'Atención'][$tipoNotificacion] ?? 'Listo';
-    @endphp
-    <link rel="stylesheet" href="{{ asset('css/notificacion_flotante.css') }}">
-    <div id="notificacion-flotante" class="notificacion-flotante tipo-{{ $tipoNotificacion }}" role="status" aria-live="polite">
-        <div class="notificacion-icono"><i class="feather {{ $iconoNotificacion }}"></i></div>
-        <div class="notificacion-texto">
-            <p class="notificacion-titulo">{{ $tituloNotificacion }}</p>
-            <p class="notificacion-mensaje">{{ Session::get('mensaje') }}</p>
-        </div>
-        <button type="button" class="notificacion-cerrar" aria-label="Cerrar">&times;</button>
+{{-- Avisos de sesión como notificación flotante: fondo oscuro, letra blanca e ícono según el estado --}}
+@if(session('mensaje') || $errors->any())
+<div class="notificaciones-flotantes" aria-live="polite">
+    @if(session('mensaje'))
+    <div class="notificacion-flotante notificacion-exito" role="status" data-duracion="5000">
+        <span class="notificacion-flotante-icono"><i class="feather icon-check" aria-hidden="true"></i></span>
+        <div class="notificacion-flotante-texto">{{ session('mensaje') }}</div>
+        <button type="button" class="notificacion-flotante-cerrar" aria-label="Cerrar aviso"><i class="feather icon-x" aria-hidden="true"></i></button>
     </div>
-    <script>
-        (function () {
-            var caja = document.getElementById('notificacion-flotante');
-            if (!caja) { return; }
-            var temporizador;
+    @endif
+    @if($errors->any())
+    <div class="notificacion-flotante notificacion-error" role="alert" data-duracion="9000">
+        <span class="notificacion-flotante-icono"><i class="feather icon-alert-triangle" aria-hidden="true"></i></span>
+        <div class="notificacion-flotante-texto">
+            <strong>No se pudo guardar</strong>
+            <ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
+        </div>
+        <button type="button" class="notificacion-flotante-cerrar" aria-label="Cerrar aviso"><i class="feather icon-x" aria-hidden="true"></i></button>
+    </div>
+    @endif
+</div>
+<script>
+(function () {
+    var avisos = document.querySelectorAll('.notificacion-flotante');
 
-            function cerrar() {
-                clearTimeout(temporizador);
-                caja.classList.remove('visible');
-                setTimeout(function () { if (caja.parentNode) { caja.parentNode.removeChild(caja); } }, 400);
-            }
+    function cerrarAviso(aviso) {
+        if (aviso.classList.contains('saliendo')) return;
+        aviso.classList.add('saliendo');
+        setTimeout(function () {
+            if (aviso.parentNode) aviso.parentNode.removeChild(aviso);
+        }, 300);
+    }
 
-            function programar() { temporizador = setTimeout(cerrar, 6000); }
+    Array.prototype.forEach.call(avisos, function (aviso) {
+        var duracion = parseInt(aviso.getAttribute('data-duracion'), 10) || 5000;
+        var temporizador = setTimeout(function () { cerrarAviso(aviso); }, duracion);
 
-            caja.querySelector('.notificacion-cerrar').addEventListener('click', cerrar);
-            caja.addEventListener('mouseenter', function () { clearTimeout(temporizador); });
-            caja.addEventListener('mouseleave', programar);
+        // Mientras el mouse está encima el aviso no se va, así alcanza a leerse
+        aviso.addEventListener('mouseenter', function () { clearTimeout(temporizador); });
+        aviso.addEventListener('mouseleave', function () {
+            temporizador = setTimeout(function () { cerrarAviso(aviso); }, 2500);
+        });
 
-            setTimeout(function () { caja.classList.add('visible'); }, 50);
-            programar();
-        })();
-    </script>
+        aviso.querySelector('.notificacion-flotante-cerrar').addEventListener('click', function () {
+            clearTimeout(temporizador);
+            cerrarAviso(aviso);
+        });
+    });
+})();
+</script>
 @endif

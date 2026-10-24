@@ -1,5 +1,4 @@
 @extends('app.peluqueria.layout')
-@section('page-styles')<link rel="stylesheet" href="{{ asset('css/peluqueria-ficha.css') }}?v={{ filemtime(public_path('css/peluqueria-ficha.css')) }}">@endsection
 @section('content')
 @php
     $lectura = in_array($atencion->estado, ['finalizada','cancelada']);
@@ -16,7 +15,6 @@
     </ul>
     <div class="tab-content">
     <div class="tab-pane fade show active" id="pelu-actual" role="tabpanel" aria-labelledby="pelu-actual-tab">
-    @if(session('mensaje'))<p class="pelu-aviso" role="status">{{ session('mensaje') }}</p>@endif
     @if($errors->any())<div class="pelu-error" role="alert"><strong>Revisa los campos antes de guardar.</strong><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
     @if($lectura)<p class="pelu-aviso">Atención {{ $atencion->estado }}. Esta ficha está disponible para consulta.</p>@endif
     <form id="pelu-ficha-form" method="post" action="{{ route('peluqueria.ficha.guardar',$atencion->id) }}">
@@ -26,9 +24,21 @@
             <section class="pelu-panel"><h2><span>01</span> Datos de la mascota</h2>
                 <p class="pelu-tutor"><strong>Tutor:</strong> {{ $datos['tutor'] ?? $cliente->tutor }} · {{ $cliente->telefono }}</p>
                 <div class="pelu-campos">
-                    @foreach(['mascota'=>'Nombre de la mascota','especie'=>'Especie','raza'=>'Raza','edad'=>'Edad (años o meses)'] as $campo=>$etiqueta)
-                    <label>{{ $etiqueta }}<input name="{{ $campo }}" value="{{ $valor($campo) }}" maxlength="{{ in_array($campo,['especie','edad'])?60:100 }}" @required(in_array($campo,['mascota','especie']))></label>
-                    @endforeach
+                    @php
+                        // La especie se elige igual que al registrar la mascota; "Exótico (Conejo)" se separa en los dos campos
+                        $especie_ficha = (string) $valor('especie');
+                        $exotico_ficha = '';
+                        if (preg_match('/^ex[oó]tico\s*\((.+)\)$/iu', $especie_ficha, $partes)) { $especie_ficha = 'Exótico'; $exotico_ficha = $partes[1]; }
+                        // Una especie escrita antes como texto libre (ej.: "Perro") queda como opción para no perderla
+                        $especies_ficha = ['Canino', 'Felino', 'Exótico'];
+                        if ($especie_ficha !== '' && !in_array($especie_ficha, $especies_ficha, true)) $especies_ficha[] = $especie_ficha;
+                    @endphp
+                    <label>Nombre de la mascota<input name="mascota" value="{{ $valor('mascota') }}" maxlength="100" required></label>
+                    <input type="hidden" id="ficha_especie_valor" name="especie" value="{{ $valor('especie') }}">
+                    <label>Especie<select id="ficha_especie" required><option value="">Seleccione</option>@foreach($especies_ficha as $opcion_especie)<option value="{{ $opcion_especie }}" @selected($especie_ficha === $opcion_especie)>{{ $opcion_especie }}</option>@endforeach</select></label>
+                    <label id="ficha_exotico_grupo" @class(['d-none' => $especie_ficha !== 'Exótico'])>¿Qué exótico es?<input id="ficha_exotico" value="{{ $exotico_ficha }}" placeholder="Ej.: Conejo, hurón" maxlength="45" required @disabled($especie_ficha !== 'Exótico')></label>
+                    <label>Raza (opcional)<input name="raza" value="{{ $valor('raza') }}" maxlength="100"></label>
+                    <label>Edad (años o meses)<input name="edad" value="{{ $valor('edad') }}" maxlength="60"></label>
                     <label>Esterilizada/o<select name="esterilizada">@foreach(['desconocido'=>'Sin información','si'=>'Sí','no'=>'No'] as $id=>$texto)<option value="{{ $id }}" @selected($valor('esterilizada','desconocido')===$id)>{{ $texto }}</option>@endforeach</select></label>
                 </div>
                 <label>Alergias conocidas<textarea name="alergias" maxlength="2000" placeholder="Anota las alergias informadas por el tutor">{{ $valor('alergias') }}</textarea></label>
@@ -73,7 +83,7 @@
     <div class="tab-pane fade" id="pelu-anteriores" role="tabpanel" aria-labelledby="pelu-anteriores-tab">
         <section class="pelu-panel"><h2>Atenciones anteriores de {{ $cliente->mascota }}</h2>
             <div class="table-responsive"><table class="table table-sm table-striped"><thead><tr><th>Fecha</th><th>Servicio</th><th>Registro de la atención</th><th>Total cobrado</th><th>Ficha</th></tr></thead><tbody>
-            @forelse($anteriores as $anterior)<tr><td>{{ \Carbon\Carbon::parse($anterior->inicio)->format('d/m/Y H:i') }}</td><td>{{ $anterior->servicio }}</td><td style="white-space:pre-wrap">{{ $anterior->registro }}</td><td>${{ number_format($anterior->valor,0,',','.') }}</td><td><button type="button" class="btn btn-sm btn-outline-info pelu-ver-ficha" data-url="{{ route('peluqueria.ficha',$anterior->id) }}">Ver ficha</button></td></tr>
+            @forelse($anteriores as $anterior)<tr><td>{{ \Carbon\Carbon::parse($anterior->inicio)->format('d/m/Y H:i') }}</td><td>{{ $anterior->servicio }}</td><td class="texto-con-saltos">{{ $anterior->registro }}</td><td>${{ number_format($anterior->valor,0,',','.') }}</td><td><button type="button" class="btn btn-sm btn-outline-info pelu-ver-ficha" data-url="{{ route('peluqueria.ficha',$anterior->id) }}">Ver ficha</button></td></tr>
             @empty<tr><td colspan="5" class="text-center text-muted py-4">Esta mascota no tiene atenciones anteriores finalizadas.</td></tr>@endforelse
             </tbody></table></div>{{ $anteriores->fragment('pelu-anteriores')->links() }}
         </section>
@@ -87,4 +97,23 @@
     </div></div>
 </div>
 @endsection
-@section('page-script')<script src="{{ asset('js/peluqueria-ficha.js') }}?v={{ filemtime(public_path('js/peluqueria-ficha.js')) }}"></script><script>if(window.location.hash==='#pelu-anteriores'){jQuery('#pelu-anteriores-tab').tab('show');}</script>@endsection
+@section('page-script')<script src="{{ asset('js/peluqueria-ficha.js') }}?v={{ filemtime(public_path('js/peluqueria-ficha.js')) }}"></script><script>if(window.location.hash==='#pelu-anteriores'){jQuery('#pelu-anteriores-tab').tab('show');}</script>
+<script>
+    // Especie de la mascota: con "Exótico" se pide qué animal es y se guarda como "Exótico (Conejo)"
+    (function () {
+        var especie = document.getElementById('ficha_especie');
+        var exotico = document.getElementById('ficha_exotico');
+        if (!especie) return;
+        especie.addEventListener('change', function () {
+            var es_exotico = especie.value === 'Exótico';
+            document.getElementById('ficha_exotico_grupo').classList.toggle('d-none', !es_exotico);
+            exotico.disabled = !es_exotico;
+            if (es_exotico) exotico.focus();
+        });
+        document.getElementById('pelu-ficha-form').addEventListener('submit', function () {
+            exotico.value = exotico.value.trim();
+            document.getElementById('ficha_especie_valor').value = especie.value === 'Exótico' ? 'Exótico (' + exotico.value + ')' : especie.value;
+        });
+    })();
+</script>
+@endsection

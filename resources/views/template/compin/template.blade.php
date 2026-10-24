@@ -257,7 +257,7 @@
         }
     </style>
 </head>
-<body>
+<body class="plantilla-bootstrap5">
 
     <div class="loader-bg">
         <div class="loader-track">

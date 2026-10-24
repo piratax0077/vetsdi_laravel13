@@ -5,6 +5,7 @@ use App\Services\CuentasService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Auth,DB};
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 class PeluqueriaController extends Controller
 {
@@ -101,6 +102,36 @@ class PeluqueriaController extends Controller
         abort_unless(app(CuentasService::class)->tieneRol(Auth::user(),'peluqueria'),403);
         return Peluqueria::where('id_usuario',Auth::id())->firstOrFail();
     }
+    // Tarifa del procedimiento para la mascota; gana la más específica (especie y tipo de exótico, luego tamaño o peso).
+    // Sin lista de precios queda el precio general; si ninguna calza devuelve null
+    private function tarifaMascota(object $procedimiento, ?string $especie, ?float $peso): ?object {
+        $tarifas=DB::table('peluqueria_procedimiento_precios')->where('procedimiento_id',$procedimiento->id)->orderBy('orden')->orderBy('id')->get();
+        if($tarifas->isEmpty()) return (object)['duracion'=>$procedimiento->duracion,'precio'=>$procedimiento->precio];
+        $comparable=fn($texto)=>Str::lower(Str::ascii(trim((string)$texto)));
+        $exotico=null;
+        if(preg_match('/^ex[oó]tico\s*\((.+)\)$/iu',trim((string)$especie),$partes)){$especie='Exótico';$exotico=$partes[1];}
+        $elegida=null;$puntaje=-1;
+        foreach($tarifas as $tarifa){
+            $puntos=0;
+            if($tarifa->especie!=='Todas'){
+                if($comparable($tarifa->especie)!==$comparable($especie)) continue;
+                $puntos+=2;
+                if($tarifa->especie==='Exótico' && $tarifa->especie_exotico){
+                    if($comparable($tarifa->especie_exotico)!==$comparable($exotico)) continue;
+                    $puntos+=2;
+                }
+            }
+            if($tarifa->tamano!=='Todos'){
+                // Pequeño hasta 10 kg, Mediano de 10 a 25 kg, Grande más de 25 kg (los mismos del panel de configuración)
+                $calza=$peso!==null && match($tarifa->tamano){'Pequeño'=>$peso<=10,'Mediano'=>$peso>10&&$peso<=25,'Grande'=>$peso>25,
+                    'Peso'=>$peso>=(float)$tarifa->peso_desde&&$peso<=(float)$tarifa->peso_hasta,default=>true};
+                if(!$calza) continue;
+                $puntos+=1;
+            }
+            if($puntos>$puntaje){$elegida=$tarifa;$puntaje=$puntos;}
+        }
+        return $elegida;
+    }
     public function index(Request $request) {
         $perfil=$this->perfil();
         $datos=$request->validate(['fecha'=>'nullable|date_format:Y-m-d']);
@@ -120,6 +151,10 @@ class PeluqueriaController extends Controller
     public function configuracion() {
         $perfil=$this->perfil();
         $procedimientos=DB::table('peluqueria_procedimientos')->where('peluqueria_id',$perfil->id)->orderBy('nombre')->get();
+        // Cada procedimiento con su lista de precios por especie y tamaño
+        $precios=DB::table('peluqueria_procedimiento_precios')->whereIn('procedimiento_id',$procedimientos->pluck('id'))->orderBy('orden')->orderBy('id')
+            ->get(['procedimiento_id','especie','especie_exotico','tamano','peso_desde','peso_hasta','duracion','precio'])->groupBy('procedimiento_id');
+        $procedimientos->each(fn($p)=>$p->precios=$precios->get($p->id,collect())->map(fn($x)=>collect((array)$x)->except('procedimiento_id')->all())->values()->all());
         return view('app.peluqueria.configuracion',compact('perfil','procedimientos'));
     }
     public function eventos(Request $request) {
@@ -138,11 +173,34 @@ class PeluqueriaController extends Controller
     }
     public function procedimientoGuardar(Request $request) {
         $perfil=$this->perfil();
-        $datos=$request->validate(['id'=>'nullable|integer','nombre'=>'required|string|max:150','duracion'=>'required|integer|min:15|max:480','precio'=>'required|integer|min:0|max:999999999','activo'=>'required|boolean','indicaciones'=>'nullable|string|max:3000']);
-        $id=$datos['id']??null;unset($datos['id']);
-        if($id){abort_unless(DB::table('peluqueria_procedimientos')->where('id',$id)->where('peluqueria_id',$perfil->id)->exists(),404);DB::table('peluqueria_procedimientos')->where('id',$id)->where('peluqueria_id',$perfil->id)->update($datos+['updated_at'=>now()]);}
-        else DB::table('peluqueria_procedimientos')->insert($datos+['peluqueria_id'=>$perfil->id,'created_at'=>now(),'updated_at'=>now()]);
-        return redirect()->route('peluqueria.configuracion')->with('mensaje','Procedimiento guardado.');
+        // Cada procedimiento es para una especie y tamaño; otra especie se guarda como otro procedimiento
+        $p=$request->validate(['id'=>'nullable|integer','nombre'=>'required|string|max:150','activo'=>'required|boolean','indicaciones'=>'nullable|string|max:3000',
+            'especie'=>'required|in:Todas,Canino,Felino,Exótico',
+            'especie_exotico'=>'nullable|required_if:especie,Exótico|string|max:100',
+            'tamano'=>'required|in:Todos,Pequeño,Mediano,Grande,Peso',
+            'peso_desde'=>'nullable|required_if:tamano,Peso|numeric|min:0|max:150',
+            'peso_hasta'=>'nullable|required_if:tamano,Peso|numeric|min:0|max:150|gt:peso_desde',
+            'duracion'=>'required|integer|min:15|max:480','precio'=>'required|integer|min:0|max:999999999']);
+        // Su precio queda en la tabla de precios (la que lee la agenda), con solo lo que corresponde a la especie y tamaño
+        $precios=[[
+            'especie'=>$p['especie'],
+            'especie_exotico'=>$p['especie']==='Exótico'?trim($p['especie_exotico']):null,
+            'tamano'=>$p['tamano'],
+            'peso_desde'=>$p['tamano']==='Peso'?$p['peso_desde']:null,
+            'peso_hasta'=>$p['tamano']==='Peso'?$p['peso_hasta']:null,
+            'duracion'=>(int)$p['duracion'],'precio'=>(int)$p['precio'],
+        ]];
+        $id=$p['id']??null;
+        $datos=['nombre'=>$p['nombre'],'activo'=>$p['activo'],'indicaciones'=>$p['indicaciones']??null,'duracion'=>(int)$p['duracion'],'precio'=>(int)$p['precio']];
+        DB::transaction(function()use($perfil,$id,$datos,$precios){
+            if($id){abort_unless(DB::table('peluqueria_procedimientos')->where('id',$id)->where('peluqueria_id',$perfil->id)->exists(),404);DB::table('peluqueria_procedimientos')->where('id',$id)->where('peluqueria_id',$perfil->id)->update($datos+['updated_at'=>now()]);}
+            else $id=DB::table('peluqueria_procedimientos')->insertGetId($datos+['peluqueria_id'=>$perfil->id,'created_at'=>now(),'updated_at'=>now()]);
+            DB::table('peluqueria_procedimiento_precios')->where('procedimiento_id',$id)->delete();
+            foreach($precios as $orden=>$precio) DB::table('peluqueria_procedimiento_precios')->insert($precio+['procedimiento_id'=>$id,'orden'=>$orden,'created_at'=>now(),'updated_at'=>now()]);
+        });
+        // Desde el interruptor de la tabla se avisa el estado en que quedó el procedimiento
+        $mensaje=$request->boolean('desde_interruptor')?($datos['activo']?'Procedimiento activo.':'Procedimiento inactivo.'):'Procedimiento guardado.';
+        return redirect()->route('peluqueria.configuracion')->with('mensaje',$mensaje);
     }
     public function perfilGuardar(Request $request) {
         $perfil=$this->perfil();$datos=$request->validate(['nombre'=>'required|string|max:255','telefono'=>'required|string|max:30','direccion'=>'required|string|max:255']);
@@ -159,14 +217,21 @@ class PeluqueriaController extends Controller
         $nuevoCliente=null;
         if($request->boolean('nuevo_cliente')) {
             $nuevoCliente=$request->validate(['tutor'=>'required|string|max:255','telefono'=>'required|string|max:30','email'=>'nullable|email|max:255','mascota'=>'required|string|max:100','especie'=>'required|string|max:60','raza'=>'nullable|string|max:100','cuidados'=>'nullable|string|max:3000']);
+            // Una mascota exótica guarda qué animal es en la misma especie, ej.: "Exótico (Conejo)"
+            $exotico=$request->validate(['especie_exotico'=>'nullable|required_if:especie,Exótico|string|max:45'])['especie_exotico']??null;
+            if($nuevoCliente['especie']==='Exótico' && trim((string)$exotico)!=='') $nuevoCliente['especie']='Exótico ('.trim($exotico).')';
             $request->merge(['cliente_id'=>0]);
         }
-        $request->validate(['procedimiento_id'=>'nullable|integer']);
+        $request->validate(['procedimiento_id'=>'nullable|integer','peso'=>'nullable|numeric|min:0.1|max:150']);
         $procedimiento=null;
         if($request->filled('procedimiento_id')) {
             $procedimiento=DB::table('peluqueria_procedimientos')->where('peluqueria_id',$perfil->id)->where('id',$request->procedimiento_id)->where('activo',true)->first();
             abort_unless($procedimiento,404);
-            $request->merge(['servicio'=>'Peluquería','valor'=>$procedimiento->precio,'duracion'=>$procedimiento->duracion]);
+            // El precio y la duración salen de la tarifa que calza con la especie y el peso de la mascota
+            $especie=$nuevoCliente?$nuevoCliente['especie']:DB::table('peluqueria_clientes')->where('peluqueria_id',$perfil->id)->where('id',(int)$request->cliente_id)->value('especie');
+            $tarifa=$this->tarifaMascota($procedimiento,$especie,$request->filled('peso')?(float)$request->peso:null);
+            if(!$tarifa) throw ValidationException::withMessages(['procedimiento_id'=>'El procedimiento elegido no tiene un precio para esta mascota.']);
+            $request->merge(['servicio'=>'Peluquería','valor'=>$tarifa->precio,'duracion'=>$tarifa->duracion]);
         }
         $datos=$request->validate(['cliente_id'=>'required|integer','inicio'=>'required|date_format:Y-m-d\TH:i|after_or_equal:now','duracion'=>'required|integer|min:15|max:480','servicio'=>'required|in:Baño,Belleza,Peluquería','valor'=>'required|integer|min:0|max:999999999','observaciones'=>'nullable|string|max:3000']);
         if($procedimiento){$datos['servicio']=$procedimiento->nombre;$datos['procedimiento_id']=$procedimiento->id;}
