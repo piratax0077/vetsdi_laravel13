@@ -93,6 +93,7 @@ class CompletarPerfilController extends Controller
             'asistente' => $this->guardarAsistente($request, $usuario),
             'clinica' => $this->guardarClinica($request, $usuario),
             'peluqueria' => $this->guardarPeluqueria($request, $usuario),
+            'centro_estetico' => $this->guardarCentroEstetico($request,$usuario),
         };
 
         $this->cuentas->marcarPerfilCompleto($usuario, $tipo);
@@ -105,7 +106,7 @@ class CompletarPerfilController extends Controller
     private function catalogos(string $tipo): array
     {
         return match ($tipo) {
-            'peluqueria' => [],
+            'peluqueria', 'centro_estetico' => [],
             'tutor' => [
                 'regiones' => Region::orderBy('nombre')->get(['id', 'nombre']),
                 'especies' => EspecieMascota::orderBy('id')->get(['id', 'nombre']),
@@ -132,11 +133,27 @@ class CompletarPerfilController extends Controller
         }
     }
 
-    private function guardarPeluqueria(Request $request, User $usuario): void
+    private function guardarCentroEstetico(Request $request,User $usuario): void
+    {
+        $empresa=$request->validate(['rut_empresa'=>['required',new \App\Rules\RutChileno],'razon_social'=>'required|string|max:255','giro'=>'required|string|max:255','email_contacto'=>'required|email|max:255']);
+        $this->guardarEstablecimientoEstetico($request,$usuario);
+        $perfil=$this->perfilDe(\App\Models\CentroEstetico::class,$usuario);$perfil->fill($empresa)->saveOrFail();
+    }
+    private function guardarPeluqueria(Request $request,User $usuario): void
+    {
+        $datos=$request->validate(['nombre'=>'required|string|max:255','telefono'=>'required|string|max:30','direccion'=>'required|string|max:255']);
+        $profesional=\App\Models\ProfesionalEstetica::firstOrNew(['id_usuario'=>$usuario->id]);$profesional->fill($datos)->saveOrFail();
+        if(!\App\Models\Peluqueria::where('id_usuario',$usuario->id)->exists()&&!app(\App\Services\PeluqueriaAcceso::class)->tieneMembresia($usuario))$this->guardarEstablecimientoEstetico($request,$usuario);
+    }
+    private function guardarEstablecimientoEstetico(Request $request, User $usuario): void
     {
         $datos=$request->validate(['nombre'=>'required|string|max:255','telefono'=>'required|string|max:30','direccion'=>'required|string|max:255']);
         $perfil=$this->perfilDe(\App\Models\Peluqueria::class,$usuario);
         $perfil->fill($datos)->saveOrFail();
+        if(\Illuminate\Support\Facades\Schema::hasTable('peluqueria_sucursales') && !\Illuminate\Support\Facades\DB::table('peluqueria_sucursales')->where('peluqueria_id',$perfil->id)->exists()) {
+            \Illuminate\Support\Facades\DB::table('peluqueria_sucursales')->insert(['peluqueria_id'=>$perfil->id,'nombre'=>'Sucursal principal','direccion'=>$perfil->direccion,'telefono'=>$perfil->telefono,'activo'=>true,'capacidad'=>1,'created_at'=>now(),'updated_at'=>now()]);
+        }
+
     }
 
     /** Tutor: dónde vive y su primera mascota. */

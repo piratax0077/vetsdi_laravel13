@@ -69,7 +69,7 @@
                         </tr>
                         <tr>
                             <td>Incidente</td>
-                            <td><textarea class="form-control" id="comentario"></textarea></td>
+                            <td><textarea class="form-control caja-texto form-control-sm" id="comentario" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                         </tr>
                         <tr>
                             <td>Fecha</td>
@@ -92,7 +92,7 @@
                         </tr>
                         <tr>
                             <td>Comentario</td>
-                            <td><textarea class="form-control" id="comentario"></textarea></td>
+                            <td><textarea class="form-control caja-texto form-control-sm" id="comentario" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                         </tr>
                     </table>
                 `;
@@ -116,7 +116,7 @@
                         </tr>
                         <tr>
                             <td>Incidente</td>
-                            <td><textarea class="form-control" id="comentario"></textarea></td>
+                            <td><textarea class="form-control caja-texto form-control-sm" id="comentario" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                         </tr>
                     </table>
                 `;
@@ -134,11 +134,11 @@
                         </tr>
                         <tr>
                             <td>Incidente</td>
-                            <td><textarea class="form-control" id="incidene"></textarea></td>
+                            <td><textarea class="form-control caja-texto form-control-sm" id="incidene" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                         </tr>
                         <tr>
                             <td>Detalle</td>
-                            <td><textarea class="form-control" id="detalle"></textarea></td>
+                            <td><textarea class="form-control caja-texto form-control-sm" id="detalle" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                         </tr>
                     </table>
                 `;
@@ -156,7 +156,7 @@
                         </tr>
                         <tr>
                             <td>Institución</td>
-                            <td><textarea class="form-control form-control-sm" id="institucion"></textarea></td>
+                            <td><textarea class="form-control form-control-sm caja-texto" id="institucion" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                         </tr>
 						<tr>
                             <td>Fecha Evento</td>
@@ -175,7 +175,7 @@
                         </tr>
                         <tr>
                             <td>Detalle</td>
-                            <td><textarea class="form-control form-control-sm" id="comentario"></textarea></td>
+                            <td><textarea class="form-control form-control-sm caja-texto" id="comentario" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                         </tr>
                     </table>
                 `;
@@ -190,7 +190,7 @@
                         </tr>
                         <tr>
                             <td>Dosis</td>
-                            <td><textarea class="form-control" id="dosis"></textarea></td>
+                            <td><textarea class="form-control caja-texto form-control-sm" id="dosis" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                         </tr>
 
                     </table>

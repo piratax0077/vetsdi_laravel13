@@ -123,15 +123,15 @@
                         <div class="form-row pt-3 px-2">
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <label class="floating-label-activo-sm">Estado de conciencia</label>
-                                <textarea class="form-control form-control-sm" rows="2" onfocus="this.rows=4" onblur="this.rows=3;" id="conciencia_sidebar" name="conciencia_sidebar"></textarea>
+                                <textarea class="form-control form-control-sm caja-texto" id="conciencia_sidebar" name="conciencia_sidebar" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                             </div>
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <label class="floating-label-activo-sm">Mucosas y TRC</label>
-                                <textarea class="form-control form-control-sm" rows="2" onfocus="this.rows=4" onblur="this.rows=3;" id="lenguaje_sidebar" name="lenguaje_sidebar"></textarea>
+                                <textarea class="form-control form-control-sm caja-texto" id="lenguaje_sidebar" name="lenguaje_sidebar" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                             </div>
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <label class="floating-label-activo-sm">Movilidad / locomoción</label>
-                                <textarea class="form-control form-control-sm" rows="2" onfocus="this.rows=4" onblur="this.rows=3;" id="traslado_sidebar" name="traslado_sidebar"></textarea>
+                                <textarea class="form-control form-control-sm caja-texto" id="traslado_sidebar" name="traslado_sidebar" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                             </div>
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
                                 <button type="button" class="btn btn-xxs btn-success-light-c" onclick="guardar_comunicacion_conciencia()"><i class="feather icon-save"></i> Guardar</button>

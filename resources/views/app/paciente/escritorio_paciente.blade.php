@@ -134,7 +134,7 @@
                                     @forelse ($hora_medica as $hora)
                                         <tr>
                                             <td class="align-middle">
-                                                @if (in_array((int) ($hora->id_estado_visual ?? $hora->id_estado), [1, 8, 16], true))
+                                                @if (in_array((int) ($hora->id_estado_visual ?? $hora->id_estado), [1, 16], true))
                                                     <button class="btn btn-info btn-icon btn-confirmar-hora"
                                                         data-toggle="tooltip" data-placement="top" title="Confirmar hora"
                                                         onclick="confirmar({{ $hora->id }});">
@@ -189,7 +189,7 @@
                                             </td>
                                             <td class="align-middle">
                                                 @php $estadoVisualHora = (int) ($hora->id_estado_visual ?? $hora->id_estado); @endphp
-                                                <span class="estado-hora-chip {{ in_array($estadoVisualHora, [1, 8, 16], true) ? 'pendiente' : ($estadoVisualHora == 2 ? 'confirmada' : ($estadoVisualHora == 3 ? 'cancelada' : (in_array($estadoVisualHora, [4, 5], true) ? 'en-proceso' : ($estadoVisualHora == 6 ? 'realizada' : ($estadoVisualHora == 7 ? 'inasistida' : 'desconocida'))))) }}">
+                                                <span class="estado-hora-chip {{ in_array($estadoVisualHora, [1, 16], true) ? 'pendiente' : ($estadoVisualHora == 2 ? 'confirmada' : ($estadoVisualHora == 3 ? 'cancelada' : (in_array($estadoVisualHora, [4, 5, 8], true) ? 'en-proceso' : ($estadoVisualHora == 6 ? 'realizada' : ($estadoVisualHora == 7 ? 'inasistida' : 'desconocida'))))) }}">
                                                     {{ $hora->texto_estado }}
                                                 </span>
                                             </td>
@@ -351,6 +351,7 @@
 
         function confirmar(id)
         {
+            $('.btn-confirmar-hora,.btn-anular-hora').filter(':enabled').attr('data-agenda-reintentar','1');
             $('.btn-confirmar-hora').attr('disabled', true);
             $('.btn-anular-hora').attr('disabled', true);
 
@@ -362,6 +363,13 @@
                 data: {
                     id_hora: id,
                     _token: CSRF_TOKEN,
+                },
+                error: function(xhr){
+                    swal({title:'No se pudo completar la acción',text:xhr.responseJSON?.message||'Actualiza la agenda e inténtalo nuevamente.',icon:'error'});
+                    cargar_horas_medicas();
+                },
+                complete: function(){
+                     $('[data-agenda-reintentar]').prop('disabled',false).removeAttr('data-agenda-reintentar');
                 },
                 success: function(data)
                 {
@@ -391,6 +399,7 @@
 
         function anular(id)
         {
+            $('.btn-confirmar-hora,.btn-anular-hora').filter(':enabled').attr('data-agenda-reintentar','1');
             $('.btn-confirmar-hora').attr('disabled', true);
             $('.btn-anular-hora').attr('disabled', true);
 
@@ -402,6 +411,13 @@
                 data: {
                     id_hora: id,
                     _token: CSRF_TOKEN,
+                },
+                error: function(xhr){
+                    swal({title:'No se pudo completar la acción',text:xhr.responseJSON?.message||'Actualiza la agenda e inténtalo nuevamente.',icon:'error'});
+                    cargar_horas_medicas();
+                },
+                complete: function(){
+                     $('[data-agenda-reintentar]').prop('disabled',false).removeAttr('data-agenda-reintentar');
                 },
                 success: function(data)
                 {
@@ -487,15 +503,6 @@
                                             acciones += '                    <i class="feather icon-check"></i>';
                                             acciones += '                </button>';
                                             acciones += '                <button class="btn btn-danger btn-icon btn-anular-hora" data-toggle="tooltip" data-placement="top" title="Anular hora"  onclick="anular('+value.id+');">';
-                                            acciones += '                    <i class="feather icon-x"></i>';
-                                            acciones += '                </button>';
-                                            break
-
-                                        case 8:
-                                            acciones += '                <button class="btn btn-info btn-icon btn-confirmar-hora" data-toggle="tooltip" data-placement="top" title="Confirmar hora" onclick="confirmar('+value.id+');">';
-                                            acciones += '                    <i class="feather icon-check"></i>';
-                                            acciones += '                </button>';
-                                            acciones += '                <button class="btn btn-danger btn-icon btn-anular-hora" data-toggle="tooltip" data-placement="top" title="Anular hora" onclick="anular('+value.id+');">';
                                             acciones += '                    <i class="feather icon-x"></i>';
                                             acciones += '                </button>';
                                             break

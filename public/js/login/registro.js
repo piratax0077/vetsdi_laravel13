@@ -68,7 +68,7 @@
 
         if (etiquetaRut) {
             // En una clinica el RUT que se pide es el de la persona que la administra.
-            etiquetaRut.textContent = selectTipo.value === 'clinica'
+            etiquetaRut.textContent = ['clinica','centro_estetico'].includes(selectTipo.value)
                 ? 'RUT del administrador de la clínica'
                 : 'RUT';
         }

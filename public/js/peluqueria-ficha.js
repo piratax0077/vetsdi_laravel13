@@ -15,6 +15,8 @@
                 const ficha = documento.getElementById('pelu-ficha-form');
                 if (!ficha) throw new Error('Ficha no disponible');
                 ficha.querySelectorAll('input[type="hidden"], script, .pelu-guardar').forEach(nodo => nodo.remove());
+                ficha.querySelectorAll('.pelu-secciones').forEach(nodo => nodo.remove());
+                ficha.querySelectorAll('.tab-pane').forEach(nodo => nodo.classList.add('show', 'active'));
                 ficha.querySelectorAll('[id]').forEach(nodo => nodo.removeAttribute('id'));
                 ficha.removeAttribute('id');
                 ficha.querySelectorAll('fieldset').forEach(nodo => { nodo.disabled = true; });

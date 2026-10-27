@@ -107,11 +107,11 @@
                                                                         <div class="form-row">
                                                                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12" id="div_detalle_transito_intest">
                                                                                 <label class="floating-label-activo-sm" for="cda_mc">Motivo de consulta</label>
-                                                                                <textarea class="form-control caja-texto form-control-sm" rows="2" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest alta" data-tipo="cirugia digest alta" onfocus="this.rows=3" onblur="this.rows=2;" name="cda_mc" id="cda_mc" placeholder=" RGE ,DOLOR, ZONA,SINTOMAS ACOMPAÑANTES "></textarea>
+                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest alta" data-tipo="cirugia digest alta" name="cda_mc" id="cda_mc" placeholder=" RGE ,DOLOR, ZONA,SINTOMAS ACOMPAÑANTES " rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                             </div>
                                                                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12" id="div_detalle_transito_intest">
                                                                                 <label class="floating-label-activo-sm" for="cda_ex_fis">Examen Físico</label>
-                                                                                <textarea class="form-control caja-texto form-control-sm" rows="2" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest alta" data-tipo="cirugia digest alta" onfocus="this.rows=3" onblur="this.rows=2;" name="cda_ex_fis" id="cda_ex_fis" placeholder="CEG, PRESENCIA DE SANGRE,CEG, SOSP. DE ORGANO MASAS OTROS"></textarea>
+                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest alta" data-tipo="cirugia digest alta" name="cda_ex_fis" id="cda_ex_fis" placeholder="CEG, PRESENCIA DE SANGRE,CEG, SOSP. DE ORGANO MASAS OTROS" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                             </div>
                                                                             <div class="form-group col-sm-12 col-md-12 col-lg-4 col-xl-4">
                                                                                 <label class="floating-label-activo-sm" for="urgencia_cda">¿Es Urgencia Qx.?</label>
@@ -122,7 +122,7 @@
                                                                             </div>
                                                                             <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 form-group">
                                                                                 <label class="floating-label-activo-sm" for="obs_egp_cda">Obs. Estado General Paciente</label>
-                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest alta" data-tipo="cirugia digest alta" rows="1"  onfocus="this.rows=2" onblur="this.rows=1;" name="obs_egp_cda" id="obs_egp_cda" placeholder="ANOTE APRECIACIÓN SOBRE ESTADO GENERAL DEL PACIENTE"></textarea>
+                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest alta" data-tipo="cirugia digest alta"  name="obs_egp_cda" id="obs_egp_cda" placeholder="ANOTE APRECIACIÓN SOBRE ESTADO GENERAL DEL PACIENTE" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-row" id="div_detalle_urgencia_cda" style="display:none">
@@ -178,7 +178,7 @@
                                                                                                 <div class="form-row">
                                                                                                     <div class="form-group col-md-12">
                                                                                                         <label class="floating-label-activo-sm" for="rec_tto_cda">Recomendaciones</label>
-                                                                                                        <textarea class="form-control caja-texto form-control-sm" data-titulo="Recomendaciones" data-seccion="Plan de Tratamiento" data-tipo="recomendaciones médicas"  rows="1" onfocus="this.rows=3" onblur="this.rows=1;" name="rec_tto_cda" id="rec_tto_cda"></textarea>
+                                                                                                        <textarea class="form-control caja-texto form-control-sm" data-titulo="Recomendaciones" data-seccion="Plan de Tratamiento" data-tipo="recomendaciones médicas"  name="rec_tto_cda" id="rec_tto_cda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
@@ -201,7 +201,7 @@
                                                                                                     </div>
                                                                                                     <div class="form-group col-md-8">
                                                                                                         <label class="floating-label-activo-sm" for="plan_proc_cda"> Plan</label>
-                                                                                                        <textarea class="form-control caja-texto form-control-sm" data-titulo="Plan Tratamiento" data-seccion="Plan de Tratamiento" data-tipo="Plan de procedimiento"  rows="1" onfocus="this.rows=3" onblur="this.rows=1;" name="plan_proc_cda" id="plan_proc_cda"></textarea>
+                                                                                                        <textarea class="form-control caja-texto form-control-sm" data-titulo="Plan Tratamiento" data-seccion="Plan de Tratamiento" data-tipo="Plan de procedimiento"  name="plan_proc_cda" id="plan_proc_cda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
@@ -234,7 +234,7 @@
                                                                         <div class="form-row">
                                                                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                                 <label class="floating-label-activo-sm"for="obs_plan_trat_cda">Obs. Plan de tratamiento</label>
-                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Obs. Plan de tratamiento" data-seccion=" Plan de tratamiento" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="obs_plan_trat_cda" id="obs_plan_trat_cda"></textarea>
+                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Obs. Plan de tratamiento" data-seccion=" Plan de tratamiento"  name="obs_plan_trat_cda" id="obs_plan_trat_cda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -548,7 +548,7 @@
                 {
                     html +='<div class="col-md-4">'+$(elemento).data('titulo')+'</div>';
                     html +='<div class="col-md-6">';
-                    html +='    <textarea class="form-control caja-texto form-control-sm '+$(elemento).attr('id')+'_editar" style="display:none;" rows="1"  onfocus="this.rows=6" onblur="this.rows=1;" name="observaciones_'+$(elemento).attr('id')+'" id="observaciones_'+$(elemento).attr('id')+'">'+$(elemento).val()+'</textarea>';
+                    html +='    <textarea class="form-control caja-texto form-control-sm '+$(elemento).attr('id')+'_editar" style="display:none;"  name="observaciones_'+$(elemento).attr('id')+'" id="observaciones_'+$(elemento).attr('id')+'" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;">'+$(elemento).val()+'</textarea>';
                     html +='    <label class="'+$(elemento).attr('id')+'_mostrar" id="label_observacion_'+$(elemento).attr('id')+'">'+$(elemento).val()+'</label>';
                     html +='</div>';
                     html +='<div class="col-md-2">';

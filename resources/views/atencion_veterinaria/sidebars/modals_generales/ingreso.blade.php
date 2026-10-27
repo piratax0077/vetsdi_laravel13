@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group col-sm-12 col-md-3 col-lg-3">
                         <label class="floating-label-activo-sm">Diagnósticos </label>
-                        <textarea class="form-control caja-texto form-control-sm " rows="1"  onfocus="this.rows=8" onblur="this.rows=1;" name="dg_ingreso" id="dg_ingreso"></textarea>
+                        <textarea class="form-control caja-texto form-control-sm"  name="dg_ingreso" id="dg_ingreso" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                     </div>
                     <div class="form-group col-sm-12 col-md-3 col-lg-3">
                         <label class="floating-label-activo-sm">Servicio</label>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-group col-sm-12 col-md-12 col-lg-12">
                         <label class="floating-label-activo-sm">Indicaciones de ingreso</label>
-                        <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=4" onblur="this.rows=1;" name="ind_ingreso" id="ind_ingreso"></textarea>
+                        <textarea class="form-control caja-texto form-control-sm"  name="ind_ingreso" id="ind_ingreso" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                     </div>
                 </div>
                 <div class="form-row mb-2">
@@ -98,7 +98,7 @@
                         <h6 class="mb-3">Otros</h6>
                         <div class="form-group">
                         <label class="floating-label-activo-sm">Comentarios</label>
-                        <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="otros_hosp" id="otros_hosp"></textarea>
+                        <textarea class="form-control caja-texto form-control-sm"  name="otros_hosp" id="otros_hosp" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                     </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">

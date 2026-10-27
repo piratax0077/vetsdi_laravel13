@@ -37,6 +37,7 @@ class AutorizarAsistente
         $lugar = (int) ($contexto['id_lugar_atencion'] ?? 0);
         $profesional = (int) ($contexto['id_profesional'] ?? 0);
         $servicio->exigir($asistente, $lugar, $profesional, $permiso);
+        view()->share('permisos_asistente',(object)$servicio->permisos($asistente->id,$lugar,$profesional));
 
         foreach (['id_profesional', 'id_profesional_fc', 'profesional_id'] as $campo) {
             abort_if($request->filled($campo) && (int) $request->input($campo) !== $profesional, 403);

@@ -156,7 +156,6 @@ class EscritorioPaciente extends Controller
                 ])->filter()->implode(' '));
                 switch ($estadoVisual) {
                     case 1:
-                    case 8:
                     case 16:
                         $textoEstado = 'Hora pendiente por confirmar';
                         break;
@@ -167,6 +166,7 @@ class EscritorioPaciente extends Controller
                         $textoEstado = 'Hora cancelada';
                         break;
                     case 4:
+                    case 8:
                         $textoEstado = 'Hora en espera';
                         break;
                     case 5:
@@ -2907,6 +2907,9 @@ class EscritorioPaciente extends Controller
 
     public function agendar_horas(Request $request, VeterinaryVoucherService $voucherService)
     {
+        $responsable=Paciente::where('id_usuario',Auth::id())->first();
+        abort_unless($responsable&&(int)$responsable->id===(int)$request->reserva_hora_id,403,'Solo puedes reservar horas para tu tutor y sus mascotas.');
+        if($request->filled('id_mascota'))abort_unless(Mascota::whereKey($request->id_mascota)->where('id_responsable',$responsable->id)->exists(),403,'La mascota no pertenece a este tutor.');
         $datos = array();
         $valido = 1;
         $mascota = null;
@@ -2923,6 +2926,9 @@ class EscritorioPaciente extends Controller
             ], 422);
         }
 
+
+        abort_unless($paciente&&$profesional,422,'No se encontró el tutor o el profesional de la reserva.');
+        app(\App\Services\AccesoAgendaVeterinaria::class)->reserva($request,(int)$profesional->id,(int)$paciente->id);
         if ((int) $request->input('es_veterinaria_busqueda', 0) === 1) {
             $responsableAutenticado = Paciente::where('id_usuario', Auth::id())->first();
 
@@ -3067,7 +3073,8 @@ class EscritorioPaciente extends Controller
 
                 // $profesional_horarios = '00:30:00';
                 // $tiempo_consulta = 30;
-                $horas = date('H',strtotime($profesional_horarios->duracion_consulta));
+                abort_unless($profesional_horarios,422,'No hay un horario de atención configurado para ese día y lugar.');
+            $horas = date('H',strtotime($profesional_horarios->duracion_consulta));
                 $minutos = date('i',strtotime($profesional_horarios->duracion_consulta));
                 $totales = ($horas*60) + $minutos;
                 $tiempo_consulta = $totales;

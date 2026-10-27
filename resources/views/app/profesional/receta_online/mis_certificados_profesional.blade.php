@@ -206,7 +206,7 @@
                             <div class="col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <label class="floating-label">Comentarios</label>
-                                    <textarea class="form-control" rows="1" name="comentarios_examen" id="comentarios_examen"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm" name="comentarios_examen" id="comentarios_examen" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                         </div>

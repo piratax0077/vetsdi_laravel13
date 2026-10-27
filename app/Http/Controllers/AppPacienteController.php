@@ -2393,7 +2393,7 @@ class AppPacienteController extends Controller
 
     public function anularHoraMedica(Request $request){
         $idHora = $request->id_hora ?? $request->id_hora_medica;
-        $hora_medica = HoraMedica::where('id', $idHora)->first();
+        $hora_medica = app(\App\Services\AccesoAgendaVeterinaria::class)->hora($idHora,'cancelar',true);
 
         if (!$hora_medica) {
             return response()->json([
@@ -2405,10 +2405,10 @@ class AppPacienteController extends Controller
         $hora_medica->comentarios_cancelacion = 'Cancelada por paciente desde app';
         $hora_medica->fecha_cancelacion = Carbon::now();
         $hora_medica->id_estado = 3;
-        $paciente = Paciente::where('id', $hora_medica->id_paciente)->first();
+        $paciente = Paciente::where('id', $hora_medica->id_paciente)->firstOrFail();
         $profesional = Profesional::where('id', $hora_medica->id_profesional)->first();
 
-        if (!$hora_medica->save()) {
+        if (!app(\App\Services\AccesoAgendaVeterinaria::class)->guardarCambio($hora_medica)) {
             return 'error';
         }
 
@@ -2474,12 +2474,12 @@ class AppPacienteController extends Controller
                 'fecha'=> $hora_medica->fecha_evento,
                 'hora'=> $hora_medica->hora_evento,
                 'profesional_nombre'=> mb_strtoupper($profesional->nombre . ' ' . $profesional->apellido_uno . ' ' . $profesional->apellido_dos),
-                'profesional_especialidad'=> mb_strtoupper($profesional->Especialidad()->first()->nombre),
-                'profesional_tipo_especialidad'=> mb_strtoupper($profesional->TipoEspecialidad()->first()->nombre),
+                'profesional_especialidad'=> mb_strtoupper($profesional->Especialidad()->first()?->nombre ?? 'Veterinaria'),
+                'profesional_tipo_especialidad'=> mb_strtoupper($profesional->TipoEspecialidad()->first()?->nombre ?? ''),
                 'profesional_sub_tipo_especialidad' => optional($profesional->SubTipoEspecialidad()->first())->nombre ?? null, // Si no existe, no se muestra
                 // 'institucion'=> $nombre_institucion,
-                'lugar_atencion'=> mb_strtoupper($lugar_atencion->nombre),
-                'direccion'=> mb_strtoupper($lugar_atencion->Direccion()->first()->direccion.' '.$lugar_atencion->Direccion()->first()->numero_dir.', '.$lugar_atencion->Direccion()->first()->Ciudad()->first()->nombre),
+                'lugar_atencion'=> mb_strtoupper(($lugar_atencion?->nombre??'')),
+                'direccion'=> mb_strtoupper(($direccionLugar?->direccion??'').' '.($direccionLugar?->numero_dir??'').', '.($ciudadLugar?->nombre??'')),
             );
         }
         else
@@ -2489,8 +2489,8 @@ class AppPacienteController extends Controller
                 'fecha'=> $hora_medica->fecha_evento,
                 'hora'=> $hora_medica->hora_evento,
                 // 'institucion'=> $nombre_institucion,
-                'lugar_atencion'=> mb_strtoupper($lugar_atencion->nombre),
-                'direccion'=> mb_strtoupper($lugar_atencion->Direccion()->first()->direccion.' '.$lugar_atencion->Direccion()->first()->numero_dir.', '.$lugar_atencion->Direccion()->first()->Ciudad()->first()->nombre),
+                'lugar_atencion'=> mb_strtoupper(($lugar_atencion?->nombre??'')),
+                'direccion'=> mb_strtoupper(($direccionLugar?->direccion??'').' '.($direccionLugar?->numero_dir??'').', '.($ciudadLugar?->nombre??'')),
             );
         }
 
@@ -2704,7 +2704,7 @@ class AppPacienteController extends Controller
         // ], 200);
 
         $idHora = $request->id_hora ?? $request->id_hora_medica;
-        $hora_medica = HoraMedica::where('id', $idHora)->first();
+        $hora_medica = app(\App\Services\AccesoAgendaVeterinaria::class)->hora($idHora,'confirmar',true);
 
         if (!$hora_medica) {
             return response()->json([
@@ -2714,7 +2714,7 @@ class AppPacienteController extends Controller
         }
 
         $hora_medica->id_estado = 2;
-        if (!$hora_medica->save()) {
+        if (!app(\App\Services\AccesoAgendaVeterinaria::class)->guardarCambio($hora_medica)) {
             return response()->json([
                 'estado' => 0,
                 'msj' => 'No fue posible confirmar la hora',

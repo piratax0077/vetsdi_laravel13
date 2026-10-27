@@ -224,7 +224,7 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-md-12 mx-auto">
                                                         <label class="floating-label">Descripción</label>
-                                                        <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=2" onblur="this.rows=1;" name="motivo_consulta" id="motivo_consulta"></textarea>
+                                                        <textarea class="form-control caja-texto form-control-sm"  name="motivo_consulta" id="motivo_consulta" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                     </div>
                                                 </div>
                                             </form>
@@ -242,7 +242,7 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-md-12 mx-auto">
                                                         <label class="floating-label">Descripción</label>
-                                                        <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=2" onblur="this.rows=1;"name="descripcion_antecedentes" id="descripcion_antecedentes"></textarea>
+                                                        <textarea class="form-control caja-texto form-control-sm" name="descripcion_antecedentes" id="descripcion_antecedentes" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                     </div>
                                                 </div>
                                             </form>
@@ -261,7 +261,7 @@
 
                                                     <div class="form-group col-md-12">
                                                         <label class="floating-label">Examen General</label>
-                                                        <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=4" onblur="this.rows=1;" name="exter_ginecológico" id="exter_ginecológico"></textarea>
+                                                        <textarea class="form-control caja-texto form-control-sm"  name="exter_ginecológico" id="exter_ginecológico" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                     </div>
 
                                                 </div>
@@ -512,13 +512,13 @@
                                                     <div class="col-sm-4 mt-2">
                                                             <div class="form-group fill">
                                                                 <label id="" name="" class="floating-label-activo-sm">Descripción </label>
-                                                                <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                                <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                             </div>
                                                         </div>
                                                     <div class="col-sm-4 mt-2">
                                                         <div class="form-group fill">
                                                             <label id="" name="" class="floating-label-activo-sm">Observaciones</label>
-                                                            <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                            <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                         </div>
                                                      </div>
                                                 </div>
@@ -552,13 +552,13 @@
                                                     <div class="col-sm-4 mt-2">
                                                         <div class="form-group fill">
                                                             <label id="" name="" class="floating-label-activo-sm">Descripción </label>
-                                                            <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                            <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4 mt-2">
                                                         <div class="form-group fill">
                                                             <label id="" name="" class="floating-label-activo-sm">Observaciones</label>
-                                                            <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                            <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -602,13 +602,13 @@
                                                     <div class="col-sm-3 mt-2">
                                                             <div class="form-group fill">
                                                                 <label id="" name="" class="floating-label-activo-sm">Descripción </label>
-                                                                <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                                <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                             </div>
                                                         </div>
                                                     <div class="col-sm-3 mt-2">
                                                         <div class="form-group fill">
                                                             <label id="" name="" class="floating-label-activo-sm">Observaciones</label>
-                                                            <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                            <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                         </div>
                                                      </div>
                                                 </div>
@@ -637,13 +637,13 @@
                                                     <div class="col-sm-4 mt-2">
                                                             <div class="form-group fill">
                                                                 <label id="" name="" class="floating-label-activo-sm">Descripción </label>
-                                                                <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                                <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                             </div>
                                                         </div>
                                                     <div class="col-sm-4 mt-2">
                                                         <div class="form-group fill">
                                                             <label id="" name="" class="floating-label-activo-sm">Observaciones</label>
-                                                            <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                            <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                         </div>
                                                      </div>
                                                 </div>
@@ -669,13 +669,13 @@
                                                     <div class="col-sm-4 mt-2">
                                                             <div class="form-group fill">
                                                                 <label id="" name="" class="floating-label-activo-sm">Descripción </label>
-                                                                <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                                <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                             </div>
                                                         </div>
                                                     <div class="col-sm-4 mt-2">
                                                         <div class="form-group fill">
                                                             <label id="" name="" class="floating-label-activo-sm">Observaciones</label>
-                                                            <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                            <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                         </div>
                                                      </div>
                                                 </div>
@@ -701,13 +701,13 @@
                                                     <div class="col-sm-4 mt-2">
                                                             <div class="form-group fill">
                                                                 <label id="" name="" class="floating-label-activo-sm">Descripción </label>
-                                                                <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                                <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                             </div>
                                                         </div>
                                                     <div class="col-sm-4 mt-2">
                                                         <div class="form-group fill">
                                                             <label id="" name="" class="floating-label-activo-sm">Observaciones</label>
-                                                            <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                            <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                         </div>
                                                      </div>
                                                 </div>
@@ -914,13 +914,13 @@
                                                     <div class="col-sm-4 mt-2">
                                                         <div class="form-group fill">
                                                             <label id="" name="" class="floating-label-activo-sm">Descripción </label>
-                                                            <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                            <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4 mt-2">
                                                         <div class="form-group fill">
                                                             <label id="" name="" class="floating-label-activo-sm">Observaciones</label>
-                                                            <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                            <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                         </div>
                                                      </div>
                                                 </div>
@@ -946,13 +946,13 @@
                                                     <div class="col-sm-4 mt-2">
                                                             <div class="form-group fill">
                                                                 <label id="" name="" class="floating-label-activo-sm">Comentarios </label>
-                                                                <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                                <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                             </div>
                                                         </div>
                                                     <div class="col-sm-4 mt-2">
                                                         <div class="form-group fill">
                                                             <label id="" name="" class="floating-label-activo-sm">Observaciones</label>
-                                                            <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=4" onblur="this.rows=1;" name="medicamento" id="med"></textarea>
+                                                            <textarea class="form-control form-control-sm caja-texto" name="medicamento" id="med" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                         </div>
                                                      </div>
                                                 </div>

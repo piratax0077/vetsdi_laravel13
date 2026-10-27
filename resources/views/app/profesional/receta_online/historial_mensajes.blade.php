@@ -102,7 +102,7 @@
                         </div>
                         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                             <label class="floating-label-activo-sm">Mensaje</label>
-                            <textarea class="form-control" rows="10" onfocus="this.rows=12" onblur="this.rows=10;" id="mensaje_msj" name="mensaje_msj" disabled></textarea>
+                            <textarea class="form-control caja-texto form-control-sm" id="mensaje_msj" name="mensaje_msj" disabled rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                         </div>
 
                         <!--<div class="col-12">
@@ -133,7 +133,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Mensaje:</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="mensaje_msj" name="mensaje_msj" readonly></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm" id="mensaje_msj" name="mensaje_msj" readonly rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                         </div>-->
@@ -207,7 +207,7 @@
                                 </div>
                                 <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <label class="floating-label-activo-sm">Mensaje</label>
-                                    <textarea class="form-control" rows="10" onfocus="this.rows=12" onblur="this.rows=10;" id="mensaje_msj_de_profesional" name="mensaje_msj_de_profesional"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm" id="mensaje_msj_de_profesional" name="mensaje_msj_de_profesional" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <button class="btn btn-primary btn-sm float-right" onclick="enviar_mensaje_confirmar()">Enviar</button>

@@ -18,7 +18,7 @@
 
                         <div class="form-group col-md-6">
                             <label class="floating-label-activo-sm">Descripción</label>
-                            <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=6" onblur="this.rows=1;" name="registro_f_t_uro_descripcion" id="registro_f_t_uro_descripcion"></textarea>
+                            <textarea class="form-control caja-texto form-control-sm"  name="registro_f_t_uro_descripcion" id="registro_f_t_uro_descripcion" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                         </div>
 
                     </div>

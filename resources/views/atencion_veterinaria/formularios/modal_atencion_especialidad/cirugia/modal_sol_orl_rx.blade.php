@@ -32,7 +32,7 @@
                         <div class="col-sm-12">
                             <div class="form-group fill">
                                 <label class="floating-label-activo-sm">Observaciones</label>
-                                <textarea class="form-control caja-texto form-control-sm mt-1" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="observaciones_especialidad" id="observaciones_especialidad"></textarea>
+                                <textarea class="form-control caja-texto form-control-sm mt-1"  name="observaciones_especialidad" id="observaciones_especialidad" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-12">

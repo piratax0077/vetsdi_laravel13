@@ -57,7 +57,7 @@
                             </div>
                             <div class="form-group col-sm-12 col-md-12">
                                 <label class="floating-label">Se desea saber</label>
-                                <textarea type="text" class="form-control form-control-sm" rows="2" name="" id=""></textarea>
+                                <textarea type="text" class="form-control form-control-sm caja-texto" name="" id="" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                             </div>
                             <div class="col-sm-12 col-md-12 text-center mb-2">
                                 <button type="button" class="btn btn-sm btn-primary">Ver documento en PDF</button>
@@ -78,11 +78,11 @@
                                 </div>
                                 <div class="form-group col-sm-12 col-md-12">
                                     <label class="floating-label">Tratamiento</label>
-                                    <textarea type="text" class="form-control form-control-sm" rows="2" name="" id=""></textarea>
+                                    <textarea type="text" class="form-control form-control-sm caja-texto" name="" id="" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-sm-12 col-md-12">
                                     <label class="floating-label">Comentario</label>
-                                    <textarea type="text" class="form-control form-control-sm" rows="2" name="" id=""></textarea>
+                                    <textarea type="text" class="form-control form-control-sm caja-texto" name="" id="" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-sm-12 col-md-12">
                                     <label class="floating-label-activo-sm">Fecha</label>

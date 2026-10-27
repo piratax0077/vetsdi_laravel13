@@ -64,7 +64,7 @@
 					</div>
                     <div class="form-group fill col-sm-12">
 			            <label class="floating-label">Texto</label>
-			            <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="comentarios" id="comentarios" value="ac´va el texto del consentimiento"></textarea>
+			            <textarea class="form-control caja-texto form-control-sm"  name="comentarios" id="comentarios" value="ac´va el texto del consentimiento" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
 			        </div>
 				</div>
 				<div class="form-row">
@@ -80,7 +80,7 @@
 			        </div>
 					<div class="form-group fill col-sm-12">
 			            <label class="floating-label">Comentarios</label>
-			            <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="comentarios" id="comentarios"></textarea>
+			            <textarea class="form-control caja-texto form-control-sm"  name="comentarios" id="comentarios" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
 			        </div>
 				</div>
 				<div class="form-row">

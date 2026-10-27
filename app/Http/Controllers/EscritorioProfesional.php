@@ -2854,7 +2854,7 @@ class EscritorioProfesional extends Controller
 
     public function buscar_hora_medica(Request $request)
     {
-        $hora_medica = HoraMedica::where('id', $request->id_hora_medica)->first();
+        $hora_medica = app(\App\Services\AccesoAgendaVeterinaria::class)->hora($request->id_hora_medica,'ver');
         $mascota = null;
         if (!empty($hora_medica->id_mascota)) {
             $mascota = Mascota::with('especieMascota')->find($hora_medica->id_mascota);
@@ -2870,7 +2870,7 @@ class EscritorioProfesional extends Controller
         if(!empty($paciente->id_direccion))
         {
             $direccion = Direccion::with('Ciudad')->find($paciente->id_direccion);
-            $dir_regi = Region::find($direccion->ciudad->id_region);
+            $dir_regi = $direccion?->ciudad?->id_region ? Region::find($direccion->ciudad->id_region) : null;
             if($dir_regi)
             {
                 $direccion->region = $dir_regi;
@@ -2950,9 +2950,7 @@ class EscritorioProfesional extends Controller
             'profesional' =>$profesional,
             // En la agenda, las reservas confirmadas que aún deben pasar por caja
             // usan el mismo flujo visual del estado de pago.
-            'estado_hora' => in_array((int) $hora_medica->id_estado, [1], true)
-                ? 2
-                : $hora_medica->id_estado,
+            'estado_hora' => $hora_medica->id_estado,
             'estado_hora_original' => $hora_medica->id_estado,
             'hora_medica' => $hora_medica,
             'mascota' => $mascota,
@@ -7804,12 +7802,12 @@ return $ficha;
 
     public function paciente_esperando(Request $request)
     {
-        $hora_medica = HoraMedica::where('id', $request->id_hora_medica)->first();
+        $hora_medica = app(\App\Services\AccesoAgendaVeterinaria::class)->hora($request->id_hora_medica,'espera');
         $hora_medica->id_estado = 4;
         // $paciente = Paciente::where('id', $hora_medica->id_paciente)->first();
         // $profesional = Profesional::where('id', $hora_medica->id_profesional)->first();
 
-        if (!$hora_medica->save()) {
+        if (!app(\App\Services\AccesoAgendaVeterinaria::class)->guardarCambio($hora_medica)) {
             return 'error';
         }
 
@@ -9908,6 +9906,9 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
         $paciente = paciente::where('id', $request->reserva_hora_id)->first();
         $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
+        abort_unless($paciente&&$profesional,422,'No se encontró el tutor o el profesional de la reserva.');
+        app(\App\Services\AccesoAgendaVeterinaria::class)->reserva($request,(int)$profesional->id,(int)$paciente->id);
+
 
         // var_dump( static::tipoHorario($profesional->id, $request->fecha_consulta) );
         // die();
@@ -10029,6 +10030,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
             // $profesional_horarios = '00:30:00';
             // $tiempo_consulta = 30;
+            abort_unless($profesional_horarios,422,'No hay un horario de atención configurado para ese día y lugar.');
             $horas = date('H',strtotime($profesional_horarios->duracion_consulta));
             $minutos = date('i',strtotime($profesional_horarios->duracion_consulta));
             $totales = ($horas*60) + $minutos;
@@ -10776,15 +10778,15 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
     public function confirmar_hora(Request $request)
     {
-        $hora_medica = HoraMedica::where('id', $request->id_hora_medica)->first();
+        $hora_medica = app(\App\Services\AccesoAgendaVeterinaria::class)->hora($request->id_hora_medica,'confirmar');
 
         $hora_medica->comentarios_confirmacion = $request->comentario;
         $hora_medica->fecha_confirmacion = Carbon::now();
         $hora_medica->id_estado = 2;
-        $paciente = Paciente::where('id', $hora_medica->id_paciente)->first();
+        $paciente = Paciente::where('id', $hora_medica->id_paciente)->firstOrFail();
         $profesional = Profesional::where('id', $hora_medica->id_profesional)->first();
 
-        if (!$hora_medica->save()) {
+        if (!app(\App\Services\AccesoAgendaVeterinaria::class)->guardarCambio($hora_medica)) {
             return 'error';
         }
 
@@ -10797,7 +10799,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         {
             /** cambiar estado notificacion */
             $notificacion->medio_confirmacion = $request->medio_confirmacion;
-            $notificacion->fecha_confirmacion = date('Y-m-d H:m:s');
+            $notificacion->fecha_confirmacion = date('Y-m-d H:i:s');
             $notificacion->estado_confirmacion = 2; //CONFIRMADA
             if($notificacion->save())
             {
@@ -10836,6 +10838,8 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
 
         $lugar_atencion = LugarAtencion::find($hora_medica->id_lugar_atencion);
+        $direccionLugar=$lugar_atencion?->Direccion()->first();
+        $ciudadLugar=$direccionLugar?->Ciudad()->first();
 
         /** envio correo */
         /** envio de correo de confirmacion INSTITUCION */
@@ -10853,12 +10857,12 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                 'fecha'=> $hora_medica->fecha_consulta,
                 'hora'=> $hora_medica->hora_inicio,
                 'profesional_nombre'=> mb_strtoupper($profesional->nombre . ' ' . $profesional->apellido_uno . ' ' . $profesional->apellido_dos),
-                'profesional_especialidad'=> mb_strtoupper($profesional->Especialidad()->first()->nombre),
+                'profesional_especialidad'=> mb_strtoupper($profesional->Especialidad()->first()?->nombre ?? 'Veterinaria'),
                 'profesional_tipo_especialidad'=> ($profesional->TipoEspecialidad()->first()?mb_strtoupper($profesional->TipoEspecialidad()->first()->nombre):''),
                 'profesional_sub_tipo_especialidad'=> $profesional->SubTipoEspecialidad()->first()?mb_strtoupper($profesional->SubTipoEspecialidad()->first()->nombre):'',
                 // 'institucion'=> $nombre_institucion,
-                'lugar_atencion'=> mb_strtoupper($lugar_atencion->nombre),
-                'direccion'=> mb_strtoupper($lugar_atencion->Direccion()->first()->direccion.' '.$lugar_atencion->Direccion()->first()->numero_dir.', '.$lugar_atencion->Direccion()->first()->Ciudad()->first()->nombre),
+                'lugar_atencion'=> mb_strtoupper(($lugar_atencion?->nombre ?? '')),
+                'direccion'=> mb_strtoupper(($direccionLugar?->direccion??'').' '.($direccionLugar?->numero_dir??'').', '.($ciudadLugar?->nombre??'')),
             );
         }
         else
@@ -10868,8 +10872,8 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                 'fecha'=> $hora_medica->fecha_consulta,
                 'hora'=> $hora_medica->hora_inicio,
                 // 'institucion'=> $nombre_institucion,
-                'lugar_atencion'=> mb_strtoupper($lugar_atencion->nombre),
-                'direccion'=> mb_strtoupper($lugar_atencion->Direccion()->first()->direccion.' '.$lugar_atencion->Direccion()->first()->numero_dir.', '.$lugar_atencion->Direccion()->first()->Ciudad()->first()->nombre),
+                'lugar_atencion'=> mb_strtoupper(($lugar_atencion?->nombre ?? '')),
+                'direccion'=> mb_strtoupper(($direccionLugar?->direccion??'').' '.($direccionLugar?->numero_dir??'').', '.($ciudadLugar?->nombre??'')),
             );
         }
 
@@ -10903,7 +10907,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
         return DB::transaction(function () use ($request) {
             $horaMedica = HoraMedica::lockForUpdate()->findOrFail($request->id_hora_medica);
-            if ($horaMedica->id_mascota) app(\App\Services\RecepcionPagoVeterinario::class)->autorizar($horaMedica);
+            app(\App\Services\RecepcionPagoVeterinario::class)->autorizar($horaMedica);
             $fichaFinalizada = !empty($horaMedica->id_ficha_atencion)
                 && FichaAtencion::where('id', $horaMedica->id_ficha_atencion)
                     ->where('finalizada', 1)
@@ -10979,7 +10983,8 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         $error = array();
         $valido = 1;
 
-        $horaParaCobro = HoraMedica::find($request->id_referencia);
+        $horaParaCobro = HoraMedica::findOrFail($request->id_referencia);
+        app(\App\Services\RecepcionPagoVeterinario::class)->autorizar($horaParaCobro);
         if ($horaParaCobro && $horaParaCobro->id_mascota) {
             return app(\App\Services\RecepcionPagoVeterinario::class)->recibir($request, $horaParaCobro->id);
         }
@@ -11445,15 +11450,15 @@ public function eliminarPiezaCoronaProtesis(Request $req){
     public function cancelar_hora(Request $request)
     {
 
-        $hora_medica = HoraMedica::where('id', $request->id_hora_medica)->first();
+        $hora_medica = app(\App\Services\AccesoAgendaVeterinaria::class)->hora($request->id_hora_medica,'cancelar');
 
         $hora_medica->comentarios_cancelacion = $request->comentario;
         $hora_medica->fecha_cancelacion = Carbon::now();
         $hora_medica->id_estado = 3;
-        $paciente = Paciente::where('id', $hora_medica->id_paciente)->first();
+        $paciente = Paciente::where('id', $hora_medica->id_paciente)->firstOrFail();
         $profesional = Profesional::where('id', $hora_medica->id_profesional)->first();
 
-        if (!$hora_medica->save()) {
+        if (!app(\App\Services\AccesoAgendaVeterinaria::class)->guardarCambio($hora_medica)) {
             return 'error';
         }
 
@@ -11466,7 +11471,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
         {
             /** cambiar estado notificacion */
             $notificacion->medio_confirmacion = $request->medio_confirmacion;
-            $notificacion->fecha_confirmacion = date('Y-m-d H:m:s');
+            $notificacion->fecha_confirmacion = date('Y-m-d H:i:s');
             $notificacion->estado_confirmacion = 3; // RECHAZADA
             if($notificacion->save())
             {
@@ -11519,12 +11524,12 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                 'fecha'=> $hora_medica->fecha_evento,
                 'hora'=> $hora_medica->hora_evento,
                 'profesional_nombre'=> mb_strtoupper($profesional->nombre . ' ' . $profesional->apellido_uno . ' ' . $profesional->apellido_dos),
-                'profesional_especialidad'=> mb_strtoupper($profesional->Especialidad()->first()->nombre),
+                'profesional_especialidad'=> mb_strtoupper($profesional->Especialidad()->first()?->nombre ?? 'Veterinaria'),
                 'profesional_tipo_especialidad'=> mb_strtoupper($profesional->TipoEspecialidad()->first()->nombre),
                 'profesional_sub_tipo_especialidad' => optional($profesional->SubTipoEspecialidad()->first())->nombre ?? null, // Si no existe, no se muestra
                 // 'institucion'=> $nombre_institucion,
-                'lugar_atencion'=> mb_strtoupper($lugar_atencion->nombre),
-                'direccion'=> mb_strtoupper($lugar_atencion->Direccion()->first()->direccion.' '.$lugar_atencion->Direccion()->first()->numero_dir.', '.$lugar_atencion->Direccion()->first()->Ciudad()->first()->nombre),
+                'lugar_atencion'=> mb_strtoupper(($lugar_atencion?->nombre ?? '')),
+                'direccion'=> mb_strtoupper(($direccionLugar?->direccion??'').' '.($direccionLugar?->numero_dir??'').', '.($ciudadLugar?->nombre??'')),
             );
         }
         else
@@ -11534,8 +11539,8 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                 'fecha'=> $hora_medica->fecha_evento,
                 'hora'=> $hora_medica->hora_evento,
                 // 'institucion'=> $nombre_institucion,
-                'lugar_atencion'=> mb_strtoupper($lugar_atencion->nombre),
-                'direccion'=> mb_strtoupper($lugar_atencion->Direccion()->first()->direccion.' '.$lugar_atencion->Direccion()->first()->numero_dir.', '.$lugar_atencion->Direccion()->first()->Ciudad()->first()->nombre),
+                'lugar_atencion'=> mb_strtoupper(($lugar_atencion?->nombre ?? '')),
+                'direccion'=> mb_strtoupper(($direccionLugar?->direccion??'').' '.($direccionLugar?->numero_dir??'').', '.($ciudadLugar?->nombre??'')),
             );
         }
 

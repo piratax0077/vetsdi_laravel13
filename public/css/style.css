@@ -44077,7 +44077,7 @@ tbody tr.codigo th::first-letter {
 
 /* Con la tarjeta a todo el ancho, los datos de la mascota caben en cuatro columnas */
 @media (min-width: 768px) {
-    #consulta .reserva-hora-dos-columnas .ficha-previa-dato {
+    :is(#consulta, #peluqueria-estado-modal) .reserva-hora-dos-columnas .ficha-previa-dato {
         -ms-flex: 0 0 25%;
         flex: 0 0 25%;
         max-width: 25%;
@@ -44085,7 +44085,7 @@ tbody tr.codigo th::first-letter {
     }
 }
 
-#consulta .modal-body {
+:is(#consulta, #peluqueria-estado-modal) .modal-body {
     padding-bottom: 8px;
 }
 
@@ -44139,13 +44139,13 @@ tbody tr.codigo th::first-letter {
 }
 
 /* Pie de la cita: "Atender" siempre queda al extremo derecho y el resto a su izquierda */
-#consulta .modal-footer {
+:is(#consulta, #peluqueria-estado-modal) .modal-footer {
     -webkit-box-pack: end;
     -ms-flex-pack: end;
     justify-content: flex-end;
 }
 
-#consulta .modal-footer > .pie-cita-atender {
+:is(#consulta, #peluqueria-estado-modal) .modal-footer > .pie-cita-atender {
     -webkit-box-ordinal-group: 100;
     -ms-flex-order: 99;
     order: 99;
@@ -44153,17 +44153,17 @@ tbody tr.codigo th::first-letter {
 
 /* Mientras se edita al tutor, el pie se oculta: lo reemplazan los botones de
    la edición. Vuelve solo al cancelar o guardar. */
-#consulta .modal-content.reserva-hora-modal-editando > .modal-footer {
+:is(#consulta, #peluqueria-estado-modal) .modal-content.reserva-hora-modal-editando > .modal-footer {
     display: none !important;
 }
 
-#consulta .reserva-hora-acciones {
+:is(#consulta, #peluqueria-estado-modal) .reserva-hora-acciones {
     margin-left: -8px;
     margin-right: -8px;
     padding: 14px 8px 4px;
 }
 
-#consulta .reserva-hora-acciones .btn {
+:is(#consulta, #peluqueria-estado-modal) .reserva-hora-acciones .btn {
     padding: .55rem 1.1rem;
     font-size: .95rem;
 }

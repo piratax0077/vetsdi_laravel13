@@ -227,7 +227,7 @@
                                 Mensaje
                             </label>
                         </i>
-                        <textarea type="text" id="mensaje_email" name="mensaje_email" class="md-textarea form-control" rows="4"></textarea>
+                        <textarea type="text" id="mensaje_email" name="mensaje_email" class="md-textarea form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
 
                     </div>
 

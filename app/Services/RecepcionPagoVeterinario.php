@@ -29,6 +29,7 @@ class RecepcionPagoVeterinario
             // Serializar por hora evita que dos recepciones creen dos cobros.
             $hora = HoraMedica::whereKey($idHora)->lockForUpdate()->firstOrFail();
             $this->autorizar($hora);
+            if(in_array((int)$hora->id_estado,[3,7,14,15],true))throw ValidationException::withMessages(['hora'=>'No se puede recepcionar el pago de una hora anulada, inasistida o bloqueada.']);
             $tipo = $request->integer('id_tipo_bono') ?: 1;
             $bono = Bono::where('id_referencia', $hora->id)->where('id_profesional', $hora->id_profesional)
                 ->where('devuelto', 0)->orderBy('id')->lockForUpdate()->first() ?? new Bono();

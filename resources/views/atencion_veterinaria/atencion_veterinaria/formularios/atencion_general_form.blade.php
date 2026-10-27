@@ -64,10 +64,10 @@
                                                             @if (isset($fichaAtencion) && $fichaAtencion->motivo != null)
                                                             )
                                                             <label class="floating-label-activo-sm">Descripción</label>
-                                                            <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=2" onblur="this.rows=1;" name="descripcion_consulta" id="descripcion_consulta">{{ $fichaAtencion->motivo }}</textarea>
+                                                            <textarea class="form-control caja-texto form-control-sm" name="descripcion_consulta" id="descripcion_consulta" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;">{{ $fichaAtencion->motivo }}</textarea>
                                                             @else
                                                             <label class="floating-label-activo-sm">Descripción</label>
-                                                            <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=2" onblur="this.rows=1;" name="descripcion_consulta" id="descripcion_consulta">{!! old('descripcion_consulta') !!}</textarea>
+                                                            <textarea class="form-control caja-texto form-control-sm" name="descripcion_consulta" id="descripcion_consulta" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;">{!! old('descripcion_consulta') !!}</textarea>
                                                             @endif
 
                                                         </div>
@@ -109,7 +109,7 @@
                                                         @else
                                                         <div class="form-group col-md-12">
                                                             <label class="floating-label-activo-sm">Antecedentes</label>
-                                                            <textarea class="form-control form-control-sm" name="descripcion_antecedentes" id="descripcion_antecedentes">{!! old('descripcion_antecedentes') !!}</textarea>
+                                                            <textarea class="form-control form-control-sm caja-texto" name="descripcion_antecedentes" id="descripcion_antecedentes" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;">{!! old('descripcion_antecedentes') !!}</textarea>
                                                         </div>
                                                         @endif
                                                     </div>
@@ -140,7 +140,7 @@
                                                             @else
                                                             <div class="form-group col-md-12">
                                                                 <label class="floating-label-activo-sm">Descripción</label>
-                                                                <textarea class="form-control form-control-sm" name="descripcion_examen_fisico" id="descripcion_examen_fisico">{!! old('descripcion_examen_fisico') !!}</textarea>
+                                                                <textarea class="form-control form-control-sm caja-texto" name="descripcion_examen_fisico" id="descripcion_examen_fisico" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;">{!! old('descripcion_examen_fisico') !!}</textarea>
                                                             </div>
                                                             @endif
 

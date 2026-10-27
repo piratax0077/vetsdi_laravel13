@@ -55,6 +55,13 @@ class SeleccionCuentaController extends Controller
         }
 
         $request->session()->put(self::SESION_ROL_ACTIVO, $tipo);
+        if(in_array($tipo,['peluqueria','centro_estetico'],true)) {
+            $opciones=app(\App\Services\PeluqueriaAcceso::class)->opciones($usuario);
+            $contexto=$opciones->firstWhere('id',(int)$request->session()->get('peluqueria_contexto'))??$opciones->first();
+            if($contexto)$request->session()->put('peluqueria_contexto',$contexto->id);
+            else $request->session()->forget('peluqueria_contexto');
+        }
+
 
         if (! $this->cuentas->perfilCompleto($usuario, $tipo)) {
             return redirect()->route('perfil.completar', ['tipo' => $tipo]);

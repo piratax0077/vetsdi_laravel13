@@ -272,6 +272,7 @@ class ficha_atencionController extends Controller
 
     public function index(Request $request)
     {
+        app(\App\Services\AccesoAgendaVeterinaria::class)->hora($request->id_hora_realizar,'atender');
         abort_unless(Auth::check() && Auth::user()->hasRole('Profesional'), 403);
         $profesional = Profesional::where('id_usuario', Auth::id())->firstOrFail();
         $hora = HoraMedica::where('id', $request->id_hora_realizar)
@@ -3155,6 +3156,7 @@ class ficha_atencionController extends Controller
 
 	public function index_sdi(Request $request)
     {
+        app(\App\Services\AccesoAgendaVeterinaria::class)->hora($request->id_hora_realizar,'atender');
         $hora = HoraMedica::where('id', $request->id_hora_realizar)->first();
         $paciente = Paciente::where('id', $hora->id_paciente)->first();
 
@@ -3361,6 +3363,9 @@ class ficha_atencionController extends Controller
 
     public function index_hospital_amb(Request $request)
     {
+        $horaAutorizada=app(\App\Services\AccesoAgendaVeterinaria::class)->hora($request->id_hora_realizar,'atender');
+        abort_if($request->filled('id_paciente')&&(int)$request->id_paciente!==(int)$horaAutorizada->id_paciente,422,'El tutor no corresponde a la hora.');
+        $request->merge(['id_paciente'=>$horaAutorizada->id_paciente,'id_mascota'=>$horaAutorizada->id_mascota,'lugar_atencion_id'=>$horaAutorizada->id_lugar_atencion]);
         $datos = array();
         $error = array();
         $valido = 1;
@@ -3371,7 +3376,6 @@ class ficha_atencionController extends Controller
             $profesional = Profesional::where('id_usuario', $user)->first();
 
             $id_paciente = $request->id_paciente;
-            if(empty($request->id_paciente)) $id_paciente = 6;
             $paciente = Paciente::where('pacientes.id', $id_paciente)->first();
 
             /** carga de direccion en paciente */

@@ -31,7 +31,7 @@
 
                     <label class="floating-label-activo-sm" for="exampleFormControlTextarea1">Mensaje</label>
 
-                    <textarea class="form-control form-control-sm" id="exampleFormControlTextarea1_difusion" rows="5"></textarea>
+                    <textarea class="form-control form-control-sm caja-texto" id="exampleFormControlTextarea1_difusion" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
 
                 </div>
 

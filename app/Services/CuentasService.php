@@ -19,7 +19,7 @@ use App\Models\UsuarioRol;
 class CuentasService
 {
     /** Los cuatro tipos de cuenta que ofrece el registro. */
-    public const TIPOS = ['tutor', 'profesional', 'asistente', 'clinica', 'peluqueria'];
+    public const TIPOS = ['tutor', 'profesional', 'asistente', 'clinica', 'peluqueria', 'centro_estetico'];
 
     /** Equivalencia con los roles de spatie que ya usan los escritorios. */
     public const ROLES_SPATIE = [
@@ -28,6 +28,7 @@ class CuentasService
         'asistente' => 'Asistente',
         'clinica' => 'Adm_Institucion',
         'peluqueria' => 'Peluqueria',
+        'centro_estetico' => 'CentroEstetico',
     ];
 
     public const ETIQUETAS = [
@@ -35,7 +36,8 @@ class CuentasService
         'profesional' => 'Profesional',
         'asistente' => 'Asistente',
         'clinica' => 'Clínica veterinaria',
-        'peluqueria' => 'Peluquería',
+        'peluqueria' => 'Profesional de estética',
+        'centro_estetico' => 'Centro estético',
     ];
 
     /** Reseña que aparece al elegir el tipo de cuenta en el registro. */
@@ -44,7 +46,8 @@ class CuentasService
         'profesional' => 'Médico veterinario u otro profesional del área que atiende pacientes.',
         'asistente' => 'Apoyo administrativo o clínico (secretaría, recepción, agenda) para profesionales o clínicas.',
         'clinica' => 'Centro que administra su equipo, pacientes y operación.',
-        'peluqueria' => 'Servicios de peluquería e higiene de mascotas, agenda y registro de atenciones.',
+        'peluqueria' => 'Profesional de baño, belleza y peluquería de mascotas. Perfil independiente del veterinario.',
+        'centro_estetico' => 'Institución que administra sucursales, profesionales de estética, personal, agendas y aranceles.',
     ];
 
     /** Bajada corta de cada card en la pantalla "Elige tu perfil". */
@@ -53,7 +56,8 @@ class CuentasService
         'profesional' => 'Agenda, pacientes, ficha clínica y herramientas profesionales.',
         'asistente' => 'Escritorio de asistencia y gestión de pacientes.',
         'clinica' => 'Escritorio de la clínica y administración de su equipo.',
-        'peluqueria' => 'Agenda, tutores, mascotas y servicios realizados.',
+        'peluqueria' => 'Agenda personal, mascotas y fichas de atención estética.',
+        'centro_estetico' => 'Administración del centro, equipo, sucursales, agendas y servicios.',
     ];
 
     /** Ícono de la card en la pantalla "Elige tu perfil". */
@@ -63,6 +67,7 @@ class CuentasService
         'asistente' => 'images/logos/iconos-inicio-sesion/asistente.svg',
         'clinica' => 'images/logos/iconos-inicio-sesion/institucion.svg',
         'peluqueria' => 'images/iconos/mascotas.svg',
+        'centro_estetico' => 'images/logos/iconos-inicio-sesion/institucion.svg',
     ];
 
     /** Escritorio al que entra cada rol cuando su perfil está completo. */
@@ -72,6 +77,7 @@ class CuentasService
         'asistente' => 'asistente.home',
         'clinica' => 'adm_cm.home',
         'peluqueria' => 'peluqueria.home',
+        'centro_estetico' => 'centro_estetico.home',
     ];
 
     /** Tabla de perfil propia de cada rol. */
@@ -80,7 +86,8 @@ class CuentasService
         'profesional' => Profesional::class,
         'asistente' => Asistente::class,
         'clinica' => Instituciones::class,
-        'peluqueria' => \App\Models\Peluqueria::class,
+        'peluqueria' => \App\Models\ProfesionalEstetica::class,
+        'centro_estetico' => \App\Models\CentroEstetico::class,
     ];
 
     /**
@@ -131,11 +138,18 @@ class CuentasService
     {
         $orden = array_flip(self::TIPOS);
 
-        return UsuarioRol::where('id_usuario', $usuario->id)
+        $roles = UsuarioRol::where('id_usuario', $usuario->id)
             ->activos()
             ->get()
             ->sortBy(fn (UsuarioRol $rol) => $orden[$rol->tipo] ?? 99)
             ->values();
+        foreach(['peluqueria','centro_estetico'] as $tipo){
+            if(!app(PeluqueriaAcceso::class)->tieneMembresiaRol($usuario,$tipo))continue;
+            $existente=$roles->firstWhere('tipo',$tipo);
+            if($existente)$existente->perfil_completo=true;
+            else $roles->push(new UsuarioRol(['id_usuario'=>$usuario->id,'tipo'=>$tipo,'estado'=>true,'perfil_completo'=>true]));
+        }
+        return $roles;
     }
 
     public function rol(User $usuario, string $tipo): ?UsuarioRol
@@ -148,12 +162,12 @@ class CuentasService
 
     public function tieneRol(User $usuario, string $tipo): bool
     {
-        return $this->rol($usuario, $tipo) !== null;
+        return $this->rol($usuario, $tipo) !== null || (in_array($tipo,['peluqueria','centro_estetico'],true) && app(PeluqueriaAcceso::class)->tieneMembresiaRol($usuario,$tipo));
     }
 
     public function perfilCompleto(User $usuario, string $tipo): bool
     {
-        return (bool) optional($this->rol($usuario, $tipo))->perfil_completo;
+        return (bool) optional($this->rol($usuario, $tipo))->perfil_completo || (in_array($tipo,['peluqueria','centro_estetico'],true) && app(PeluqueriaAcceso::class)->tieneMembresiaRol($usuario,$tipo));
     }
 
     /** Marca el perfil del rol como terminado: no se vuelve a pedir. */

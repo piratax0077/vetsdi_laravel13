@@ -92,11 +92,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">En general</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Endometrio</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="endomentrio" id="endomentrio"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="endomentrio" id="endomentrio" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -105,11 +105,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Ovario derecho</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="o_derecho" id="o_derecho"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="o_derecho" id="o_derecho" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Ovario izquierdo</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="o_izquierdo" id="o_izquierdo"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="o_izquierdo" id="o_izquierdo" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -118,11 +118,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Trompa derecha</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="t_derecha" id="t_derecha"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="t_derecha" id="t_derecha" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Trompa izquierda</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="t_izquierda" id="t_izquierda"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="t_izquierda" id="t_izquierda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -131,11 +131,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Trompa derecha</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="t_derecha" id="t_derecha"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="t_derecha" id="t_derecha" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Trompa izquierda</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="t_izquierda" id="t_izquierda"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="t_izquierda" id="t_izquierda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -144,7 +144,7 @@
                                 </div>
                                 <div class="form-group col-md-10">
                                     <label class="floating-label">Trompa derecha</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="t_derecha" id="t_derecha"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="t_derecha" id="t_derecha" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -271,11 +271,11 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label class="floating-label">Placenta</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="placenta" id="placenta"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="placenta" id="placenta" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="floating-label">Liquido amniótico</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="liq_amniotico" id="liq_amniotico"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="liq_amniotico" id="liq_amniotico" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -285,11 +285,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Diagnóstico ecográfico</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="dg_ecografico" id="dg_ecografico"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="dg_ecografico" id="dg_ecografico" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Observaciones</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="obs_eco" id="obs_eco"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="obs_eco" id="obs_eco" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -383,11 +383,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">En general</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Endometrio</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -396,11 +396,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Ovario derecho</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Ovario izquierdo</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -409,11 +409,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Trompa derecha</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Trompa izquierda</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -422,11 +422,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Trompa derecha</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Trompa izquierda</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -435,7 +435,7 @@
                                 </div>
                                 <div class="form-group col-md-10">
                                     <label class="floating-label">Trompa Derecha</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -529,11 +529,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">En general</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Endometrio</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -542,11 +542,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Ovario derecho</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Ovario izquierdo</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -555,11 +555,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Trompa derecha</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Trompa izquierda</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -568,11 +568,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Trompa derecha</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="floating-label">Trompa izquierda</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -581,7 +581,7 @@
                                 </div>
                                 <div class="form-group col-md-10">
                                     <label class="floating-label">Trompa derecha</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="ex_mamas" id="ex_mamas"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm"  name="ex_mamas" id="ex_mamas" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">

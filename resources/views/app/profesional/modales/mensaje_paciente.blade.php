@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <label class="floating-label-activo-sm" for="exampleFormControlTextarea1">Mensaje</label>
-                    <textarea class="form-control form-control-sm" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <textarea class="form-control form-control-sm caja-texto" id="exampleFormControlTextarea1" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                 </div>
                 <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <p class="small text-muted mb-2">Puede adjuntar hasta 5 imágenes de 6 MB cada una:</p>

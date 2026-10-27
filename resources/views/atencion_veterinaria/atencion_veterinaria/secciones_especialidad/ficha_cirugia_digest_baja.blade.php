@@ -108,13 +108,13 @@
                                                                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                                 <div class="form-group" id="div_detalle_transito_intest" >
                                                                                     <label class="floating-label-activo-sm" for="cdb_ex_fisico_ab">Examen físico Abdominal</label>
-                                                                                    <textarea class="form-control caja-texto form-control-sm" rows="2" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest baja" data-tipo="cirugia digest baja" onfocus="this.rows=3" onblur="this.rows=2;" name="cdb_ex_fisico" id="cdb_ex_fisico" placeholder="DOLOR, PRESENCIA DE MASAS PALPABLES,SOSPECHA ORGANO COMPROMETIDO "></textarea>
+                                                                                    <textarea class="form-control caja-texto form-control-sm" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest baja" data-tipo="cirugia digest baja" name="cdb_ex_fisico" id="cdb_ex_fisico" placeholder="DOLOR, PRESENCIA DE MASAS PALPABLES,SOSPECHA ORGANO COMPROMETIDO " rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                                 <div class="form-group" id="div_detalle_transito_intest" >
                                                                                     <label class="floating-label-activo-sm" for="cdb_ex_tr">Examen Tránsito</label>
-                                                                                    <textarea class="form-control caja-texto form-control-sm" rows="2" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest baja" data-tipo="cirugia digest baja" onfocus="this.rows=3" onblur="this.rows=2;" name="cdb_ex_trans" id="cdb_ex_trans" placeholder="DOLOR, PRESENCIA DE SANGRE,COMPROMISO ESTADO GENERAL OTROS"></textarea>
+                                                                                    <textarea class="form-control caja-texto form-control-sm" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest baja" data-tipo="cirugia digest baja" name="cdb_ex_trans" id="cdb_ex_trans" placeholder="DOLOR, PRESENCIA DE SANGRE,COMPROMISO ESTADO GENERAL OTROS" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group col-sm-12 col-md-12 col-lg-4 col-xl-4">
@@ -126,7 +126,7 @@
                                                                             </div>
                                                                             <div class="form-group col-sm-12 col-md-12 col-md-8 col-xl-8">
                                                                                 <label class="floating-label-activo-sm" for="obs_egp_cdb">Obs. Estado General Paciente</label>
-                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest baja" data-tipo="cirugia digest baja" rows="1"  onfocus="this.rows=2" onblur="this.rows=1;" name="obs_egp_cdb" id="obs_egp_cdb" placeholder="ANOTE APRECIACIÓN SOBRE ESTADO GENERAL DEL PACIENTE"></textarea>
+                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest baja" data-tipo="cirugia digest baja"  name="obs_egp_cdb" id="obs_egp_cdb" placeholder="ANOTE APRECIACIÓN SOBRE ESTADO GENERAL DEL PACIENTE" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-row" id="div_detalle_urgencia_cdb" style="display:none">
@@ -182,7 +182,7 @@
                                                                                             <div class="form-row">
                                                                                                 <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                                                     <label class="floating-label-activo-sm" for="rec_tto_cdb">Recomendaciones</label>
-                                                                                                    <textarea class="form-control caja-texto form-control-sm" data-titulo="Recomendaciones" data-seccion="Plan de Tratamiento" data-tipo="recomendaciones médicas"  rows="1" onfocus="this.rows=3" onblur="this.rows=1;" name="rec_tto_cdb" id="rec_tto_cdb"></textarea>
+                                                                                                    <textarea class="form-control caja-texto form-control-sm" data-titulo="Recomendaciones" data-seccion="Plan de Tratamiento" data-tipo="recomendaciones médicas"  name="rec_tto_cdb" id="rec_tto_cdb" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -203,7 +203,7 @@
                                                                                                 </div>
                                                                                                 <div class="form-group col-sm-12 col-md-8">
                                                                                                     <label class="floating-label-activo-sm" for="plan_proc_cdb"> Plan</label>
-                                                                                                    <textarea class="form-control caja-texto form-control-sm" data-titulo="Plan Tratamiento" data-seccion="Plan de Tratamiento" data-tipo="Plan de procedimiento"  rows="1" onfocus="this.rows=3" onblur="this.rows=1;" name="plan_proc_cdb" id="plan_proc_cdb"></textarea>
+                                                                                                    <textarea class="form-control caja-texto form-control-sm" data-titulo="Plan Tratamiento" data-seccion="Plan de Tratamiento" data-tipo="Plan de procedimiento"  name="plan_proc_cdb" id="plan_proc_cdb" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -241,7 +241,7 @@
                                                                         <div class="form-row">
                                                                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                                 <label class="floating-label-activo-sm" for="obs_plan_trat_cdb" >Obs. Plan de tratamiento</label>
-                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Obs. Plan de tratamiento" data-seccion=" Plan de tratamiento" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="obs_plan_trat_cdb" id="obs_plan_trat_cdb"></textarea>
+                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Obs. Plan de tratamiento" data-seccion=" Plan de tratamiento"  name="obs_plan_trat_cdb" id="obs_plan_trat_cdb" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -511,7 +511,7 @@
                 {
                     html +='<div class="col-md-4">'+$(elemento).data('titulo')+'</div>';
                     html +='<div class="col-md-6">';
-                    html +='    <textarea class="form-control caja-texto form-control-sm '+$(elemento).attr('id')+'_editar" style="display:none;" rows="1"  onfocus="this.rows=6" onblur="this.rows=1;" name="observaciones_'+$(elemento).attr('id')+'" id="observaciones_'+$(elemento).attr('id')+'">'+$(elemento).val()+'</textarea>';
+                    html +='    <textarea class="form-control caja-texto form-control-sm '+$(elemento).attr('id')+'_editar" style="display:none;"  name="observaciones_'+$(elemento).attr('id')+'" id="observaciones_'+$(elemento).attr('id')+'" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;">'+$(elemento).val()+'</textarea>';
                     html +='    <label class="'+$(elemento).attr('id')+'_mostrar" id="label_observacion_'+$(elemento).attr('id')+'">'+$(elemento).val()+'</label>';
                     html +='</div>';
                     html +='<div class="col-md-2">';

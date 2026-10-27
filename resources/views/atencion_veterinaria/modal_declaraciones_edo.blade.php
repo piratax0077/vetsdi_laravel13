@@ -178,7 +178,7 @@
                                 </div>
                                 <div class="col-12 form-group">
                                     <label>Signos clínicos y antecedentes epidemiológicos *</label>
-                                    <textarea class="form-control" id="edo_sintomas" rows="3" required></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm" id="edo_sintomas" required rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                         </div>

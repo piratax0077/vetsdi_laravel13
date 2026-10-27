@@ -109,11 +109,11 @@
                                 </div>
                                 <div class="form-group mb-2">
                                     <label class="mb-1" for="sidebar_mascota_enfermedad_cronica">Enfermedad crónica</label>
-                                    <textarea maxlength="500" id="sidebar_mascota_enfermedad_cronica" class="form-control form-control-sm" rows="2">{{ $mascota->enfermedad_cronica }}</textarea>
+                                    <textarea maxlength="500" id="sidebar_mascota_enfermedad_cronica" class="form-control form-control-sm caja-texto" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;">{{ $mascota->enfermedad_cronica }}</textarea>
                                 </div>
                                 <div class="form-group mb-2">
                                     <label class="mb-1" for="sidebar_mascota_dieta">Dieta</label>
-                                    <textarea id="sidebar_mascota_dieta" class="form-control form-control-sm" rows="2">{{ $mascota->dieta }}</textarea>
+                                    <textarea id="sidebar_mascota_dieta" class="form-control form-control-sm caja-texto" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;">{{ $mascota->dieta }}</textarea>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-6 mb-2">
@@ -130,7 +130,7 @@
                                 @foreach(['cirugias' => 'Cirugías', 'vacunas' => 'Vacunas', 'viajes' => 'Viajes'] as $campo => $etiqueta)
                                     <div class="form-group mb-3">
                                         <label for="sidebar_mascota_{{ $campo }}">{{ $etiqueta }}</label>
-                                        <textarea id="sidebar_mascota_{{ $campo }}" class="form-control form-control-sm" rows="2">{{ $mascota->{$campo} }}</textarea>
+                                        <textarea id="sidebar_mascota_{{ $campo }}" class="form-control form-control-sm caja-texto" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;">{{ $mascota->{$campo} }}</textarea>
                                     </div>
                                 @endforeach
                                 <div class="form-group mb-3">

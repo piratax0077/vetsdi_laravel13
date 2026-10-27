@@ -37,15 +37,15 @@
                         </div>
                         <div class="form-group col-sm-4 col-md-4">
                             <label class="floating-label-activo-sm">Hipótesis Diagnóstica</label>
-                            <textarea type="text" class="form-control form-control-sm" rows="2" name="hipotesis_certificado"
-                                id="hipotesis_certificado"></textarea>
+                            <textarea type="text" class="form-control form-control-sm caja-texto" name="hipotesis_certificado"
+                                id="hipotesis_certificado" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-sm-12">
                             <div class="form-group fill">
                                 <label class="floating-label-activo-sm">Observaciones</label>
-                                <textarea class="form-control caja-texto form-control-sm mt-1" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="obs_biopsia_orl" id="obs_biopsia_orl"></textarea>
+                                <textarea class="form-control caja-texto form-control-sm mt-1"  name="obs_biopsia_orl" id="obs_biopsia_orl" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-12">

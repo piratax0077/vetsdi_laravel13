@@ -142,7 +142,7 @@
                             <div class="col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <label class="floating-label">Rp:</label>
-                                    <textarea class="form-control" rows="6" name="descripcion_rp" id="descripcion_rp"></textarea>
+                                    <textarea class="form-control caja-texto form-control-sm" name="descripcion_rp" id="descripcion_rp" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                 </div>
                             </div>
                         </div>

@@ -107,7 +107,7 @@
                     </div>
                     <div class="form-group">
                         <label for="otros" class="floating-label-activo-sm">Observaciones</label>
-                        <textarea class="form-control form-control-sm" id="otros" name="otros" rows="2" placeholder="Notas u observaciones adicionales"></textarea>
+                        <textarea class="form-control form-control-sm caja-texto" id="otros" name="otros" placeholder="Notas u observaciones adicionales" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -162,7 +162,7 @@
                     </div>
                     <div class="form-group">
                         <label for="edit_otros" class="floating-label-activo-sm">Observaciones</label>
-                        <textarea class="form-control form-control-sm" id="edit_otros" name="otros" rows="2" placeholder="Notas u observaciones adicionales"></textarea>
+                        <textarea class="form-control form-control-sm caja-texto" id="edit_otros" name="otros" placeholder="Notas u observaciones adicionales" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">

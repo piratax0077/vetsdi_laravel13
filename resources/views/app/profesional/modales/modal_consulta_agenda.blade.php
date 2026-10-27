@@ -331,7 +331,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="floating-label-activo-sm">Enfermedad crónica o frecuente</label>
-                            <textarea class="form-control form-control-sm" id="agenda_mascota_enfermedad_cronica" rows="2"></textarea>
+                            <textarea class="form-control form-control-sm caja-texto" id="agenda_mascota_enfermedad_cronica" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                         </div>
                     </div>
                 </div>

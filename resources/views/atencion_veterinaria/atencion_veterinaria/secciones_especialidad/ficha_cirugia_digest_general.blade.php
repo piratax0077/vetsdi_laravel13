@@ -175,11 +175,11 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-12 mx-auto">
                                                     <label class="floating-label-activo-sm">Antecedentes Generales</label>
-                                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=4" onblur="this.rows=1;" name="antec_endo_gastrica_gen_eda" id="antec_endo_gastrica_gen_eda"></textarea>
+                                                    <textarea class="form-control caja-texto form-control-sm"  name="antec_endo_gastrica_gen_eda" id="antec_endo_gastrica_gen_eda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                 </div>
                                                 <div class="form-group col-md-12 mx-auto">
                                                     <label class="floating-label-activo-sm">Antecedentes Gastroenterológicos</label>
-                                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=4" onblur="this.rows=1;" name="antec_endo_gastrica_go_eda" id="antec_endo_gastrica_go_eda"></textarea>
+                                                    <textarea class="form-control caja-texto form-control-sm"  name="antec_endo_gastrica_go_eda" id="antec_endo_gastrica_go_eda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -200,13 +200,13 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-12 mx-auto">
                                                     <label class="floating-label-activo-sm">Trayecto</label>
-                                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=4" onblur="this.rows=1;" name="esof_trayecto_eda" id="esof_trayecto_eda"></textarea>
+                                                    <textarea class="form-control caja-texto form-control-sm"  name="esof_trayecto_eda" id="esof_trayecto_eda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-12 mx-auto">
                                                     <label class="floating-label-activo-sm">Esófago</label>
-                                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=4" onblur="this.rows=1;" name="esof_esofago_eda" id="esof_esofago_eda"></textarea>
+                                                    <textarea class="form-control caja-texto form-control-sm"  name="esof_esofago_eda" id="esof_esofago_eda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                 </div>
                                             </div>
 
@@ -295,7 +295,7 @@
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-12">
                                                     <label class="floating-label-activo-sm">Descripción Examen</label>
-                                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=4" onblur="this.rows=1;" name="desc_endo_gast_eda" id="desc_endo_gast_eda"></textarea>
+                                                    <textarea class="form-control caja-texto form-control-sm"  name="desc_endo_gast_eda" id="desc_endo_gast_eda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -316,7 +316,7 @@
                                             <div class="form-row">
                                                 <div class="form-group col-sm-12 col-md-12">
                                                     <label class="floating-label-activo-sm">Descripción</label>
-                                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=4" onblur="this.rows=1;" name="duodeno_eda" id="duodeno_eda"></textarea>
+                                                    <textarea class="form-control caja-texto form-control-sm"  name="duodeno_eda" id="duodeno_eda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -337,7 +337,7 @@
                                             <div class="form-row">
                                                 <div class="form-group col-sm-12 col-md-12">
                                                     <label class="floating-label-activo-sm">Descripción</label>
-                                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=4" onblur="this.rows=1;" name="voz_eda" id="voz_eda"></textarea>
+                                                    <textarea class="form-control caja-texto form-control-sm"  name="voz_eda" id="voz_eda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                     <!-- Botón para grabar voz -->
                                                     <button type="button" class="btn btn-outline-primary btn-sm mt-1" id="btnGrabarvoz">
                                                         🎤 Dictar descripción
@@ -389,15 +389,15 @@
                                             <div class="form-row">
                                                 <div class="form-group col-sm-12 col-md-6">
                                                     <label class="floating-label-activo-sm">Diagnóstico endoscópico</label>
-                                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=6" onblur="this.rows=1;" data-input_seccion="Diagnóstico endoscópico" data-input_igual="hip_diag_spec" name="diag_endos_eda" id="diag_endos_eda" onchange="cargarCompletar('diag_endos_eda')">Test de ureasa No tomado</textarea>
+                                                    <textarea class="form-control caja-texto form-control-sm"  data-input_seccion="Diagnóstico endoscópico" data-input_igual="hip_diag_spec" name="diag_endos_eda" id="diag_endos_eda" onchange="cargarCompletar('diag_endos_eda')" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;">Test de ureasa No tomado</textarea>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6">
                                                     <label class="floating-label-activo-sm">Observaciones</label>
-                                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=6" onblur="this.rows=1;" name="observaciones_eda" id="observaciones_eda"></textarea>
+                                                    <textarea class="form-control caja-texto form-control-sm"  name="observaciones_eda" id="observaciones_eda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-12">
                                                     <label class="floating-label-activo-sm">Descripción</label>
-                                                    <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=4" onblur="this.rows=1;" name="voz_eda_obs_eda" id="voz_eda_obs_eda"></textarea>
+                                                    <textarea class="form-control caja-texto form-control-sm"  name="voz_eda_obs_eda" id="voz_eda_obs_eda" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                     <!-- Botón para grabar voz -->
                                                     <button type="button" class="btn btn-outline-primary btn-sm mt-1" id="btnGrabarvoz_obs_eda">
                                                         🎤 Dictar descripción
@@ -471,13 +471,13 @@
                                                                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                                 <div class="form-group" id="div_detalle_transito_intest">
                                                                                     <label class="floating-label-activo-sm" for="cdg_mc">Motivo de consulta</label>
-                                                                                    <textarea class="form-control caja-texto form-control-sm" rows="2" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest genenal" data-tipo="cirugia digest genenal" onfocus="this.rows=3" onblur="this.rows=2;" name="cdg_mc" id="cdg_mc" placeholder=" RGE , HEMORRAGIAS, DOLOR, ZONA,SINTOMAS ACOMPAÑANTES OTROS "></textarea>
+                                                                                    <textarea class="form-control caja-texto form-control-sm" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest genenal" data-tipo="cirugia digest genenal" name="cdg_mc" id="cdg_mc" placeholder=" RGE , HEMORRAGIAS, DOLOR, ZONA,SINTOMAS ACOMPAÑANTES OTROS " rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                                 <div class="form-group" id="div_detalle_transito_intest">
                                                                                     <label class="floating-label-activo-sm" for="cdg_ex_fis">Examen Físico</label>
-                                                                                    <textarea class="form-control caja-texto form-control-sm" rows="2" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest genenal" data-tipo="cirugia digest genenal" onfocus="this.rows=3" onblur="this.rows=2;" name="cdg_ex_fis" id="cdg_ex_fis" placeholder="CEG, PRESENCIA DE SANGRE, SOSP. DE ORGANO MASAS OTROS"></textarea>
+                                                                                    <textarea class="form-control caja-texto form-control-sm" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest genenal" data-tipo="cirugia digest genenal" name="cdg_ex_fis" id="cdg_ex_fis" placeholder="CEG, PRESENCIA DE SANGRE, SOSP. DE ORGANO MASAS OTROS" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
@@ -491,7 +491,7 @@
                                                                             </div>
                                                                             <div class="form-group col-sm-12 col-md-12 col-md-8 col-xl-8">
                                                                                 <label class="floating-label-activo-sm" for="obs_egp_cdg">Obs. Estado General Paciente</label>
-                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest general" data-tipo="cirugia digest general" rows="1"  onfocus="this.rows=2" onblur="this.rows=1;" name="obs_egp_cdg" id="obs_egp_cdg" placeholder="ANOTE APRECIACIÓN SOBRE ESTADO GENERAL DEL PACIENTE"></textarea>
+                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Estado General del Paciente" data-seccion="Cirugia digest general" data-tipo="cirugia digest general"  name="obs_egp_cdg" id="obs_egp_cdg" placeholder="ANOTE APRECIACIÓN SOBRE ESTADO GENERAL DEL PACIENTE" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-row" id="div_detalle_urgencia_cdg" style="display:none">
@@ -547,7 +547,7 @@
                                                                                     <div class="form-row">
                                                                                         <div class="form-group col-md-12 mt-1">
                                                                                             <label class="floating-label-activo-sm" for="rec_tto_cdg">Recomendaciones</label>
-                                                                                            <textarea class="form-control caja-texto form-control-sm" data-titulo="Recomendaciones" data-seccion="Plan de Tratamiento" data-tipo="recomendaciones médicas"  rows="1" onfocus="this.rows=3" onblur="this.rows=1;" name="rec_tto_cdg" id="rec_tto_cdg"></textarea>
+                                                                                            <textarea class="form-control caja-texto form-control-sm" data-titulo="Recomendaciones" data-seccion="Plan de Tratamiento" data-tipo="recomendaciones médicas"  name="rec_tto_cdg" id="rec_tto_cdg" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -566,7 +566,7 @@
                                                                                         </div>
                                                                                         <div class="form-group col-md-8">
                                                                                             <label class="floating-label-activo-sm" for="plan_proc_cdg"> Plan</label>
-                                                                                            <textarea class="form-control caja-texto form-control-sm" data-titulo="Plan Tratamiento" data-seccion="Plan de Tratamiento" data-tipo="Plan de procedimiento"  rows="1" onfocus="this.rows=3" onblur="this.rows=1;" name="plan_proc_cdg" id="plan_proc_cdg"></textarea>
+                                                                                            <textarea class="form-control caja-texto form-control-sm" data-titulo="Plan Tratamiento" data-seccion="Plan de Tratamiento" data-tipo="Plan de procedimiento"  name="plan_proc_cdg" id="plan_proc_cdg" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -593,7 +593,7 @@
                                                                         <div class="form-row mt-3">
                                                                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                                 <label class="floating-label-activo-sm"for="obs_plan_trat_cdg">Obs. Plan de tratamiento</label>
-                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Obs. Plan de tratamiento" data-seccion=" Plan de tratamiento" rows="1"  onfocus="this.rows=3" onblur="this.rows=1;" name="obs_plan_trat_cdg" id="obs_plan_trat_cdg"></textarea>
+                                                                                <textarea class="form-control caja-texto form-control-sm" data-titulo="Obs. Plan de tratamiento" data-seccion=" Plan de tratamiento"  name="obs_plan_trat_cdg" id="obs_plan_trat_cdg" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -894,7 +894,7 @@
                 {
                     html +='<div class="col-md-4">'+$(elemento).data('titulo')+'</div>';
                     html +='<div class="col-md-6">';
-                    html +='    <textarea class="form-control caja-texto form-control-sm '+$(elemento).attr('id')+'_editar" style="display:none;" rows="1"  onfocus="this.rows=6" onblur="this.rows=1;" name="observaciones_'+$(elemento).attr('id')+'" id="observaciones_'+$(elemento).attr('id')+'">'+$(elemento).val()+'</textarea>';
+                    html +='    <textarea class="form-control caja-texto form-control-sm '+$(elemento).attr('id')+'_editar" style="display:none;"  name="observaciones_'+$(elemento).attr('id')+'" id="observaciones_'+$(elemento).attr('id')+'" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;">'+$(elemento).val()+'</textarea>';
                     html +='    <label class="'+$(elemento).attr('id')+'_mostrar" id="label_observacion_'+$(elemento).attr('id')+'">'+$(elemento).val()+'</label>';
                     html +='</div>';
                     html +='<div class="col-md-2">';

@@ -309,14 +309,14 @@
             <div class="modal-footer">
 
                 <div>
-                    <button type="button" onclick="opcion_cancelar_hora();" id="hm_anular_hora"
+                    <button type="button" onclick="opcion_cancelar_hora();" id="hm_anular_hora" @if(!($permisos_asistente->permiso_anular_hora??false)) hidden disabled @endif
                         class="btn btn-danger" data-dismiss="modal">
                         Anular Hora
                     </button>
                 </div>
 
                 <div>
-                    <button type="button" onclick="opcion_confirmar_hora()" id="hm_confirmar_hora"
+                    <button type="button" onclick="opcion_confirmar_hora()" id="hm_confirmar_hora" @if(!($permisos_asistente->permiso_confirmar_hora??false)) hidden disabled @endif
                         class="btn btn-success">
                         Confirmar Hora
                     </button>
@@ -336,7 +336,7 @@
                         <input type="hidden" name="lugar_atencion_id" id="lugar_atencion_id"
                             value="$('#agenda_lugar_atencion_asistente').val();">
 
-                        <button type="submit" id="hm_atender_hora" class="btn btn-info">Atender</button>
+                        <button type="submit" id="hm_atender_hora" hidden disabled class="btn btn-info">Atender</button>
                     </form>
                 </div>
 
@@ -345,7 +345,7 @@
                         @csrf
                         <input type="hidden" name="id_hora_realizar" id="id_hora_realizar" val="">
 
-                        <button type="submit" id="hm_espera_paciente_hora" class="btn btn-info"
+                        <button type="submit" id="hm_espera_paciente_hora" hidden disabled class="btn btn-info"
                             onclick="paciente_esperando();">Esperando</button>
                     </form>
                 </div>
@@ -356,13 +356,13 @@
                     </button>
                 </div>
                 <div>
-                    <button type="button" id="confirmar_anulacion_hora" onclick="cancelar_hora();"
+                    <button type="button" id="confirmar_anulacion_hora" @if(!($permisos_asistente->permiso_anular_hora??false)) hidden disabled @endif onclick="cancelar_hora();"
                         class="btn btn-danger">Anular
                         Hora
                     </button>
                 </div>
                 <div>
-                    <button type="button" id="confirmacion_hora" onclick="confirmar_hora();"
+                    <button type="button" id="confirmacion_hora" @if(!($permisos_asistente->permiso_confirmar_hora??false)) hidden disabled @endif onclick="confirmar_hora();"
                         class="btn btn-success">Confirmar
                         Hora
                     </button>

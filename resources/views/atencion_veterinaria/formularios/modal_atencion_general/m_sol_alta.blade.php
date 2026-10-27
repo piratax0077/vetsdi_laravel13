@@ -68,7 +68,7 @@
 
                     <div class="form-group col-sm-6">
                         <label class="floating-label-activo-sm">Situaciones o Motivos</label>
-                        <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=2" onblur="this.rows=1;" name="situaciones Especiales del paciente" id="situaciones Especiales del paciente"></textarea>
+                        <textarea class="form-control caja-texto form-control-sm" name="situaciones Especiales del paciente" id="situaciones Especiales del paciente" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                     </div>
                 </div>
                 <div class="form-row">

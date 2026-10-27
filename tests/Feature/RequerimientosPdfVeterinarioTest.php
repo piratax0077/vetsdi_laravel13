@@ -296,6 +296,7 @@ class RequerimientosPdfVeterinarioTest extends TestCase
 
     public function test_agenda_profesional_reserva_dos_mascotas_del_tutor_el_mismo_dia(): void
     {
+        Auth::user()->setRelation('roles',collect([new \Spatie\Permission\Models\Role(['name'=>'Profesional','guard_name'=>'web'])]));
         // La agenda dental usa el mismo flujo con bloques de 15 minutos.
         DB::table('profesionales')->where('id', 3)->update(['id_especialidad' => 2]);
         DB::table('pacientes')->insert(['id' => 10, 'nombres' => 'Tutora', 'apellido_uno' => 'Prueba']);

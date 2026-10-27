@@ -3045,7 +3045,7 @@
                             </tr>
                             <tr>
                                 <td class="f-16 font-weight-bold">Incidente</td>
-                                <td><textarea class="form-control" id="comentario"></textarea></td>
+                                <td><textarea class="form-control caja-texto form-control-sm" id="comentario" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                             </tr>
                         </table>
                     `;
@@ -3059,7 +3059,7 @@
                             </tr>
                             <tr>
                                 <td class="f-16 font-weight-bold">Comentarios</td>
-                                <td><textarea class="form-control" id="comentario"></textarea></td>
+                                <td><textarea class="form-control caja-texto form-control-sm" id="comentario" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                             </tr>
                         </table>
                     `;
@@ -3077,7 +3077,7 @@
                             </tr>
                             <tr>
                                 <td class="f-16 font-weight-bold">Incidente</td>
-                                <td><textarea class="form-control" id="comentario"></textarea></td>
+                                <td><textarea class="form-control caja-texto form-control-sm" id="comentario" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                             </tr>
                         </table>
                     `;
@@ -3091,7 +3091,7 @@
                             </tr>
                             <tr>
                                 <td class="f-16 font-weight-bold">Detalle</td>
-                                <td><textarea class="form-control" id="comentario"></textarea></td>
+                                <td><textarea class="form-control caja-texto form-control-sm" id="comentario" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                             </tr>
                         </table>
                     `;
@@ -3105,7 +3105,7 @@
                             </tr>
                             <tr>
                                 <td class="f-16 font-weight-bold">Institución</td>
-                                <td><textarea class="form-control form-control-sm" id="institucion"></textarea></td>
+                                <td><textarea class="form-control form-control-sm caja-texto" id="institucion" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                             </tr>
                             <tr>
                                 <td class="f-16 font-weight-bold">Fecha Evento</td>
@@ -3123,7 +3123,7 @@
                             </tr>
                             <tr>
                                 <td class="f-16 font-weight-bold">Detalle</td>
-                                <td><textarea class="form-control form-control-sm" id="comentario"></textarea></td>
+                                <td><textarea class="form-control form-control-sm caja-texto" id="comentario" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                             </tr>
                         </table>
                     `;
@@ -3141,7 +3141,7 @@
                             </tr>
                             <tr>
                                 <td class="f-16 font-weight-bold">Dosis</td>
-                                <td><textarea class="form-control" id="dosis"></textarea></td>
+                                <td><textarea class="form-control caja-texto form-control-sm" id="dosis" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea></td>
                             </tr>
 
                         </table>

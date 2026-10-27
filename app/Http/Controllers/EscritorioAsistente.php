@@ -1687,6 +1687,9 @@ class EscritorioAsistente extends Controller
         $paciente = paciente::where('id', $request->reserva_hora_id)->first();
         $asistente = Asistente::where('id_usuario', Auth::user()->id)->first();
         $profesional = Profesional::where('id', $request->id_profesional)->first();
+        abort_unless($paciente&&$profesional,422,'No se encontró el tutor o el profesional de la reserva.');
+        app(\App\Services\AccesoAgendaVeterinaria::class)->reserva($request,(int)$profesional->id,(int)$paciente->id);
+
 
         $filtro_tipo_hora_medica = array(1);
         $texto_alias_examen = '';
@@ -1802,6 +1805,7 @@ class EscritorioAsistente extends Controller
 
             // $profesional_horarios = '00:30:00';
             // $tiempo_consulta = 30;
+            abort_unless($profesional_horarios,422,'No hay un horario de atención configurado para ese día y lugar.');
             $horas = date('H',strtotime($profesional_horarios->duracion_consulta));
             $minutos = date('i',strtotime($profesional_horarios->duracion_consulta));
             $totales = ($horas*60) + $minutos;

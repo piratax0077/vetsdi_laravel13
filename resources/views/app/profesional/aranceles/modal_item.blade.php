@@ -62,7 +62,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label class="floating-label-activo-sm" for="arvDescripcion">Descripción <span class="arv-opcional">(opcional)</span></label>
-                                <textarea id="arvDescripcion" class="form-control form-control-sm" rows="2" maxlength="300"></textarea>
+                                <textarea id="arvDescripcion" class="form-control form-control-sm caja-texto" maxlength="300" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -178,7 +178,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label class="floating-label-activo-sm" for="arvInsumos">Insumos incluidos <span class="arv-opcional">(opcional)</span></label>
-                                <textarea id="arvInsumos" class="form-control form-control-sm" rows="2" maxlength="300" placeholder="Sutura, gasas, etc."></textarea>
+                                <textarea id="arvInsumos" class="form-control form-control-sm caja-texto" maxlength="300" placeholder="Sutura, gasas, etc." rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                             </div>
                         </div>
                     </div>
