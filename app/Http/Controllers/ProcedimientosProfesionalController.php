@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LugarAtencion;
 use App\Models\ProcedimientosCentro;
 use App\Models\ProcedimientosCentroLugarAtencionProfesional;
 use App\Models\Profesional;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Support\LugarAtencionInstitucionResolver;
+use Illuminate\Support\Facades\DB;
 
 class ProcedimientosProfesionalController extends Controller
 {
@@ -19,6 +20,9 @@ class ProcedimientosProfesionalController extends Controller
         $profesional = Profesional::where('id_usuario', Auth::id())->firstOrFail();
 
         $lugares = $profesional->LugaresAtencion()->get();
+        foreach ($lugares as $lugar) {
+            $lugar->procedimiento_libre = !LugarAtencionInstitucionResolver::resolve($lugar->id);
+        }
 
         $procedimientos = ProcedimientosCentroLugarAtencionProfesional::select(
                 'procedimientos_lugar_atencion_profesional.*',
@@ -75,9 +79,14 @@ class ProcedimientosProfesionalController extends Controller
     {
         $profesional = Profesional::where('id_usuario', Auth::id())->firstOrFail();
 
+        $request->validate(['id_lugar_atencion' => 'required|integer']);
+        $lugar = $profesional->LugaresAtencion()->where('lugares_atencion.id', $request->id_lugar_atencion)->firstOrFail();
+        $libre = !LugarAtencionInstitucionResolver::resolve($lugar->id);
+
         $request->validate([
             'id_lugar_atencion' => 'required|exists:lugares_atencion,id',
-            'id_procedimiento_centro' => 'required|exists:procedimientos_centro,id',
+            'id_procedimiento_centro' => $libre ? 'nullable' : 'required|exists:procedimientos_centro,id',
+            'nombre' => $libre ? 'required|string|max:255' : 'nullable',
             'minutos_bloque' => 'required|integer|min:1',
             'cantidad_bloques' => 'required|integer|min:1',
             'otros' => 'nullable|string',
@@ -85,7 +94,8 @@ class ProcedimientosProfesionalController extends Controller
 
         $existe = ProcedimientosCentroLugarAtencionProfesional::where('id_profesional', $profesional->id)
             ->where('id_lugar_atencion', $request->id_lugar_atencion)
-            ->where('id_procedimiento_centro', $request->id_procedimiento_centro)
+            ->when($libre, fn ($query) => $query->where('nombre', trim($request->nombre)),
+                fn ($query) => $query->where('id_procedimiento_centro', $request->id_procedimiento_centro))
             ->first();
 
         if ($existe) {
@@ -95,29 +105,42 @@ class ProcedimientosProfesionalController extends Controller
             ], 422);
         }
 
-        $procedimientoBase = ProcedimientosCentro::find($request->id_procedimiento_centro);
-        $lugar = LugarAtencion::find($request->id_lugar_atencion);
+        return DB::transaction(function () use ($request, $profesional, $lugar, $libre) {
+            if ($libre) {
+                $procedimientoBase = new ProcedimientosCentro();
+                $procedimientoBase->id_lugar_atencion = $lugar->id;
+                $procedimientoBase->nombre = trim($request->nombre);
+                $procedimientoBase->minutos_bloque = $request->minutos_bloque;
+                $procedimientoBase->cantidad_bloques = $request->cantidad_bloques;
+                $procedimientoBase->tipo_ficha_atencion = 1;
+                $procedimientoBase->estado = 1;
+                $procedimientoBase->save();
+            } else {
+                $procedimientoBase = ProcedimientosCentro::where('id_lugar_atencion', $lugar->id)
+                    ->where('estado', 1)->findOrFail($request->id_procedimiento_centro);
+            }
 
-        $nuevo = new ProcedimientosCentroLugarAtencionProfesional();
-        $nuevo->id_procedimiento_centro = $procedimientoBase->id;
-        $nuevo->id_lugar_atencion = $lugar->id;
-        $nuevo->id_profesional = $profesional->id;
-        $nuevo->nombre = $procedimientoBase->nombre;
-        $nuevo->descripcion = $procedimientoBase->descripcion;
-        $nuevo->minutos_bloque = $request->minutos_bloque;
-        $nuevo->cantidad_bloques = $request->cantidad_bloques;
-        $nuevo->otros = $request->otros;
-        $nuevo->estado = 1;
-        $nuevo->save();
+            $nuevo = new ProcedimientosCentroLugarAtencionProfesional();
+            $nuevo->id_procedimiento_centro = $procedimientoBase->id;
+            $nuevo->id_lugar_atencion = $lugar->id;
+            $nuevo->id_profesional = $profesional->id;
+            $nuevo->nombre = $procedimientoBase->nombre;
+            $nuevo->descripcion = $procedimientoBase->descripcion;
+            $nuevo->minutos_bloque = $request->minutos_bloque;
+            $nuevo->cantidad_bloques = $request->cantidad_bloques;
+            $nuevo->otros = $request->otros;
+            $nuevo->estado = 1;
+            $nuevo->save();
 
-        $nuevo->lugar_nombre = $lugar->nombre;
-        $nuevo->procedimiento_base = $procedimientoBase->nombre;
+            $nuevo->lugar_nombre = $lugar->nombre;
+            $nuevo->procedimiento_base = $procedimientoBase->nombre;
 
-        return response()->json([
-            'estado' => 1,
-            'mensaje' => 'Procedimiento registrado con éxito.',
-            'procedimiento' => $nuevo,
-        ]);
+            return response()->json([
+                'estado' => 1,
+                'mensaje' => 'Procedimiento registrado con éxito.',
+                'procedimiento' => $nuevo,
+            ]);
+        });
     }
 
     /**

@@ -39,7 +39,9 @@
     let indice = Math.max(-1, ...Array.from(lista.querySelectorAll('input[name]')).map(input => Number(input.name.match(/\[(\d+)\]/)[1]))) + 1;
     function total() {
         const valor = Array.from(lista.querySelectorAll('input[type=number]')).reduce((suma, input) => suma + (Number(input.value) || 0), 0);
-        document.getElementById('pelu-total').textContent = '$' + valor.toLocaleString('es-CL');
+        const totalElemento = document.getElementById('pelu-total');
+        const pagado = Math.max(0, Number(totalElemento.dataset.montoPagado) || 0);
+        totalElemento.textContent = '$' + Math.max(0, valor - pagado).toLocaleString('es-CL');
     }
     lista.addEventListener('input', total);
     lista.addEventListener('click', function (event) {

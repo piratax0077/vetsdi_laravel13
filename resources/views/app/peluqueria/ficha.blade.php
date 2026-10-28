@@ -5,6 +5,8 @@
 @php
     $lectura = $atencion->estado !== 'en_atencion';
     $valor = fn ($campo, $defecto = '') => old($campo, $datos[$campo] ?? $defecto);
+    $montoPagado = max(0, (int) ($atencion->monto_pagado ?? 0));
+    $totalServicios = array_sum(array_column($valor('servicios', []), 'precio'));
 @endphp
 <main class="pelu-ficha">
     <div class="pelu-barra-ficha">
@@ -63,7 +65,8 @@
                     <tr><td>@if(!empty($servicio['procedimiento_id']))<input type="hidden" name="servicios[{{ $i }}][procedimiento_id]" value="{{ $servicio['procedimiento_id'] }}">@endif<input aria-label="Nombre del servicio" name="servicios[{{ $i }}][nombre]" value="{{ $servicio['nombre'] }}" readonly required></td><td><input aria-label="Precio del servicio en pesos" type="number" name="servicios[{{ $i }}][precio]" value="{{ $servicio['precio'] }}" readonly required></td>@unless($lectura)<td><button type="button" class="pelu-quitar">Quitar</button></td>@endunless</tr>
                     @endforeach
                 </tbody></table></div>
-                <p class="pelu-total">Total a cobrar <strong id="pelu-total" aria-live="polite">${{ number_format(array_sum(array_column($valor('servicios',[]),'precio')),0,',','.') }}</strong></p>
+                <p class="pelu-ayuda">Ya pagado: ${{ number_format($montoPagado,0,',','.') }}</p>
+                <p class="pelu-total">Total a cobrar <strong id="pelu-total" data-monto-pagado="{{ $montoPagado }}" aria-live="polite">${{ number_format(max(0, $totalServicios - $montoPagado),0,',','.') }}</strong></p>
 </section><section class="pelu-panel"><h2><span>05</span> Observaciones generales</h2><label>Cuidados, recomendaciones o incidentes<textarea name="observaciones" maxlength="5000" class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3" onblur="this.rows=1;">{{ $valor('observaciones') }}</textarea></label>                <label>Observaciones de los servicios<textarea name="observaciones_servicios" maxlength="3000" class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3" onblur="this.rows=1;">{{ $valor('observaciones_servicios') }}</textarea></label>
                 <label>Productos utilizados<textarea name="productos_utilizados" maxlength="2000" class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3" onblur="this.rows=1;">{{ $valor('productos_utilizados') }}</textarea></label>
             </section>

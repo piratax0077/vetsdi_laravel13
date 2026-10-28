@@ -2260,13 +2260,15 @@
                     }
                 })
                 .done(function(data) {
+                    if ($('#reserva_hora_correo').val() !== email) {
+                        return;
+                    }
                     if (data == 'fail') {
 
                         // console.log(data);
 
                         $('#mensaje_email_reserva').text('El email ya está en nuestros registros');
                         $('#mensaje_email_reserva').show();
-                        $('#reserva_hora_correo').focus();
 
                         $("#guardar_reserva_paciente").prop('disabled', true);
 
@@ -2477,7 +2479,7 @@
                                 $('#input_reserva_hora_apellido_uno').val(data.apellido_uno);
                                 $('#input_reserva_hora_apellido_dos').val(data.apellido_dos);
 
-                                $('#reserva_fecha_ultima_consulta').html(data.fecha_ultima_atencion);
+                                $('#reserva_fecha_ultima_consulta').text(data.fecha_ultima_atencion || 'Sin consultas previas');
 
                                 let bonos = data.bonos;
                                 let suma_pagado = 0;

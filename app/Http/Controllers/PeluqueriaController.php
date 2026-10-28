@@ -28,8 +28,15 @@ class PeluqueriaController extends Controller
         $cliente = DB::table('peluqueria_clientes')->where('peluqueria_id',$perfil->id)->where('id',$atencion->cliente_id)->first();
         abort_unless($cliente,404);
         $guardada = DB::table('peluqueria_fichas')->where('cita_id',$cita)->where('peluqueria_id',$perfil->id)->first();
+        $esterilizada = 'desconocido';
+        if (!$guardada && !empty($cliente->mascota_id)) {
+            $mascota = \App\Models\Mascota::find($cliente->mascota_id);
+            if ($mascota && $mascota->esterilizado !== null) {
+                $esterilizada = $mascota->esterilizado ? 'si' : 'no';
+            }
+        }
         $datos = $guardada ? json_decode($guardada->datos,true) : [
-            'mascota'=>$cliente->mascota,'especie'=>$cliente->especie,'raza'=>$cliente->raza,'esterilizada'=>'desconocido',
+            'mascota'=>$cliente->mascota,'especie'=>$cliente->especie,'raza'=>$cliente->raza,'esterilizada'=>$esterilizada,
             'observaciones'=>$atencion->registro ?: $cliente->cuidados,
             'servicios'=>$atencion->procedimientos_reservados?json_decode($atencion->procedimientos_reservados,true):[['nombre'=>$atencion->servicio,'precio'=>(int)$atencion->valor]],
         ];
@@ -98,6 +105,8 @@ class PeluqueriaController extends Controller
             abort_unless(in_array($actual->estado,['en_atencion'],true),422,'Primero confirma la reserva, recepciona el pago y registra la espera antes de atender.');
             $finalizar = $datos['accion'] === 'finalizar'; unset($datos['accion']);
             $datos['total'] = $total;
+            $datos['monto_pagado'] = max(0, (int) ($actual->monto_pagado ?? 0));
+            $datos['saldo_pendiente'] = max(0, $total - $datos['monto_pagado']);
             $datos['tutor'] = DB::table('peluqueria_clientes')->where('id',$actual->cliente_id)->where('peluqueria_id',$perfil->id)->value('tutor');
             $existente = DB::table('peluqueria_fichas')->where('cita_id',$cita)->first();
             $valores = ['peluqueria_id'=>$perfil->id,'datos'=>json_encode($datos,JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR),'updated_at'=>now()];

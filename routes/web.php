@@ -1983,6 +1983,11 @@ Route::group([
 
 
     /** procedimientos */
+    Route::get('mis-procedimientos', [App\Http\Controllers\ProcedimientosProfesionalController::class, 'index'])->name('profesional.mis_procedimientos');
+    Route::post('mis-procedimientos', [App\Http\Controllers\ProcedimientosProfesionalController::class, 'store'])->name('profesional.mis_procedimientos.store');
+    Route::put('mis-procedimientos/{procedimiento}', [App\Http\Controllers\ProcedimientosProfesionalController::class, 'update'])->name('profesional.mis_procedimientos.update');
+    Route::delete('mis-procedimientos/{procedimiento}', [App\Http\Controllers\ProcedimientosProfesionalController::class, 'destroy'])->name('profesional.mis_procedimientos.destroy');
+    Route::patch('mis-procedimientos/{procedimiento}/estado', [App\Http\Controllers\ProcedimientosProfesionalController::class, 'toggleEstado'])->name('profesional.mis_procedimientos.toggle');
 
     Route::get('lugar_atencion/procedimientos', [App\Http\Controllers\EscritorioProfesional::class, 'mis_procedimientos_lugar_atencion'])->name('profesional.mis_procedimientos_lugar_atencion');
 

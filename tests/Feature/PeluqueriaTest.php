@@ -347,6 +347,23 @@ class PeluqueriaTest extends TestCase
         $this->actingAs(User::find(1))->get(route('peluqueria.configuracion',['seccion'=>'personal']))->assertForbidden();
         $this->assertNotSame(app(CuentasService::class)->perfil(User::find(1),'peluqueria')->getTable(),app(CuentasService::class)->perfil(User::find(1),'centro_estetico')->getTable());
     }
+    public function test_ficha_precarga_esterilizacion_y_conserva_el_dato_de_la_atencion_guardada(): void {
+        Schema::create('mascotas',function(Blueprint $t){$t->id();$t->boolean('esterilizado')->nullable();});
+        $cliente=$this->cliente();
+        DB::table('mascotas')->insert(['id'=>1,'esterilizado'=>true]);
+        DB::table('peluqueria_clientes')->where('id',$cliente)->update(['mascota_id'=>1]);
+        $this->controller()->agendar($this->req($this->reserva($cliente)));
+        $id=DB::table('peluqueria_citas')->value('id');
+        foreach ([1=>'si',0=>'no'] as $estado=>$esperado) {
+            DB::table('mascotas')->where('id',1)->update(['esterilizado'=>$estado]);
+            $this->assertSame($esperado,$this->controller()->ficha($id)->getData()['datos']['esterilizada']);
+        }
+        DB::table('mascotas')->where('id',1)->update(['esterilizado'=>null]);
+        $this->assertSame('desconocido',$this->controller()->ficha($id)->getData()['datos']['esterilizada']);
+        DB::table('peluqueria_fichas')->insert(['peluqueria_id'=>1,'cita_id'=>$id,'datos'=>json_encode(['esterilizada'=>'no'])]);
+        DB::table('mascotas')->where('id',1)->update(['esterilizado'=>true]);
+        $this->assertSame('no',$this->controller()->ficha($id)->getData()['datos']['esterilizada']);
+    }
     private function prepararAtencion(int $id,bool $iniciar=true): void {
         $cita=DB::table('peluqueria_citas')->find($id);
         if($cita->estado==='reservada')$this->controller()->estado($this->req(['estado'=>'confirmada','via_confirmacion'=>'Teléfono']),$id);

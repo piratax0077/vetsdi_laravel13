@@ -258,7 +258,7 @@
                                                     </div>
                                                     <div class="form-group col-12 col-sm-6">
                                                         <label class="floating-label-activo">Región</label>
-                                                        <select class="form-control form-control-sm" onchange="buscar_ciudad();" id="perfil_region" name="perfil_region">
+                                                        <select class="form-control form-control-sm" onchange="buscar_ciudad_residencia();" id="perfil_region" name="perfil_region">
                                                             <option value="">Seleccione</option>
                                                             @if (isset($regiones))
                                                                 @foreach ($regiones as $region)
@@ -1264,87 +1264,6 @@
                 });
             });
         }
-
-        function editar_paciente_datos_residencia() {
-
-            // let id_paciente = id;
-            let perfil_dire = $('#perfil_dire').val();
-            let perfil_region = $('#perfil_region').val();
-            let perfil_ciudad = $('#perfil_ciudad').val();
-
-            var valido = 1;
-            var mensaje = '';
-
-            if(perfil_dire=='')
-            {
-                valido = 0;
-                mensaje += 'Dirección, Campo requerido.\n';
-            }
-            if(perfil_region=='')
-            {
-                valido = 0;
-                mensaje += 'Región, Campo requerido.\n';
-            }
-            if(perfil_ciudad=='')
-            {
-                valido = 0;
-                mensaje += 'Ciudad, Campo requerido.\n';
-            }
-            if(valido == 1)
-            {
-                let url = "{{ ROUTE('paciente.perfil.editdirec') }}";
-
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        _token: CSRF_TOKEN,
-                        perfil_dire: perfil_dire,
-                        perfil_region: perfil_region,
-                        perfil_ciudad: perfil_ciudad,
-                    },
-                })
-                .done(function(response) {
-
-                    if (response.estado == 1)
-                    {
-                        swal({
-                            title: "Sus datos de residencia fueron editados de forma correcta",
-                            icon: "success",
-                            buttons: "Aceptar",
-                            DangerMode: true,
-                        });
-                        setTimeout(function() {
-                            location.reload()
-                        }, 4000);
-                    }
-                    else
-                    {
-                        swal({
-                            title: "Error al editar sus datos de residencia",
-                            icon: "error",
-                            buttons: "Aceptar",
-                            DangerMode: true,
-                        })
-                        // setTimeout(function() {
-                        //     location.reload()
-                        // }, 3000);
-                    }
-                })
-                .fail(function() {
-                    console.log("error");
-                });
-            }
-            else
-            {
-                swal({
-                    title: "Sus datos de residencia fallaron al ser editados, intente de nuevo",
-                    text: mensaje,
-                    icon: "error",
-                });
-            }
-        };
 
         function editar_paciente_datos_contacto() {
 

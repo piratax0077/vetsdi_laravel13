@@ -81,10 +81,10 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="id_lugar_atencion" class="floating-label-activo-sm">Lugar de atención</label>
-                            <select class="form-control form-control-sm" id="id_lugar_atencion" onchange="cargarProcedimientosCentro(this.value)" name="id_lugar_atencion" required>
+                            <select class="form-control form-control-sm" id="id_lugar_atencion" name="id_lugar_atencion" required>
                                 <option value="">Seleccione</option>
                                 @foreach($lugares as $lugar)
-                                    <option value="{{ $lugar->id }}">{{ $lugar->nombre }}</option>
+                                    <option value="{{ $lugar->id }}" data-procedimiento-libre="{{ $lugar->procedimiento_libre ? '1' : '0' }}">{{ $lugar->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -93,6 +93,7 @@
                             <select class="form-control form-control-sm" id="id_procedimiento_centro" name="id_procedimiento_centro" required>
                                 <option value="">Seleccione un lugar para cargar los procedimientos</option>
                             </select>
+                            <input type="text" class="form-control form-control-sm d-none" id="nombre_procedimiento" name="nombre" maxlength="255" placeholder="Nombre del procedimiento" disabled>
                         </div>
                     </div>
                     <div class="form-row">
@@ -190,6 +191,14 @@
 
     function cargarProcedimientosCentro(idLugar) {
         const $select = $('#id_procedimiento_centro');
+        const libre = !!idLugar && $('#id_lugar_atencion option:selected').attr('data-procedimiento-libre') === '1';
+        $select.toggleClass('d-none', libre).prop('disabled', libre).prop('required', !libre);
+        $('#nombre_procedimiento').toggleClass('d-none', !libre).prop('disabled', !libre).prop('required', libre);
+        $('label[for="id_procedimiento_centro"], label[for="nombre_procedimiento"]').attr('for', libre ? 'nombre_procedimiento' : 'id_procedimiento_centro');
+        if (libre) {
+            $select.val('');
+            return;
+        }
         $select.empty().append('<option value="">Cargando...</option>');
 
         if (!idLugar) {
@@ -203,6 +212,7 @@
             data: { id_lugar_atencion: idLugar },
         })
         .done(function(data) {
+            if (String($('#id_lugar_atencion').val()) !== String(idLugar)) return;
             $select.empty().append('<option value="">Seleccione</option>');
             if (data && data.estado === 1 && data.registro) {
                 $.each(data.registro, function(_, value) {
@@ -211,6 +221,7 @@
             }
         })
         .fail(function(jqXHR, ajaxOptions, thrownError) {
+            if (String($('#id_lugar_atencion').val()) !== String(idLugar)) return;
             console.log(jqXHR, ajaxOptions, thrownError);
             $select.empty().append('<option value="">No fue posible cargar los procedimientos</option>');
         });
@@ -221,13 +232,12 @@
         const toggleBtn = '<button type="button" class="btn btn-icon ' + (procedimiento.estado === 1 ? 'btn-success' : 'btn-secondary') + '" onclick="toggleEstadoProcedimiento(' + procedimiento.id + ',' + procedimiento.estado + ')" title="' + (procedimiento.estado === 1 ? 'Desactivar' : 'Activar') + '"><i class="feather ' + (procedimiento.estado === 1 ? 'icon-toggle-right' : 'icon-toggle-left') + '"></i></button>';
         const acciones = '<button type="button" class="btn btn-danger btn-icon" onclick="eliminarProcedimiento(' + procedimiento.id + ')"><i class="feather icon-x"></i></button>';
         const rowNode = tablaProcedimientos.row.add([
-            procedimiento.nombre || '-',
-            procedimiento.lugar_nombre || '-',
+            $('<div>').text(procedimiento.nombre || '-').html(),
+            $('<div>').text(procedimiento.lugar_nombre || '-').html(),
             procedimiento.minutos_bloque || '',
             procedimiento.cantidad_bloques || '',
             estado,
-            toggleBtn,
-            acciones
+            toggleBtn + ' ' + acciones
         ]).draw().node();
         $(rowNode).attr('data-proc-id', procedimiento.id);
     }
@@ -302,6 +312,7 @@
                     agregarFila(resp.procedimiento);
                     $('#nuevoProcedimientoProfesional').modal('hide');
                     $('#form-nuevo-procedimiento')[0].reset();
+                    cargarProcedimientosCentro($('#id_lugar_atencion').val());
                     swal({
                         title: 'Procedimiento',
                         text: resp.mensaje,

@@ -69,9 +69,21 @@
                 else{var tbody=tabla.querySelector('tbody')||tabla.createTBody();tbody.replaceChildren(...filas);}
             }catch(error){window.mostrar_error_contacto_tutor({responseJSON:{message:error.message}});}
         };
-        window.buscar_ciudad_residencia=function(){
+        var cargaComunas=0;
+        window.buscar_ciudad_residencia=async function(){
             var panel=document.getElementById('info_residencial_2'),region=panel.querySelector('[name="perfil_region"]'),ciudad=panel.querySelector('[name="perfil_ciudad"]');
-            fetch(config.ciudades+'?'+new URLSearchParams({region:region.value}),{headers:{'Accept':'application/json'}}).then(function(r){if(!r.ok)throw Error();return r.json();}).then(function(data){ciudad.replaceChildren(new Option('Seleccione',''));(data.registros||data.ciudades||data).forEach(function(c){ciudad.add(new Option(c.nombre,c.id));});}).catch(function(){ciudad.replaceChildren(new Option('No fue posible cargar las comunas',''));});
+            var carga=++cargaComunas;
+            ciudad.replaceChildren(new Option(region.value?'Cargando comunas...':'Seleccione su comuna',''));
+            if(!region.value)return;
+            try{
+                var respuesta=await fetch(config.ciudades+'?'+new URLSearchParams({region:region.value}),{headers:{'Accept':'application/json'}});
+                if(!respuesta.ok)throw Error();
+                var data=await respuesta.json();
+                if(carga!==cargaComunas)return;
+                if(typeof data==='string')data=JSON.parse(data);
+                ciudad.replaceChildren(new Option('Seleccione su comuna',''));
+                (data.registros||data.ciudades||data).forEach(function(c){ciudad.add(new Option(c.nombre,c.id));});
+            }catch(error){if(carga===cargaComunas)ciudad.replaceChildren(new Option('No fue posible cargar las comunas',''));}
         };
         Object.keys(grupos).forEach(function(tipo){var form=document.getElementById(grupos[tipo][1])?.querySelector('form');if(!form)return;form.addEventListener('submit',function(e){e.preventDefault();e.stopImmediatePropagation();guardar(tipo);},true);form.querySelectorAll('button').forEach(function(btn){if(btn.textContent.includes('Cancelar'))btn.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();form.reset();cerrar(tipo);},true);});});
     });
