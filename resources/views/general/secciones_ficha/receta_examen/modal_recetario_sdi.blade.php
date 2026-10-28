@@ -654,7 +654,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="registrar_medicamentos_ficha_sdi();" data-dismiss="modal" class="btn btn-info"><i class="feather icon-check"></i> Generar receta</button>
+                <button type="button" id="generar_receta_sdi" onclick="registrar_medicamentos_ficha_sdi();" class="btn btn-info"><i class="feather icon-check"></i> Generar receta</button>
             </div>
         </div>
     </div>
@@ -1094,8 +1094,16 @@
         }
     }
 
+    function editorMedicamentoVacioSdi(prefijo = '')
+    {
+        const campos = ['nombre_medicamento_ficha_dental', 'dosis_medicamento_ficha_dental', 'frecuencia_medicamento_ficha_dental', 'via_administracion_ficha_dental', 'periodo_ficha_dental'];
+        return campos.every(campo => ['', '0'].includes(String($('#' + prefijo + campo).val() ?? '').trim()));
+    }
+
     function indicar_medicamento_sdi()
     {
+        // After adding, controls are cleared; a repeated click is not a new prescription.
+        if ($('#tabla_medicamento_cirugia_sdi tr.tabla_medicamento_cirugia_sdi').length && editorMedicamentoVacioSdi()) return;
 
         let nombre_medicamento_ficha_dental = $('#nombre_medicamento_ficha_dental').val();
         let farmaco = $('#nombre_composicion_farmaco').html();
@@ -1276,7 +1284,7 @@
                 //$("#adicionados").text(""); //esta instruccion limpia el div adicionados para que no se vayan acumulando
                 {{--  var nFilas = $("#tabla_medicamento_cirugia_sdi tr").length;  --}}
                 $('#nombre_medicamento_ficha_dental').val('');
-                $('id_medicamento_ficha_dental').val('');
+                $('#id_medicamento_ficha_dental').val('');
 
                 $('#nombre_composicion_farmaco').text('(Sin Información)');
 
@@ -1580,11 +1588,13 @@
         $('#periodo_ficha_dental').val('0');
     }
 
+    var recetaSdiEnProceso = false;
     function registrar_medicamentos_ficha_sdi()
     {
+        if (recetaSdiEnProceso) return;
         var rows1 = [];
         $('#tabla_medicamento_cirugia_sdi tr').each(function(i, n) {
-            if (i > 0) {
+            if (i > 0 && $(this).find('td').length >= 15) {
                 rol = {};
                 var data = $(this).find("td");
 
@@ -1615,7 +1625,10 @@
             }
         });
 
-        console.log(rows1);
+        if (!rows1.length) {
+            swal({title: 'Ingreso de medicamento(s).', text: 'Agregue al menos un medicamento antes de generar la receta.', icon: 'warning'});
+            return;
+        }
 
         $('#medicamentos').val(JSON.stringify(rows1));
 
@@ -1628,6 +1641,8 @@
 
         // let url = "{{ route('detalle_receta.registro_medicamentos') }}";
         let url = "{{ route('profesional.receta.registro') }}";
+        recetaSdiEnProceso = true;
+        $('#generar_receta_sdi').prop('disabled', true);
         $.ajax({
             url: url,
             type: "post",
@@ -1688,6 +1703,9 @@
                     const respuesta = jqXHR.responseJSON || {};
                     swal({title: 'No se pudo emitir la receta', text: Object.values(respuesta.errors || {}).flat().join('\n') || respuesta.message || 'Intente nuevamente. El documento no fue enviado.', icon: 'error'});
             console.log(jqXHR, ajaxOptions, thrownError)
+        }).always(function () {
+            recetaSdiEnProceso = false;
+            $('#generar_receta_sdi').prop('disabled', false);
         });
     }
 
@@ -1724,6 +1742,7 @@
 
     function indicar_medicamento_manual_sdi()
     {
+        if ($('#tabla_medicamento_cirugia_sdi tr.tabla_medicamento_cirugia_sdi').length && editorMedicamentoVacioSdi('manual_')) return;
 
         let nombre_medicamento_ficha_dental = $('#manual_nombre_medicamento_ficha_dental').val();
         let id_medicamento = $('#manual_id_medicamento_ficha_dental').val();

@@ -524,7 +524,7 @@
                                                     <span class="reserva-vet-lugar-icono"><i class="feather icon-calendar"></i></span>
                                                     <span class="reserva-vet-lugar-datos">
                                                         <span class="reserva-vet-lugar-nombre">Programar despacho</span>
-                                                        <span class="reserva-vet-lugar-direccion">Usted elige el día y la franja horaria</span>
+                                                        <span class="reserva-vet-lugar-direccion">Según disponibilidad de la empresa</span>
                                                     </span>
                                                     <span class="reserva-vet-lugar-marca" aria-hidden="true"><i class="feather icon-check"></i></span>
                                                 </label>
@@ -542,32 +542,33 @@
                                             </li>
                                         </ul>
 
-                                        <div class="form-row mt-4 d-none" id="tiendaProgramar">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="floating-label-activo-sm" for="tiendaFecha">Día de despacho</label>
-                                                    <input type="date" class="form-control form-control-sm" id="tiendaFecha" min="{{ date('Y-m-d') }}">
-                                                </div>
+                                        <div class="alert alert-info mt-4" id="tiendaEntregaInformacion" role="status">
+                                            <span id="tiendaEntregaAviso">La empresa informará la fecha estimada de entrega.</span>
+                                            <span class="badge badge-success ml-2 d-none" id="tiendaRecibeHoy">¡Recibe hoy!</span>
+                                        </div>
+                                        <div class="form-group d-none" id="tiendaFechasDisponiblesGrupo">
+                                            <label for="tiendaFechaDisponible">Fechas disponibles para la entrega</label>
+                                            <select class="form-control form-control-sm" id="tiendaFechaDisponible"><option value="">Seleccione una fecha</option></select>
+                                        </div>
+                                        <div class="form-row mt-4" id="tiendaDireccionGrupo">
+                                            <div class="form-group col-12">
+                                                <label class="floating-label-activo-sm" for="tiendaDireccion">Dirección de despacho</label>
+                                                <input type="text" class="form-control form-control-sm" id="tiendaDireccion" placeholder="Calle y número" autocomplete="street-address">
                                             </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="floating-label-activo-sm" for="tiendaFranja">Franja horaria</label>
-                                                    <select class="form-control form-control-sm" id="tiendaFranja">
-                                                        <option value="">Seleccione</option>
-                                                        <option value="10:00 y 13:00">10:00 a 13:00</option>
-                                                        <option value="13:00 y 16:00">13:00 a 16:00</option>
-                                                        <option value="16:00 y 19:00">16:00 a 19:00</option>
-                                                        <option value="19:00 y 21:00">19:00 a 21:00</option>
-                                                    </select>
-                                                </div>
+                                            <div class="form-group col-12">
+                                                <label class="floating-label-activo-sm" for="tiendaRegion">Región</label>
+                                                <select class="form-control form-control-sm" id="tiendaRegion">
+                                                    <option value="">Seleccione región</option>
+                                                    @foreach (($regionesDespacho ?? []) as $regionDespacho)
+                                                        <option value="{{ $regionDespacho->id }}">{{ $regionDespacho->nombre }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-12">
+                                                <label class="floating-label-activo-sm" for="tiendaComuna">Comuna</label>
+                                                <select class="form-control form-control-sm" id="tiendaComuna" disabled><option value="">Seleccione comuna</option></select>
                                             </div>
                                         </div>
-
-                                        <div class="form-group mt-4" id="tiendaDireccionGrupo">
-                                            <label class="floating-label-activo-sm" for="tiendaDireccion">Dirección de despacho</label>
-                                            <input type="text" class="form-control form-control-sm" id="tiendaDireccion" placeholder="Calle, número y comuna">
-                                        </div>
-
                                         <div class="custom-control custom-checkbox mb-3">
                                             <input type="checkbox" class="custom-control-input" id="tiendaMensual">
                                             <label class="custom-control-label" for="tiendaMensual">Repetir este pedido cada mes</label>
@@ -2079,6 +2080,45 @@
         return PRODUCTOS.filter(function (p) { return p.tipo === busqueda.servicio; });
     }
 
+    const configuracionesEntregaTienda = @json(config('entregas_tienda.empresas', []));
+    const comunasEntregaTienda = @json($comunasDespacho ?? []);
+    const hoyEntregaTienda = @json(now('America/Santiago')->toDateString());
+    let politicaEntregaTienda = {permite_elegir_fecha: false, fechas_disponibles: [], fecha_estimada: '', recibe_hoy: false};
+
+    function normalizarEntregaTienda(configuracion, hoy) {
+        const config = configuracion || {};
+        const fechaValida = fecha => typeof fecha === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(fecha) && !isNaN(Date.parse(fecha)) && new Date(fecha).toISOString().slice(0, 10) === fecha && fecha >= hoy;
+        const fechas = Array.isArray(config.fechas_disponibles) ? [...new Set(config.fechas_disponibles.filter(fechaValida))].sort() : [];
+        const estimada = fechaValida(config.fecha_estimada) ? config.fecha_estimada : '';
+        return {permite_elegir_fecha: config.permite_elegir_fecha === true, fechas_disponibles: fechas,
+            fecha_estimada: estimada, recibe_hoy: config.recibe_hoy === true && (!config.fecha_estimada || estimada === hoy)};
+    }
+
+    function configurarEntregaTienda(lugar) {
+        politicaEntregaTienda = normalizarEntregaTienda(configuracionesEntregaTienda[lugar.institucion], hoyEntregaTienda);
+        const selector = $('#tiendaFechaDisponible').empty().append(new Option('Seleccione una fecha', ''));
+        politicaEntregaTienda.fechas_disponibles.forEach(fecha => selector.append(new Option(textoFecha(fecha), fecha)));
+        let aviso = 'La empresa informará la fecha estimada de entrega.';
+        if (politicaEntregaTienda.permite_elegir_fecha) {
+            aviso = politicaEntregaTienda.fechas_disponibles.length ? 'Elija una de las fechas disponibles para la entrega.' : 'La empresa aún no ha publicado fechas disponibles para la entrega.';
+        } else if (politicaEntregaTienda.fecha_estimada) {
+            aviso = 'Fecha estimada de llegada: ' + textoFecha(politicaEntregaTienda.fecha_estimada) + '. La empresa coordina el despacho.';
+        }
+        $('#tiendaEntregaAviso').text(aviso);
+        $('#tiendaRecibeHoy').toggleClass('d-none', !politicaEntregaTienda.recibe_hoy);
+    }
+
+    function direccionCompletaTienda() {
+        return [$.trim($('#tiendaDireccion').val()), $('#tiendaComuna option:selected').text(), $('#tiendaRegion option:selected').text()].filter(Boolean).join(', ');
+    }
+
+    function resumenEntregaTienda() {
+        if (politicaEntregaTienda.permite_elegir_fecha && $('#tiendaFechaDisponible').val()) return 'Fecha de entrega elegida: ' + textoFecha($('#tiendaFechaDisponible').val()) + '.';
+        if (politicaEntregaTienda.recibe_hoy) return '¡Recibe hoy!';
+        if (politicaEntregaTienda.fecha_estimada) return 'Fecha estimada de llegada: ' + textoFecha(politicaEntregaTienda.fecha_estimada) + '.';
+        return 'La empresa confirmará la fecha de entrega.';
+    }
+
     function iniciarTienda(lugar) {
         const etiquetas = {
             alimentos: '¿Qué alimento necesita?',
@@ -2090,7 +2130,6 @@
             farmacia: 'Escriba el medicamento, ej. Bravecto',
             pet_shop: 'Escriba el producto, ej. arena'
         };
-        const minutos = 25 + Math.round(lugar.distancia * 3);
 
         pedido = [];
         productoElegido = null;
@@ -2098,12 +2137,11 @@
         $('#tiendaBuscar').val('').attr('placeholder', ejemplos[busqueda.servicio]);
         cerrarSugerencias();
         $('#entregaAhora').prop('checked', true);
-        $('#tiendaFecha').val('').trigger('change');
-        $('#tiendaFranja').val('');
+        configurarEntregaTienda(lugar);
         $('#tiendaMensual').prop('checked', false);
         $('#tiendaCompra').removeClass('d-none');
         $('#tiendaSeguimiento').addClass('d-none').empty();
-        $('#entregaAhoraTexto').text('Llega en ' + minutos + ' a ' + (minutos + 15) + ' min · seguimiento en tiempo real');
+        $('#entregaAhoraTexto').text('Disponibilidad y fecha informadas por la empresa');
 
         // Atajos con lo que hay en stock en este local
         const atajos = productosDelServicio().filter(function (p) { return stockProducto(lugar, p).hay; }).slice(0, 4);
@@ -2297,7 +2335,8 @@
         const entrega = $('input[name="tiendaEntrega"]:checked').val();
         const textos = { ahora: 'Pedir ahora', programada: 'Programar despacho', retiro: 'Confirmar retiro' };
 
-        $('#tiendaProgramar').toggleClass('d-none', entrega !== 'programada');
+        $('#tiendaEntregaInformacion').toggleClass('d-none', entrega === 'retiro');
+        $('#tiendaFechasDisponiblesGrupo').toggleClass('d-none', entrega === 'retiro' || !politicaEntregaTienda.permite_elegir_fecha || !politicaEntregaTienda.fechas_disponibles.length);
         $('#tiendaDireccionGrupo').toggleClass('d-none', entrega === 'retiro');
         $('#tiendaConfirmar').html('<i class="feather icon-check-circle"></i> ' + textos[entrega]);
         dibujarPedido();
@@ -2310,23 +2349,19 @@
             mostrarMensaje('Pedido vacío', 'Agregue al menos un producto al pedido.', 'warning');
             return;
         }
-        if (entrega !== 'retiro' && !$.trim($('#tiendaDireccion').val())) {
-            mostrarMensaje('Falta la dirección', 'Indique la dirección donde quiere recibir el pedido.', 'warning');
+        if (entrega !== 'retiro' && (!$.trim($('#tiendaDireccion').val()) || !$('#tiendaRegion').val() || !$('#tiendaComuna').val())) {
+            mostrarMensaje('Falta la dirección', 'Complete dirección, región y comuna donde quiere recibir el pedido.', 'warning');
             return;
         }
-        if (entrega === 'programada' && (!$('#tiendaFecha').val() || !$('#tiendaFranja').val())) {
-            mostrarMensaje('Falta programar', 'Elija el día y la franja horaria del despacho.', 'warning');
+        if (entrega !== 'retiro' && politicaEntregaTienda.permite_elegir_fecha && politicaEntregaTienda.fechas_disponibles.length && !politicaEntregaTienda.fechas_disponibles.includes($('#tiendaFechaDisponible').val())) {
+            mostrarMensaje('Falta programar', 'Elija una de las fechas de entrega disponibles.', 'warning');
             return;
         }
 
         $('#tiendaCompra').addClass('d-none');
         $('#tiendaSeguimiento').removeClass('d-none');
 
-        if (entrega === 'ahora') {
-            iniciarSeguimiento();
-        } else {
-            mostrarPedidoListo(entrega);
-        }
+        mostrarPedidoListo(entrega);
         desplazarA(document.getElementById('tarjetaAccion'));
     }
 
@@ -2343,15 +2378,15 @@
 
     function mostrarPedidoListo(entrega) {
         const lugar = busqueda.seleccionado;
-        const programada = entrega === 'programada';
+        const programada = entrega !== 'retiro';
         const texto = programada
-            ? 'Llegará el ' + textoFecha($('#tiendaFecha').val()).toLowerCase() + ', entre las ' + $('#tiendaFranja').val() + ' hrs., a ' + $.trim($('#tiendaDireccion').val()) + '.'
+            ? resumenEntregaTienda() + ' Dirección: ' + direccionCompletaTienda() + '.'
             : 'Puede retirarlo en ' + lugar.direccion + ' en 20 minutos más. Muestre el número de pedido en caja.';
 
         $('#tiendaSeguimiento').html(
             '<div class="servicios-exito">' +
                 '<span class="servicios-exito-icono"><i class="feather ' + (programada ? 'icon-calendar' : 'icon-package') + '"></i></span>' +
-                '<h5>' + (programada ? 'Despacho programado' : 'Pedido listo para retiro') + ' · ' + numeroPedido() + '</h5>' +
+                '<h5>' + (programada ? 'Solicitud de despacho' : 'Pedido listo para retiro') + ' · ' + numeroPedido() + '</h5>' +
                 '<p>' + escapar(texto) + '</p>' +
                 resumenPedidoHtml() +
                 '<button type="button" class="btn btn-outline-info" id="btnNuevoPedido"><i class="feather icon-plus"></i> Hacer otro pedido</button>' +
@@ -2480,6 +2515,33 @@
             if (productoElegido) {
                 dibujarProductoElegido();
             }
+        });
+
+        $('#tiendaRegion').on('change', function () {
+            const region = String($(this).val() || '');
+            const comunas = $('#tiendaComuna').empty().append(new Option('Seleccione comuna', ''));
+            comunasEntregaTienda.filter(comuna => String(comuna.id_region) === region).forEach(comuna => comunas.append(new Option(comuna.nombre, comuna.id)));
+            comunas.prop('disabled', !region);
+        });
+
+        // Refresh only the pet options when returning from another tab or from browser history.
+        let actualizandoMascotasSelector = false;
+        $(window).on('focus pageshow', function () {
+            if (actualizandoMascotasSelector) return;
+            actualizandoMascotasSelector = true;
+            $.getJSON('{{ route("paciente.mascotas.lista") }}', {seleccionables: 1})
+                .done(function (respuesta) {
+                    if (respuesta.estado != 1 || !Array.isArray(respuesta.registros)) return;
+                    const selector = $('#selectedPet');
+                    const seleccionAnterior = selector.val();
+                    selector.empty().append(new Option('Seleccione mascota', ''));
+                    respuesta.registros.forEach(function (mascota) {
+                        $('<option>').val(mascota.id).text(mascota.nombre)
+                            .attr('data-foto', mascota.foto_url || DEFAULT_PET_PHOTO).appendTo(selector);
+                    });
+                    const sigueDisponible = respuesta.registros.some(mascota => String(mascota.id) === String(seleccionAnterior));
+                    selector.val(sigueDisponible ? seleccionAnterior : '').trigger('change');
+                }).always(function () { actualizandoMascotasSelector = false; });
         });
 
         // Lista de resultados y sucursales de la ficha

@@ -678,7 +678,9 @@
     $('#mascota_editar_id').val(mascotaEditandoId || '');
     if (!@json((bool) auth()->user()?->hasRole('Profesional'))) {
       // Initial identification can be declared at registration; saved clinical data is read-only.
-      $('#modal_agregar_dep_nuevo_esterilizado, #modal_agregar_dep_nuevo_fecha_esterilizacion, #modal_agregar_dep_nuevo_fecha_esterilizacion_desconocida').prop('disabled', !!mascotaEditandoId);
+      ['esterilizado', 'fecha_esterilizacion', 'fecha_esterilizacion_desconocida', 'enfermedad_cronica', 'cirugias', 'vacunas', 'ultima_desparasitacion', 'producto_desparasitacion'].forEach(function (campo) {
+        $('#modal_agregar_dep_nuevo_' + campo).prop('disabled', !!mascotaEditandoId);
+      });
     }
     if (mascotaEditandoId) {
       $('#btn_registrar').html('<i class="feather icon-check"></i> Actualizar');
@@ -1456,7 +1458,7 @@
 
             Object.keys(mascotasCache).forEach(function(id){
                 var mascota = mascotasCache[id];
-                if(!mascota || !mascota.nombre || mascotaEstaFallecida(mascota)) return;
+                if(!mascota || !mascota.nombre || mascotaEstaFallecida(mascota) || String(mascota.estado) === '0') return;
                 $select.append(
                     $('<option></option>').val(mascota.id).text(mascota.nombre)
                 );
@@ -1465,6 +1467,7 @@
             if ($select.find('option').length <= 1) {
                 $('.card-mascota').each(function(){
                     var id = $(this).data('id');
+                    if ($(this).hasClass('card-mascota-fallecida') || mascotaEstaFallecida(mascotasCache[id]) || String(mascotasCache[id]?.estado) === '0') return;
                     var nombre = $.trim($(this).find('h5').first().text());
                     if (!id || !nombre) return;
                     if ($select.find('option[value="' + id + '"]').length) return;
@@ -1475,7 +1478,7 @@
                 });
             }
 
-            if(valorActual && ($select.find('option[value="' + valorActual + '"]').length || mascotasCache[valorActual]))
+            if(valorActual && $select.find('option[value="' + valorActual + '"]').length)
             {
                 $select.val(valorActual);
             }
@@ -1969,13 +1972,14 @@
 
             Object.keys(mascotasCache).forEach(function(id){
                 var mascota = mascotasCache[id];
-                if(!mascota || !mascota.nombre || mascotaEstaFallecida(mascota)) return;
+                if(!mascota || !mascota.nombre || mascotaEstaFallecida(mascota) || String(mascota.estado) === '0') return;
                 $select.append($('<option></option>').val(mascota.id).text(mascota.nombre));
             });
 
             if ($select.find('option').length <= 1) {
                 $('.card-mascota').each(function(){
                     var id = $(this).data('id');
+                    if ($(this).hasClass('card-mascota-fallecida') || mascotaEstaFallecida(mascotasCache[id]) || String(mascotasCache[id]?.estado) === '0') return;
                     var nombre = $.trim($(this).find('h5').first().text());
                     if (!id || !nombre) return;
                     if ($select.find('option[value="' + id + '"]').length) return;
@@ -2953,8 +2957,9 @@
             var esterilizado = $('#modal_agregar_dep_nuevo_esterilizado').val();
             var mostrar = (esterilizado === '1');
             var desconocida = $('#modal_agregar_dep_nuevo_fecha_esterilizacion_desconocida').is(':checked');
-            $('#modal_agregar_dep_nuevo_fecha_esterilizacion').prop('disabled', mostrar && desconocida);
-            $('#modal_agregar_dep_nuevo_fecha_esterilizacion').prop('required', mostrar && !desconocida);
+            var soloLectura = !!mascotaEditandoId && !@json((bool) auth()->user()?->hasRole('Profesional'));
+            $('#modal_agregar_dep_nuevo_fecha_esterilizacion').prop('disabled', soloLectura || (mostrar && desconocida));
+            $('#modal_agregar_dep_nuevo_fecha_esterilizacion').prop('required', !soloLectura && mostrar && !desconocida);
             if(mostrar && desconocida)
             {
                 $('#modal_agregar_dep_nuevo_fecha_esterilizacion').val('');

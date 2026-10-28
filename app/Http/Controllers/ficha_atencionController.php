@@ -5874,6 +5874,9 @@ class ficha_atencionController extends Controller
 
     public function registrar_informe_medico(Request $request)
     {
+        if ((int) $request->input('tipo_informe', 1) === 1 && HoraMedica::whereKey($request->hora_medica)->whereNotNull('id_mascota')->exists()) {
+            return app(InformeVeterinarioController::class)->registrar($request);
+        }
         $datos = array();
         $error = array();
         $valido = 1;

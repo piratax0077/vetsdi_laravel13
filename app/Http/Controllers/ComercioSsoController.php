@@ -22,6 +22,7 @@ class ComercioSsoController extends Controller
         $direccion = $paciente?->id_direccion ? Direccion::find($paciente->id_direccion) : null;
         $mascotas = $paciente
             ? Mascota::where('id_responsable', $paciente->id)
+                ->seleccionables()
                 ->where(function ($query) { $query->whereNull('estado')->orWhere('estado', '<>', 0); })
                 ->orderBy('nombre')->get(['id', 'nombre'])
                 ->map(fn (Mascota $mascota) => ['id' => (int) $mascota->id, 'name' => (string) $mascota->nombre])->values()->all()

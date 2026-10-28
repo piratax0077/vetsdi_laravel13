@@ -20,7 +20,7 @@ class FichaVeterinariaUnicaTest extends TestCase
             'fichas_atenciones'=>['id_mascota','id_paciente','id_profesional','id_lugar_atencion','peso','hipotesis_diagnostico'],
             'ficha_veterinaria_general'=>['id_fichas_atenciones','datos'],
             'recomendacion'=>['atencion'], 'examenes_ppf'=>['id_ficha_atencion'],
-            'presupuestos_mascota'=>['id_ficha_atencion','tratamiento'],
+            'presupuestos_mascota'=>['id_ficha_atencion','tratamiento','fecha','estado'],
             'con_consentimientos_pcte'=>['id_fc','id_consent','fecha_cons','confirmacion'],
             'con_consentimientos'=>['nombre'],
             'documentos_laboratorio_mascota'=>['id_mascota','nombre_original','estado'],
@@ -81,5 +81,46 @@ class FichaVeterinariaUnicaTest extends TestCase
         foreach(['Historial previo al cambio de tutor','Control reciente','4.2 kg','Dieta conservada','Receta guardada','Hallazgo felino','Hemograma mascota uno']as $texto)$this->assertStringContainsString($texto,$html);
         $this->assertStringNotContainsString('Otra mascota',$html);
         $this->assertStringNotContainsString('Especie incorrecta',$html);
+    }
+
+    public function test_fvu_abre_despues_de_generar_documentos_en_la_atencion(): void
+    {
+        DB::table('recomendacion')->insert(['atencion'=>2]);
+        DB::table('examenes_ppf')->insert(['id_ficha_atencion'=>2]);
+        DB::table('presupuestos_mascota')->insert(['id_ficha_atencion'=>2,'tratamiento'=>'Tratamiento emitido']);
+        DB::table('con_consentimientos')->insert(['id'=>10,'nombre'=>'Consentimiento para eutanasia']);
+        DB::table('con_consentimientos_pcte')->insert(['id_fc'=>2,'id_consent'=>10,'fecha_cons'=>'2026-10-26','confirmacion'=>0]);
+        $html=Blade::render('@include("general.secciones_ficha.fmu_mascota")',['mascota'=>Mascota::find(1)]);
+        foreach (['Tratamiento emitido','Consentimiento para eutanasia','Receta veterinaria','Orden de exámenes'] as $texto) {
+            $this->assertStringContainsString($texto,$html);
+        }
+    }
+
+    public function test_fecha_invalida_de_documento_no_impide_abrir_la_ficha(): void
+    {
+        DB::table('presupuestos_mascota')->insert(['id_ficha_atencion'=>2,'tratamiento'=>'Documento sin fecha válida','fecha'=>'fecha no registrada']);
+        DB::table('con_consentimientos')->insert(['id'=>10,'nombre'=>'Consentimiento emitido']);
+        DB::table('con_consentimientos_pcte')->insert(['id_fc'=>2,'id_consent'=>10,'fecha_cons'=>'sin fecha','confirmacion'=>0]);
+        $html=Blade::render('@include("general.secciones_ficha.fmu_mascota")',['mascota'=>Mascota::find(1)]);
+        $this->assertStringContainsString('Documento sin fecha válida',$html);
+        $this->assertStringContainsString('Consentimiento emitido',$html);
+    }
+
+    public function test_informe_generado_se_muestra_solo_en_la_fvu_de_su_mascota(): void
+    {
+        Schema::create('informes_medicos',function(Blueprint $t) {
+            $t->id(); $t->integer('id_ficha_atencion'); $t->string('fecha_informe_medico')->nullable(); $t->timestamps();
+        });
+        DB::table('informes_medicos')->insert([
+            ['id'=>11,'id_ficha_atencion'=>2,'fecha_informe_medico'=>'2026-10-26'],
+            ['id'=>12,'id_ficha_atencion'=>3,'fecha_informe_medico'=>'2026-10-26'],
+        ]);
+        $datos=app(FichaVeterinariaUnica::class)->datos(Mascota::find(1));
+        $informes=$datos['documentos']->where('tipo','Informe médico')->values();
+        $this->assertCount(1,$informes);
+        $this->assertStringContainsString('id_informe_medico=11',$informes[0]['url']);
+        $html=Blade::render('@include("general.secciones_ficha.fmu_mascota")',['mascota'=>Mascota::find(1),'resumen_fvu'=>$datos]);
+        $this->assertStringContainsString('Informe veterinario',$html);
+        $this->assertStringNotContainsString('id_informe_medico=12',$html);
     }
 }

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
         (scope.querySelector('.modal-body') || scope).prepend(note);
     });
     ['vacunas', 'enfermedad_cronica', 'cirugias', 'ultima_desparasitacion', 'producto_desparasitacion', 'esterilizado', 'fecha_esterilizacion', 'fecha_esterilizacion_desconocida'].forEach(function (name) {
-        document.querySelectorAll('[name="'+name+'"], [id="modal_agregar_dep_nuevo_'+name+'"]').forEach(function (control) { control.disabled = true; });
+        document.querySelectorAll('[name="'+name+'"]').forEach(function (control) { control.disabled = true; });
     });
 });
 </script>

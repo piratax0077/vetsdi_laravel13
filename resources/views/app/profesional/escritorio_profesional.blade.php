@@ -127,7 +127,7 @@
                                             @foreach ($hora_dia as $hd)
                                                 <tr>
                                                     <td class="text-center align-left">{{ substr((string) $hd->hora_inicio, 0, 5) }}</td>
-                                                    <td class="text-center align-left bg-estado-light-amarillo">
+                                                    <td class="text-center align-left" style="background-color: {{ $hd->estado_escritorio_color }} !important; color: {{ $hd->estado_escritorio_texto_color }} !important;">
                                                         {!! $hd->paciente_escritorio_html !!}
                                                     </td>
                                                     <td class="text-center align-left">{{ $hd->lugar_atencion->nombre }}</td>

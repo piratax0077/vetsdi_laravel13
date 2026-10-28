@@ -13,6 +13,25 @@ use Tests\TestCase;
 
 class PerfilTutorMascotaTest extends TestCase
 {
+    public function test_selectores_excluyen_eliminadas_y_fallecidas_y_reflejan_cambios_de_estado(): void
+    {
+        DB::table('mascotas')->insert([
+            ['id'=>3,'id_responsable'=>9,'nombre'=>'Eliminada','estado'=>0,'fallecida'=>0],
+            ['id'=>4,'id_responsable'=>9,'nombre'=>'Fallecida','estado'=>1,'fallecida'=>1],
+            ['id'=>5,'id_responsable'=>9,'nombre'=>'Legacy activa','estado'=>null,'fallecida'=>null],
+        ]);
+        $seleccionables=fn()=>Mascota::where('id_responsable',9)->seleccionables()->orderBy('id')->pluck('id')->all();
+        $this->assertSame([1,5],$seleccionables());
+        $respuesta=app(MascotasController::class)->listar(new Request(['seleccionables'=>1]))->getData(true);
+        $ids=array_column($respuesta['registros'],'id'); sort($ids);
+        $this->assertSame([1,5],$ids);
+        DB::table('mascotas')->where('id',1)->update(['fallecida'=>1]);
+        $this->assertSame([5],$seleccionables());
+        DB::table('mascotas')->where('id',5)->update(['estado'=>0]);
+        $this->assertSame([],$seleccionables());
+        $this->assertSame(4,Mascota::where('id_responsable',9)->count());
+    }
+
     protected function setUp(): void
     {
         parent::setUp();config(['database.default'=>'sqlite','database.connections.sqlite.database'=>':memory:']);DB::purge('sqlite');

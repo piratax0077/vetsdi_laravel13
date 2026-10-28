@@ -69,7 +69,7 @@ class VeterinaryEmergencyController extends Controller
 
         $pets = Mascota::with(['especieMascota:id,nombre', 'Responsable:id,rut,nombres,apellido_uno,apellido_dos,email'])
             ->where('estado', 1)
-            ->vivas()
+            ->seleccionables()
             ->where(function ($builder) use ($query, $rut) {
                 $builder->whereRaw('LOWER(nombre) LIKE ?', ["%{$query}%"])
                     ->orWhereRaw("LOWER(COALESCE(chip, '')) LIKE ?", ["%{$query}%"])
@@ -107,7 +107,7 @@ class VeterinaryEmergencyController extends Controller
 
         if ($request->filled('pet_id')) {
             $profesional = Profesional::where('id_usuario', $user->id)->first();
-            $mascota = Mascota::whereKey($request->integer('pet_id'))->where('estado', 1)->vivas()->first();
+            $mascota = Mascota::whereKey($request->integer('pet_id'))->where('estado', 1)->seleccionables()->first();
             if (!$profesional || !$mascota) {
                 return response()->json(['message' => 'Mascota o perfil veterinario no válido.'], 422);
             }
@@ -120,7 +120,7 @@ class VeterinaryEmergencyController extends Controller
             $tutor = Paciente::where('id_usuario', $user->id)->first();
             $profesional = Profesional::find($request->integer('professional_id'));
             $mascota = $tutor
-                ? Mascota::where('id_responsable', $tutor->id)->where('estado', 1)->vivas()->orderBy('nombre')->first()
+                ? Mascota::where('id_responsable', $tutor->id)->where('estado', 1)->seleccionables()->orderBy('nombre')->first()
                 : null;
             if (!$tutor || !$profesional || !$mascota) {
                 return response()->json(['message' => 'Debe tener una mascota registrada y elegir un veterinario válido.'], 422);

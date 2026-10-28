@@ -583,7 +583,7 @@ class MascotasController extends Controller
 
         $mascotas = Mascota::with(['especieMascota', 'razaMascota', 'tamanoMascota', 'lugaresAtencion'])
             ->where('id_responsable', $paciente->id)
-            ->where('estado', 1)
+            ->when($request->boolean('seleccionables'), fn ($query) => $query->seleccionables(), fn ($query) => $query->where('estado', 1))
             ->porLugarAtencion($request->input('id_lugar_atencion'))
             ->get();
 
@@ -1415,10 +1415,11 @@ class MascotasController extends Controller
 
         if ($paciente) {
             $mascotas = Mascota::where('id_responsable', $paciente->id)
+                ->seleccionables()
                 ->orderBy('nombre')
                 ->get();
 
-            $mascotaActiva = $this->resolverMascota($request->input('id_dependiente_activo'));
+            $mascotaActiva = $mascotas->firstWhere('id', $request->input('id_dependiente_activo'));
 
             if (!$mascotaActiva && $mascotas->count() === 1) {
                 $mascotaActiva = $mascotas->first();
@@ -1476,6 +1477,8 @@ class MascotasController extends Controller
             'petsData' => $petsData,
             'prescripcionesData' => $prescripcionesData,
             'comerciosIntegrados' => $comercios,
+            'regionesDespacho' => \App\Models\Region::orderBy('nombre')->get(['id', 'nombre']),
+            'comunasDespacho' => \App\Models\Ciudad::orderBy('nombre')->get(['id', 'id_region', 'nombre']),
             'catalogoServiciosVeterinarios' => VeterinaryReservaCatalog::areas(),
         ]);
     }

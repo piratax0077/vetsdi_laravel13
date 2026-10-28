@@ -1,5 +1,5 @@
 @php
-    $resumenFvu = app(\App\Services\FichaVeterinariaUnica::class)->datos($mascota);
+    $resumenFvu = $resumen_fvu ?? app(\App\Services\FichaVeterinariaUnica::class)->datos($mascota);
     $odontograma_veterinario = $resumenFvu['odontograma'];
     $detallesClinicosFvu = $resumenFvu['detalles'];
     $responsableFvu = $responsable_mascota ?? $responsable ?? null;
@@ -199,12 +199,6 @@
             'icono' => 'tto-curso.png',
             'tiene' => $tratamientosLista->isNotEmpty(),
             'ver_modal' => '#modal_fvu_tratamientos',
-        ],
-        [
-            'titulo' => 'Enfermedades crónicas',
-            'icono' => 'meds-cronicos.png',
-            'tiene' => $tieneCronico,
-            'ver_modal' => '#modal_fvu_cronicas',
         ],
         [
             'titulo' => 'Cirugías recientes',

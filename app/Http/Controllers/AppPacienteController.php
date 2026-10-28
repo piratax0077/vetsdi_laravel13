@@ -272,7 +272,7 @@ class AppPacienteController extends Controller
         $mascotas = Mascota::with(['especieMascota:id,nombre', 'razaMascota:id,nombre'])
             ->where('id_responsable', $paciente->id)
             ->where('estado', 1)
-            ->vivas()
+            ->seleccionables()
             ->orderBy('nombre')
             ->get()
             ->map(fn ($mascota) => [
@@ -1867,7 +1867,7 @@ class AppPacienteController extends Controller
         $mascota = Mascota::whereKey($request->integer('id_mascota'))
             ->where('id_responsable', $paciente->id)
             ->where('estado', 1)
-            ->vivas()
+            ->seleccionables()
             ->first();
         if (!$mascota) {
             return response()->json([

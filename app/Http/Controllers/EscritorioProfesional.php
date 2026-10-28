@@ -230,6 +230,13 @@ class EscritorioProfesional extends Controller
         [$htmlPaciente, $textoPaciente] = $this->formatearPacienteEscritorio($horaMedica);
         $horaMedica->paciente_escritorio_html = $htmlPaciente;
         $horaMedica->paciente_escritorio_texto = $textoPaciente;
+        $colorEstado = $horaMedica->Estado?->color;
+        if (!is_string($colorEstado) || !preg_match('/^#[0-9a-f]{6}$/i', $colorEstado)) {
+            $colorEstado = in_array((int) $horaMedica->id_estado, [4, 8], true) ? '#A06CC1' : '#ecf0f5';
+        }
+        $horaMedica->estado_escritorio_color = $colorEstado;
+        $luminosidad = (hexdec(substr($colorEstado, 1, 2)) * 299 + hexdec(substr($colorEstado, 3, 2)) * 587 + hexdec(substr($colorEstado, 5, 2)) * 114) / 1000;
+        $horaMedica->estado_escritorio_texto_color = $luminosidad < 160 ? '#ffffff' : '#37474f';
 
         return $horaMedica;
     }
@@ -239,12 +246,13 @@ class EscritorioProfesional extends Controller
         $query = HoraMedica::with([
                 'Paciente',
                 'LugarAtencion',
+                'Estado',
                 'Mascota.especieMascota',
                 'Mascota.Responsable',
             ])
             ->where('id_profesional', $idProfesional)
             ->where('tipo_hora_medica', '!=', 'B')
-            ->whereNotIn('id_estado', [3, 4]);
+            ->whereNotIn('id_estado', [3]);
 
         if (!empty($fechaConsulta)) {
             $query->whereDate('fecha_consulta', $fechaConsulta);

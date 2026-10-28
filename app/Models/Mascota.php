@@ -203,6 +203,13 @@ class Mascota extends Model
         });
     }
 
+    public function scopeSeleccionables(Builder $query): Builder
+    {
+        return $query->vivas()->where(function (Builder $subQuery) {
+            $subQuery->whereNull('estado')->orWhere('estado', '!=', 0);
+        });
+    }
+
     public function estaFallecida(): bool
     {
         return (bool) $this->fallecida;

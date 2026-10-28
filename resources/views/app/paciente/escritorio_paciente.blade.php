@@ -171,6 +171,9 @@
                                             </td>
                                             <td class="align-middle">
                                                 <strong>{{ $hora->nombre_mascota ?: 'Sin mascota' }}</strong>
+                                                @if ($hora->Mascota && (int) $hora->Mascota->estado === 0)
+                                                    <br><small class="text-muted">Mascota eliminada</small>
+                                                @endif
                                                 @if (!empty($hora->nombre_especie_mascota))
                                                     <br>{{ $hora->nombre_especie_mascota }}
                                                 @endif

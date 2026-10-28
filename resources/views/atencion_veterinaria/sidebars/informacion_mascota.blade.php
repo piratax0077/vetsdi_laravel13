@@ -49,7 +49,8 @@
                                 </button>
                             </div>
 
-                            <form id="info_mascota_sidebar_edit" class="pt-3" style="display:none;" onsubmit="guardarInformacionMascotaSidebar(); return false;">
+                            <div id="info_mascota_sidebar_edit" class="pt-3" style="display:none;"
+                                onkeydown="if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') event.preventDefault();">
                                 <div id="sidebar_mascota_error" class="alert alert-danger" role="alert" style="display:none;"></div>
                                 <div class="form-group mb-2">
                                     <label class="mb-1" for="sidebar_mascota_nombre">Nombre</label>
@@ -142,18 +143,30 @@
                                     </select>
                                 </div>
                                 <div class="mascota-sidebar-acciones text-center mt-3">
-                                    <button type="submit" class="btn btn-info btn-sm">
+                                    <button type="button" data-guardar-mascota class="btn btn-info btn-sm" onclick="guardarInformacionMascotaSidebar()">
                                         <i class="feather icon-save"></i> Guardar
                                     </button>
                                     <button type="button" class="btn btn-danger-light-c btn-sm" onclick="cancelarInformacionMascotaSidebar()">
                                         <i class="feather icon-x"></i> Cancelar
                                     </button>
                                 </div>
-                            </form>
+                            </div>
 
                             @once
                             <script>
                                 const catalogosMascotaSidebar = @json($especiesSidebar);
+                                const camposMascotaSidebar = ['nombre', 'especie_id', 'otra_especie', 'raza_id', 'tamano_id', 'chip', 'fecha_nacimiento', 'sexo', 'esterilizado', 'fecha_esterilizacion', 'enfermedad_cronica', 'dieta', 'ultima_desparasitacion', 'producto_desparasitacion', 'cirugias', 'vacunas', 'viajes', 'vive_con_animales'];
+                                let valoresGuardadosMascotaSidebar = null;
+                                let guardandoMascotaSidebar = false;
+                                function valoresMascotaSidebar() {
+                                    return Object.fromEntries(camposMascotaSidebar.map(campo => [campo, String($('#sidebar_mascota_' + campo).val() ?? '').trim()]));
+                                }
+                                function restaurarMascotaSidebar() {
+                                    if (!valoresGuardadosMascotaSidebar) return;
+                                    Object.entries(valoresGuardadosMascotaSidebar).forEach(([campo, valor]) => $('#sidebar_mascota_' + campo).val(valor));
+                                    actualizarCatalogosMascotaSidebar(valoresGuardadosMascotaSidebar.raza_id, valoresGuardadosMascotaSidebar.tamano_id);
+                                    actualizarFechaEsterilizacionSidebar();
+                                }
                                 function actualizarCatalogosMascotaSidebar(razaId = '', tamanoId = '') {
                                     const especie = catalogosMascotaSidebar.find(item => String(item.id) === $('#sidebar_mascota_especie_id').val());
                                     const llenar = function (selector, opciones, seleccionado, placeholder) {
@@ -170,13 +183,18 @@
                                     $('#info_mascota_sidebar_read').hide();
                                     $('#info_mascota_sidebar_edit').show();
                                     $('#sidebar_mascota_error').hide().text('');
-                                    actualizarCatalogosMascotaSidebar(@json($mascota->raza_id), @json($mascota->tamano_id));
+                                    if (!valoresGuardadosMascotaSidebar) {
+                                        actualizarCatalogosMascotaSidebar(@json($mascota->raza_id), @json($mascota->tamano_id));
+                                        valoresGuardadosMascotaSidebar = valoresMascotaSidebar();
+                                    } else {
+                                        restaurarMascotaSidebar();
+                                    }
                                     actualizarFechaEsterilizacionSidebar();
                                 }
 
                                 function cancelarInformacionMascotaSidebar() {
-                                    if ($('#info_mascota_sidebar_edit button[type=submit]').prop('disabled')) return;
-                                    document.getElementById('info_mascota_sidebar_edit').reset();
+                                    if (guardandoMascotaSidebar) return;
+                                    restaurarMascotaSidebar();
                                     $('#info_mascota_sidebar_edit').hide();
                                     $('#info_mascota_sidebar_read').show();
                                 }
@@ -187,7 +205,14 @@
 
                                 function guardarInformacionMascotaSidebar() {
                                     const form = document.getElementById('info_mascota_sidebar_edit');
-                                    if (!form.reportValidity() || $(form).find('button[type=submit]').prop('disabled')) return;
+                                    if (guardandoMascotaSidebar) return;
+                                    if (valoresGuardadosMascotaSidebar && JSON.stringify(valoresMascotaSidebar()) === JSON.stringify(valoresGuardadosMascotaSidebar)) {
+                                        cancelarInformacionMascotaSidebar();
+                                        return;
+                                    }
+                                    for (const control of form.querySelectorAll('input, select, textarea')) {
+                                        if (!control.reportValidity()) return;
+                                    }
                                     const esterilizado = $('#sidebar_mascota_esterilizado').val();
                                     const fechaEsterilizacion = $('#sidebar_mascota_fecha_esterilizacion').val();
                                     const chip = $('#sidebar_mascota_chip').val().trim();
@@ -231,6 +256,7 @@
                                         error.text(detalle || respuesta.msj || respuesta.message || 'No se pudo guardar. Intente nuevamente.').show();
                                         error[0].scrollIntoView({block: 'nearest'});
                                     };
+                                    guardandoMascotaSidebar = true;
                                     botones.prop('disabled', true);
                                     $.ajax({
                                         url: @json(route('paciente.mascotas.update', $mascota->id)),
@@ -242,12 +268,59 @@
                                             mostrarError(respuesta);
                                             return;
                                         }
-                                        // Reload only after a successful save so all clinical summaries stay in sync.
-                                        window.location.reload();
+                                        actualizarResumenMascotaSidebar(respuesta.mascota || {});
+                                        valoresGuardadosMascotaSidebar = valoresMascotaSidebar();
+                                        $('#info_mascota_sidebar_edit').hide();
+                                        $('#info_mascota_sidebar_read').show();
                                     }).fail(function (xhr) {
                                         mostrarError(xhr.responseJSON || {});
                                     }).always(function () {
+                                        guardandoMascotaSidebar = false;
                                         botones.prop('disabled', false);
+                                    });
+                                }
+
+                                function actualizarResumenMascotaSidebar(mascota) {
+                                    const anteriores = valoresGuardadosMascotaSidebar || {};
+                                    Object.entries(mascota).forEach(([campo, valor]) => {
+                                        if (!camposMascotaSidebar.includes(campo)) return;
+                                        if (['esterilizado', 'vive_con_animales'].includes(campo)) valor = valor == null ? '' : (valor ? '1' : '0');
+                                        if (['fecha_nacimiento', 'fecha_esterilizacion', 'ultima_desparasitacion'].includes(campo)) valor = (valor || '').slice(0, 10);
+                                        $('#sidebar_mascota_' + campo).val(valor ?? '');
+                                    });
+                                    const actuales = valoresMascotaSidebar();
+                                    const compartidos = {dieta: 'dieta', enfermedad_cronica: 'enfermedades_previas', cirugias: 'cirugias_previas', vacunas: 'esquema_inmunizaciones', viajes: 'viajes_recientes', ultima_desparasitacion: 'ultima_desparasitacion', producto_desparasitacion: 'producto_desparasitacion', esterilizado: 'esterilizado', vive_con_animales: 'vive_con_animales'};
+                                    Object.entries(compartidos).forEach(([campo, destino]) => {
+                                        const convertir = valor => ['esterilizado', 'vive_con_animales'].includes(campo) ? (valor === '' || valor == null ? '' : (valor === '1' ? 'Si' : 'No')) : (valor || '');
+                                        const input = $('#' + destino);
+                                        // Preserve anything already edited in the consultation.
+                                        if (String(input.val() ?? '').trim() === convertir(anteriores[campo])) input.val(convertir(actuales[campo]));
+                                    });
+                                    const fecha = valor => valor ? valor.split('-').reverse().join('-') : '';
+                                    const nacimientoEdad = valor => {
+                                        if (!valor) return '';
+                                        const nacimiento = new Date(valor + 'T00:00:00');
+                                        const hoy = new Date();
+                                        let meses = (hoy.getFullYear() - nacimiento.getFullYear()) * 12 + hoy.getMonth() - nacimiento.getMonth();
+                                        if (hoy.getDate() < nacimiento.getDate()) meses--;
+                                        return fecha(valor) + ' (' + Math.floor(meses / 12) + ' años y ' + (meses % 12) + ' meses)';
+                                    };
+                                    const siNo = valor => valor === '' ? '' : (valor === '1' ? 'Sí' : 'No');
+                                    const resumen = {
+                                        'Nombre': actuales.nombre, 'Especie': $('#sidebar_mascota_especie_id option:selected').text(),
+                                        'Raza': actuales.raza_id ? $('#sidebar_mascota_raza_id option:selected').text() : '',
+                                        'Tamaño': $('#sidebar_mascota_tamano_id option:selected').text(), 'Microchip': actuales.chip,
+                                        'Sexo': actuales.sexo === 'M' ? 'Macho' : (actuales.sexo === 'F' ? 'Hembra' : ''),
+                                        'Nacimiento / edad': nacimientoEdad(actuales.fecha_nacimiento), 'Esterilizado/a': siNo(actuales.esterilizado),
+                                        'Fecha de esterilización': fecha(actuales.fecha_esterilizacion), 'Enfermedad crónica': actuales.enfermedad_cronica,
+                                        'Dieta': actuales.dieta, 'Última desparasitación': fecha(actuales.ultima_desparasitacion),
+                                        'Productos': actuales.producto_desparasitacion, 'Cirugías': actuales.cirugias, 'Vacunas': actuales.vacunas,
+                                        'Viajes': actuales.viajes, '¿Vive con animales?': siNo(actuales.vive_con_animales)
+                                    };
+                                    $('#info_mascota_sidebar_read .mascota-sidebar-fila').each(function () {
+                                        const fila = $(this);
+                                        const etiqueta = fila.find('dt').text();
+                                        if (Object.hasOwn(resumen, etiqueta)) fila.find('dd').text(resumen[etiqueta] || 'Sin registro');
                                     });
                                 }
                             </script>

@@ -22,7 +22,7 @@ function setup() {
     }
     const nodes = new Map();
     let resetCount = 0, reloadCount = 0, request, handlers = {};
-    const form = { reportValidity: () => true, reset: () => resetCount++ };
+    const form = { querySelectorAll: () => [{reportValidity: () => true}], reset: () => resetCount++ };
     function $(key) {
         if (key === form) return { find: () => $('buttons') };
         if (String(key).includes('button[type=submit]')) key = 'buttons';
@@ -34,7 +34,8 @@ function setup() {
                 hide() { this.visible = false; return this; },
                 show() { this.visible = true; return this; },
                 toggle(value) { this.visible = value; return this; },
-                text(value) { this.content = value; return this; },
+                text(value) { if (value === undefined) return this.content; this.content = value; return this; },
+                each() { return this; },
                 empty() { return this; }, append() { return this; }
             };
             nodes.set(key, node);
@@ -56,8 +57,9 @@ function setup() {
 test('cancel restores the original form and shows the saved information', () => {
     const s = setup();
     s.context.editarInformacionMascotaSidebar();
+    s.$('#sidebar_mascota_nombre').val('Cambio descartado');
     s.context.cancelarInformacionMascotaSidebar();
-    assert.equal(s.resets, 1);
+    assert.equal(s.$('#sidebar_mascota_nombre').val(), 'Plumita');
     assert.equal(s.$('#info_mascota_sidebar_edit').visible, false);
     assert.equal(s.$('#info_mascota_sidebar_read').visible, true);
 });
@@ -87,11 +89,45 @@ test('validation failure keeps the form available and allows retry', () => {
     assert.equal(s.reloads, 0);
 });
 
-test('reloads clinical summaries only after a successful save', () => {
+test('updates the saved baseline without reloading and preserves consultation text', () => {
     const s = setup();
+    s.context.editarInformacionMascotaSidebar();
+    s.$('#sidebar_mascota_dieta').val('Nueva dieta');
+    s.$('#dieta').val('Texto sin guardar de la consulta');
+    s.$('#descripcion_hipotesis').val('Diagnóstico en edición');
     s.context.guardarInformacionMascotaSidebar();
     s.handlers.done({ estado: 0, msj: 'Error' });
     assert.equal(s.reloads, 0);
-    s.handlers.done({ estado: 1 });
-    assert.equal(s.reloads, 1);
+    s.handlers.done({ estado: 1, mascota: {nombre: 'Plumita', dieta: 'Nueva dieta'} });
+    s.handlers.always();
+    assert.equal(s.reloads, 0);
+    assert.equal(s.$('#dieta').val(), 'Texto sin guardar de la consulta');
+    assert.equal(s.$('#descripcion_hipotesis').val(), 'Diagnóstico en edición');
+    assert.equal(s.$('#info_mascota_sidebar_edit').visible, false);
+    s.context.editarInformacionMascotaSidebar();
+    s.$('#sidebar_mascota_dieta').val('Cambio descartado');
+    s.context.cancelarInformacionMascotaSidebar();
+    assert.equal(s.$('#sidebar_mascota_dieta').val(), 'Nueva dieta');
+});
+
+test('saving without changes cancels without a request or consultation validation', () => {
+    const s = setup();
+    s.context.editarInformacionMascotaSidebar();
+    s.form.querySelectorAll = () => { throw new Error('No debe validar sin cambios'); };
+    s.context.guardarInformacionMascotaSidebar();
+    assert.equal(s.request, undefined);
+    assert.equal(s.reloads, 0);
+    assert.equal(s.$('#info_mascota_sidebar_edit').visible, false);
+});
+
+test('updates matching antecedents while leaving other consultation inputs intact', () => {
+    const s = setup();
+    s.$('#sidebar_mascota_dieta').val('Anterior');
+    s.$('#dieta').val('Anterior');
+    s.context.editarInformacionMascotaSidebar();
+    s.$('#sidebar_mascota_dieta').val('Nueva');
+    s.context.guardarInformacionMascotaSidebar();
+    s.handlers.done({estado: 1, mascota: {dieta: 'Nueva'}});
+    assert.equal(s.$('#dieta').val(), 'Nueva');
+    assert.equal(s.reloads, 0);
 });

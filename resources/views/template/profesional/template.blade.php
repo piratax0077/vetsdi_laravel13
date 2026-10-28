@@ -3378,9 +3378,11 @@
                             escapeHtml(lugarAtencion),
                         ]).node();
 
-                        // Mismas clases que las filas que pinta la vista al cargar
                         $(nodoFila).children('td').addClass('text-center align-left')
-                            .eq(1).addClass('bg-estado-light-amarillo');
+                            .eq(1).each(function () {
+                                this.style.setProperty('background-color', data[i].estado_escritorio_color || '#ecf0f5', 'important');
+                                this.style.setProperty('color', data[i].estado_escritorio_texto_color || '#37474f', 'important');
+                            });
                     }
                     tabla.draw();
                 })

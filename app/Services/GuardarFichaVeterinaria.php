@@ -33,6 +33,8 @@ class GuardarFichaVeterinaria
             abort_unless((int) $mascota->id_responsable === (int) $hora->id_paciente, 403, 'La hora no corresponde al tutor actual de la mascota.');
             abort_if($request->filled('id_mascota') && (int) $request->id_mascota !== (int) $hora->id_mascota, 422);
 
+            app(AntecedentesMascota::class)->guardar($mascota, $request);
+
             $ficha = $hora->id_ficha_atencion ? FichaAtencion::findOrFail($hora->id_ficha_atencion) : new FichaAtencion();
             if ($ficha->exists) {
                 abort_unless((int) $ficha->id_profesional === $idProfesional && (int) $ficha->id_mascota === (int) $hora->id_mascota && (int) $ficha->id_paciente === (int) $hora->id_paciente, 403);

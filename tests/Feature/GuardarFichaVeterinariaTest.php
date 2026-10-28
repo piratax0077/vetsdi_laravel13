@@ -15,6 +15,36 @@ use Tests\TestCase;
 
 class GuardarFichaVeterinariaTest extends TestCase
 {
+    public function test_antecedentes_se_precargan_y_se_comparten_con_el_perfil(): void
+    {
+        DB::table('mascotas')->where('id', 4)->update([
+            'esterilizado' => 1, 'ultima_desparasitacion' => '2026-01-10',
+            'producto_desparasitacion' => 'Producto registrado', 'dieta' => 'Blanda',
+        ]);
+        $mascota = \App\Models\Mascota::find(4);
+        $html = view('general.secciones_ficha.motivo', compact('mascota'))->render();
+        $this->assertStringContainsString('value="2026-01-10"', $html);
+        $this->assertStringContainsString('Producto registrado', $html);
+        $this->assertMatchesRegularExpression('/value="Si"\s+selected/', $html);
+        app(GuardarFichaVeterinaria::class)->guardar(new Request([
+            'hora_medica' => 1, 'descripcion_hipotesis' => 'Control',
+            'esterilizado' => 'No', 'ultima_desparasitacion' => '2026-02-12',
+            'producto_desparasitacion' => 'Nuevo producto', 'enfermedades_previas' => 'Alergia',
+            'cirugias_previas' => 'Cirugía registrada', 'esquema_inmunizaciones' => 'Al día',
+            'vive_con_animales' => 'No', 'dieta' => '',
+        ]), 3, 'general');
+        $mascota->refresh();
+        $this->assertFalse($mascota->esterilizado);
+        $this->assertFalse($mascota->vive_con_animales);
+        $this->assertSame('2026-02-12', $mascota->ultima_desparasitacion->format('Y-m-d'));
+        $this->assertSame('Nuevo producto', $mascota->producto_desparasitacion);
+        $this->assertSame('Alergia', $mascota->enfermedad_cronica);
+        $this->assertSame('Cirugía registrada', $mascota->cirugias);
+        $this->assertSame('Al día', $mascota->vacunas);
+        $this->assertSame('Blanda', $mascota->dieta);
+        $this->assertSame('Nuevo producto', $this->datos()['producto_desparasitacion']);
+    }
+
     public function test_finalizar_conserva_la_ficha_y_la_incluye_en_historial_sin_duplicarla(): void
     {
         $servicio = app(GuardarFichaVeterinaria::class);
@@ -81,7 +111,7 @@ class GuardarFichaVeterinariaTest extends TestCase
             'bonos' => ['id_referencia', 'id_tipo_bono', 'estado_consulta', 'devuelto', 'glosa'],
             'profesionales' => ['id_usuario'],
             'especies_mascotas' => ['nombre'],
-            'mascotas' => ['id_responsable','especie_id','especie','otra_especie'],
+            'mascotas' => ['id_responsable','especie_id','especie','otra_especie','dieta','enfermedad_cronica','cirugias','vacunas','viajes','ultima_desparasitacion','producto_desparasitacion','esterilizado','vive_con_animales'],
             'presupuestos_dental' => ['id_ficha_atencion'],
             'pagos_presupuesto_dental' => ['id_presupuesto'],
         ] as $tabla => $campos) {

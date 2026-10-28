@@ -2,6 +2,17 @@
     $datosVeterinarios = isset($fichaVeterinariaGeneralData) && is_array($fichaVeterinariaGeneralData)
         ? $fichaVeterinariaGeneralData
         : [];
+    $antecedentesMascota = app(\App\Services\AntecedentesMascota::class)->datos($mascota ?? null);
+    foreach ($antecedentesMascota as $campo => $valor) {
+        if (!isset($datosVeterinarios[$campo]) || $datosVeterinarios[$campo] === '') {
+            $datosVeterinarios[$campo] = $valor;
+        }
+    }
+    foreach (['esterilizado', 'vive_con_animales'] as $campo) {
+        if (in_array($datosVeterinarios[$campo], [true, false, 1, 0, '1', '0'], true)) {
+            $datosVeterinarios[$campo] = $datosVeterinarios[$campo] ? 'Si' : 'No';
+        }
+    }
     $fichaActual = $fichaAtencion ?? null;
 @endphp
 
@@ -19,25 +30,25 @@
                 <div class="form-row">
                     <div class="form-group col-12">
                         <label class="floating-label-activo-sm" for="motivo">Motivo de consulta</label>
-                        <textarea class="form-control caja-texto form-control-sm" rows="4" name="motivo" id="motivo"
+                        <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3" onblur="this.rows=1" name="motivo" id="motivo"
                             placeholder="ESCRIBA LA INFORMACIÓN CÓMO LA DESCRIBE EL RESPONSABLE O TUTOR">{{ old('motivo', data_get($datosVeterinarios, 'motivo', data_get($fichaActual, 'motivo', ''))) }}</textarea>
                     </div>
 
                     <div class="form-group col-12">
                         <label class="floating-label-activo-sm" for="examen_fisico">Examen Físico</label>
-                        <textarea class="form-control caja-texto form-control-sm" rows="4" name="examen_fisico"
+                        <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3" onblur="this.rows=1" name="examen_fisico"
                             id="examen_fisico"
                             placeholder="DESCRIBA LAS CARACTERÍSTICAS QUE CONSIDERE NECESARIO">{{ old('examen_fisico', data_get($datosVeterinarios, 'examen_fisico', data_get($fichaActual, 'examen_fisico', ''))) }}</textarea>
                     </div>
 
                     <div class="form-group col-sm-12 col-xl-6">
                         <label class="floating-label-activo-sm" for="dieta">Dieta</label>
-                        <textarea class="form-control caja-texto form-control-sm mb-9" rows="1" onfocus="this.rows=4"
+                        <textarea class="form-control caja-texto form-control-sm mb-9" rows="1" onfocus="this.rows=3"
                             onblur="this.rows=1" name="dieta" id="dieta">{{ old('dieta', data_get($datosVeterinarios, 'dieta', '')) }}</textarea>
                     </div>
                     <div class="form-group col-sm-12 col-xl-6">
                         <label class="floating-label-activo-sm" for="enfermedades_previas">Enfermedades previas</label>
-                        <textarea class="form-control caja-texto form-control-sm mb-9" rows="1" onfocus="this.rows=4"
+                        <textarea class="form-control caja-texto form-control-sm mb-9" rows="1" onfocus="this.rows=3"
                             onblur="this.rows=1" name="enfermedades_previas"
                             id="enfermedades_previas">{{ old('enfermedades_previas', data_get($datosVeterinarios, 'enfermedades_previas', '')) }}</textarea>
                     </div>
@@ -51,13 +62,13 @@
                     </div>
                     <div class="form-group col-sm-12 col-xl-6">
                         <label class="floating-label-activo-sm" for="cirugias_previas">Cirugías previas</label>
-                        <textarea class="form-control caja-texto form-control-sm mb-9" rows="1" onfocus="this.rows=4"
+                        <textarea class="form-control caja-texto form-control-sm mb-9" rows="1" onfocus="this.rows=3"
                             onblur="this.rows=1" name="cirugias_previas"
                             id="cirugias_previas">{{ old('cirugias_previas', data_get($datosVeterinarios, 'cirugias_previas', '')) }}</textarea>
                     </div>
                     <div class="form-group col-sm-12 col-xl-6">
                         <label class="floating-label-activo-sm" for="esquema_inmunizaciones">Esquema de Inmunizaciones</label>
-                        <textarea class="form-control caja-texto form-control-sm mb-9" rows="1" onfocus="this.rows=4"
+                        <textarea class="form-control caja-texto form-control-sm mb-9" rows="1" onfocus="this.rows=3"
                             onblur="this.rows=1" name="esquema_inmunizaciones"
                             id="esquema_inmunizaciones">{{ old('esquema_inmunizaciones', data_get($datosVeterinarios, 'esquema_inmunizaciones', '')) }}</textarea>
                     </div>
@@ -75,13 +86,13 @@
                     </div>
                     <div class="form-group col-sm-12 col-xl-6">
                         <label class="floating-label-activo-sm" for="tratamientos_recientes">Tratamientos recientes</label>
-                        <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=4"
+                        <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3"
                             onblur="this.rows=1" name="tratamientos_recientes"
                             id="tratamientos_recientes">{{ old('tratamientos_recientes', data_get($datosVeterinarios, 'tratamientos_recientes', '')) }}</textarea>
                     </div>
                     <div class="form-group col-sm-12 col-xl-6">
                         <label class="floating-label-activo-sm" for="viajes_recientes">Viajes recientes</label>
-                        <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=4"
+                        <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3"
                             onblur="this.rows=1" name="viajes_recientes"
                             id="viajes_recientes">{{ old('viajes_recientes', data_get($datosVeterinarios, 'viajes_recientes', '')) }}</textarea>
                     </div>
@@ -95,13 +106,13 @@
                     </div>
                     <div class="form-group col-sm-12 col-xl-6">
                         <label class="floating-label-activo-sm" for="cuales_animales">¿Cuáles?</label>
-                        <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=4"
+                        <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3"
                             onblur="this.rows=1" name="cuales_animales"
                             id="cuales_animales">{{ old('cuales_animales', data_get($datosVeterinarios, 'cuales_animales', '')) }}</textarea>
                     </div>
                     <div class="form-group col-12">
                         <label class="floating-label-activo-sm" for="comportamiento_animal">Comportamiento del animal</label>
-                        <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=4"
+                        <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3"
                             onblur="this.rows=1" name="comportamiento_animal" id="comportamiento_animal"
                             placeholder="ESCRIBA LA INFORMACIÓN CÓMO LA DESCRIBE EL RESPONSABLE">{{ old('comportamiento_animal', data_get($datosVeterinarios, 'comportamiento_animal', '')) }}</textarea>
                     </div>

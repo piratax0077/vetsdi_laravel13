@@ -617,7 +617,7 @@ class EscritorioPaciente extends Controller
         $catalogo_veterinario_busqueda = $this->getVeterinarySearchCatalog();
         $pacienteReserva = Paciente::where('id_usuario', Auth::id())->first();
         $mascotasReserva = $pacienteReserva
-            ? Mascota::where('id_responsable', $pacienteReserva->id)->vivas()->orderBy('nombre')->get()
+            ? Mascota::where('id_responsable', $pacienteReserva->id)->seleccionables()->orderBy('nombre')->get()
             : collect();
 
         if(Auth::user()->hasRole('Paciente'))
@@ -1907,7 +1907,7 @@ class EscritorioPaciente extends Controller
     public function acceso_pni(Request $request)
     {
         $paciente = Paciente::where('id_usuario', Auth::id())->firstOrFail();
-        $mascotas = Mascota::where('id_responsable', $paciente->id)->vivas()
+        $mascotas = Mascota::where('id_responsable', $paciente->id)->seleccionables()
             ->where(fn ($q) => $q->whereNull('estado')->orWhere('estado', '!=', 0))
             ->orderBy('nombre')->get(['id', 'nombre', 'chip']);
         $seleccionada = $request->input('id_mascota', $request->input('id_dependiente_activo'));
@@ -2869,7 +2869,7 @@ class EscritorioPaciente extends Controller
     {
         $tutor = Paciente::where('id_usuario', Auth::id())->first();
         $mascotaSeleccionada = $tutor
-            ? Mascota::where('id', $mascota)->where('id_responsable', $tutor->id)->vivas()->first()
+            ? Mascota::where('id', $mascota)->where('id_responsable', $tutor->id)->seleccionables()->first()
             : null;
 
         if (! $tutor || ! $mascotaSeleccionada) {
@@ -2942,7 +2942,7 @@ class EscritorioPaciente extends Controller
             $mascota = $request->filled('id_mascota')
                 ? Mascota::where('id', $request->id_mascota)
                     ->where('id_responsable', $responsableAutenticado->id)
-                    ->vivas()
+                    ->seleccionables()
                     ->first()
                 : null;
 
@@ -4578,7 +4578,7 @@ class EscritorioPaciente extends Controller
         $paciente = Paciente::where('id_usuario', Auth::id())->firstOrFail();
         $mascota = Mascota::where('id', $data['id_mascota'])
             ->where('id_responsable', $paciente->id)
-            ->vivas()->where(fn ($q) => $q->whereNull('estado')->orWhere('estado', '!=', 0))
+            ->seleccionables()->where(fn ($q) => $q->whereNull('estado')->orWhere('estado', '!=', 0))
             ->first();
 
         if (!$mascota) {
