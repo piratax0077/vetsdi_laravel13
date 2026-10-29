@@ -44,3 +44,21 @@ test('photo upload updates the preview only after a successful save',async()=>{
     await s.form.listeners.submit({preventDefault(){}});
     assert.equal(s.foto.src,'/storage/fotos_perfil/nueva.png');
 });
+
+test('account changes reload the list only after successful persistence',async()=>{
+    const s=setup(ok,'cuenta');let reloads=0;
+    s.form.dataset.recargar='1';s.ctx.location={reload(){reloads++;}};
+    await s.form.listeners.submit({preventDefault(){}});
+    assert.equal(reloads,1);
+    assert.equal(s.campos[0].disabled,false);
+    const failed=setup(()=>Promise.resolve({ok:false,json:async()=>({errors:{numero_cuenta:['Cuenta duplicada.']}})}),'cuenta');
+    failed.form.dataset.recargar='1';failed.ctx.location={reload(){reloads++;}};
+    await failed.form.listeners.submit({preventDefault(){}});
+    assert.equal(reloads,1);assert.equal(failed.aviso.textContent,'Cuenta duplicada.');
+});
+
+test('cancelled account deletion does not send a request',async()=>{
+    const s=setup(ok,'eliminar-cuenta');s.ctx.confirm=()=>false;
+    await s.form.listeners.submit({preventDefault(){}});
+    assert.equal(s.requests.length,0);
+});

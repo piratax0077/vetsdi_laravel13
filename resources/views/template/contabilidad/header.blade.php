@@ -1,4 +1,5 @@
 <header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue">
+    @include('template.partials.escritorio_veterinario_header')
 	<div class="m-header">
 			<a class="mobile-menu" id="mobile-collapse"><span></span></a>
 			<a href="#!" class="b-brand">

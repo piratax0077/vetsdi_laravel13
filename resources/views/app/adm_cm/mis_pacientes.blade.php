@@ -67,43 +67,6 @@
                         <div class="row">
                             <div class="col-md-12 mb-2">
                                 <div class="table-responsive">
-                                    <table class="display table table-striped dt-responsive nowrap table-xs"
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Mascota</th>
-                                                <th>Tutor</th>
-                                                <th>Especie</th>
-                                                <th>Raza</th>
-                                                <th>Convenio</th>
-                                                <th>Chip-Tatuaje</th>
-                                                <th>Lugar</th>
-                                                <th>Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($mascotas as $mascota)
-                                                @php
-                                                    $responsable = $mascota->Responsable;
-                                                    $nombreResponsable = trim(collect([
-                                                        optional($responsable)->nombres,
-                                                        optional($responsable)->apellido_uno,
-                                                        optional($responsable)->apellido_dos,
-                                                    ])->filter()->implode(' '));
-                                                    $rutResponsable = optional($responsable)->rut;
-                                                    $especie = optional($mascota->especieMascota)->nombre ?? $mascota->especie ?? '-';
-                                                    $raza = optional($mascota->razaMascota)->nombre ?? $mascota->otra_especie ?? '-';
-                                                    $convenio = optional(optional($responsable)->Prevision)->nombre ?? '-';
-                                                    $chip = $mascota->tiene_chip ? ($mascota->chip ?: 'Si') : 'No';
-                                                    $imagenesMascota = mascota_imagenes_publicas($mascota);
-                                                    $fotoRespaldoMascota = $mascota->sexo === 'F'
-                                                        ? asset('images/iconos/paciente-f.svg')
-                                                        : asset('images/iconos/paciente-m.svg');
-                                                    $fotoMascota = $mascota->foto_url ?: ($imagenesMascota[0] ?? $fotoRespaldoMascota);
-                                                    $sexoMascota = $mascota->sexo === 'M' ? 'Macho' : ($mascota->sexo === 'F' ? 'Hembra' : ($mascota->sexo ?? 'Sin registro'));
-                                                    $tamanoMascota = optional($mascota->tamanoMascota)->nombre ?? $mascota->tamano ?? 'Sin registro';
-
-                        <div class="table-responsive">
                             <table class="display table table-striped dt-responsive nowrap table-xs" style="width:100%">
                                 <thead>
                                     <tr>
@@ -126,41 +89,19 @@
                                                 optional($responsable)->apellido_dos,
                                             ])->filter()->implode(' '));
                                             $rutResponsable = optional($responsable)->rut;
-                                            $responsableTexto = $nombreResponsable !== ''
-                                                ? $nombreResponsable . ($rutResponsable ? '<br>' . $rutResponsable : '')
-                                                : '-';
                                             $especie = optional($mascota->especieMascota)->nombre ?? $mascota->especie ?? '-';
                                             $raza = optional($mascota->razaMascota)->nombre ?? $mascota->otra_especie ?? '-';
                                             $convenio = optional(optional($responsable)->Prevision)->nombre ?? '-';
                                             $chip = $mascota->tiene_chip ? ($mascota->chip ?: 'Si') : 'No';
-                                            $fotoMascota = $mascota->foto_url ?: asset('images/iconos/mascotas.svg');
+                                            $fotoRespaldoMascota = $mascota->sexo === 'F' ? asset('images/iconos/paciente-f.svg') : asset('images/iconos/paciente-m.svg');
+                                            $fotoMascota = $mascota->foto_url ?: $fotoRespaldoMascota;
                                             $sexoMascota = $mascota->sexo === 'M' ? 'Macho' : ($mascota->sexo === 'F' ? 'Hembra' : ($mascota->sexo ?? 'Sin registro'));
                                             $tamanoMascota = optional($mascota->tamanoMascota)->nombre ?? $mascota->tamano ?? 'Sin registro';
-                                            $galeriaMascota = [];
-                                            if (is_array($mascota->galeria)) {
-                                                foreach ($mascota->galeria as $bloque) {
-                                                    if (is_array($bloque)) {
-                                                        foreach ($bloque as $item) {
-                                                            if (is_string($item) && $item !== '') {
-                                                                $galeriaMascota[] = $item;
-                                                            } elseif (is_array($item)) {
-                                                                foreach ($item as $sub) {
-                                                                    if (is_string($sub) && $sub !== '') {
-                                                                        $galeriaMascota[] = $sub;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    } elseif (is_string($bloque) && $bloque !== '') {
-                                                        $galeriaMascota[] = $bloque;
-                                                    }
-                                                }
-                                            }
-                                            $galeriaMascota = array_values(array_unique($galeriaMascota));
+                                            $galeriaMascota = mascota_imagenes_publicas($mascota);
                                         @endphp
                                         <tr>
                                             <td class="align-middle">{{ $mascota->nombre ?? '-' }}</td>
-                                            <td class="align-middle">{!! $responsableTexto !!}</td>
+                                            <td class="align-middle">{{ $nombreResponsable ?: '-' }}@if($rutResponsable)<br>{{ $rutResponsable }}@endif</td>
                                             <td class="align-middle">{{ $especie }}</td>
                                             <td class="align-middle">{{ $raza }}</td>
                                             <td class="align-middle">{{ $convenio }}</td>
@@ -179,6 +120,13 @@
                                                     data-esterilizacion="{{ $mascota->fecha_esterilizacion ?? 'Sin registro' }}"
                                                     data-enfermedad="{{ $mascota->enfermedad_cronica ?? 'Sin registro' }}"
                                                     data-foto="{{ $fotoMascota }}"
+                                                    data-foto-respaldo="{{ $fotoRespaldoMascota }}"
+                                                    data-tutor="{{ $nombreResponsable }}"
+                                                    data-tutor-rut="{{ $rutResponsable }}"
+                                                    data-tutor-convenio="{{ $convenio }}"
+                                                    data-tutor-telefono="{{ optional($responsable)->telefono_uno }}"
+                                                    data-tutor-email="{{ optional($responsable)->email }}"
+                                                    data-tutor-url="{{ $responsable ? route('adm_cm.tutor.informacion', ['tutor'=>$responsable->id]) : '' }}"
                                                     data-galeria='@json($galeriaMascota)'>
                                                     <i class="feather icon-eye"></i> Ver mascota
                                                 </button>
@@ -195,6 +143,8 @@
                                     @endforelse
                                 </tbody>
                             </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -39,6 +39,108 @@ class PerfilCentroMedicoTest extends TestCase
     private function req(array $datos=[]): Request{return Request::create('/perfil','POST',$datos+['id_institucion'=>10,'tipo_institucion'=>'institucion']);}
     private function servicio(): PerfilCentroMedico{return app(PerfilCentroMedico::class);}
 
+    private function prepararCuentas(): void
+    {
+        Schema::create('bancos', function(Blueprint $t){$t->id();$t->string('nombre');});
+        Schema::create('tipo_cuenta_bancaria', function(Blueprint $t){$t->id();$t->string('descripcion');});
+        Schema::create('cuenta_bancaria_inst', function(Blueprint $t){
+            $t->id();
+            foreach(['id_institucion','id_banco','id_tipo_cuenta','id_responsable','rut_titular','nombre_titular','numero_cuenta','rut_representante','nombre_representante','email','telefono','estado','observaciones'] as $campo)$t->string($campo)->nullable();
+            $t->timestamps();
+        });
+        DB::table('bancos')->insert(['id'=>1,'nombre'=>'Banco de prueba']);
+        DB::table('tipo_cuenta_bancaria')->insert(['id'=>1,'descripcion'=>'Cuenta corriente']);
+    }
+
+    private function datosCuenta(): array
+    {
+        return ['rut_titular'=>'11111111-1','nombre_titular'=>'Centro Uno','numero_cuenta'=>'001234567890123456','banco_titular'=>1,'tipo_cuenta'=>1,'email_titular'=>'cuenta@example.test'];
+    }
+
+    public function test_commercial_accounts_preserve_number_allow_multiple_accounts_and_edit_delete(): void
+    {
+        $this->prepararCuentas();$controller=app(AdministradorCmController::class);
+        $datos=$this->datosCuenta();
+        $this->assertSame(1,$controller->agregar_cuenta_bancaria_institucion($this->req($datos))['estado']);
+        $this->assertSame($datos['numero_cuenta'],DB::table('cuenta_bancaria_inst')->value('numero_cuenta'));
+        $datos['numero_cuenta']='0002';$controller->agregar_cuenta_bancaria_institucion($this->req($datos));
+        $this->assertSame(2,DB::table('cuenta_bancaria_inst')->count());
+        $datos['id']=1;$datos['nombre_titular']='Titular editado';$datos['numero_cuenta']='0003';
+        $controller->editar_cuenta_bancaria_institucion($this->req($datos));
+        $this->assertSame('Titular editado',DB::table('cuenta_bancaria_inst')->where('id',1)->value('nombre_titular'));
+        $controller->eliminar_cuenta_bancaria_institucion($this->req(['id'=>1]));
+        $this->assertSame(1,DB::table('cuenta_bancaria_inst')->count());
+    }
+
+    public function test_commercial_accounts_reject_duplicates_and_invalid_bank_without_writing(): void
+    {
+        $this->prepararCuentas();$controller=app(AdministradorCmController::class);$datos=$this->datosCuenta();
+        $controller->agregar_cuenta_bancaria_institucion($this->req($datos));
+        foreach([$datos,array_merge($datos,['banco_titular'=>999])] as $invalido){
+            try{$controller->agregar_cuenta_bancaria_institucion($this->req($invalido));$this->fail('Debe rechazar la cuenta.');}catch(ValidationException $e){$this->assertNotEmpty($e->errors());}
+        }
+        $this->assertSame(1,DB::table('cuenta_bancaria_inst')->count());
+    }
+
+    public function test_commercial_accounts_cannot_edit_or_delete_another_centers_account(): void
+    {
+        $this->prepararCuentas();DB::table('cuenta_bancaria_inst')->insert(['id'=>1,'id_institucion'=>20,'numero_cuenta'=>'999']);
+        $controller=app(AdministradorCmController::class);
+        foreach(['editar_cuenta_bancaria_institucion','eliminar_cuenta_bancaria_institucion'] as $metodo){
+            try{$controller->{$metodo}($this->req($this->datosCuenta()+['id'=>1]));$this->fail('No debe acceder a cuentas ajenas.');}catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){$this->assertSame('999',DB::table('cuenta_bancaria_inst')->value('numero_cuenta'));}
+        }
+    }
+
+    public function test_commercial_configuration_renders_real_forms_without_director_or_address(): void
+    {
+        $this->prepararCuentas();$controller=app(AdministradorCmController::class);
+        $vista=$controller->configuracion_comercial($this->req());
+        $fuente=file_get_contents(resource_path('views/app/adm_cm/configuracion_esc_comercial.blade.php'));
+        $fuente=str_replace('@endsection','',preg_replace('/@(?:extends|section)\([^\n]*\)/','',$fuente));
+        $html=Blade::render($fuente,$vista->getData());
+        $this->assertStringContainsString('Centro Uno',$html);
+        $this->assertStringContainsString('data-centro-form="cuenta"',$html);
+        $this->assertStringContainsString('No hay un responsable comercial asignado.',$html);
+        $this->assertStringNotContainsString('Centro Dos',$html);
+        $this->assertSame(10,$controller->areaComercial($this->req())->getData()['institucion']->id);
+    }
+
+    public function test_configuration_and_commercial_cards_have_registered_routes_and_actions(): void
+    {
+        $pendientes=['app.adm_cm.configuracion','app.adm_cm.configuracion_esc_comercial','app.adm_cm.escritorio_adm_comercial'];$leidos=[];
+        while($nombre=array_pop($pendientes)){
+            if(isset($leidos[$nombre]))continue;$leidos[$nombre]=true;
+            $fuente=file_get_contents(resource_path('views/'.str_replace('.','/',$nombre).'.blade.php'));
+            $fuente=preg_replace('/\{\{--[\s\S]*?--\}\}/','',$fuente);
+            preg_match_all('/\broute\s*\(\s*[\'\"]([^\'\"]+)[\'\"]/i',$fuente,$rutas);
+            foreach($rutas[1] as $ruta){
+                $registro=\Illuminate\Support\Facades\Route::getRoutes()->getByName($ruta);
+                $this->assertNotNull($registro,"Ruta faltante: $ruta en $nombre");
+                $accion=$registro->getActionName();
+                if(str_contains($accion,'@')){[$clase,$metodo]=explode('@',$accion);$this->assertTrue(method_exists($clase,$metodo),"Acción faltante: $accion");}
+            }
+            preg_match_all('/@include\s*\(\s*[\'\"]([^\'\"]+)[\'\"]/',$fuente,$includes);
+            foreach($includes[1] as $include)$pendientes[]=$include;
+        }
+    }
+
+    public function test_area_creation_and_edit_preserve_institution_and_selected_type(): void
+    {
+        Schema::table('areas_cm',function(Blueprint $t){foreach(['id_lugar_atencion','id_tipo_area_cm','nombre','apellido_uno','apellido_dos','email','telefono','numero_personas'] as $campo)$t->string($campo)->nullable();});
+        Schema::create('tipos_areas_cm',function(Blueprint $t){$t->id();$t->string('nombre');});
+        DB::table('tipos_areas_cm')->insert([['id'=>1,'nombre'=>'Primera'],['id'=>2,'nombre'=>'Segunda']]);
+        DB::table('instituciones')->where('id',10)->update(['id_lugar_atencion'=>100]);
+        $controller=new class extends AdministradorCmController {
+            public function dame_areas_cm($ids){return collect();}
+        };
+        $resultado=$controller->agregar_area_cm($this->req(['tipo_area'=>1,'responsable_cargo'=>50,'e_cont'=>'area@example.test','tel_c'=>'555','n_pers'=>2]));
+        $this->assertSame(1,$resultado->getData(true)['estado']);
+        $id=DB::table('areas_cm')->value('id');
+        $resultado=$controller->editar_area_cm($this->req(['id_area'=>$id,'tipo_area'=>2,'responsable'=>50,'email'=>'editada@example.test','telefono'=>'666','n_persons'=>4]));
+        $this->assertSame(1,$resultado['estado']);
+        $area=DB::table('areas_cm')->find($id);$this->assertEquals(2,$area->id_tipo_area_cm);$this->assertEquals(10,$area->id_institucion);$this->assertSame('editada@example.test',$area->email);
+    }
+
     public function test_real_profile_renders_with_no_addresses_or_optional_data(): void
     {
         $vista=app(AdministradorCmController::class)->perfil($this->req());

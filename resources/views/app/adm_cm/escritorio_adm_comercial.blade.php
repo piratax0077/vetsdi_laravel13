@@ -31,7 +31,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card mb-3 subir">
-                    <a href="{{ ROUTE('administrador_comercial.configuracion') }}">
+                    <a href="{{ route('administrador_comercial.configuracion', ['id_institucion'=>$institucion->id, 'tipo_institucion'=>$tipo_institucion]) }}">
                         <div class="card-body text-center" style="cursor:pointer">
                             <img class="wid-40 text-center" src="{{ asset('images/iconos/panel_configuracion.svg') }}">
                             <h6 class="mt-1 mb-0">Configurar mi escritorio</h6>
@@ -61,7 +61,7 @@
             </div>
 
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
-                <div class="card-a mb-3 subir">
+                <div class="card mb-3 subir">
 					<a href="{{ ROUTE('adm_cm.profesionales') }}">
 						<div class="card-body text-center" style="cursor:pointer">
 							<img class="wid-40 text-center" src="{{ asset('images/iconos/info-profesional.png') }}">
@@ -82,13 +82,13 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
-                <div class="card mb-3 subir" onclick="en_construccion()">
-                    {{-- <a href="{{ ROUTE('flujo.caja.index') }}"> --}}
+                <div class="card mb-3 subir">
+                    <a href="{{ route('flujo.caja.index') }}">
                         <div class="card-body text-center" style="cursor:pointer">
                             <img class="wid-40 text-center" src="{{ asset('images/iconos/caja.png') }}">
                             <h6 class="mt-1 mb-0"> Recepción de cajas</h6>
                         </div>
-                    {{-- </a> --}}
+                    </a>
                 </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
@@ -104,7 +104,7 @@
 
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
                 <div class="card mb-3 subir">
-                    <a href="{{ ROUTE('asistente_adm.liquidacion_profesionales') }}">
+                    <a href="{{ ROUTE('adm_cm.liquidacion_profesionales') }}">
                         <div class="card-body text-center" style="cursor:pointer">
                             <img class="wid-40 text-center" src="{{ asset('images/iconos/liquidaciones.png') }}">
                             <h6 class="mt-1 mb-0">Historial liquidaciones</h6>
@@ -145,8 +145,8 @@
 				</div>
 			</div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
-				<div class="card mb-3 subir" onclick="en_construccion();">
-				   <a href="#">
+				<div class="card mb-3 subir">
+				   <a href="{{ route('adm_cm.area_contratos_nuevos') }}">
 						<div class="card-body text-center" style="cursor:pointer">
 							<img class="wid-40 text-center" src="{{ asset('images/iconos/convenios.png') }}">
 							<h6 class="mt-1 mb-0">Contratos</h6>
@@ -158,6 +158,6 @@
         <!--CIERRE: MODULOS-->
     </div>
 </div>
-@include('app.adm_cm.modales.en_construccion')
+
 <!--Cierre: Container Completo-->
 @endsection

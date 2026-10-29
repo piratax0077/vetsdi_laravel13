@@ -125,14 +125,14 @@
 					</div>
 				</div>
 				<div class="col-md-4">
-                    <div class="card subir" onclick="en_construccion()";>
+                    <div class="card subir"><a href="{{ route('proveedores', array_filter(['id_institucion'=>$institucion->id ?? null])) }}">
                         {{--   <a href="{{ ROUTE('asistente_adm.cargar_contrato') }}"></a>--}}
                             <div class="card-body text-center" style="cursor:pointer">
                                 <img class="wid-60 text-center mb-1" src="{{ asset('images/iconos/proveedores.png') }}">
                                 <h5 class="mt-1 mb-0"> Proveedores</h5>
                             </div>
 
-                    </div>
+                    </a></div>
                 </div>
                 <div class="col-md-4">
                     <div class="card subir">
@@ -144,19 +144,19 @@
                     </div>
                 </div>
 				<div class="col-md-4">
-					<div class="card subir" onclick="en_construccion()";>
+					<div class="card subir"><a href="{{ route('convenios.index', array_filter(['id_institucion'=>$institucion->id ?? null])) }}">
 					   {{--  <a href="{{ ROUTE('asistente_adm.asistente_adm_pedidos') }}"></a>--}}
 							<div class="card-body text-center" style="cursor:pointer">
 								<img class="wid-60 text-center mb-1" src="{{ asset('images/iconos/convenios.png') }}">
 								<h5 class="mt-1 mb-0">Convenios</h5>
 							</div>
-					</div>
+					</a></div>
 				</div>
             </div>
         </div>
         <!--CIERRE: Row Botones -->
     </div>
 </div>
-@include('app.adm_cm.modales.en_construccion')
+
 <!--Cierre: Container Completo-->
 @endsection

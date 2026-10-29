@@ -82,14 +82,14 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
-                <div class="card mb-3 subir" onclick="en_construccion()">
+                <div class="card mb-3 subir"><a href="{{ route('flujo.caja.index', array_filter(['id_institucion'=>$institucion->id ?? null])) }}">
                     {{-- <a href="{{ ROUTE('flujo.caja.index') }}"> --}}
                         <div class="card-body text-center" style="cursor:pointer">
                             <img class="wid-40 text-center" src="{{ asset('images/iconos/caja.png') }}">
                             <h6 class="mt-1 mb-0"> Recepción de cajas</h6>
                         </div>
                     {{-- </a> --}}
-                </div>
+                </a></div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
                 <div class="card mb-3 subir">
@@ -145,8 +145,8 @@
 				</div>
 			</div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
-				<div class="card mb-3 subir" onclick="en_construccion();">
-				   <a href="#">
+				<div class="card mb-3 subir">
+				   <a href="{{ route('adm_cm.area_contratos_nuevos', array_filter(['id_institucion'=>$institucion->id ?? null])) }}">
 						<div class="card-body text-center" style="cursor:pointer">
 							<img class="wid-40 text-center" src="{{ asset('images/iconos/convenios.png') }}">
 							<h6 class="mt-1 mb-0">Contratos</h6>
@@ -158,6 +158,6 @@
         <!--CIERRE: MODULOS-->
     </div>
 </div>
-@include('app.adm_cm.modales.en_construccion')
+
 <!--Cierre: Container Completo-->
 @endsection

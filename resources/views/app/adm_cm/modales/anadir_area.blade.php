@@ -74,7 +74,7 @@ function guardar_area_cm(){
     var e_cont = $('#e_cont').val();
     var tel_c = $('#tel_c').val();
     var n_pers = $('#n_pers').val();
-    var id_institucion = $('#add_empleado_id_institucion').val();
+    var id_institucion = $('#id_institucion').val();
     var token = '{{csrf_token()}}';
 
     var valido = 1;
@@ -129,6 +129,8 @@ function guardar_area_cm(){
         url: '{{ ROUTE("adm_cm.agregar_area_cm") }}',
         type: 'POST',
         data: {
+            id_institucion: id_institucion,
+            tipo_institucion: $('#tipo_institucion').val(),
             // area: area,
             responsable_cargo: responsable_cargo,
             e_cont: e_cont,

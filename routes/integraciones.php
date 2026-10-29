@@ -10,6 +10,8 @@ use App\Http\Controllers\ficha_atencionController;
 use App\Http\Controllers\DetalleRecetaController;
 use Illuminate\Support\Facades\Route;
 
+require __DIR__.'/operacion_veterinaria.php';
+
 Route::middleware('auth')
     ->get('/Administrador/Integraciones/Contabilidad-Central', [ContabilidadIntegracionController::class, 'index'])
     ->name('integraciones.contabilidad-central');

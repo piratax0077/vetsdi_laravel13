@@ -97,8 +97,8 @@
                 </div>
             </div>
             <div class="col">
-                <div class="mb-3 card subir text-center py-2" onclick="en_construccion()"; style="cursor:pointer">
-                   <a href="#">
+                <div class="mb-3 card subir text-center py-2" style="cursor:pointer">
+                   <a href="{{ route('vet.operacion.index', array_filter(['seccion'=>'impuestos', 'id_institucion'=>$institucion->id ?? null])) }}">
                         <img class="wid-50 text-center" src="{{ asset('images/comercial/impuesto.png') }}">
                         <h6 class="mt-1 mb-0">Impuestos</h6>
                     </a>
@@ -129,8 +129,8 @@
                 </div>
             </div>
             <div class="col">
-                <div class="mb-3 card subir text-center py-2" onclick="en_construccion()"; style="cursor:pointer">
-                     <a href="#">
+                <div class="mb-3 card subir text-center py-2" style="cursor:pointer">
+                     <a href="{{ route('vet.operacion.index', array_filter(['seccion'=>'resumen', 'id_institucion'=>$institucion->id ?? null])) }}">
                         <img class="wid-50 text-center" src="{{ asset('images/comercial/estadisticas.png') }}">
                         <h6 class="mt-1 mb-0">Estadisticas del CM</h6>
                     </a>
@@ -140,6 +140,6 @@
         <!--CIERRE: Row Botones -->
     </div>
 </div>
-@include('app.adm_cm.modales.en_construccion')
+
 <!--Cierre: Container Completo-->
 @endsection

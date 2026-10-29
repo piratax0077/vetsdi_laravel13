@@ -1,5 +1,5 @@
-<header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue">
-	<div class="m-header">
+<header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue">    @include('template.partials.escritorio_veterinario_header',['forzarEscritorioVeterinario'=>true])
+	<div class="m-header">
 			<a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
 			<a href="#!" class="b-brand">
 				<img src="{{ asset('images/logo_pais.png') }}" alt="" class="logo" height="45px">

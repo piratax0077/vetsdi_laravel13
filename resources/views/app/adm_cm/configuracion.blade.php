@@ -36,6 +36,7 @@
     <!--Container Completo-->
     <div class="pcoded-main-container configuracion-administrador">
         <div class="pcoded-content">
+<div class="card"><div class="card-body d-flex flex-wrap justify-content-between align-items-center"><div><h5>Centro u hospital veterinario</h5><p class="mb-0">Configure el tipo de establecimiento, áreas y plazas de hospitalización.</p></div><a class="btn btn-info btn-sm" href="{{ route('vet.operacion.index', array_filter(['seccion'=>'configuracion', 'id_institucion'=>$institucion->id ?? null])) }}">Configurar establecimiento</a></div></div>
                             @if (false && $contextosCentro->isNotEmpty())
                                 <form method="GET" action="{{ route('adm_cm.configuracion') }}" class="mb-3">
                                     <div class="form-row align-items-end">
@@ -4772,6 +4773,8 @@
                 dataType: 'json',
                 data: {
                     _token: CSRF_TOKEN,
+                    id_institucion: $('#id_institucion').val(),
+                    tipo_institucion: $('#tipo_institucion').val(),
                     id_responsable: id_responsable,
                     rut: rut,
                     nombres: nombre,
@@ -4853,6 +4856,8 @@
 
         let data = {
             _token: CSRF_TOKEN,
+                    id_institucion: $('#id_institucion').val(),
+                    tipo_institucion: $('#tipo_institucion').val(),
             id_responsable: id_responsable,
             rut: rut,
             nombres: nombre,
@@ -4867,7 +4872,10 @@
             telefono_dos: telefono_dos
         }
 
-      console.log(data);
+        if (!data.ciudad && !data.direccion) {
+            delete data.ciudad;
+            delete data.direccion;
+        }
 
         $.ajax({
                 url: url,
@@ -4883,58 +4891,7 @@
                         buttons: "Aceptar",
                         DangerMode: true,
                     });
-                    if(tipo_direccion == 'director_medico'){
-                        let profesional = response.profesional;
-                        $('#nombre_director_medico').html(profesional.nombre);
-                        $('#apellido_uno_director_medico').html(profesional.apellido_uno);
-                        $('#apellido_dos_director_medico').html(profesional.apellido_dos);
-                        $('#rut_director_medico').html(profesional.rut);
-                        $('#fecha_nacimiento_director_medico').html(profesional.fecha_nacimiento);
-                        $('#comuna_director_medico').html(profesional.ciudad);
-                        $('#direccion_director_medico').text(profesional.direccion.direccion);
-                        $('#telefono_uno_director_medico').html(profesional.telefono_uno);
-                        $('#telefono_dos_director_medico').html(profesional.telefono_dos);
-                        if(profesional.sexo == "M"){
-                            $('#sexo_director_medico').html("Hombre");
-                        }else{
-                            $('#sexo_director_medico').html("Mujer");
-                        }
-                        $('#email_director_medico').html(profesional.email);
-                    }else if(tipo_direccion == 'director_comercial'){
-                        let profesional = response.profesional;
-                        $('#nombre_subdirector_cm').html(profesional.nombre);
-                        $('#apellido_uno_subdirector_cm').html(profesional.apellido_uno);
-                        $('#apellido_dos_subdirector_cm').html(profesional.apellido_dos);
-                        $('#rut_subdirector_cm').html(profesional.rut);
-                        $('#nacimiento_subdirector_cm').html(profesional.fecha_nacimiento);
-                        $('#comuna_subdirector_cm').html(profesional.ciudad);
-                        $('#direccion_subdirector_cm').text(profesional.direccion.direccion);
-                        $('#telefono_uno_subdirector_cm').html(profesional.telefono_uno);
-                        $('#telefono_dos_subdirector_cm').html(profesional.telefono_dos);
-                        if(profesional.sexo == "M"){
-                            $('#sexo_subdirector_cm').html("Hombre");
-                        }else{
-                            $('#sexo_subdirector_cm').html("Mujer");
-                        }
-                        $('#email_subdirector_cm').html(profesional.email);
-                    }else{
-                        let profesional = response.profesional;
-                        $('#nombre_director_farmacia').html(profesional.nombre);
-                        $('#apellido_uno_director_farmacia').html(profesional.apellido_uno);
-                        $('#apellido_dos_director_farmacia').html(profesional.apellido_dos);
-                        $('#rut_director_farmacia').html(profesional.rut);
-                        $('#nacimiento_director_farmacia').html(profesional.fecha_nacimiento);
-                        $('#comuna_director_farmacia').html(profesional.ciudad);
-                        $('#direccion_director_farmacia').text(profesional.direccion.direccion);
-                        $('#telefono_uno_director_farmacia').html(profesional.telefono_uno);
-                        $('#telefono_dos_director_farmacia').html(profesional.telefono_dos);
-                        if(profesional.sexo == "M"){
-                            $('#sexo_director_farmacia').html("Hombre");
-                        }else{
-                            $('#sexo_director_farmacia').html("Mujer");
-                        }
-                        $('#email_director_farmacia').html(profesional.email);
-                    }
+                    location.reload();
                 } else {
                     swal({
                         title: "Error al Editar los Datos del Representante",
@@ -4962,6 +4919,8 @@
                 dataType: 'json',
                 data: {
                     _token: CSRF_TOKEN,
+                    id_institucion: $('#id_institucion').val(),
+                    tipo_institucion: $('#tipo_institucion').val(),
                     id_responsable: id_responsable,
                     email: email,
                     telefono_uno: fono,
@@ -5007,6 +4966,8 @@
                 dataType: 'json',
                 data: {
                     _token: CSRF_TOKEN,
+                    id_institucion: $('#id_institucion').val(),
+                    tipo_institucion: $('#tipo_institucion').val(),
                     id_responsable: id_responsable,
                     region: region,
                     ciudad: ciudad,

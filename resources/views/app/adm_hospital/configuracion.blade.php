@@ -8,7 +8,8 @@
 </style>
 <!--Container Completo-->
 <div class="pcoded-main-container">
-    <div class="pcoded-content">
+    <div class="pcoded-content">
+<div class="card"><div class="card-body d-flex flex-wrap justify-content-between align-items-center"><div><h5>Centro u hospital veterinario</h5><p class="mb-0">Configure el tipo de establecimiento, áreas y plazas de hospitalización.</p></div><a class="btn btn-info btn-sm" href="{{ route('vet.operacion.index', array_filter(['seccion'=>'configuracion', 'id_institucion'=>$institucion->id ?? null])) }}">Configurar establecimiento</a></div></div>
         <div class="page-header">
             <div class="page-block">
                 <div class="row">
