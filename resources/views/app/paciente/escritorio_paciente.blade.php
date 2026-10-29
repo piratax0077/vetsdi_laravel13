@@ -241,43 +241,139 @@
             <!-- AGREGAR GEOLOCALIZACION -->
         </div>
 
-        <div class="card mb-3"><div class="card-body">
-            <h5>Atención por profesional no registrado</h5>
-            <p>Selecciona tu mascota e ingresa el RUT y correo del profesional para registrar su atención.</p>
-            <a class="btn btn-info" href="{{ route('paciente.acceso_pni') }}">Ingresar atención</a>
-        </div></div>
-        <!--Cierre: Botones acceso examenes y profesional no inscrito-->
-
-        <!--Row Botones-->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card-deck">
-					<div class="card social-widget-card opacidad px-0 bg-info">
-						<a href="{{ route('paciente.referidos.index') }}" class="btn" type="button">
-							<div class="card-body">
-								<img class="wid-40 mb-2" src="{{ asset('images/iconos/referidos.svg') }}">
-								<h6 class="my-auto text-white f-18">Invita y gana con Veterchile</h6>
-							</div>
-						</a>
-					</div>
-                  	<div class="card social-widget-card  opacidad px-0 bg-info">
-						<a href="{{ route('app.descarga') }}" class="btn" type="button" target="_blank">
-							<div class="card-body">
-								<img class="wid-40 mb-2" src="{{ asset('images/iconos/descargar-app.svg') }}">
-								<h6 class="my-auto text-white f-18">Descarga VetPass</h6>
-							</div>
-						</a>
-					</div>
-                </div>
-            </div>
+        <!--Accesos rápidos: tarjetas celestes compactas-->
+        <div class="accesos-rapidos-paciente mb-3">
+            <a href="{{ route('paciente.acceso_pni') }}" class="acceso-rapido-tarjeta">
+                <span class="acceso-rapido-icono"><i class="feather icon-user-plus"></i></span>
+                <span class="acceso-rapido-texto">
+                    <strong>Atención por profesional no registrado</strong>
+                    <small>Ingresa el RUT y correo del profesional</small>
+                </span>
+            </a>
+            <a href="{{ route('paciente.mascotas_perdidas') }}" class="acceso-rapido-tarjeta">
+                <span class="acceso-rapido-icono"><i class="feather icon-search"></i></span>
+                <span class="acceso-rapido-texto">
+                    <strong>Mascotas perdidas</strong>
+                    <small>Reporta o busca mascotas extraviadas</small>
+                </span>
+            </a>
+            <a href="{{ route('paciente.referidos.index') }}" class="acceso-rapido-tarjeta">
+                <span class="acceso-rapido-icono"><img src="{{ asset('images/iconos/referidos.svg') }}" alt=""></span>
+                <span class="acceso-rapido-texto">
+                    <strong>Invita y gana con Veterchile</strong>
+                    <small>Comparte tu código con otros tutores</small>
+                </span>
+            </a>
+            <a href="{{ route('app.descarga') }}" class="acceso-rapido-tarjeta" target="_blank">
+                <span class="acceso-rapido-icono"><img src="{{ asset('images/iconos/descargar-app.svg') }}" alt=""></span>
+                <span class="acceso-rapido-texto">
+                    <strong>Descarga VetPass</strong>
+                    <small>Lleva la ficha de tu mascota en el celular</small>
+                </span>
+            </a>
         </div>
-        <!--Cierre: Row Botones-->
+        <!--Cierre: Accesos rápidos-->
     </div>
 </div>
 @endsection
 
 @section('page-styles')
     <style>
+        /* Accesos rápidos: cuatro tarjetas celestes en una fila, dos en tablet y una en celular */
+        .accesos-rapidos-paciente {
+            display: -ms-grid;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .acceso-rapido-tarjeta {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            gap: 12px;
+            min-height: 84px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            background-color: #0fb9b9;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            -webkit-transition: opacity .2s ease, -webkit-transform .2s ease;
+            transition: opacity .2s ease, transform .2s ease;
+        }
+
+        .acceso-rapido-tarjeta:hover,
+        .acceso-rapido-tarjeta:focus {
+            color: #fff;
+            text-decoration: none;
+            opacity: .9;
+            -webkit-transform: translateY(-2px);
+            transform: translateY(-2px);
+        }
+
+        .acceso-rapido-icono {
+            -ms-flex-negative: 0;
+            flex-shrink: 0;
+            display: -webkit-inline-box;
+            display: -ms-inline-flexbox;
+            display: inline-flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.18);
+            font-size: 1.3rem;
+        }
+
+        .acceso-rapido-icono img {
+            width: 26px;
+            height: 26px;
+        }
+
+        .acceso-rapido-texto {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            line-height: 1.25;
+        }
+
+        .acceso-rapido-texto strong {
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .acceso-rapido-texto small {
+            margin-top: 2px;
+            font-size: 0.75rem;
+            opacity: .9;
+        }
+
+        @media (max-width: 1199px) {
+            .accesos-rapidos-paciente {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 575px) {
+            .accesos-rapidos-paciente {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 12px;
+            }
+        }
+
         .estado-hora-chip {
             display: inline-block;
             padding: 6px 10px;
