@@ -1,5 +1,10 @@
 @extends('template.adm_cm.template')
 @section('content')
+@php
+    // Las fechas con hora se muestran como HH:MM, sin segundos
+    $sinSegundos = fn ($valor) => preg_replace('/(\d{2}:\d{2}):\d{2}(\.\d+)?/', '$1', (string) $valor);
+    $urlSeccion = fn (array $extra = []) => route('vet.operacion.index', $ctx + ['seccion' => $seccion] + $extra);
+@endphp
 <div class="pcoded-main-container"><div class="pcoded-content configuracion-administrador">
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
         <div><h4>{{ $titulo }}</h4><span class="text-muted">{{ $institucion->nombre }} · {{ $configuracion->tipo === 'hospital' ? 'Hospital veterinario' : 'Centro veterinario' }}</span></div>
@@ -38,80 +43,19 @@
     </div></div>
     <div class="card"><div class="card-header encabezado-card"><h5 class="encabezado-card-titulo">Mascotas del establecimiento</h5></div><div class="card-body"><div class="table-responsive"><table class="table table-sm"><thead><tr><th>ID</th><th>Mascota</th></tr></thead><tbody>@forelse($pacientes as $paciente)<tr><td>#{{ $paciente->id }}</td><td>{{ $paciente->nombre }}</td></tr>@empty<tr><td colspan="2">No hay mascotas vinculadas.</td></tr>@endforelse</tbody></table></div>{{ $pacientes->links('pagination::bootstrap-4') }}</div></div>
     @endif
-    @if($accion)
-    <div class="card"><div class="card-header encabezado-card"><h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-edit"></i></span>{{ $registro ? 'Editar registro' : 'Nuevo registro' }}</h5></div><div class="card-body">
-        @if($seccion === 'hospitalizacion' && $registro && $registro->estado !== 'hospitalizada')
-        <p>Internación cerrada. Consulte el ingreso y sus evoluciones en el detalle.</p>
-        @elseif(isset(\App\Services\OperacionVeterinaria::SERVICIOS[$seccion]) && $registro && in_array($registro->estado,['completada','cancelada','no_asiste']))
-        <p><strong>{{ $registro->servicio }}</strong> · {{ $mascotas[$registro->id_mascota] ?? '#'.$registro->id_mascota }} · {{ $registro->inicio }} a {{ $registro->fin }}</p>
-        <p><strong>Responsable:</strong> {{ $registro->responsable }} · <strong>Estado:</strong> {{ $registro->estado }}</p>
-        <p><strong>Observaciones:</strong> {{ $registro->observaciones }}</p><p class="text-wrap"><strong>Resultado:</strong> {{ $registro->resultado }}</p>
-        @else
-        @include('app.veterinaria.operacion.formulario',['accionForm'=>$accion,'registroForm'=>$registro,'camposForm'=>$campos,'ocultos'=>[],'valores'=>['ingreso'=>now()->format('Y-m-d\TH:i'),'inicio'=>now()->format('Y-m-d\TH:i'),'estado'=>$seccion === 'hospitalizacion' ? 'hospitalizada' : ($seccion === 'impuestos' ? 'pendiente' : ($seccion === 'asistentes' ? 'borrador' : 'reservada')),'activa'=>1]])
-        @endif
-    </div></div>
-    @endif
-    @if(count($columnas))
-    <div class="card"><div class="card-header encabezado-card"><h5 class="encabezado-card-titulo">Registros del establecimiento</h5></div><div class="card-body">
-        @if(in_array($seccion,['hospitalizacion','impuestos']) || isset(\App\Services\OperacionVeterinaria::SERVICIOS[$seccion]))
-        <form method="get" class="form-row mb-3">
-            <input type="hidden" name="id_institucion" value="{{ $institucion->id }}">
-            <div class="col-md-3 mb-2"><label>Estado</label><select name="estado" class="form-control form-control-sm"><option value="">Todos</option>@foreach(collect($campos)->firstWhere('nombre','estado')['opciones'] ?? [] as $key=>$label)<option value="{{ $key }}" @selected(request('estado') === $key)>{{ $label }}</option>@endforeach</select></div>
-            @if($seccion !== 'hospitalizacion')
-            <div class="col-md-3 mb-2"><label>Desde</label><input name="desde" type="date" value="{{ request('desde') }}" class="form-control form-control-sm"></div><div class="col-md-3 mb-2"><label>Hasta</label><input name="hasta" type="date" value="{{ request('hasta') }}" class="form-control form-control-sm"></div>
-            @endif
-            <div class="col-md-3 align-self-end mb-2"><button class="btn btn-info btn-sm" type="submit">Filtrar</button><a href="{{ route('vet.operacion.index',$ctx+['seccion'=>$seccion]) }}" class="btn btn-light btn-sm">Limpiar</a></div>
-        </form>
-        @endif
-        <div class="table-responsive"><table class="table table-striped table-sm"><thead><tr>@foreach($columnas as $label)<th>{{ $label }}</th>@endforeach<th>Acciones</th></tr></thead><tbody>
-        @forelse($filas as $fila)<tr>
-            @foreach($columnas as $key=>$label)<td>
-                @if($key === 'id_mascota'){{ $mascotas[$fila->{$key}] ?? '#'.$fila->{$key} }}
-                @elseif($key === 'plaza_id'){{ $nombresPlazas[$fila->{$key}] ?? '#'.$fila->{$key} }}
-                @elseif(in_array($key,['precio','monto']))${{ number_format($fila->{$key},0,',','.') }}
-                @elseif($key === 'activa'){{ $fila->activa ? 'Sí' : 'No' }}{{ in_array($fila->id,$ocupadas ?? []) ? ' · Ocupada' : '' }}
-                @else{{ $fila->{$key} ?: '—' }}@endif
-            </td>@endforeach
-            <td><a class="btn btn-outline-info btn-sm" href="{{ route('vet.operacion.index',$ctx+['seccion'=>$seccion,'editar'=>$fila->id]) }}">Ver / editar</a>
-                @if(in_array($seccion,['hospitalizacion','asistentes']))<a class="btn btn-light btn-sm" href="{{ route('vet.operacion.index',$ctx+['seccion'=>$seccion,'detalle'=>$fila->id]) }}">{{ $seccion === 'hospitalizacion' ? 'Evoluciones' : 'Candidatos' }}</a>@endif
-            </td>
-        </tr>@empty<tr><td colspan="{{ count($columnas)+1 }}" class="text-center text-muted">No hay registros para esta selección.</td></tr>@endforelse
-        </tbody></table></div>
-        {{ $filas->links('pagination::bootstrap-4') }}
-    </div></div>
-    @endif
-    @if($seccion === 'hospitalizacion' && ($detalle ?? null))
-    <div class="card"><div class="card-header encabezado-card"><h5 class="encabezado-card-titulo">Internación #{{ $detalle->id }} · {{ $mascotas[$detalle->id_mascota] ?? '#'.$detalle->id_mascota }}</h5></div><div class="card-body">
-        <p><strong>Ingreso:</strong> {{ $detalle->ingreso }} · <strong>Estado:</strong> {{ $detalle->estado }} · <strong>Responsable:</strong> {{ $detalle->responsable }}</p>
-        <p><strong>Motivo:</strong> {{ $detalle->motivo }}</p><p><strong>Indicaciones:</strong> {{ $detalle->indicaciones }}</p>
-        @if($detalle->egreso)<p><strong>Egreso:</strong> {{ $detalle->egreso }} · {{ $detalle->observaciones_alta }}</p>@endif
-        @if($detalle->estado === 'hospitalizada')
-        <h6>Agregar evolución</h6>
-        @include('app.veterinaria.operacion.formulario',['accionForm'=>'evolucion','registroForm'=>null,'camposForm'=>$camposEvolucion,'ocultos'=>['internacion_id'=>$detalle->id],'valores'=>['fecha'=>now()->format('Y-m-d\TH:i')]])
-        @endif
-        <div class="table-responsive mt-3"><table class="table table-sm"><thead><tr><th>Fecha</th><th>Peso kg</th><th>Temperatura °C</th><th>Evolución</th><th>Registrado por</th></tr></thead><tbody>@forelse($evoluciones as $e)<tr><td>{{ $e->fecha }}</td><td>{{ $e->peso ?? '—' }}</td><td>{{ $e->temperatura ?? '—' }}</td><td class="text-wrap">{{ $e->observaciones }}</td><td>Usuario #{{ $e->id_usuario }}</td></tr>@empty<tr><td colspan="5">Sin evoluciones registradas.</td></tr>@endforelse</tbody></table></div>
-    </div></div>
-    @endif
-    @if(isset($catalogo))
-    <div class="card"><div class="card-header encabezado-card"><h5 class="encabezado-card-titulo">Catálogo de servicios · {{ $titulo }}</h5></div><div class="card-body">
-        <div class="table-responsive"><table class="table table-sm"><thead><tr><th>Servicio</th><th>Duración</th><th>Precio CLP</th><th>Activo</th><th></th></tr></thead><tbody>@forelse($catalogo as $c)<tr><td>{{ $c->nombre }}</td><td>{{ $c->duracion_minutos }} min</td><td>${{ number_format($c->precio,0,',','.') }}</td><td>{{ $c->activo ? 'Sí' : 'No' }}</td><td><a class="btn btn-outline-info btn-sm" href="{{ route('vet.operacion.index',$ctx+['seccion'=>$seccion,'catalogo'=>$c->id]) }}">Editar</a></td></tr>@empty<tr><td colspan="5">Agregue el primer servicio para habilitar reservas.</td></tr>@endforelse</tbody></table></div>
-        <h6>{{ $servicioEditado ? 'Editar servicio' : 'Agregar servicio' }}</h6>
-        @include('app.veterinaria.operacion.formulario',['accionForm'=>'servicio','registroForm'=>$servicioEditado,'camposForm'=>$camposServicio,'ocultos'=>['modulo'=>$seccion],'valores'=>['duracion_minutos'=>30,'precio'=>0,'activo'=>1]])
-    </div></div>
-    @endif
+    @include('app.veterinaria.operacion.registros')
     @if($seccion === 'asistentes' && ($detalle ?? null))
     <div class="card"><div class="card-header encabezado-card"><h5 class="encabezado-card-titulo">Candidatos · {{ $detalle->cargo }}</h5></div><div class="card-body">
         <p>{{ $detalle->descripcion }}</p>
         <div class="table-responsive"><table class="table table-sm"><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Etapa</th><th></th></tr></thead><tbody>@forelse($postulaciones as $p)<tr><td>{{ $p->nombre }}</td><td>{{ $p->email }}</td><td>{{ $p->telefono }}</td><td>{{ $p->estado }}</td><td><a class="btn btn-outline-info btn-sm" href="{{ route('vet.operacion.index',$ctx+['seccion'=>$seccion,'detalle'=>$detalle->id,'postulacion'=>$p->id]) }}">Editar</a></td></tr>@empty<tr><td colspan="5">Sin candidatos registrados.</td></tr>@endforelse</tbody></table></div>
         @if($detalle->estado === 'abierta' || $postulacionEditada)
-        <h6>{{ $postulacionEditada ? 'Actualizar candidato' : 'Registrar candidato' }}</h6>
+        <h6 class="mb-3">{{ $postulacionEditada ? 'Actualizar candidato' : 'Registrar candidato' }}</h6>
         @include('app.veterinaria.operacion.formulario',['accionForm'=>'postulacion','registroForm'=>$postulacionEditada,'camposForm'=>$camposPostulacion,'ocultos'=>['convocatoria_id'=>$detalle->id],'valores'=>['estado'=>'recibida']])
         @endif
     </div></div>
     @endif
     @if($seccion === 'resumen')
     <div class="row">@foreach($resumen as $label=>$valor)<div class="col-md-4"><div class="card"><div class="card-body"><h6>{{ $label }}</h6><h3>{{ number_format($valor,0,',','.') }}</h3></div></div></div>@endforeach</div>
-    <div class="card"><div class="card-header encabezado-card"><h5 class="encabezado-card-titulo">Historial de cambios</h5></div><div class="card-body"><div class="table-responsive"><table class="table table-sm"><thead><tr><th>Fecha</th><th>Sección</th><th>Registro</th><th>Usuario</th></tr></thead><tbody>@forelse($auditoria as $a)<tr><td>{{ $a->created_at }}</td><td>{{ $a->tabla }}</td><td>#{{ $a->registro_id }}</td><td>#{{ $a->id_usuario }}</td></tr>@empty<tr><td colspan="4">Sin cambios registrados.</td></tr>@endforelse</tbody></table></div>{{ $auditoria->links('pagination::bootstrap-4') }}</div></div>
     @endif
 </div></div>
 @endsection

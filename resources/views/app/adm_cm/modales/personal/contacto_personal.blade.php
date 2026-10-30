@@ -7,40 +7,50 @@
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <div class="ficha-profesional__datos">
-                    <div class="ficha-profesional__dato">
-                        <span class="ficha-profesional__icono"><i class="feather icon-credit-card" aria-hidden="true"></i></span>
-                        <div>
-                            <span class="ficha-profesional__etiqueta">RUT</span>
-                            <span class="ficha-profesional__valor" id="contacto_prof_rut"></span>
+                <div class="form-row mb-n2">
+                    <div class="col-12 mb-2">
+                        <div class="ficha-profesional__dato h-100">
+                            <span class="ficha-profesional__icono"><i class="feather icon-credit-card" aria-hidden="true"></i></span>
+                            <div>
+                                <span class="ficha-profesional__etiqueta">RUT</span>
+                                <span class="ficha-profesional__valor" id="contacto_prof_rut"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="ficha-profesional__dato">
-                        <span class="ficha-profesional__icono"><i class="feather icon-mail" aria-hidden="true"></i></span>
-                        <div>
-                            <span class="ficha-profesional__etiqueta">Correo electr&oacute;nico</span>
-                            <span class="ficha-profesional__valor" id="contacto_prof_email"></span>
+                    <div class="col-12 mb-2">
+                        <div class="ficha-profesional__dato h-100">
+                            <span class="ficha-profesional__icono"><i class="feather icon-mail" aria-hidden="true"></i></span>
+                            <div>
+                                <span class="ficha-profesional__etiqueta">Correo electr&oacute;nico</span>
+                                <span class="ficha-profesional__valor" id="contacto_prof_email"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="ficha-profesional__dato">
-                        <span class="ficha-profesional__icono"><i class="feather icon-phone" aria-hidden="true"></i></span>
-                        <div>
-                            <span class="ficha-profesional__etiqueta">Tel&eacute;fono</span>
-                            <span class="ficha-profesional__valor" id="contacto_prof_telefono1"></span>
+                    <div class="col-sm-6 mb-2">
+                        <div class="ficha-profesional__dato h-100">
+                            <span class="ficha-profesional__icono"><i class="feather icon-phone" aria-hidden="true"></i></span>
+                            <div>
+                                <span class="ficha-profesional__etiqueta">Tel&eacute;fono</span>
+                                <span class="ficha-profesional__valor" id="contacto_prof_telefono1"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="ficha-profesional__dato">
-                        <span class="ficha-profesional__icono"><i class="feather icon-smartphone" aria-hidden="true"></i></span>
-                        <div>
-                            <span class="ficha-profesional__etiqueta">Tel&eacute;fono secundario</span>
-                            <span class="ficha-profesional__valor" id="contacto_prof_telefono2"></span>
+                    <div class="col-sm-6 mb-2">
+                        <div class="ficha-profesional__dato h-100">
+                            <span class="ficha-profesional__icono"><i class="feather icon-smartphone" aria-hidden="true"></i></span>
+                            <div>
+                                <span class="ficha-profesional__etiqueta">Tel&eacute;fono secundario</span>
+                                <span class="ficha-profesional__valor" id="contacto_prof_telefono2"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="ficha-profesional__dato ficha-profesional__dato--ancho">
-                        <span class="ficha-profesional__icono"><i class="feather icon-map-pin" aria-hidden="true"></i></span>
-                        <div>
-                            <span class="ficha-profesional__etiqueta">Direcci&oacute;n</span>
-                            <span class="ficha-profesional__valor" id="contacto_prof_direccion"></span>
+                    <div class="col-12 mb-2">
+                        <div class="ficha-profesional__dato h-100">
+                            <span class="ficha-profesional__icono"><i class="feather icon-map-pin" aria-hidden="true"></i></span>
+                            <div>
+                                <span class="ficha-profesional__etiqueta">Direcci&oacute;n</span>
+                                <span class="ficha-profesional__valor" id="contacto_prof_direccion"></span>
+                            </div>
                         </div>
                     </div>
                 </div>

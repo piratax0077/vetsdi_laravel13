@@ -482,6 +482,10 @@ class AdministradorCmController extends Controller
             'tel_c' => 'required|string|max:30',
             'n_pers' => 'required|integer|min:0',
         ]);
+        $servicio = TipoAreasCm::claveServicio($request->tipo_area);
+        if ($servicio && AreasCm::where('id_institucion', $institucion->id)->where('id_tipo_area_cm', $request->tipo_area)->exists()) {
+            return response()->json(['estado' => 0, 'campo' => 'tipo_area', 'mensaje' => 'Esta área ya está agregada en la institución.']);
+        }
         try {
             $profesional_responsable = Profesional::find($request->responsable_cargo);
             $area = new AreasCm();
@@ -496,6 +500,9 @@ class AdministradorCmController extends Controller
             $area->numero_personas = $request->n_pers;
             $area->id_responsable = $request->responsable_cargo;
             $area->save();
+            if ($servicio && $request->input('tipo_institucion') !== 'servicio') {
+                app(\App\Services\OperacionVeterinaria::class)->cambiarServicio($institucion, $servicio, true);
+            }
             $areas_cm = $this->dame_areas_cm($institucion->id_lugar_atencion);
             $v = view('fragm.areas_cm',[
                 'areas_cm' => $areas_cm,
@@ -518,6 +525,11 @@ class AdministradorCmController extends Controller
             'n_persons' => 'required|integer|min:0',
         ]);
         $area = AreasCm::where('id_institucion', $institucion->id)->findOrFail($request->id_area);
+        $servicio_anterior = TipoAreasCm::claveServicio($area->id_tipo_area_cm);
+        $servicio = TipoAreasCm::claveServicio($request->tipo_area);
+        if ($servicio && AreasCm::where('id_institucion', $institucion->id)->where('id_tipo_area_cm', $request->tipo_area)->where('id', '!=', $area->id)->exists()) {
+            return response()->json(['estado' => 0, 'campo' => 'tipo_area', 'mensaje' => 'Esta área ya está agregada en la institución.']);
+        }
         try {
             $area->id_tipo_area_cm = $request->tipo_area;
 
@@ -528,6 +540,12 @@ class AdministradorCmController extends Controller
             $area->email = $request->email;
             $area->telefono = $request->telefono;
             $area->numero_personas = $request->n_persons;
+            // Se sincroniza antes de guardar: si el área no puede dejarse, el registro no cambia.
+            if ($servicio_anterior !== $servicio && $request->input('tipo_institucion') !== 'servicio') {
+                $operacion = app(\App\Services\OperacionVeterinaria::class);
+                if ($servicio_anterior) $operacion->cambiarServicio($institucion, $servicio_anterior, false);
+                if ($servicio) $operacion->cambiarServicio($institucion, $servicio, true);
+            }
             if($area->save()){
                 $areas = $this->dame_areas_cm($area->id_lugar_atencion);
                 $v = view('fragm.areas_cm',[
@@ -538,6 +556,8 @@ class AdministradorCmController extends Controller
             }else{
                 return response()->json(['estado' => 0, 'mensaje' => 'Error al actualizar el área']);
             }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['estado' => 0, 'mensaje' => $e->getMessage()]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -744,8 +764,14 @@ class AdministradorCmController extends Controller
         $especialidades_cm = $this->dame_especialidades_cm($institucion->id);
         $otras_especialidades_cm = $this->dame_otras_especialidades_cm($institucion->id);
         $profesionales = $this->dame_profesionales($scopeLugarIds);
-        $tipos_areas_cm = TipoAreasCm::all();
+        $tipos_areas_cm = TipoAreasCm::veterinarias()->get();
         $areas_cm = $this->dame_areas_cm($scopeLugarIds);
+        // Los tipos antiguos solo se ofrecen al editar las áreas que ya los usan.
+        $tipos_areas_antiguos = TipoAreasCm::noVeterinarias()->whereIn('id', $areas_cm->pluck('id_tipo_area_cm'))->get();
+        // Un ambiente sin las tablas veterinarias sigue mostrando Configuración, sin este campo.
+        $tipo_establecimiento = $tipo_institucion !== 'servicio' && \Illuminate\Support\Facades\Schema::hasTable('vet_establecimientos')
+            ?app(\App\Services\OperacionVeterinaria::class)->configuracion($institucion->id)->tipo
+            : null;
 
         $servicios = Servicios::all();
 
@@ -847,6 +873,8 @@ class AdministradorCmController extends Controller
             'otras_especialidades_cm' => $otras_especialidades_cm,
             'profesionales' => $profesionales,
             'tipos_areas_cm' => $tipos_areas_cm,
+            'tipos_areas_antiguos' => $tipos_areas_antiguos,
+            'tipo_establecimiento' => $tipo_establecimiento,
             'areas_cm' => $areas_cm,
             'servicios' => $servicios,
             'servicios_internos' => $servicios_internos,
@@ -1704,7 +1732,12 @@ class AdministradorCmController extends Controller
 
     public function editarDatosPerfil(Request $request)
     {
-        return response()->json(app(\App\Services\PerfilCentroMedico::class)->guardarCentro($request));
+        $request->validate(['tipo_establecimiento' => ['nullable', \Illuminate\Validation\Rule::in(array_keys(\App\Services\OperacionVeterinaria::TIPOS))]]);
+        $respuesta = app(\App\Services\PerfilCentroMedico::class)->guardarCentro($request);
+        if ($request->filled('tipo_establecimiento') && $request->input('tipo_institucion') !== 'servicio') {
+            app(\App\Services\OperacionVeterinaria::class)->cambiarTipo($respuesta['institucion'], $request->tipo_establecimiento);
+        }
+        return response()->json($respuesta);
     }
 
     public function editarDatosPerfilResponsable(Request $request)
@@ -7881,6 +7914,12 @@ class AdministradorCmController extends Controller
         try {
             $area_cm = AreasCm::where('id', $req->id)->first();
             $lugar_atencion = $area_cm->id_lugar_atencion;
+            $servicio = TipoAreasCm::claveServicio($area_cm->id_tipo_area_cm);
+            if ($servicio && $req->input('tipo_institucion') !== 'servicio') {
+                $centro = $this->centroComercial($req);
+                abort_unless($centro->id == $area_cm->id_institucion, 404);
+                app(\App\Services\OperacionVeterinaria::class)->cambiarServicio($centro, $servicio, false);
+            }
             $area_cm->delete();
             $institucion = Instituciones::where('id_usuario', Auth::user()->id)->first();
             if(!$institucion){
@@ -7892,6 +7931,8 @@ class AdministradorCmController extends Controller
                 'institucion' => $institucion
             ])->render();
             return ['estado' => 1, 'msj' => 'Area eliminada', 'areas' => $areas, 'v' => $v];
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return ['estado' => 0, 'mensaje' => $e->getMessage()];
         } catch (\Exception $e) {
             //throw $th;
             return $e->getMessage();

@@ -1,14 +1,17 @@
 @php
     $formId = $accionForm.'-'.($registroForm->id ?? 'nuevo');
     $recuperar = old('_formulario') === $formId;
+    $enModal = $enModal ?? false;
 @endphp
 <form method="post" action="{{ route('vet.operacion.guardar',['accion'=>$accionForm]) }}" class="vet-operacion-form">
     @csrf
     <input type="hidden" name="id_institucion" value="{{ $institucion->id }}">
     <input type="hidden" name="_seccion" value="{{ $seccion }}">
     <input type="hidden" name="_formulario" value="{{ $formId }}">
+    @isset($areaCentro)<input type="hidden" name="_area" value="{{ $areaCentro }}">@endisset
     @if(isset($registroForm->id))<input type="hidden" name="id" value="{{ $registroForm->id }}">@endif
     @foreach(($ocultos ?? []) as $nombre=>$valor)<input type="hidden" name="{{ $nombre }}" value="{{ $valor }}">@endforeach
+    @if($enModal)<div class="modal-body">@endif
     <div class="form-row">
         @foreach($camposForm as $campo)
         @php
@@ -17,8 +20,9 @@
             if ($tipo === 'datetime-local' && $valor) $valor = \Carbon\Carbon::parse($valor)->format('Y-m-d\TH:i');
             $opcional = str_contains($campo['etiqueta'],'opcional') || in_array($nombre,['resultado','egreso','observaciones_alta','fecha_pago','referencia']);
         @endphp
-        <div class="form-group {{ in_array($tipo,['textarea','checklist']) ? 'col-12' : 'col-md-6' }}">
-            <label for="{{ $formId }}-{{ $nombre }}">{{ $campo['etiqueta'] }}</label>
+        <div class="{{ in_array($tipo,['textarea','checklist']) ? 'col-12' : 'col-md-6' }}"><div class="form-group">
+            {{-- Las casillas no tienen un campo sobre el que flotar la etiqueta --}}
+            <label class="{{ $tipo === 'checklist' ? '' : 'floating-label-activo-sm' }}" for="{{ $formId }}-{{ $nombre }}">{{ $campo['etiqueta'] }}</label>
             @if($tipo === 'select')
             <select class="form-control form-control-sm" id="{{ $formId }}-{{ $nombre }}" name="{{ $nombre }}" @required(!$opcional)>
                 <option value="">Seleccione</option>
@@ -35,9 +39,17 @@
             @else
             <input class="form-control form-control-sm" name="{{ $nombre }}" id="{{ $formId }}-{{ $nombre }}" type="{{ $tipo }}" value="{{ $valor }}" @required(!$opcional) @if($tipo === 'number') min="0" step="{{ in_array($nombre,['peso','temperatura']) ? '0.001' : '1' }}" @endif @if($tipo === 'text') maxlength="255" @endif>
             @endif
-        </div>
+        </div></div>
         @endforeach
     </div>
+    @if($enModal)
+    </div>
+    <div class="modal-footer justify-content-end">
+        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-info"><i class="feather icon-save mr-1"></i>Guardar {{ isset($registroForm->id) ? 'cambios' : 'registro' }}</button>
+    </div>
+    @else
     <button type="submit" class="btn btn-info btn-sm"><i class="feather icon-save mr-1"></i>Guardar {{ isset($registroForm->id) ? 'cambios' : 'registro' }}</button>
-    <a href="{{ route('vet.operacion.index',$ctx+['seccion'=>$seccion]) }}" class="btn btn-outline-dark btn-sm">Cancelar</a>
+    <a href="{{ $urlSeccion() }}" class="btn btn-outline-dark btn-sm">Cancelar</a>
+    @endif
 </form>

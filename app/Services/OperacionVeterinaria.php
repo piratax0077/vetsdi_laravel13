@@ -12,6 +12,9 @@ use Illuminate\Validation\{Rule, ValidationException};
 class OperacionVeterinaria
 {
     public const SERVICIOS = ['peluqueria'=>'Peluquería y belleza', 'laboratorio'=>'Laboratorio', 'imagenologia'=>'Imagenología', 'vacunatorio'=>'Vacunatorio', 'dental'=>'Dental'];
+    public const AREAS = self::SERVICIOS + ['hospitalizacion'=>'Hospitalización'];
+    public const AREAS_EN_PESTANAS = ['imagenologia','laboratorio','vacunatorio','peluqueria','dental'];
+    public const TIPOS = ['centro'=>'Centro veterinario', 'hospital'=>'Hospital veterinario'];
     public const SECCIONES = ['configuracion'=>'Tipo de establecimiento', 'pacientes'=>'Pacientes del establecimiento', 'hospitalizacion'=>'Hospitalización', 'plazas'=>'Plazas de hospitalización', 'asistentes'=>'Selección de asistentes', 'impuestos'=>'Impuestos y obligaciones', 'resumen'=>'Estadísticas veterinarias'];
 
     public function institucion(Request $r): Instituciones
@@ -138,11 +141,40 @@ class OperacionVeterinaria
 
     private function guardarConfiguracion(Request $r, Instituciones $i): int
     {
-        $d = $r->validate(['tipo'=>['required',Rule::in(['centro','hospital'])], 'hospitalizacion_habilitada'=>'required|boolean', 'servicios_habilitados'=>'sometimes|array', 'servicios_habilitados.*'=>[Rule::in(array_keys(self::SERVICIOS))]]);
+        $d = $r->validate(['tipo'=>['required',Rule::in(array_keys(self::TIPOS))], 'hospitalizacion_habilitada'=>'required|boolean', 'servicios_habilitados'=>'sometimes|array', 'servicios_habilitados.*'=>[Rule::in(array_keys(self::SERVICIOS))]]);
         if (!$d['hospitalizacion_habilitada']) $this->exigir(!DB::table('vet_internaciones')->where('id_institucion',$i->id)->where('estado','hospitalizada')->exists(), 'hospitalizacion_habilitada', 'Debe dar egreso a las mascotas hospitalizadas antes de deshabilitar el área.');
         $d['servicios_habilitados'] = json_encode(array_values(array_unique($d['servicios_habilitados'] ?? [])));
         $id = DB::table('vet_establecimientos')->where('id_institucion',$i->id)->value('id');
         return $this->guardar('vet_establecimientos', $i, $id, $d);
+    }
+
+    public function cambiarTipo(Instituciones $i, string $tipo): int
+    {
+        return $this->actualizarEstablecimiento($i, fn($c)=>['tipo'=>$tipo]);
+    }
+
+    public function cambiarServicio(Instituciones $i, string $modulo, bool $habilitar): int
+    {
+        return $this->actualizarEstablecimiento($i, function ($c) use ($i, $modulo, $habilitar) {
+            // Hospitalización tiene su propio campo y no forma parte de la lista de servicios.
+            if ($modulo === 'hospitalizacion') {
+                if (!$habilitar) $this->exigir(!DB::table('vet_internaciones')->where('id_institucion',$i->id)->where('estado','hospitalizada')->exists(), 'hospitalizacion_habilitada', 'Debe dar egreso a las mascotas hospitalizadas antes de deshabilitar el área.');
+                return ['hospitalizacion_habilitada'=>$habilitar];
+            }
+            $servicios =$habilitar ? [...$c->servicios_habilitados, $modulo] : array_diff($c->servicios_habilitados, [$modulo]);
+            return ['servicios_habilitados'=>json_encode(array_values(array_unique($servicios)))];
+        });
+    }
+
+    // Parte de la configuración vigente para no alterar los demás campos del establecimiento.
+    private function actualizarEstablecimiento(Instituciones $i, callable $cambios): int
+    {
+        return DB::transaction(function () use ($i, $cambios) {
+            Instituciones::whereKey($i->id)->lockForUpdate()->firstOrFail();
+            $c = $this->configuracion($i->id);
+            $datos = $cambios($c) + ['tipo'=>$c->tipo, 'hospitalizacion_habilitada'=>$c->hospitalizacion_habilitada, 'servicios_habilitados'=>json_encode($c->servicios_habilitados)];
+            return $this->guardar('vet_establecimientos', $i, DB::table('vet_establecimientos')->where('id_institucion',$i->id)->value('id'), $datos);
+        });
     }
 
     private function guardarPlaza(Request $r, Instituciones $i, ?int $id): int

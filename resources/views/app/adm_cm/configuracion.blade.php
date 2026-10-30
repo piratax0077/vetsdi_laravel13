@@ -36,7 +36,6 @@
     <!--Container Completo-->
     <div class="pcoded-main-container configuracion-administrador">
         <div class="pcoded-content">
-<div class="card"><div class="card-body d-flex flex-wrap justify-content-between align-items-center"><div><h5>Centro u hospital veterinario</h5><p class="mb-0">Configure el tipo de establecimiento, áreas y plazas de hospitalización.</p></div><a class="btn btn-info btn-sm" href="{{ route('vet.operacion.index', array_filter(['seccion'=>'configuracion', 'id_institucion'=>$institucion->id ?? null])) }}">Configurar establecimiento</a></div></div>
                             @if (false && $contextosCentro->isNotEmpty())
                                 <form method="GET" action="{{ route('adm_cm.configuracion') }}" class="mb-3">
                                     <div class="form-row align-items-end">
@@ -78,7 +77,7 @@
                             @include('template.partials.perfil_cabecera', [
                                 'nombre' => $institucion->nombre ?: $institucion->razon_social,
                                 'nombre_tal_cual' => true,
-                                'rol' => 'Institución',
+                                'rol' => (!empty($tipo_establecimiento) ? (\App\Services\OperacionVeterinaria::TIPOS[$tipo_establecimiento] ?? null) : null) ?: 'Institución',
                                 'foto' => $institucion->foto_perfil,
                                 'foto_base' => 'images/iconos/cm-perfiles.png',
                                 'al_cambiar' => "document.getElementById('foto-perfil-input').click()",
@@ -105,7 +104,7 @@
                                     <li class="nav-item">
                                         <a class="nav-link text-reset" id="rol-permiso-adm-med-tab"
                                             data-toggle="tab" href="#rol-permiso-adm-med" role="tab"
-                                            aria-controls="rol-permiso-adm-med" aria-selected="false">Administradores</a>
+                                            aria-controls="rol-permiso-adm-med" aria-selected="false">Administración</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link text-reset" id="ar-dep-tab" data-toggle="tab"
@@ -166,6 +165,12 @@
                                                         <label class="font-weight-bolder ml-0 mb-0">Nombre fantasía</label>
                                                         <div id="ver_nombre">{{ $institucion->nombre }}</div>
                                                     </div>
+                                                    @if ($tipo_establecimiento)
+                                                        <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                            <label class="font-weight-bolder ml-0 mb-0">Tipo de institución</label>
+                                                            <div id="ver_tipo_establecimiento">{{ \App\Services\OperacionVeterinaria::TIPOS[$tipo_establecimiento] ?? '' }}</div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </form>
                                         </div>
@@ -192,6 +197,16 @@
                                                             placeholder="Nombre" id="editar_nombre"
                                                             value="{{ $institucion->nombre }}">
                                                     </div>
+                                                    @if ($tipo_establecimiento)
+                                                        <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                            <label class="floating-label-activo-sm">Tipo de institución</label>
+                                                            <select class="form-control form-control-sm" id="editar_tipo_establecimiento">
+                                                                @foreach (\App\Services\OperacionVeterinaria::TIPOS as $clave_tipo => $nombre_tipo)
+                                                                    <option value="{{ $clave_tipo }}" @selected($tipo_establecimiento === $clave_tipo)>{{ $nombre_tipo }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    @endif
 
                                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                         <div class=" d-flex justify-content-end">
@@ -790,38 +805,54 @@
                             aria-labelledby="rol-permiso-adm-med-tab">
                             <div class="row mb-0 mt-0">
                                 <div class="col-sm-12 col-md-12">
-                                    <div class="card mb-3">
-                                        <div class="card-header d-flex flex-wrap align-items-center justify-content-between bg-white border-bottom-0">
-                                            <h5 class="mb-0 mr-3"><i class="feather icon-users icono-purple"></i> Administradores veterinarios de la institución</h5>
-                                            <button type="button" class="btn btn-sm btn-info" onclick="ag_area();"><i class="feather icon-plus"
-                                                    aria-hidden="true"></i> Administrar</button>
-                                            @if (isset($director_cm) && $director_cm != null)
-                                                <input type="hidden" name="id_responsable" id="id_director_cm"
-                                                    value="{{ $director_cm->id }}">
-                                            @endif
-                                        </div>
+                                    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+                                        <h3 class="mb-0 mr-3 font-weight-bolder">Administración de {{ $institucion->nombre ?: $institucion->razon_social }}</h3>
+                                        <button type="button" class="btn btn-info" onclick="ag_area();"><i class="feather icon-plus"
+                                                aria-hidden="true"></i> Agregar administrador</button>
+                                        @if (isset($director_cm) && $director_cm != null)
+                                            <input type="hidden" name="id_responsable" id="id_director_cm"
+                                                value="{{ $director_cm->id }}">
+                                        @endif
                                     </div>
                                 </div>
                             </div>
+                            @php
+                                // Los pills solo existen para los cargos que ya tienen administrador
+                                $hayDirector = !empty($director_cm);
+                                $hayComercial = !empty($subdirector_cm);
+                                $hayFarmacia = !empty($director_gestion_cuidado);
+                                $hayAdministradores = $hayDirector || $hayComercial || $hayFarmacia;
+                                $pestanaActiva = $hayDirector ? 'p-director' : ($hayComercial ? 'p-comercial' : 'p-farmacia');
+                            @endphp
+                            @unless ($hayAdministradores)
+                                <div class="card"><div class="card-body text-center text-muted">No hay registros</div></div>
+                            @endunless
+                            @if ($hayAdministradores)
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <ul class="nav nav-tabs-secciones-info" id="insc-institucion" role="tablist">
+                                        @if ($hayDirector)
                                         <li class="nav-item-secciones-info">
-                                            <a class="nav-secciones-info text-uppercase active" id="p-director-tab"
+                                            <a class="nav-secciones-info text-uppercase {{ $pestanaActiva === 'p-director' ? 'active' : '' }}" id="p-director-tab"
                                                 data-toggle="tab" href="#p-director" role="tab"
-                                                aria-controls="p-director" aria-selected="true">Administrador veterinario</a>
+                                                aria-controls="p-director" aria-selected="{{ $pestanaActiva === 'p-director' ? 'true' : 'false' }}">Administrador veterinario</a>
                                         </li>
+                                        @endif
+                                        @if ($hayComercial)
                                         <li class="nav-item-secciones-info">
-                                            <a class="nav-secciones-info text-uppercase" id="p-comercial-tab"
+                                            <a class="nav-secciones-info text-uppercase {{ $pestanaActiva === 'p-comercial' ? 'active' : '' }}" id="p-comercial-tab"
                                                 data-toggle="tab" href="#p-comercial" role="tab"
-                                                aria-controls="p-comercial" aria-selected="false">Perfil Adm.
+                                                aria-controls="p-comercial" aria-selected="{{ $pestanaActiva === 'p-comercial' ? 'true' : 'false' }}">Perfil Adm.
                                                 comercial</a>
                                         </li>
+                                        @endif
+                                        @if ($hayFarmacia)
                                         <li class="nav-item-secciones-info">
-                                            <a class="nav-secciones-info text-uppercase" id="p-farmacia-tab"
+                                            <a class="nav-secciones-info text-uppercase {{ $pestanaActiva === 'p-farmacia' ? 'active' : '' }}" id="p-farmacia-tab"
                                                 data-toggle="tab" href="#p-farmacia" role="tab"
-                                                aria-controls="p-farmacia" aria-selected="false">Perfil Adm. Farmacia</a>
+                                                aria-controls="p-farmacia" aria-selected="{{ $pestanaActiva === 'p-farmacia' ? 'true' : 'false' }}">Perfil Adm. Farmacia</a>
                                         </li>
+                                        @endif
                                         <!--<li class="nav-item-secciones-info">
                                             <a class="nav-secciones-info text-uppercase" id="laboratorio-i-tab" data-toggle="tab" href="#laboratorio-i" role="tab" aria-controls="laboratorio-i" aria-selected="false"></a>
                                         </li>-->
@@ -832,7 +863,7 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <div class="tab-content" id="agregar_inf_cm">
-                                        <div class="tab-pane fade show active" id="p-director" role="tabpanel"
+                                        <div class="tab-pane fade {{ $pestanaActiva === 'p-director' ? 'show active' : '' }}" id="p-director" role="tabpanel"
                                             aria-labelledby="p-director-tab">
                                             @if (isset($director_cm) && $director_cm != null)
                                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
@@ -1263,29 +1294,10 @@
                                                     </div>
                                                 </div>
                                             @else
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                                                    <div class="card">
-                                                        <div class="card-header d-flex align-items-center justify-content-between bg-white">
-                                                            <h5 class="mb-0"><i class="feather icon-user-plus icono-purple"></i> Inscripci&oacute;n Administrador Veterinario</h5>
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-8">
-                                                                    <h5 class="mb-2">Administrador veterinario no inscrito</h5>
-                                                                    <p class="text-muted mb-md-0">Inscribe o asocia al profesional veterinario encargado de la administraci&oacute;n cl&iacute;nica de la instituci&oacute;n.</p>
-                                                                </div>
-                                                                <div class="col-md-4 text-md-right mt-3 mt-md-0">
-                                                                    <button type="button" class="btn btn-info" onclick="ag_area();">
-                                                                        <i class="feather icon-user-plus mr-1"></i> Inscribir administrador veterinario
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <div class="card"><div class="card-body text-center text-muted">No hay registros</div></div>
                                             @endif
                                         </div>
-                                        <div class="tab-pane fade" id="p-comercial" role="tabpanel"
+                                        <div class="tab-pane fade {{ $pestanaActiva === 'p-comercial' ? 'show active' : '' }}" id="p-comercial" role="tabpanel"
                                             aria-labelledby="p-comercial-tab">
                                             @if (isset($subdirector_cm) && $subdirector_cm != null)
                                                 <!--NUEVO-->
@@ -1725,9 +1737,11 @@
                                                     </div>
                                                 </div>
                                                 <!--CIERRE-->
+                                            @else
+                                                <div class="card"><div class="card-body text-center text-muted">No hay registros</div></div>
                                             @endif
                                         </div>
-                                        <div class="tab-pane fade" id="p-farmacia" role="tabpanel"
+                                        <div class="tab-pane fade {{ $pestanaActiva === 'p-farmacia' ? 'show active' : '' }}" id="p-farmacia" role="tabpanel"
                                             aria-labelledby="p-farmacia-tab">
                                             @if (isset($director_gestion_cuidado) && $director_gestion_cuidado != null)
                                                 <!--NUEVO-->
@@ -2171,6 +2185,8 @@
                                                     </div>
                                                 </div>
                                                 <!--CIERRE-->
+                                            @else
+                                                <div class="card"><div class="card-body text-center text-muted">No hay registros</div></div>
                                             @endif
                                         </div>
                                         <!--<div class="tab-pane fade" id="box" role="tabpanel" aria-labelledby="box-tab">
@@ -2178,6 +2194,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
                         <!--CIERRE: PERFIL ADMINISTRADOR-->
 
@@ -2191,7 +2208,7 @@
                                         <div class="card-header bg-white">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <h5 class="mb-0 d-inline"><i class="feather icon-users icono-purple"></i> Asignar y desasociar personal de la institución</h5>
+                                                    <h5 class="mb-0 d-inline"><i class="feather icon-users icono-purple"></i> Asignar y desvincular personal de la institución</h5>
                                                     <div
                                                         class="btn-group mr-2 d-inline float-md-right float-md-right ml-4">
                                                         <button type="button" class="btn btn-sm btn-info"
@@ -2214,7 +2231,7 @@
                                                                 <th class="text-wrap text-left align-middle">Nombre</th>
                                                                 <th class="text-wrap text-left align-middle">RUT</th>
                                                                 <th class="text-wrap text-left align-middle">Rol</th>
-                                                                <th class="text-wrap align-middle">Desasociar
+                                                                <th class="text-wrap align-middle">Desvincular
                                                                 </th>
                                                             </tr>
                                                         </thead>
@@ -2291,14 +2308,14 @@
                                         <li class="nav-item-secciones-info">
                                             <a class="nav-secciones-info  text-uppercase" id="area-i-tab"
                                                 data-toggle="tab" href="#area-i" role="tab"
-                                                aria-controls="area-i" aria-selected="false">Áreas del Centro</a>
+                                                aria-controls="area-i" aria-selected="false">Áreas</a>
                                         </li>
                                         <li class="nav-item-secciones-info">
                                             <a class="nav-secciones-info  text-uppercase" id="esp-med-tab"
                                                 data-toggle="tab" href="#esp-med" role="tab"
-                                                aria-controls="esp-med" aria-selected="true">Especialidades médicas</a>
+                                                aria-controls="esp-med" aria-selected="true">Especialidades veterinarias</a>
                                         </li>
-                                        <li class="nav-item-secciones-info">
+                                        <li class="nav-item-secciones-info d-none">
                                             <a class="nav-secciones-info text-uppercase" id="laboratorio-i-tab"
                                                 data-toggle="tab" href="#laboratorio-i" role="tab"
                                                 aria-controls="laboratorio-i" aria-selected="false">Laboratorios</a>
@@ -2320,7 +2337,7 @@
                                                         <div class="card-header bg-white">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <h5 class="mb-0 d-inline"><i class="feather icon-grid icono-purple"></i> Boxes de Atención</h5>
+                                                                    <h5 class="mb-0 d-inline"><i class="feather icon-grid icono-purple"></i> Boxes o salas</h5>
                                                                     <div
                                                                         class="btn-group mr-2 d-inline float-md-right float-md-right ml-4">
                                                                         <button type="button"
@@ -2341,62 +2358,35 @@
                                                                         style="width:100%">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th class="text-wrap align-middle">N°
-                                                                                    Asig.</th>
-                                                                                <th class="text-wrap align-middle">Tipo
-                                                                                </th>
-                                                                                <th class="text-wrap align-middle">
-                                                                                    Especialización</th>
-                                                                                <th class="text-wrap align-middle">
-                                                                                    Ubicación</th>
-                                                                                <th class="text-wrap align-middle">Sección
-                                                                                </th>
-                                                                                <th class="text-wrap align-middle">Activo
-                                                                                </th>
-                                                                                <th class="text-wrap align-middle">Editar
-                                                                                </th>
+                                                                                <th class="text-wrap align-middle">Nombre</th>
+                                                                                <th class="text-wrap align-middle">Tipo</th>
+                                                                                <th class="text-wrap align-middle">Ubicación</th>
+                                                                                <th class="text-wrap align-middle">Estado</th>
+                                                                                <th class="text-wrap align-middle">Acciones</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            @if (isset($boxes_servicio) && $boxes_servicio->count() > 0)
-                                                                                @foreach ($boxes_servicio as $box)
-                                                                                    <tr>
-                                                                                        <td class="align-middle">
-                                                                                            {{ $box->numero_box }}</td>
-                                                                                        <td class="align-middle">
-                                                                                            {{ $box->tipo_box }}</td>
-                                                                                        <td class="align-middle">
-                                                                                            {{ $box->tipo_especializacion }}
-                                                                                        </td>
-                                                                                        <td class="align-middle">Piso
-                                                                                            {{ $box->ubicacion }}</td>
-                                                                                        <td class="align-middle">
-                                                                                            {{ $box->seccion }}</td>
-                                                                                        <td class="align-middle">
-                                                                                            <div class="custom-control custom-switch">
-                                                                                                <input type="checkbox"
-                                                                                                    class="custom-control-input"
-                                                                                                    id="esp-{{ $box->id }}"
-                                                                                                    data-id="{{ $box->id }}"
-                                                                                                    onchange="checkboxChanged(this)"
-                                                                                                    {{ $box->estado == 1 ? 'checked' : '' }}>
-                                                                                                <label class="custom-control-label" for="esp-{{ $box->id }}"></label>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                        <td
-                                                                                            class="align-middle">
-                                                                                            <button title="Editar box" type="button"
-                                                                                                class="btn btn-warning btn-icon"
-                                                                                                onclick="dame_box({{ $box->id }});"><i
-                                                                                                    class="feather icon-edit"></i></button>
-                                                                                            <button title="Eliminar box" type="button"
-                                                                                                class="btn btn-danger btn-icon"
-                                                                                                onclick="eliminar_box({{ $box->id }})"><i
-                                                                                                    class="feather icon-x"></i></button>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                @endforeach
-                                                                            @endif
+                                                                            {{-- Registro ficticio solo para la vista, sin conexión a datos --}}
+                                                                            <tr>
+                                                                                <td class="align-middle">Box 1</td>
+                                                                                <td class="align-middle">Consulta general</td>
+                                                                                <td class="align-middle">Piso 1</td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="custom-control custom-switch">
+                                                                                        <input type="checkbox" class="custom-control-input" id="esp-box-demo" checked>
+                                                                                        <label class="custom-control-label" for="esp-box-demo"></label>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <button title="Editar box" type="button"
+                                                                                        class="btn btn-warning btn-icon"
+                                                                                        onclick="$('#editar_box').modal('show');"><i
+                                                                                            class="feather icon-edit"></i></button>
+                                                                                    <button title="Eliminar box" type="button"
+                                                                                        class="btn btn-danger btn-icon"><i
+                                                                                            class="feather icon-x"></i></button>
+                                                                                </td>
+                                                                            </tr>
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -2578,7 +2568,7 @@
                                                 <div class="card-header bg-white">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <h5 class="mb-0 d-inline"><i class="feather icon-activity icono-purple"></i> Especialidades Médicas</h5>
+                                                            <h5 class="mb-0 d-inline"><i class="feather icon-activity icono-purple"></i> Especialidades Veterinarias</h5>
                                                             <div
                                                                 class="btn-group mr-2 d-inline float-md-right float-md-right ml-4">
                                                                 <button type="button" class="btn btn-sm btn-info"
@@ -2601,7 +2591,7 @@
                                                                             <tr>
                                                                                 <th class="text-wrap align-middle">Tipo
                                                                                     Especialidad</th>
-                                                                                <th class="text-wrap align-middle">Subtipo
+                                                                                <th class="text-wrap align-middle d-none">Subtipo
                                                                                     Especialidad</th>
                                                                                 <th class="text-wrap align-middle">N°
                                                                                     Profesionales</th>
@@ -2617,7 +2607,7 @@
                                                                                         <td class="align-middle">
                                                                                             {{ $especialidad->nombre }}
                                                                                         </td>
-                                                                                        <td class="align-middle">
+                                                                                        <td class="align-middle d-none">
                                                                                             {{ $especialidad->sub_tipo }}
                                                                                         </td>
                                                                                         <td class="align-middle">
@@ -2723,7 +2713,7 @@
                                                                                             class="btn btn-info btn-icon"
                                                                                             data-toggle="tooltip"
                                                                                             data-placement="top"
-                                                                                            title="Asociar profesionales al área de {{ $area->tipo_area }}"
+                                                                                            title="Vincular profesionales al área de {{ $area->tipo_area }}"
                                                                                             onclick="asignar_profesionales_area({{ $area->id }})"><i
                                                                                                 class="feather icon-plus"></i></button>
                                                                                         <button type="button"
@@ -3066,7 +3056,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header-purple">
-                    <h5 class="modal-title text-center">Desasociar Funcionario</h5>
+                    <h5 class="modal-title text-center">Desvincular Funcionario</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
@@ -3081,7 +3071,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link-modal" id="dos_tab" data-toggle="pill" href="#dos"
-                                        role="tab" aria-controls="pills-home" aria-selected="true">Desasociar y
+                                        role="tab" aria-controls="pills-home" aria-selected="true">Desvincular y
                                         cambiar clave</a>
                                 </li>
 
@@ -3144,7 +3134,7 @@
                                 <div class="tab-pane fade" id="dos" role="tabpanel" aria-labelledby="dos_tab">
                                     <div class="row deberes collapse show" id="deberes-1">
                                         <div class="col-sm-12 col-md-12 text-center">
-                                            <h5 class="text-info">DESASOCIAR</h5>
+                                            <h5 class="text-info">DESVINCULAR</h5>
                                             <hr class="mt-0">
                                         </div>
                                         <div class="col-sm-12 col-md-12">
@@ -3431,19 +3421,38 @@
                             <div class="col-sm-12">
                                 <div class="form-group fill">
                                     <!--Cargar áreas-->
-                                    <label class="floating-label">Cargo</label>
+                                    <label class="floating-label-activo-sm">Área</label>
                                     <select class="form-control form-control-sm" id="cargo">
                                         <option value="0">Seleccione</option>
-                                        @foreach ($cargos as $cargo)
-                                            <option value="{{ $cargo->id }}">{{ $cargo->nombres }}</option>
-                                        @endforeach
+                                        <optgroup label="Áreas clínicas">
+                                            <option value="consultas">Encargado de consultas o medicina general</option>
+                                            <option value="cirugia">Encargado de cirugía y pabellón</option>
+                                            <option value="hospitalizacion">Encargado de hospitalización</option>
+                                            <option value="urgencias" hidden disabled>Encargado de urgencias y turnos</option>
+                                            <option value="laboratorio">Encargado de laboratorio</option>
+                                            <option value="imagenologia">Encargado de imagenología</option>
+                                            <option value="especialidades">Encargado de especialidades</option>
+                                            <option value="vacunacion">Encargado de vacunación y prevención</option>
+                                        </optgroup>
+                                        <optgroup label="Áreas comerciales y de servicio">
+                                            <option value="farmacia">Encargado de farmacia o expendio</option>
+                                            <option value="tienda">Encargado de tienda y ventas</option>
+                                            <option value="peluqueria">Encargado de peluquería</option>
+                                            <option value="recepcion">Encargado de recepción y atención al cliente</option>
+                                        </optgroup>
+                                        <optgroup label="Áreas de gestión y soporte">
+                                            <option value="administracion">Encargado de administración y finanzas</option>
+                                            <option value="inventario">Encargado de inventario y bodega</option>
+                                            <option value="bioseguridad">Encargado de bioseguridad, aseo y residuos</option>
+                                            <option value="recursos_humanos">Encargado de recursos humanos o personal</option>
+                                        </optgroup>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group fill">
                                     <!--Cargar áreas-->
-                                    <label class="floating-label">Responsable</label>
+                                    <label class="floating-label-activo-sm">Responsable</label>
                                     <select class="form-control form-control-sm" id="responsable_cargo">
                                         <option value="0">Seleccione</option>
                                         @if (isset($profesionales))
@@ -3592,7 +3601,7 @@
     {{--  MODAL ESPECIALIDADES  --}}
     <div id="a_especialidad" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="a_especialidad"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Agregar especialidad</h5>
@@ -3608,17 +3617,11 @@
                                     <label class="floating-label-activo-sm">Tipo Especialidad</label>
                                     <select class="form-control form-control-sm" id="especialidad_cm"
                                         name="especialidad_cm" onchange="buscar_sub_tipo_especialidad(this);">
-                                        <option>Seleccione</option>
-                                        @if (isset($especialidades))
-                                            @foreach ($especialidades as $especialidad)
-                                                <option value="{{ $especialidad->id }}">{{ $especialidad->nombre }}
-                                                </option>
-                                            @endforeach
-                                        @endif
+                                        @include('app.adm_cm.partials.opciones_especialidades')
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-12 d-none">
                                 <div class="form-group">
                                     <label class="floating-label-activo-sm">Sub Tipo Especialidad</label>
                                     <select class="form-control form-control-sm" name="sub_tipo_especialidad_cm"
@@ -3647,7 +3650,7 @@
     {{-- MODAL EDITAR ESPECIALIDAD --}}
     <div id="editar_especialidad" class="modal fade" tabindex="-1" role="dialog"
         aria-labelledby="editar_especialidad" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header-purple">
                     <h5 class="modal-title text-center">Editar especialidad</h5>
@@ -3664,17 +3667,11 @@
                                     <select class="form-control form-control-sm" id="editar_especialidad_nombre"
                                         name="editar_especialidad_nombre"
                                         onchange="editar_buscar_sub_tipo_especialidad(this);">
-                                        <option>Seleccione</option>
-                                        @if (isset($especialidades))
-                                            @foreach ($especialidades as $especialidad)
-                                                <option value="{{ $especialidad->id }}">{{ $especialidad->nombre }}
-                                                </option>
-                                            @endforeach
-                                        @endif
+                                        @include('app.adm_cm.partials.opciones_especialidades')
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-12 d-none">
                                 <div class="form-group">
                                     <label class="floating-label-activo-sm">Sub Tipo Especialidad</label>
                                     <select class="form-control form-control-sm" name="editar_especialidad_sub_tipo"
@@ -3886,7 +3883,7 @@
     </div>
 </div>
 
-    <div id="editar_area" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editar_area"
+    <div id="editar_area" class="modal fade validar-area" tabindex="-1" role="dialog" aria-labelledby="editar_area"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -3902,9 +3899,13 @@
                                 <div class="form-group">
                                     <!--Cargar áreas-->
                                     <label class="floating-label-activo-sm">Área</label>
-                                    <select class="form-control form-control-sm" id="editar_tipo_area">
+                                    <select class="form-control form-control-sm" id="editar_tipo_area" data-validar="seleccion" data-requerido="Seleccione un área">
                                         <option value="0">Seleccione</option>
                                         @foreach ($tipos_areas_cm as $tipo_area_cm)
+                                            <option value="{{ $tipo_area_cm->id }}">{{ $tipo_area_cm->nombre }}
+                                            </option>
+                                        @endforeach
+                                        @foreach ($tipos_areas_antiguos as $tipo_area_cm)
                                             <option value="{{ $tipo_area_cm->id }}">{{ $tipo_area_cm->nombre }}
                                             </option>
                                         @endforeach
@@ -3914,7 +3915,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="floating-label-activo-sm">Responsable</label>
-                                    <select class="form-control form-control-sm" id="editar_responsable_cargo_area">
+                                    <select class="form-control form-control-sm" id="editar_responsable_cargo_area" data-validar="seleccion" data-requerido="Seleccione un responsable">
                                         <option value="0">Seleccione</option>
                                         @foreach ($profesionales as $profesional)
                                             <option value="{{ $profesional->id_profesional }}">
@@ -3931,21 +3932,21 @@
                                 <div class="form-group">
                                     <label class="floating-label-activo-sm">Contacto (email)</label>
                                     <input type="text" class="form-control form-control-sm" name="editar_e_cont"
-                                        id="editar_e_cont">
+                                        id="editar_e_cont" data-validar="email" data-requerido="Ingrese un email de contacto">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label class="floating-label-activo">Teléfono</label>
+                                    <label class="floating-label-activo-sm">Teléfono</label>
                                     <input type="number" class="form-control form-control-sm" name="editar_tel_c"
-                                        id="editar_tel_c">
+                                        id="editar_tel_c" data-validar="telefono" data-requerido="Ingrese un teléfono de contacto">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label class="floating-label-activo">N°/ Pers. a cargo</label>
+                                    <label class="floating-label-activo-sm">N°/ Pers. a cargo</label>
                                     <input type="number" class="form-control form-control-sm" name="editar_n_pers"
-                                        id="editar_n_pers">
+                                        id="editar_n_pers" min="0" step="1" data-validar="personas" data-requerido="Ingrese el número de personas a cargo">
                                 </div>
                             </div>
                         </div>
@@ -3979,13 +3980,7 @@
                                     <label class="floating-label">Especialidad</label>
                                     <select class="form-control form-control-sm" id="especialidad_cm_otra"
                                         name="especialidad_cm_otra">
-                                        <option>Seleccione</option>
-                                        @if (isset($especialidades))
-                                            @foreach ($especialidades as $especialidad)
-                                                <option value="{{ $especialidad->id }}">{{ $especialidad->nombre }}
-                                                </option>
-                                            @endforeach
-                                        @endif
+                                        @include('app.adm_cm.partials.opciones_especialidades')
                                     </select>
                                 </div>
                             </div>
@@ -4006,7 +4001,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header-purple">
-                    <h5 class="modal-title text-center">Asociar profesionales a área</h5>
+                    <h5 class="modal-title text-center">Vincular profesionales a área</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
@@ -4278,74 +4273,64 @@
     {{-- MODAL EDITAR BOX --}}
     <div id="editar_box" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editar_box"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header-purple">
-                    <h5 class="modal-title text-center">Editar box</h5>
+                    <h5 class="modal-title text-center">Editar box o sala</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="form-row">
-                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                            <div class="col-12">
                                 <div class="form-group">
-                                    <label class="floating-label-activo-sm">Asignar N° al box</label>
+                                    <label class="floating-label-activo-sm">Nombre del box o sala</label>
                                     <input type="text" name="editar_numero_box" id="editar_numero_box"
-                                        class="form-control form-control-sm">
+                                        placeholder="Ej: N° o Nombre" class="form-control form-control-sm">
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                            <div class="col-12">
                                 <div class="form-group">
-                                    <label class="floating-label-activo-sm">Tipo Box</label>
-                                    <select class="form-control form-control-sm" name="editar_tpo_box_servicio"
-                                        id="editar_tpo_box_servicio" onchange="editar_dame_especializacion_box()">
-                                        <option value="0">Seleccione</option>
-                                        <option value="Normal">Normal</option>
-                                        <option value="Especializado">Especializado</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12"
-                                id="editar_contenedor_tpo_especializacion">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Tipo de especialización</label>
+                                    <label class="floating-label-activo-sm">Tipo</label>
                                     <select class="form-control form-control-sm" name="editar_tpo_especializacion"
-                                        id="editar_tpo_especializacion">
+                                        id="editar_tpo_especializacion" onchange="mostrar_otro_tipo_box_editar();">
                                         <option value="0">Seleccione</option>
-                                        <option value="Oftalmologia">Oftalmología</option>
-                                        <option value="Otorrino">Otorrino</option>
-                                        <option value="Odontologia general">Odontologia general</option>
-                                        <option value="Sala de procedimientos">Sala de procedimientos</option>
-                                        <option value="Vacunatorio">Vacunatorio</option>
-                                        <option value="Kinesiologia y rehabilitacion">Kinesiologia y rehabilitacion
-                                        </option>
-                                        <option value="Etc">Etc</option>
+                                        <option>Recepción y sala de espera</option>
+                                        <option>Consulta general</option>
+                                        <option>Baño o área de higiene</option>
+                                        <option>Sala de procedimientos o curaciones</option>
+                                        <option>Farmacia</option>
+                                        <option>Bodega</option>
+                                        <option>Peluquería o grooming</option>
+                                        <option>Laboratorio clínico</option>
+                                        <option>Sala de ecografía</option>
+                                        <option>Sala de rayos X</option>
+                                        <option>Sala de preparación preanestésica</option>
+                                        <option>Pabellón quirúrgico</option>
+                                        <option>Sala de esterilización</option>
+                                        <option>Recuperación postanestésica</option>
+                                        <option>Aislamiento o infectocontagiosos</option>
+                                        <option>Sala de felinos</option>
+                                        <option>UCI</option>
+                                        <option>Tomografía o resonancia</option>
+                                        <option>Salas de especialidad</option>
+                                        <option>Sala de eutanasia o despedida</option>
+                                        <option>Urgencia</option>
+                                        <option>Otro</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6 d-none">
+                            <div class="col-12 d-none" id="editar_contenedor_tpo_especializacion_otro">
                                 <div class="form-group">
-                                    <label class="floating-label-activo-sm">Equipamiento</label>
-                                    <select class="form-control form-control-sm" name="editar_equip_ad"
-                                        id="editar_equip_ad" multiple="multiple">
-                                        <option value="Carro paro">Carro paro</option>
-                                        <option value="Oxigenoterápia">Oxigenoterápia</option>
-                                        <option value="Pabellon de yeso">Pabellon de yeso</option>
-                                    </select>
+                                    <label class="floating-label-activo-sm">Especifique el tipo</label>
+                                    <input type="text" name="editar_tpo_especializacion_otro"
+                                        id="editar_tpo_especializacion_otro" class="form-control form-control-sm">
                                 </div>
-                            </div>
-                            <div class="col-sm-6 d-none">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Cantidad de camillas</label>
-                                    <input type="number" class="form-control form-control-sm"
-                                        name="editar_n_camillas_box_servicio" id="editar_n_camillas_box_servicio">
-                                </div>
-
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                            <div class="col-12">
                                 <div class="form-group">
                                     <label class="floating-label-activo-sm">Ubicación</label>
                                     <select class="form-control form-control-sm" name="editar_tpo_equip_servicio"
@@ -4362,28 +4347,6 @@
                                         <option value="9">Piso 9</option>
                                         <option value="10">Piso 10</option>
                                     </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Sección</label>
-                                    <select class="form-control form-control-sm" name="editar_seccion_box"
-                                        id="editar_seccion_box">
-                                        <option value="0">Seleccione</option>
-                                        <option value="1">Pediatría</option>
-                                        <option value="2">General</option>
-                                        <option value="3">Ginecobstetricia</option>
-                                        <option value="4">Rehabilitación</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="form-group">
-                                    <label class="floating-label-activo-sm">Observaciones</label>
-                                    <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=4"
-                                        onblur="this.rows=1;" name="editar_ot_pat_act_" id="editar_ot_pat_act_"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -4615,6 +4578,7 @@
                     razon_social: razon_social,
                     nombre: nombre,
                     tipo_institucion: tipo_institucion,
+                    tipo_establecimiento: $('#editar_tipo_establecimiento').val(),
                 },
             })
             .done(function(response) {
@@ -5357,7 +5321,7 @@
                                 $('#especialidades_cm tbody').append(`
                                 <tr>
                                     <td class="align-items-center">${v.nombre}</td>
-                                    <td class="align-items-center">${v.sub_tipo}</td>
+                                    <td class="align-items-center d-none">${v.sub_tipo}</td>
                                     <td class="align-items-center">
                                         ${v.num_profesionales}
                                     </td>
@@ -5463,7 +5427,7 @@
                                 $('#especialidades_cm tbody').append(`
                                 <tr>
                                     <td class="align-items-center">${v.nombre}</td>
-                                    <td class="align-items-center">${v.sub_tipo}</td>
+                                    <td class="align-items-center d-none">${v.sub_tipo}</td>
                                     <td class="align-items-center">
                                         5
                                     </td>
@@ -5598,7 +5562,7 @@
                             $('#especialidades_cm tbody').append(`
                             <tr>
                                 <td class="align-items-left">${v.nombre}</td>
-                                <td class="align-items-left">${v.sub_tipo}</td>
+                                <td class="align-items-left d-none">${v.sub_tipo}</td>
                                     <td class="align-items-left">
                                         ${v.num_profesionales}
                                     </td>
@@ -5909,7 +5873,7 @@
                             $('#especialidades_cm tbody').append(`
                         <tr>
                             <td class="align-items-center">${v.nombre}</td>
-                            <td class="align-items-center">${v.sub_tipo}</td>
+                            <td class="align-items-center d-none">${v.sub_tipo}</td>
                             <td class="align-items-center">
                                 ${v.num_profesionales}
                             </td>
@@ -6052,6 +6016,7 @@
         let data = {
             id: id,
             id_institucion: "{{ $institucion->id }}",
+            tipo_institucion: $('#tipo_institucion').val(),
             _token: CSRF_TOKEN,
         };
         let url = "{{ route('adm_cm.eliminar_area_profesional') }}";
@@ -6069,7 +6034,7 @@
                     } else {
                         swal({
                             title: "Error",
-                            text: "Error al cargar ingresar área profesional",
+                            text: data.mensaje || "Error al cargar ingresar área profesional",
                             icon: "error",
                             buttons: "Aceptar",
                             DangerMode: true,
@@ -6454,32 +6419,7 @@
         let n_persons = $('#editar_n_pers').val();
         let id_institucion = "{{ $institucion->id }}";
 
-        let valido = 1;
-        let mensaje = '';
-
-        // validar campos
-        if (tipo_area == '' || tipo_area == 0) {
-            valido = 0;
-            mensaje += '<li>Campo requerido Tipo de Área</li>';
-        }
-        if (responsable == '' || responsable == 0) {
-            valido = 0;
-            mensaje += '<li>Campo requerido Responsable</li>';
-        }
-        if (email == '') {
-            valido = 0;
-            mensaje += '<li>Campo requerido Email</li>';
-        }
-        if (telefono == '') {
-            valido = 0;
-            mensaje += '<li>Campo requerido Teléfono</li>';
-        }
-        if (n_persons == '') {
-            valido = 0;
-            mensaje += 'Campo requerido Número de Personas</li>';
-        }
-
-        if (valido == 1) {
+        if (validar_formulario_area('#editar_area')) {
             let data = {
                 tipo_area: tipo_area,
                 responsable: responsable,
@@ -6489,6 +6429,7 @@
                 id_lugar_atencion: id_lugar_atencion,
                 id_area: $('#id_area').val(),
                 id_institucion: id_institucion,
+                tipo_institucion: $('#tipo_institucion').val(),
                 _token: CSRF_TOKEN,
             }
 
@@ -6508,10 +6449,12 @@
                             let areas = data.areas;
                             $('#contenedor_areas_cm').empty();
                             $('#contenedor_areas_cm').append(data.v);
+                        } else if (data.campo == 'tipo_area') {
+                            pintar_error_area($('#editar_tipo_area'), data.mensaje);
                         } else {
                             swal({
                                 title: "Error",
-                                text: "Error al cargar ingresar área profesional",
+                                text: data.mensaje || "Error al cargar ingresar área profesional",
                                 icon: "error",
                                 buttons: "Aceptar",
                                 DangerMode: true,
@@ -6527,20 +6470,10 @@
                         });
                     }
                 })
+                .fail(function(jqXHR) {
+                    errores_servidor_area(jqXHR, { tipo_area: '#editar_tipo_area', responsable: '#editar_responsable_cargo_area', email: '#editar_e_cont', telefono: '#editar_tel_c', n_persons: '#editar_n_pers' });
+                })
 
-        } else {
-            swal({
-                title: "Campos requeridos",
-                content: {
-                    element: "div",
-                    attributes: {
-                        innerHTML: mensaje,
-                    },
-                },
-                icon: "error",
-                buttons: "Aceptar",
-                DangerMode: true,
-            });
         }
     }
 

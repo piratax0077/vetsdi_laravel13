@@ -679,7 +679,7 @@ class AdministradorHospitalAmbulatorioController  extends Controller
         $especialidades_cm = $this->dame_especialidades_cm($institucion->id);
         $otras_especialidades_cm = $this->dame_otras_especialidades_cm($institucion->id);
         $profesionales = $this->dame_profesionales($institucion->id_lugar_atencion);
-        $tipos_areas_cm = TipoAreasCm::all();
+        $tipos_areas_cm = TipoAreasCm::noVeterinarias()->get();
         $areas_cm = $this->dame_areas_cm($institucion->id_lugar_atencion);
 
         $servicios = Servicios::all();

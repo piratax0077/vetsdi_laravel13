@@ -1,8 +1,8 @@
 <div id="agreg_box_ad" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="agreg_box_ad" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
-                <h5 class="modal-title d-inline mt-1">Agregar box de atención</h5>
+                <h5 class="modal-title d-inline mt-1">Agregar box o sala</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -10,56 +10,52 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-row">
-                                <div class="col-md-12 col-md-12 col-lg-6 col-xl-6">
+                                <div class="col-12">
                                     <div class="form-group">
-                                        <label class="floating-label-activo-sm">Asignar N° al box</label>
-                                        <input type="text" name="numero_box" id="numero_box" class="form-control form-control-sm">
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <label class="floating-label-activo-sm">Tipo Box</label>
-                                        <select class="form-control form-control-sm" name="tpo_box_servicio" id="tpo_box_servicio" onchange="dame_especializacion_box()">
-                                            <option value="0">Seleccione</option>
-                                            <option value="Normal">Normal</option>
-                                            <option value="Especializado">Especializado</option>
-                                        </select>
+                                        <label class="floating-label-activo-sm">Nombre del box o sala</label>
+                                        <input type="text" name="numero_box" id="numero_box" placeholder="Ej: N° o Nombre" class="form-control form-control-sm">
                                     </div>
                                 </div>
                                 <div class="col-sm-12" id="contenedor_tpo_especializacion">
                                     <div class="form-group">
-                                        <label class="floating-label-activo-sm">Tipo de especialización</label>
-                                        <select class="form-control form-control-sm" name="tpo_especializacion" id="tpo_especializacion">
+                                        <label class="floating-label-activo-sm">Tipo</label>
+                                        <select class="form-control form-control-sm" name="tpo_especializacion" id="tpo_especializacion" onchange="mostrar_otro_tipo_box();">
                                             <option value="0">Seleccione</option>
-                                            <option value="Oftalmologia">Oftalmología</option>
-                                            <option value="Otorrino">Otorrino</option>
-                                            <option value="Odontologia general">Odontologia general</option>
-                                            <option value="Sala de procedimientos">Sala de procedimientos</option>
-                                            <option value="Vacunatorio">Vacunatorio</option>
-                                            <option value="Kinesiologia y rehabilitacion">Kinesiologia y rehabilitacion</option>
-                                            <option value="Etc">Etc</option>
+                                            <option>Recepción y sala de espera</option>
+                                            <option>Consulta general</option>
+                                            <option>Baño o área de higiene</option>
+                                            <option>Sala de procedimientos o curaciones</option>
+                                            <option>Farmacia</option>
+                                            <option>Bodega</option>
+                                            <option>Peluquería o grooming</option>
+                                            <option>Laboratorio clínico</option>
+                                            <option>Sala de ecografía</option>
+                                            <option>Sala de rayos X</option>
+                                            <option>Sala de preparación preanestésica</option>
+                                            <option>Pabellón quirúrgico</option>
+                                            <option>Sala de esterilización</option>
+                                            <option>Recuperación postanestésica</option>
+                                            <option>Aislamiento o infectocontagiosos</option>
+                                            <option>Sala de felinos</option>
+                                            <option>UCI</option>
+                                            <option>Tomografía o resonancia</option>
+                                            <option>Salas de especialidad</option>
+                                            <option>Sala de eutanasia o despedida</option>
+                                            <option>Urgencia</option>
+                                            <option>Otro</option>
+
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 d-none">
+                                <div class="col-12 d-none" id="contenedor_tpo_especializacion_otro">
                                     <div class="form-group">
-                                        <label class="floating-label-activo-sm">Equipamiento</label>
-                                        <select class="form-control form-control-sm" name="equip_ad" id="equip_ad" multiple="multiple">
-                                            <option value="Carro paro">Carro paro</option>
-                                            <option value="Oxigenoterápia">Oxigenoterápia</option>
-                                            <option value="Pabellon de yeso">Pabellon de yeso</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 d-none">
-                                    <div class="form-group">
-                                        <label class="floating-label-activo-sm">Cantidad de camillas</label>
-                                        <input type="number" class="form-control form-control-sm" name="n_camillas_box_servicio" id="n_camillas_box_servicio">
+                                        <label class="floating-label-activo-sm">Especifique el tipo</label>
+                                        <input type="text" name="tpo_especializacion_otro" id="tpo_especializacion_otro" class="form-control form-control-sm">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <div class="col-12">
                                     <div class="form-group">
                                         <label class="floating-label-activo-sm">Ubicación</label>
                                         <select class="form-control form-control-sm" name="tpo_equip_servicio" id="tpo_equip_servicio">
@@ -75,26 +71,6 @@
                                             <option value="9">Piso 9</option>
                                             <option value="10">Piso 10</option>
                                         </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <label class="floating-label-activo-sm">Sección</label>
-                                        <select class="form-control form-control-sm" name="seccion_box" id="seccion_box">
-                                            <option value="0">Seleccione</option>
-                                            <option value="1">Pediatría</option>
-                                            <option value="2">General</option>
-                                            <option value="3">Ginecobstetricia</option>
-                                            <option value="4">Rehabilitación</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="form-group fill">
-                                        <label class="floating-label-activo-sm">Observaciones</label>
-                                        <textarea class="form-control caja-texto form-control-sm" rows="1"  onfocus="this.rows=4" onblur="this.rows=1;" name="ot_pat_act_" id="ot_pat_act_"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -222,6 +198,24 @@
                 });
             }
         });
+    }
+
+    // Muestra el campo de texto solo cuando el tipo elegido es "Otro"
+    function mostrar_otro_tipo_box() {
+        let esOtro = $('#tpo_especializacion').val() === 'Otro';
+        $('#contenedor_tpo_especializacion_otro').toggleClass('d-none', !esOtro);
+        if (!esOtro) {
+            $('#tpo_especializacion_otro').val('');
+        }
+    }
+
+    // Igual que en agregar, pero para el modal de editar box o sala
+    function mostrar_otro_tipo_box_editar() {
+        let esOtro = $('#editar_tpo_especializacion').val() === 'Otro';
+        $('#editar_contenedor_tpo_especializacion_otro').toggleClass('d-none', !esOtro);
+        if (!esOtro) {
+            $('#editar_tpo_especializacion_otro').val('');
+        }
     }
 
     function dame_especializacion_box(){

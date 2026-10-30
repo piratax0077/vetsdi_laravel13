@@ -54,6 +54,29 @@ class OperacionVeterinariaTest extends TestCase
         $this->migracion()->up();$this->migracionPacientes()->up();$this->assertTrue(Schema::hasTable('vet_reservas_servicios'));
     }
 
+    public function test_establishment_without_row_keeps_all_services_when_type_or_area_changes(): void
+    {
+        $this->servicio()->cambiarTipo(Instituciones::find(10),'hospital');
+        $c=$this->servicio()->configuracion(10);
+        $this->assertSame('hospital',$c->tipo);$this->assertTrue($c->hospitalizacion_habilitada);$this->assertSame(array_keys(OperacionVeterinaria::SERVICIOS),$c->servicios_habilitados);
+        $this->servicio()->cambiarServicio(Instituciones::find(10),'dental',false);
+        $this->assertSame(['peluqueria','laboratorio','imagenologia','vacunatorio'],$this->servicio()->configuracion(10)->servicios_habilitados);
+        $this->assertSame(2,DB::table('vet_operacion_auditoria')->where('tabla','vet_establecimientos')->count());
+    }
+
+    public function test_hospitalization_area_uses_its_own_field_and_protects_active_stays(): void
+    {
+        $centro=Instituciones::find(10);
+        $this->servicio()->cambiarServicio($centro,'hospitalizacion',false);
+        $c=$this->servicio()->configuracion(10);
+        $this->assertFalse($c->hospitalizacion_habilitada);$this->assertSame(array_keys(OperacionVeterinaria::SERVICIOS),$c->servicios_habilitados);
+        $this->servicio()->cambiarServicio($centro,'hospitalizacion',true);
+        $this->assertTrue($this->servicio()->configuracion(10)->hospitalizacion_habilitada);
+        $this->guardar('internacion',$this->datosIngreso($this->plaza()));
+        $this->invalido(fn()=>$this->servicio()->cambiarServicio($centro,'hospitalizacion',false),'hospitalizacion_habilitada');
+        $this->assertTrue($this->servicio()->configuracion(10)->hospitalizacion_habilitada);
+    }
+
     public function test_both_types_can_configure_services_and_keep_existing_records(): void
     {
         $plaza=$this->plaza();
@@ -195,6 +218,74 @@ class OperacionVeterinariaTest extends TestCase
             ->assertRedirect(route('vet.operacion.index',['seccion'=>'plazas','id_institucion'=>10]))->assertSessionHas('success');
         $this->assertSame(1,DB::table('vet_plazas')->count());
         Auth::logout();$this->get(route('vet.operacion.index',['seccion'=>'plazas','id_institucion'=>10]))->assertRedirect();
+    }
+
+    public function test_each_area_has_its_own_view_and_saving_returns_to_it(): void
+    {
+        $this->withoutMiddleware([\Spatie\Permission\Middleware\RoleMiddleware::class,\App\Http\Middleware\PerfilPendiente::class]);
+        $this->actingAs(User::find(1));
+        $c=app(OperacionVeterinariaController::class);
+        $fuente=file_get_contents(resource_path('views/app/veterinaria/areas/index.blade.php'));
+        $fuente=str_replace('@endsection','',preg_replace('/@(?:extends|section)\([^\n]*\)/','',$fuente));
+        foreach(array_keys(OperacionVeterinaria::AREAS) as $area){
+            $vista=$c->area($this->req(),$this->servicio(),$area);
+            $this->assertSame('app.veterinaria.areas.index',$vista->name());
+            $html=Blade::render($fuente,$vista->getData()+['errors'=>new ViewErrorBag]);
+            $this->assertStringContainsString(OperacionVeterinaria::AREAS[$area],$html);
+            $this->assertStringContainsString('name="_area" value="'.$area.'"',$html);
+            $enPestanas=in_array($area,OperacionVeterinaria::AREAS_EN_PESTANAS);
+            $this->assertSame($enPestanas || $area === 'hospitalizacion',str_contains($html,'pill-moderno-white'));
+            // Las áreas abren sus formularios en modales; los formularios siguen siendo los mismos.
+            $this->assertStringContainsString('id="modal_registro_area"',$html);
+            $this->assertStringContainsString('Agregar registro',$html);
+            $this->assertSame($enPestanas,str_contains($html,'id="modal_servicio_area"'));
+        }
+
+        // Hospitalización reúne sus dos secciones en la misma vista.
+        $vista=$c->area($this->req(['vista'=>'plazas']),$this->servicio(),'hospitalizacion');
+        $this->assertSame('plazas',$vista->getData()['seccion']);
+        $htmlPlazas=Blade::render($fuente,$vista->getData()+['errors'=>new ViewErrorBag]);
+        $this->assertStringContainsString('Código de plaza',$htmlPlazas);
+        $this->assertStringContainsString('id="modal_registro_area"',$htmlPlazas);
+        $this->assertStringContainsString('id="modal_registro_plazas"',$htmlPlazas);
+        $this->assertStringContainsString('href="#pestana_plazas"',$htmlPlazas);
+        $this->assertStringContainsString('id="pestana_hospitalizacion"',$htmlPlazas);
+
+        // La evolución de una internación abierta también se agrega desde un modal, solo en el área.
+        $internacion=$this->guardar('internacion',$this->datosIngreso($this->plaza()));
+        $vista=$c->area($this->req(['detalle'=>$internacion]),$this->servicio(),'hospitalizacion');
+        $htmlDetalle=Blade::render($fuente,$vista->getData()+['errors'=>new ViewErrorBag]);
+        $this->assertStringContainsString('id="modal_evolucion_area"',$htmlDetalle);
+        $this->assertStringContainsString('name="internacion_id" value="'.$internacion.'"',$htmlDetalle);
+        $this->assertStringNotContainsString('<h6 class="mb-3">Agregar evolución</h6>',$htmlDetalle);
+
+        // Sin _area el guardado sigue volviendo a la operación; con _area, a la vista del área.
+        $this->post(route('vet.operacion.guardar',['accion'=>'plaza']),['id_institucion'=>10,'_seccion'=>'plazas','_area'=>'hospitalizacion','codigo'=>'AREA-1','tipo'=>'canil','activa'=>1])
+            ->assertRedirect(route('vet.areas.index',['area'=>'hospitalizacion','id_institucion'=>10,'vista'=>'plazas']));
+        $this->post(route('vet.operacion.guardar',['accion'=>'servicio']),['id_institucion'=>10,'_seccion'=>'dental','_area'=>'dental','modulo'=>'dental','nombre'=>'Limpieza','duracion_minutos'=>30,'precio'=>1000,'activo'=>1])
+            ->assertRedirect(route('vet.areas.index',['area'=>'dental','id_institucion'=>10,'pestana'=>'catalogo']))
+            ->assertSessionHas('alerta_area')->assertSessionMissing('success');
+        $this->post(route('vet.operacion.guardar',['accion'=>'servicio']),['id_institucion'=>10,'_seccion'=>'imagenologia','_area'=>'imagenologia','modulo'=>'imagenologia','nombre'=>'Radiografía','duracion_minutos'=>30,'precio'=>1000,'activo'=>1])
+            ->assertRedirect(route('vet.areas.index',['area'=>'imagenologia','id_institucion'=>10,'pestana'=>'catalogo']));
+        $this->post(route('vet.operacion.guardar',['accion'=>'servicio']),['id_institucion'=>10,'_seccion'=>'laboratorio','_area'=>'laboratorio','modulo'=>'laboratorio','nombre'=>'Hemograma','duracion_minutos'=>30,'precio'=>1000,'activo'=>1])
+            ->assertRedirect(route('vet.areas.index',['area'=>'laboratorio','id_institucion'=>10,'pestana'=>'catalogo']));
+
+        // Al editar un servicio, su modal se abre solo y cerrarlo devuelve a la pestaña del catálogo.
+        $servicioId=DB::table('vet_catalogo_servicios')->where('nombre','Radiografía')->value('id');
+        $req=$this->req(['catalogo'=>$servicioId]);
+        app()->instance('request',$req);
+        $html=Blade::render($fuente,$c->area($req,$this->servicio(),'imagenologia')->getData()+['errors'=>new ViewErrorBag]);
+        $this->assertMatchesRegularExpression('/id="modal_servicio_area"[^>]*data-abrir="1"[^>]*data-url-cerrar="[^"]*pestana=catalogo/',$html);
+        $this->assertMatchesRegularExpression('/id="modal_registro_area"[^>]*data-abrir="0"/',$html);
+        $this->assertStringContainsString('name="id" value="'.$servicioId.'"',$html);
+        // La edición de cada servicio ya viene en la página, para abrir sin esperar al servidor.
+        $this->assertStringContainsString('<template id="modal_servicio_area_'.$servicioId.'">',$html);
+        $this->assertStringContainsString('data-plantilla="modal_servicio_area_'.$servicioId.'"',$html);
+        $this->assertStringContainsString('<span class="badge badge-light-success">Activo</span>',$html);
+        $this->assertMatchesRegularExpression('/class="tab-pane fade show active" id="pestana_catalogo"/',$html);
+        $this->post(route('vet.operacion.guardar',['accion'=>'plaza']),['id_institucion'=>10,'_seccion'=>'plazas','_area'=>'no-existe','codigo'=>'AREA-2','tipo'=>'canil','activa'=>1])
+            ->assertRedirect(route('vet.operacion.index',['seccion'=>'plazas','id_institucion'=>10]));
+        $this->get(route('vet.areas.index',['area'=>'pacientes']))->assertNotFound();
     }
 
     public function test_populated_detail_and_edit_screens_render_without_nested_forms(): void

@@ -91,9 +91,9 @@
                                                         <th class="align-middle">Nombre / RUT</th>
                                                         <th class="align-middle">Especialidad</th>
                                                         <th class="align-middle">Sucursales</th>
+                                                        <th class="align-middle">Contacto</th>
                                                         <th class="align-middle">Info</th>
-                                                        {{-- Oculto: los convenios ahora se ven en el modal Información --}}
-                                                        {{-- <th class="align-middle">Convenio</th> --}}
+                                                        <th class="align-middle">Convenio</th>
                                                         <th class="align-middle">Mensaje</th>
                                                         <th class="align-middle">Historial</th>
                                                     </tr>
@@ -109,19 +109,6 @@
                                                     @endphp
                                                     @if($todosLosProfesionales->isNotEmpty())
                                                         @foreach ($todosLosProfesionales as $prof_vet)
-                                                            @php
-                                                                $infoProfesionalVet = [
-                                                                    'titulo' => 'Información',
-                                                                    'id_profesional' => $prof_vet->id,
-                                                                    'id_usuario' => $prof_vet->id_usuario,
-                                                                    'id_lugar_atencion' => $lugarAtencionAccion,
-                                                                    'lugares' => $prof_vet->LugaresAtencion()->whereIn('lugares_atencion.id', $scopeLugarIds)->get()->map(function ($lugar) {
-                                                                        $direccionLugar = $lugar->Direccion()->first();
-                                                                        $detalle = $direccionLugar ? $direccionLugar->direccion.', '.($direccionLugar->ciudad->nombre ?? '') : '';
-                                                                        return ['id' => $lugar->id, 'nombre' => trim($lugar->nombre.($detalle !== '' ? ' - '.$detalle : ''))];
-                                                                    })->values(),
-                                                                ];
-                                                            @endphp
                                                             <tr>
                                                                 <td class="align-middle">
                                                                     <span><strong>{{ $prof_vet->nombre.' '.$prof_vet->apellido_uno.' '.$prof_vet->apellido_dos }}</strong></span><br>
@@ -140,21 +127,19 @@
                                                                     @endforeach
                                                                 </td>
                                                                 <td class="align-middle">
-                                                                    <!--Botón Modal información-->
-                                                                    <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="abrir_info_prof_vet({{ \Illuminate\Support\Js::from($infoProfesionalVet) }});" data-toggle="tooltip" data-placement="top" title="Información"><i class="feather icon-info"></i></button>
-
+                                                                    <button type="button" class="btn btn-info btn-sm btn-icon" onclick="contacto_profesional({{ $prof_vet->id }});" data-toggle="tooltip" data-placement="top" title="Contacto"><i class="feather icon-phone"></i></button>
+                                                                </td>
+                                                                <td class="align-middle">
                                                                     <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="f_profesional({{ $prof_vet->id }});" data-toggle="tooltip" data-placement="top" title="Información profesional"><i class="feather icon-eye"></i></button>
 
-                                                                    {{-- Oculto: el datos bancarios ahora se ve en el modal Información --}}
-                                                                    {{-- <button type="button" class="btn btn-success btn-sm btn-icon" onclick="datos_depositos({{ $prof_vet->id_usuario }});" data-toggle="tooltip" data-placement="top" title="Datos bancarios"><i class="feather icon-credit-card"></i></button> --}}
+                                                                    <button type="button" class="btn btn-success btn-sm btn-icon" onclick="datos_depositos({{ $prof_vet->id_usuario }});" data-toggle="tooltip" data-placement="top" title="Datos bancarios"><i class="feather icon-credit-card"></i></button>
 
-                                                                    {{-- Oculto: el horario ahora se ve en el modal Información --}}
-                                                                    {{-- <button type="button" class="btn btn-purple btn-sm btn-icon" onclick="horario_profesional_cm({{ $prof_vet->id }}, {{ $lugarAtencionAccion }});" data-toggle="tooltip" data-placement="top" title="Horario y días de atención"><i class="feather icon-clock"></i></button> --}}
+                                                                    <button type="button" class="btn btn-purple btn-sm btn-icon" onclick="horario_profesional_vet({{ $prof_vet->id }}, {{ $lugarAtencionAccion }});" data-toggle="tooltip" data-placement="top" title="Horario y días de atención"><i class="feather icon-clock"></i></button>
                                                                 </td>
-                                                                {{-- <td class="align-middle text-center">
+                                                                <td class="align-middle text-center">
                                                                     <!--Botón Modal convenios-->
                                                                     <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="convenio_profesional_cm({{ $prof_vet->id }},{{ $lugarAtencionAccion }});" data-toggle="tooltip" data-placement="top" title="Convenio"><i class="feather icon-file-text"></i></button>
-                                                                </td> --}}
+                                                                </td>
                                                                 <td class="align-middle">
                                                                     <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="mensaje({{ $prof_vet->id }});" data-toggle="tooltip" data-placement="top" title="Mensaje" @if(!$adm_medico) disabled @endif><i class="feather icon-mail"></i></button>
                                                                 </td>
@@ -218,6 +203,7 @@
                     <!--Cierre: Tab otros trabajadores-->
 
                     @include('app.adm_cm.partials.pestana_asistentes')
+
                     {{-- Contratos ahora tiene su propia página (adm_cm.contratos) --}}
 
                     <!--Tab medicos-->
@@ -242,9 +228,9 @@
                                                                 <th class="align-middle">Nombre / Rut</th>
                                                                 <th class="align-middle">Especialidad</th>
                                                                 <th class="align-middle">Sucursales</th>
+            													<th class="align-middle">Contacto</th>
             													<th class="align-middle">Info</th>
-            													{{-- Oculto: los convenios ahora se ven en el modal Información --}}
-            													{{-- <th class="align-middle">Convenio</th> --}}
+            													<th class="align-middle">Convenio</th>
                                                                 <th class="align-middle">Mensaje</th>
                                                                 <th class="align-middle">Historial</th>
                                                             </tr>
@@ -270,34 +256,19 @@
                                                                             @endforeach
                                                                         </td>
                                                                             <td class="align-middle">
-                                                                                @php
-                                                                                    $infoProfesional = [
-                                                                                        'titulo' => 'Información',
-                                                                                        'id_profesional' => $prof_medico->id,
-                                                                                        'id_usuario' => $prof_medico->id_usuario,
-                                                                                        'id_lugar_atencion' => $lugarAtencionAccion,
-                                                                                        'lugares' => $prof_medico->LugaresAtencion()->whereIn('lugares_atencion.id', $scopeLugarIds)->get()->map(function ($lugar) {
-                                                                                            $direccionLugar = $lugar->Direccion()->first();
-                                                                                            $detalle = $direccionLugar ? $direccionLugar->direccion.', '.($direccionLugar->ciudad->nombre ?? '') : '';
-                                                                                            return ['id' => $lugar->id, 'nombre' => trim($lugar->nombre.($detalle !== '' ? ' - '.$detalle : ''))];
-                                                                                        })->values(),
-                                                                                    ];
-                                                                                @endphp
-                                                                                <!--Botón Modal información-->
-                                                                                <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="abrir_info_prof_vet({{ \Illuminate\Support\Js::from($infoProfesional) }});" data-toggle="tooltip" data-placement="top" title="Información"><i class="feather icon-info"></i></button>
-
+                                                                                <button type="button" class="btn btn-info btn-sm btn-icon" onclick="contacto_profesional({{ $prof_medico->id }});" data-toggle="tooltip" data-placement="top" title="Contacto"><i class="feather icon-phone"></i></button>
+                                                                            </td>
+                                                                            <td class="align-middle">
                                                                                 <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="f_profesional({{ $prof_medico->id }});" data-toggle="tooltip" data-placement="top" title="Información profesional"><i class="feather icon-eye"></i></button>
 
-                                                                                {{-- Oculto: el datos bancarios ahora se ve en el modal Información --}}
-                                                                                {{-- <button type="button" class="btn btn-success btn-sm btn-icon" onclick="datos_depositos({{ $prof_medico->id_usuario }});" data-toggle="tooltip" data-placement="top" title="Datos bancarios"><i class="feather icon-credit-card"></i></button> --}}
+                                                                                <button type="button" class="btn btn-success btn-sm btn-icon" onclick="datos_depositos({{ $prof_medico->id_usuario }});" data-toggle="tooltip" data-placement="top" title="Datos bancarios"><i class="feather icon-credit-card"></i></button>
 
-                                                                                {{-- Oculto: el horario ahora se ve en el modal Información --}}
-                                                                                {{-- <button type="button" class="btn btn-purple btn-sm btn-icon" onclick="horario_profesional_cm({{ $prof_medico->id }}, {{ $lugarAtencionAccion }});" data-toggle="tooltip" data-placement="top" title="Horario y días de atención"><i class="feather icon-clock"></i></button> --}}
+                                                                                <button type="button" class="btn btn-purple btn-sm btn-icon" onclick="horario_profesional_vet({{ $prof_medico->id }}, {{ $lugarAtencionAccion }});" data-toggle="tooltip" data-placement="top" title="Horario y días de atención"><i class="feather icon-clock"></i></button>
                                                                             </td>
-                                                                            {{-- <td class="align-middle text-center">
+                                                                            <td class="align-middle text-center">
                                                                                 <!--Botón Modal convenios-->
                                                                                 <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="convenio_profesional_cm({{ $prof_medico->id }},{{ $lugarAtencionAccion }});" data-toggle="tooltip" data-placement="top" title="Convenio"><i class="feather icon-file-text"></i></button>
-                                                                            </td> --}}
+                                                                            </td>
                                                                             <td class="align-middle">
                                                                                 <!--Botón Modal roles y permisos-->
                                                                                 <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="mensaje({{ $prof_medico->id }});" data-toggle="tooltip" data-placement="top" title="Ver" @if(!$adm_medico) disabled @endif><i class="feather icon-mail"></i></button>
@@ -343,9 +314,9 @@
         														<th class="align-middle">Nombre / Rut</th>
         														<th class="align-middle">Especialidad</th>
         														<th class="align-middle">Sucursales</th>
+        														<th class="align-middle">Contacto</th>
         														<th class="align-middle">Info</th>
-        														{{-- Oculto: los convenios ahora se ven en el modal Información --}}
-        														{{-- <th class="align-middle">Convenio</th> --}}
+        														<th class="align-middle">Convenio</th>
         														<th class="align-middle">Mensajes</th>
                                                                 <th class="align-middle">Historial</th>
         													</tr>
@@ -371,34 +342,19 @@
                                                                             @endforeach
                                                                         </td>
                                                                             <td class="align-middle">
-                                                                                @php
-                                                                                    $infoProfesional = [
-                                                                                        'titulo' => 'Información',
-                                                                                        'id_profesional' => $prof_medico->id,
-                                                                                        'id_usuario' => $prof_medico->id_usuario,
-                                                                                        'id_lugar_atencion' => $lugarAtencionAccion,
-                                                                                        'lugares' => $prof_medico->LugaresAtencion()->whereIn('lugares_atencion.id', $scopeLugarIds)->get()->map(function ($lugar) {
-                                                                                            $direccionLugar = $lugar->Direccion()->first();
-                                                                                            $detalle = $direccionLugar ? $direccionLugar->direccion.', '.($direccionLugar->ciudad->nombre ?? '') : '';
-                                                                                            return ['id' => $lugar->id, 'nombre' => trim($lugar->nombre.($detalle !== '' ? ' - '.$detalle : ''))];
-                                                                                        })->values(),
-                                                                                    ];
-                                                                                @endphp
-                                                                                <!--Botón Modal información-->
-                                                                                <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="abrir_info_prof_vet({{ \Illuminate\Support\Js::from($infoProfesional) }});" data-toggle="tooltip" data-placement="top" title="Información"><i class="feather icon-info"></i></button>
-
+                                                                                <button type="button" class="btn btn-info btn-sm btn-icon" onclick="contacto_profesional({{ $prof_medico->id }});" data-toggle="tooltip" data-placement="top" title="Contacto"><i class="feather icon-phone"></i></button>
+                                                                            </td>
+                                                                            <td class="align-middle">
                                                                                 <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="f_profesional({{ $prof_medico->id }});" data-toggle="tooltip" data-placement="top" title="Información profesional"><i class="feather icon-eye"></i></button>
 
-                                                                                {{-- Oculto: el datos bancarios ahora se ve en el modal Información --}}
-                                                                                {{-- <button type="button" class="btn btn-success btn-sm btn-icon" onclick="datos_depositos({{ $prof_medico->id_usuario }});" data-toggle="tooltip" data-placement="top" title="Datos bancarios"><i class="feather icon-credit-card"></i></button> --}}
+                                                                                <button type="button" class="btn btn-success btn-sm btn-icon" onclick="datos_depositos({{ $prof_medico->id_usuario }});" data-toggle="tooltip" data-placement="top" title="Datos bancarios"><i class="feather icon-credit-card"></i></button>
 
-                                                                                {{-- Oculto: el horario ahora se ve en el modal Información --}}
-                                                                                {{-- <button type="button" class="btn btn-purple btn-sm btn-icon" onclick="horario_profesional_cm({{ $prof_medico->id }}, {{ $lugarAtencionAccion }});" data-toggle="tooltip" data-placement="top" title="Horario y días de atención"><i class="feather icon-clock"></i></button> --}}
+                                                                                <button type="button" class="btn btn-purple btn-sm btn-icon" onclick="horario_profesional_vet({{ $prof_medico->id }}, {{ $lugarAtencionAccion }});" data-toggle="tooltip" data-placement="top" title="Horario y días de atención"><i class="feather icon-clock"></i></button>
                                                                             </td>
-                                                                            {{-- <td class="align-middle text-center">
+                                                                            <td class="align-middle text-center">
                                                                                 <!--Botón Modal convenios-->
                                                                                 <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="convenio_profesional_cm({{ $prof_medico->id }},{{ $lugarAtencionAccion }});" data-toggle="tooltip" data-placement="top" title="Convenio"><i class="feather icon-file-text"></i></button>
-                                                                            </td> --}}
+                                                                            </td>
                                                                             <td class="align-middle">
                                                                                 <!--Botón Modal roles y permisos-->
                                                                                 <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="mensaje({{ $prof_medico->id }});" data-toggle="tooltip" data-placement="top" title="Ver" @if(!$adm_medico) disabled @endif><i class="feather icon-mail"></i></button>
@@ -443,9 +399,9 @@
             													<th class="align-middle">Nombre / Rut</th>
             													<th class="align-middle">Profesión/Especialidad</th>
             													<th class="align-middle">Sucursales</th>
+            													<th class="align-middle">Contacto</th>
             													<th class="align-middle">Info</th>
-            													{{-- Oculto: los convenios ahora se ven en el modal Información --}}
-            													{{-- <th class="align-middle">Convenio</th> --}}
+            													<th class="align-middle">Convenio</th>
                                                                 <th class="align-middle">Mensaje</th>
                                                                 <th class="align-middle">Historial</th>
             												</tr>
@@ -471,34 +427,19 @@
                                                                             @endforeach
                                                                         </td>
                                                                             <td class="align-middle">
-                                                                                @php
-                                                                                    $infoProfesional = [
-                                                                                        'titulo' => 'Información',
-                                                                                        'id_profesional' => $prof_medico->id,
-                                                                                        'id_usuario' => $prof_medico->id_usuario,
-                                                                                        'id_lugar_atencion' => $lugarAtencionAccion,
-                                                                                        'lugares' => $prof_medico->LugaresAtencion()->whereIn('lugares_atencion.id', $scopeLugarIds)->get()->map(function ($lugar) {
-                                                                                            $direccionLugar = $lugar->Direccion()->first();
-                                                                                            $detalle = $direccionLugar ? $direccionLugar->direccion.', '.($direccionLugar->ciudad->nombre ?? '') : '';
-                                                                                            return ['id' => $lugar->id, 'nombre' => trim($lugar->nombre.($detalle !== '' ? ' - '.$detalle : ''))];
-                                                                                        })->values(),
-                                                                                    ];
-                                                                                @endphp
-                                                                                <!--Botón Modal información-->
-                                                                                <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="abrir_info_prof_vet({{ \Illuminate\Support\Js::from($infoProfesional) }});" data-toggle="tooltip" data-placement="top" title="Información"><i class="feather icon-info"></i></button>
-
+                                                                                <button type="button" class="btn btn-info btn-sm btn-icon" onclick="contacto_profesional({{ $prof_medico->id }});" data-toggle="tooltip" data-placement="top" title="Contacto"><i class="feather icon-phone"></i></button>
+                                                                            </td>
+                                                                            <td class="align-middle">
                                                                                 <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="f_profesional({{ $prof_medico->id }});" data-toggle="tooltip" data-placement="top" title="Información profesional"><i class="feather icon-eye"></i></button>
 
-                                                                                {{-- Oculto: el datos bancarios ahora se ve en el modal Información --}}
-                                                                                {{-- <button type="button" class="btn btn-success btn-sm btn-icon" onclick="datos_depositos({{ $prof_medico->id_usuario }});" data-toggle="tooltip" data-placement="top" title="Datos bancarios"><i class="feather icon-credit-card"></i></button> --}}
+                                                                                <button type="button" class="btn btn-success btn-sm btn-icon" onclick="datos_depositos({{ $prof_medico->id_usuario }});" data-toggle="tooltip" data-placement="top" title="Datos bancarios"><i class="feather icon-credit-card"></i></button>
 
-                                                                                {{-- Oculto: el horario ahora se ve en el modal Información --}}
-                                                                                {{-- <button type="button" class="btn btn-purple btn-sm btn-icon" onclick="horario_profesional_cm({{ $prof_medico->id }}, {{ $lugarAtencionAccion }});" data-toggle="tooltip" data-placement="top" title="Horario y días de atención"><i class="feather icon-clock"></i></button> --}}
+                                                                                <button type="button" class="btn btn-purple btn-sm btn-icon" onclick="horario_profesional_vet({{ $prof_medico->id }}, {{ $lugarAtencionAccion }});" data-toggle="tooltip" data-placement="top" title="Horario y días de atención"><i class="feather icon-clock"></i></button>
                                                                             </td>
-                                                                            {{-- <td class="align-middle text-center">
+                                                                            <td class="align-middle text-center">
                                                                                 <!--Botón Modal convenios-->
                                                                                 <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="convenio_profesional_cm({{ $prof_medico->id }},{{ $lugarAtencionAccion }});" data-toggle="tooltip" data-placement="top" title="Convenio"><i class="feather icon-file-text"></i></button>
-                                                                            </td> --}}
+                                                                            </td>
                                                                             <td class="align-middle">
                                                                                 <!--Botón Modal roles y permisos-->
                                                                                 <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="mensaje({{ $prof_medico->id }});" data-toggle="tooltip" data-placement="top" title="Ver" @if(!$adm_medico) disabled @endif><i class="feather icon-mail"></i></button>
@@ -537,7 +478,174 @@ $(document).ready(function(){
         $('#msj_para_difusion').select2();
         $('#adjunto').dropzone();
     });
+        /*-Modals personal-*/
+        function contacto_profesional(id)
+        {
+            let url = "{{ route('adm_cm.profesional_buscar') }}" + "?id_profesional=" + id;
+
+            // El modal se abre al tiro y los datos se llenan cuando llega la respuesta
+            $('#contacto_prof_rut, #contacto_prof_email, #contacto_prof_telefono1, #contacto_prof_telefono2, #contacto_prof_direccion').html('Cargando...');
+            $('#contacto_usuario').modal('show');
+
+            $.ajax({
+                url: url,
+                type: "get",
+            })
+            .done(function(data) {
+                if (data.estado == 1)
+                {
+                    /** encontrado */
+                    $('#contacto_prof_rut').html(data.registro.rut);
+                    $('#contacto_prof_email').html(data.registro.email);
+                    $('#contacto_prof_telefono1').html(data.registro.telefono_uno);
+                    $('#contacto_prof_telefono2').html(data.registro.telefono_dos);
+                    $('#contacto_prof_direccion').html(data.direccion);
+                }
+                else
+                {
+                    /** no encontrado */
+                    $('#contacto_usuario').modal('hide');
+                    swal({
+                        title: "Problema al cargar informacion del Profesional.",
+                        icon: "error",
+                    });
+                }
+
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError) {
+                console.log(jqXHR, ajaxOptions, thrownError)
+                $('#contacto_usuario').modal('hide');
+                swal({
+                    title: "No fue posible cargar la información del Profesional.",
+                    icon: "error",
+                });
+            });
+
+        }
+
+        /** Modals datos bancarios */
+        function datos_depositos(tipo, id_usuario) {
+            let id = (id_usuario === undefined) ? tipo : id_usuario;
+
+            $('#liquidaciones').html('');
+            $('#liquidacion_pills').html('');
+            let url = "{{ route('profesional.liquidacion_ver_profesional') }}";
+            $('#dat_bancarios').modal('show');
+            $.ajax({
+                url: url,
+                type: "get",
+                data: {
+                    id_seccion: id
+                },
+            })
+            .done(function(data) {
+                if (data.estado == 1)
+                {
+                    pintar_cuentas_bancarias(data.registros);
+                }
+                else
+                {
+                    /** no encontrado */
+                    $('#dat_bancarios').modal('hide');
+                    swal({
+                        title: "El Profesional no posee cuentas registradas.",
+                        icon: "error",
+                    });
+                }
+
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError) {
+                console.log(jqXHR, ajaxOptions, thrownError)
+                $('#dat_bancarios').modal('hide');
+                swal({
+                    title: "No fue posible cargar las cuentas del Profesional.",
+                    icon: "error",
+                });
+            });
+
+        }
+
+        /** Modals Horario */
+        function horario_profesional_vet(id_profesional, id_lugar_atencion) {
+
+            $('#mi_horario_table tbody').html('');
+            let url = "{{ route('adm_cm.prof_horario_lugar_atencion') }}";
+            $('#horario_usuario').modal('show');
+            $.ajax({
+                url: url,
+                type: "get",
+                data: {
+                    //_token: _token,
+                    id_profesional: id_profesional,
+                    id_lugar_atencion: id_lugar_atencion,
+                },
+            })
+            .done(function(data) {
+                console.log(data.length);
+                if (data != null && data.length > 0) {
+                    data = data;
+                    console.log(data);
+
+                    for (i = 0; i < data.length; i++) {
+                        let id = data[i].id;
+                        let hora_inicio = data[i].hora_inicio;
+                        let hora_termino = data[i].hora_termino;
+                        let dia = '';
+                        dias = data[i].dia.split(',');
+                        for (let i = 0; i < dias.length; i++) {
+                            if (dias[i] == 1) {
+                                dia += 'Lunes '
+                            } else if (dias[i] == 2) {
+                                dia += 'Martes '
+                            } else if (dias[i] == 3) {
+                                dia += 'Miercoles '
+                            } else if (dias[i] == 4) {
+                                dia += 'Jueves '
+                            } else if (dias[i] == 5) {
+                                dia += 'Viernes '
+                            }
+                        }
+
+                        let j = 1; //contador para asignar id al boton que borrara la fila
+                        var fila = '';
+                        fila += '<tr class="tr_horario" id="row' + j +'">';
+                        fila += '<td class="align-left">' + dia + '</td>';
+                        fila += '<td class="align-left">'+hora_inicio + '</td>';
+                        fila += '<td class="align-left">' + hora_termino + '</td>';
+                        fila += '</tr>';
+
+                        j++;
+
+                        $('#mi_horario_table tbody').append(fila);
+                        // $('#mi_horario_table').dataTable({
+                        //     "searching": false,
+                        //     responsive: true,
+                        // })
+
+                    }
+
+                } else {
+                    $('#horario_usuario').modal('hide');
+                    swal({
+                        title: "El Profesional no ha configurado su horario.",
+                        icon: "error",
+                    });
+                }
+
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError) {
+                console.log(jqXHR, ajaxOptions, thrownError)
+                $('#horario_usuario').modal('hide');
+                swal({
+                    title: "No fue posible cargar el horario del Profesional.",
+                    icon: "error",
+                });
+            });
+
+        }
+
         function f_profesional(id_profesional) {
+            $('#ficha_profesional').modal('show');
             $.ajax({
                 url: "{{ route('profesional.informacionProfesional') }}",
                 type: 'get',
@@ -547,6 +655,7 @@ $(document).ready(function(){
             })
             .done(function(data) {
                 if (data.estado !== 1 || !data.profesional) {
+                    $('#ficha_profesional').modal('hide');
                     swal({
                         title: 'Información profesional',
                         text: data.msj || 'No fue posible cargar la información del veterinario.',
@@ -557,9 +666,9 @@ $(document).ready(function(){
                 }
 
                 pintarFichaProfesional(data);
-                $('#ficha_profesional').modal('show');
             })
             .fail(function() {
+                $('#ficha_profesional').modal('hide');
                 swal({
                     title: 'Información profesional',
                     text: 'No fue posible cargar la información del veterinario.',
@@ -572,6 +681,7 @@ $(document).ready(function(){
         function mensaje(id) {
             console.log(id);
             let url = "{{ ROUTE('adm_cm.dame_profesional_cm') }}";
+            $('#mensaje_profesional').modal('show');
             $.ajax({
                 type:'post',
                 url: url,
@@ -581,13 +691,12 @@ $(document).ready(function(){
                 },
                 success: function(resp){
                     $('#id_profesional_mensaje').val(id);
-                    console.log(resp);
                     let profesional = resp.profesional;
                     $('#para_destino').val(profesional.nombre+" "+profesional.apellido_uno+" "+profesional.apellido_dos);
-                    $('#mensaje_profesional').modal('show');
                 },
                 error: function(error){
                     console.log(error);
+                    $('#mensaje_profesional').modal('hide');
                 }
             })
 
@@ -709,11 +818,11 @@ $(document).ready(function(){
     @include('app.adm_cm.modal_adm.mensaje_difusion')
     @include('app.adm_cm.modal_adm.historial_mensajes')
 
-    {{-- @include('app.adm_cm.modal_adm.datos_banco') --}}
-    {{-- @include('app.adm_cm.modal_adm.horario_usuario') --}}
-    {{-- @include('app.adm_cm.modal_adm.convenio_usuario') --}}
-    {{-- El contacto ahora usa modales.personal.contacto_personal (mismo id #contacto_usuario) --}}
-    @include('app.adm_cm.modal_adm.info_prof_vet')
+    @include('app.adm_cm.modal_adm.datos_banco')
+    @include('app.adm_cm.modal_adm.horario_usuario')
+    @include('app.adm_cm.modal_adm.convenio_usuario')
+    {{-- Contacto de profesionales y asistentes (contacto_profesional / contacto) --}}
+    @include('app.adm_cm.modales.personal.contacto_personal')
     @include('app.general.buscador_profesionales.modals.ficha_profesional')
     {{-- @include('app.adm_cm.modales.personal.contacto_personal') --}}
     {{--  @include('app.adm_cm.modal_adm.editar_profesional')  --}}
@@ -721,13 +830,10 @@ $(document).ready(function(){
     {{--  @include('app.adm_cm.modal_adm.roles_permisos_prof')  --}}
     @include('app.adm_cm.modal_adm.liquidacion_profesionales')
 
-    {{-- Pestaña Asistentes --}}
+    {{-- Pestaña Asistentes (datos bancarios usa el mismo modal de profesionales) --}}
     @include('app.adm_cm.modales.personal.registrar_personal')
-    {{-- Banco, horario y roles ahora se ven en el modal Información del asistente --}}
-    {{-- @include('app.adm_cm.modales.personal.datos_banco') --}}
-    {{-- @include('app.adm_cm.modales.personal.horario_personal') --}}
-    {{-- @include('app.adm_cm.modales.personal.permisos_rol') --}}
-    @include('app.adm_cm.modales.personal.info_asistente')
+    @include('app.adm_cm.modales.personal.horario_personal')
+    @include('app.adm_cm.modales.personal.permisos_rol')
     @include('app.adm_cm.modales.personal.editar_personal')
     @include('app.adm_cm.modales.personal.finalizar_personal')
     @include('app.adm_cm.modales.personal.asociar_personal')

@@ -155,6 +155,7 @@
                                         </div>
                                     </a>
                                 </div>
+                                {{-- Gestión médica oculta por ahora
                                 <div class="card subir">
                                     <a href="{{ route('adm_cm.adm_medico') }}">
                                         <div class="card-body text-center">
@@ -163,11 +164,20 @@
                                         </div>
                                     </a>
                                 </div>
+                                --}}
                                 <div class="card subir">
                                     <a href="{{ route('adm_cm.contratos') }}">
                                         <div class="card-body text-center">
                                             <img src="{{ asset('images/iconos/cotizacion.svg') }}" alt="">
                                             <h6>Contratos</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card subir">
+                                    <a href="{{ route('adm_cm.reporte_estadisticas', array_filter(['id_institucion'=>$institucion->id ?? null])) }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/estadisticas.svg') }}" alt="">
+                                            <h6>Reporte y estadísticas</h6>
                                         </div>
                                     </a>
                                 </div>
@@ -184,7 +194,7 @@
                         <div class="card-body">
                             <div class="escritorio-grupo-accesos">
                                 <div class="card subir">
-                                    <a href="{{ route('adm_cm.laboratorio') }}">
+                                    <a href="{{ route('vet.areas.index', array_filter(['area'=>'laboratorio', 'id_institucion'=>$institucion->id ?? null])) }}">
                                         <div class="card-body text-center">
                                             <img src="{{ asset('images/iconos/laboratorio.svg') }}" alt="">
                                             <h6>Laboratorio</h6>
@@ -192,7 +202,7 @@
                                     </a>
                                 </div>
                                 <div class="card subir">
-                                    <a href="{{ route('adm_cm.dental') }}">
+                                    <a href="{{ route('vet.areas.index', array_filter(['area'=>'dental', 'id_institucion'=>$institucion->id ?? null])) }}">
                                         <div class="card-body text-center">
                                             <img src="{{ asset('images/iconos/dental.png') }}" alt="">
                                             <h6>Dental</h6>
@@ -200,7 +210,7 @@
                                     </a>
                                 </div>
                                 <div class="card subir">
-                                    <a href="{{ route('adm_cm.examenes') }}">
+                                    <a href="{{ route('vet.areas.index', array_filter(['area'=>'imagenologia', 'id_institucion'=>$institucion->id ?? null])) }}">
                                         <div class="card-body text-center">
                                             <img src="{{ asset('images/iconos/imagenologia.svg') }}" alt="">
                                             <h6>Imagenología</h6>
@@ -208,20 +218,20 @@
                                     </a>
                                 </div>
                                 <div class="card subir">
-                                    <a href="{{ route('adm_cm.vacunatorio') }}">
+                                    <a href="{{ route('vet.areas.index', array_filter(['area'=>'vacunatorio', 'id_institucion'=>$institucion->id ?? null])) }}">
                                         <div class="card-body text-center">
                                             <img src="{{ asset('images/iconos/vacunatorio.svg') }}" alt="">
                                             <h6>Vacunatorio</h6>
                                         </div>
                                     </a>
                                 </div>
-                                <div class="card subir"><a href="{{ route('vet.operacion.index', array_filter(['seccion'=>'hospitalizacion', 'id_institucion'=>$institucion->id ?? null])) }}">
+                                <div class="card subir"><a href="{{ route('vet.areas.index', array_filter(['area'=>'hospitalizacion', 'id_institucion'=>$institucion->id ?? null])) }}">
                                     <div class="card-body text-center">
                                         <img src="{{ asset('images/iconos/hospitalizacion.svg') }}" alt="">
                                         <h6>Hospitalización</h6>
 
                                     </div></a></div>
-                                <div class="card subir"><a href="{{ route('vet.operacion.index', array_filter(['seccion'=>'peluqueria', 'id_institucion'=>$institucion->id ?? null])) }}">
+                                <div class="card subir"><a href="{{ route('vet.areas.index', array_filter(['area'=>'peluqueria', 'id_institucion'=>$institucion->id ?? null])) }}">
                                     <div class="card-body text-center">
                                         <img src="{{ asset('images/iconos/huella.png') }}" alt="">
                                         <h6>Peluquería y belleza</h6>
@@ -258,6 +268,14 @@
                                         <div class="card-body text-center">
                                             <img src="{{ asset('images/iconos/mis_asistentes.svg') }}" alt="">
                                             <h6>Busca a tu asistente</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card subir">
+                                    <a href="{{ route('vet.historial.index', array_filter(['id_institucion'=>$institucion->id ?? null])) }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/historial-farmacia.png') }}" alt="">
+                                            <h6>Historial de cambios</h6>
                                         </div>
                                     </a>
                                 </div>

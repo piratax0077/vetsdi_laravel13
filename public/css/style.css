@@ -40397,6 +40397,80 @@ button.reserva-vet-lugar-caja:focus {
     border-top: 1px solid #f0edf6;
 }
 
+/* Mensaje de difusión: formulario en secciones ordenadas */
+#mensaje_difusion .modal-body {
+    padding: 18px 22px 8px;
+}
+
+#mensaje_difusion .difusion-seccion {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f0edf6;
+}
+
+#mensaje_difusion .difusion-seccion.mb-0 {
+    padding-bottom: 6px;
+    border-bottom: 0;
+}
+
+#mensaje_difusion .difusion-seccion-titulo {
+    margin: 0 0 14px;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+}
+
+#mensaje_difusion .difusion-seccion-titulo::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 13px;
+    margin-right: 8px;
+    border-radius: 2px;
+    background: #7c4dcb;
+    vertical-align: -1px;
+}
+
+#mensaje_difusion .difusion-opcional {
+    margin-left: 6px;
+    padding: 1px 8px;
+    border-radius: 10px;
+    background: #f1eefa;
+    color: #6b7a90;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+#mensaje_difusion .difusion-ayuda {
+    display: block;
+    margin-top: 2px;
+    color: #6b7a90;
+    font-size: 12px;
+}
+
+#mensaje_difusion .form-group {
+    margin-bottom: 14px;
+}
+
+#mensaje_difusion .select2-container {
+    width: 100% !important;
+}
+
+#mensaje_difusion .modal-footer .btn {
+    min-width: 110px;
+}
+
+@media (max-width: 575.98px) {
+    #mensaje_difusion .modal-body {
+        padding: 14px 14px 6px;
+    }
+}
+
 /* ==========================================================================
    Modal "Historial de mensajes" del profesional (adm. centro)
    ========================================================================== */
@@ -47766,4 +47840,148 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 /* Íconos del modal de contacto en oscuro, como el reloj de la hora */
 #modalContactoAviso .select2-container::before {
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* Validación en tiempo real de los modales de áreas */
+.validar-area .form-control.is-invalid {
+    border-color: #e5484d;
+    background-color: #fff8f8;
+    box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.12);
+}
+
+.validar-area input.form-control.is-invalid {
+    padding-right: 0.75rem;
+}
+
+.validar-area .form-control.is-invalid:focus {
+    border-color: #e5484d;
+    box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.2);
+}
+
+.validar-area .invalid-feedback {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #c9353a;
+}
+
+.validar-area .invalid-feedback .feather {
+    margin-right: 2px;
+    font-size: 0.85rem;
+    vertical-align: -1px;
+}
+
+/* Modales de las áreas: la etiqueta flotante necesita aire bajo la cabecera */
+.modal-area-operacion .modal-body,
+.modal-area-edicion .modal-body {
+    padding: 24px 20px 8px;
+}
+
+/* Las tablas de las áreas no cambian de color al pasar el mouse; las filas rayadas conservan su fondo */
+.vista-area-veterinaria .table:not(.table-dark) tbody tr:hover,
+.vista-area-veterinaria .table:not(.table-dark) tbody tr:hover td[colspan] {
+    background: transparent;
+}
+
+.vista-area-veterinaria .table-striped:not(.table-dark) tbody tr:nth-of-type(2n+1):hover {
+    background: rgba(70, 128, 255, 0.03);
+}
+
+/* Estado de las reservas de cada área: mismos colores de la agenda (parametros, Agenda_Estado) */
+.badge.estado-agenda {
+    color: #fff;
+}
+
+.badge.estado-agenda--reservada { background-color: #feaa32; }
+.badge.estado-agenda--confirmada { background-color: #94bf61; }
+.badge.estado-agenda--en_atencion { background-color: #edbb99; }
+.badge.estado-agenda--completada { background-color: #17c1c1; }
+.badge.estado-agenda--cancelada { background-color: #ff3d3d; }
+.badge.estado-agenda--no_asiste { background-color: #f9a825; }
+
+/* Los colores claros llevan letra oscura para que se lea */
+.badge.estado-agenda--en_atencion,
+.badge.estado-agenda--no_asiste {
+    color: #272727;
+}
+
+/* Alertas flotantes de las áreas: sobre el contenido y sobre los modales */
+.alertas-flotantes {
+    position: fixed;
+    top: 84px;
+    right: 24px;
+    z-index: 2100;
+    width: 380px;
+    max-width: calc(100% - 32px);
+}
+
+.alertas-flotantes .alerta-flotante {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    padding: 12px 40px 12px 14px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+.alerta-flotante .alerta-flotante-icono {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-right: 10px;
+    font-size: 1.15rem;
+    line-height: 1.3;
+}
+
+.alerta-flotante .alerta-flotante-exito {
+    color: #9ccc65;
+}
+
+.alerta-flotante .alerta-flotante-error {
+    color: #ff6b6b;
+}
+
+.alerta-flotante .alerta-flotante-texto {
+    min-width: 0;
+    overflow-wrap: break-word;
+}
+
+.alerta-flotante .alerta-flotante-texto ul {
+    padding-left: 18px;
+}
+
+/* El .close del tema trae tamaño y alto de línea con !important: hay que ganarle para centrar la X */
+.alerta-flotante.alert-inverse .close,
+.alerta-flotante.alert-inverse .close:hover {
+    position: absolute;
+    top: 9px;
+    right: 8px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    float: none !important;
+    font-size: 1.4rem !important;
+    line-height: 1 !important;
+    text-shadow: none !important;
+}
+
+@media (max-width: 575.98px) {
+    .alertas-flotantes {
+        top: 76px;
+        right: 16px;
+    }
 }

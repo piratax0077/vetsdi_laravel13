@@ -30,11 +30,11 @@ class OperacionVeterinariaController extends Controller
             $datos['resultadosTutor'] = $r->filled('rut_tutor') ? $s->mascotasPorTutor($r->rut_tutor) : collect();
         } elseif ($seccion === 'configuracion') {
             $datos['accion'] = 'configuracion'; $datos['registro'] = $configuracion;
-            $datos['campos'] = [$campo('tipo','Tipo de establecimiento','select',['centro'=>'Centro veterinario','hospital'=>'Hospital veterinario']),$campo('hospitalizacion_habilitada','Hospitalización y observación','select',[1=>'Habilitada',0=>'Deshabilitada']),$campo('servicios_habilitados','Áreas habilitadas','checklist',OperacionVeterinaria::SERVICIOS)];
+            $datos['campos'] = [$campo('tipo','Tipo de establecimiento','select',OperacionVeterinaria::TIPOS),$campo('hospitalizacion_habilitada','Hospitalización y observación','select',[1=>'Habilitada',0=>'Deshabilitada']),$campo('servicios_habilitados','Áreas habilitadas','checklist',OperacionVeterinaria::SERVICIOS)];
         } elseif ($seccion === 'plazas') {
             $datos['accion'] = 'plaza'; $datos['registro'] = $editar('vet_plazas');
             $datos['campos'] = [$campo('codigo','Código de plaza'),$campo('tipo','Tipo','select',['jaula'=>'Jaula','canil'=>'Canil','sala'=>'Sala','aislamiento'=>'Aislamiento','observacion'=>'Observación']),$campo('especies','Especies admitidas (opcional)'),$campo('observaciones','Observaciones (opcional)','textarea'),$campo('activa','Disponibilidad','select',[1=>'Habilitada',0=>'Deshabilitada'])];
-            $datos['filas'] = $base('vet_plazas')->orderBy('codigo')->paginate(20)->withQueryString();
+            $datos['filas'] = $base('vet_plazas')->orderBy('codigo')->paginate(20,['*'],'pagina_plazas')->withQueryString();
             $datos['columnas'] = ['codigo'=>'Código','tipo'=>'Tipo','especies'=>'Especies','activa'=>'Habilitada'];
             $datos['ocupadas'] = $base('vet_internaciones')->where('estado','hospitalizada')->pluck('plaza_id')->all();
         } elseif ($seccion === 'hospitalizacion') {
@@ -87,9 +87,34 @@ class OperacionVeterinariaController extends Controller
                 'Obligaciones vencidas'=>$base('vet_obligaciones')->where('estado','pendiente')->whereDate('vencimiento','<',today())->count(),
                 'Convocatorias abiertas'=>$base('vet_convocatorias')->where('estado','abierta')->count(),
             ];
-            $datos['auditoria'] = $base('vet_operacion_auditoria')->orderByDesc('id')->paginate(20)->withQueryString();
         }
         return view('app.veterinaria.operacion.index',$datos);
+    }
+
+    // El historial de cambios del establecimiento tiene su propia vista, accesible desde el escritorio.
+    public function historial(Request $r, OperacionVeterinaria $s)
+    {
+        $institucion = $s->institucion($r);
+        $ctx = ['id_institucion'=>$institucion->id];
+        $auditoria = DB::table('vet_operacion_auditoria')->where('id_institucion',$institucion->id)->orderByDesc('id')->paginate(20)->withQueryString();
+        return view('app.veterinaria.historial.index',compact('institucion','ctx','auditoria'));
+    }
+
+    // Cada área del centro muestra la misma sección que la operación, en su propia vista.
+    public function area(Request $r, OperacionVeterinaria $s, string $area)
+    {
+        $seccion = $area === 'hospitalizacion' && $r->input('vista') === 'plazas' ? 'plazas' : $area;
+        $datos = $this->index($r,$s,$seccion)->getData();
+        // Hospitalización trae sus dos secciones juntas: las pestañas cambian sin recargar la página
+        if ($area === 'hospitalizacion') {
+            $otra = $seccion === 'plazas' ? 'hospitalizacion' : 'plazas';
+            // "editar" y "detalle" son de la sección abierta: en la otra apuntarían a otra tabla
+            $secciones = [$seccion=>$datos,$otra=>$this->index($r->duplicate($r->except(['editar','detalle'])),$s,$otra)->getData()];
+            $secciones['hospitalizacion']['filas']->appends(['vista'=>null,'editar'=>null,'detalle'=>null]);
+            $secciones['plazas']['filas']->appends(['vista'=>'plazas','editar'=>null,'detalle'=>null]);
+            $datos['seccionesHospitalizacion'] = $secciones;
+        }
+        return view('app.veterinaria.areas.index',$datos+['areaCentro'=>$area,'tituloArea'=>OperacionVeterinaria::AREAS[$area]]);
     }
 
     public function guardar(Request $r, OperacionVeterinaria $s, string $accion)
@@ -101,6 +126,15 @@ class OperacionVeterinariaController extends Controller
         if ($accion === 'evolucion') $params['detalle'] = $r->internacion_id;
         if ($accion === 'postulacion') $params['detalle'] = $r->convocatoria_id;
         if ($accion === 'convocatoria') $params['detalle'] = $id;
+        // Un formulario enviado desde la vista de un área vuelve a esa misma vista.
+        if (isset(OperacionVeterinaria::AREAS[$r->input('_area')])) {
+            unset($params['seccion']);
+            if ($r->_seccion === 'plazas') $params['vista'] = 'plazas';
+            // Estas áreas separan el catálogo en una pestaña: al guardar un servicio se vuelve a ella
+            if ($accion === 'servicio' && in_array($r->input('_area'),OperacionVeterinaria::AREAS_EN_PESTANAS)) $params['pestana'] = 'catalogo';
+            // Con "success" la plantilla abriría además su cuadro de ficha clínica; las áreas usan su alerta flotante
+            return redirect()->route('vet.areas.index',$params+['area'=>$r->input('_area')])->with('alerta_area','Cambios guardados correctamente.');
+        }
         return redirect()->route('vet.operacion.index',$params)->with('success','Cambios guardados correctamente.');
     }
 }
