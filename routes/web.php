@@ -826,6 +826,8 @@ Route::group([
     Route::post('Referidos', [App\Http\Controllers\ReferidoProfesionalController::class, 'storeTutor'])->name('paciente.referidos.store');
     Route::patch('Referidos/{referido}/cancelar', [App\Http\Controllers\ReferidoProfesionalController::class, 'cancelarTutor'])->name('paciente.referidos.cancelar');
 
+    Route::view('Mascotas_Perdidas', 'app.paciente.mascotas_perdidas')->name('paciente.mascotas_perdidas');
+
     Route::get('Reservar_Hora', [App\Http\Controllers\EscritorioPaciente::class, 'agendarHora'])->name('paciente.agendar_hora');
 
     Route::get('Reservar_Hora/{profesion}/{especialidad}/{subespecialidad}', [App\Http\Controllers\EscritorioPaciente::class, 'agendarHora'])->name('paciente.agendar_hora_filtro');

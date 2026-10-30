@@ -138,6 +138,24 @@
         font-weight: 600;
         box-shadow: none;
     }
+    /* Badge de la tarjeta cuando la mascota está perdida */
+    #card-lista-dependientes .mascota-badge-perdida {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        z-index: 2;
+        display: inline-block;
+        padding: 3px 10px;
+        color: #dc3545;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        background: #fdecee;
+        border: 1px solid #f5c2c7;
+        border-radius: 20px;
+    }
+
     @media (max-width: 575.98px) {
         #modal_detalle_mascota .modal-dialog {
             margin: 10px;
@@ -189,6 +207,11 @@
                                 id="btn-registrar-defuncion" name="btn-registrar-defuncion"
                                 onclick="return abrirModalSeleccionDefuncion(event);">
                                 <i class="feather icon-cloud"></i> Registrar defunción
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm mr-1"
+                                id="btn-mascota-perdida" name="btn-mascota-perdida"
+                                onclick="return abrirModalMascotaPerdida(event);">
+                                <i class="feather icon-alert-triangle"></i> Mascota perdida
                             </button>
                             @endif
                             <button type="button" class="btn btn-purple btn-sm d-inline" id="btn-agregar-dep" name="btn-agregar-dep">
@@ -297,6 +320,8 @@
                 </div>
             </div>
         </div>
+
+        @include('app.paciente.partials.mascota_perdida.modal')
     @endif
     <!--MODAL DETALLE MASCOTA-->
     <div class="modal fade" id="modal_detalle_mascota" tabindex="-1" role="dialog" aria-labelledby="modalDetalleMascota" aria-hidden="true">
@@ -396,7 +421,7 @@
 
 @section('page-script')
 <script>
-  
+
   // IMPORTANTE: desactiva auto-discover
   Dropzone.autoDiscover = false;
 
@@ -1233,6 +1258,11 @@
 
             $modal.appendTo('body');
             $modal.modal('show');
+        }
+
+        function mascotaEstaPerdida(mascota)
+        {
+            return !!(mascota && (mascota.perdida === true || mascota.perdida === 1 || mascota.perdida === '1'));
         }
 
         function mascotaEstaFallecida(mascota)
@@ -3704,6 +3734,8 @@
                 html += '        <div class="card-body">';
                 if (esFallecida) {
                     html += '            <span class="mascota-badge-memoria">En memoria</span>';
+                } else if (mascotaEstaPerdida(value)) {
+                    html += '            <span class="mascota-badge-perdida">Perdida</span>';
                 }
                 html += '            <div class="card-mascota-perfil">';
                 html += '                <span class="'+fotoClass+'"><img src="'+img+'" alt="Foto de '+nombre+'"></span>';
@@ -3850,6 +3882,8 @@
 
         window.abrirModalSeleccionDefuncion = abrirModalSeleccionDefuncion;
         window.continuarRegistroDefuncion = continuarRegistroDefuncion;
+
+        @include('app.paciente.partials.mascota_perdida.script')
     </script>
 @endsection
 
