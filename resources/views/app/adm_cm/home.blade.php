@@ -79,6 +79,16 @@
 
             <!--Cierre: Header-->
 
+            <div class="card">
+                <div class="card-body">
+                    <h5><i class="feather icon-shopping-cart"></i> Venta de alimentos, farmacia y accesorios</h5>
+                    <p>Accede al panel comercial de Veterfood (Alimentos-Vet) con tu cuenta de ventas.</p>
+                    @foreach (['alimentos' => 'Alimentos', 'farmacia' => 'Farmacia', 'cuidados' => 'Accesorios'] as $rubro => $nombreRubro)
+                        <a class="btn btn-outline-info mr-2 mb-2" href="{{ rtrim(config('services.veterfood.url'), '/') }}/central-ventas/rubros/{{ $rubro }}" target="_blank" rel="noopener noreferrer">{{ $nombreRubro }} <i class="feather icon-external-link" aria-hidden="true"></i></a>
+                    @endforeach
+                </div>
+            </div>
+
             <!--Indicadores: por ahora solo diseño, los valores se conectan más adelante-->
 
             <div class="row escritorio-indicadores">

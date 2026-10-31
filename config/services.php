@@ -39,6 +39,10 @@ return [
         'timeout' => env('CONTABILIDAD_TIMEOUT', 10),
     ],
 
+    'veterfood' => [
+        'url' => env('VETERFOOD_URL', 'http://veterfood.test'),
+    ],
+
     'sdi_sso' => [
         'alimentos_api_url' => env('ALIMENTOS_BENEFICIOS_API_URL'),
         'farmacia_api_url' => env('VETERFARMA_BENEFICIOS_API_URL'),

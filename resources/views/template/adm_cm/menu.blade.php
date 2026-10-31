@@ -19,7 +19,7 @@
 					</ul>
 				</div>
 			</div>
-			<ul class="nav pcoded-inner-navbar ">
+			<ul class="nav pcoded-inner-navbar ">                <li class="nav-item pcoded-hasmenu">                    <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i class="feather icon-shopping-cart"></i></span><span class="pcoded-mtext">Ventas · Veterfood</span></a>                    <ul class="pcoded-submenu">                        @foreach (['alimentos' => 'Alimentos', 'farmacia' => 'Farmacia', 'cuidados' => 'Accesorios'] as $rubro => $nombreRubro)                            <li><a href="{{ rtrim(config('services.veterfood.url'), '/') }}/central-ventas/rubros/{{ $rubro }}" target="_blank" rel="noopener noreferrer">{{ $nombreRubro }}</a></li>                        @endforeach                    </ul>                </li>
 				<li class="nav-item pcoded-menu-caption text-center">
 				</li>
 				<li class="nav-item pcoded-hasmenu">
