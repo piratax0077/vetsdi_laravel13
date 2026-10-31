@@ -830,7 +830,7 @@
                                     <div class="row mr-2">
                                         <div class="col-sm-12 col-md-12 bg-light tarjeta-consultas shadow-sm rounded">
                                             <p class="pt-3 pl-2 text-secondary">
-                                                {{ $fic->created_at }}<br>
+                                                {{ \Carbon\Carbon::parse($fic->created_at)->format('Y-m-d H:i') }}<br>
                                                 {{ $fic->Profesional()->first()->Especialidad()->first()->nombre }}<br>
                                                 {{ $fic->Profesional()->first()->nombre .' ' .$fic->Profesional()->first()->apellido_uno .' ' .$fic->Profesional()->first()->apellido_dos }}
                                             </p>
@@ -940,7 +940,7 @@
                                     <div class="row mr-2">
                                         <div class="col-sm-12 col-md-12 bg-light tarjeta-consultas shadow-sm rounded">
                                             <p class="pt-3 pl-2 text-secondary">
-                                                {{ $fic->created_at }}<br>
+                                                {{ \Carbon\Carbon::parse($fic->created_at)->format('Y-m-d H:i') }}<br>
                                                 {{ $fic->Profesional()->first()->Especialidad()->first()->nombre }}<br>
                                                 {{ $fic->Profesional()->first()->nombre .' ' .$fic->Profesional()->first()->apellido_uno .' ' .$fic->Profesional()->first()->apellido_dos }}
                                             </p>

@@ -40397,6 +40397,80 @@ button.reserva-vet-lugar-caja:focus {
     border-top: 1px solid #f0edf6;
 }
 
+/* Mensaje de difusión: formulario en secciones ordenadas */
+#mensaje_difusion .modal-body {
+    padding: 18px 22px 8px;
+}
+
+#mensaje_difusion .difusion-seccion {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f0edf6;
+}
+
+#mensaje_difusion .difusion-seccion.mb-0 {
+    padding-bottom: 6px;
+    border-bottom: 0;
+}
+
+#mensaje_difusion .difusion-seccion-titulo {
+    margin: 0 0 14px;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+}
+
+#mensaje_difusion .difusion-seccion-titulo::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 13px;
+    margin-right: 8px;
+    border-radius: 2px;
+    background: #7c4dcb;
+    vertical-align: -1px;
+}
+
+#mensaje_difusion .difusion-opcional {
+    margin-left: 6px;
+    padding: 1px 8px;
+    border-radius: 10px;
+    background: #f1eefa;
+    color: #6b7a90;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+#mensaje_difusion .difusion-ayuda {
+    display: block;
+    margin-top: 2px;
+    color: #6b7a90;
+    font-size: 12px;
+}
+
+#mensaje_difusion .form-group {
+    margin-bottom: 14px;
+}
+
+#mensaje_difusion .select2-container {
+    width: 100% !important;
+}
+
+#mensaje_difusion .modal-footer .btn {
+    min-width: 110px;
+}
+
+@media (max-width: 575.98px) {
+    #mensaje_difusion .modal-body {
+        padding: 14px 14px 6px;
+    }
+}
+
 /* ==========================================================================
    Modal "Historial de mensajes" del profesional (adm. centro)
    ========================================================================== */
@@ -46588,20 +46662,20 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     }
 }
 
-/* Variante sobre fondo blanco: la pestaña activa va en azul */
+/* Variante con fondo blanco: la activa en gris claro con letras moradas */
 .pill-moderno.pill-moderno-white {
+    border: 1px solid #e6ebf2 !important;
     background-color: #fff;
-    box-shadow: 0 2px 10px -4px rgba(26, 73, 163, .18);
+    box-shadow: none;
 }
 
 .pill-moderno.pill-moderno-white a:hover {
-    background-color: #f4f5f8 !important;
+    background-color: #f6f8fb !important;
     color: #6f42c1 !important;
 }
 
-/* Activo en morado suave, sin sombra */
 .pill-moderno.pill-moderno-white a.active {
-    background-color: #efe4fb !important;
+    background-color: #eef1f5 !important;
     color: #6f42c1 !important;
     box-shadow: none;
 }
@@ -46803,11 +46877,6 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     justify-content: space-between;
     gap: 14px;
     margin-bottom: 20px;
-    padding: 20px 22px;
-    border: 1px solid #dce8eb;
-    border-radius: 15px;
-    background: linear-gradient(135deg, #fff, #eefafa);
-    box-shadow: 0 5px 18px rgba(31, 55, 75, .08);
 }
 
 .perdidas-intro h3 {
@@ -47226,20 +47295,24 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     overflow: hidden;
     z-index: 0;
 }
-#modal_mascota_perdida .select2-container .select2-selection--single {
+#modal_mascota_perdida .select2-container .select2-selection--single,
+#modalContactoAviso .select2-container .select2-selection--single {
     height: 38px;
     border: 1px solid #ced4da;
     border-radius: 8px;
 }
-#modal_mascota_perdida .select2-container .select2-selection__rendered {
+#modal_mascota_perdida .select2-container .select2-selection__rendered,
+#modalContactoAviso .select2-container .select2-selection__rendered {
     padding-left: 34px;
     line-height: 36px;
     color: #272727;
 }
-#modal_mascota_perdida .select2-container .select2-selection__arrow {
+#modal_mascota_perdida .select2-container .select2-selection__arrow,
+#modalContactoAviso .select2-container .select2-selection__arrow {
     height: 36px;
 }
-#modal_mascota_perdida .select2-container::before {
+#modal_mascota_perdida .select2-container::before,
+#modalContactoAviso .select2-container::before {
     content: '';
     position: absolute;
     top: 11px;
@@ -47251,7 +47324,9 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     pointer-events: none;
 }
 #modal_mascota_perdida .select2-container--focus .select2-selection--single,
-#modal_mascota_perdida .select2-container--open .select2-selection--single {
+#modalContactoAviso .select2-container--focus .select2-selection--single ,
+#modal_mascota_perdida .select2-container--open .select2-selection--single,
+#modalContactoAviso .select2-container--open .select2-selection--single {
     border-color: #dc3545;
     box-shadow: 0 0 0 3px rgba(220, 53, 69, .12);
 }
@@ -47349,7 +47424,8 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 #modal_mascota_perdida .perdida-cambiar:hover {
     text-decoration: underline;
 }
-#modal_mascota_perdida .perdida-recompensa {
+#modal_mascota_perdida .perdida-recompensa,
+#modalContactoAviso .perdida-recompensa {
     margin-bottom: 1rem;
     padding: 14px 16px;
     border: 1px solid #e1e8ee;
@@ -47357,16 +47433,19 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     background: #fff;
     transition: border-color .2s, background .2s;
 }
-#modal_mascota_perdida .perdida-recompensa.activa {
+#modal_mascota_perdida .perdida-recompensa.activa,
+#modalContactoAviso .perdida-recompensa.activa {
     border-color: #dfe3e8;
     background: #f6f7f9;
 }
-#modal_mascota_perdida .perdida-recompensa-cabecera {
+#modal_mascota_perdida .perdida-recompensa-cabecera,
+#modalContactoAviso .perdida-recompensa-cabecera {
     display: flex;
     align-items: center;
     gap: 12px;
 }
-#modal_mascota_perdida .perdida-recompensa-icono {
+#modal_mascota_perdida .perdida-recompensa-icono,
+#modalContactoAviso .perdida-recompensa-icono {
     display: flex;
     flex: 0 0 38px;
     align-items: center;
@@ -47376,44 +47455,53 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     border-radius: 50%;
     background: #fdecee;
 }
-#modal_mascota_perdida .perdida-recompensa-icono img {
+#modal_mascota_perdida .perdida-recompensa-icono img,
+#modalContactoAviso .perdida-recompensa-icono img {
     width: 18px;
     height: 18px;
 }
-#modal_mascota_perdida .perdida-recompensa-texto {
+#modal_mascota_perdida .perdida-recompensa-texto,
+#modalContactoAviso .perdida-recompensa-texto {
     flex: 1 1 auto;
     min-width: 0;
     margin: 0;
     cursor: pointer;
 }
-#modal_mascota_perdida .perdida-recompensa-texto strong {
+#modal_mascota_perdida .perdida-recompensa-texto strong,
+#modalContactoAviso .perdida-recompensa-texto strong {
     display: block;
     color: #272727;
     font-family: 'Nunito', sans-serif;
     font-size: 14px;
 }
-#modal_mascota_perdida .perdida-recompensa-texto small {
+#modal_mascota_perdida .perdida-recompensa-texto small,
+#modalContactoAviso .perdida-recompensa-texto small {
     display: block;
     color: #718096;
     font-size: 12px;
 }
-#modal_mascota_perdida .perdida-recompensa .custom-switch {
+#modal_mascota_perdida .perdida-recompensa .custom-switch,
+#modalContactoAviso .perdida-recompensa .custom-switch {
     flex: 0 0 auto;
     padding-left: 2.25rem;
 }
-#modal_mascota_perdida .perdida-recompensa .custom-control-input:checked ~ .custom-control-label::before {
+#modal_mascota_perdida .perdida-recompensa .custom-control-input:checked ~ .custom-control-label::before,
+#modalContactoAviso .perdida-recompensa .custom-control-input:checked ~ .custom-control-label::before {
     border-color: #bfeaea;
     background-color: #d6f2f2;
 }
-#modal_mascota_perdida .perdida-recompensa .custom-control-input:checked ~ .custom-control-label::after {
+#modal_mascota_perdida .perdida-recompensa .custom-control-input:checked ~ .custom-control-label::after,
+#modalContactoAviso .perdida-recompensa .custom-control-input:checked ~ .custom-control-label::after {
     background-color: #3ebebe !important;
 }
 /* El calendario va en el mismo color que el reloj de la hora */
-#modal_mascota_perdida input.fecha-moderna {
+#modal_mascota_perdida input.fecha-moderna,
+#modalContactoAviso input.fecha-moderna {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E") !important;
 }
 /* Zona de fotos: mismo diseño del modal de agregar mascota, en gris */
-#modal_mascota_perdida .dropzone {
+#modal_mascota_perdida .dropzone,
+#modalContactoAviso .dropzone {
     min-height: 120px;
     padding: 18px;
     border: 2px dashed #cbd4e1;
@@ -47421,19 +47509,23 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     background: #f6f7f9;
     transition: border-color .18s ease, background .18s ease;
 }
-#modal_mascota_perdida .dropzone:hover {
+#modal_mascota_perdida .dropzone:hover,
+#modalContactoAviso .dropzone:hover {
     border-color: #9aa5b4;
     background: #eef0f3;
 }
-#modal_mascota_perdida .dropzone .dz-message {
+#modal_mascota_perdida .dropzone .dz-message,
+#modalContactoAviso .dropzone .dz-message {
     color: #6c757d;
     font-weight: 600;
 }
-#modal_mascota_perdida .titulo-item {
+#modal_mascota_perdida .titulo-item,
+#modalContactoAviso .titulo-item {
     color: #272727;
     border-bottom: 1px solid #272727;
 }
-#modal_mascota_perdida .perdida-recompensa-monto {
+#modal_mascota_perdida .perdida-recompensa-monto,
+#modalContactoAviso .perdida-recompensa-monto {
     margin-top: 12px;
     padding-top: 12px;
     border-top: 1px dashed #d5dae0;
@@ -47456,14 +47548,440 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     border-radius: 8px;
     background: #fff;
 }
-#modal_mascota_perdida .modal-footer .btn {
+#modal_mascota_perdida .modal-footer .btn,
+#modalContactoAviso .modal-footer .btn {
     min-width: 130px;
 }
 @media (max-width: 575.98px) {
-    #modal_mascota_perdida .modal-dialog {
+    #modal_mascota_perdida .modal-dialog,
+    #modalContactoAviso .modal-dialog {
         margin: 10px;
     }
-    #modal_mascota_perdida .modal-footer .btn {
+    #modal_mascota_perdida .modal-footer .btn,
+    #modalContactoAviso .modal-footer .btn {
         flex: 1 1 auto;
+    }
+}
+
+/* Mascotas perdidas: mis avisos y contacto entre tutores */
+.perdidas-privacidad {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #e9f9f9;
+    color: #0b7f7f;
+    font-size: .8rem;
+}
+
+.perdidas-privacidad i { margin-top: 2px; }
+
+.mi-aviso {
+    margin-bottom: 20px;
+    padding: 18px;
+    border: 1px solid #e0e8ed;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 5px 16px rgba(38, 59, 80, .07);
+}
+
+.mi-aviso-cabecera {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #edf2f5;
+}
+
+.mi-aviso-cabecera img {
+    width: 64px;
+    height: 64px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    box-shadow: 0 3px 10px rgba(38, 59, 80, .15);
+}
+
+.mi-aviso-texto {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    min-width: 0;
+}
+
+.mi-aviso-texto h5 {
+    margin: 0 0 4px;
+    color: #272727;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+}
+
+.mi-aviso-texto small { color: #6b7d8f; }
+
+.mi-aviso-subtitulo {
+    margin: 14px 0 10px;
+    color: #272727;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+}
+
+.respuesta-aviso {
+    margin-bottom: 12px;
+    padding: 14px;
+    border: 1px solid #e6edf1;
+    border-radius: 10px;
+    background: #fbfcfd;
+}
+
+.respuesta-aviso-cabecera {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.respuesta-aviso-cabecera strong {
+    display: block;
+    color: #272727;
+    font-size: .9rem;
+}
+
+.respuesta-aviso-cabecera small { color: #8a99a6; }
+
+.respuesta-aviso-avatar {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e9f9f9;
+    color: #0fb9b9;
+    font-weight: 700;
+}
+
+.respuesta-aviso-tipo {
+    margin-left: auto;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #e9f9f9;
+    color: #0b8b8b;
+    font-size: .7rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.respuesta-aviso.la_tiene .respuesta-aviso-tipo {
+    background: #fff7e0;
+    color: #9a6a00;
+}
+
+.respuesta-aviso-lugar {
+    margin-top: 10px;
+    color: #272727;
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+.respuesta-aviso-lugar i { margin-right: 4px; color: #0fb9b9; }
+
+.respuesta-aviso-mensaje {
+    margin: 6px 0 12px;
+    color: #5d7080;
+    font-size: .85rem;
+}
+
+.respuesta-aviso-acciones {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Modal de contacto con el tutor */
+.contacto-aviso-resumen {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f2fbfb;
+}
+
+.contacto-aviso-resumen img {
+    width: 56px;
+    height: 56px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    background: #fff;
+}
+
+.contacto-aviso-resumen strong {
+    display: block;
+    color: #272727;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+}
+
+.contacto-aviso-resumen small { color: #6b7d8f; }
+
+.contacto-tipos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.contacto-tipo { margin: 0; cursor: pointer; }
+
+.contacto-tipo input {
+    position: absolute;
+    opacity: 0;
+}
+
+.contacto-tipo span {
+    display: block;
+    padding: 12px;
+    border: 2px solid #e0e8ed;
+    border-radius: 10px;
+    color: #272727;
+    font-weight: 700;
+    text-align: center;
+    -webkit-transition: border-color .2s, background .2s;
+    transition: border-color .2s, background .2s;
+}
+
+.contacto-tipo span i {
+    display: block;
+    margin-bottom: 4px;
+    color: #0fb9b9;
+    font-size: 1.2rem;
+}
+
+.contacto-tipo input:checked + span {
+    border-color: #0fb9b9;
+    background: #e9f9f9;
+}
+
+.contacto-tipo input:focus + span { box-shadow: 0 0 0 3px rgba(15, 185, 185, .2); }
+
+@media (max-width: 575px) {
+    .mi-aviso-cabecera .btn { width: 100%; }
+    .respuesta-aviso-cabecera { -ms-flex-wrap: wrap; flex-wrap: wrap; }
+    .respuesta-aviso-tipo { margin-left: 46px; }
+    .respuesta-aviso-acciones .btn { -webkit-box-flex: 1; -ms-flex: 1 1 auto; flex: 1 1 auto; }
+}
+
+/* Modal de contacto: buscador de dirección en turquesa y botón de ubicación actual */
+#modalContactoAviso .select2-container--focus .select2-selection--single,
+#modalContactoAviso .select2-container--open .select2-selection--single {
+    border-color: #31bebe;
+    box-shadow: 0 0 0 3px rgba(49, 190, 190, .15);
+}
+
+.contacto-usar-ubicacion {
+    margin-top: 6px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #0f9f9f;
+    font-size: .8rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.contacto-usar-ubicacion:hover { text-decoration: underline; }
+.contacto-usar-ubicacion:disabled { opacity: .6; cursor: default; }
+
+.contacto-usar-ubicacion.buscando i {
+    display: inline-block;
+    -webkit-animation: latir-ubicacion .9s ease-in-out infinite;
+    animation: latir-ubicacion .9s ease-in-out infinite;
+}
+
+#modalContactoAviso .contacto-icono-telefono {
+    background: #e9f9f9;
+    color: #31bebe;
+}
+
+/* Íconos del modal de contacto en oscuro, como el reloj de la hora */
+#modalContactoAviso .select2-container::before {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* Validación en tiempo real de los modales de áreas */
+.validar-area .form-control.is-invalid {
+    border-color: #e5484d;
+    background-color: #fff8f8;
+    box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.12);
+}
+
+.validar-area input.form-control.is-invalid {
+    padding-right: 0.75rem;
+}
+
+.validar-area .form-control.is-invalid:focus {
+    border-color: #e5484d;
+    box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.2);
+}
+
+.validar-area .invalid-feedback {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #c9353a;
+}
+
+.validar-area .invalid-feedback .feather {
+    margin-right: 2px;
+    font-size: 0.85rem;
+    vertical-align: -1px;
+}
+
+/* Modales de las áreas: la etiqueta flotante necesita aire bajo la cabecera */
+.modal-area-operacion .modal-body,
+.modal-area-edicion .modal-body {
+    padding: 24px 20px 8px;
+}
+
+/* Las tablas de las áreas no cambian de color al pasar el mouse; las filas rayadas conservan su fondo */
+.vista-area-veterinaria .table:not(.table-dark) tbody tr:hover,
+.vista-area-veterinaria .table:not(.table-dark) tbody tr:hover td[colspan] {
+    background: transparent;
+}
+
+.vista-area-veterinaria .table-striped:not(.table-dark) tbody tr:nth-of-type(2n+1):hover {
+    background: rgba(70, 128, 255, 0.03);
+}
+
+/* Estado de las reservas de cada área: mismos colores de la agenda (parametros, Agenda_Estado) */
+.badge.estado-agenda {
+    color: #fff;
+}
+
+.badge.estado-agenda--reservada { background-color: #feaa32; }
+.badge.estado-agenda--confirmada { background-color: #94bf61; }
+.badge.estado-agenda--en_atencion { background-color: #edbb99; }
+.badge.estado-agenda--completada { background-color: #17c1c1; }
+.badge.estado-agenda--cancelada { background-color: #ff3d3d; }
+.badge.estado-agenda--no_asiste { background-color: #f9a825; }
+
+/* Los colores claros llevan letra oscura para que se lea */
+.badge.estado-agenda--en_atencion,
+.badge.estado-agenda--no_asiste {
+    color: #272727;
+}
+
+/* Alertas flotantes de las áreas: sobre el contenido y sobre los modales */
+.alertas-flotantes {
+    position: fixed;
+    top: 84px;
+    right: 24px;
+    z-index: 2100;
+    width: 380px;
+    max-width: calc(100% - 32px);
+}
+
+.alertas-flotantes .alerta-flotante {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    padding: 12px 40px 12px 14px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+.alerta-flotante .alerta-flotante-icono {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-right: 10px;
+    font-size: 1.15rem;
+    line-height: 1.3;
+}
+
+.alerta-flotante .alerta-flotante-exito {
+    color: #9ccc65;
+}
+
+.alerta-flotante .alerta-flotante-error {
+    color: #ff6b6b;
+}
+
+.alerta-flotante .alerta-flotante-texto {
+    min-width: 0;
+    overflow-wrap: break-word;
+}
+
+.alerta-flotante .alerta-flotante-texto ul {
+    padding-left: 18px;
+}
+
+/* El .close del tema trae tamaño y alto de línea con !important: hay que ganarle para centrar la X */
+.alerta-flotante.alert-inverse .close,
+.alerta-flotante.alert-inverse .close:hover {
+    position: absolute;
+    top: 9px;
+    right: 8px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    float: none !important;
+    font-size: 1.4rem !important;
+    line-height: 1 !important;
+    text-shadow: none !important;
+}
+
+@media (max-width: 575.98px) {
+    .alertas-flotantes {
+        top: 76px;
+        right: 16px;
     }
 }

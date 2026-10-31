@@ -28,9 +28,11 @@
 						<li>
 							<a href="{{ ROUTE('adm_cm.home') }}">Mi Escritorio</a>
 						</li>
+						{{-- Gestión médica oculta por ahora
 						<li>
 							<a href="{{ ROUTE('adm_cm.adm_medico') }}">Administrador Médico</a>
-						</li><!--
+						</li>
+						--}}<!--
 						<li>
 							<a href="admin_cm.php">Administradores</a>
 						</li>

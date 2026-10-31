@@ -70,6 +70,7 @@
                             <table class="display table table-striped dt-responsive nowrap table-xs" style="width:100%">
                                 <thead>
                                     <tr>
+                                        <th class="align-middle">ID</th>
                                         <th class="align-middle">Mascota</th>
                                         <th class="align-middle">Responsable</th>
                                         <th class="align-middle">Especie</th>
@@ -100,6 +101,7 @@
                                             $galeriaMascota = mascota_imagenes_publicas($mascota);
                                         @endphp
                                         <tr>
+                                            <td class="align-middle">#{{ $mascota->id }}</td>
                                             <td class="align-middle">{{ $mascota->nombre ?? '-' }}</td>
                                             <td class="align-middle">{{ $nombreResponsable ?: '-' }}@if($rutResponsable)<br>{{ $rutResponsable }}@endif</td>
                                             <td class="align-middle">{{ $especie }}</td>
@@ -138,7 +140,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="7" class="text-center">No hay mascotas ni responsables para el contexto activo.</td>
+                                            <td colspan="8" class="text-center">No hay mascotas ni responsables para el contexto activo.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

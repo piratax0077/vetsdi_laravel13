@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba reporte centro</title>
+    <link rel="stylesheet" href="http://vetsdi.local/css/style.css">
+    <style>
+        /* Solo para la prueba: sin menú lateral ni cabecera fija */
+        .pcoded-main-container { margin-left: 0 !important; padding-top: 20px !important; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+        
+    <!--****Container Completo****-->
+    <div class="pcoded-main-container">
+        <div class="pcoded-content">
+
+            <div class="page-header">
+                <div class="page-block">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <a href="http://vetsdi.local/Administrador/Inicio" class="text-muted f-12 d-print-none d-inline-block mb-2"
+                                onclick="if (window.history.length > 1) { window.history.back(); return false; }">
+                                <i class="feather icon-arrow-left" aria-hidden="true"></i> Atrás
+                            </a>
+                            <div class="page-header-title">
+                                <h5 class="m-b-10 font-weight-bold">Reporte y estadísticas</h5>
+                            </div>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="http://vetsdi.local/Administrador/Inicio" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio"><i class="feather icon-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="http://vetsdi.local/Administrador/Reporte_estadisticas">Reporte y estadísticas</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--TÍTULO Y FILTROS-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap align-items-md-center justify-content-between">
+                                <div class="mb-3 mb-md-0">
+                                    <h3 class="reportes-titulo">Estadísticas y reportes del centro</h3>
+                                    <p class="reportes-subtitulo mb-0">Resumen general de la actividad veterinaria y clínica de todas las sucursales</p>
+                                </div>
+                                <form method="GET" action="http://vetsdi.local/Administrador/Reporte_estadisticas" class="d-flex flex-wrap filtros-reportes" id="form_filtros_reportes">
+                                                                        <div class="filtro-item filtro-item-icon">
+                                        <i class="feather icon-calendar filtro-icon"></i>
+                                        <select class="form-control select-filtro-reportes" id="filtro_mes_reportes" name="mes" onchange="this.form.submit()">
+                                            <option value="actual" >Mes actual</option>
+                                                                                            <option value="1" >Enero</option>
+                                                                                            <option value="2" >Febrero</option>
+                                                                                            <option value="3" >Marzo</option>
+                                                                                            <option value="4" >Abril</option>
+                                                                                            <option value="5" >Mayo</option>
+                                                                                            <option value="6" >Junio</option>
+                                                                                            <option value="7" >Julio</option>
+                                                                                            <option value="8" >Agosto</option>
+                                                                                            <option value="9" selected>Septiembre</option>
+                                                                                            <option value="10" >Octubre</option>
+                                                                                            <option value="11" >Noviembre</option>
+                                                                                            <option value="12" >Diciembre</option>
+                                                                                    </select>
+                                    </div>
+                                    <div class="filtro-item filtro-item-icon d-none">
+                                        <i class="feather icon-map-pin filtro-icon"></i>
+                                        <select class="form-control select-filtro-reportes" id="filtro_lugar_reportes" name="lugar" onchange="this.form.submit()">
+                                            <option value="todos" >Todas las sucursales</option>
+                                                                                            <option value="1" >Casa matriz</option>
+                                                                                            <option value="2" selected>Sucursal Providencia</option>
+                                                                                    </select>
+                                    </div>
+                                    <button type="submit" name="formato" value="csv" class="btn btn-outline-info">Descargar reporte CSV</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Indicadores: por ahora solo diseño, los valores se conectan más adelante-->
+            <div class="row escritorio-indicadores">
+                <div class="col-6 col-xl-3">
+                    <div class="tarjeta-indicador tarjeta-indicador--morado">
+                        <span class="tarjeta-indicador-icono"><i class="feather icon-credit-card"></i></span>
+                        <strong class="tarjeta-indicador-valor">$0</strong>
+                        <span class="tarjeta-indicador-etiqueta">Recaudado hoy</span>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <div class="tarjeta-indicador tarjeta-indicador--morado">
+                        <span class="tarjeta-indicador-icono"><i class="feather icon-trending-up"></i></span>
+                        <strong class="tarjeta-indicador-valor">$0</strong>
+                        <span class="tarjeta-indicador-etiqueta">Recaudado en el mes</span>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <div class="tarjeta-indicador tarjeta-indicador--morado">
+                        <span class="tarjeta-indicador-icono"><i class="feather icon-calendar"></i></span>
+                        <strong class="tarjeta-indicador-valor">0</strong>
+                        <span class="tarjeta-indicador-etiqueta">Citas hoy</span>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <div class="tarjeta-indicador tarjeta-indicador--morado">
+                        <span class="tarjeta-indicador-icono"><i class="feather icon-user-plus"></i></span>
+                        <strong class="tarjeta-indicador-valor">0</strong>
+                        <span class="tarjeta-indicador-etiqueta">Pacientes nuevos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--Estadísticas veterinarias-->
+            <div class="row escritorio-indicadores">
+                                    <div class="col-6 col-xl-3">
+                        <div class="tarjeta-indicador tarjeta-indicador--morado">
+                            <span class="tarjeta-indicador-icono"><i class="feather icon-activity"></i></span>
+                            <strong class="tarjeta-indicador-valor">0</strong>
+                            <span class="tarjeta-indicador-etiqueta">Mascotas hospitalizadas</span>
+                        </div>
+                    </div>
+                                    <div class="col-6 col-xl-3">
+                        <div class="tarjeta-indicador tarjeta-indicador--morado">
+                            <span class="tarjeta-indicador-icono"><i class="feather icon-grid"></i></span>
+                            <strong class="tarjeta-indicador-valor">0</strong>
+                            <span class="tarjeta-indicador-etiqueta">Plazas habilitadas</span>
+                        </div>
+                    </div>
+                                    <div class="col-6 col-xl-3">
+                        <div class="tarjeta-indicador tarjeta-indicador--morado">
+                            <span class="tarjeta-indicador-icono"><i class="feather icon-calendar"></i></span>
+                            <strong class="tarjeta-indicador-valor">0</strong>
+                            <span class="tarjeta-indicador-etiqueta">Reservas de hoy</span>
+                        </div>
+                    </div>
+                                    <div class="col-6 col-xl-3">
+                        <div class="tarjeta-indicador tarjeta-indicador--morado">
+                            <span class="tarjeta-indicador-icono"><i class="feather icon-check-circle"></i></span>
+                            <strong class="tarjeta-indicador-valor">0</strong>
+                            <span class="tarjeta-indicador-etiqueta">Atenciones completadas</span>
+                        </div>
+                    </div>
+                                    <div class="col-6 col-xl-3">
+                        <div class="tarjeta-indicador tarjeta-indicador--morado">
+                            <span class="tarjeta-indicador-icono"><i class="feather icon-file-text"></i></span>
+                            <strong class="tarjeta-indicador-valor">$0</strong>
+                            <span class="tarjeta-indicador-etiqueta">Obligaciones pendientes (CLP)</span>
+                        </div>
+                    </div>
+                                    <div class="col-6 col-xl-3">
+                        <div class="tarjeta-indicador tarjeta-indicador--morado">
+                            <span class="tarjeta-indicador-icono"><i class="feather icon-alert-circle"></i></span>
+                            <strong class="tarjeta-indicador-valor">0</strong>
+                            <span class="tarjeta-indicador-etiqueta">Obligaciones vencidas</span>
+                        </div>
+                    </div>
+                                    <div class="col-6 col-xl-3">
+                        <div class="tarjeta-indicador tarjeta-indicador--morado">
+                            <span class="tarjeta-indicador-icono"><i class="feather icon-users"></i></span>
+                            <strong class="tarjeta-indicador-valor">0</strong>
+                            <span class="tarjeta-indicador-etiqueta">Convocatorias abiertas</span>
+                        </div>
+                    </div>
+                            </div>
+
+            <!--AGENDA: ASISTENCIA VS AUSENTISMO / ATENCIONES POR MES-->
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
+                    <div class="card reportes-card h-100">
+                        <div class="card-header-new px-3 d-flex align-items-center justify-content-between">
+                            <h6 class="mb-0 f-18 text-dark">Agenda: Asistencia vs Ausentismo</h6>
+                            <i class="feather icon-info text-muted" data-toggle="tooltip" data-placement="top"
+                                title="Resumen de asistencia de las horas agendadas en el período seleccionado."></i>
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="grafico_asistencia_ausentismo"></div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="kpi-dot bg-c-purple"></span>
+                                        <span class="flex-grow-1">Asistieron</span>
+                                        <span class="font-weight-bolder mr-2">180</span>
+                                        <span class="text-muted small">(81.1%)</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="kpi-dot bg-c-red"></span>
+                                        <span class="flex-grow-1">No asistieron</span>
+                                        <span class="font-weight-bolder mr-2">22</span>
+                                        <span class="text-muted small">(9.9%)</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="kpi-dot bg-c-yellow"></span>
+                                        <span class="flex-grow-1">Canceladas por tutor</span>
+                                        <span class="font-weight-bolder mr-2">14</span>
+                                        <span class="text-muted small">(6.3%)</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="kpi-dot bg-c-green"></span>
+                                        <span class="flex-grow-1">Canceladas por el centro</span>
+                                        <span class="font-weight-bolder mr-2">6</span>
+                                        <span class="text-muted small">(2.7%)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <div class="stat-mini-card">
+                                        <p class="text-muted mb-1 small">Tasa de asistencia</p>
+                                        <h3 class="text-c-green">81.1%</h3>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-mini-card">
+                                        <p class="text-muted mb-1 small">Tasa de ausentismo</p>
+                                        <h3 class="text-c-red">9.9%</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
+                    <div class="card reportes-card h-100">
+                        <div class="card-header-new px-3 d-flex align-items-center justify-content-between">
+                            <h6 class="mb-0 f-18 text-dark">Atenciones por mes</h6>
+                            <span class="badge badge-light">6 meses hasta el período seleccionado</span>
+                        </div>
+                        <div class="card-body">
+                            <div id="grafico_atenciones_mes"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--DOCUMENTOS EMITIDOS / MASCOTAS SEGÚN CONVENIO-->
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
+                    <div class="card reportes-card h-100">
+                        <div class="card-header-new px-3">
+                            <h6 class="mb-0 f-18 text-dark">Documentos emitidos</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex text-muted small mb-2">
+                                <span class="flex-grow-1">Documento</span>
+                                <span>Cantidad</span>
+                            </div>
+                                                            <div class="doc-list-item">
+                                    <div class="d-flex align-items-center">
+                                        <span class="doc-icon bg-c-purple text-white"><i class="feather icon-file-text"></i></span>
+                                        Recetas veterinarias
+                                    </div>
+                                    <span class="font-weight-bolder">96</span>
+                                </div>
+                                                            <div class="doc-list-item">
+                                    <div class="d-flex align-items-center">
+                                        <span class="doc-icon bg-c-purple text-white"><i class="feather icon-file-text"></i></span>
+                                        Certificados veterinarios
+                                    </div>
+                                    <span class="font-weight-bolder">18</span>
+                                </div>
+                                                            <div class="doc-list-item">
+                                    <div class="d-flex align-items-center">
+                                        <span class="doc-icon bg-c-purple text-white"><i class="feather icon-file-text"></i></span>
+                                        Consentimientos informados
+                                    </div>
+                                    <span class="font-weight-bolder">41</span>
+                                </div>
+                                                            <div class="doc-list-item">
+                                    <div class="d-flex align-items-center">
+                                        <span class="doc-icon bg-c-purple text-white"><i class="feather icon-file-text"></i></span>
+                                        Órdenes de examen
+                                    </div>
+                                    <span class="font-weight-bolder">63</span>
+                                </div>
+                                                    </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
+                    <div class="card reportes-card h-100">
+                        <div class="card-header-new px-3">
+                            <h6 class="mb-0 f-18 text-dark">Mascotas según convenio</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="grafico_convenio"></div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                                                            <div class="d-flex align-items-center mb-2">
+                                            <span class="kpi-dot" style="background:#A06CC1"></span>
+                                            <span class="flex-grow-1">Sin convenio</span>
+                                            <span class="font-weight-bolder mr-2">80</span>
+                                            <span class="text-muted small">(62.5%)</span>
+                                        </div>
+                                                                            <div class="d-flex align-items-center mb-2">
+                                            <span class="kpi-dot" style="background:#17a2b8"></span>
+                                            <span class="flex-grow-1">Convenio Mascota Feliz</span>
+                                            <span class="font-weight-bolder mr-2">31</span>
+                                            <span class="text-muted small">(24.2%)</span>
+                                        </div>
+                                                                            <div class="d-flex align-items-center mb-2">
+                                            <span class="kpi-dot" style="background:#6f42c1"></span>
+                                            <span class="flex-grow-1">Seguro Patitas</span>
+                                            <span class="font-weight-bolder mr-2">17</span>
+                                            <span class="text-muted small">(13.3%)</span>
+                                        </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--****Cierre Container Completo****-->
+    <script src="http://vetsdi.local/js/plugins/bootstrap.min.js"></script>
+    <script src="http://vetsdi.local/js/plugins/apexcharts.min.js"></script>
+        
+    <script>
+        $(document).ready(function () {
+
+            // Dona con el total al centro. Si no hay datos queda un anillo gris, no un espacio en blanco
+            function crearDona(selector, serie, etiquetas, colores, etiquetaTotal, total, sufijoTooltip) {
+                var contenedor = document.querySelector(selector);
+                var sinDatos = serie.reduce(function (suma, valor) { return suma + valor; }, 0) === 0;
+
+                if (sinDatos) {
+                    contenedor.style.pointerEvents = 'none';
+                }
+
+                new ApexCharts(contenedor, {
+                    chart: { type: 'donut', height: 230 },
+                    series: sinDatos ? [1] : serie,
+                    labels: sinDatos ? ['Sin datos'] : etiquetas,
+                    colors: sinDatos ? ['#eef0f4'] : colores,
+                    legend: { show: false },
+                    dataLabels: { enabled: false },
+                    plotOptions: {
+                        pie: {
+                            donut: {
+                                size: '70%',
+                                labels: {
+                                    show: true,
+                                    total: {
+                                        show: true,
+                                        label: etiquetaTotal,
+                                        fontSize: '13px',
+                                        color: '#8b93a7',
+                                        formatter: function () {
+                                            return String(total);
+                                        }
+                                    },
+                                    value: {
+                                        fontSize: '22px',
+                                        fontWeight: 700,
+                                        color: '#272727'
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    tooltip: {
+                        enabled: !sinDatos,
+                        y: { formatter: function (valor) { return valor + sufijoTooltip; } }
+                    }
+                }).render();
+            }
+
+            // Donut: Asistencia vs Ausentismo
+            crearDona(
+                '#grafico_asistencia_ausentismo',
+                [180,22,14,6],
+                ['Asistieron', 'No asistieron', 'Canceladas por tutor', 'Canceladas por el centro'],
+                ['#A06CC1', '#ff5252', '#ffba57', '#72B02C'],
+                'Total agendadas',
+                222,
+                ' horas'
+            );
+
+            // Barras: Atenciones por mes (el mes en curso va destacado)
+            var serieAtenciones = [120,150,138,171,190,214];
+            var pocasAtenciones = Math.max.apply(null, serieAtenciones) < 4;
+
+            new ApexCharts(document.querySelector('#grafico_atenciones_mes'), {
+                chart: { type: 'bar', height: 260, toolbar: { show: false } },
+                series: [{ name: 'Atenciones', data: serieAtenciones }],
+                xaxis: { categories: ["Abr","May","Jun","Jul","Ago","Sep"] },
+                plotOptions: {
+                    bar: {
+                        columnWidth: '45%',
+                        borderRadius: 6,
+                        distributed: true,
+                        dataLabels: { position: 'top' }
+                    }
+                },
+                colors: ['#e3d3ee', '#e3d3ee', '#e3d3ee', '#e3d3ee', '#e3d3ee', '#A06CC1'],
+                dataLabels: {
+                    enabled: true,
+                    offsetY: -20,
+                    style: { fontSize: '12px', colors: ['#5b6577'] }
+                },
+                legend: { show: false },
+                grid: { borderColor: '#f0f1f5' },
+                // Con pocas atenciones (o ninguna) la escala llega a 4 para que los números salgan enteros
+                yaxis: {
+                    min: 0,
+                    max: pocasAtenciones ? 4 : undefined,
+                    tickAmount: pocasAtenciones ? 4 : undefined,
+                    forceNiceScale: true,
+                    labels: { formatter: function (valor) { return Math.round(valor); } }
+                }
+            }).render();
+
+            // Donut: Mascotas según convenio
+            crearDona(
+                '#grafico_convenio',
+                [80,31,17],
+                ["Sin convenio","Convenio Mascota Feliz","Seguro Patitas"],
+                ["#A06CC1","#17a2b8","#6f42c1","#ffba57","#72B02C","#ff5252"],
+                'Total',
+                128,
+                ''
+            );
+
+        });
+    </script>
+</body>
+</html>

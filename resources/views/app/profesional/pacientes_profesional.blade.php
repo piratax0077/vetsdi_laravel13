@@ -70,6 +70,7 @@
                                         style="width:100%">
                                         <thead>
                                             <tr>
+                                                <th>ID</th>
                                                 <th>Mascota</th>
                                                 <th>Tutor</th>
                                                 <th>Especie</th>
@@ -108,6 +109,7 @@
                                                     $centroActivo = $contextoActivo['label'] ?? 'Sin contexto';
                                                 @endphp
                                                 <tr>
+                                                    <td>#{{ $mascota->id }}</td>
                                                     <td>{{ $mascota->nombre ?? '-' }}</td>
                                                     <td>
                                                         {!! $responsableTexto !!}
@@ -171,7 +173,7 @@
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td colspan="8" class="text-center">Sin registros</td>
+                                                    <td colspan="9" class="text-center">Sin registros</td>
                                                 </tr>
                                             @endforelse
                                         </tbody>

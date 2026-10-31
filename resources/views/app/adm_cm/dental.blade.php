@@ -30,7 +30,7 @@
                         <div class="card-body text-center">
                             <img class="wid-70" src="{{ asset('images/iconos/dental.svg') }}" onerror="this.src='{{ asset('images/iconos/examen.svg') }}'">
                             <h5 class="mt-3">Odontólogos</h5>
-                            <p class="text-muted mb-0">Inscribir, buscar, editar y asociar profesionales.</p>
+                            <p class="text-muted mb-0">Inscribir, buscar, editar y vincular profesionales.</p>
                         </div>
                     </a>
                 </div>

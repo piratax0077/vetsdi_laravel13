@@ -58,7 +58,7 @@
                                         <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-users"></i></span>Profesionales médicos</h5>
                                         <div class="encabezado-card-acciones">
                                             <button type="button" class="btn btn-info btn-sm" onclick="enviar_mensaje_difusion()" @if(!$adm_medico) disabled @endif><i class="feather icon-mail"></i> Difusión</button>
-                                            <button type="button" class="btn btn-info btn-sm" onclick="asociar_profesional();" @if(!$adm_medico) disabled @endif><i class="feather icon-plus"></i> Asociar profesional</button>
+                                            <button type="button" class="btn btn-info btn-sm" onclick="asociar_profesional();" @if(!$adm_medico) disabled @endif><i class="feather icon-plus"></i> Vincular profesional</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -126,7 +126,7 @@
                                                                                 <button type="button" class="btn btn-secondary btn-sm btn-icon" onclick="historial({{ $prof_medico->id }});" @if(!$adm_medico) disabled @endif data-toggle="tooltip" data-placement="top" title="Ver"><i class="feather icon-mail"></i></button>
                                                                             </td>
                                                                             <td class="align-middle">
-                                                                                <button type="button" class="btn btn-danger btn-xxs"><i class="feather icon-x"></i> Desasociar</button>
+                                                                                <button type="button" class="btn btn-danger btn-xxs"><i class="feather icon-x"></i> Desvincular</button>
                                                                             </td>
                                                                     </tr>
                                                                 @endforeach
@@ -225,7 +225,7 @@
                                                                                 <button type="button" class="btn btn-secondary btn-sm btn-icon" onclick="historial({{ $prof_medico->id }});" @if(!$adm_medico) disabled @endif data-toggle="tooltip" data-placement="top" title="Ver"><i class="feather icon-mail"></i></button>
                                                                             </td>
                                                                             <td class="align-middle">
-                                                                                <button type="button" class="btn btn-danger btn-xxs"><i class="feather icon-x"></i> Desasociar</button>
+                                                                                <button type="button" class="btn btn-danger btn-xxs"><i class="feather icon-x"></i> Desvincular</button>
                                                                             </td>
                                                                     </tr>
                                                                 @endforeach
@@ -323,7 +323,7 @@
                                                                                 <button type="button" class="btn btn-secondary btn-sm btn-icon" onclick="historial({{ $prof_medico->id }});" @if(!$adm_medico) disabled @endif data-toggle="tooltip" data-placement="top" title="Ver"><i class="feather icon-mail"></i></button>
                                                                             </td>
                                                                             <td class="align-middle">
-                                                                                <button type="button" class="btn btn-danger btn-xxs"><i class="feather icon-x"></i> Desasociar</button>
+                                                                                <button type="button" class="btn btn-danger btn-xxs"><i class="feather icon-x"></i> Desvincular</button>
                                                                             </td>
                                                                     </tr>
                                                                 @endforeach
@@ -471,82 +471,7 @@
             .done(function(data) {
                 if (data.estado == 1)
                 {
-                    console.log(data.registros);
-                    /** encontrado */
-                    $('#liquidaciones').html('');
-                    $('#liquidacion_pills').html('');
-
-
-                    $.each(data.registros, function( index, element ) {
-                        /** pills */
-                        var html_p = '';
-                        html_p += '<li class="nav-item">';
-                        if(element.principal == 1)
-                            html_p += '    <a class="btn btn-outline-info btn-sm mr-1 my-1 active" id="liquidacion_'+index+'-tab" data-toggle="tab" href="#liquidacion_'+index+'" role="tab" aria-controls="liquidacion_'+index+'" aria-selected="true">'+element.banco.nombre+'</a>';
-                        else
-                            html_p += '    <a class="btn btn-outline-info btn-sm mr-1 my-1" id="liquidacion_'+index+'-tab" data-toggle="tab" href="#liquidacion_'+index+'" role="tab" aria-controls="liquidacion_'+index+'" aria-selected="false">'+element.banco.nombre+'</a>';
-                        html_p += '</li>';
-                        $('#liquidacion_pills').append(html_p);
-
-                        /** cuerpo */
-                        var activo = ' active show ';
-
-                        var html = '';
-                        html += '<!-- tab '+index+'-->';
-                        if(element.principal == 1)
-                            html += '<div class="tab-pane fade '+activo+'" id="liquidacion_'+index+'" role="tabpanel" aria-labelledby="liquidacion_'+index+'-tab">';
-                        else
-                            html += '<div class="tab-pane fade " id="liquidacion_'+index+'" role="tabpanel" aria-labelledby="liquidacion_'+index+'-tab">';
-                        html += '<div class="row info-basica" id="info-basica-1">';
-                        html += '    <div class="col-md-12">';
-                        html += '        <div class="form-group row">';
-                        html += '            <label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>';
-                        html += '            <div class="col-sm-7 my-auto ml-2" id="liquidacion_rut">'+element.serie+'</div>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '    <div class="col-md-12">';
-                        html += '        <div class="form-group row">';
-                        html += '            <label class="col-sm-4 col-form-label font-weight-bolder">Titular</label>';
-                        html += '            <div class="col-sm-7 my-auto ml-2" id="liquidacion_nombre">'+element.autor+'</div>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '    <div class="col-md-12">';
-                        html += '        <div class="form-group row">';
-                        html += '            <label class="col-sm-4 col-form-label font-weight-bolder">Banco</label>';
-                        html += '            <div class="col-sm-7 my-auto ml-2" id="liquidacion_banco">'+element.banco.nombre+'</div>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '    <div class="col-md-12">';
-                        html += '        <div class="form-group row">';
-                        html += '            <label class="col-sm-4 col-form-label font-weight-bolder">Cuenta</label>';
-                        html += '            <div class="col-sm-7 my-auto ml-2" id="liquidacion_cuenta">'+element.numero_control+'</div>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '    <div class="col-md-12">';
-                        html += '        <div class="form-group row">';
-                        html += '            <label class="col-sm-4 col-form-label font-weight-bolder">Tipo Cuenta</label>';
-                        html += '            <div class="col-sm-7 my-auto ml-2" id="liquidacion_tipo_cuenta">'+element.otro+'</div>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '    <div class="col-md-12">';
-                        html += '        <div class="form-group row">';
-                        html += '            <label class="col-sm-4 col-form-label font-weight-bolder">Correo electrónico</label>';
-                        html += '            <div class="col-sm-7 my-auto ml-2" id="liquidacion_email">'+element.email+'</div>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '    <div class="col-md-12">';
-                        html += '        <div class="form-group row">';
-                        html += '            <label class="col-sm-4 col-form-label font-weight-bolder">Principal</label>';
-                        if(element.principal == 1)
-                            html += '            <div class="col-sm-7 my-auto ml-2" id="liquidacion_principal">Principal</div>';
-                        else
-                            html += '            <div class="col-sm-7 my-auto ml-2" id="liquidacion_principal">Opcional</div>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '</div>';
-                        html += '</div>';
-                        $('#liquidaciones').append(html);
-                    });
+                    pintar_cuentas_bancarias(data.registros);
 
                     $('#dat_bancarios').modal('show');
                 }

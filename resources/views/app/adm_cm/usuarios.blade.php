@@ -97,9 +97,9 @@
                     <div class="tab-pane fade usuario-vista" id="usuarios-profesionales">
                         <div class="text-center py-4">
                             <img class="usuario-icono mb-3" src="{{ asset('images/iconos/profesionales.svg') }}" alt="Profesionales">
-                            <h5>Profesionales</h5><p class="text-muted">Consulta la n&oacute;mina, especialidades, datos y asociaciones.</p>
+                            <h5>Profesionales</h5><p class="text-muted">Consulta la n&oacute;mina, especialidades, datos y vinculaciones.</p>
                             <a class="btn btn-info accion-usuario" href="{{ route('adm_cm.profesionales') }}"><i class="feather icon-search mr-1"></i>Buscar profesionales</a>
-                            <a class="btn btn-outline-info accion-usuario" href="{{ route('adm_cm.profesionales') }}"><i class="feather icon-user-plus mr-1"></i>Inscribir o asociar</a>
+                            <a class="btn btn-outline-info accion-usuario" href="{{ route('adm_cm.profesionales') }}"><i class="feather icon-user-plus mr-1"></i>Inscribir o vincular</a>
                         </div>
                     </div>
                     <div class="tab-pane fade usuario-vista" id="usuarios-contratos">

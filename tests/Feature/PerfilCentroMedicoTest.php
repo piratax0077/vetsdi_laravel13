@@ -141,6 +141,54 @@ class PerfilCentroMedicoTest extends TestCase
         $area=DB::table('areas_cm')->find($id);$this->assertEquals(2,$area->id_tipo_area_cm);$this->assertEquals(10,$area->id_institucion);$this->assertSame('editada@example.test',$area->email);
     }
 
+    public function test_veterinary_areas_sync_with_enabled_services_and_type_is_saved(): void
+    {
+        (require database_path('migrations/2026_10_28_000001_operacion_establecimientos_veterinarios.php'))->up();
+        Schema::table('areas_cm',function(Blueprint $t){foreach(['id_lugar_atencion','id_tipo_area_cm','nombre','apellido_uno','apellido_dos','email','telefono','numero_personas'] as $campo)$t->string($campo)->nullable();});
+        Schema::create('tipos_areas_cm',function(Blueprint $t){$t->id();$t->string('nombre');$t->string('descripcion')->nullable();$t->string('otro')->nullable();$t->timestamps();});
+        DB::table('tipos_areas_cm')->insert(['id'=>1,'nombre'=>'Admin. Médica']);
+        (require database_path('migrations/2026_10_30_000001_tipos_areas_servicios_veterinarios.php'))->up();
+        $tipo=fn(string $nombre)=>DB::table('tipos_areas_cm')->where('nombre',$nombre)->value('id');
+        $habilitados=fn()=>json_decode(DB::table('vet_establecimientos')->where('id_institucion',10)->value('servicios_habilitados'),true);
+        DB::table('vet_establecimientos')->insert(['id_institucion'=>10,'tipo'=>'centro','hospitalizacion_habilitada'=>0,'servicios_habilitados'=>json_encode(['dental'])]);
+        DB::table('instituciones')->where('id',10)->update(['id_lugar_atencion'=>100]);
+        $controller=new class extends AdministradorCmController {
+            public function dame_areas_cm($ids){return collect();}
+        };
+        $datos=['responsable_cargo'=>50,'e_cont'=>'area@example.test','tel_c'=>'555','n_pers'=>2];
+
+        // Agregar habilita el área y conserva las demás.
+        $this->assertSame(1,$controller->agregar_area_cm($this->req($datos+['tipo_area'=>$tipo('Laboratorio')]))->getData(true)['estado']);
+        $this->assertSame(['dental','laboratorio'],$habilitados());
+
+        // La misma área no se repite en la institución.
+        $this->assertSame(0,$controller->agregar_area_cm($this->req($datos+['tipo_area'=>$tipo('Laboratorio')]))->getData(true)['estado']);
+        $this->assertSame(1,DB::table('areas_cm')->count());
+
+        // Cambiar el área traslada la habilitación.
+        $id=DB::table('areas_cm')->value('id');
+        $resultado=$controller->editar_area_cm($this->req(['id_area'=>$id,'tipo_area'=>$tipo('Vacunatorio'),'responsable'=>50,'email'=>'area@example.test','telefono'=>'555','n_persons'=>2]));
+        $this->assertSame(1,$resultado['estado']);
+        $this->assertSame(['dental','vacunatorio'],$habilitados());
+
+        // Eliminar el registro deshabilita el área.
+        $resultado=$controller->eliminar_area_profesional($this->req(['id'=>$id]));
+        $this->assertSame(1,$resultado['estado']);
+        $this->assertSame(['dental'],$habilitados());
+
+        // Un tipo antiguo no toca la configuración veterinaria.
+        $controller->agregar_area_cm($this->req($datos+['tipo_area'=>1]));
+        $this->assertSame(['dental'],$habilitados());
+
+        // El tipo se guarda sin alterar la hospitalización ni las áreas.
+        $respuesta=$controller->editarDatosPerfil($this->req(['nombre'=>'Centro Uno','tipo_establecimiento'=>'hospital']));
+        $this->assertSame(1,$respuesta->getData(true)['estado']);
+        $fila=DB::table('vet_establecimientos')->where('id_institucion',10)->first();
+        $this->assertSame('hospital',$fila->tipo);$this->assertEquals(0,$fila->hospitalizacion_habilitada);$this->assertSame(['dental'],$habilitados());
+        $this->expectException(ValidationException::class);
+        $controller->editarDatosPerfil($this->req(['nombre'=>'Centro Uno','tipo_establecimiento'=>'clinica']));
+    }
+
     public function test_real_profile_renders_with_no_addresses_or_optional_data(): void
     {
         $vista=app(AdministradorCmController::class)->perfil($this->req());
