@@ -101,20 +101,20 @@
     }
 
     function guardar_box_servicio(){
-        let numero_box = $('#numero_box').val();
-        let tpo_box_servicio = $('#tpo_box_servicio').val();
+        let numero_box = $('#numero_box').val().trim();
+        let tipo_elegido = $('#tpo_especializacion').val();
+        let tipo_otro = $('#tpo_especializacion_otro').val().trim();
         let id_institucion = $('#id_institucion').val();
         let id_lugar_atencion = $('#add_empleado_id_lugar_atencion').val();
-        if(tpo_box_servicio == 'Especializado'){
-            var tpo_especializacion = $('#tpo_especializacion').val();
-        }else{
-            var tpo_especializacion = '';
-        }
+        // Si eligió "Otro" se guarda el texto que escribió como tipo
+        let tpo_especializacion = tipo_elegido === 'Otro' ? tipo_otro : tipo_elegido;
+        let tpo_box_servicio = 'Especializado';
         let tpo_equip_servicio = $('#tpo_equip_servicio').val();
-        let seccion_box = $('#seccion_box').val();
-        let ot_pat_act_ = $('#ot_pat_act_').val();
-        let n_camillas_box_servicio = $('#n_camillas_box_servicio').val();
-        let equip_ad = $('#equip_ad').val();
+        // El modal ya no pide sección, pero la tabla la exige: va un valor fijo
+        let seccion_box = '1';
+        let ot_pat_act_ = '';
+        let n_camillas_box_servicio = '';
+        let equip_ad = '';
         let url = "{{ route('adm_cm.guardar_box_servicio') }}";
 
         var valido = 1;
@@ -122,37 +122,30 @@
 
         if(numero_box == ''){
             valido = 0;
-            mensaje += '<li>Debe ingresar el número de box</li>';
+            mensaje += '<li>Debe ingresar el nombre del box o sala</li>';
         }
-        if(tpo_box_servicio == 0){
+        if(tipo_elegido == '0' || tipo_elegido == null){
             valido = 0;
-            mensaje += '<li>Debe seleccionar el tipo de box</li>';
+            mensaje += '<li>Debe seleccionar el tipo de box o sala</li>';
         }
-
-        if(tpo_box_servicio == 'Especializado' && tpo_especializacion == 0){
+        if(tipo_elegido === 'Otro' && tipo_otro == ''){
             valido = 0;
-            mensaje += '<li>Debe seleccionar el tipo de especialización</li>';
+            mensaje += '<li>Debe especificar el tipo</li>';
         }
-        if(tpo_equip_servicio == 0){
+        if(tpo_equip_servicio == '0' || tpo_equip_servicio == null){
             valido = 0;
-            mensaje += '<li>Debe seleccionar la ubicación del box</li>';
-        }
-        if(seccion_box == 0){
-            valido = 0;
-            mensaje += '<li>Debe seleccionar la sección del box</li>';
+            mensaje += '<li>Debe seleccionar la ubicación</li>';
         }
         if(valido == 0){
             swal({
-                title: "Error",
+                title: "Campos requeridos",
                 content:{
                     element: "div",
                     attributes:{
-                        innerHTML: mensaje
+                        innerHTML: '<ul class="text-left mb-0">' + mensaje + '</ul>'
                     }
                 },
                 icon: "error",
-                // buttons: "Aceptar",
-                //SuccessMode: true,
             });
             return false;
         }

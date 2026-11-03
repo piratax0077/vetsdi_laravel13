@@ -1,18 +1,25 @@
 
 
 <style>
-    .ficha-vet-general-wrapper,
-    .ficha-vet-general-wrapper > .user-profile {
+    .ficha-vet-general-wrapper {
         display: block;
         width: 100%;
         max-width: 100%;
         min-width: 0;
     }
+    /* Con width:100% los márgenes negativos del tema corrían el bloque a la izquierda y dejaban un vacío a la derecha */
+    .ficha-vet-general-wrapper > .user-profile {
+        display: block;
+        width: auto;
+        max-width: none;
+        min-width: 0;
+    }
     .ficha-vet-general-wrapper .tab-content,
     .ficha-vet-general-wrapper .tab-pane,
     .ficha-vet-general-wrapper .card { max-width: 100%; }
-    .ficha-vet-general-wrapper .nav-tabs-secciones,
-    .ficha-vet-general-wrapper .form-row { width: 100%; }
+    .ficha-vet-general-wrapper .nav-tabs-secciones { width: 100%; }
+    /* Un .form-row con width:100% se corre 5px a la izquierda por sus márgenes negativos y desalinea los campos */
+    .ficha-vet-general-wrapper .form-row { width: auto; }
     .ficha-vet-general-wrapper .card-body { overflow: hidden; }
     .presupuesto-vet-mensaje {
         min-height: 48px;
@@ -21,12 +28,12 @@
         margin-bottom: 0;
     }
     .ficha-vet-tabs-row {
-        justify-content: center;
+        justify-content: flex-start;
         margin-right: 0;
         margin-left: 0;
     }
     .ficha-vet-tabs-row .nav-tabs-secciones {
-        justify-content: center;
+        justify-content: flex-start;
         width: auto;
     }
     .ficha-vet-avisos {

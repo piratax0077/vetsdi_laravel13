@@ -192,29 +192,34 @@
 
                         <div class="float-md-right">
                             @if(($titulo ?? '') === 'Mascotas')
-                            <button type="button" class="btn btn-info btn-sm mr-1"
-                                id="btn-solicitud-apareamiento" name="btn-solicitud-apareamiento"
-                                onclick="return abrirModalSolicitudApareamiento(event);">
-                                <i class="feather icon-heart"></i> Solicitud de apareamiento
-                                <span class="badge badge-danger d-none" id="badge-apareamiento-nuevas">0</span>
-                            </button>
-                            <button type="button" class="btn btn-info btn-sm mr-1"
-                                id="btn-traspasar-mascota" name="btn-traspasar-mascota"
-                                onclick="return abrirModalTraspasoMascota(event);">
-                                <i class="feather icon-shuffle"></i> Traspasar mascota
-                            </button>
-                            <button type="button" class="btn btn-info btn-sm mr-1"
-                                id="btn-registrar-defuncion" name="btn-registrar-defuncion"
-                                onclick="return abrirModalSeleccionDefuncion(event);">
-                                <i class="feather icon-cloud"></i> Registrar defunción
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm mr-1"
-                                id="btn-mascota-perdida" name="btn-mascota-perdida"
-                                onclick="return abrirModalMascotaPerdida(event);">
-                                <i class="feather icon-alert-triangle"></i> Mascota perdida
-                            </button>
+                            <div class="dropdown d-inline-block mr-1 mascotas-mas-acciones">
+                                <button type="button" class="btn btn-purple btn-sm dropdown-toggle" id="btn-mas-acciones"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="feather icon-more-horizontal"></i> Más acciones
+                                    <span class="badge badge-danger d-none" id="badge-apareamiento-nuevas">0</span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btn-mas-acciones">
+                                    <button type="button" class="dropdown-item text-danger" id="btn-mascota-perdida" name="btn-mascota-perdida"
+                                        onclick="return abrirModalMascotaPerdida(event);">
+                                        <i class="feather icon-alert-triangle"></i> Mascota perdida
+                                    </button>
+                                    <button type="button" class="dropdown-item" id="btn-traspasar-mascota" name="btn-traspasar-mascota"
+                                        onclick="return abrirModalTraspasoMascota(event);">
+                                        <i class="feather icon-shuffle"></i> Traspasar mascota
+                                    </button>
+                                    <button type="button" class="dropdown-item" id="btn-solicitud-apareamiento" name="btn-solicitud-apareamiento"
+                                        onclick="return abrirModalSolicitudApareamiento(event);">
+                                        <i class="feather icon-heart"></i> Solicitud de apareamiento
+                                        <span class="badge badge-danger d-none" id="apareamiento_badge_menu">0</span>
+                                    </button>
+                                    <button type="button" class="dropdown-item" id="btn-registrar-defuncion" name="btn-registrar-defuncion"
+                                        onclick="return abrirModalSeleccionDefuncion(event);">
+                                        <i class="feather icon-cloud"></i> Registrar defunción
+                                    </button>
+                                </div>
+                            </div>
                             @endif
-                            <button type="button" class="btn btn-purple btn-sm d-inline" id="btn-agregar-dep" name="btn-agregar-dep">
+                            <button type="button" class="btn btn-info btn-sm d-inline" id="btn-agregar-dep" name="btn-agregar-dep">
                                 <i class="fas fa-plus"></i> Agregar mascota
                             </button>
                         </div>
@@ -2210,7 +2215,7 @@
         function actualizarBadgeApareamiento(nuevas)
         {
             var total = parseInt(nuevas, 10) || 0;
-            var $badges = $('#badge-apareamiento-nuevas, #apareamiento_badge_nuevas');
+            var $badges = $('#badge-apareamiento-nuevas, #apareamiento_badge_menu, #apareamiento_badge_nuevas');
             if (total > 0) {
                 $badges.text(total).removeClass('d-none');
             } else {
@@ -3749,7 +3754,7 @@
                     html += '                <a class="card-mascota-boton btn-memorial-mascota" href="'+memorial_url+'"><i class="feather icon-image"></i> Álbum de recuerdos</a>';
                     html += '                <button type="button" class="card-mascota-boton card-mascota-boton-suave btn-ver-mascota" data-id="'+value.id+'"><i class="feather icon-eye"></i> Ver ficha</button>';
                 } else {
-                    html += '                <button type="button" class="card-mascota-boton btn-ver-mascota" data-id="'+value.id+'"><i class="feather icon-eye"></i> Ficha mascota</button>';
+                    html += '                <button type="button" class="btn btn-info card-mascota-boton btn-ver-mascota" data-id="'+value.id+'"><i class="feather icon-eye"></i> Ficha mascota</button>';
                     html += '                <button type="button" class="card-mascota-boton card-mascota-boton-morado btn-escritorio-mascota" data-id="'+value.id+'"><i class="feather icon-monitor"></i> Escritorio</button>';
                 }
                 html += '            </div>';
@@ -3763,6 +3768,9 @@
 
                 if (!esFallecida) {
                     html += '            <div class="card-mascota-pie">';
+                    if (!mascotaEstaPerdida(value)) {
+                        html += '                <button type="button" class="btn-registrar-fallecimiento btn-reportar-perdida" data-id="'+value.id+'" onclick="return abrirMascotaPerdidaDe('+value.id+', event);"><i class="feather icon-alert-triangle"></i> Mascota perdida</button>';
+                    }
                     html += '                <button type="button" class="btn-registrar-fallecimiento" data-id="'+value.id+'" onclick="return abrirModalFallecimientoMascota('+value.id+', event);"><i class="feather icon-cloud"></i> Registrar fallecimiento</button>';
                     html += '            </div>';
                 }
@@ -3834,6 +3842,24 @@
                 $lista.removeClass('d-none');
             });
         }
+        // Abre el aviso de mascota perdida con la mascota de la tarjeta ya elegida
+        function abrirMascotaPerdidaDe(idMascota, event)
+        {
+            if (event && typeof event.preventDefault === 'function') {
+                event.preventDefault();
+            }
+
+            abrirModalMascotaPerdida();
+
+            // Si no hay mascotas activas el aviso ya mostró su mensaje y no hay nada que elegir
+            if ($('#perdida_mascota_id option').length <= 1) {
+                return false;
+            }
+
+            $('#perdida_mascota_id').val(String(idMascota)).trigger('change');
+            return false;
+        }
+
         function abrirModalSeleccionDefuncion(event)
         {
             if (event && typeof event.preventDefault === 'function') {

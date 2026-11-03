@@ -174,6 +174,13 @@
     <!-- TEMPLATE BUSCADOR DE PROFESIONAL -->
     <script>
 
+        /*-Cierre de modales-*/
+        // Esta plantilla carga Bootstrap 5 (que solo entiende data-bs-dismiss) y los modales del
+        // sistema usan data-dismiss de Bootstrap 4; sin este puente el botón X no cerraba nada.
+        $(document).on('click', '[data-dismiss="modal"]', function () {
+            $(this).closest('.modal').modal('hide');
+        });
+
         /*-Buscador profesional-*/
         /*-Ficha profesional-*/
         function f_profesional (id_profesional)

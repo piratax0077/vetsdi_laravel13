@@ -83,9 +83,10 @@
     $detalleProximoControl = $esFichaVeterinaria
         ? (data_get($mascota, 'especieMascota.nombre') ?: data_get($mascota, 'otra_especie', ''))
         : '';
-    $fotoProximoControl = $esFichaVeterinaria
-        ? (data_get($mascota, 'foto_url') ?: asset('images/iconos/mascotas.svg'))
+    $fotoBaseProximoControl = $esFichaVeterinaria
+        ? asset('images/iconos/mascotas.svg')
         : asset('images/iconos/usuario_profesional.svg');
+    $fotoProximoControl = ($esFichaVeterinaria ? data_get($mascota, 'foto_url') : null) ?: $fotoBaseProximoControl;
     $profesionalProximoControl = trim(data_get($profesional ?? null, 'nombre', '').' '.data_get($profesional ?? null, 'apellido_uno', ''))
         ?: (optional(Auth::user())->name ?: '-');
 @endphp
@@ -108,7 +109,7 @@
 
                 <!--A quién se le agenda el control, queda arriba en todos los pasos-->
                 <div class="reserva-vet-profesional">
-                    <img class="reserva-vet-profesional-icono" src="{{ $fotoProximoControl }}" alt="">
+                    <img class="reserva-vet-profesional-icono" src="{{ $fotoProximoControl }}" alt="" onerror="this.onerror=null;this.src='{{ $fotoBaseProximoControl }}';">
                     <div class="reserva-vet-profesional-datos">
                         <span class="reserva-vet-profesional-etiqueta">Próximo control de</span>
                         <span class="reserva-vet-profesional-nombre">{{ $nombreProximoControl }}</span>

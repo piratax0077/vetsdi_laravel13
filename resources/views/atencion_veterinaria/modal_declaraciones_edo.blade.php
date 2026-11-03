@@ -16,44 +16,23 @@
 @endphp
 
 <style>
-    #modal_enfermedades_denuncia_obligatoria .modal-dialog { height: calc(100vh - 1rem); margin-top: .5rem; margin-bottom: .5rem; }
-    #modal_enfermedades_denuncia_obligatoria .modal-content {
-        border: 0;
-        border-radius: 14px;
-        overflow: hidden;
-        max-height: 100%;
-    }
-    #modal_enfermedades_denuncia_obligatoria #edo_form_veterinario {
-        display: flex;
-        flex: 1 1 auto;
-        flex-direction: column;
-        min-height: 0;
-        overflow: hidden;
-    }
-    #modal_enfermedades_denuncia_obligatoria .modal-body {
-        flex: 1 1 auto;
-        min-height: 0;
-        overflow-y: auto;
-        padding-bottom: 20px;
-    }
-    #modal_enfermedades_denuncia_obligatoria .modal-footer {
-        position: relative;
-        z-index: 3;
-        flex: 0 0 auto;
-        justify-content: flex-end;
-        gap: 8px;
-        background: #fff;
-        border-top: 1px solid #dde4ea;
-        box-shadow: 0 -5px 16px rgba(31, 41, 55, .08);
-    }
-    #modal_enfermedades_denuncia_obligatoria .modal-footer .btn { margin: 0; }
+    #modal_enfermedades_denuncia_obligatoria .modal-content { border: 0; border-radius: 14px; overflow: hidden; }
     #modal_enfermedades_denuncia_obligatoria .modal-header { background: linear-gradient(135deg, #a61b1b, #dc3545); color: #fff; border: 0; }
-    #modal_enfermedades_denuncia_obligatoria .edo-section { border: 1px solid #dde4ea; border-radius: 10px; margin-bottom: 14px; overflow: hidden; }
-    #modal_enfermedades_denuncia_obligatoria .edo-section-title { padding: 10px 14px; background: #f3f6f8; color: #344054; font-weight: 700; }
-    #modal_enfermedades_denuncia_obligatoria .edo-section-body { padding: 14px; }
-    #modal_enfermedades_denuncia_obligatoria .edo-firma-sdi { min-height: 175px; border: 1px solid #d0d5dd; border-radius: 8px; background: #fff; display: flex; align-items: center; justify-content: center; }
+    #modal_enfermedades_denuncia_obligatoria .modal-body { background: #f7f8fb; padding: 20px 22px 8px; }
+    #modal_enfermedades_denuncia_obligatoria .modal-footer { gap: 8px; }
+    #modal_enfermedades_denuncia_obligatoria .modal-footer .btn { margin: 0; }
+    #modal_enfermedades_denuncia_obligatoria .edo-aviso { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding: 10px 14px; color: #8a5a00; font-size: 13px; font-weight: 600; background: #fff7e6; border: 1px solid #f6dfa8; border-radius: 10px; }
+    #modal_enfermedades_denuncia_obligatoria .edo-aviso i { flex-shrink: 0; font-size: 18px; }
+    #modal_enfermedades_denuncia_obligatoria .edo-section { margin-bottom: 16px; background: #fff; border: 1px solid #e6eaef; border-radius: 12px; box-shadow: 0 2px 8px rgba(38, 59, 80, .05); }
+    #modal_enfermedades_denuncia_obligatoria .edo-section-title { display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: #272727; font-size: 15px; font-weight: 800; border-bottom: 1px solid #eef1f4; }
+    #modal_enfermedades_denuncia_obligatoria .edo-section-numero { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 26px; height: 26px; color: #fff; font-size: 13px; font-weight: 800; background: #dc3545; border-radius: 8px; }
+    #modal_enfermedades_denuncia_obligatoria .edo-section-body { padding: 22px 16px 6px; }
+    #modal_enfermedades_denuncia_obligatoria .form-group { margin-bottom: 1.3rem; }
+    #modal_enfermedades_denuncia_obligatoria input[type="file"].form-control { padding-top: 3px; }
+    #modal_enfermedades_denuncia_obligatoria .edo-firma-sdi { min-height: 175px; margin-bottom: 16px; background: #fff; border: 1px dashed #cfd6de; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
     #edo_firma_qr svg { width: 125px; height: 125px; }
     @media (max-width: 767.98px) {
+        #modal_enfermedades_denuncia_obligatoria .modal-body { padding: 16px 14px 4px; }
         #modal_enfermedades_denuncia_obligatoria .modal-footer {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -67,7 +46,7 @@
 
 <div id="modal_enfermedades_denuncia_obligatoria" class="modal fade" tabindex="-1" role="dialog"
     aria-labelledby="modal_edo_titulo" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
                 <div>
@@ -83,122 +62,155 @@
 
             <form id="edo_form_veterinario" novalidate>
                 <div class="modal-body">
-                    <div class="alert alert-warning py-2">
-                        Este registro apoya la denuncia, pero no reemplaza su envío oficial al SAG.
+                    <div class="edo-aviso">
+                        <i class="feather icon-info"></i>
+                        <span>Este registro apoya la denuncia, pero no reemplaza su envío oficial al SAG.</span>
                     </div>
 
                     <section class="edo-section">
-                        <div class="edo-section-title">1. Datos del denunciante</div>
+                        <div class="edo-section-title"><span class="edo-section-numero">1</span> Datos del denunciante</div>
                         <div class="edo-section-body">
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <label>Nombre completo *</label>
-                                    <input class="form-control" id="edo_nombre" value="{{ $edoNombreInicial }}" readonly required>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Nombre completo *</label>
+                                        <input class="form-control form-control-sm" id="edo_nombre" value="{{ $edoNombreInicial }}" readonly required>
+                                    </div>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label>RUT *</label>
-                                    <input class="form-control" id="edo_rut" value="{{ $edoRutInicial }}" placeholder="12345678-9" readonly required>
+                                <div class="col-md-3">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">RUT *</label>
+                                        <input class="form-control form-control-sm" id="edo_rut" value="{{ $edoRutInicial }}" placeholder="12345678-9" readonly required>
+                                    </div>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label>Calidad *</label>
-                                    <select class="form-control" id="edo_calidad" required>
-                                        <option value="Médico Veterinario">Médico Veterinario</option>
-                                        <option value="Propietario o tenedor">Propietario o tenedor</option>
-                                        <option value="Otro denunciante">Otro denunciante</option>
-                                    </select>
+                                <div class="col-md-3">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Calidad *</label>
+                                        <select class="form-control form-control-sm" id="edo_calidad" required>
+                                            <option value="Médico Veterinario">Médico Veterinario</option>
+                                            <option value="Propietario o tenedor">Propietario o tenedor</option>
+                                            <option value="Otro denunciante">Otro denunciante</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </section>
 
                     <section class="edo-section">
-                        <div class="edo-section-title">2. Ubicación del foco</div>
+                        <div class="edo-section-title"><span class="edo-section-numero">2</span> Ubicación del foco</div>
                         <div class="edo-section-body">
-                            <div class="row">
-                                <div class="col-md-4 form-group">
-                                    <label>Región *</label>
-                                    <input class="form-control" id="edo_region" value="{{ $edoRegionInicial->nombre ?? '' }}" required>
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Región *</label>
+                                        <input class="form-control form-control-sm" id="edo_region" value="{{ $edoRegionInicial->nombre ?? '' }}" required>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 form-group">
-                                    <label>Comuna *</label>
-                                    <input class="form-control" id="edo_comuna" value="{{ $edoComunaInicial->nombre ?? '' }}" required>
+                                <div class="col-md-4">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Comuna *</label>
+                                        <input class="form-control form-control-sm" id="edo_comuna" value="{{ $edoComunaInicial->nombre ?? '' }}" required>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 form-group">
-                                    <label>Dirección, predio o establecimiento *</label>
-                                    <input class="form-control" id="edo_direccion" value="{{ $edoDireccionTextoInicial }}" required>
+                                <div class="col-md-4">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Dirección, predio o establecimiento *</label>
+                                        <input class="form-control form-control-sm" id="edo_direccion" value="{{ $edoDireccionTextoInicial }}" required>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </section>
 
                     <section class="edo-section">
-                        <div class="edo-section-title">3. Animal y detalles de la sospecha</div>
+                        <div class="edo-section-title"><span class="edo-section-numero">3</span> Animal y detalles de la sospecha</div>
                         <div class="edo-section-body">
-                            <div class="row">
-                                <div class="col-md-3 form-group">
-                                    <label>Identificación del animal</label>
-                                    <input class="form-control" id="edo_animal">
+                            <div class="form-row">
+                                <div class="col-md-3">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Identificación del animal</label>
+                                        <input class="form-control form-control-sm" id="edo_animal">
+                                    </div>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label>Especie *</label>
-                                    <select class="form-control" id="edo_especie" required>
-                                        <option value="">Seleccione</option>
-                                        <option>Canino</option><option>Felino</option><option>Bovino</option>
-                                        <option>Ovino / Caprino</option><option>Porcino</option><option>Equino</option>
-                                        <option>Ave</option><option>Abeja</option><option>Otra</option>
-                                    </select>
+                                <div class="col-md-3">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Especie *</label>
+                                        <select class="form-control form-control-sm" id="edo_especie" required>
+                                            <option value="">Seleccione</option>
+                                            <option>Canino</option><option>Felino</option><option>Bovino</option>
+                                            <option>Ovino / Caprino</option><option>Porcino</option><option>Equino</option>
+                                            <option>Ave</option><option>Abeja</option><option>Otra</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label>Enfermedad sospechada *</label>
-                                    <select class="form-control" id="edo_enfermedad" required>
-                                        <option value="">Seleccione</option>
-                                        <option>Rabia</option><option>Leishmaniosis</option><option>Dirofilariosis</option>
-                                        <option>Influenza aviar</option><option>Enfermedad de Newcastle</option>
-                                        <option>Fiebre aftosa</option><option>Tuberculosis bovina</option>
-                                        <option>Brucelosis bovina</option><option>Peste porcina africana</option>
-                                        <option>Peste porcina clásica</option><option>Loque americana / europea</option>
-                                        <option>Otra EDO</option>
-                                    </select>
+                                <div class="col-md-3">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Enfermedad sospechada *</label>
+                                        <select class="form-control form-control-sm" id="edo_enfermedad" required>
+                                            <option value="">Seleccione</option>
+                                            <option>Rabia</option><option>Leishmaniosis</option><option>Dirofilariosis</option>
+                                            <option>Influenza aviar</option><option>Enfermedad de Newcastle</option>
+                                            <option>Fiebre aftosa</option><option>Tuberculosis bovina</option>
+                                            <option>Brucelosis bovina</option><option>Peste porcina africana</option>
+                                            <option>Peste porcina clásica</option><option>Loque americana / europea</option>
+                                            <option>Otra EDO</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label>Fecha de sospecha *</label>
-                                    <input type="date" class="form-control" id="edo_fecha" value="{{ date('Y-m-d') }}" required>
+                                <div class="col-md-3">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Fecha de sospecha *</label>
+                                        <input type="date" class="form-control form-control-sm" id="edo_fecha" value="{{ date('Y-m-d') }}" required>
+                                    </div>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label>Animales enfermos *</label>
-                                    <input type="number" min="0" class="form-control" id="edo_enfermos" value="1" required>
+                                <div class="col-md-3">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Animales enfermos *</label>
+                                        <input type="number" min="0" class="form-control form-control-sm" id="edo_enfermos" value="1" required>
+                                    </div>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label>Animales muertos *</label>
-                                    <input type="number" min="0" class="form-control" id="edo_muertos" value="0" required>
+                                <div class="col-md-3">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Animales muertos *</label>
+                                        <input type="number" min="0" class="form-control form-control-sm" id="edo_muertos" value="0" required>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Adjuntar evidencia (imágenes o PDF)</label>
-                                    <input type="file" class="form-control-file" id="edo_evidencia" multiple accept="image/*,.pdf">
+                                <div class="col-md-6">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Adjuntar evidencia (imágenes o PDF)</label>
+                                        <input type="file" class="form-control form-control-sm" id="edo_evidencia" multiple accept="image/*,.pdf">
+                                    </div>
                                 </div>
-                                <div class="col-12 form-group">
-                                    <label>Signos clínicos y antecedentes epidemiológicos *</label>
-                                    <textarea class="form-control caja-texto form-control-sm" id="edo_sintomas" required rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
+                                <div class="col-12">
+                                    <div class="form-group fill">
+                                        <label class="floating-label-activo-sm">Signos clínicos y antecedentes epidemiológicos *</label>
+                                        <textarea class="form-control caja-texto form-control-sm" id="edo_sintomas" required rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </section>
 
                     <section class="edo-section">
-                        <div class="edo-section-title">4. Firma Digital Avanzada SDI</div>
+                        <div class="edo-section-title"><span class="edo-section-numero">4</span> Firma Digital Avanzada SDI</div>
                         <div class="edo-section-body">
-                            <div class="edo-firma-sdi">
-                                <div class="text-center" id="edo_firma_cargando">
-                                    <i class="fa fa-spinner fa-spin text-info"></i> Generando firma del veterinario conectado...
-                                </div>
-                                <div class="text-center d-none" id="edo_firma_contenido">
-                                    <div id="edo_firma_qr"></div>
-                                    <strong>Firma Digital Avanzada SDI</strong>
-                                    <div id="edo_firma_profesional"></div>
+                            <div class="form-row">
+                                <div class="col-12">
+                                    <div class="edo-firma-sdi">
+                                        <div class="text-center" id="edo_firma_cargando">
+                                            <i class="fa fa-spinner fa-spin text-info"></i> Generando firma del veterinario conectado...
+                                        </div>
+                                        <div class="text-center d-none" id="edo_firma_contenido">
+                                            <div id="edo_firma_qr"></div>
+                                            <strong>Firma Digital Avanzada SDI</strong>
+                                            <div id="edo_firma_profesional"></div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="edo_firma_token">
+                                    <small class="text-danger d-none" id="edo_error_firma">No se pudo generar la firma digital del profesional.</small>
                                 </div>
                             </div>
-                            <input type="hidden" id="edo_firma_token">
-                            <small class="text-danger d-none" id="edo_error_firma">No se pudo generar la firma digital del profesional.</small>
                         </div>
                     </section>
                 </div>

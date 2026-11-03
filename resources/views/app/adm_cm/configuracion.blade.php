@@ -7151,16 +7151,17 @@
                 console.log(data);
                 if (data != null) {
                     $('#editar_numero_box').val(data.box.numero_box);
-                    $('#editar_tpo_box_servicio').val(data.box.tipo_box);
-                    if (data.box.tipo_box == 'Especializado') {
-                        $('#editar_contenedor_tpo_especializacion').removeClass('d-none');
+                    // Si el tipo guardado no está en la lista se muestra como "Otro"
+                    var tipo_guardado = data.box.tipo_especializacion || data.box.tipo_box || '';
+                    $('#editar_tpo_especializacion').val(tipo_guardado);
+                    if ($('#editar_tpo_especializacion').val() === null) {
+                        $('#editar_tpo_especializacion').val(tipo_guardado ? 'Otro' : '0');
+                        $('#editar_tpo_especializacion_otro').val(tipo_guardado);
                     } else {
-                        $('#editar_contenedor_tpo_especializacion').addClass('d-none');
+                        $('#editar_tpo_especializacion_otro').val('');
                     }
-                    $('#editar_tpo_especializacion').val(data.box.tipo_especializacion);
+                    $('#editar_contenedor_tpo_especializacion_otro').toggleClass('d-none', $('#editar_tpo_especializacion').val() !== 'Otro');
                     $('#editar_tpo_equip_servicio').val(data.box.ubicacion);
-                    $('#editar_seccion_box').val(data.box.seccion);
-                    $('#editar_ot_pat_act_').val(data.box.observaciones);
                 } else {
                     swal({
                         title: "Error",
@@ -7179,32 +7180,36 @@
     function editar_box() {
         var id_box = $('#id_box').val();
         var numero_box = $('#editar_numero_box').val();
-        var tpo_box_servicio = $('#editar_tpo_box_servicio').val();
-        var tpo_especializacion = $('#editar_tpo_especializacion').val();
+        var tipo_elegido = $('#editar_tpo_especializacion').val();
+        var tipo_otro = $('#editar_tpo_especializacion_otro').val().trim();
+        // Si eligió "Otro" se guarda el texto que escribió como tipo
+        var tpo_especializacion = tipo_elegido === 'Otro' ? tipo_otro : tipo_elegido;
+        var tpo_box_servicio = 'Especializado';
         var tpo_equip_servicio = $('#editar_tpo_equip_servicio').val();
-        var seccion_box = $('#editar_seccion_box').val();
-        var ot_pat_act_ = $('#editar_ot_pat_act_').val();
+        // El modal ya no pide sección, pero la tabla la exige: va un valor fijo
+        var seccion_box = '1';
+        var ot_pat_act_ = '';
         var id_institucion = $('#id_institucion').val();
         var id_lugar_atencion = $('#add_empleado_id_lugar_atencion').val();
 
         let valido = 1;
         let mensaje = '';
         // validar campos
-        if (numero_box == '') {
+        if (numero_box.trim() == '') {
             valido = 0;
-            mensaje += '<li>Campo requerido Número</li>';
+            mensaje += '<li>Campo requerido Nombre</li>';
         }
-        if (tpo_box_servicio == '' || tpo_box_servicio == 0) {
+        if (tipo_elegido == null || tipo_elegido == '0') {
             valido = 0;
             mensaje += '<li>Campo requerido Tipo</li>';
         }
-        if (tpo_equip_servicio == '' || tpo_equip_servicio == 0) {
+        if (tipo_elegido === 'Otro' && tipo_otro == '') {
+            valido = 0;
+            mensaje += '<li>Debe especificar el tipo</li>';
+        }
+        if (tpo_equip_servicio == null || tpo_equip_servicio == 0) {
             valido = 0;
             mensaje += '<li>Campo requerido Ubicación</li>';
-        }
-        if (seccion_box == '' || seccion_box == 0) {
-            valido = 0;
-            mensaje += '<li>Campo requerido Sección</li>';
         }
 
         if (valido == 1) {

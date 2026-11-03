@@ -14,25 +14,25 @@
         <div class="row m-b-30">
             <div class="col-md-12">
                 <div class="card-deck">
-                    <div class="card subir py-5">
+                    <div class="card subir tarjeta-documento">
                         <a href="{{ ROUTE('paciente.dependiente.receta.receta', ['id_dependiente_activo' => $id_dependiente_activo]) }}">
-                            <div class="card-body text-center" style="cursor:pointer">
-                                <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/recetas-ro.svg') }}"
-                                    alt="Mis Recetas">
-                                <h4 class="titulos_tarjetas">
-                                    Recetas
-                                </h4>
+                            <div class="card-body tarjeta-documento__cuerpo">
+                                <span class="tarjeta-documento__icono">
+                                    <img src="{{ asset('images/iconos/recetas-ro.svg') }}" alt="Mis Recetas">
+                                </span>
+                                <h4 class="tarjeta-documento__titulo">Recetas</h4>
+                                <i class="feather icon-chevron-right tarjeta-documento__flecha" aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
-                    <div class="card subir py-5">
+                    <div class="card subir tarjeta-documento">
                         <a href="{{ ROUTE('paciente.dependiente.receta.examen', ['id_dependiente_activo' => $id_dependiente_activo]) }}">
-                            <div class="card-body text-center" style="cursor:pointer">
-                                <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/examenes-ro.svg') }}"
-                                    alt="Mis Exámenes">
-                                <h4 class="titulos_tarjetas">
-                                    Exámenes
-                                </h4>
+                            <div class="card-body tarjeta-documento__cuerpo">
+                                <span class="tarjeta-documento__icono">
+                                    <img src="{{ asset('images/iconos/examenes-ro.svg') }}" alt="Mis Exámenes">
+                                </span>
+                                <h4 class="tarjeta-documento__titulo">Exámenes</h4>
+                                <i class="feather icon-chevron-right tarjeta-documento__flecha" aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
@@ -44,25 +44,25 @@
         <div class="row m-b-10">
             <div class="col-md-12">
                 <div class="card-deck">
-                    <div class="card subir py-5">
-                        <a href="{{ ROUTE('paciente.dependiente.receta.certificado',['id_dependiente_activo' => $id_dependiente_activo]) }}">
-                            <div class="card-body text-center" style="cursor:pointer">
-                                <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/documentos-ro.svg') }}"
-                                    alt="Mis Certificados">
-                                <h4 class="titulos_tarjetas">
-                                    Consentimientos informados
-                                </h4>
+                    <div class="card subir tarjeta-documento">
+                        <a href="{{ ROUTE('paciente.dependiente.receta.certificado', ['id_dependiente_activo' => $id_dependiente_activo]) }}">
+                            <div class="card-body tarjeta-documento__cuerpo">
+                                <span class="tarjeta-documento__icono">
+                                    <img src="{{ asset('images/iconos/documentos-ro.svg') }}" alt="Mis Consentimientos">
+                                </span>
+                                <h4 class="tarjeta-documento__titulo">Consentimientos informados</h4>
+                                <i class="feather icon-chevron-right tarjeta-documento__flecha" aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
-                    <div class="card subir py-5">
-                        <a href="{{ ROUTE('paciente.dependiente.receta.licencia',['id_dependiente_activo' => $id_dependiente_activo]) }}">
-                            <div class="card-body text-center" style="cursor:pointer">
-                                <img class="wid-100 text-center mb-3" src="{{ asset('images/iconos/certificados-ro.svg') }}"
-                                    alt="Mis Licencias">
-                                <h4 class="titulos_tarjetas">
-                                    Certificados
-                                </h4>
+                    <div class="card subir tarjeta-documento">
+                        <a href="{{ ROUTE('paciente.dependiente.receta.licencia', ['id_dependiente_activo' => $id_dependiente_activo]) }}">
+                            <div class="card-body tarjeta-documento__cuerpo">
+                                <span class="tarjeta-documento__icono">
+                                    <img src="{{ asset('images/iconos/certificados-ro.svg') }}" alt="Mis Documentos">
+                                </span>
+                                <h4 class="tarjeta-documento__titulo">Documentos</h4>
+                                <i class="feather icon-chevron-right tarjeta-documento__flecha" aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
