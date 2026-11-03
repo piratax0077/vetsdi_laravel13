@@ -8,7 +8,7 @@
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <div class="page-header-title">
-                                <h5 class="m-b-10 font-weight-bold">Liquidaciones a Profesionales</h5>
+                                <h5 class="m-b-10 font-weight-bold">Liquidaciones a profesionales veterinarios</h5>
                             </div>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ROUTE('adm_cm.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio"><i class="feather  icon-home"></i></a></li>
@@ -26,13 +26,13 @@
                         <div class="card-body">
                             <ul class="nav nav-pills bg-white" id="personal_cm" role="tablist">
                                 <li class="nav-item">
-                                    <a class="btn btn-outline-info active btn-sm mr-1 my-1" id="prof_salud-tab" data-toggle="tab" href="#prof-salud" role="tab" aria-controls="prof_-alud" aria-selected="false">Médicos</a>
+                                    <a class="btn btn-outline-info active btn-sm mr-1 my-1" id="prof_salud-tab" data-toggle="tab" href="#prof-salud" role="tab" aria-controls="prof_-alud" aria-selected="false">Médicos veterinarios</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="btn btn-outline-info btn-sm mr-1 my-1" id="odontologos-tab" data-toggle="tab" href="#odontologos" role="tab" aria-controls="odontologos" aria-selected="false">Odontólogos</a>
+                                    <a class="btn btn-outline-info btn-sm mr-1 my-1" id="odontologos-tab" data-toggle="tab" href="#odontologos" role="tab" aria-controls="odontologos" aria-selected="false">Odontología veterinaria</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="btn btn-outline-info btn-sm mr-1 my-1" id="otros_prof-tab" data-toggle="tab" href="#otros_prof" role="tab" aria-controls="otros_prof" aria-selected="false">Otros Profesionales de la salud</a>
+                                    <a class="btn btn-outline-info btn-sm mr-1 my-1" id="otros_prof-tab" data-toggle="tab" href="#otros_prof" role="tab" aria-controls="otros_prof" aria-selected="false">Otros profesionales veterinarios</a>
                                 </li>
                             </ul>
                         </div>
@@ -50,7 +50,7 @@
                                             <div class="col-md-12">
                                                 <div class="row">
 													<div class="col-md-6">
-                                                        <h4 class="text-white f-20 mt-2 mb-2 float-left">Liquidaciones profesionales médicos</h4>
+                                                        <h4 class="text-white f-20 mt-2 mb-2 float-left">Liquidaciones de médicos veterinarios</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -113,7 +113,7 @@
                                 <div class="col-sm-12">
                                     <div class="card">
                                         <div class="card-header bg-info">
-                                            <h4 class="text-white f-20 mt-2 mb-2">Liquidaciones profesionales odontólogos</h4>
+                                            <h4 class="text-white f-20 mt-2 mb-2">Liquidaciones de odontología veterinaria</h4>
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
@@ -181,7 +181,7 @@
                                             <div class="col-md-12">
                                                 <div class="row">
 													<div class="col-md-6">
-                                                        <h4 class="text-white f-20 mt-2 mb-2 float-left">Liquidaciones Otros Profesionales de la Salud</h4>
+                                                        <h4 class="text-white f-20 mt-2 mb-2 float-left">Liquidaciones de otros profesionales veterinarios</h4>
                                                     </div>
                                                 </div>
                                             </div>

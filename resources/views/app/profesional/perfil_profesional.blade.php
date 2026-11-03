@@ -75,7 +75,7 @@
                                             <div class="form-row">
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">RUT</label>
-                                                    <div id="ver_rut">{{ $profesional->rut }}</div>
+                                                    <div id="ver_rut">{{ rut_formatear($profesional->rut) ?? $profesional->rut }}</div>
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                     <label class="font-weight-bolder ml-0 mb-0">Nombres</label>
@@ -150,34 +150,34 @@
                                         </div>
                                         <!--Cierre: Datos Personales-->
                                         <!--(Editar)Datos Personales-->
-                                        <div class="card-body info_basica collapse" id="pinfo_basica_2">
+                                        <div class="card-body info_basica collapse" id="info_basica-2">
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">RUT</label>
+                                                        <label class="floating-label-activo-sm">RUT</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            value="{{ $profesional->rut }}" name="editar_rut" id="editar_rut">
+                                                            value="{{ rut_formatear($profesional->rut) ?? $profesional->rut }}" name="editar_rut" id="editar_rut">
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Nombres</label>
+                                                        <label class="floating-label-activo-sm">Nombres</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             value="{{ $profesional->nombre }}" name="editar_nombres"
                                                             id="editar_nombres">
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Primer Apellido</label>
+                                                        <label class="floating-label-activo-sm">Primer Apellido</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             value="{{ $profesional->apellido_uno }}"
                                                             name="editar_apellido_uno" id="editar_apellido_uno">
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Segundo Apellido</label>
+                                                        <label class="floating-label-activo-sm">Segundo Apellido</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             value="{{ $profesional->apellido_dos }}"
                                                             name="editar_apellido_dos" id="editar_apellido_dos">
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Sexo</label>
+                                                        <label class="floating-label-activo-sm">Sexo</label>
                                                         <select class="form-control form-control-sm" id="editar_sexo"
                                                             name="editar_sexo">
                                                             <option value="">Seleccione</option>
@@ -192,7 +192,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Profesión</label>
+                                                        <label class="floating-label-activo-sm">Profesión</label>
                                                         <select class="form-control form-control-sm" id="id_especialidad"
                                                             name="id_especialidad"
                                                             onchange="carga_tipo_especialidad('id_especialidad', 'id_tipo_especialidad', '');">
@@ -211,7 +211,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Especialidad</label>
+                                                        <label class="floating-label-activo-sm">Especialidad</label>
                                                         <select class="form-control form-control-sm"
                                                             id="id_tipo_especialidad" name="id_tipo_especialidad"
                                                             onchange="carga_sub_tipo_especialidad('id_tipo_especialidad', 'id_sub_tipo_especialidad', '');">
@@ -230,7 +230,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Subespecialidad</label>
+                                                        <label class="floating-label-activo-sm">Subespecialidad</label>
                                                         <select class="form-control form-control-sm"
                                                             id="id_sub_tipo_especialidad" name="id_sub_tipo_especialidad">
                                                             <option value="">Seleccione</option>
@@ -248,13 +248,13 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Número de colegio</label>
+                                                        <label class="floating-label-activo-sm">Número de colegio</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             id="num_colegio" name="num_colegio"
                                                             value="{{ $profesional->num_colegio }}">
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Tipo de atención</label>
+                                                        <label class="floating-label-activo-sm">Tipo de atención</label>
                                                         <select class="form-control form-control-sm"
                                                             id="id_tipo_atencion">
                                                             <option value="1" @selected(empty($profesional->id_tipo_atencion) || (int) $profesional->id_tipo_atencion === 1)>
@@ -275,7 +275,7 @@
                                                 <div class="form-row">
                                                     <label class="col-sm-12 col-form-label"></label>
                                                     <div class="col-sm-12 d-flex justify-content-end">
-                                                        <button type="button" class="btn btn-outline-dark btn-sm mr-2"><i
+                                                        <button type="button" onclick="cancelar_edicion_perfil('personales')" class="btn btn-outline-dark btn-sm mr-2"><i
                                                                 class="feather icon-x"></i> Cancelar</button>
                                                         <button type="button"
                                                             onclick="editar_profesional_datos_personales({{ $profesional->id }});"
@@ -323,13 +323,13 @@
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Correo electrónico</label>
+                                                        <label class="floating-label-activo-sm">Correo electrónico</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             value="{{ $profesional->email }}" id="editar_email"
                                                             name="editar_email">
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Teléfono</label>
+                                                        <label class="floating-label-activo-sm">Teléfono</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             value="{{ $profesional->telefono_uno }}"
                                                             name="editar_telefono_uno" id="editar_telefono_uno">
@@ -338,7 +338,7 @@
                                                 <div class="form-row">
                                                     <div
                                                         class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-end">
-                                                        <button type="button" class="btn btn-outline-dark btn-sm mr-2"><i
+                                                        <button type="button" onclick="cancelar_edicion_perfil('contacto')" class="btn btn-outline-dark btn-sm mr-2"><i
                                                                 class="feather icon-x"></i> Cancelar</button>
                                                         <button type="button"
                                                             onclick="editar_datos_contacto_profesional();"
@@ -392,7 +392,7 @@
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Región</label>
+                                                        <label class="floating-label-activo-sm">Región</label>
                                                         <select class="form-control form-control-sm"
                                                             onchange="buscar_ciudad_perfil();" id="perfil_region"
                                                             name="perfil_region">
@@ -408,7 +408,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="floating-label-activo">Ciudad
+                                                        <label class="floating-label-activo-sm">Ciudad
                                                             {{ $direccion_id_ciudad_profesional }}</label>
                                                         <select class="form-control form-control-sm" id="perfil_ciudad"
                                                             name="perfil_ciudad">
@@ -425,13 +425,13 @@
                                                     </div>
                                                     {{-- Calle y número van juntos en un solo campo --}}
                                                     <div class="form-group col-12">
-                                                        <label class="floating-label-activo">Dirección</label>
+                                                        <label class="floating-label-activo-sm">Dirección</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             placeholder="Dirección" name="perfil_dire" id="perfil_dire"
                                                             value="{{ $profesional->Direccion()->first()?->direccion }}">
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                                                        <label class="floating-label-activo">Nº</label>
+                                                        <label class="floating-label-activo-sm">Nº</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             placeholder="n&uacute;mero #" name="perfil_numero_dir"
                                                             id="perfil_numero_dir"
@@ -441,7 +441,7 @@
                                                 <div class="form-row">
                                                     <div
                                                         class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-end">
-                                                        <button type="button" class="btn btn-sm btn-outline-dark mr-2"><i
+                                                        <button type="button" onclick="cancelar_edicion_perfil('direccion')" class="btn btn-sm btn-outline-dark mr-2"><i
                                                                 class="feather icon-x"></i> Cancelar</button>
                                                         <button type="button" class="btn btn-sm btn-info"
                                                             onclick="editar_datos_residencia_profesional()"><i
@@ -703,13 +703,6 @@
                     });
                     return;
                 }
-                
-                // Mostrar preview
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profile-image').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
                 
                 // Enviar al servidor
                 subir_foto_perfil(file);

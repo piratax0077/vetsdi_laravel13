@@ -53,7 +53,7 @@
                                         <td class="align-middle text-center">{{ $value_br->fecha_atencion }}</td>
                                         <td class="align-middle text-center">
                                             <span>{{ $value_br->Paciente()->first()->nombres }} {{ $value_br->Paciente()->first()->apellido_uno }} {{ $value_br->Paciente()->first()->apellido_dos }}</span><br>
-                                            <span>{{ $value_br->Paciente()->first()->rut }}</span>
+                                            <span>{{ rut_formatear($value_br->Paciente()->first()->rut) ?? ($value_br->Paciente()->first()->rut) }}</span>
                                         </td>
                                         <td class="align-middle text-center">${{ number_format($value_br->valor_atencion, 2, ",", ".") }}</td>
                                         <td class="align-middle text-center">{{ $value_br->estado_consulta }}</td>
@@ -62,7 +62,7 @@
                                                 <div class="switch switch-success d-inline m-r-10">
                                                     <input type="checkbox" id="rendir_caja_programa_{{ $value_br->id }}">
                                                     <label for="rendir_caja_{{ $value_br->id }}"
-                                                        class="cr"></label>
+                                                        class="floating-label-activo-sm cr"></label>
                                                 </div>
                                             </div>
                                         </td>

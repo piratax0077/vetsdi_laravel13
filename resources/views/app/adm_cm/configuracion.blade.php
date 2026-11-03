@@ -116,6 +116,9 @@
                                             data-toggle="tab" href="#bodegas_serv" role="tab"
                                             aria-controls="bodegas_serv" aria-selected="false">Bodegas</a>
                                     </li>
+                                    @if($puedeExportarPacientes ?? false)
+                                    <li class="nav-item"><a class="nav-link text-reset" id="descargar-datos-centro-tab" data-toggle="tab" href="#descargar-datos-centro" role="tab" aria-controls="descargar-datos-centro" aria-selected="false">Descargar datos</a></li>
+                                    @endif
                                     @if ($institucion->sucursales == 1)
                                         <li class="nav-item">
                                             <a class="nav-link text-reset" id="sucursales-tab"
@@ -133,6 +136,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="tab-content" id="myTabContent">
+                        @include('app.adm_cm.partials.descargar_datos_centro')
 
                         <!--PERFIL CENTRO MEDICO-->
                         <div class="tab-pane fade show active" id="p-cm" role="tabpanel"
@@ -154,20 +158,20 @@
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">RUT</label>
-                                                        <div id="ver_rut">{{ $institucion->rut }}</div>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">RUT</label>
+                                                        <div id="ver_rut">{{ rut_formatear($institucion->rut) ?? $institucion->rut }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Razón social</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Razón social</label>
                                                         <div id="ver_razon_social">{{ $institucion->razon_social }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Nombre fantasía</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Nombre fantasía</label>
                                                         <div id="ver_nombre">{{ $institucion->nombre }}</div>
                                                     </div>
                                                     @if ($tipo_establecimiento)
                                                         <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                            <label class="font-weight-bolder ml-0 mb-0">Tipo de institución</label>
+                                                            <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Tipo de institución</label>
                                                             <div id="ver_tipo_establecimiento">{{ \App\Services\OperacionVeterinaria::TIPOS[$tipo_establecimiento] ?? '' }}</div>
                                                         </div>
                                                     @endif
@@ -183,7 +187,7 @@
                                                         <label class="floating-label-activo-sm">RUT</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             placeholder="RUT" id="editar_rut"
-                                                            value="{{ $institucion->rut }}">
+                                                            value="{{ rut_formatear($institucion->rut) ?? $institucion->rut }}">
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo-sm">Razón Social</label>
@@ -226,6 +230,7 @@
                                         <!--Cierre: (Editar)Datos Personales-->
                                     </div>
                                     <!--Cierre: Datos del centro médico-->
+                                    @include('app.adm_cm.partials.configuracion_establecimiento')
                                 </div>
                                 <div class="col-md-6">
                                     <!--Contacto-->
@@ -243,20 +248,20 @@
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Correo
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Correo
                                                             electrónico</label>
                                                         <div id="ver_email">{{ $institucion->email }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Teléfono</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Teléfono</label>
                                                         <div id="ver_telefono">{{ $institucion->telefono }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Whatsapp</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Whatsapp</label>
                                                         <div id="ver_whatsapp">{{ $institucion->whatsapp }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Sitio web</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Sitio web</label>
                                                         <div id="ver_sitio_web">{{ $institucion->sitio_web }}</div>
                                                     </div>
                                                 </div>
@@ -324,25 +329,25 @@
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-12">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Dirección</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Dirección</label>
                                                         <div>
                                                             {{ $institucionDireccion->direccion ?? '' }}
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-12 col-sm-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Comuna</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Comuna</label>
                                                         <div>
                                                             {{ $institucionCiudad->nombre ?? '' }}
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-12 col-sm-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Región</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Región</label>
                                                         <div>
                                                             {{ $institucionRegion->nombre ?? '' }}
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Sucursales</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Sucursales</label>
                                                         <div>
                                                             @if ($institucion->sucursales == 1)
                                                                 Si Registra Sucursales
@@ -396,7 +401,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="col-form-label font-weight-bolder">Sucursal</label>
+                                                        <label class="floating-label-activo-sm col-form-label font-weight-bolder">Sucursal</label>
                                                         <div class="form-group">
                                                             <div class="switch switch-success d-inline m-r-10">
                                                                 @if ($institucion->sucursales == 1)
@@ -405,8 +410,8 @@
                                                                 @else
                                                                     <input type="checkbox" id="editar_sucursal">
                                                                 @endif
-                                                                <label for="editar_sucursal" class="cr"></label>
-                                                                <label>SI</label>
+                                                                <label for="editar_sucursal" class="floating-label-activo-sm cr"></label>
+                                                                <label class="floating-label-activo-sm">SI</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -451,26 +456,26 @@
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">RUT</label>
-                                                        <div> {{ $responsable->rut }} </div>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">RUT</label>
+                                                        <div> {{ rut_formatear($responsable->rut) ?? $responsable->rut }} </div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Nombre</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Nombre</label>
                                                         <div> {{ $responsable->nombres }} </div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Primer
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Primer
                                                             Apellido</label>
                                                         <div> {{ $responsable->apellido_uno }}
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Segundo
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Segundo
                                                             Apellido</label>
                                                         <div> {{ $responsable->apellido_dos }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Sexo</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Sexo</label>
                                                         <div>
                                                             @if ($responsable->sexo == 'F')
                                                                 Mujer
@@ -480,7 +485,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Nacimiento</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Nacimiento</label>
                                                         <div>
                                                             {{ \Carbon\Carbon::parse($responsable->fecha_nac)->format('d-m-Y') }}
                                                         </div>
@@ -497,7 +502,7 @@
                                                         <label class="floating-label-activo-sm">RUT</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             id="perfil_rut" name="perfil_rut"
-                                                            value="{{ $responsable->rut }}" disabled>
+                                                            value="{{ rut_formatear($responsable->rut) ?? $responsable->rut }}" disabled>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo-sm">Nombre</label>
@@ -574,7 +579,7 @@
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Contraseña
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Contraseña
                                                             actual</label>
                                                         <div> •••••••• </div>
                                                     </div>
@@ -648,16 +653,16 @@
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Correo
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Correo
                                                             Electrónico</label>
                                                         <div> {{ $responsable->email }} </div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Celular</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Celular</label>
                                                         <div>{{ $responsable->telefono_uno }}</div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Teléfono</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Teléfono</label>
                                                         <div>{{ $responsable->telefono_dos }}</div>
                                                     </div>
                                                 </div>
@@ -718,19 +723,19 @@
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-12">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Dirección</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Dirección</label>
                                                         <div>
                                                             {{ $responsableDireccion->direccion ?? '' }}
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-12 col-sm-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Comuna</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Comuna</label>
                                                         <div>
                                                             {{ $responsableCiudad->nombre ?? '' }}
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-12 col-sm-6">
-                                                        <label class="font-weight-bolder ml-0 mb-0">Región</label>
+                                                        <label class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Región</label>
                                                         <div>
                                                             {{ $responsableRegion->nombre ?? '' }}
                                                         </div>
@@ -900,21 +905,21 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">RUT</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">RUT</label>
                                                                                 <div class="" id="rut_director_medico">
-                                                                                    {{ $director_cm->rut }} </div>
+                                                                                    {{ rut_formatear($director_cm->rut) ?? $director_cm->rut }} </div>
                                                                             </div>
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Nombre</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Nombre</label>
                                                                                 <div class="" id="nombre_director_medico">
                                                                                     {{ $director_cm->nombre }} </div>
                                                                             </div>
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Primer
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Primer
                                                                                     Apellido</label>
                                                                                 <div id="apellido_uno_director_medico"> {{ $director_cm->apellido_uno }}
                                                                                 </div>
@@ -922,7 +927,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Segundo
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Segundo
                                                                                     Apellido</label>
                                                                                 <div id="apellido_dos_director_medico"> {{ $director_cm->apellido_dos }}
                                                                                 </div>
@@ -930,7 +935,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Sexo</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Sexo</label>
                                                                                 <div id="sexo_director_medico">
                                                                                     @if ($director_cm->sexo == 'F')
                                                                                         Mujer
@@ -942,7 +947,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Nacimiento</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Nacimiento</label>
                                                                                 <div id="fecha_nacimiento_director_medico">
                                                                                     {{ \Carbon\Carbon::parse($director_cm->fecha_nacimiento)->format('d-m-Y') }}
                                                                                 </div>
@@ -958,20 +963,20 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Correo
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Correo
                                                                                     Electrónico</label>
                                                                                 <div id="email_director_medico"> {{ $director_cm->email }} </div>
                                                                             </div>
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Celular</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Celular</label>
                                                                                 <div id="telefono_uno_director_medico">{{ $director_cm->telefono_uno }}</div>
                                                                             </div>
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Teléfono</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Teléfono</label>
                                                                                 <div id="telefono_dos_director_medico">{{ $director_cm->telefono_dos }}</div>
                                                                             </div>
                                                                         </div>
@@ -986,21 +991,21 @@
                                                                             </div>
                                                                             <div class="form-group col-12">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Dirección</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Dirección</label>
                                                                                 <div id="direccion_director_medico">
                                                                                     {{ $directorCmDireccion->direccion ?? '' }}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group col-12 col-sm-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Comuna</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Comuna</label>
                                                                                 <div id="comuna_director_medico">
                                                                                     {{ $directorCmCiudad->nombre ?? '' }}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group col-12 col-sm-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Región</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Región</label>
                                                                                 <div id="region_director_medico">
                                                                                     {{ $directorCmRegion->nombre ?? '' }}
                                                                                 </div>
@@ -1016,7 +1021,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Contraseña
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Contraseña
                                                                                     actual</label>
                                                                                 <div> •••••••• </div>
                                                                             </div>
@@ -1048,7 +1053,7 @@
                                                                                     class="form-control form-control-sm"
                                                                                     id="perfil_rut_director_medico"
                                                                                     name="perfil_rut_director_medico"
-                                                                                    value="{{ $director_cm->rut }}"
+                                                                                    value="{{ rut_formatear($director_cm->rut) ?? $director_cm->rut }}"
                                                                                     disabled>
                                                                             </div>
                                                                             <div
@@ -1275,7 +1280,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label class="col-sm-12 col-form-label"></label>
+                                                                    <label class="floating-label-activo-sm col-sm-12 col-form-label"></label>
                                                                     <div class="col-sm-12 d-flex justify-content-end">
                                                                         <button type="button"
                                                                             class="btn btn-outline-dark btn-sm mr-2"><i
@@ -1335,21 +1340,21 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">RUT</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">RUT</label>
                                                                                 <div class="" id="rut_subdirector_cm">
-                                                                                    {{ $subdirector_cm->rut }} </div>
+                                                                                    {{ rut_formatear($subdirector_cm->rut) ?? $subdirector_cm->rut }} </div>
                                                                             </div>
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Nombre</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Nombre</label>
                                                                                 <div class="" id="nombre_subdirector_cm">
                                                                                     {{ $subdirector_cm->nombre }} </div>
                                                                             </div>
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Primer
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Primer
                                                                                     Apellido</label>
                                                                                 <div id="apellido_uno_subdirector_cm"> {{ $subdirector_cm->apellido_uno }}
                                                                                 </div>
@@ -1357,7 +1362,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Segundo
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Segundo
                                                                                     Apellido</label>
                                                                                 <div id="apellido_dos_subdirector_cm"> {{ $subdirector_cm->apellido_dos }}
                                                                                 </div>
@@ -1365,7 +1370,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Sexo</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Sexo</label>
                                                                                 <div id="sexo_subdirector_cm">
                                                                                     @if ($subdirector_cm->sexo == 'F')
                                                                                         Mujer
@@ -1377,7 +1382,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Nacimiento</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Nacimiento</label>
                                                                                 <div id="nacimiento_subdirector_cm">
                                                                                     {{ \Carbon\Carbon::parse($subdirector_cm->fecha_nacimiento)->format('d-m-Y') }}
                                                                                 </div>
@@ -1393,21 +1398,21 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Correo
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Correo
                                                                                     Electrónico</label>
                                                                                 <div id="email_subdirector_cm"> {{ $subdirector_cm->email }} </div>
                                                                             </div>
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Celular</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Celular</label>
                                                                                 <div id="telefono_uno_subdirector_cm">{{ $subdirector_cm->telefono_uno }}
                                                                                 </div>
                                                                             </div>
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Teléfono</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Teléfono</label>
                                                                                 <div id="telefono_dos_subdirector_cm">{{ $subdirector_cm->telefono_dos }}
                                                                                 </div>
                                                                             </div>
@@ -1423,21 +1428,21 @@
                                                                             </div>
                                                                             <div class="form-group col-12">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Dirección</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Dirección</label>
                                                                                 <div id="direccion_subdirector_cm">
                                                                                     {{ $subdirectorCmDireccion->direccion ?? '' }}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group col-12 col-sm-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Comuna</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Comuna</label>
                                                                                 <div id="comuna_subdirector_cm">
                                                                                     {{ $subdirectorCmCiudad->nombre ?? '' }}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group col-12 col-sm-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Región</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Región</label>
                                                                                 <div id="region_subdirector_cm">
                                                                                     {{ $subdirectorCmRegion->nombre ?? '' }}
                                                                                 </div>
@@ -1453,7 +1458,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Contraseña
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Contraseña
                                                                                     actual</label>
                                                                                 <div> •••••••• </div>
                                                                             </div>
@@ -1486,7 +1491,7 @@
                                                                                     class="form-control form-control-sm"
                                                                                     id="perfil_rut_subdirector_cm"
                                                                                     name="perfil_rut_subdirector_cm"
-                                                                                    value="{{ $subdirector_cm->rut }}"
+                                                                                    value="{{ rut_formatear($subdirector_cm->rut) ?? $subdirector_cm->rut }}"
                                                                                     disabled>
                                                                             </div>
                                                                             <div
@@ -1718,7 +1723,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label class="col-sm-12 col-form-label"></label>
+                                                                    <label class="floating-label-activo-sm col-sm-12 col-form-label"></label>
                                                                     <div class="col-sm-12 d-flex justify-content-end">
                                                                         <button type="button"
                                                                             class="btn btn-outline-dark btn-sm mr-2"><i
@@ -1779,15 +1784,15 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">RUT</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">RUT</label>
                                                                                 <div class="" id="rut_director_farmacia">
-                                                                                    {{ $director_gestion_cuidado->rut }}
+                                                                                    {{ rut_formatear($director_gestion_cuidado->rut) ?? $director_gestion_cuidado->rut }}
                                                                                 </div>
                                                                             </div>
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Nombre</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Nombre</label>
                                                                                 <div class="" id="nombre_director_farmacia">
                                                                                     {{ $director_gestion_cuidado->nombre }}
                                                                                 </div>
@@ -1795,7 +1800,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Primer
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Primer
                                                                                     Apellido</label>
                                                                                 <div id="apellido_uno_director_farmacia">
                                                                                     {{ $director_gestion_cuidado->apellido_uno }}
@@ -1804,7 +1809,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Segundo
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Segundo
                                                                                     Apellido</label>
                                                                                 <div id="apellido_dos_director_farmacia">
                                                                                     {{ $director_gestion_cuidado->apellido_dos }}
@@ -1813,7 +1818,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Sexo</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Sexo</label>
                                                                                 <div id="sexo_director_farmacia">
                                                                                     @if ($director_gestion_cuidado->sexo == 'F')
                                                                                         Mujer
@@ -1825,7 +1830,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Nacimiento</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Nacimiento</label>
                                                                                 <div id="nacimiento_director_farmacia">
                                                                                     {{ \Carbon\Carbon::parse($director_gestion_cuidado->fecha_nacimiento)->format('d-m-Y') }}
                                                                                 </div>
@@ -1841,7 +1846,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Correo Electrónico</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Correo Electrónico</label>
                                                                                 <div id="email_director_farmacia">
                                                                                     {{ $director_gestion_cuidado->email }}
                                                                                 </div>
@@ -1849,7 +1854,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Celular</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Celular</label>
                                                                                 <div id="telefono_uno_director_farmacia">
                                                                                     {{ $director_gestion_cuidado->telefono_uno }}
                                                                                 </div>
@@ -1857,7 +1862,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Teléfono</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Teléfono</label>
                                                                                 <div id="telefono_dos_director_farmacia">
                                                                                     {{ $director_gestion_cuidado->telefono_dos }}
                                                                                 </div>
@@ -1874,21 +1879,21 @@
                                                                             </div>
                                                                             <div class="form-group col-12">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Dirección</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Dirección</label>
                                                                                 <div id="direccion_director_farmacia">
                                                                                     {{ $directorGestionDireccion->direccion ?? '' }}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group col-12 col-sm-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Comuna</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Comuna</label>
                                                                                 <div id="comuna_director_farmacia">
                                                                                     {{ $directorGestionCiudad->nombre ?? '' }}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group col-12 col-sm-6">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Región</label>
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Región</label>
                                                                                 <div id="region_director_farmacia">
                                                                                     {{ $directorGestionRegion->nombre ?? '' }}
                                                                                 </div>
@@ -1904,7 +1909,7 @@
                                                                             <div
                                                                                 class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                                                 <label
-                                                                                    class="font-weight-bolder ml-0 mb-0">Contraseña
+                                                                                    class="floating-label-activo-sm font-weight-bolder ml-0 mb-0">Contraseña
                                                                                     actual</label>
                                                                                 <div> •••••••• </div>
                                                                             </div>
@@ -1935,7 +1940,7 @@
                                                                                     class="form-control form-control-sm"
                                                                                     id="perfil_rut_director_farmacia"
                                                                                     name="perfil_rut_director_farmacia"
-                                                                                    value="{{ $director_gestion_cuidado->rut }}"
+                                                                                    value="{{ rut_formatear($director_gestion_cuidado->rut) ?? $director_gestion_cuidado->rut }}"
                                                                                     disabled>
                                                                             </div>
                                                                             <div
@@ -2166,7 +2171,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label class="col-sm-12 col-form-label"></label>
+                                                                    <label class="floating-label-activo-sm col-sm-12 col-form-label"></label>
                                                                     <div class="col-sm-12 d-flex justify-content-end">
                                                                         <button type="button"
                                                                             class="btn btn-outline-dark btn-sm mr-2"><i
@@ -2243,7 +2248,7 @@
                                                                             {{ $per->nombres . ' ' . $per->apellido_uno . ' ' . $per->apellido_dos }}
                                                                         </td>
                                                                         <td class="text-wrap text-left align-middle">
-                                                                            {{ $per->rut }}</td>
+                                                                            {{ rut_formatear($per->rut) ?? $per->rut }}</td>
                                                                         @if ($per->AsistenteTipo)
                                                                             <td class="align-middle text-left">
                                                                                 <strong>{{ $per->AsistenteTipo->nombre }}</strong>
@@ -2297,6 +2302,9 @@
                                                 data-toggle="tab" href="#box" role="tab" aria-controls="box"
                                                 aria-selected="false">Boxes de atención</a>
                                         </li>
+                                        @if(($tipo_establecimiento ?? null) === 'hospital' || ($configuracion_establecimiento->hospitalizacion_habilitada ?? false))
+                                        <li class="nav-item-secciones-info"><a class="nav-secciones-info text-uppercase" id="hospitalizacion-config-tab" data-toggle="tab" href="#hospitalizacion-config" role="tab" aria-controls="hospitalizacion-config" aria-selected="false">Hospitalización</a></li>
+                                        @endif
                                         @if ($institucion->sala_espera)
                                             <li class="nav-item-secciones-info">
                                                 <a class="nav-secciones-info text-uppercase" id="sala_espera-tab"
@@ -2305,6 +2313,7 @@
                                                     Espera</a>
                                             </li>
                                         @endif
+                                        <li class="nav-item-secciones-info"><a class="nav-secciones-info text-uppercase" id="peluqueria-config-tab" data-toggle="tab" href="#peluqueria-config" role="tab" aria-controls="peluqueria-config" aria-selected="false">Peluquería y belleza</a></li>
                                         <li class="nav-item-secciones-info">
                                             <a class="nav-secciones-info  text-uppercase" id="area-i-tab"
                                                 data-toggle="tab" href="#area-i" role="tab"
@@ -2327,6 +2336,8 @@
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <div class="tab-content" id="agregar_inf_cm">
 
+                                        @include('app.adm_cm.partials.hospitalizacion_configuracion')
+                                        @include('app.adm_cm.partials.peluqueria_configuracion')
                                         {{-- BOXES --}}
                                         <div class="tab-pane fade show active" id="box" role="tabpanel"
                                             aria-labelledby="box-tab">
@@ -2890,7 +2901,7 @@
                                                                                     <tr>
                                                                                         <td
                                                                                             class="align-middle text-left">
-                                                                                            {{ $laboratorio->rut }}</td>
+                                                                                            {{ rut_formatear($laboratorio->rut) ?? $laboratorio->rut }}</td>
                                                                                         <td
                                                                                             class="align-middle text-left">
                                                                                             {{ $laboratorio->nombre }}
@@ -3499,7 +3510,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group fill">
                                     <!--Cargar áreas-->
-                                    <label class="floating-label">Servicio</label>
+                                    <label class="floating-label-activo-sm">Servicio</label>
                                     <div class="d-flex justify-content-between">
                                         <select class="form-control form-control-sm" id="servicio">
                                             <option value="0">Seleccione</option>
@@ -3520,7 +3531,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group fill">
                                     <!--Cargar áreas-->
-                                    <label class="floating-label">Responsable</label>
+                                    <label class="floating-label-activo-sm">Responsable</label>
                                     <select class="form-control form-control-sm" id="responsable_servicio">
                                         <option value="0">Seleccione</option>
                                         @if (isset($profesionales))
@@ -3977,7 +3988,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group fill">
                                     <!--Cargar especialidades-->
-                                    <label class="floating-label">Especialidad</label>
+                                    <label class="floating-label-activo-sm">Especialidad</label>
                                     <select class="form-control form-control-sm" id="especialidad_cm_otra"
                                         name="especialidad_cm_otra">
                                         @include('app.adm_cm.partials.opciones_especialidades')

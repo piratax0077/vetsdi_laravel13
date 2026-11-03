@@ -98,20 +98,20 @@
 										<div class="card-body info_basica collapse show" id="info_basica-1">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Rut</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_rut"></div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Nombre</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Nombre</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_nombre"></div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Dirección</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Dirección</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_direccion"></div>
 												</div>
 
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Profesión</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Profesión</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_profesion"></div>
 												</div>
 											</form>
@@ -121,25 +121,25 @@
 										<div class="card-body info_basica collapse" id="info_basica-2">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Rut</label>
 													<div class="col-sm-7">
 														<input type="text" class="form-control form-control-sm" placeholder="Rut" id="editar_rut_adm_centro" name="editar_rut_adm_centro"value=" ">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Nombre</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Nombre</label>
 													<div class="col-sm-7">
 														<input type="text" class="form-control form-control-sm" placeholder="Nombre" id="editar_nombre_adm_centro" name="editar_nombre_adm_centro" value="">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Dirección</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Dirección</label>
 													<div class="col-sm-7">
 														<input type="text" class="form-control form-control-sm" placeholder="Dirección" id="editar_direccion_adm_centro" name="editar_direccion_adm_centro" value="">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Profesión</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Profesión</label>
 													<div class="col-sm-7">
 														<input type="text" class="form-control form-control-sm" placeholder="Profesión" id="editar_prof_adm_centro" name="editar_prof_adm_centro" value="">
 													</div>
@@ -164,19 +164,19 @@
 										<div class="card-body info_contacto collapse show" id="info_contacto_1">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Correo Electrónico</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Correo Electrónico</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_email" name="ver_email">sdsad</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Teléfono</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Teléfono</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_telefono_uno" name="ver_telefono_uno">df</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder" >Región</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder" >Región</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_region"></div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder" >Ciudad</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder" >Ciudad</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_ciudad"></div>
 												</div>
 
@@ -187,19 +187,19 @@
 										<div class="card-body info_contacto collapse" id="info_contacto_2">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label">Correo electrónico</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label">Correo electrónico</label>
 													<div class="col-sm-7 font-weight-bolder">
 														<input type="text" class="form-control form-control-sm" placeholder="Correo Electrónico" id="editar_email" name="editar_email"  value="">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label">Teléfono</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label">Teléfono</label>
 													<div class="col-sm-7 font-weight-bolder">
 														<input type="text" class="form-control form-control-sm" placeholder="Teléfono"  id="editar_telefono_uno" name="editar_telefono_uno" value="">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label" >Región</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label" >Región</label>
 													<div class="col-sm-7">
 														<select class="form-control form-control-sm" id="region_agregar" name="region_agregar" onchange="buscar_ciudad();">
 
@@ -207,7 +207,7 @@
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label" >Ciudad</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label" >Ciudad</label>
 													<div class="col-sm-7">
 														<select class="form-control form-control-sm" id="region_agregar" name="region_agregar" onchange="buscar_ciudad();">
 
@@ -243,7 +243,7 @@
 										<div class="card-body pass_personal collapse show" id="pass_personal_1">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label">Contraseña actual</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label">Contraseña actual</label>
 													<div class="col-sm-7 pt-2 ml-2 font-weight-bolder"> •••••••• </div>
 												</div>
 											</form>
@@ -253,25 +253,25 @@
 										<div class="card-body pass_personal collapse" id="pass_personal_2">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Contraseña actual</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Contraseña actual</label>
 													<div class="col-sm-7">
 														<input type="text" class="form-control form-control-sm" placeholder="Contraseña Actual">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Nueva contraseña</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Nueva contraseña</label>
 													<div class="col-sm-7">
 														<input type="text" class="form-control form-control-sm" placeholder="Nueva Contraseña">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Repitir contraseña</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Repitir contraseña</label>
 													<div class="col-sm-7">
 														<input type="text" class="form-control form-control-sm" placeholder="Repita la Contraseña">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-12 col-form-label"></label>
+													<label class="floating-label-activo-sm col-sm-12 col-form-label"></label>
 													<div class="col-sm-12 d-flex justify-content-end">
 														<button type="button" class="btn btn-sm btn-danger mr-2">Cancelar</button>
 														<button type="submit" class="btn btn-sm btn-info">Guardar cambios</button>
@@ -304,19 +304,19 @@
 										<div class="card-body info_basica collapse show" id="info_basica-1">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Rut</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_rut"></div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Nombre</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Nombre</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_nombre"></div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Dirección</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Dirección</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_apellido_uno"></div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Razón Social</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Razón Social</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_nacimiento"></div>
 												</div>
 											</form>
@@ -326,25 +326,25 @@
 										<div class="card-body info_basica collapse" id="info_basica-2">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Rut</label>
 													<div class="col-sm-7">
 														<input type="text" class="form-control form-control-sm" placeholder="Rut" id="editar_rut" name="editar_rut"value=" ">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Nombre</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Nombre</label>
 													<div class="col-sm-7">
 														<input type="text" class="form-control form-control-sm" placeholder="Nombre" id="editar_nombre" name="editar_nombre" value="">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Dirección</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Dirección</label>
 													<div class="col-sm-7">
 														<input type="text" class="form-control form-control-sm" placeholder="Primer Apellido" id="editar_apellido_uno" name="editar_apellido_uno" value="">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Razón Social</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Razón Social</label>
 													<div class="col-sm-7">
 														<input type="text" class="form-control form-control-sm" id="editar_nacimiento" name="editar_nacimiento" value="}">
 													</div>
@@ -372,19 +372,19 @@
 										<div class="card-body info_contacto collapse show" id="info_contacto_1">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Correo Electrónico</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Correo Electrónico</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_email" name="ver_email">sdsad</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder">Teléfono</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Teléfono</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_telefono_uno" name="ver_telefono_uno">df</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder" >Región</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder" >Región</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_region"></div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label font-weight-bolder" >Ciudad</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder" >Ciudad</label>
 													<div class="col-sm-7 my-auto ml-2" id="ver_ciudad"></div>
 												</div>
 											</form>
@@ -394,19 +394,19 @@
 										<div class="card-body info_contacto collapse" id="info_contacto_2">
 											<form>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label">Correo electrónico</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label">Correo electrónico</label>
 													<div class="col-sm-7 font-weight-bolder">
 														<input type="text" class="form-control form-control-sm" placeholder="Correo Electrónico" id="editar_email" name="editar_email"  value="">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label">Teléfono</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label">Teléfono</label>
 													<div class="col-sm-7 font-weight-bolder">
 														<input type="text" class="form-control form-control-sm" placeholder="Teléfono"  id="editar_telefono_uno" name="editar_telefono_uno" value="">
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label" >Región</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label" >Región</label>
 													<div class="col-sm-7">
 														<select class="form-control form-control-sm" id="region_agregar" name="region_agregar" onchange="buscar_ciudad();">
 
@@ -414,7 +414,7 @@
 													</div>
 												</div>
 												<div class="form-group row">
-													<label class="col-sm-4 col-form-label" >Ciudad</label>
+													<label class="floating-label-activo-sm col-sm-4 col-form-label" >Ciudad</label>
 													<div class="col-sm-7">
 														<select class="form-control form-control-sm" id="region_agregar" name="region_agregar" onchange="buscar_ciudad();">
 
@@ -505,19 +505,19 @@
                                         <div class="card-body info_basica collapse show" id="info_basica-1">
                                             <form>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Rut</label>
                                                     <div class="col-sm-7 my-auto ml-2" id="ver_rut"></div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Nombre</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Nombre</label>
                                                     <div class="col-sm-7 my-auto ml-2" id="ver_nombre"></div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Dirección</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Dirección</label>
                                                     <div class="col-sm-7 my-auto ml-2" id="ver_apellido_uno"></div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Razón Social</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Razón Social</label>
                                                     <div class="col-sm-7 my-auto ml-2" id="ver_nacimiento"></div>
                                                 </div>
                                             </form>
@@ -527,25 +527,25 @@
                                         <div class="card-body info_basica collapse" id="info_basica-2">
                                             <form>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Rut</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Rut</label>
                                                     <div class="col-sm-7">
                                                         <input type="text" class="form-control form-control-sm" placeholder="Rut" id="editar_rut" name="editar_rut"value=" ">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Nombre</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Nombre</label>
                                                     <div class="col-sm-7">
                                                         <input type="text" class="form-control form-control-sm" placeholder="Nombre" id="editar_nombre" name="editar_nombre" value="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Dirección</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Dirección</label>
                                                     <div class="col-sm-7">
                                                         <input type="text" class="form-control form-control-sm" placeholder="Primer Apellido" id="editar_apellido_uno" name="editar_apellido_uno" value="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Razón Social</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Razón Social</label>
                                                     <div class="col-sm-7">
                                                         <input type="text" class="form-control form-control-sm" id="editar_nacimiento" name="editar_nacimiento" value="}">
                                                     </div>
@@ -573,19 +573,19 @@
                                         <div class="card-body info_contacto collapse show" id="info_contacto_1">
                                             <form>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Correo Electrónico</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Correo Electrónico</label>
                                                     <div class="col-sm-7 my-auto ml-2" id="ver_email" name="ver_email">sdsad</div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder">Teléfono</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder">Teléfono</label>
                                                     <div class="col-sm-7 my-auto ml-2" id="ver_telefono_uno" name="ver_telefono_uno">df</div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder" >Región</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder" >Región</label>
                                                     <div class="col-sm-7 my-auto ml-2" id="ver_region"></div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label font-weight-bolder" >Ciudad</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label font-weight-bolder" >Ciudad</label>
                                                     <div class="col-sm-7 my-auto ml-2" id="ver_ciudad"></div>
                                                 </div>
                                             </form>
@@ -595,19 +595,19 @@
                                         <div class="card-body info_contacto collapse" id="info_contacto_2">
                                             <form>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label">Correo electrónico</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label">Correo electrónico</label>
                                                     <div class="col-sm-7 font-weight-bolder">
                                                         <input type="text" class="form-control form-control-sm" placeholder="Correo Electrónico" id="editar_email" name="editar_email"  value="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label">Teléfono</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label">Teléfono</label>
                                                     <div class="col-sm-7 font-weight-bolder">
                                                         <input type="text" class="form-control form-control-sm" placeholder="Teléfono"  id="editar_telefono_uno" name="editar_telefono_uno" value="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label" >Región</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label" >Región</label>
                                                     <div class="col-sm-7">
                                                         <select class="form-control form-control-sm" id="region_agregar" name="region_agregar" onchange="buscar_ciudad();">
 
@@ -615,7 +615,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label" >Ciudad</label>
+                                                    <label class="floating-label-activo-sm col-sm-4 col-form-label" >Ciudad</label>
                                                     <div class="col-sm-7">
                                                         <select class="form-control form-control-sm" id="region_agregar" name="region_agregar" onchange="buscar_ciudad();">
 

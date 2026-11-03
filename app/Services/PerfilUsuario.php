@@ -36,6 +36,18 @@ class PerfilUsuario
     {
         $perfil = $this->propio($tipo, $request);
         $nombre = $tipo === 'asistente' ? 'nombres' : 'nombre';
+        if ($request->exists('rut')) {
+            $rut = rut_normalizar($request->input('rut'));
+            if (!$rut || (!rut_es_valido($rut) && $rut !== rut_normalizar($perfil->rut))) {
+                throw ValidationException::withMessages(['rut'=>'Ingrese un RUT válido.']);
+            }
+            foreach ([$perfil->getTable()=>$perfil->id, 'users'=>Auth::id()] as $tabla=>$idPropio) {
+                $duplicado=DB::table($tabla)->where('id','!=',$idPropio)
+                    ->whereRaw("REPLACE(REPLACE(UPPER(TRIM(rut)), '.', ''), '-', '') = ?",[str_replace('-','',$rut)])->exists();
+                if ($duplicado) throw ValidationException::withMessages(['rut'=>'El RUT ya está registrado en otra cuenta.']);
+            }
+            $request->merge(['rut'=>$rut]);
+        }
         $reglas = [
             $nombre => 'required|string|max:255',
             'apellido_uno' => 'required|string|max:255',

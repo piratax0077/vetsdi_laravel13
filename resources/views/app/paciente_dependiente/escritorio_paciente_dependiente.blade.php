@@ -5,6 +5,7 @@
 <div class="pcoded-main-container">
 
     <div class="pcoded-content">
+        <a class="btn btn-outline-info mb-3" href="{{ route('vet.pdf.index',['id_mascota'=>$mascota->id]) }}">Historial de documentos PDF de {{ $mascota->nombre }}</a>
 
         @if(isset($documentos_emitidos) && $documentos_emitidos->isNotEmpty())
         <div class="card">

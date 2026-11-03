@@ -54,3 +54,32 @@ test('Enter in the assistant form submits through the protected endpoint',async(
     assert.equal(s.requests[0].url,'/contacto');
     assert.equal(s.requests[0].data.email,'nuevo@example.test');
 });
+
+test('cancelar restaura el formulario y cierra el panel sin guardar',()=>{
+    const s=setup(ok);
+    s.context.cancelar_edicion_perfil('personales');
+    assert.equal(s.forms.personales.resetCount,1);
+    assert.equal(s.elementos.get('info_basica-2').classList.contains('show'),false);
+    assert.equal(s.requests.length,0);
+});
+
+test('el RUT se muestra formateado después de guardar',async()=>{
+    const s=setup(()=>Promise.resolve({ok:true,json:async()=>({success:true,profesional:{nombre:'Nombre',rut:'12345678-5'}})}));
+    s.elementos.set('ver_rut',{textContent:''});
+    await s.context.editar_profesional_datos_personales();
+    assert.equal(s.elementos.get('ver_rut').textContent,'12.345.678-5');
+    assert.equal(s.elementos.get('editar_rut').value,'12.345.678-5');
+});
+
+test('elegir foto no modifica la imagen guardada antes de confirmar la subida',()=>{
+    const fuente=fs.readFileSync(path.join(__dirname,'../../resources/views/app/profesional/perfil_profesional.blade.php'),'utf8');
+    const inicio=fuente.indexOf('function cambiar_foto_perfil(');
+    const fin=fuente.indexOf('function subir_foto_perfil(',inicio);
+    const imagen={src:'/foto-guardada.png'},subidas=[];
+    const contexto={document:{getElementById:()=>imagen},subir_foto_perfil:file=>subidas.push(file),swal(){}};
+    vm.runInNewContext(fuente.slice(inicio,fin),contexto);
+    const archivo={type:'image/png',size:1024};
+    contexto.cambiar_foto_perfil({files:[archivo]});
+    assert.equal(subidas.length,1);
+    assert.equal(imagen.src,'/foto-guardada.png');
+});

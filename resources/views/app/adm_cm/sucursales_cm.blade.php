@@ -106,31 +106,31 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label">Nombre</label>
+                                <label class="floating-label-activo-sm">Nombre</label>
                                 <input class="form-control form-control-sm" name="nombre_lugar_atencion" id="nombre_lugar_atencion" type="text">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="floating-label">Nombre o Rut del administrador</label>
+                                <label class="floating-label-activo-sm">Nombre o Rut del administrador</label>
                                 <input class="form-control form-control-sm" name="rut_admin" id="rut_admin" type="text">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="floating-label">Dirección / Calle</label>
+                                <label class="floating-label-activo-sm">Dirección / Calle</label>
                                 <input class="form-control form-control-sm" name="direccion" id="direccion_lugar_atencion" type="text">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="floating-label">Número</label>
+                                <label class="floating-label-activo-sm">Número</label>
                                 <input class="form-control form-control-sm" name="numero" id="numero_lugar_atencion" type="text">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label">Comuna</label>
+                                <label class="floating-label-activo-sm">Comuna</label>
                                 <select class="form-control form-control-sm">
                                     <option>Seleccione una opción</option>
                                     <optgroup label="Valparaíso">
@@ -143,19 +143,19 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label">Correo Electrónico</label>
+                                <label class="floating-label-activo-sm">Correo Electrónico</label>
                                 <input class="form-control form-control-sm" name="email" id="email" type="email">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label">Teléfono</label>
+                                <label class="floating-label-activo-sm">Teléfono</label>
                                 <input class="form-control form-control-sm" name="telefono_1" id="telefono_1" type="text">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label">Teléfono (opcional)</label>
+                                <label class="floating-label-activo-sm">Teléfono (opcional)</label>
                                 <input class="form-control form-control-sm" name="telefono_2" id="telefono_2" type="text">
                             </div>
                         </div>
@@ -163,8 +163,8 @@
                             <div class="form-group">
                                 <div class="switch switch-success d-inline m-r-10">
                                     <input type="checkbox" id="not_pacientes_1">
-                                    <label for="not_pacientes_1" class="cr"></label>
-                                    <label>Notificar a pacientes</label>
+                                    <label for="not_pacientes_1" class="floating-label-activo-sm cr"></label>
+                                    <label class="floating-label-activo-sm">Notificar a pacientes</label>
                                 </div>
                             </div>
                         </div>
@@ -194,31 +194,31 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label">Nombre</label>
+                                <label class="floating-label-activo-sm">Nombre</label>
                                 <input class="form-control form-control-sm" name="nombre_lugar_atencion" id="nombre_lugar_atencion" type="text">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="floating-label">Nombre o Rut del administrador</label>
+                                <label class="floating-label-activo-sm">Nombre o Rut del administrador</label>
                                 <input class="form-control form-control-sm" name="rut_admin" id="rut_admin" type="text">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="floating-label">Dirección / Calle</label>
+                                <label class="floating-label-activo-sm">Dirección / Calle</label>
                                 <input class="form-control form-control-sm" name="direccion" id="direccion_lugar_atencion" type="text">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="floating-label">Número</label>
+                                <label class="floating-label-activo-sm">Número</label>
                                 <input class="form-control form-control-sm" name="numero" id="numero_lugar_atencion" type="text">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label">Comuna</label>
+                                <label class="floating-label-activo-sm">Comuna</label>
                                 <select class="form-control form-control-sm">
                                     <option>Seleccione una opción</option>
                                     <optgroup label="Valparaíso">
@@ -231,19 +231,19 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label">Correo Electrónico</label>
+                                <label class="floating-label-activo-sm">Correo Electrónico</label>
                                 <input class="form-control form-control-sm" name="email" id="email" type="email">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label">Teléfono</label>
+                                <label class="floating-label-activo-sm">Teléfono</label>
                                 <input class="form-control form-control-sm" name="telefono_1" id="telefono_1" type="text">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label">Teléfono (opcional)</label>
+                                <label class="floating-label-activo-sm">Teléfono (opcional)</label>
                                 <input class="form-control form-control-sm" name="telefono_2" id="telefono_2" type="text">
                             </div>
                         </div>
@@ -251,8 +251,8 @@
                             <div class="form-group">
                                 <div class="switch switch-success d-inline m-r-10">
                                     <input type="checkbox" id="not_pacientes_1">
-                                    <label for="not_pacientes_1" class="cr"></label>
-                                    <label>Notificar a pacientes</label>
+                                    <label for="not_pacientes_1" class="floating-label-activo-sm cr"></label>
+                                    <label class="floating-label-activo-sm">Notificar a pacientes</label>
                                 </div>
                             </div>
                         </div>
@@ -292,7 +292,7 @@
                                     <td class="text-center align-middle">
                                         <div class="switch switch-success d-inline m-r-10">
                                             <input type="checkbox" id="agregar-1">
-                                            <label for="agregar-1" class="cr"></label>
+                                            <label for="agregar-1" class="floating-label-activo-sm cr"></label>
                                         </div>
                                     </td>
                                     <td>
@@ -313,8 +313,8 @@
                         <div class="form-group">
                             <div class="switch switch-success d-inline m-r-10">
                                 <input type="checkbox" id="not_pacientes_4">
-                                <label for="not_pacientes_4" class="cr"></label>
-                                <label>Notificar a pacientes modificación</label>
+                                <label for="not_pacientes_4" class="floating-label-activo-sm cr"></label>
+                                <label class="floating-label-activo-sm">Notificar a pacientes modificación</label>
                             </div>
                         </div>
                     </div>
@@ -365,7 +365,7 @@
                                             <div class="form-group">
                                                 <div class="switch switch-success d-inline m-r-10">
                                                     <input type="checkbox" id="asistentes_editar-1" checked="">
-                                                    <label for="asistentes_editar-1" class="cr"></label>
+                                                    <label for="asistentes_editar-1" class="floating-label-activo-sm cr"></label>
                                                 </div>
                                             </div>
                                         </td>
@@ -377,7 +377,7 @@
                                             <div class="form-group">
                                                 <div class="switch switch-success d-inline m-r-10">
                                                     <input type="checkbox" id="asistentes_editar-2" checked="">
-                                                    <label for="asistentes_editar-2" class="cr"></label>
+                                                    <label for="asistentes_editar-2" class="floating-label-activo-sm cr"></label>
                                                 </div>
                                             </div>
                                         </td>
@@ -414,7 +414,7 @@
                         </div>
                         <div class="col-sm-12 mb-2">
                             <div class="form-group fill">
-                                <label class="floating-label">Día </label>
+                                <label class="floating-label-activo-sm">Día </label>
                                 <select name="dia" id="dia" class=" form-control form-control-sm">
                                     <option>Seleccione día</option>
                                     <option>Lunes</option>
@@ -429,7 +429,7 @@
                         </div>
                         <div class="col-sm-12 mb-2">
                             <div class="form-group fill">
-                                <label class="floating-label">Desde </label>
+                                <label class="floating-label-activo-sm">Desde </label>
                                 <select name="horario" id="horario" class="form-control form-control-sm">
                                     <option>Seleccione horario</option>
                                     <option>8:00 am</option>
@@ -466,7 +466,7 @@
                         </div>
                         <div class="col-sm-12 mb-2">
                             <div class="form-group fill">
-                                <label class="floating-label">Hasta </label>
+                                <label class="floating-label-activo-sm">Hasta </label>
                                 <select name="horario" id="horario" class=" form-control form-control-sm">
                                     <option>Seleccione horario</option>
                                     <option>8:00 am</option>

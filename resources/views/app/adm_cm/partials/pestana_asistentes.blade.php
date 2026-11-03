@@ -37,7 +37,7 @@
                                 <tr>
                                     <td class="align-middle">
                                         <span><strong>{{ $asistente->nombres.' '.$asistente->apellido_uno.' '.$asistente->apellido_dos }}</strong></span><br>
-                                        <span>{{ $asistente->rut }}</span>
+                                        <span>{{ rut_formatear($asistente->rut) ?? $asistente->rut }}</span>
                                     </td>
                                     <td class="align-middle">
                                         <span><strong>{{ $asistente->asistente_tipo->nombre }}</strong></span>

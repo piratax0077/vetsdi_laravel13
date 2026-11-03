@@ -59,6 +59,7 @@ class DocumentoVeterinarioCorreoController extends Controller
             if (!$pdf instanceof Response || $pdf->getStatusCode() !== 200 || !str_starts_with((string) $pdf->getContent(), '%PDF-')) {
                 throw new \RuntimeException('No se generó un PDF válido.');
             }
+            app(\App\Services\ArchivoPdfVeterinario::class)->registrar(request(),$pdf,app(\App\Services\ArchivoPdfVeterinario::class)->contexto($pdfRequest));
             $correo = new CorreoGenerico([
                 'asunto' => 'Documento de atención veterinaria',
                 'blade' => 'plantilla-correo-electronico',

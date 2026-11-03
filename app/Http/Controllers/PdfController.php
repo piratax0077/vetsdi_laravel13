@@ -60,6 +60,7 @@ class PdfController extends Controller
                 $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
                 $response->headers->set('Pragma', 'no-cache');
                 $response->headers->set('Expires', '0');
+                app(\App\Services\ArchivoPdfVeterinario::class)->registrar(request(),$response);
                 return $response;
             break;
             case 'G': //GUARDAR
@@ -73,6 +74,7 @@ class PdfController extends Controller
                 }
                 if($pdf->save($directorio . '/' . $nombre_pdf . '.pdf'))
                 {
+                    app(\App\Services\ArchivoPdfVeterinario::class)->registrar(request(),response($pdf->output(),200,['Content-Type'=>'application/pdf','Content-Disposition'=>'inline; filename="'.$nombre_pdf.'.pdf"']));
                     $datos['estado'] = 1;
                     $datos['msj'] = 'pdf generado';
                     $datos['pdf'] = $nombre_pdf . '.pdf';
@@ -86,7 +88,9 @@ class PdfController extends Controller
                 return (object)$datos;
             break;
             case 'D': //DESCARGAR
-                return $pdf->download($nombre_pdf.'.pdf');
+                $response=$pdf->download($nombre_pdf.'.pdf');
+                app(\App\Services\ArchivoPdfVeterinario::class)->registrar(request(),$response);
+                return $response;
             break;
         }
     }

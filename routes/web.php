@@ -3725,7 +3725,7 @@ Route::group([
     Route::post('/eliminar_servicio_cm', [App\Http\Controllers\AdministradorCmController::class, 'eliminar_servicio_cm'])->name('adm_cm.eliminar_servicio_cm');
 
     Route::get('/Estadisticas', [App\Http\Controllers\AdministradorCmController::class, 'estadisticas'])->name('adm_cm.estadisticas');
-    Route::view('/Reporte_estadisticas', 'app.adm_cm.reporte_estadisticas')->name('adm_cm.reporte_estadisticas');
+    Route::get('/Reporte_estadisticas', [App\Http\Controllers\ReporteCentroVeterinarioController::class,'index'])->middleware(['auth',App\Http\Middleware\HorarioOperacionVeterinaria::class])->name('adm_cm.reporte_estadisticas');
 
 
 

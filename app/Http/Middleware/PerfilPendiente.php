@@ -20,6 +20,7 @@ class PerfilPendiente
 {
     /** Rutas que sí se pueden visitar con el perfil a medio llenar. */
     private const RUTAS_PERMITIDAS = [
+        'vet.pdf.compartido',
         'perfil.completar',
         'perfil.completar.guardar',
         'cuenta.seleccion',

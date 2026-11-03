@@ -27,7 +27,7 @@
             @csrf<div class="alert d-none" data-resultado role="status"></div>
             <div class="form-row">
                 @foreach(['contrasena_actual'=>'Contraseña actual','password_registro'=>'Nueva contraseña','password_confirmacion_registro'=>'Confirmar contraseña'] as $campo=>$etiqueta)
-                <div class="form-group col-md-4"><label>{{ $etiqueta }}</label><input type="password" name="{{ $campo }}" class="form-control form-control-sm" required autocomplete="{{ $campo === 'contrasena_actual' ? 'current-password' : 'new-password' }}" @if($campo !== 'contrasena_actual') minlength="8" @endif></div>
+                <div class="form-group col-md-4"><label class="floating-label-activo-sm">{{ $etiqueta }}</label><input type="password" name="{{ $campo }}" class="form-control form-control-sm" required autocomplete="{{ $campo === 'contrasena_actual' ? 'current-password' : 'new-password' }}" @if($campo !== 'contrasena_actual') minlength="8" @endif></div>
                 @endforeach
             </div>
             <button type="submit" class="btn btn-info btn-sm">Guardar contraseña</button>

@@ -66,7 +66,7 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <label class="font-weight-bolder ml-0 mb-0">RUT</label>
-                                                        <div> {{ $paciente->rut }} </div>
+                                                        <div> {{ rut_formatear($paciente->rut) ?? $paciente->rut }} </div>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <label class="font-weight-bolder ml-0 mb-0">Nombre</label>
@@ -110,7 +110,7 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">RUT</label>
-                                                        <input type="text" class="form-control form-control-sm" placeholder="RUT" id="perfil_rut" name="perfil_rut" value="{{ $paciente->rut }}" disabled>
+                                                        <input type="text" class="form-control form-control-sm" placeholder="RUT" id="perfil_rut" name="perfil_rut" value="{{ rut_formatear($paciente->rut) ?? $paciente->rut }}" disabled>
                                                     </div>
                                                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                                         <label class="floating-label-activo">Nombres</label>

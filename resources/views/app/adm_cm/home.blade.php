@@ -3,13 +3,10 @@
 @section('content')
 
 @php
-    $nombreAdministrador = trim(Auth::user()->name ?? Auth::user()->nombre ?? 'Administrador');
+    $nombreAdministrador = $nombreAdministrador ?? 'Administrador General';
     $notificaciones = app(\App\Services\OperacionVeterinaria::class)->avisos($institucion->id);
     $tipoVeterinario = \Illuminate\Support\Facades\Schema::hasTable('vet_establecimientos')
         ? app(\App\Services\OperacionVeterinaria::class)->configuracion($institucion->id)->tipo : 'centro';
-    $primerNombreAdministrador = collect(preg_split('/\s+/', $nombreAdministrador))
-        ->filter()
-        ->first() ?? 'Administrador';
 
     // Sin foto cargada en Configuración se muestra el mismo icono que usa esa pantalla
     $fotoCentro = trim($institucion->foto_perfil ?? '');
@@ -43,15 +40,14 @@
                                         onerror="this.onerror=null;this.src='{{ asset('images/iconos/cm-perfiles.png') }}';">
                                 </a>
                                 <div class="saludo-texto">
-                                <h3>Hola, <span class="text-purple">{{ $primerNombreAdministrador }}</span></h3>
+                                <h3>Hola, <span class="text-purple">{{ $nombreAdministrador }}</span></h3>
                                 <p class="text-dark">Bienvenido/a a tu escritorio de Administrador General de <strong>{{ mb_strtoupper($institucion->nombre) }}</strong></p>
                                 <span class="badge badge-info">{{ $tipoVeterinario === 'hospital' ? 'Hospital veterinario' : 'Centro veterinario' }}</span>
-                                <a class="btn btn-outline-info btn-sm ml-2" href="{{ route('vet.operacion.index',['seccion'=>'configuracion','id_institucion'=>$institucion->id]) }}">Configurar establecimiento</a>
                                 @if (false && !empty($contextosCentro) && !empty($contextoActivo))
                                     <form method="GET" action="{{ route('adm_cm.home') }}" class="mt-3">
                                         <div class="form-row align-items-end">
                                             <div class="col-md-5">
-                                                <label class="text-white mb-1">Institución / Sucursal activa</label>
+                                                <label class="floating-label-activo-sm text-white mb-1">Institución / Sucursal activa</label>
                                                 <select name="contexto" class="form-control form-control-sm">
                                                     @foreach ($contextosCentro as $contexto)
                                                         <option value="{{ $contexto['key'] }}" @selected(($contextoActivo['key'] ?? '') === $contexto['key'])>
@@ -82,41 +78,45 @@
             <div class="card">
                 <div class="card-body">
                     <h5><i class="feather icon-shopping-cart"></i> Venta de alimentos, farmacia y accesorios</h5>
-                    <p>Accede al panel comercial de Veterfood (Alimentos-Vet) con tu cuenta de ventas.</p>
-                    @foreach (['alimentos' => 'Alimentos', 'farmacia' => 'Farmacia', 'cuidados' => 'Accesorios'] as $rubro => $nombreRubro)
-                        <a class="btn btn-outline-info mr-2 mb-2" href="{{ rtrim(config('services.veterfood.url'), '/') }}/central-ventas/rubros/{{ $rubro }}" target="_blank" rel="noopener noreferrer">{{ $nombreRubro }} <i class="feather icon-external-link" aria-hidden="true"></i></a>
+                    <p>Accede a Alimentos, Farmacia y Accesorios con tu cuenta de ventas.</p>
+                    @foreach (app(\App\Services\ComercioCentroVeterinario::class)->enlaces() as $enlaceComercial)
+                        @if($enlaceComercial['url'])
+                        <a class="btn btn-outline-info mr-2 mb-2" href="{{ $enlaceComercial['url'] }}" target="_blank" rel="noopener noreferrer">{{ $enlaceComercial['nombre'] }} <i class="feather icon-external-link" aria-hidden="true"></i></a>
+                        @else
+                        <span class="btn btn-outline-secondary disabled mr-2 mb-2" aria-disabled="true">{{ $enlaceComercial['nombre'] }} · No disponible</span>
+                        @endif
                     @endforeach
                 </div>
             </div>
 
-            <!--Indicadores: por ahora solo diseño, los valores se conectan más adelante-->
+            {{-- Indicadores del centro y del contexto activo; sin fuente disponible se muestra un guion. --}}
 
             <div class="row escritorio-indicadores">
                 <div class="col-6 col-xl-3">
                     <div class="tarjeta-indicador tarjeta-indicador--morado">
                         <span class="tarjeta-indicador-icono"><i class="feather icon-credit-card"></i></span>
-                        <strong class="tarjeta-indicador-valor">$0</strong>
+                        <strong class="tarjeta-indicador-valor">{{ isset($indicadoresCentro['recaudadoHoy']) ? '$'.number_format($indicadoresCentro['recaudadoHoy'],0,',','.') : '—' }}</strong>
                         <span class="tarjeta-indicador-etiqueta">Recaudado hoy</span>
                     </div>
                 </div>
                 <div class="col-6 col-xl-3">
                     <div class="tarjeta-indicador tarjeta-indicador--morado">
                         <span class="tarjeta-indicador-icono"><i class="feather icon-trending-up"></i></span>
-                        <strong class="tarjeta-indicador-valor">$0</strong>
+                        <strong class="tarjeta-indicador-valor">{{ isset($indicadoresCentro['recaudadoMes']) ? '$'.number_format($indicadoresCentro['recaudadoMes'],0,',','.') : '—' }}</strong>
                         <span class="tarjeta-indicador-etiqueta">Recaudado en el mes</span>
                     </div>
                 </div>
                 <div class="col-6 col-xl-3">
                     <div class="tarjeta-indicador tarjeta-indicador--morado">
                         <span class="tarjeta-indicador-icono"><i class="feather icon-calendar"></i></span>
-                        <strong class="tarjeta-indicador-valor">0</strong>
+                        <strong class="tarjeta-indicador-valor">{{ isset($indicadoresCentro['citasHoy']) ? number_format($indicadoresCentro['citasHoy'],0,',','.') : '—' }}</strong>
                         <span class="tarjeta-indicador-etiqueta">Citas hoy</span>
                     </div>
                 </div>
                 <div class="col-6 col-xl-3">
                     <div class="tarjeta-indicador tarjeta-indicador--morado">
                         <span class="tarjeta-indicador-icono"><i class="feather icon-user-plus"></i></span>
-                        <strong class="tarjeta-indicador-valor">0</strong>
+                        <strong class="tarjeta-indicador-valor">{{ isset($indicadoresCentro['pacientesNuevos']) ? number_format($indicadoresCentro['pacientesNuevos'],0,',','.') : '—' }}</strong>
                         <span class="tarjeta-indicador-etiqueta">Pacientes nuevos</span>
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                                     <a href="{{ route('adm_cm.usuarios') }}">
                                         <div class="card-body text-center">
                                             <img src="{{ asset('images/iconos/profesionales.svg') }}" alt="">
-                                            <h6>Usuarios</h6>
+                                            <h6>RRHH del CENTRO</h6>
                                         </div>
                                     </a>
                                 </div>

@@ -29,7 +29,7 @@
 					<textarea class="form-control form-control-sm" rows="5" id="mensaje_a_profesional" name="mensaje_a_profesional" required></textarea>
 				</div>
                 <div class="form-group mb-0">
-                    <label class="mensaje-profesional-adjunto-titulo">Adjuntar archivo</label>
+                    <label class="floating-label-activo-sm mensaje-profesional-adjunto-titulo">Adjuntar archivo</label>
                     <div class="dropzone" id="mis-archivos-a-profesional" action="{{ route('profesional.archivo.carga') }}">
                         <div class="dz-message">
                             <i class="feather icon-upload-cloud"></i>

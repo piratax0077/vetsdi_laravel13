@@ -2516,8 +2516,6 @@
                                 $('#reserva_hora_telefono').text(data.telefono_uno);
                                 $('#input_reserva_hora_telefono').val(data.telefono_uno);
 
-                                $('#reserva_convenio').text(data.prevision.nombre);
-                                $('#input_reserva_convenio').val(data.prevision.id);
 
                                 $('#reserva_direccion').text(data.direccion.direccion + ' ' + data.direccion
                                     .numero_dir + ', ' + data.direccion.ciudad.nombre);
@@ -3658,20 +3656,6 @@
 
                 return;
             }
-            let reserva_hora_convenio = $('#reserva_hora_convenio').val();
-            if (reserva_hora_convenio == '0') {
-
-                swal({
-                    title: "Error!",
-                    text: "Debe seleccionar la previsión del paciente",
-                    icon: "error",
-                    type: "danger",
-                    DangerMode: true,
-
-                });
-                return;
-
-            }
             let reserva_hora_direccion = $('#reserva_hora_direccion').val();
             if (reserva_hora_direccion == '') {
 
@@ -4118,7 +4102,6 @@
                         reserva_hora_segundo_apellido: reserva_hora_segundo_apellido,
                         reserva_hora_fecha_nac: reserva_hora_fecha_nac,
                         reserva_hora_sexo: reserva_hora_sexo,
-                        reserva_hora_convenio: reserva_hora_convenio,
                         reserva_hora_direccion: reserva_hora_direccion,
                         reserva_hora_numero_dir: reserva_hora_numero_dir,
                         reserva_hora_comuna: reserva_hora_comuna,
@@ -6154,9 +6137,6 @@
                     fecha_nac_paciente_agregar: {
                         required: true
                     },
-                    prevision_agregar: {
-                        required: true,
-                    },
                     ciudad_agregar: {
                         required: true
 
@@ -6192,10 +6172,6 @@
                     },
                     fecha_nac_paciente_agregar: {
                         required: "Debe Ingresar una fecha"
-                    },
-                    prevision_agregar: {
-                        required: "Debe seleccionar una previsión",
-
                     },
                     ciudad_agregar: {
                         required: "Debe Ingresar Una Ciudad",
@@ -6286,9 +6262,6 @@
                     reserva_hora_fecha_nac: {
                         required: true
                     },
-                    reserva_hora_convenio: {
-                        required: true,
-                    },
                     ciudad_agregar: {
                         required: true
 
@@ -6336,10 +6309,6 @@
                     },
                     reserva_hora_fecha_nac: {
                         required: "Debe Ingresar una fecha"
-                    },
-                    reserva_hora_convenio: {
-                        required: "Debe seleccionar una previsión",
-
                     },
                     ciudad_agregar: {
                         required: "Debe Ingresar Una Ciudad",
@@ -7412,10 +7381,9 @@
 
                         bonos.forEach(bono => {
                             let paciente = bono.paciente;
-                            let convenio = bono.convenio;
                             let tipo = bono.tipo_bono;
                             let switchId = 'switch_' + paciente.rut;
-                            let nombre_convenio = convenio ? convenio.nombre : 'FONASA';
+                            let nombre_convenio = bono.nombre_convenio_veterinario || 'Sin convenio veterinario';
 
                             let asistente_nombre = bono.asistente
                                 ? `${bono.asistente.nombres} ${bono.asistente.apellido_uno}`

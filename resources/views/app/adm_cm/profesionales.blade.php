@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-md-12 mb-3 encabezado-pagina">
                 <div>
-                    <h5 class="f-26 d-block mb-0">Personal</h5>
+                    <h5 class="f-26 d-block mb-0">RR.HH.</h5>
                 </div>
             </div>
         </div>
@@ -112,7 +112,7 @@
                                                             <tr>
                                                                 <td class="align-middle">
                                                                     <span><strong>{{ $prof_vet->nombre.' '.$prof_vet->apellido_uno.' '.$prof_vet->apellido_dos }}</strong></span><br>
-                                                                    <span>{{ $prof_vet->rut }}</span>
+                                                                    <span>{{ rut_formatear($prof_vet->rut) ?? $prof_vet->rut }}</span>
                                                                 </td>
                                                                 <td class="align-middle">
                                                                     <span>{{ $prof_vet->TipoEspecialidad()->first()->nombre }}</span>
@@ -159,48 +159,9 @@
                     </div>
                     <!--Cierre: Tab profesionales veterinarios-->
 
-                    <!--Tab otros trabajadores (mantención, limpieza, contador y cualquier otra categoría)-->
                     <div class="tab-pane fade" id="otros_trabajadores" role="tabpanel">
-                        <div class="card">
-                            <div class="card-header encabezado-card">
-                                <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-settings"></i></span>Otros trabajadores</h5>
-                                <div class="encabezado-card-acciones">
-                                    {{-- Pendiente para programación: abrir el registro de un trabajador y la creación de categorías --}}
-                                    <button type="button" class="btn btn-info btn-sm" disabled><i class="feather icon-plus mr-1"></i>Agregar trabajador</button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="otros_trabajadores_tabla" class="table table-striped nowrap" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th class="align-middle">Nombre / RUT</th>
-                                                <th class="align-middle">Categoría</th>
-                                                <th class="align-middle">Sucursales</th>
-                                                <th class="align-middle">Info</th>
-                                                <th class="align-middle">Mensaje</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {{-- Pendiente para programación: listar los trabajadores de otras categorías del centro --}}
-                                            <tr>
-                                                <td colspan="5" class="p-0 border-0">
-                                                    <div class="aviso-sin-registros">
-                                                        <span class="aviso-sin-registros-icono"><i class="feather icon-alert-circle"></i></span>
-                                                        <div>
-                                                            <p class="aviso-sin-registros-titulo">Sin registros</p>
-                                                            <p class="aviso-sin-registros-texto">Aquí aparecerán los trabajadores que no son profesionales de la salud ni asistentes, como mantención, limpieza o contabilidad, y cualquier otra categoría que se cree.</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        @include('app.adm_cm.partials.otros_trabajadores_tabla')
                     </div>
-                    <!--Cierre: Tab otros trabajadores-->
 
                     @include('app.adm_cm.partials.pestana_asistentes')
 
@@ -241,7 +202,7 @@
                                                                     <tr>
                                                                         <td class="align-middle">
                                                                             <span><strong>{{ $prof_medico->nombre.' '.$prof_medico->apellido_uno.' '.$prof_medico->apellido_dos }}</strong></span><br>
-                                                                            <span>{{ $prof_medico->rut }}</span>
+                                                                            <span>{{ rut_formatear($prof_medico->rut) ?? $prof_medico->rut }}</span>
                                                                         </td>
                                                                         <td class="align-middle">
                                                                             <span>{{ $prof_medico->TipoEspecialidad()->first()->nombre }}</span>
@@ -327,7 +288,7 @@
                                                                     <tr>
                                                                         <td class="align-middle">
                                                                             <span><strong>{{ $prof_medico->nombre.' '.$prof_medico->apellido_uno.' '.$prof_medico->apellido_dos }}</strong></span><br>
-                                                                            <span>{{ $prof_medico->rut }}</span>
+                                                                            <span>{{ rut_formatear($prof_medico->rut) ?? $prof_medico->rut }}</span>
                                                                         </td>
                                                                         <td class="align-middle">
                                                                             <span>{{ $prof_medico->TipoEspecialidad()->first()->nombre }}</span>
@@ -412,7 +373,7 @@
                                                                     <tr>
                                                                         <td class="align-middle">
                                                                             <span><strong>{{ $prof_medico->nombre.' '.$prof_medico->apellido_uno.' '.$prof_medico->apellido_dos }}</strong></span><br>
-                                                                            <span>{{ $prof_medico->rut }}</span>
+                                                                            <span>{{ rut_formatear($prof_medico->rut) ?? $prof_medico->rut }}</span>
                                                                         </td>
                                                                         <td class="align-middle">
                                                                             <span>{{ $prof_medico->TipoEspecialidad()->first()->nombre }}</span>
@@ -470,6 +431,7 @@
 </div>
 <!--****Cierre Container Completo****-->
 <input type="hidden" name="id_profesional_mensaje" id="id_profesional_mensaje" value="">
+@include('app.adm_cm.partials.otros_trabajadores_modales')
 @endsection
 
 @section('js-profesionales')
@@ -782,6 +744,7 @@ $(document).ready(function(){
 @endsection
 
 @section('page-script')
+@include('app.adm_cm.partials.otros_trabajadores_js')
 <script>
     $(function () {
         const pestanasPersonal = ['prof-vet', 'asistentes', 'otros_trabajadores', 'prof-salud', 'odontologos', 'otros_prof'];

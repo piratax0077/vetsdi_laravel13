@@ -4,10 +4,10 @@ const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
 
-function setup(fetchResult, seccion='todo'){
+function setup(fetchResult, seccion='todo', controles={}){
     const campos=Object.entries({perfil_nombre:'Tutor',perfil_apellido_uno:'Apellido',perfil_nac:'',Perfil_email:'nuevo@example.test',Perfil_fono:'123',perfil_dire:'Calle',perfil_region:'1',perfil_ciudad:'2',perfil_numero_dir:'12 B'}).map(([name,value])=>({name,value,defaultValue:value,disabled:false}));
     campos.push({name:'perfil_rut',value:'11111111-1',disabled:true});
-    const form={listeners:{},querySelectorAll:s=>s==='button'?[]:campos,addEventListener(type,fn){this.listeners[type]=fn;},reset(){}};
+    const form={listeners:{},querySelectorAll:s=>s==='button'?(controles.cancelar?[controles.cancelar]:[]):s==='select'?(controles.select?[controles.select]:[]):campos,addEventListener(type,fn){this.listeners[type]=fn;},reset(){}};
     const clases=new Set(['show']);
     const panel={aviso:null,classList:{add:c=>clases.add(c),remove:c=>clases.delete(c),contains:c=>clases.has(c)},querySelector:s=>s==='form'?form:panel.aviso,prepend:el=>panel.aviso=el};
     const lectura={classList:{add(){}}};const requests=[];let ready;
@@ -83,4 +83,16 @@ test('cambiar región descarta la comuna anterior e ignora respuestas atrasadas'
     region.value='';await ctx.buscar_ciudad_residencia();
     assert.equal(ciudad.options.length,1);
     assert.equal(ciudad.options[0].value,'');
+});
+
+test('cancelar recupera las opciones originales de comuna después de cambiar región',()=>{
+    let click;
+    const cancelar={textContent:'Cancelar',addEventListener(tipo,fn){if(tipo==='click')click=fn;}};
+    const select={innerHTML:'<option selected value="1">Comuna original</option>'};
+    const s=setup(ok,'direccion',{cancelar,select});
+    select.innerHTML='<option value="2">Comuna de otra región</option>';
+    click({preventDefault(){},stopImmediatePropagation(){}});
+    assert.equal(select.innerHTML,'<option selected value="1">Comuna original</option>');
+    assert.equal(s.panel.classList.contains('show'),false);
+    assert.equal(s.requests.length,0);
 });

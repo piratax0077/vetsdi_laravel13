@@ -196,6 +196,7 @@ class MascotasController extends Controller
                 'nullable',
                 'date',
                 'before_or_equal:today',
+                Rule::when($request->filled('fecha_nacimiento'), 'after_or_equal:fecha_nacimiento'),
                 Rule::requiredIf(function () use ($request) {
                     $esterilizado = filter_var($request->input('esterilizado'), FILTER_VALIDATE_BOOLEAN);
                     $fechaDesconocida = filter_var($request->input('fecha_esterilizacion_desconocida'), FILTER_VALIDATE_BOOLEAN);
@@ -397,6 +398,8 @@ class MascotasController extends Controller
         }
         $base['fecha_esterilizacion_desconocida'] = (bool)$mascota->esterilizado && !$mascota->fecha_esterilizacion;
         $request->mergeIfMissing($base);
+        $cambiaCronologia = substr((string)$request->input('fecha_nacimiento'),0,10) !== substr((string)$mascota->getRawOriginal('fecha_nacimiento'),0,10)
+            || substr((string)$request->input('fecha_esterilizacion'),0,10) !== substr((string)$mascota->getRawOriginal('fecha_esterilizacion'),0,10);
 
         $request->merge([
             'raza_id' => resolver_raza_mascota_id(
@@ -424,6 +427,7 @@ class MascotasController extends Controller
                 'nullable',
                 'date',
                 'before_or_equal:today',
+                Rule::when($request->filled('fecha_nacimiento') && $cambiaCronologia, 'after_or_equal:fecha_nacimiento'),
                 Rule::requiredIf(function () use ($request) {
                     $esterilizado = filter_var($request->input('esterilizado'), FILTER_VALIDATE_BOOLEAN);
                     $fechaDesconocida = filter_var($request->input('fecha_esterilizacion_desconocida'), FILTER_VALIDATE_BOOLEAN);
@@ -597,7 +601,7 @@ class MascotasController extends Controller
     public function destroy(Mascota $mascota)
     {
         $paciente = Paciente::where('id_usuario', Auth::id())->first();
-        if (!$paciente || $mascota->id_responsable !== $paciente->id) {
+        if (!$paciente || (int)$mascota->id_responsable !== (int)$paciente->id) {
             return response()->json([
                 'estado' => 0,
                 'msj' => 'Mascota no encontrada',

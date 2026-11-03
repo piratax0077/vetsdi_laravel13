@@ -93,7 +93,7 @@
                                                     <label class="floating-label-activo-sm d-block text-center mb-2">Indefinido</label>
                                                     <div class="switch switch-success d-inline-block">
                                                         <input type="checkbox" id="convenio_infinito_edicion" name="convenio_infinito_edicion" class="switch-input" onclick="toggleFechaFinal()">
-                                                        <label for="convenio_infinito_edicion" class="cr"></label>
+                                                        <label for="convenio_infinito_edicion" class="floating-label-activo-sm cr"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -254,7 +254,7 @@
                                                     <label class="floating-label-activo-sm d-block mb-2">Indefinido</label>
                                                     <div class="switch switch-success d-inline-block">
                                                         <input type="checkbox" id="convenio_infinito_inst_edicion" name="convenio_infinito_inst_edicion" class="switch-input" onclick="toggleFechaFinalInst()">
-                                                        <label for="convenio_infinito_inst_edicion" class="cr"></label>
+                                                        <label for="convenio_infinito_inst_edicion" class="floating-label-activo-sm cr"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -382,7 +382,7 @@
                                                     <label class="floating-label-activo-sm d-block text-center mb-2">Indefinido</label>
                                                     <div class="switch switch-success d-inline-block">
                                                         <input type="checkbox" id="convenio_infinito_ffa_edicion" name="convenio_infinito_ffa_edicion" class="switch-input" onclick="toggleFechaFinalFFA()">
-                                                        <label for="convenio_infinito_ffa_edicion" class="cr"></label>
+                                                        <label for="convenio_infinito_ffa_edicion" class="floating-label-activo-sm cr"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -448,7 +448,7 @@
                                                     <label class="floating-label-activo-sm d-block text-center mb-2">Indefinido</label>
                                                     <div class="switch switch-success d-inline-block">
                                                         <input type="checkbox" id="convenio_infinito_especial_edicion" name="convenio_infinito_especial_edicion" class="switch-input" onclick="toggleFechaFinalEspecial()">
-                                                        <label for="convenio_infinito_especial_edicion" class="cr"></label>
+                                                        <label for="convenio_infinito_especial_edicion" class="floating-label-activo-sm cr"></label>
                                                     </div>
                                                 </div>
                                             </div>

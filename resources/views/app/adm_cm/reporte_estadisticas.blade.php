@@ -2,68 +2,19 @@
 
 @section('content')
     @php
-        // Valores de respaldo: la pantalla se ve completa aunque todavía no lleguen datos del centro
-        $mes = $mes ?? 'actual';
-        $idLugar = $idLugar ?? null;
-        $lugares = $lugares ?? collect();
-        $totalPacientes = $totalPacientes ?? 0;
-        $atencionesRealizadas = $atencionesRealizadas ?? 0;
-        $ingresoTotal = $ingresoTotal ?? 0;
-        $cobrosPendientes = $cobrosPendientes ?? 0;
-        $asistieron = $asistieron ?? 0;
-        $noAsistieron = $noAsistieron ?? 0;
-        $canceladasPaciente = $canceladasPaciente ?? 0;
-        $canceladasLugar = $canceladasLugar ?? 0;
-        $totalAgenda = $totalAgenda ?? ($asistieron + $noAsistieron + $canceladasPaciente + $canceladasLugar);
-        $convenios = $convenios ?? collect();
-        $documentos = $documentos ?? [
-            'Recetas veterinarias' => 0,
-            'Certificados veterinarios' => 0,
-            'Consentimientos informados' => 0,
-            'Órdenes de examen' => 0,
-        ];
-        $atencionesMes = $atencionesMes ?? collect(range(5, 0))->map(function ($resta) {
-            return ['mes' => ucfirst(str_replace('.', '', now()->subMonths($resta)->locale('es')->shortMonthName)), 'total' => 0];
-        });
-
-        // Estadísticas veterinarias: mismos cálculos de la operación del establecimiento (si algo falla, quedan en 0)
-        $etiquetasVeterinarias = ['Mascotas hospitalizadas', 'Plazas habilitadas', 'Reservas de hoy', 'Atenciones completadas', 'Obligaciones pendientes (CLP)', 'Obligaciones vencidas', 'Convocatorias abiertas'];
-        $resumenVeterinario = $resumenVeterinario ?? null;
-        if ($resumenVeterinario === null) {
-            try {
-                $institucionVet = app(\App\Services\OperacionVeterinaria::class)->institucion(request());
-                $baseVet = fn (string $tabla) => \Illuminate\Support\Facades\DB::table($tabla)->where('id_institucion', $institucionVet->id);
-                $resumenVeterinario = [
-                    'Mascotas hospitalizadas' => $baseVet('vet_internaciones')->where('estado', 'hospitalizada')->count(),
-                    'Plazas habilitadas' => $baseVet('vet_plazas')->where('activa', 1)->count(),
-                    'Reservas de hoy' => $baseVet('vet_reservas_servicios')->whereDate('inicio', today())->whereNotIn('estado', ['cancelada', 'no_asiste'])->count(),
-                    'Atenciones completadas' => $baseVet('vet_reservas_servicios')->where('estado', 'completada')->count(),
-                    'Obligaciones pendientes (CLP)' => $baseVet('vet_obligaciones')->where('estado', 'pendiente')->sum('monto'),
-                    'Obligaciones vencidas' => $baseVet('vet_obligaciones')->where('estado', 'pendiente')->whereDate('vencimiento', '<', today())->count(),
-                    'Convocatorias abiertas' => $baseVet('vet_convocatorias')->where('estado', 'abierta')->count(),
-                ];
-            } catch (\Throwable $e) {
-                $resumenVeterinario = array_fill_keys($etiquetasVeterinarias, 0);
-            }
-        }
-        $iconosVeterinarios = ['activity', 'grid', 'calendar', 'check-circle', 'file-text', 'alert-circle', 'users'];
-
-        $porcentaje = fn ($valor, $total) => $total > 0 ? round(($valor / $total) * 100, 1) : 0;
-        $convenioTotal = (int) $convenios->sum('total');
-        $coloresConvenio = ['#A06CC1', '#17a2b8', '#6f42c1', '#ffba57', '#72B02C', '#ff5252'];
-        $serieAsistenciaJson = json_encode([(int) $asistieron, (int) $noAsistieron, (int) $canceladasPaciente, (int) $canceladasLugar]);
-        $serieAtencionesJson = json_encode($atencionesMes->pluck('total')->map(function ($total) { return (int) $total; })->values()->all());
-        $categoriasAtencionesJson = json_encode($atencionesMes->pluck('mes')->values()->all(), JSON_UNESCAPED_UNICODE);
-        $serieConvenioJson = json_encode($convenios->pluck('total')->map(function ($total) { return (int) $total; })->values()->all());
-        $etiquetasConvenioJson = json_encode($convenios->pluck('nombre')->values()->all(), JSON_UNESCAPED_UNICODE);
-        $coloresConvenioJson = json_encode($coloresConvenio);
-        $nombresMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        $textoMes = $mes === 'actual' ? 'Este mes' : $nombresMeses[(int) $mes - 1];
+        $cantidad = fn($valor) => $valor === null ? 'No disponible' : number_format($valor,0,',','.');
+        $moneda = fn($valor) => $valor === null ? 'No disponible' : '$'.number_format($valor,0,',','.');
+        $porcentaje = fn($valor,$total) => $valor === null || $total === null ? '—' : ($total > 0 ? round($valor/$total*100,1) : 0);
+        $serieAsistenciaJson = json_encode(array_map(fn($valor)=>(int)$valor,[$asistieron,$noAsistieron,$canceladasPaciente,$canceladasLugar,$canceladasSinOrigen,$pendientesAgenda]));
+        $serieAtencionesJson = json_encode($atencionesMes->pluck('total')->all());
+        $categoriasAtencionesJson = json_encode($atencionesMes->pluck('mes')->all(),JSON_UNESCAPED_UNICODE);
+        $nombresMeses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
     @endphp
 
     <!--****Container Completo****-->
     <div class="pcoded-main-container">
         <div class="pcoded-content">
+            <div class="mb-3"><a class="btn btn-outline-info btn-sm" href="{{ route('vet.pdf.index',['id_institucion'=>$institucion->id]) }}">Archivo de reportes PDF del centro</a> <a class="btn btn-info btn-sm" target="_blank" rel="noopener" href="{{ route('adm_cm.reporte_estadisticas',request()->except('formato')+['id_institucion'=>$institucion->id,'formato'=>'pdf']) }}">Generar reporte PDF</a></div>
 
             <div class="page-header">
                 <div class="page-block">
@@ -88,9 +39,8 @@
                                     <h3 class="reportes-titulo mb-0">Estadísticas y reportes del centro</h3>
                                 </div>
                                 <form method="GET" action="{{ route('adm_cm.reporte_estadisticas') }}" class="d-flex flex-wrap filtros-reportes" id="form_filtros_reportes">
-                                    @if(request()->filled('id_institucion'))
-                                        <input type="hidden" name="id_institucion" value="{{ (int) request('id_institucion') }}">
-                                    @endif
+                                    <input type="hidden" name="id_institucion" value="{{ $institucion->id }}">
+                                    @if($contexto)<input type="hidden" name="contexto" value="{{ $contexto }}">@endif
                                     <div class="filtro-item filtro-item-icon">
                                         <i class="feather icon-calendar filtro-icon"></i>
                                         <select class="form-control select-filtro-reportes" id="filtro_mes_reportes" name="mes" onchange="this.form.submit()">
@@ -100,7 +50,15 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="filtro-item filtro-item-icon d-none">
+                                    <div class="filtro-item">
+                                        <label class="floating-label-activo-sm sr-only" for="filtro_anio_reportes">Año</label>
+                                        <select id="filtro_anio_reportes" class="form-control select-filtro-reportes" name="anio" onchange="this.form.submit()">
+                                            @for($opcionAnio=max(now()->year,$anio);$opcionAnio>=min(now()->year-5,$anio);$opcionAnio--)
+                                            <option value="{{ $opcionAnio }}" @selected($anio === $opcionAnio)>{{ $opcionAnio }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="filtro-item filtro-item-icon">
                                         <i class="feather icon-map-pin filtro-icon"></i>
                                         <select class="form-control select-filtro-reportes" id="filtro_lugar_reportes" name="lugar" onchange="this.form.submit()">
                                             <option value="todos" @selected(!$idLugar)>Todas las sucursales</option>
@@ -117,17 +75,30 @@
                 </div>
             </div>
 
-            <!--Métricas principales (Recaudado hoy y Recaudado en el mes aún son solo diseño)-->
+            <div class="alert alert-light border mb-3">
+                <strong>{{ $institucion->nombre }}</strong> · Período: {{ $inicio->format('d/m/Y') }} a {{ $fin->subDay()->format('d/m/Y') }}.
+                Recaudación de bonos de consulta con pago confirmado, sin devoluciones; el precio de una reserva no acredita pago.
+                «Hoy» corresponde al {{ $fechaHoy }}. Las atenciones incluyen consultas finalizadas y servicios completados.
+                Pacientes nuevos: mascotas con su primera vinculación o actividad registrada en el ámbito seleccionado.
+                Hospitalización, plazas, reservas de hoy, obligaciones y convocatorias muestran su estado actual.
+            </div>
+            @if($idLugar)
+            <div class="alert alert-info">Filtrando por sucursal: los servicios e inventario de hospitalización no tienen sucursal registrada y quedan sin desglose. Las obligaciones y convocatorias corresponden al establecimiento completo.</div>
+            @endif
+            @if($fuentesNoDisponibles)
+            <div class="alert alert-warning">Algunas fuentes no están disponibles: {{ implode(', ',$fuentesNoDisponibles) }}. Sus indicadores no se sustituyen por cero.</div>
+            @endif
+            <!-- Métricas calculadas para el establecimiento y período seleccionados -->
             @php
                 $metricasPrincipales = [
-                    ['icono' => 'credit-card', 'valor' => '$0', 'etiqueta' => 'Recaudado hoy'],
-                    ['icono' => 'trending-up', 'valor' => '$0', 'etiqueta' => 'Recaudado en el mes'],
-                    ['icono' => 'check-circle', 'valor' => number_format($resumenVeterinario['Atenciones completadas'] ?? 0, 0, ',', '.'), 'etiqueta' => 'Atenciones completadas'],
-                    ['icono' => 'user-plus', 'valor' => '0', 'etiqueta' => 'Pacientes nuevos'],
-                    ['icono' => 'activity', 'valor' => number_format($resumenVeterinario['Mascotas hospitalizadas'] ?? 0, 0, ',', '.'), 'etiqueta' => 'Mascotas hospitalizadas'],
-                    ['icono' => 'grid', 'valor' => number_format($resumenVeterinario['Plazas habilitadas'] ?? 0, 0, ',', '.'), 'etiqueta' => 'Plazas habilitadas'],
-                    ['icono' => 'calendar', 'valor' => number_format($resumenVeterinario['Reservas de hoy'] ?? 0, 0, ',', '.'), 'etiqueta' => 'Reservas de hoy'],
-                    ['icono' => 'x-circle', 'valor' => number_format((int) $canceladasPaciente + (int) $canceladasLugar, 0, ',', '.'), 'etiqueta' => 'Citas anuladas'],
+                    ['icono' => 'credit-card', 'valor' => $moneda($recaudadoHoy), 'etiqueta' => 'Recaudado hoy'],
+                    ['icono' => 'trending-up', 'valor' => $moneda($ingresoTotal), 'etiqueta' => 'Recaudado en el mes'],
+                    ['icono' => 'check-circle', 'valor' => $cantidad($atencionesRealizadas), 'etiqueta' => 'Atenciones completadas'],
+                    ['icono' => 'user-plus', 'valor' => $cantidad($pacientesNuevos), 'etiqueta' => 'Pacientes nuevos'],
+                    ['icono' => 'activity', 'valor' => $cantidad($resumenVeterinario['Mascotas hospitalizadas']), 'etiqueta' => 'Mascotas hospitalizadas'],
+                    ['icono' => 'grid', 'valor' => $cantidad($resumenVeterinario['Plazas habilitadas']), 'etiqueta' => 'Plazas habilitadas'],
+                    ['icono' => 'calendar', 'valor' => $cantidad($resumenVeterinario['Reservas de hoy']), 'etiqueta' => 'Reservas de hoy'],
+                    ['icono' => 'x-circle', 'valor' => $cantidad($totalAgenda === null ? null : $canceladasPaciente + $canceladasLugar + $canceladasSinOrigen), 'etiqueta' => 'Citas anuladas'],
                 ];
             @endphp
             <div class="row escritorio-indicadores">
@@ -149,7 +120,7 @@
                         <div class="card-header-new px-3 d-flex align-items-center justify-content-between">
                             <h6 class="mb-0 f-18 text-dark">Agenda: Asistencia vs Ausentismo</h6>
                             <i class="feather icon-info text-muted" data-toggle="tooltip" data-placement="top"
-                                title="Resumen de asistencia de las horas agendadas en el período seleccionado."></i>
+                                title="Citas clínicas y reservas de servicios del período. Las tasas se calculan solo sobre asistencias e inasistencias registradas."></i>
                         </div>
                         <div class="card-body">
                             <div class="row align-items-center">
@@ -160,40 +131,44 @@
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="kpi-dot bg-c-purple"></span>
                                         <span class="flex-grow-1">Asistieron</span>
-                                        <span class="font-weight-bolder mr-2">{{ $asistieron }}</span>
+                                        <span class="font-weight-bolder mr-2">{{ $cantidad($asistieron) }}</span>
                                         <span class="text-muted small">({{ $porcentaje($asistieron, $totalAgenda) }}%)</span>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="kpi-dot bg-c-red"></span>
                                         <span class="flex-grow-1">No asistieron</span>
-                                        <span class="font-weight-bolder mr-2">{{ $noAsistieron }}</span>
+                                        <span class="font-weight-bolder mr-2">{{ $cantidad($noAsistieron) }}</span>
                                         <span class="text-muted small">({{ $porcentaje($noAsistieron, $totalAgenda) }}%)</span>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="kpi-dot bg-c-yellow"></span>
                                         <span class="flex-grow-1">Canceladas por tutor</span>
-                                        <span class="font-weight-bolder mr-2">{{ $canceladasPaciente }}</span>
+                                        <span class="font-weight-bolder mr-2">{{ $cantidad($canceladasPaciente) }}</span>
                                         <span class="text-muted small">({{ $porcentaje($canceladasPaciente, $totalAgenda) }}%)</span>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <span class="kpi-dot bg-c-green"></span>
                                         <span class="flex-grow-1">Canceladas por el centro</span>
-                                        <span class="font-weight-bolder mr-2">{{ $canceladasLugar }}</span>
+                                        <span class="font-weight-bolder mr-2">{{ $cantidad($canceladasLugar) }}</span>
                                         <span class="text-muted small">({{ $porcentaje($canceladasLugar, $totalAgenda) }}%)</span>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row mt-2"><div class="col-12 text-muted small">
+                                Canceladas sin origen registrado: {{ $cantidad($canceladasSinOrigen) }} · Pendientes o sin cierre: {{ $cantidad($pendientesAgenda) }}.
+                                Las citas pasadas sin cierre no se marcan automáticamente como inasistencias.
+                            </div></div>
                             <div class="row mt-3">
                                 <div class="col-6">
                                     <div class="stat-mini-card">
                                         <p class="text-muted mb-1 small">Tasa de asistencia</p>
-                                        <h3 class="text-c-green">{{ $porcentaje($asistieron, $totalAgenda) }}%</h3>
+                                        <h3 class="text-c-green">{{ $porcentaje($asistieron, $totalEvaluadas) }}%</h3>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="stat-mini-card">
                                         <p class="text-muted mb-1 small">Tasa de ausentismo</p>
-                                        <h3 class="text-c-red">{{ $porcentaje($noAsistieron, $totalAgenda) }}%</h3>
+                                        <h3 class="text-c-red">{{ $porcentaje($noAsistieron, $totalEvaluadas) }}%</h3>
                                     </div>
                                 </div>
                             </div>
@@ -232,7 +207,7 @@
                                         <span class="doc-icon bg-c-purple text-white"><i class="feather icon-file-text"></i></span>
                                         {{ $nombreDocumento }}
                                     </div>
-                                    <span class="font-weight-bolder">{{ number_format($cantidadDocumento, 0, ',', '.') }}</span>
+                                    <span class="font-weight-bolder">{{ $cantidad($cantidadDocumento) }}</span>
                                 </div>
                             @endforeach
                         </div>
@@ -251,9 +226,10 @@
                             </div>
                             @php
                                 $otrasMetricas = [
-                                    ['icono' => 'file-text', 'color' => 'bg-c-purple', 'etiqueta' => 'Obligaciones pendientes', 'valor' => '$' . number_format($resumenVeterinario['Obligaciones pendientes (CLP)'] ?? 0, 0, ',', '.')],
-                                    ['icono' => 'alert-circle', 'color' => 'bg-c-red', 'etiqueta' => 'Obligaciones vencidas', 'valor' => number_format($resumenVeterinario['Obligaciones vencidas'] ?? 0, 0, ',', '.')],
-                                    ['icono' => 'users', 'color' => 'bg-c-teal', 'etiqueta' => 'Convocatorias abiertas', 'valor' => number_format($resumenVeterinario['Convocatorias abiertas'] ?? 0, 0, ',', '.')],
+                                    ['icono' => 'credit-card', 'color' => 'bg-c-purple', 'etiqueta' => 'Cobros sin confirmación en el período', 'valor' => $moneda($cobrosPendientes)],
+                                    ['icono' => 'file-text', 'color' => 'bg-c-purple', 'etiqueta' => 'Obligaciones pendientes', 'valor' => $moneda($resumenVeterinario['Obligaciones pendientes (CLP)'])],
+                                    ['icono' => 'alert-circle', 'color' => 'bg-c-red', 'etiqueta' => 'Obligaciones vencidas', 'valor' => $cantidad($resumenVeterinario['Obligaciones vencidas'])],
+                                    ['icono' => 'users', 'color' => 'bg-c-teal', 'etiqueta' => 'Convocatorias abiertas', 'valor' => $cantidad($resumenVeterinario['Convocatorias abiertas'])],
                                 ];
                             @endphp
                             @foreach ($otrasMetricas as $otraMetrica)
@@ -283,6 +259,7 @@
             // Dona con el total al centro. Si no hay datos queda un anillo gris, no un espacio en blanco
             function crearDona(selector, serie, etiquetas, colores, etiquetaTotal, total, sufijoTooltip) {
                 var contenedor = document.querySelector(selector);
+                if (!contenedor) return;
                 var sinDatos = serie.reduce(function (suma, valor) { return suma + valor; }, 0) === 0;
 
                 if (sinDatos) {
@@ -331,10 +308,10 @@
             crearDona(
                 '#grafico_asistencia_ausentismo',
                 {!! $serieAsistenciaJson !!},
-                ['Asistieron', 'No asistieron', 'Canceladas por tutor', 'Canceladas por el centro'],
-                ['#A06CC1', '#ff5252', '#ffba57', '#72B02C'],
+                ['Asistieron', 'No asistieron', 'Canceladas por tutor', 'Canceladas por el centro', 'Canceladas sin origen', 'Pendientes o sin cierre'],
+                ['#A06CC1', '#ff5252', '#ffba57', '#72B02C', '#8b93a7', '#17a2b8'],
                 'Total agendadas',
-                {{ (int) $totalAgenda }},
+                @json($totalAgenda === null ? 'No disponible' : $totalAgenda),
                 ' horas'
             );
 
@@ -372,16 +349,6 @@
                 }
             }).render();
 
-            // Donut: Mascotas según convenio
-            crearDona(
-                '#grafico_convenio',
-                {!! $serieConvenioJson !!},
-                {!! $etiquetasConvenioJson !!},
-                {!! $coloresConvenioJson !!},
-                'Total',
-                {{ $convenioTotal }},
-                ''
-            );
 
         });
     </script>

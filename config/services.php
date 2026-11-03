@@ -43,6 +43,12 @@ return [
         'url' => env('VETERFOOD_URL', 'http://veterfood.test'),
     ],
 
+    'comercio_centro' => [
+        'alimentos_url' => env('CENTRO_ALIMENTOS_URL', rtrim(env('VETERFOOD_URL', 'http://veterfood.test'), '/').'/central-ventas/rubros/alimentos'),
+        'farmacia_url' => env('CENTRO_FARMACIA_URL', rtrim(env('VETERFOOD_URL', 'http://veterfood.test'), '/').'/central-ventas/rubros/farmacia'),
+        'cuidados_url' => env('CENTRO_ACCESORIOS_URL', rtrim(env('VETERFOOD_URL', 'http://veterfood.test'), '/').'/central-ventas/rubros/cuidados'),
+    ],
+
     'sdi_sso' => [
         'alimentos_api_url' => env('ALIMENTOS_BENEFICIOS_API_URL'),
         'farmacia_api_url' => env('VETERFARMA_BENEFICIOS_API_URL'),

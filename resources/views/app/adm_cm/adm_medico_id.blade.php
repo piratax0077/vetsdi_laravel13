@@ -75,7 +75,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="institucion">Institución</label>
+                    <label class="floating-label-activo-sm" for="institucion">Institución</label>
                     <select class="form-control" id="institucion">
                         <option value="0">Seleccione una institución</option>
 

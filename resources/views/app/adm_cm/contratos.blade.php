@@ -60,7 +60,7 @@
                                                 <tr>
                                                     <td class="align-middle">
                                                         <span><strong>{{ $nombreProfesional }}</strong></span><br>
-                                                        <span>{{ $profesional->rut }}</span>
+                                                        <span>{{ rut_formatear($profesional->rut) ?? $profesional->rut }}</span>
                                                     </td>
                                                     <td class="align-middle">
                                                         <span>{{ $profesional->especialidad }}</span><br>
@@ -134,7 +134,7 @@
                                                 <tr>
                                                     <td class="align-middle">
                                                         <span><strong>{{ $nombreAsistente }}</strong></span><br>
-                                                        <span>{{ $asistente->rut }}</span>
+                                                        <span>{{ rut_formatear($asistente->rut) ?? $asistente->rut }}</span>
                                                     </td>
                                                     <td class="align-middle">
                                                         <span>{{ $asistente->asistente_tipo->nombre }}</span>
@@ -177,46 +177,8 @@
                         </div>
                     </div>
 
-                    <!--Contratos de otros trabajadores (mantención, limpieza, contabilidad y otras categorías)-->
                     <div class="tab-pane fade" id="contratos_otros" role="tabpanel">
-                        <div class="card">
-                            <div class="card-header encabezado-card">
-                                <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-settings"></i></span>Otros trabajadores contratados</h5>
-                                <div class="encabezado-card-acciones">
-                                    {{-- Pendiente para programación: igual que en Personal, todavía no hay registro de otros trabajadores --}}
-                                    <button type="button" class="btn btn-info btn-sm" disabled><i class="feather icon-plus mr-1"></i>Registrar contrato</button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="tab_otros_contratos" class="table table-striped nowrap" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th class="align-middle">Nombre / RUT</th>
-                                                <th class="align-middle">Categoría</th>
-                                                <th class="align-middle">Tipo de contrato / Fecha</th>
-                                                <th class="align-middle">Remuneración mes</th>
-                                                <th class="align-middle">Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {{-- Pendiente para programación: listar los contratos de las otras categorías del centro --}}
-                                            <tr>
-                                                <td colspan="5" class="p-0 border-0">
-                                                    <div class="aviso-sin-registros">
-                                                        <span class="aviso-sin-registros-icono"><i class="feather icon-alert-circle"></i></span>
-                                                        <div>
-                                                            <p class="aviso-sin-registros-titulo">Sin registros</p>
-                                                            <p class="aviso-sin-registros-texto">Aquí aparecerán los contratos de los trabajadores que no son profesionales ni asistentes, como mantención, limpieza o contabilidad. Se registrarán y editarán con el mismo formulario de contrato.</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        @include('app.adm_cm.partials.otros_trabajadores_contratos')
                     </div>
                 </div>
             </div>
@@ -224,9 +186,11 @@
     </div>
 </div>
 <!--****Cierre Container Completo****-->
+@include('app.adm_cm.partials.otros_trabajadores_modales')
 @endsection
 
 @section('page-script')
+@include('app.adm_cm.partials.otros_trabajadores_js',['modoOtrosContratos'=>true])
 <script>
     $(function () {
         // Mismo buscador y paginación que las tablas de Personal

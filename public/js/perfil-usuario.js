@@ -25,11 +25,28 @@
             else {d.nombre=valor('editar_nombres');['id_especialidad','id_tipo_especialidad','id_sub_tipo_especialidad','id_tipo_atencion','num_colegio'].forEach(function(id){if(document.getElementById(id))d[id]=valor(id)||null;});}
             return d;
         }
-        function recordar(form) {form?.querySelectorAll('input,select,textarea').forEach(function(el){if(el.tagName==='SELECT')Array.from(el.options).forEach(function(o){o.defaultSelected=o.selected;});else el.defaultValue=el.value;});}
+        function recordar(form) {
+            if(!form)return;
+            form.querySelectorAll('input,select,textarea').forEach(function(el){if(el.tagName==='SELECT')Array.from(el.options).forEach(function(o){o.defaultSelected=o.selected;});else el.defaultValue=el.value;});
+            form.perfilSelects=Array.from(form.querySelectorAll('select')).map(function(select){return [select,select.innerHTML];});
+        }
+        function formatearRut(rut) {
+            var limpio=String(rut||'').replace(/[.\s-]/g,'').toUpperCase();
+            return /^\d{6,8}[\dK]$/.test(limpio)?limpio.slice(0,-1).replace(/\B(?=(\d{3})+(?!\d))/g,'.')+'-'+limpio.slice(-1):rut;
+        }
+        function cancelar(tipo) {
+            if(!grupos[tipo] || pendientes.has(tipo))return false;
+            var form=document.getElementById(grupos[tipo][1])?.querySelector('form');
+            form?.reset();
+            (form?.perfilSelects||[]).forEach(function(par){par[0].innerHTML=par[1];});
+            mensaje(tipo,'');cerrar(tipo);return false;
+        }
         function actualizar(tipo,resultado) {
             var perfil=resultado[config.tipo] || {};
             if(tipo==='personales') {
                 ['rut','apellido_uno','apellido_dos','num_colegio'].forEach(function(c){texto('ver_'+c,perfil[c]);});
+                texto('ver_rut',formatearRut(perfil.rut));
+                var campoRut=document.getElementById('editar_rut');if(campoRut && perfil.rut)campoRut.value=formatearRut(perfil.rut);
                 texto('ver_nombre',perfil[asistente?'nombres':'nombre']);
                 texto('ver_sexo',({M:'Masculino',F:'Femenino',O:'Otro'})[perfil.sexo] || 'Sin registro');
                 texto('ver_nacimiento',perfil.fecha_nac ? perfil.fecha_nac.slice(0,10).split('-').reverse().join('/') : 'Sin registro');
@@ -58,6 +75,7 @@
             finally {pendientes.delete(tipo);controles.forEach(function(el,i){el.disabled=estados[i];});}
         }
         window.editar_asistente_datos_personales=function(){return guardar('personales');};
+        window.cancelar_edicion_perfil=cancelar;
         window.editar_profesional_datos_personales=window.editar_asistente_datos_personales;
         window.editar_asistente_datos_contacto=function(){return guardar('contacto');};
         window.editar_datos_contacto_profesional=window.editar_asistente_datos_contacto;
@@ -65,9 +83,10 @@
         window.editar_datos_residencia_profesional=window.editar_asistente_datos_residencia;
         Object.keys(grupos).forEach(function(tipo){
             var panel=document.getElementById(grupos[tipo][1]),form=panel?.querySelector('form');
+            recordar(form);
             if(!form)return;
             form.addEventListener('submit',function(event){event.preventDefault();event.stopImmediatePropagation();guardar(tipo);},true);
-            form.querySelectorAll('button').forEach(function(btn){if(btn.textContent.includes('Cancelar'))btn.addEventListener('click',function(event){event.preventDefault();event.stopImmediatePropagation();form.reset();mensaje(tipo,'');cerrar(tipo);},true);});
+            form.querySelectorAll('button').forEach(function(btn){if(btn.textContent.includes('Cancelar'))btn.addEventListener('click',function(event){event.preventDefault();event.stopImmediatePropagation();cancelar(tipo);},true);});
         });
     });
 })();

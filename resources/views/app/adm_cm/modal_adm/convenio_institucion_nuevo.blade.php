@@ -188,7 +188,7 @@
                                                     <div class="col-md-4 d-flex justify-content-between">
                                                         <div class="switch switch-success d-inline">
                                                             <input type="checkbox" id="convenio_infinito1" name="convenio_infinito1" class="switch-input" onclick="convenio_infinito()">
-                                                            <label for="convenio_infinito" class="cr"></label>
+                                                            <label for="convenio_infinito" class="floating-label-activo-sm cr"></label>
                                                         </div>
                                                         <br>
                                                         <label class="floating-label-activo-sm">Indefinido</label>
@@ -473,7 +473,7 @@
                                                     <div class="col-md-4 d-flex justify-content-between">
                                                         <div class="switch switch-success d-inline">
                                                             <input type="checkbox" id="convenio_infinito_prevision1" name="convenio_infinito_prevision1" class="switch-input" onclick="convenio_infinito()">
-                                                            <label for="convenio_infinito1" class="cr"></label>
+                                                            <label for="convenio_infinito1" class="floating-label-activo-sm cr"></label>
                                                         </div>
                                                         <br>
                                                         <label class="floating-label-activo-sm">Indefinido</label>
@@ -724,7 +724,7 @@
                                                     <div class="col-md-4 d-flex justify-content-between">
                                                         <div class="switch switch-success d-inline">
                                                             <input type="checkbox" id="convenio_infinito_ffa1" name="convenio_infinito_ffa1" class="switch-input" onclick="convenio_infinito()">
-                                                            <label for="convenio_infinito1" class="cr"></label>
+                                                            <label for="convenio_infinito1" class="floating-label-activo-sm cr"></label>
                                                         </div>
                                                         <br>
                                                         <label class="floating-label-activo-sm">Indefinido</label>

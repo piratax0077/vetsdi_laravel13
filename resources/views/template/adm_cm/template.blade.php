@@ -821,6 +821,7 @@
         });
     </script>
     --}}
+    <script src="{{ asset('js/centro-formularios.js') }}?v={{ filemtime(public_path('js/centro-formularios.js')) }}"></script>
     @yield('page-script')
     @yield('js-profesionales')
     <script src="{{ asset('js/validaRut.js') }}?t={{ time() }}"></script>

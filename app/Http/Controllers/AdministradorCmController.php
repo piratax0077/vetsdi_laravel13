@@ -228,6 +228,12 @@ class AdministradorCmController extends Controller
         }
 
         $usuario = Auth::user();
+        $perfilAdministrador = AdminInstServ::where('id_admin', $usuario->id)->first();
+        $nombreAdministrador = trim(implode(' ', array_filter([
+            $perfilAdministrador->nombres ?? $usuario->nombres,
+            $perfilAdministrador->apellido_uno ?? $usuario->apellido_uno,
+            $perfilAdministrador->apellido_dos ?? $usuario->apellido_dos,
+        ]))) ?: 'Administrador General';
         $roles = $usuario->roles()->orderBy('id', 'DESC')->pluck('name')->toArray();
         $adm_medico = false;
         foreach($roles as $rol){
@@ -237,9 +243,21 @@ class AdministradorCmController extends Controller
             }
         }
 
+        $solicitudReporte = \Illuminate\Http\Request::create('/', 'GET', ['id_institucion'=>$institucion->id,'contexto'=>$activeContext['key']]);
+        if (request()->hasSession()) $solicitudReporte->setLaravelSession(request()->session());
+        $reporteCentro = app(\App\Services\ReporteCentroVeterinario::class)->datos($solicitudReporte);
+        $indicadoresCentro = [
+            'recaudadoHoy'=>$reporteCentro['recaudadoHoy'],
+            'recaudadoMes'=>$reporteCentro['ingresoTotal'],
+            'citasHoy'=>$reporteCentro['resumenVeterinario']['Reservas de hoy'],
+            'pacientesNuevos'=>$reporteCentro['pacientesNuevos'],
+        ];
+
         return view('app.adm_cm.home')->with([
             'institucion' => $institucion,
             'adm_medico' => $adm_medico,
+            'nombreAdministrador' => $nombreAdministrador,
+            'indicadoresCentro' => $indicadoresCentro,
             'contextosCentro' => $context['contexts'],
             'contextoActivo' => $activeContext,
         ]);
@@ -769,9 +787,12 @@ class AdministradorCmController extends Controller
         // Los tipos antiguos solo se ofrecen al editar las áreas que ya los usan.
         $tipos_areas_antiguos = TipoAreasCm::noVeterinarias()->whereIn('id', $areas_cm->pluck('id_tipo_area_cm'))->get();
         // Un ambiente sin las tablas veterinarias sigue mostrando Configuración, sin este campo.
-        $tipo_establecimiento = $tipo_institucion !== 'servicio' && \Illuminate\Support\Facades\Schema::hasTable('vet_establecimientos')
-            ?app(\App\Services\OperacionVeterinaria::class)->configuracion($institucion->id)->tipo
+        $configuracion_establecimiento = $tipo_institucion !== 'servicio' && \Illuminate\Support\Facades\Schema::hasTable('vet_establecimientos')
+            ?app(\App\Services\OperacionVeterinaria::class)->configuracion($institucion->id)
             : null;
+        $tipo_establecimiento = $configuracion_establecimiento?->tipo;
+        $informacionHospitalaria = $configuracion_establecimiento && ($tipo_establecimiento === 'hospital' || $configuracion_establecimiento->hospitalizacion_habilitada)
+            ? app(\App\Services\OperacionVeterinaria::class)->informacionHospitalaria($institucion) : null;
 
         $servicios = Servicios::all();
 
@@ -875,6 +896,9 @@ class AdministradorCmController extends Controller
             'tipos_areas_cm' => $tipos_areas_cm,
             'tipos_areas_antiguos' => $tipos_areas_antiguos,
             'tipo_establecimiento' => $tipo_establecimiento,
+            'configuracion_establecimiento' => $configuracion_establecimiento,
+            'informacionHospitalaria' => $informacionHospitalaria,
+            'puedeExportarPacientes' => $tipo_institucion !== 'servicio' && app(\App\Services\PerfilCentroMedico::class)->permitidos()->whereKey($institucion->id)->exists(),
             'areas_cm' => $areas_cm,
             'servicios' => $servicios,
             'servicios_internos' => $servicios_internos,
@@ -2945,6 +2969,7 @@ class AdministradorCmController extends Controller
         $lista_tipo_contrato = $this->dame_lista_tipo_contrato($lista_tipo_asistente);
 
         return view('app.adm_cm.profesionales')->with([
+            'otrosTrabajadores' => app(\App\Services\TrabajadoresCentroVeterinario::class)->datos($institucion, (!empty($contextoActivo['key']) && !str_ends_with($contextoActivo['key'], ':all')) ? ($scopeLugarIds ?? []) : []),
             'responsable' => $responsable,
             'institucion' => $institucion,
             'tipo_institucion' => $tipo_institucion,
@@ -2990,6 +3015,7 @@ class AdministradorCmController extends Controller
         }
 
         return view('app.adm_cm.contratos')->with([
+            'otrosTrabajadores' => app(\App\Services\TrabajadoresCentroVeterinario::class)->datos($institucion),
             'responsable' => $contextData['responsable'],
             'institucion' => $institucion,
             'tipo_institucion' => $contextData['tipo_institucion'],

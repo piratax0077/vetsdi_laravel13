@@ -20,6 +20,7 @@ class EnviarDocumentoMascota
         if (!$pdf instanceof Response || $pdf->getStatusCode() !== 200 || !str_starts_with((string) $pdf->getContent(), '%PDF-')) {
             throw new \RuntimeException('No se pudo generar el documento PDF.');
         }
+        app(ArchivoPdfVeterinario::class)->registrar(request(),$pdf,app(ArchivoPdfVeterinario::class)->contexto($request));
         return $pdf;
     }
 

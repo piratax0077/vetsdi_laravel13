@@ -28,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))->withRouting(
         // Nadie navega el sistema con el perfil de su rol activo a medio llenar.
         $middleware->appendToGroup('web', [
             \App\Http\Middleware\PerfilPendiente::class,
+            \App\Http\Middleware\ArchivarPdfVeterinario::class,
         ]);
 
         // Registramos los alias de los middlewares de Spatie para Laravel 13

@@ -29,6 +29,7 @@ class CuentasService
         'clinica' => 'Adm_Institucion',
         'peluqueria' => 'Peluqueria',
         'centro_estetico' => 'CentroEstetico',
+        'hospitalizacion' => 'HospitalizacionVeterinaria',
     ];
 
     public const ETIQUETAS = [
@@ -38,6 +39,7 @@ class CuentasService
         'clinica' => 'Clínica veterinaria',
         'peluqueria' => 'Profesional de estética',
         'centro_estetico' => 'Centro estético',
+        'hospitalizacion' => 'Hospitalización veterinaria',
     ];
 
     /** Reseña que aparece al elegir el tipo de cuenta en el registro. */
@@ -48,6 +50,7 @@ class CuentasService
         'clinica' => 'Centro que administra su equipo, pacientes y operación.',
         'peluqueria' => 'Profesional de baño, belleza y peluquería de mascotas. Perfil independiente del veterinario.',
         'centro_estetico' => 'Institución que administra sucursales, profesionales de estética, personal, agendas y aranceles.',
+        'hospitalizacion' => 'Servicio de atención veterinaria y enfermería para mascotas hospitalizadas.',
     ];
 
     /** Bajada corta de cada card en la pantalla "Elige tu perfil". */
@@ -58,6 +61,7 @@ class CuentasService
         'clinica' => 'Escritorio de la clínica y administración de su equipo.',
         'peluqueria' => 'Agenda personal, mascotas y fichas de atención estética.',
         'centro_estetico' => 'Administración del centro, equipo, sucursales, agendas y servicios.',
+        'hospitalizacion' => 'Pacientes hospitalizados, atención profesional, controles y cuidados de enfermería.',
     ];
 
     /** Ícono de la card en la pantalla "Elige tu perfil". */
@@ -68,6 +72,7 @@ class CuentasService
         'clinica' => 'images/logos/iconos-inicio-sesion/institucion.svg',
         'peluqueria' => 'images/iconos/mascotas.svg',
         'centro_estetico' => 'images/logos/iconos-inicio-sesion/institucion.svg',
+        'hospitalizacion' => 'images/iconos/hospitalizacion.svg',
     ];
 
     /** Escritorio al que entra cada rol cuando su perfil está completo. */
@@ -78,6 +83,7 @@ class CuentasService
         'clinica' => 'adm_cm.home',
         'peluqueria' => 'peluqueria.home',
         'centro_estetico' => 'centro_estetico.home',
+        'hospitalizacion' => 'vet.hospital.servicio',
     ];
 
     /** Tabla de perfil propia de cada rol. */
@@ -97,6 +103,10 @@ class CuentasService
     public function asignarRol(User $usuario, string $tipo, ?int $idPlan = null): UsuarioRol
     {
         $tipo = $this->validarTipo($tipo);
+        if ($tipo === 'hospitalizacion') {
+            abort_unless(app(HospitalizacionAcceso::class)->tieneAcceso($usuario),403);
+            \Spatie\Permission\Models\Role::findOrCreate(self::ROLES_SPATIE[$tipo], 'web');
+        }
 
         $rol = UsuarioRol::firstOrNew([
             'id_usuario' => $usuario->id,
@@ -149,6 +159,10 @@ class CuentasService
             if($existente)$existente->perfil_completo=true;
             else $roles->push(new UsuarioRol(['id_usuario'=>$usuario->id,'tipo'=>$tipo,'estado'=>true,'perfil_completo'=>true]));
         }
+        $roles=$roles->reject(fn($rol)=>$rol->tipo === 'hospitalizacion')->values();
+        if (app(HospitalizacionAcceso::class)->tieneAcceso($usuario)) {
+            $roles->push(new UsuarioRol(['id_usuario'=>$usuario->id,'tipo'=>'hospitalizacion','estado'=>true,'perfil_completo'=>true]));
+        }
         return $roles;
     }
 
@@ -162,11 +176,13 @@ class CuentasService
 
     public function tieneRol(User $usuario, string $tipo): bool
     {
+        if ($tipo === 'hospitalizacion') return app(HospitalizacionAcceso::class)->tieneAcceso($usuario);
         return $this->rol($usuario, $tipo) !== null || (in_array($tipo,['peluqueria','centro_estetico'],true) && app(PeluqueriaAcceso::class)->tieneMembresiaRol($usuario,$tipo));
     }
 
     public function perfilCompleto(User $usuario, string $tipo): bool
     {
+        if ($tipo === 'hospitalizacion') return app(HospitalizacionAcceso::class)->tieneAcceso($usuario);
         return (bool) optional($this->rol($usuario, $tipo))->perfil_completo || (in_array($tipo,['peluqueria','centro_estetico'],true) && app(PeluqueriaAcceso::class)->tieneMembresiaRol($usuario,$tipo));
     }
 
@@ -187,6 +203,7 @@ class CuentasService
     /** Registro de perfil del rol (paciente, profesional, asistente o institución). */
     public function perfil(User $usuario, string $tipo)
     {
+        if ($tipo === 'hospitalizacion') return Profesional::where('id_usuario',$usuario->id)->first() ?? Asistente::where('id_usuario',$usuario->id)->first();
         $modelo = self::MODELOS_PERFIL[$this->validarTipo($tipo)];
 
         return $modelo::where('id_usuario', $usuario->id)->first();
@@ -204,7 +221,7 @@ class CuentasService
 
     public static function esTipoValido(?string $tipo): bool
     {
-        return in_array($tipo, self::TIPOS, true);
+        return $tipo === 'hospitalizacion' || in_array($tipo, self::TIPOS, true);
     }
 
     private function validarTipo(string $tipo): string

@@ -9,11 +9,14 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
         <div><h4>{{ $titulo }}</h4><span class="text-muted">{{ $institucion->nombre }} · {{ $configuracion->tipo === 'hospital' ? 'Hospital veterinario' : 'Centro veterinario' }}</span></div>
     </div>
+    @unless(in_array($seccion, ['pacientes','hospitalizacion','plazas']))
     <nav class="nav nav-pills mb-3" aria-label="Operación del establecimiento">
         @foreach(\App\Services\OperacionVeterinaria::SECCIONES + \App\Services\OperacionVeterinaria::SERVICIOS as $clave=>$etiqueta)
+        @continue(in_array($clave, ['pacientes','hospitalizacion','plazas','peluqueria']))
         <a class="nav-link {{ $seccion === $clave ? 'active' : '' }}" href="{{ route('vet.operacion.index',$ctx+['seccion'=>$clave]) }}">{{ $etiqueta }}</a>
         @endforeach
     </nav>
+    @endunless
     @if(session('success'))<div class="alert alert-success" role="status">{{ session('success') }}</div>@endif
     @if($errors->any())<div class="alert alert-danger" role="alert"><strong>No se guardaron los cambios.</strong><ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
     @if($seccion === 'configuracion')
@@ -23,10 +26,12 @@
     <a class="btn btn-outline-info btn-sm mb-3" href="{{ route('vet.operacion.index',$ctx+['seccion'=>'plazas']) }}">Administrar plazas</a>
     @if(!$configuracion->hospitalizacion_habilitada)<div class="alert alert-warning">Hospitalización deshabilitada. Puede consultar su historia y finalizar ingresos existentes.</div>@endif
     @endif
-    @if(isset($mascotas) && !$mascotas)
+    @if(in_array($seccion,['imagenologia','vacunatorio','peluqueria']) && $filas->isEmpty())
+    <div class="alert alert-info">No hay registros.</div>
+    @elseif(!in_array($seccion,['laboratorio','imagenologia','vacunatorio','peluqueria']) && isset($mascotas) && !$mascotas)
     <div class="alert alert-info">No hay mascotas vinculadas a este establecimiento. <a href="{{ route('vet.operacion.index',$ctx+['seccion'=>'pacientes']) }}">Vincular una mascota</a> para reservar o registrar su ingreso.</div>
     @endif
-    @if(isset(\App\Services\OperacionVeterinaria::SERVICIOS[$seccion]) && !in_array($seccion,$configuracion->servicios_habilitados))
+    @if($seccion !== 'laboratorio' && isset(\App\Services\OperacionVeterinaria::SERVICIOS[$seccion]) && !in_array($seccion,$configuracion->servicios_habilitados))
     <div class="alert alert-warning">Esta área está deshabilitada para nuevas reservas. Puede consultar y finalizar las reservas existentes.</div>
     @endif
     @if($seccion === 'asistentes')<p>Gestione vacantes y candidatos del establecimiento. La selección se registra aquí; el alta del empleado se realiza en <a href="{{ route('adm_cm.personal') }}">Personal</a>.</p>@endif
@@ -34,7 +39,7 @@
     @if($seccion === 'pacientes')
     <div class="card"><div class="card-header encabezado-card"><h5 class="encabezado-card-titulo">Vincular mascota por RUT del tutor</h5></div><div class="card-body">
         <p>Permite recibir mascotas sin una hora previa, conservando su ficha existente.</p>
-        <form method="get" class="form-row mb-3"><input type="hidden" name="id_institucion" value="{{ $institucion->id }}"><div class="form-group col-md-6"><label for="rut-busqueda-tutor">RUT del tutor</label><input id="rut-busqueda-tutor" name="rut_tutor" value="{{ request('rut_tutor') }}" class="form-control form-control-sm" required maxlength="20"></div><div class="col-md-6 align-self-end form-group"><button type="submit" class="btn btn-info btn-sm">Buscar mascotas</button></div></form>
+        <form method="get" class="form-row mb-3"><input type="hidden" name="id_institucion" value="{{ $institucion->id }}"><div class="form-group col-md-6"><label class="floating-label-activo-sm" for="rut-busqueda-tutor">RUT del tutor</label><input id="rut-busqueda-tutor" name="rut_tutor" value="{{ request('rut_tutor') }}" class="form-control form-control-sm" required maxlength="20"></div><div class="col-md-6 align-self-end form-group"><button type="submit" class="btn btn-info btn-sm">Buscar mascotas</button></div></form>
         @if(request()->filled('rut_tutor'))
             @if($resultadosTutor->isNotEmpty())
             @include('app.veterinaria.operacion.formulario',['accionForm'=>'vincular','registroForm'=>null,'camposForm'=>[['nombre'=>'id_mascota','etiqueta'=>'Mascota del tutor','tipo'=>'select','opciones'=>$resultadosTutor->mapWithKeys(fn($m)=>[$m->id=>$m->nombre.' · #'.$m->id])->all()]],'ocultos'=>['rut_tutor'=>request('rut_tutor')],'valores'=>[]])

@@ -85,7 +85,7 @@
                                                                     <tr>
                                                                         <td class="align-middle">
                                                                             <span><strong>{{ $prof_medico->nombre.' '.$prof_medico->apellido_uno.' '.$prof_medico->apellido_dos }}</strong></span><br>
-                                                                            <span>{{ $prof_medico->rut }}</span>
+                                                                            <span>{{ rut_formatear($prof_medico->rut) ?? $prof_medico->rut }}</span>
                                                                         </td>
                                                                         <td class="align-middle">
                                                                             <span>{{ $prof_medico->TipoEspecialidad()->first()->nombre }}</span>
@@ -184,7 +184,7 @@
                                                                     <tr>
                                                                         <td class="align-middle">
                                                                             <span><strong>{{ $prof_medico->nombre.' '.$prof_medico->apellido_uno.' '.$prof_medico->apellido_dos }}</strong></span><br>
-                                                                            <span>{{ $prof_medico->rut }}</span>
+                                                                            <span>{{ rut_formatear($prof_medico->rut) ?? $prof_medico->rut }}</span>
                                                                         </td>
                                                                         <td class="align-middle">
                                                                             <span>{{ $prof_medico->TipoEspecialidad()->first()->nombre }}</span>
@@ -282,7 +282,7 @@
                                                                     <tr>
                                                                         <td class="align-middle">
                                                                             <span><strong>{{ $prof_medico->nombre.' '.$prof_medico->apellido_uno.' '.$prof_medico->apellido_dos }}</strong></span><br>
-                                                                            <span>{{ $prof_medico->rut }}</span>
+                                                                            <span>{{ rut_formatear($prof_medico->rut) ?? $prof_medico->rut }}</span>
                                                                         </td>
                                                                         <td class="align-middle">
                                                                             <span>{{ $prof_medico->TipoEspecialidad()->first()->nombre }}</span>

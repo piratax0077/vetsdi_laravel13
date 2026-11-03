@@ -188,7 +188,7 @@
                                                     <div class="col-md-4 d-flex justify-content-between">
                                                         <div class="switch switch-success d-inline">
                                                             <input type="checkbox" id="convenio_infinito1" name="convenio_infinito1" class="switch-input" onchange="document.getElementById('fecha_final_pago_convenio1').disabled = this.checked;">
-                                                            <label for="convenio_infinito1" class="cr"></label>
+                                                            <label for="convenio_infinito1" class="floating-label-activo-sm cr"></label>
                                                         </div>
                                                         <br>
                                                         <label class="floating-label-activo-sm">Indefinido</label>
@@ -496,7 +496,7 @@
                                                         <div class="d-flex align-items-center">
                                                             <div class="switch switch-success d-inline mr-2">
                                                                 <input type="checkbox" id="convenio_infinito_prevision1" name="convenio_infinito_prevision1" class="switch-input" onchange="document.getElementById('fecha_final_pago_convenio_prevision1').disabled = this.checked;">
-                                                                <label for="convenio_infinito_prevision1" class="cr"></label>
+                                                                <label for="convenio_infinito_prevision1" class="floating-label-activo-sm cr"></label>
                                                             </div>
 
                                                             <button type="button" class="btn btn-sm btn-success" onclick="guardar_tipo_convenio_prevision(1)"><i class="fas fa-save"></i></button>
@@ -727,7 +727,7 @@
                                                     <div class="col-md-4 d-flex justify-content-between">
                                                         <div class="switch switch-success d-inline">
                                                             <input type="checkbox" id="convenio_infinito_ffa1" name="convenio_infinito_ffa1" class="switch-input" onchange="document.getElementById('fecha_final_pago_convenio_ffa1').disabled = this.checked;">
-                                                            <label for="convenio_infinito_ffa1" class="cr"></label>
+                                                            <label for="convenio_infinito_ffa1" class="floating-label-activo-sm cr"></label>
                                                         </div>
                                                         <br>
                                                         <label class="floating-label-activo-sm">Indefinido</label>

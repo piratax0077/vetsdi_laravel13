@@ -352,7 +352,7 @@ class PeluqueriaTest extends TestCase
         $cliente=$this->cliente();
         DB::table('mascotas')->insert(['id'=>1,'esterilizado'=>true]);
         DB::table('peluqueria_clientes')->where('id',$cliente)->update(['mascota_id'=>1]);
-        $this->controller()->agendar($this->req($this->reserva($cliente)));
+        $this->controller()->citaGuardar($this->req($this->reserva($cliente)));
         $id=DB::table('peluqueria_citas')->value('id');
         foreach ([1=>'si',0=>'no'] as $estado=>$esperado) {
             DB::table('mascotas')->where('id',1)->update(['esterilizado'=>$estado]);

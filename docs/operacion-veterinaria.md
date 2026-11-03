@@ -62,3 +62,33 @@ candidatos, pagos, aislamiento entre centros, rollback de auditoría, formulario
 con datos, autenticación y tarjetas conectadas.
 
 `tests/Unit/operacion-veterinaria.test.cjs` comprueba el bloqueo de envíos repetidos.
+
+## Estadísticas y reporte CSV
+
+`Administrador/Reporte_estadisticas` calcula los indicadores con
+`ReporteCentroVeterinario`. Permite elegir mes, año y sucursal y descargar los
+mismos resultados en CSV compatible con Excel. El historial mensual siempre
+contiene seis meses consecutivos, incluso al consultar desde un día 31.
+
+- Recaudación: bonos de consulta con pago confirmado dentro del período de pago,
+  excluyendo devoluciones. El precio de una reserva no se interpreta como un pago.
+- Atenciones: fichas veterinarias finalizadas y servicios completados, por fecha
+  registrada de atención. Al filtrar por sucursal se excluyen los servicios que
+  no registran un lugar de atención.
+- Pacientes nuevos: mascotas distintas cuya primera vinculación o actividad en
+  el ámbito seleccionado está dentro del período. Una mascota ya registrada en
+  meses anteriores no se vuelve a contar como nueva.
+- Asistencia: se distinguen asistencias, inasistencias explícitas, cancelaciones
+  de tutor, cancelaciones del centro, cancelaciones sin origen y pendientes.
+  Una cita pasada sin cierre no se convierte automáticamente en inasistencia.
+  Las tasas usan solamente asistencias e inasistencias registradas.
+- Documentos: se cuentan por fecha de emisión y se limitan a fichas de mascotas
+  del centro o sucursal. Las recetas se agrupan por ficha, no por medicamento.
+- Hospitalización, plazas, reservas de hoy, obligaciones y convocatorias muestran
+  el estado actual. Las obligaciones y convocatorias son del establecimiento
+  completo; las plazas y hospitalizaciones no tienen desglose por sucursal.
+
+Las fuentes ausentes se avisan en pantalla y en el CSV; los indicadores afectados
+no se sustituyen silenciosamente por cero. El reporte solo lee registros y no
+requiere nuevas migraciones. Sus pruebas están en
+`tests/Feature/ReporteCentroVeterinarioTest.php`.

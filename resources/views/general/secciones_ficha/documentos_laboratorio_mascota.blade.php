@@ -1,4 +1,5 @@
 @if (!empty($mascota) && !empty($mascota->id))
+<a class="btn btn-outline-info btn-sm mb-3" href="{{ route('vet.pdf.index',['id_mascota'=>$mascota->id]) }}" target="_blank" rel="noopener">Documentos PDF de la mascota</a>
 <div class="card mb-3" id="lab-vet-bandeja"
     data-mascota="{{ $mascota->id }}"
     data-listar="{{ route('documentos.laboratorio.mascota.listar') }}"

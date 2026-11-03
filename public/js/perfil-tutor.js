@@ -6,7 +6,7 @@
         var grupos={todo:['info_basica-1','pinfo_basica_2'],contacto:['info_contacto_1','info_contacto_2'],direccion:['info_residencial_1','info_residencial_2'],contrasena:['pass_personal_1','pass_personal_2']};
         var ocupados=new Set();
         function cerrar(tipo){document.getElementById(grupos[tipo][0])?.classList.add('show');document.getElementById(grupos[tipo][1])?.classList.remove('show');}
-        function recordar(form){form.querySelectorAll('input,select,textarea').forEach(function(el){if(el.type==='radio'||el.type==='checkbox')el.defaultChecked=el.checked;else if(el.tagName==='SELECT')Array.from(el.options).forEach(function(o){o.defaultSelected=o.selected;});else el.defaultValue=el.value;});}
+        function recordar(form){form.querySelectorAll('input,select,textarea').forEach(function(el){if(el.type==='radio'||el.type==='checkbox')el.defaultChecked=el.checked;else if(el.tagName==='SELECT')Array.from(el.options).forEach(function(o){o.defaultSelected=o.selected;});else el.defaultValue=el.value;});form.opcionesTutor=Array.from(form.querySelectorAll('select')).map(function(el){return [el,el.innerHTML];});}
         async function guardar(tipo){
             if(ocupados.has(tipo))return false;
             var panel=document.getElementById(grupos[tipo][1]),form=panel?.querySelector('form');if(!form)return false;
@@ -85,6 +85,6 @@
                 (data.registros||data.ciudades||data).forEach(function(c){ciudad.add(new Option(c.nombre,c.id));});
             }catch(error){if(carga===cargaComunas)ciudad.replaceChildren(new Option('No fue posible cargar las comunas',''));}
         };
-        Object.keys(grupos).forEach(function(tipo){var form=document.getElementById(grupos[tipo][1])?.querySelector('form');if(!form)return;form.addEventListener('submit',function(e){e.preventDefault();e.stopImmediatePropagation();guardar(tipo);},true);form.querySelectorAll('button').forEach(function(btn){if(btn.textContent.includes('Cancelar'))btn.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();form.reset();cerrar(tipo);},true);});});
+        Object.keys(grupos).forEach(function(tipo){var form=document.getElementById(grupos[tipo][1])?.querySelector('form');if(!form)return;recordar(form);form.addEventListener('submit',function(e){e.preventDefault();e.stopImmediatePropagation();guardar(tipo);},true);form.querySelectorAll('button').forEach(function(btn){if(btn.textContent.includes('Cancelar'))btn.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();if(ocupados.has(tipo))return;form.reset();(form.opcionesTutor||[]).forEach(function(par){par[0].innerHTML=par[1];});cargaComunas++;cerrar(tipo);},true);});});
     });
 })();

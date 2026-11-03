@@ -89,7 +89,7 @@
                                                         <tr>
                                                             <td class="align-middle">
                                                                 <span><strong>{{ $profesional->nombre }} {{ $profesional->apellido_uno }} {{ $profesional->apellido_dos }}</strong></span><br>
-                                                                <span>{{ $profesional->rut }}</span>
+                                                                <span>{{ rut_formatear($profesional->rut) ?? $profesional->rut }}</span>
                                                             </td>
                                                             <td class="align-middle">
                                                                 <span>{{ $profesional->especialidad }}</span><br>
@@ -185,7 +185,7 @@
                                                             <tr>
                                                                 <td class="align-middle">
                                                                     <span><strong>{{ $administrativo->nombres.' '.$administrativo->apellido_uno.' '.$administrativo->apellido_dos }}</strong></span><br>
-                                                                    <span>{{ $administrativo->rut }}</span>
+                                                                    <span>{{ rut_formatear($administrativo->rut) ?? $administrativo->rut }}</span>
                                                                 </td>
                                                                 <td class="align-middle">{{ $administrativo->contrato->tipo_empleado }}</td>
                                                                 <td class="align-middle">
@@ -258,7 +258,7 @@
                                                         <tr>
                                                             <td class="align-middle">
                                                                 <span><strong>{{ $administrativo->nombre.' '.$administrativo->apellido_paterno.' '.$administrativo->apellido_materno }}</strong></span><br>
-                                                                <span>{{ $administrativo->rut }}</span>
+                                                                <span>{{ rut_formatear($administrativo->rut) ?? $administrativo->rut }}</span>
                                                             </td>
                                                             <td class="align-middle">{{ $administrativo->contrato->tipo_empleado }}</td>
                                                             <td class="align-middle">@if($administrativo->empresa) Empresa @else Persona @endif</td>

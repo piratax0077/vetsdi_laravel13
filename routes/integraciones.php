@@ -11,6 +11,8 @@ use App\Http\Controllers\DetalleRecetaController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/operacion_veterinaria.php';
+require __DIR__.'/documentos_pdf_veterinarios.php';
+require __DIR__.'/trabajadores_veterinarios.php';
 
 Route::middleware('auth')
     ->get('/Administrador/Integraciones/Contabilidad-Central', [ContabilidadIntegracionController::class, 'index'])

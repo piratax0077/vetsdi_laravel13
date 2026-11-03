@@ -60,7 +60,7 @@
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                             <div class="form-group">
-                                <label class="floating-label-activo">Lista de materiales e insumos con autorización</label>
+                                <label class="floating-label-activo-sm">Lista de materiales e insumos con autorización</label>
                                 <select class="form-control form-control-sm" name="cont_ca_bodega_agregar" id="cont_ca_bodega_agregar" multiple="multiple">
                                     <optgroup label="Farmacia">
                                         @if(isset($tipos_productos))

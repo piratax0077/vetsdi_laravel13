@@ -116,11 +116,34 @@ class PerfilUsuarioTest extends TestCase
         $fuente=file_get_contents(resource_path('views/app/profesional/perfil_profesional.blade.php'));
         $fuente=str_replace('@endsection','',preg_replace('/@(?:extends|section)\([^\n]*\)/','',$fuente));
         $html=\Illuminate\Support\Facades\Blade::render($fuente,$vista->getData());
+        $this->assertSame(1,substr_count($html,'id="info_basica-2"'));
+        $this->assertStringNotContainsString('id="pinfo_basica_2"',$html);
         preg_match('/<select[^>]+id="id_tipo_especialidad"[^>]*>(.*?)<\/select>/s',$html,$select);
         $this->assertMatchesRegularExpression('/<option value="7">\s*Medicina veterinaria general\s*<\/option>/',$select[1]);
         $this->servicio()->personales('profesional',$this->req(['nombre'=>'Veterinario','apellido_uno'=>'General','id_tipo_especialidad'=>7]));
         $this->assertEquals(7,Profesional::find(10)->id_tipo_especialidad);
         $this->assertNull(Profesional::find(10)->id_sub_tipo_especialidad);
+    }
+
+    public function test_professional_rut_is_normalized_and_formatted_duplicates_are_rejected(): void
+    {
+        $this->servicio()->personales('profesional',$this->req(['nombre'=>'Veterinario','apellido_uno'=>'Prueba','rut'=>'12.345.678-5']));
+        $this->assertSame('12345678-5',Profesional::find(10)->rut);
+        $this->assertSame('12345678-5',User::find(1)->rut);
+        DB::table('users')->where('id',2)->update(['rut'=>'11.111.111-1']);
+        try{$this->servicio()->personales('profesional',$this->req(['nombre'=>'Veterinario','apellido_uno'=>'Prueba','rut'=>'11111111-1']));$this->fail();}
+        catch(ValidationException $e){$this->assertArrayHasKey('rut',$e->errors());}
+        $this->assertSame('12345678-5',Profesional::find(10)->rut);
+    }
+
+    public function test_professional_rut_rejects_invalid_changes_and_keeps_existing_legacy_identity(): void
+    {
+        DB::table('profesionales')->where('id',10)->update(['rut'=>'12345678-0']);
+        $this->servicio()->personales('profesional',$this->req(['nombre'=>'Veterinario','apellido_uno'=>'Prueba','rut'=>'12.345.678-0']));
+        $this->assertSame('12345678-0',Profesional::find(10)->rut);
+        try{$this->servicio()->personales('profesional',$this->req(['nombre'=>'Veterinario','apellido_uno'=>'Prueba','rut'=>'12.345.679-0']));$this->fail();}
+        catch(ValidationException $e){$this->assertArrayHasKey('rut',$e->errors());}
+        $this->assertSame('12345678-0',Profesional::find(10)->rut);
     }
 
     public function test_contact_without_address_can_be_edited_only_by_its_owner(): void

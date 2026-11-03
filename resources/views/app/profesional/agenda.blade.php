@@ -378,25 +378,6 @@
                                                             </div>
                                                         </dd>
                                                     </div>
-                                                    <div class="ficha-previa-dato">
-                                                        <dt>Convenio</dt>
-                                                        <dd>
-                                                            <div class="paciente_view">
-                                                                <span id="reserva_convenio"></span>
-                                                            </div>
-                                                            <div class="paciente_edit form-group mb-0" style="display:none">
-                                                                <label class="floating-label-activo-sm" for="input_reserva_convenio">Convenio</label>
-                                                                <select id="input_reserva_convenio" name="input_reserva_convenio" class="form-control form-control-sm">
-                                                                    <option value="0">Seleccione</option>
-                                                                    @if (isset($prevision))
-                                                                        @foreach ($prevision as $p)
-                                                                            <option value="{{ $p->id }}">{{ $p->nombre }}</option>
-                                                                        @endforeach
-                                                                    @endif
-                                                                </select>
-                                                            </div>
-                                                        </dd>
-                                                    </div>
                                                 </dl>
 
                                               </div>
@@ -1524,8 +1505,6 @@
         var apellido_dos_paciente = $('#input_reserva_hora_apellido_dos').val();
         var fecha_nacimiento = $('#input_reserva_fecha_nacimiento').val();
         var sexo_paciente = $('#input_reserva_sexo').val();
-        var convenio_paciente = $('#input_reserva_convenio').val();
-        var convenio_txt_paciente = $('#input_reserva_convenio option:selected').text()
         var direccion_paciente = $('#input_reserva_direccion_direccion').val();
         var numero_direccion_paciente = $('#input_reserva_direccion_numero_dir').val();
         var region_paciente = $('#input_reserva_direccion_region').val();
@@ -1569,11 +1548,6 @@
         {
             valido = 0;
             mensaje += 'Sexo del paciente requerido\n';
-        }
-        if( convenio_paciente == '' )
-        {
-            valido = 0;
-            mensaje += 'Convenio del paciente requerido\n';
         }
         if( direccion_paciente == '' )
         {
@@ -1623,7 +1597,6 @@
                         apellido_dos: apellido_dos_paciente,
                         fecha_nacimiento: fecha_nacimiento,
                         sexo: sexo_paciente,
-                        convenio: convenio_paciente,
                         direccion: direccion_paciente,
                         numero_direccion: numero_direccion_paciente,
                         region: region_paciente,
@@ -1646,7 +1619,6 @@
                             }
                             $('#reserva_hora_email').text(email_paciente);
                             $('#reserva_hora_telefono').text(telefono_paciente);
-                            $('#reserva_convenio').text(convenio_txt_paciente);
                             $('#reserva_direccion').text(direccion_paciente+' '+numero_direccion_paciente+', '+ciudad_txt_paciente);
 
                             $('.paciente_view').show();

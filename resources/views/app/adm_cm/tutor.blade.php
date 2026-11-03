@@ -45,7 +45,7 @@
                                 <a href="tel:{{ preg_replace('/[^0-9+]/', '', $telefonoTutor) }}" class="text-muted">{{ $telefonoTutor }}</a> ·
                             @endif
                             @if ($tutor->rut)
-                                {{ $tutor->rut }}
+                                {{ rut_formatear($tutor->rut) ?? $tutor->rut }}
                             @else
                                 <span class="text-danger">falta el RUT</span>
                             @endif

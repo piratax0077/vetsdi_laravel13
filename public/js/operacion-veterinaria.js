@@ -22,6 +22,16 @@
         modal.modal('show');
     }
 
+    document.addEventListener('change', function (event) {
+        var selector = event.target;
+        if (!selector.matches('[data-servicio-comun]')) return;
+        var nombre = selector.closest('form').querySelector('[name="nombre"]');
+        if (!nombre || !selector.value) return;
+        if (selector.value !== '__personalizado') nombre.value = selector.value;
+        nombre.focus();
+        nombre.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         document.addEventListener('submit', function (event) {
             var form = event.target;

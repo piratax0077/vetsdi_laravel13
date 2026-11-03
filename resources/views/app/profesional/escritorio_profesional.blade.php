@@ -41,17 +41,7 @@
                                 </div>
                             </a>
                         </div>
-                        {{-- Módulo opcional: más adelante se muestra solo si el profesional lo agrega a su escritorio --}}
-                        @if($modulo_hospitalizacion ?? false)
-                        {{-- Deshabilitado mientras el módulo está en construcción; al habilitarlo vuelve el enlace a route('profesional.hospitalizacion') --}}
-                        <div class="card modulo-en-construccion" aria-disabled="true" title="Módulo en construcción">
-                            <div class="card-body text-center px-2">
-                                <img class="wid-40 text-center" src="{{ asset('images/iconos/hospitalizacion.svg') }}" alt="">
-                                <h6 class="mt-1">Hospitalización</h6>
-                                <span class="modulo-en-construccion-etiqueta">En construcción</span>
-                            </div>
-                        </div>
-                        @endif
+                        <div class="card subir"><a href="{{ route('vet.hospital.profesional') }}"><div class="card-body text-center px-2"><img class="wid-40" src="{{ asset('images/iconos/hospitalizacion.svg') }}" alt=""><h6 class="mt-1">Pacientes hospitalizados</h6></div></a></div>
                         <div class="card subir">
                             <a href="{{ route('profesional.configuracion') }}">
                                 <div class="card-body text-center px-2" style="cursor:pointer">

@@ -72,7 +72,8 @@ class PerfilTutorMascotaTest extends TestCase
         $fuente=str_replace('@endsection','',preg_replace('/@(?:extends|section)\([^\n]*\)/','',$fuente));
         $html=Blade::render($fuente,['paciente'=>Paciente::find(9),'direccion_paciente'=>null,'direccion_id_ciudad_paciente'=>'','direccion_txt_ciudad_paciente'=>'','direccion_id_region_paciente'=>'','direccion_txt_region_paciente'=>'','previsiones'=>collect(),'regiones'=>DB::table('regiones')->get(),'ciudades'=>DB::table('ciudades')->get(),'contacto'=>collect()]);
         $this->assertStringContainsString('perfil-tutor.js',$html);$this->assertStringContainsString('Sin registro',$html);
-        foreach(['Perfil_email','Perfil_fono','perfil_dire','perfil_region','perfil_ciudad','perfil_numero_dir'] as $id)$this->assertSame(1,substr_count($html,'id="'.$id.'"'),$id);
+        foreach(['Perfil_email','Perfil_fono','perfil_dire','perfil_region','perfil_ciudad'] as $id)$this->assertSame(1,substr_count($html,'id="'.$id.'"'),$id);
+        $this->assertStringNotContainsString('id="perfil_numero_dir"',$html);
         $this->assertSame(0,substr_count($html,'id="contacto_email"'));
         $this->assertStringNotContainsString('value="direccion }}',$html);
     }
@@ -245,6 +246,42 @@ class PerfilTutorMascotaTest extends TestCase
     {
         $this->assertSame(200,$this->actualizar(['dieta'=>null,'fecha_nacimiento'=>null])->getStatusCode());
         $m=Mascota::find(1);$this->assertNull($m->dieta);$this->assertNull($m->fecha_nacimiento);$this->assertSame('2021-01-01',$m->fecha_esterilizacion->format('Y-m-d'));$this->assertTrue($m->esterilizado);
+    }
+
+    public function test_tutor_can_remove_own_pet_with_string_owner_id_without_erasing_history(): void
+    {
+        $mascota=Mascota::find(1);
+        $mascota->id_responsable='9';
+        $r=app(MascotasController::class)->destroy($mascota);
+        $this->assertSame(200,$r->getStatusCode());
+        $this->assertEquals(0,Mascota::find(1)->estado);
+        $this->assertSame('Vacunada',Mascota::find(1)->vacunas);
+        $this->assertSame('Cirugía previa',Mascota::find(1)->cirugias);
+        $this->assertSame(404,app(MascotasController::class)->destroy(Mascota::find(2))->getStatusCode());
+    }
+
+    public function test_pet_birthdate_cannot_be_after_existing_sterilization_date(): void
+    {
+        $r=$this->actualizar(['fecha_nacimiento'=>'2022-01-01']);
+        $this->assertSame(422,$r->getStatusCode());
+        $this->assertArrayHasKey('fecha_esterilizacion',$r->getData(true)['error']);
+        $this->assertSame('2020-01-01',Mascota::find(1)->fecha_nacimiento->format('Y-m-d'));
+    }
+
+    public function test_pet_creation_rejects_sterilization_before_birth(): void
+    {
+        $r=app(MascotasController::class)->store($this->req(['nombre'=>'Nueva','especie_id'=>1,'raza_id'=>1,'tamano_id'=>1,'sexo'=>'F','tiene_chip'=>0,'esterilizado'=>1,'fecha_nacimiento'=>'2021-01-01','fecha_esterilizacion'=>'2020-01-01']));
+        $this->assertSame(422,$r->getStatusCode());
+        $this->assertSame(2,Mascota::count());
+    }
+
+    public function test_legacy_inconsistent_dates_do_not_block_unrelated_pet_edits(): void
+    {
+        DB::table('mascotas')->where('id',1)->update(['fecha_esterilizacion'=>'2019-01-01']);
+        $r=$this->actualizar(['nombre'=>'Nombre corregido']);
+        $this->assertSame(200,$r->getStatusCode());
+        $this->assertSame('Nombre corregido',Mascota::find(1)->nombre);
+        $this->assertSame('2019-01-01',Mascota::find(1)->fecha_esterilizacion->format('Y-m-d'));
     }
 
     public function test_pet_cannot_be_edited_by_another_tutor(): void

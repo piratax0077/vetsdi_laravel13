@@ -80,7 +80,7 @@
                         @foreach($odontologos as $odontologo)
                         <tr>
                             <td>{{ trim(($odontologo->nombre ?? $odontologo->nombres ?? '').' '.($odontologo->apellido_uno ?? '').' '.($odontologo->apellido_dos ?? '')) ?: 'Sin nombre' }}</td>
-                            <td>{{ $odontologo->rut ?? 'Sin información' }}</td>
+                            <td>{{ rut_formatear($odontologo->rut ?? 'Sin información') ?? ($odontologo->rut ?? 'Sin información') }}</td>
                             <td>{{ optional($tipos_odontologos->firstWhere('id', $odontologo->id_tipo_especialidad ?? null))->nombre ?? 'Odontología' }}</td>
                             <td>{{ $odontologo->email ?? optional($odontologo->Usuario)->email ?? 'Sin información' }}</td>
                         </tr>

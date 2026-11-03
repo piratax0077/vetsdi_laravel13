@@ -277,9 +277,9 @@
                                             <div class="form-group">
                                                 <div class="switch switch-success d-inline m-r-10">
                                                     <input type="checkbox" id="editar_correo-cont" checked="">
-                                                    <label for="editar_correo-cont" class="cr"></label>
+                                                    <label for="editar_correo-cont" class="floating-label-activo-sm cr"></label>
                                                 </div>
-                                                <label>Notificar por correo electr&oacute;nico</label>
+                                                <label class="floating-label-activo-sm">Notificar por correo electr&oacute;nico</label>
                                             </div>
                                         </div>
                                     </div>

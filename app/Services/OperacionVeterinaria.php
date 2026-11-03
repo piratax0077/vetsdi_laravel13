@@ -37,6 +37,14 @@ class OperacionVeterinaria
         return $perfil->centro($r);
     }
 
+    public function informacionHospitalaria(Instituciones $institucion): array
+    {
+        $pacientes=$this->mascotas($institucion)->orderBy('nombre')->paginate(20,['*'],'hospital_pacientes')->appends(['id_institucion'=>$institucion->id,'hospital_vista'=>'pacientes'])->fragment('ar-dep');
+        $hospitalizaciones=DB::table('vet_internaciones as h')->leftJoin('mascotas as m','m.id','=','h.id_mascota')->leftJoin('vet_plazas as p',function($join){$join->on('p.id','=','h.plaza_id')->on('p.id_institucion','=','h.id_institucion');})->where('h.id_institucion',$institucion->id)->select('h.id','h.ingreso','h.egreso','h.estado','h.responsable','m.nombre as mascota','p.codigo as plaza')->orderByDesc('h.ingreso')->paginate(20,['*'],'hospital_ingresos')->appends(['id_institucion'=>$institucion->id,'hospital_vista'=>'hospitalizacion'])->fragment('ar-dep');
+        $plazas=DB::table('vet_plazas as p')->where('p.id_institucion',$institucion->id)->select('p.*')->selectSub(DB::table('vet_internaciones as h')->selectRaw('COUNT(*)')->whereColumn('h.plaza_id','p.id')->whereColumn('h.id_institucion','p.id_institucion')->where('h.estado','hospitalizada'),'ocupacion')->orderBy('p.codigo')->paginate(20,['*'],'hospital_plazas')->appends(['id_institucion'=>$institucion->id,'hospital_vista'=>'plazas'])->fragment('ar-dep');
+        return compact('pacientes','hospitalizaciones','plazas');
+    }
+
     public function configuracion(int $id): object
     {
         $fila = DB::table('vet_establecimientos')->where('id_institucion', $id)->first();
@@ -210,8 +218,9 @@ class OperacionVeterinaria
 
     private function guardarEvolucion(Request $r, Instituciones $i): int
     {
-        $d = $r->validate(['internacion_id'=>'required|integer', 'fecha'=>'required|date|before_or_equal:now', 'observaciones'=>'required|string|max:20000', 'peso'=>'nullable|numeric|gt:0|max:99999', 'temperatura'=>'nullable|numeric|min:0|max:99']);
+        $d = $r->validate(['tipo_registro'=>'sometimes|in:veterinaria,enfermeria,cirugia,control,evolucion', 'procedimiento'=>'nullable|required_if:tipo_registro,cirugia|string|max:150', 'internacion_id'=>'required|integer', 'fecha'=>'required|date|before_or_equal:now', 'observaciones'=>'required|string|max:20000', 'peso'=>'nullable|numeric|gt:0|max:99999', 'temperatura'=>'nullable|numeric|min:0|max:99']);
         $internacion = $this->registro('vet_internaciones', $i->id, (int)$d['internacion_id']);
+        $d += $r->validate(['frecuencia_cardiaca'=>'nullable|integer|min:1|max:600','frecuencia_respiratoria'=>'nullable|integer|min:1|max:300','dolor'=>'nullable|integer|min:0|max:10']);
         $this->exigir($internacion->estado === 'hospitalizada', 'internacion_id', 'Solo puede agregar evolución a una internación activa.');
         $this->exigir(Carbon::parse($d['fecha'])->gte(Carbon::parse($internacion->ingreso)), 'fecha', 'La evolución debe ser posterior al ingreso.');
         $d['fecha'] = Carbon::parse($d['fecha'])->format('Y-m-d H:i:s');
@@ -231,6 +240,7 @@ class OperacionVeterinaria
     {
         $d = $r->validate(['id_mascota'=>'required|integer', 'servicio_id'=>'required|integer', 'responsable'=>'required|string|max:150', 'inicio'=>'required|date', 'estado'=>['required',Rule::in(['reservada','confirmada','en_atencion','completada','cancelada','no_asiste'])], 'observaciones'=>'nullable|string|max:10000', 'resultado'=>'nullable|string|max:20000']);
         $servicio = $this->registro('vet_catalogo_servicios', $i->id, (int)$d['servicio_id']);
+        $this->exigir($servicio->modulo !== 'laboratorio', 'servicio_id', 'Las atenciones de laboratorio se gestionan desde la agenda por el rol de laboratorio.');
         $antes = $id ? $this->registro('vet_reservas_servicios', $i->id, $id) : null;
         $this->exigir(!$antes || !in_array($antes->estado,['completada','cancelada','no_asiste']), 'estado', 'La reserva ya está cerrada.');
         $this->exigir($this->mascotas($i)->where('id',$d['id_mascota'])->exists(), 'id_mascota', 'La mascota no pertenece a este establecimiento.');

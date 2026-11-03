@@ -111,21 +111,21 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label class="floating-label">Código del examen</label>
+                                    <label class="floating-label-activo-sm">Código del examen</label>
                                     <input class="form-control form-control-sm" name="direccion"
                                         id="direccion_lugar_atencion" type="text">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group fill">
-                                    <label class="floating-label">Nombre del examen</label>
+                                    <label class="floating-label-activo-sm">Nombre del examen</label>
                                     <input class="form-control form-control-sm" name="nombre_examen" id="nombre_examen"
                                         type="text">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label class="floating-label">Plazo de entrega</label>
+                                    <label class="floating-label-activo-sm">Plazo de entrega</label>
                                     <input class="form-control form-control-sm" name="numero" id="numero_lugar_atencion"
                                         type="text">
                                 </div>
@@ -135,13 +135,13 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group fill">
-                                    <label class="floating-label">Preparación del examen</label>
+                                    <label class="floating-label-activo-sm">Preparación del examen</label>
                                     <textarea class="form-control form-control-sm" id="preparacion_examen" rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group fill">
-                                    <label for="subir_instructivo">Instructivo de preparación en formato de archivo</label>
+                                    <label class="floating-label-activo-sm" for="subir_instructivo">Instructivo de preparación en formato de archivo</label>
                                     <input type="file" class="form-control-file" id="subir_instructivo">
                                 </div>
                             </div>
@@ -211,21 +211,21 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label class="floating-label">Código del examen</label>
+                                    <label class="floating-label-activo-sm">Código del examen</label>
                                     <input class="form-control form-control-sm" name="direccion"
                                         id="direccion_lugar_atencion" type="text">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group fill">
-                                    <label class="floating-label">Nombre del examen</label>
+                                    <label class="floating-label-activo-sm">Nombre del examen</label>
                                     <input class="form-control form-control-sm" name="nombre_examen" id="nombre_examen"
                                         type="text">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label class="floating-label">Plazo de entrega</label>
+                                    <label class="floating-label-activo-sm">Plazo de entrega</label>
                                     <input class="form-control form-control-sm" name="numero" id="numero_lugar_atencion"
                                         type="text">
                                 </div>
@@ -235,13 +235,13 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group fill">
-                                    <label class="floating-label">Preparación del examen</label>
+                                    <label class="floating-label-activo-sm">Preparación del examen</label>
                                     <textarea class="form-control form-control-sm" id="preparacion_examen" rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group fill">
-                                    <label for="subir_instructivo">Instructivo de preparación en formato de archivo</label>
+                                    <label class="floating-label-activo-sm" for="subir_instructivo">Instructivo de preparación en formato de archivo</label>
                                     <input type="file" class="form-control-file" id="subir_instructivo">
                                 </div>
                             </div>

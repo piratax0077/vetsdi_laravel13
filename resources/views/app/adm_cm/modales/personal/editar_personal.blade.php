@@ -142,11 +142,11 @@
                                             <input type="date" class="form-control form-control-sm" name="edit_empleado_fecha_termino" id="edit_empleado_fecha_termino">
                                         </div>
                                         <div class="form-group col-sm-12 col-md-6 col-lg-6"style="text-align:right">
-                                            <label  class="cr">Indefinido</label>
+                                            <label  class="floating-label-activo-sm cr">Indefinido</label>
                                             <input type="hidden" id="edit_empleado_cont_indefinido" name="edit_empleado_cont_indefinido" value="0">
                                             <div class="switch switch-success d-inline m-r-10">
                                                 <input type="checkbox" onchange="contrato_indefinido('edit_empleado_check_contrato_indef', 'edit_empleado_cont_indefinido', 'edit_empleado_fecha_termino');" id="edit_empleado_check_contrato_indef" name="edit_empleado_check_contrato_indef" value="">
-                                                <label for="edit_empleado_check_contrato_indef" class="cr"></label>
+                                                <label for="edit_empleado_check_contrato_indef" class="floating-label-activo-sm cr"></label>
                                             </div>
                                         </div>
 
@@ -160,7 +160,7 @@
                                             <input type="hidden" id="edit_empleado_locomocion" name="edit_empleado_locomocion" value="0">
                                             <div class="switch switch-success d-inline m-r-10">
                                                 <input type="checkbox" onchange="activar_check('edit_empleado_check_locomocion', 'edit_empleado_locomocion', 'edit_empleado_locomocion_porcentaje');" id="edit_empleado_check_locomocion" name="edit_empleado_check_locomocion" value="">
-                                                <label for="edit_empleado_check_locomocion" class="cr"></label>
+                                                <label for="edit_empleado_check_locomocion" class="floating-label-activo-sm cr"></label>
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-12 col-md-3 col-lg-3">
@@ -173,7 +173,7 @@
                                             <input type="hidden" id="edit_empleado_colacion" name="edit_empleado_colacion" value="0">
                                             <div class="switch switch-success d-inline m-r-10">
                                                 <input type="checkbox" onchange="activar_check('edit_empleado_check_colacion', 'edit_empleado_colacion', 'edit_empleado_colacion_porcentaje');" id="edit_empleado_check_colacion" name="edit_empleado_check_colacion" value="">
-                                                <label for="edit_empleado_check_colacion" class="cr"></label>
+                                                <label for="edit_empleado_check_colacion" class="floating-label-activo-sm cr"></label>
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-12 col-md-3 col-lg-3">
@@ -185,7 +185,7 @@
                                             <input type="hidden" id="edit_empleado_asignacion_familiar" name="edit_empleado_asignacion_familiar" value="0">
                                             <div class="switch switch-success d-inline m-r-10">
                                                 <input type="checkbox" onchange="activar_check('edit_empleado_check_asignacion_familiar', 'edit_empleado_asignacion_familiar', 'edit_empleado_asignacion_familiar_cantidad');" id="edit_empleado_check_asignacion_familiar" name="edit_empleado_check_asignacion_familiar" value="">
-                                                <label for="edit_empleado_check_asignacion_familiar" class="cr"></label>
+                                                <label for="edit_empleado_check_asignacion_familiar" class="floating-label-activo-sm cr"></label>
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-12 col-md-3 col-lg-3">
@@ -196,7 +196,7 @@
                                             <input type="hidden" id="edit_empleado_caja_compensacion" name="edit_empleado_caja_compensacion" value="0">
                                             <div class="switch switch-success d-inline m-r-10">
                                                 <input type="checkbox" onchange="activar_check('edit_empleado_check_caja_compensacion', 'edit_empleado_caja_compensacion', 'edit_empleado_caja_compensacion_porcentaje');" id="edit_empleado_check_caja_compensacion" name="edit_empleado_check_caja_compensacion" value="">
-                                                <label for="edit_empleado_check_caja_compensacion" class="cr"></label>
+                                                <label for="edit_empleado_check_caja_compensacion" class="floating-label-activo-sm cr"></label>
                                             </div>
 
                                         </div>

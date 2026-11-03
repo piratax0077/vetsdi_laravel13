@@ -76,17 +76,17 @@
                     <input type="hidden" id="procedimiento_id">
                     <input type="hidden" id="procedimiento_lugar" value="{{ $institucion->id_lugar_atencion }}">
                     <div class="form-group">
-                        <label>Nombre</label>
+                        <label class="floating-label-activo-sm">Nombre</label>
                         <input type="text" class="form-control" id="procedimiento_nombre" required maxlength="190">
                     </div>
                     <div class="form-group">
-                        <label>Descripción</label>
+                        <label class="floating-label-activo-sm">Descripción</label>
                         <textarea class="form-control" id="procedimiento_descripcion" rows="3"></textarea>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Duración del bloque</label>
+                                <label class="floating-label-activo-sm">Duración del bloque</label>
                                 <select class="form-control" id="procedimiento_minutos" required>
                                     <option value="15">15 minutos</option>
                                     <option value="30">30 minutos</option>
@@ -97,7 +97,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Cantidad de bloques</label>
+                                <label class="floating-label-activo-sm">Cantidad de bloques</label>
                                 <input type="number" class="form-control" id="procedimiento_bloques" min="1" value="1" required>
                             </div>
                         </div>
@@ -105,13 +105,13 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Valor</label>
+                                <label class="floating-label-activo-sm">Valor</label>
                                 <input type="number" class="form-control" id="procedimiento_valor" min="0" step="1" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Tipo de ficha</label>
+                                <label class="floating-label-activo-sm">Tipo de ficha</label>
                                 <select class="form-control" id="procedimiento_tipo_ficha">
                                     <option value="1">General</option>
                                     <option value="2">Especialidad</option>
@@ -120,7 +120,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Indicaciones u otros antecedentes</label>
+                        <label class="floating-label-activo-sm">Indicaciones u otros antecedentes</label>
                         <textarea class="form-control" id="procedimiento_otros" rows="2"></textarea>
                     </div>
                 </div>

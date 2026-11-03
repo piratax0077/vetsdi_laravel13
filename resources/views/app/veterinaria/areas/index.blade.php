@@ -5,7 +5,7 @@
     $sinSegundos = fn ($valor) => preg_replace('/(\d{2}:\d{2}):\d{2}(\.\d+)?/', '$1', (string) $valor);
     $urlSeccion = fn (array $extra = []) => route('vet.areas.index', $ctx + ['area' => $areaCentro] + ($seccion === 'plazas' ? ['vista' => 'plazas'] : []) + $extra);
     // Las áreas que ya tenían pantalla de administración la conservan a un clic
-    $gestionArea = ['dental' => 'adm_cm.dental', 'imagenologia' => 'adm_cm.examenes'][$areaCentro] ?? null;
+    $gestionArea = isset(\App\Services\OperacionVeterinaria::AREAS[$areaCentro]) ? 'vet.areas.gestion' : null;
     // Si un formulario volvió con errores se abre su pestaña, aunque la dirección apunte a la otra
     $formularioPrevio = (string) old('_formulario');
     $pestanaPlazas = $formularioPrevio !== '' ? str_starts_with($formularioPrevio,'plaza-') : $seccion === 'plazas';
@@ -14,15 +14,15 @@
     <div class="row">
         <div class="col-md-12 mb-3 encabezado-pagina">
             <div>
-                <a href="{{ route('adm_cm.home') }}" class="text-muted f-12 d-print-none" onclick="if (document.referrer && history.length > 1) { history.back(); return false; }">
-                    <i class="feather icon-arrow-left" aria-hidden="true"></i> Atrás
-                </a>
                 <h5 class="f-26 d-block mb-0">{{ $tituloArea }}</h5>
             </div>
             @if($gestionArea)
             <div class="ml-auto">
-                <a class="btn btn-outline-info btn-sm" href="{{ route($gestionArea) }}"><i class="feather icon-settings"></i> Gestión del área</a>
+                <a class="btn btn-outline-info btn-sm" href="{{ route($gestionArea,$ctx+['area'=>$areaCentro]) }}"><i class="feather icon-settings"></i> Gestión del área</a>
             </div>
+            @endif
+            @if($areaCentro === 'hospitalizacion')
+            <a class="btn btn-outline-info btn-sm ml-2" href="{{ route('vet.hospital.equipo',$ctx) }}">Equipo del servicio</a>
             @endif
         </div>
     </div>
@@ -56,8 +56,8 @@
             @unless($configuracion->hospitalizacion_habilitada)
             <div class="alert alert-warning">Hospitalización deshabilitada. Puede consultar su historia y finalizar ingresos existentes.</div>
             @endunless
-            @if(!$seccionesHospitalizacion['hospitalizacion']['mascotas'])
-            <div class="alert alert-info">No hay mascotas vinculadas a este establecimiento. <a href="{{ route('vet.operacion.index',$ctx+['seccion'=>'pacientes']) }}">Vincular una mascota</a> para reservar o registrar su ingreso.</div>
+            @if($seccionesHospitalizacion['hospitalizacion']['filas']->isEmpty())
+            <div class="alert alert-info">No hay registros.</div>
             @endif
             @include('app.veterinaria.operacion.registros',$seccionesHospitalizacion['hospitalizacion']+['urlSeccion'=>fn (array $extra = []) => route('vet.areas.index',$ctx+['area'=>'hospitalizacion']+$extra)])
         </div>
@@ -66,10 +66,12 @@
         </div>
     </div>
     @else
-    @if(isset($mascotas) && !$mascotas)
+    @if(in_array($seccion,['imagenologia','vacunatorio','peluqueria']) && $filas->isEmpty())
+    <div class="alert alert-info">No hay registros.</div>
+    @elseif(!in_array($seccion,['laboratorio','imagenologia','vacunatorio','peluqueria']) && isset($mascotas) && !$mascotas)
     <div class="alert alert-info">No hay mascotas vinculadas a este establecimiento. <a href="{{ route('vet.operacion.index',$ctx+['seccion'=>'pacientes']) }}">Vincular una mascota</a> para reservar o registrar su ingreso.</div>
     @endif
-    @if(isset(\App\Services\OperacionVeterinaria::SERVICIOS[$seccion]) && !in_array($seccion,$configuracion->servicios_habilitados))
+    @if($seccion !== 'laboratorio' && isset(\App\Services\OperacionVeterinaria::SERVICIOS[$seccion]) && !in_array($seccion,$configuracion->servicios_habilitados))
     <div class="alert alert-warning">Esta área está deshabilitada para nuevas reservas. Puede consultar y finalizar las reservas existentes.</div>
     @endif
     @include('app.veterinaria.operacion.registros')
