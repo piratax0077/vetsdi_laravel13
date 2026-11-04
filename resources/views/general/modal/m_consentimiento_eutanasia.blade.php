@@ -108,8 +108,8 @@
             },
             error: function(xhr) {
                 var respuesta = xhr.responseJSON || {};
-                var errores = respuesta.errors ? Object.values(respuesta.errors).flat().join(' ') : '';
-                $('#eutanasia_estado').text(errores || respuesta.message || 'No fue posible generar el consentimiento. Inténtelo nuevamente.');
+                var errores = xhr.status === 422 && respuesta.errors ? Object.values(respuesta.errors).flat().join(' ') : '';
+                $('#eutanasia_estado').text(errores || (xhr.status === 401 ? 'La sesión venció. Inicie sesión nuevamente.' : 'No fue posible generar el consentimiento. Inténtelo nuevamente.'));
             },
             complete: function() { eutanasiaEnProceso = false; validarDiagnosticoEutanasia(); }
         });

@@ -78,7 +78,7 @@
                     </div>
 
 					<div class="col-sm-12 text-center">
-                        <button type="button" onclick="guardar_box_servicio()" class="btn btn-info mx-auto" data-toggle="collapse" data-target=".info-basica" aria-expanded="false" aria-controls="info-basica-1 info-basica-2">
+                        <button type="button" onclick="guardar_box_servicio()" class="btn btn-info mx-auto">
                             <i class="feather icon-plus"></i> Agregar
                         </button>
                     </div>
@@ -100,104 +100,8 @@
         $('#agreg_box_ad').modal('show');
     }
 
-    function guardar_box_servicio(){
-        let numero_box = $('#numero_box').val();
-        let tpo_box_servicio = $('#tpo_box_servicio').val();
-        let id_institucion = $('#id_institucion').val();
-        let id_lugar_atencion = $('#add_empleado_id_lugar_atencion').val();
-        if(tpo_box_servicio == 'Especializado'){
-            var tpo_especializacion = $('#tpo_especializacion').val();
-        }else{
-            var tpo_especializacion = '';
-        }
-        let tpo_equip_servicio = $('#tpo_equip_servicio').val();
-        let seccion_box = $('#seccion_box').val();
-        let ot_pat_act_ = $('#ot_pat_act_').val();
-        let n_camillas_box_servicio = $('#n_camillas_box_servicio').val();
-        let equip_ad = $('#equip_ad').val();
-        let url = "{{ route('adm_cm.guardar_box_servicio') }}";
-
-        var valido = 1;
-        var mensaje = '';
-
-        if(numero_box == ''){
-            valido = 0;
-            mensaje += '<li>Debe ingresar el número de box</li>';
-        }
-        if(tpo_box_servicio == 0){
-            valido = 0;
-            mensaje += '<li>Debe seleccionar el tipo de box</li>';
-        }
-
-        if(tpo_box_servicio == 'Especializado' && tpo_especializacion == 0){
-            valido = 0;
-            mensaje += '<li>Debe seleccionar el tipo de especialización</li>';
-        }
-        if(tpo_equip_servicio == 0){
-            valido = 0;
-            mensaje += '<li>Debe seleccionar la ubicación del box</li>';
-        }
-        if(seccion_box == 0){
-            valido = 0;
-            mensaje += '<li>Debe seleccionar la sección del box</li>';
-        }
-        if(valido == 0){
-            swal({
-                title: "Error",
-                content:{
-                    element: "div",
-                    attributes:{
-                        innerHTML: mensaje
-                    }
-                },
-                icon: "error",
-                // buttons: "Aceptar",
-                //SuccessMode: true,
-            });
-            return false;
-        }
-
-        $.ajax({
-            url: url,
-            type: "post",
-            data: {
-                numero_box: numero_box,
-                tpo_box_servicio: tpo_box_servicio,
-                tpo_especializacion: tpo_especializacion,
-                tpo_equip_servicio: tpo_equip_servicio,
-                seccion_box: seccion_box,
-                ot_pat_act_: ot_pat_act_,
-                n_camillas_box_servicio: n_camillas_box_servicio,
-                equip_ad: equip_ad,
-                id_institucion: id_institucion,
-                id_lugar_atencion: id_lugar_atencion,
-                _token:'{{ csrf_token() }}'
-            }
-        })
-        .done(function(data) {
-            console.log(data);
-            if (data.estado == 1)
-            {
-                $('#agreg_box_ad').modal('hide');
-                swal({
-                    title: "Box guardado",
-                    text: "Box guardado correctamente",
-                    icon: "success",
-                    // buttons: "Aceptar",
-                    //SuccessMode: true,
-                });
-                $('#tabla_boxes_atencion').empty();
-                $('#tabla_boxes_atencion').append(data.v);
-            }else{
-                swal({
-                    title: "Error",
-                    text: "Error al guardar el box",
-                    icon: "error",
-                    // buttons: "Aceptar",
-                    //SuccessMode: true,
-                });
-            }
-        });
+    function guardar_box_servicio() {
+        window.boxesCentroVeterinario.guardar(false);
     }
 
     // Muestra el campo de texto solo cuando el tipo elegido es "Otro"
@@ -238,3 +142,16 @@
         }
     }
 </script>
+
+<script>
+window.boxesCentroVeterinarioConfig = {
+    guardar: @json(route('adm_cm.guardar_box_servicio')),
+    editar: @json(route('adm_cm.editar_box_servicio')),
+    cargar: @json(url('dame_box')),
+    institucion: @json($institucion->id),
+    tipoInstitucion: @json($tipo_institucion ?? 'institucion'),
+    lugar: @json(count($scopeLugarIds ?? []) === 1 ? collect($scopeLugarIds)->first() : $institucion->id_lugar_atencion),
+    token: @json(csrf_token())
+};
+</script>
+<script src="{{ asset('js/boxes-centro-veterinario.js') }}?v={{ filemtime(public_path('js/boxes-centro-veterinario.js')) }}"></script>

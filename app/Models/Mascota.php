@@ -51,6 +51,7 @@ class Mascota extends Model
         'origen_registro',
         'ficha_incompleta_veterfarma',
         'fallecida',
+        'perdida',
         'fecha_fallecimiento',
         'memorial_registro',
     ];
@@ -62,6 +63,7 @@ class Mascota extends Model
         'tiene_chip' => 'boolean',
         'esterilizado' => 'boolean',
         'fallecida' => 'boolean',
+        'perdida' => 'boolean',
         'ficha_incompleta_veterfarma' => 'boolean',
         'fecha_esterilizacion' => 'date',
         'ultima_desparasitacion' => 'date',

@@ -7458,6 +7458,12 @@ class AdministradorCmController extends Controller
     }
 
     public function registrar_especialidad_cm(Request $req){
+        if (!ctype_digit((string) $req->input('especialidad'))) {
+            $registro=app(\App\Services\EspecialidadesCentroVeterinario::class)->guardar($req);
+            return ['estado'=>1,'msj'=>'Especialidad veterinaria guardada correctamente.',
+                'especialidades'=>$this->dame_especialidades_cm($registro->id_institucion),
+                'otras_especialidades'=>$this->dame_otras_especialidades_cm($registro->id_institucion)];
+        }
         try {
             $institucion = '';
             $tipo_institucion = '1';
@@ -7653,7 +7659,7 @@ class AdministradorCmController extends Controller
                                         ->where('especialidades_cm.id_institucion', $id_institucion)
                                         ->where('especialidades_cm.principal',1)
                                         ->get();
-        return $especialidades;
+        return app(\App\Services\EspecialidadesCentroVeterinario::class)->nombres($especialidades);
     }
 
     public function dame_otras_especialidades_cm($id_institucion){
@@ -7663,7 +7669,7 @@ class AdministradorCmController extends Controller
                                         ->where('especialidades_cm.id_institucion', $id_institucion)
                                         ->where('especialidades_cm.principal',0)
                                         ->get();
-        return $especialidades;
+        return app(\App\Services\EspecialidadesCentroVeterinario::class)->nombres($especialidades);
     }
 
     public function dame_especialidad($id){
@@ -7693,6 +7699,9 @@ class AdministradorCmController extends Controller
     }
 
     public function editar_direccion_medica(Request $req){
+        if (!ctype_digit((string) $req->input('cargo'))) {
+            return app(\App\Services\ResponsablesAreasCentro::class)->guardar($req);
+        }
 
         $institucion = '';
         $tipo_institucion = '1';

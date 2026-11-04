@@ -5,6 +5,22 @@
         // ---- Mascota perdida ----
         var dropzoneMascotaPerdida = null;
         var fotosMascotaPerdida = [];
+        var estadoPublicacionPerdida = 'perdida';
+        var tokenPublicacionPerdida = null;
+        var comunasPublicacionPerdida = @json(\App\Models\Ciudad::orderBy('nombre')->get(['id', 'id_region', 'nombre']));
+        function tokenMascotaPerdida() {
+            return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, function(c) {
+                return (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16);
+            });
+        }
+        function errorMascotaPerdida(xhr) {
+            var d = xhr.responseJSON || {};
+            return d.errors ? Object.values(d.errors).flat().join('\n') : (xhr.status === 419 ? 'Tu sesión venció. Abre otra pestaña e inicia sesión antes de reintentar.' : (xhr.status === 403 ? 'No tienes permiso para esta acción.' : 'No se pudo guardar. Conservamos los datos para que puedas reintentar.'));
+        }
+        $(document).on('change', '#perdida_region', function() {
+            var region = String(this.value), select = $('#perdida_comuna').empty().append(new Option('Seleccione', ''));
+            comunasPublicacionPerdida.filter(function(c) { return String(c.id_region) === region; }).forEach(function(c) { select.append(new Option(c.nombre, c.id)); });
+        });
 
         function initDropzoneMascotaPerdida()
         {
@@ -19,7 +35,7 @@
             $('#perdida_fotos_json').val('[]');
 
             dropzoneMascotaPerdida = new Dropzone(element, {
-                url: rutaImagenCarga,
+                url: @json(route('paciente.perdidas.subir')),
                 method: 'post',
                 headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 acceptedFiles: 'image/jpeg,image/png,image/jpg,.jpeg,.jpg,.png,image/*',
@@ -85,12 +101,14 @@
             }
         }
 
-        function abrirModalMascotaPerdida(event)
+        function abrirModalMascotaPerdida(event, estado)
         {
             if (event && typeof event.preventDefault === 'function') {
                 event.preventDefault();
             }
 
+            estadoPublicacionPerdida = estado === 'encontrada' ? 'encontrada' : 'perdida';
+            tokenPublicacionPerdida = tokenMascotaPerdida();
             var $select = $('#perdida_mascota_id');
             $select.html('<option value="">Seleccione una mascota</option>');
 
@@ -99,7 +117,7 @@
                 $select.append($('<option></option>').val(mascota.id).text(mascota.nombre || ('Mascota #' + mascota.id)));
             });
 
-            if ($select.find('option').length <= 1) {
+            if (estadoPublicacionPerdida === 'perdida' && $select.find('option').length <= 1) {
                 swal({
                     title: 'Sin mascotas disponibles',
                     text: 'No tienes mascotas activas para publicar como perdidas.',
@@ -109,7 +127,13 @@
             }
 
             limpiarFormularioMascotaPerdida();
-            mostrarVistaMascotaPerdida('seleccion');
+            $('#perdida_region').val('').trigger('change');
+            $('#perdida_nombre, #perdida_raza').val('');
+            $('#perdida_datos_encontrada').toggleClass('d-none', estadoPublicacionPerdida !== 'encontrada');
+            $('#perdida_vista_formulario .perdida-resumen, #perdida_vista_formulario .perdida-recompensa').toggle(estadoPublicacionPerdida === 'perdida');
+            $('#modalMascotaPerdidaLabel').text(estadoPublicacionPerdida === 'perdida' ? 'Publicar mascota perdida' : 'Publicar mascota encontrada');
+            $('label[for="perdida_direccion"]').text(estadoPublicacionPerdida === 'perdida' ? 'Dirección donde se perdió *' : 'Dirección donde se encontró *');
+            mostrarVistaMascotaPerdida(estadoPublicacionPerdida === 'perdida' ? 'seleccion' : 'formulario');
             $('#modal_mascota_perdida').appendTo('body').modal('show');
             return false;
         }
@@ -151,7 +175,11 @@
             }
 
             var aviso = {
-                mascota_id: $('#perdida_mascota_id').val(),
+                token: tokenPublicacionPerdida,
+                estado: estadoPublicacionPerdida,
+                region_id: $('#perdida_region').val(), comuna_id: $('#perdida_comuna').val(),
+                nombre: $('#perdida_nombre').val(), especie: $('#perdida_especie').val(), raza: $('#perdida_raza').val(),
+                mascota_id: estadoPublicacionPerdida === 'perdida' ? $('#perdida_mascota_id').val() : '',
                 direccion: $.trim($('#perdida_direccion option:selected').text()),
                 latitud: $('#perdida_latitud').val(),
                 longitud: $('#perdida_longitud').val(),
@@ -164,7 +192,8 @@
             };
 
             var faltantes = [];
-            if (!aviso.mascota_id) faltantes.push('Mascota');
+            if (estadoPublicacionPerdida === 'perdida' && !aviso.mascota_id) faltantes.push('Mascota');
+            if (!aviso.region_id || !aviso.comuna_id) faltantes.push('Región y comuna');
             if (!aviso.direccion) faltantes.push('Dirección donde se perdió');
             if (!aviso.fecha) faltantes.push('Fecha');
             if (!aviso.descripcion) faltantes.push('Descripción');
@@ -178,20 +207,18 @@
                 return false;
             }
 
-            // Pendiente: enviar "aviso" a la ruta de publicación cuando esté disponible.
-            // Mientras tanto se marca en la tarjeta para ver el badge (no queda guardado)
-            var mascotaPerdida = obtenerMascotaPorId(aviso.mascota_id);
-            if (mascotaPerdida) {
-                mascotaPerdida.perdida = 1;
-                actualizarMascotasEnLista(mascotaPerdida);
+            if (dropzoneMascotaPerdida && (dropzoneMascotaPerdida.getUploadingFiles().length || dropzoneMascotaPerdida.getQueuedFiles().length || dropzoneMascotaPerdida.getFilesWithStatus(Dropzone.ERROR).length)) {
+                swal({title: 'Revisa las fotos', text: 'Espera a que terminen de subir o retira las que tienen error.', icon: 'warning'}); return false;
             }
-            $('#modal_mascota_perdida').modal('hide');
-
-            swal({
-                title: 'Aviso listo',
-                text: 'El formulario está completo, pero la publicación aún no está conectada.',
-                icon: 'info'
-            });
+            var boton = $('#btn_publicar_mascota_perdida');
+            if (boton.prop('disabled')) return false;
+            boton.prop('disabled', true);
+            $.ajax({url: @json(route('paciente.perdidas.publicar')), method: 'POST', contentType: 'application/json', data: JSON.stringify(aviso), headers: {'X-CSRF-TOKEN': CSRF_TOKEN, 'Accept': 'application/json'}})
+                .done(function(data) {
+                    $('#modal_mascota_perdida').modal('hide');
+                    swal({title: 'Aviso publicado', text: data.mensaje, icon: 'success'}).then(function() { window.location.href = @json(route('paciente.mascotas_perdidas')); });
+                }).fail(function(xhr) { swal({title: 'No se pudo publicar', text: errorMascotaPerdida(xhr), icon: 'error'}); })
+                .always(function() { boton.prop('disabled', false); });
             return false;
         }
 

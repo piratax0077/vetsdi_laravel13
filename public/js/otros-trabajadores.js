@@ -26,8 +26,16 @@
             categorias.forEach(function(c){if(Number(c.activa))select.add(new Option(c.nombre,c.id));edicion.add(new Option(c.nombre,c.id));});
             select.value=actual;edicion.value=elegida;
         }
+        function llenarComunasTrabajador(region, seleccion){
+            var select=form('otro-comuna');
+            select.replaceChildren(new Option('Seleccione comuna',''));
+            (config.comunas||[]).filter(function(c){return String(c.id_region)===String(region);}).forEach(function(c){select.add(new Option(c.nombre,c.id));});
+            select.disabled=!region;select.required=!!region;select.value=seleccion==null?'':String(seleccion);
+        }
+        form('otro-region').addEventListener('change',function(){llenarComunasTrabajador(this.value,'');});
         function abrirTrabajador(t){
             var f=form('formOtroTrabajador');preparar(f,t||{activo:1});
+            llenarComunasTrabajador(t?.region_id||'',t?.comuna_id||'');
             Array.from(f.elements['lugares[]'].options).forEach(function(o){o.selected=t? t.lugares.map(String).includes(o.value):config.lugares.length===1;});
             form('otro-trabajador-titulo').textContent=t?'Editar trabajador':'Agregar trabajador';modal('modalOtroTrabajador');
         }
@@ -38,7 +46,7 @@
         function mostrarInfo(d){
             var t=d.trabajador,contenedor=form('otro-info-datos');contenedor.replaceChildren();
             var sucursales=config.lugares.filter(function(l){return t.lugares.map(String).includes(String(l.id));}).map(function(l){return l.nombre;}).join(', ');
-            Object.entries({'Nombre':t.nombres+' '+t.apellido_uno+' '+(t.apellido_dos||''),'RUT':t.rut,'Categoría':categorias.get(String(t.categoria_id))?.nombre,'Estado':Number(t.activo)?'Activo':'Desvinculado','Sucursales':sucursales,'Correo':t.email,'Teléfono':t.telefono,'Dirección':t.direccion,'Banco':t.banco,'Tipo de cuenta':t.tipo_cuenta,'Número de cuenta':t.numero_cuenta,'Observaciones':t.observaciones}).forEach(function(par){contenedor.append(textoNodo('dt',par[0],'col-sm-4'),textoNodo('dd',par[1],'col-sm-8 text-wrap'));});
+            Object.entries({'Nombre':t.nombres+' '+t.apellido_uno+' '+(t.apellido_dos||''),'RUT':t.rut,'Categoría':categorias.get(String(t.categoria_id))?.nombre,'Estado':Number(t.activo)?'Activo':'Desvinculado','Sucursales':sucursales,'Correo':t.email,'Teléfono':t.telefono,'Dirección':t.direccion,'Región':(config.regiones||[]).find(function(r){return String(r.id)===String(t.region_id);})?.nombre,'Comuna':(config.comunas||[]).find(function(c){return String(c.id)===String(t.comuna_id);})?.nombre,'Banco':t.banco,'Tipo de cuenta':t.tipo_cuenta,'Número de cuenta':t.numero_cuenta,'Observaciones':t.observaciones}).forEach(function(par){contenedor.append(textoNodo('dt',par[0],'col-sm-4'),textoNodo('dd',par[1],'col-sm-8 text-wrap'));});
             var contratos=form('otro-info-contratos');contratos.replaceChildren();
             d.contratos.forEach(function(c){var p=textoNodo('p',(config.tiposContrato[c.tipo]||c.tipo)+' · '+c.fecha_inicio+(c.fecha_fin?' a '+c.fecha_fin:'')+' · '+c.estado+' · $'+Number(c.remuneracion).toLocaleString('es-CL'));contratos.append(p);});
             if(!d.contratos.length)contratos.append(textoNodo('p','Sin contratos registrados.','text-muted'));

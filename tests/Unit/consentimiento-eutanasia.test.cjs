@@ -74,10 +74,21 @@ test('un error permite reintentar sin aparentar un documento generado',()=>{
     context.cons_eutan();
     $('#eutanasia_motivo').val('Motivo');
     context.guardarConsentimientoEutanasia();
-    requests[0].error({responseJSON:{errors:{cirugia_cons:['Motivo inválido']}}});
+    requests[0].error({status:422,responseJSON:{errors:{cirugia_cons:['Motivo inválido']}}});
     requests[0].complete();
     assert.equal(fields.get('#eutanasia_estado').text,'Motivo inválido');
     assert.equal(context.eutanasiaGenerada,false);
     context.guardarConsentimientoEutanasia();
     assert.equal(requests.length,2);
+});
+
+test('un error interno nunca muestra SQL ni etiquetas HTML del servidor',()=>{
+    const {context,$,requests,fields}=setup();
+    context.cons_eutan();
+    $('#eutanasia_motivo').val('Motivo');
+    context.guardarConsentimientoEutanasia();
+    requests[0].error({status:500,responseJSON:{message:'SQLSTATE[HY000] insert <p>Texto interno</p>'}});
+    requests[0].complete();
+    assert.doesNotMatch(fields.get('#eutanasia_estado').text,/SQLSTATE|<p>|Texto interno/);
+    assert.equal(context.eutanasiaGenerada,false);
 });

@@ -36,7 +36,21 @@
                                 </div>
                             </div>
 
+                            <div id="perdida_datos_encontrada" class="d-none mb-3">
+                                <label for="perdida_nombre">Nombre (si lo conoces)</label>
+                                <input id="perdida_nombre" class="form-control mb-2" maxlength="100" placeholder="Sin nombre">
+                                <label for="perdida_especie">Especie</label>
+                                <select id="perdida_especie" class="form-control mb-2"><option value="Perro">Perro</option><option value="Gato">Gato</option><option value="Otra">Otra</option></select>
+                                <label for="perdida_raza">Raza (si la conoces)</label><input id="perdida_raza" class="form-control" maxlength="100">
+                            </div>
                             <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="perdida_region">Región *</label>
+                                    <select id="perdida_region" class="form-control"><option value="">Seleccione</option>
+                                    @foreach(\App\Models\Region::orderBy('id')->get() as $regionPerdida)<option value="{{ $regionPerdida->id }}">{{ $regionPerdida->nombre }}</option>@endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6"><label for="perdida_comuna">Comuna *</label><select id="perdida_comuna" class="form-control"><option value="">Seleccione</option></select></div>
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label class="floating-label-activo-sm" for="perdida_direccion"><span class="text-danger">*</span> Dirección donde se perdió</label>

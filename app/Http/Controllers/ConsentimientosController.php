@@ -89,18 +89,27 @@ class ConsentimientosController extends Controller
             abort_if($request->filled($campo) && (int) $request->input($campo) !== (int) $id, 403);
             $request->merge([$campo=>$id]);
         }
-        $resultado = \Illuminate\Support\Facades\DB::transaction(function () use ($request) {
-            if ($request->input('tipo_consentimiento') === 'eutanasia') {
-                $request->validate([
-                    'diagnostico_cons' => 'required|string',
-                    'cirugia_cons' => 'required|string',
-                    'observaciones_con' => 'nullable|string',
-                ]);
-                $plantilla = app(\App\Services\ConsentimientoEutanasia::class)->plantilla();
-                $request->merge(['id_consentimiento' => $plantilla->id, 'consentimiento' => $plantilla->nombre]);
-            }
-            return $this->registrarDocumentoTutor($request);
-        });
+        try {
+            $resultado = \Illuminate\Support\Facades\DB::transaction(function () use ($request) {
+                if ($request->input('tipo_consentimiento') === 'eutanasia') {
+                    $request->validate([
+                        'diagnostico_cons' => 'required|string',
+                        'cirugia_cons' => 'required|string',
+                        'observaciones_con' => 'nullable|string',
+                    ]);
+                    $plantilla = app(\App\Services\ConsentimientoEutanasia::class)->plantilla();
+                    $request->merge(['id_consentimiento' => $plantilla->id, 'consentimiento' => $plantilla->nombre]);
+                }
+                return $this->registrarDocumentoTutor($request);
+            });
+        } catch (\Illuminate\Validation\ValidationException $error) {
+            throw $error;
+        } catch (\Symfony\Component\HttpKernel\Exception\HttpExceptionInterface $error) {
+            throw $error;
+        } catch (\Throwable $error) {
+            report($error);
+            return response()->json(['estado'=>0,'msj'=>'No fue posible generar el consentimiento. Inténtelo nuevamente.'],500);
+        }
         if (($resultado['estado'] ?? 0) === 1) {
             $documento = DocumentoFcPaciente::findOrFail($resultado['documento']['id']);
             $resultado['notificaciones'] = app(\App\Services\NotificarConsentimientoTutor::class)->enviar($documento);

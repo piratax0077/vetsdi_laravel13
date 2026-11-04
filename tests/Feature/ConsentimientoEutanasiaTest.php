@@ -25,8 +25,10 @@ class ConsentimientoEutanasiaTest extends TestCase
             'con_consentimientos_pcte' => ['id_consent', 'id_fc', 'id_paciente', 'id_profesional', 'diagnostico_cons', 'cirugia_cons', 'num_consentimiento', 'fecha_cons', 'observaciones_con', 'revocacion', 'otro', 'confirmacion'],
             'documento_fc_paciente' => ['id_ficha_atencion', 'id_paciente', 'otro', 'documento', 'id_tipo_documento', 'id_profesional', 'id_lugar_atencion', 'url', 'observacion', 'cuerpo', 'fecha_envio', 'estado_envio', 'estado'],
         ] as $tabla => $campos) {
-            Schema::create($tabla, function (Blueprint $t) use ($campos) {
-                $t->id(); foreach ($campos as $campo) $t->text($campo)->nullable(); $t->timestamps();
+            Schema::create($tabla, function (Blueprint $t) use ($campos, $tabla) {
+                $t->id();
+                if ($tabla === 'con_consentimientos') $t->unsignedInteger('id_consent');
+                foreach ($campos as $campo) $t->text($campo)->nullable(); $t->timestamps();
             });
         }
         DB::table('profesionales')->insert(['id' => 3, 'id_usuario' => 7]);
@@ -65,13 +67,14 @@ class ConsentimientoEutanasiaTest extends TestCase
         $this->assertSame('pendiente', json_decode($documento->cuerpo, true)['estado_firma']);
         $this->assertEquals(4, json_decode($documento->cuerpo, true)['id_mascota']);
         $this->assertStringContainsString('eutanasia', $documento->observacion);
+        $this->assertEquals(1, ConConsentimientos::sole()->id_consent);
     }
 
     public function test_reutiliza_la_plantilla_existente_y_no_una_de_tratamiento(): void
     {
         DB::table('con_consentimientos')->insert([
-            ['id' => 8, 'nombre' => 'Tratamiento', 'texto' => 'Otro', 'estado' => 1],
-            ['id' => 9, 'nombre' => 'Consentimiento eutanasia', 'texto' => 'Texto registrado', 'estado' => 1],
+            ['id' => 8, 'id_consent'=>20, 'nombre' => 'Tratamiento', 'texto' => 'Otro', 'estado' => 1],
+            ['id' => 9, 'id_consent'=>21, 'nombre' => 'Consentimiento eutanasia', 'texto' => 'Texto registrado', 'estado' => 1],
         ]);
         $plantilla = app(\App\Services\ConsentimientoEutanasia::class)->plantilla();
         $this->assertEquals(9, $plantilla->id);
@@ -90,6 +93,30 @@ class ConsentimientoEutanasiaTest extends TestCase
         $this->assertSame(0, ConConsentimientos::count());
         $this->assertSame(0, ConConsentimientosPcte::count());
         $this->assertSame(0, DB::table('documento_fc_paciente')->count());
+    }
+
+    public function test_nueva_plantilla_asigna_codigo_heredado_sin_reutilizar_otro_codigo(): void
+    {
+        DB::table('con_consentimientos')->insert(['id_consent'=>40,'nombre'=>'Tratamiento','texto'=>'Otro','estado'=>1]);
+        $servicio=app(\App\Services\ConsentimientoEutanasia::class);
+        $plantilla=$servicio->plantilla();
+        $this->assertEquals(41,$plantilla->id_consent);
+        $this->assertSame($plantilla->id,$servicio->plantilla()->id);
+        $this->assertSame(2,ConConsentimientos::count());
+    }
+
+    public function test_error_interno_no_expone_sql_ni_html_y_no_anuncia_documento_guardado(): void
+    {
+        $servicio=\Mockery::mock(\App\Services\ConsentimientoEutanasia::class);
+        $servicio->shouldReceive('plantilla')->once()->andThrow(new \RuntimeException('SQLSTATE[HY000] insert into con_consentimientos <p>contenido interno</p>'));
+        $this->app->instance(\App\Services\ConsentimientoEutanasia::class,$servicio);
+        $respuesta=$this->controller()->registrar(new Request(['tipo_consentimiento'=>'eutanasia','id_ficha_atencion'=>1,'diagnostico_cons'=>'CA','cirugia_cons'=>'Tumor terminal']));
+        $this->assertSame(500,$respuesta->getStatusCode());
+        $this->assertSame(0,$respuesta->getData(true)['estado']);
+        $this->assertStringNotContainsString('SQLSTATE',$respuesta->getContent());
+        $this->assertStringNotContainsString('<p>',$respuesta->getContent());
+        $this->assertSame(0,ConConsentimientosPcte::count());
+        $this->assertSame(0,DB::table('documento_fc_paciente')->count());
     }
 
     public function test_modal_carga_identificacion_y_muestra_la_accion_fuera_del_contenido(): void

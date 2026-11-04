@@ -3,6 +3,7 @@ window.otrosTrabajadoresConfig={
     institucion:@json($institucion->id),csrf:@json(csrf_token()),
     categorias:@json($otrosTrabajadores['categorias']),
     lugares:@json($otrosTrabajadores['lugares']),
+    regiones:@json($otrosTrabajadores['regiones'] ?? []),comunas:@json($otrosTrabajadores['comunas'] ?? []),
     tiposContrato:@json(\App\Services\TrabajadoresCentroVeterinario::TIPOS_CONTRATO),
     guardar:@json(route('vet.trabajadores.guardar')),categoria:@json(route('vet.trabajadores.categoria')),contrato:@json(route('vet.trabajadores.contrato')),
     detalle:@json(route('vet.trabajadores.detalle',['id'=>'__ID__'])),estado:@json(route('vet.trabajadores.estado',['id'=>'__ID__'])),mensaje:@json(route('vet.trabajadores.mensaje',['id'=>'__ID__'])),terminar:@json(route('vet.trabajadores.terminar',['id'=>'__ID__'])),

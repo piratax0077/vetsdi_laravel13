@@ -821,6 +821,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div id="responsables_areas_centro">
+                                @include('fragm.responsables_areas_centro', ['responsablesAreasCentro' => app(\App\Services\ResponsablesAreasCentro::class)->listar($institucion->id)])
+                            </div>
                             @php
                                 // Los pills solo existen para los cargos que ya tienen administrador
                                 $hayDirector = !empty($director_cm);
@@ -3464,13 +3467,13 @@
                                 <div class="form-group fill">
                                     <!--Cargar áreas-->
                                     <label class="floating-label-activo-sm">Responsable</label>
-                                    <select class="form-control form-control-sm" id="responsable_cargo">
-                                        <option value="0">Seleccione</option>
+                                    <select class="form-control form-control-sm" id="responsable_cargo" style="width:100%">
+                                        <option value="">Busque por nombre, apellido o RUT</option>
                                         @if (isset($profesionales))
                                             @foreach ($profesionales as $profesional)
-                                                <option value="{{ $profesional->id_profesional }}">
+                                                <option value="{{ $profesional->id }}">
                                                     {{ $profesional->nombre }} {{ $profesional->apellido_uno }}
-                                                    {{ $profesional->apellido_dos }}</option>
+                                                    {{ $profesional->apellido_dos }} - {{ $profesional->rut ?: 'Sin RUT' }}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -3536,7 +3539,7 @@
                                         <option value="0">Seleccione</option>
                                         @if (isset($profesionales))
                                             @foreach ($profesionales as $profesional)
-                                                <option value="{{ $profesional->id_profesional }}">
+                                                <option value="{{ $profesional->id }}">
                                                     {{ $profesional->nombre }} {{ $profesional->apellido_uno }}
                                                     {{ $profesional->apellido_dos }}</option>
                                             @endforeach
@@ -3627,7 +3630,7 @@
                                     <!--Cargar especialidades-->
                                     <label class="floating-label-activo-sm">Tipo Especialidad</label>
                                     <select class="form-control form-control-sm" id="especialidad_cm"
-                                        name="especialidad_cm" onchange="buscar_sub_tipo_especialidad(this);">
+                                        name="especialidad_cm">
                                         @include('app.adm_cm.partials.opciones_especialidades')
                                     </select>
                                 </div>
@@ -3644,7 +3647,7 @@
                                 <div class="form-group">
                                     <label class="floating-label-activo-sm">N° Profesionales</label>
                                     <input type="number" name="num_profesionales" id="num_profesionales"
-                                        class="form-control form-control-sm">
+                                        class="form-control form-control-sm" min="1" step="1" required>
                                 </div>
                             </div>
                         </div>
@@ -3929,7 +3932,7 @@
                                     <select class="form-control form-control-sm" id="editar_responsable_cargo_area" data-validar="seleccion" data-requerido="Seleccione un responsable">
                                         <option value="0">Seleccione</option>
                                         @foreach ($profesionales as $profesional)
-                                            <option value="{{ $profesional->id_profesional }}">
+                                            <option value="{{ $profesional->id }}">
                                                 {{ $profesional->nombre }} {{ $profesional->apellido_uno }}
                                                 {{ $profesional->apellido_dos }}</option>
                                         @endforeach
@@ -4028,7 +4031,7 @@
                                         <option>Seleccione</option>
                                         @if (isset($profesionales))
                                             @foreach ($profesionales as $profesional)
-                                                <option value="{{ $profesional->id_profesional }}">
+                                                <option value="{{ $profesional->id }}">
                                                     {{ $profesional->nombre }} {{ $profesional->apellido_uno }}
                                                     {{ $profesional->apellido_dos }}</option>
                                             @endforeach
@@ -4432,6 +4435,22 @@
 
     /*-Añadir área**/
     function ag_area() {
+        $('#cargo').val('0');
+        $('#responsable_cargo').val('').trigger('change');
+        $('#a_area').modal('show');
+    }
+
+    $('#a_area').on('shown.bs.modal', function () {
+        if ($.fn.select2 && !$('#responsable_cargo').hasClass('select2-hidden-accessible')) {
+            $('#responsable_cargo').select2({dropdownParent: $('#a_area'), width: '100%',
+                placeholder: 'Busque por nombre, apellido o RUT', allowClear: true,
+                language: {noResults: function () { return 'No se encontraron responsables'; }}});
+        }
+    });
+
+    function editarResponsableAreaCentro(boton) {
+        $('#cargo').val($(boton).data('area'));
+        $('#responsable_cargo').val(String($(boton).data('profesional'))).trigger('change');
         $('#a_area').modal('show');
     }
 
@@ -5279,7 +5298,9 @@
         }
     }
 
+    var guardandoEspecialidadCentro = false;
     function guardar_especialidad_cm() {
+        if (guardandoEspecialidadCentro) return;
         var valido = 1;
         var mensaje = '';
         let id_institucion = $('#id_institucion').val();
@@ -5291,15 +5312,15 @@
             valido = 0;
             mensaje += 'Campo requerido Institución\n';
         }
-        if (especialidad == '') {
+        if (!especialidad || especialidad == '0') {
             valido = 0;
             mensaje += 'Campo requerido Especialidad\n';
         }
-        if (sub_tipo_especialidad == '') {
+        if (/^\d+$/.test(especialidad) && !sub_tipo_especialidad) {
             valido = 0;
             mensaje += 'Campo requerido Sub Tipo Especialidad\n';
         }
-        if (num_profesionales == '') {
+        if (!Number.isInteger(Number(num_profesionales)) || Number(num_profesionales) < 1) {
             valido = 0;
             mensaje += 'Campo requerido N° Profesionales\n';
         }
@@ -5315,15 +5336,19 @@
                 num_profesionales: num_profesionales,
             };
             let url = "{{ route('adm_cm.registrar_especialidad') }}";
+            guardandoEspecialidadCentro = true;
+            $('#a_especialidad .modal-footer button').prop('disabled', true);
             $.ajax({
                     url: url,
                     type: "post",
                     data: data,
+                    headers: {Accept: 'application/json'},
                 })
                 .done(function(data) {
                     console.log(data);
                     if (data != null) {
                         if (data.estado == 1) {
+                            $('#a_especialidad').modal('hide');
                             let especialidades = data.especialidades;
                             let otras_especialidades = data.otras_especialidades;
                             $('#especialidades_cm tbody').empty();
@@ -5365,7 +5390,7 @@
                         } else {
                             swal({
                                 title: "Error",
-                                text: "Error al cargar ingresar especialidad",
+                                text: data.msj || "No fue posible guardar la especialidad.",
                                 icon: "error",
                                 buttons: "Aceptar",
                                 DangerMode: true,
@@ -5381,8 +5406,13 @@
                         });
                     }
                 })
-                .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    console.log(jqXHR, ajaxOptions, thrownError)
+                .fail(function(jqXHR) {
+                    var respuesta = jqXHR.responseJSON || {};
+                    swal({title: 'No se pudo guardar la especialidad', icon: 'error',
+                        text: Object.values(respuesta.errors || {}).flat().join('\n') || respuesta.message || 'Intente nuevamente.'});
+                }).always(function () {
+                    guardandoEspecialidadCentro = false;
+                    $('#a_especialidad .modal-footer button').prop('disabled', false);
                 });
 
         } else {
@@ -5932,7 +5962,9 @@
             });
     }
 
+    var guardandoResponsableAreaCentro = false;
     function editar_direccion_medica(id_institucion) {
+        if (guardandoResponsableAreaCentro) return;
         let cargo = $('#cargo').val();
         let responsable = $('#responsable_cargo').val();
 
@@ -5967,15 +5999,24 @@
 
         let url = "{{ route('adm_cm.editar_direccion_medica') }}";
 
+        guardandoResponsableAreaCentro = true;
+        $('#a_area .modal-footer button').prop('disabled', true);
         $.ajax({
                 url: url,
                 type: "post",
                 data: data,
+                headers: {Accept: 'application/json'},
             })
             .done(function(data) {
                 console.log(data);
                 if (data != null) {
                     if (data.estado == 1) {
+                        if (data.areas_html !== undefined) {
+                            $('#responsables_areas_centro').html(data.areas_html);
+                            $('#a_area').modal('hide');
+                            swal({title: 'Administración del centro', text: data.msj, icon: 'success'});
+                            return;
+                        }
                         // cerrar modal
                         $('#a_area').modal('hide');
                         swal({
@@ -6005,7 +6046,14 @@
                         DangerMode: true,
                     });
                 }
-            })
+            }).fail(function (xhr) {
+                var respuesta = xhr.responseJSON || {};
+                swal({title: 'No se pudo guardar el responsable', icon: 'error',
+                    text: Object.values(respuesta.errors || {}).flat().join('\n') || respuesta.message || 'Intente nuevamente.'});
+            }).always(function () {
+                guardandoResponsableAreaCentro = false;
+                $('#a_area .modal-footer button').prop('disabled', false);
+            });
     }
 
     function eliminar_area_cm(id) {
@@ -7138,144 +7186,11 @@
     }
 
     function dame_box(id_box) {
-        // Construye la URL con la id adjunta
-        var url = "{{ url('dame_box') }}/" + id_box;
-        $('#id_box').val(id_box);
-        $.ajax({
-                url: url,
-                type: "get",
-            })
-            .done(function(data) {
-                // abrir modal
-                $('#editar_box').modal('show');
-                console.log(data);
-                if (data != null) {
-                    $('#editar_numero_box').val(data.box.numero_box);
-                    $('#editar_tpo_box_servicio').val(data.box.tipo_box);
-                    if (data.box.tipo_box == 'Especializado') {
-                        $('#editar_contenedor_tpo_especializacion').removeClass('d-none');
-                    } else {
-                        $('#editar_contenedor_tpo_especializacion').addClass('d-none');
-                    }
-                    $('#editar_tpo_especializacion').val(data.box.tipo_especializacion);
-                    $('#editar_tpo_equip_servicio').val(data.box.ubicacion);
-                    $('#editar_seccion_box').val(data.box.seccion);
-                    $('#editar_ot_pat_act_').val(data.box.observaciones);
-                } else {
-                    swal({
-                        title: "Error",
-                        text: "Error al cargar ingresar box",
-                        icon: "error",
-                        buttons: "Aceptar",
-                        DangerMode: true,
-                    });
-                }
-            })
-            .fail(function(jqXHR, ajaxOptions, thrownError) {
-                console.log(jqXHR, ajaxOptions, thrownError)
-            });
+        window.boxesCentroVeterinario.cargar(id_box);
     }
 
     function editar_box() {
-        var id_box = $('#id_box').val();
-        var numero_box = $('#editar_numero_box').val();
-        var tpo_box_servicio = $('#editar_tpo_box_servicio').val();
-        var tpo_especializacion = $('#editar_tpo_especializacion').val();
-        var tpo_equip_servicio = $('#editar_tpo_equip_servicio').val();
-        var seccion_box = $('#editar_seccion_box').val();
-        var ot_pat_act_ = $('#editar_ot_pat_act_').val();
-        var id_institucion = $('#id_institucion').val();
-        var id_lugar_atencion = $('#add_empleado_id_lugar_atencion').val();
-
-        let valido = 1;
-        let mensaje = '';
-        // validar campos
-        if (numero_box == '') {
-            valido = 0;
-            mensaje += '<li>Campo requerido Número</li>';
-        }
-        if (tpo_box_servicio == '' || tpo_box_servicio == 0) {
-            valido = 0;
-            mensaje += '<li>Campo requerido Tipo</li>';
-        }
-        if (tpo_equip_servicio == '' || tpo_equip_servicio == 0) {
-            valido = 0;
-            mensaje += '<li>Campo requerido Ubicación</li>';
-        }
-        if (seccion_box == '' || seccion_box == 0) {
-            valido = 0;
-            mensaje += '<li>Campo requerido Sección</li>';
-        }
-
-        if (valido == 1) {
-            let data = {
-                id_box: id_box,
-                numero_box: numero_box,
-                tpo_box_servicio: tpo_box_servicio,
-                tpo_especializacion: tpo_especializacion,
-                tpo_equip_servicio: tpo_equip_servicio,
-                seccion_box: seccion_box,
-                ot_pat_act_: ot_pat_act_,
-                id_institucion: id_institucion,
-                id_lugar_atencion: id_lugar_atencion,
-                _token: CSRF_TOKEN,
-            }
-
-            let url = "{{ route('adm_cm.editar_box_servicio') }}";
-
-            $.ajax({
-                    url: url,
-                    type: "post",
-                    data: data,
-                })
-                .done(function(data) {
-                    console.log(data);
-                    if (data != null) {
-                        if (data.estado == 1) {
-                            swal({
-                                title: "Box",
-                                text: "Box Actualizado Correctamente",
-                                icon: "success",
-                                buttons: "Aceptar",
-                                DangerMode: true,
-                            });
-                            $('#tabla_boxes_atencion').empty();
-                            $('#tabla_boxes_atencion').append(data.v);
-                            // cerrar modal
-                            $('#editar_box').modal('hide');
-                        } else {
-                            swal({
-                                title: "Error",
-                                text: "Error al cargar ingresar box",
-                                icon: "error",
-                                buttons: "Aceptar",
-                                DangerMode: true,
-                            });
-                        }
-                    } else {
-                        swal({
-                            title: "Error",
-                            text: "Error al cargar ingresar box",
-                            icon: "error",
-                            buttons: "Aceptar",
-                            DangerMode: true,
-                        });
-                    }
-                });
-        } else {
-            swal({
-                title: "Campos requeridos",
-                content: {
-                    element: "div",
-                    attributes: {
-                        innerHTML: mensaje,
-                    },
-                },
-                icon: "error",
-                buttons: "Aceptar",
-                DangerMode: true,
-            });
-        }
+        window.boxesCentroVeterinario.guardar(true);
     }
 
     function eliminar_box(id) {

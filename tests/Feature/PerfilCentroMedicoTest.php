@@ -14,6 +14,150 @@ use Tests\TestCase;
 
 class PerfilCentroMedicoTest extends TestCase
 {
+    private function prepararBoxesCentro(): void
+    {
+        Schema::create('boxes_cm',function(Blueprint $t){
+            $t->id(); foreach(['id_institucion','id_lugar_atencion','numero_box','tipo_box','tipo_especializacion','ubicacion','seccion','id_usuario','estado'] as $campo)$t->string($campo)->nullable();$t->timestamps();
+        });
+        Schema::create('sucursal',function(Blueprint $t){$t->id();$t->integer('id_institucion');$t->integer('id_lugar_atencion');});
+        DB::table('instituciones')->where('id',10)->update(['id_lugar_atencion'=>100]);
+    }
+
+    public function test_box_se_agrega_carga_y_edita_con_los_tres_campos_visibles(): void
+    {
+        $this->prepararBoxesCentro();
+        $controller=app(\App\Http\Controllers\BoxController::class);
+        $datos=['origen'=>'centro_veterinario','numero_box'=>'Box 2','tpo_especializacion'=>'Consulta general','tpo_equip_servicio'=>1];
+        $respuesta=$controller->guardarBoxServicio($this->req($datos));
+        $this->assertSame(1,$respuesta['estado']);
+        $this->assertStringContainsString('Box 2',$respuesta['v']);
+        $box=DB::table('boxes_cm')->sole();
+        $this->assertEquals(100,$box->id_lugar_atencion);
+        $cargado=app(\App\Services\BoxesCentroVeterinario::class)->obtener($this->req(),$box->id)['box'];
+        $this->assertSame('Consulta general',$cargado->tipo_especializacion);
+        DB::table('boxes_cm')->where('id',$box->id)->update(['estado'=>0]);
+        $respuesta=$controller->editarBoxServicio($this->req(array_replace($datos,['id_box'=>$box->id,'numero_box'=>'Sala dental','tpo_especializacion'=>'Sala personalizada','tpo_equip_servicio'=>2])));
+        $this->assertSame(1,$respuesta['estado']);
+        $box=DB::table('boxes_cm')->sole();
+        $this->assertSame('Sala dental',$box->numero_box);
+        $this->assertSame('Sala personalizada',$box->tipo_especializacion);
+        $this->assertEquals(2,$box->ubicacion);
+        $this->assertEquals(0,$box->estado);
+    }
+
+    public function test_box_no_admite_nombre_duplicado_ni_editar_otra_institucion(): void
+    {
+        $this->prepararBoxesCentro();
+        $servicio=app(\App\Services\BoxesCentroVeterinario::class);
+        $datos=['numero_box'=>'Box 1','tpo_especializacion'=>'Consulta general','tpo_equip_servicio'=>1];
+        $servicio->guardar($this->req($datos));
+        try {$servicio->guardar($this->req($datos));$this->fail('Debe rechazar duplicados.');}
+        catch(ValidationException $e){$this->assertArrayHasKey('numero_box',$e->errors());}
+        DB::table('boxes_cm')->insert(['id'=>20,'id_institucion'=>20,'numero_box'=>'Ajeno']);
+        try {$servicio->guardar($this->req($datos+['id_box'=>20]),true);$this->fail('Debe rechazar el box ajeno.');}
+        catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){$this->assertSame('Ajeno',DB::table('boxes_cm')->where('id',20)->value('numero_box'));}
+    }
+
+    private function prepararEspecialidadesVeterinarias(): void
+    {
+        foreach ([
+            'tipos_especialidad'=>['nombre'], 'sub_tipo_especialidad'=>['id_tipo_especialidad','nombre'],
+            'especialidades_cm'=>['id_tipo_especialidad','id_sub_tipo_especialidad','id_lugar_atencion','id_institucion','num_profesionales','id_admin','estado','principal'],
+        ] as $tabla=>$campos) Schema::create($tabla,function(Blueprint $t) use($campos){$t->id();foreach($campos as $c)$t->text($c)->nullable();$t->timestamps();});
+        DB::table('tipos_especialidad')->insert(['id'=>8,'nombre'=>'Medicina veterinaria']);
+    }
+
+    public function test_especialidad_veterinaria_se_guarda_sin_subtipo_oculto_ni_direccion_y_se_lista_con_su_nombre(): void
+    {
+        $this->prepararEspecialidadesVeterinarias();
+        $controller=app(AdministradorCmController::class);
+        $datos=['especialidad'=>'cardiologia','num_profesionales'=>5,'principal'=>1];
+        $respuesta=$controller->registrar_especialidad_cm($this->req($datos));
+        $this->assertSame(1,$respuesta['estado']);
+        $this->assertSame('Cardiología veterinaria',$respuesta['especialidades']->first()->nombre);
+        $this->assertEquals(5,$respuesta['especialidades']->first()->num_profesionales);
+        $controller->registrar_especialidad_cm($this->req(array_replace($datos,['num_profesionales'=>6])));
+        $this->assertSame(1,DB::table('especialidades_cm')->count());
+        $this->assertSame(1,DB::table('sub_tipo_especialidad')->count());
+        $this->assertEquals(6,DB::table('especialidades_cm')->value('num_profesionales'));
+    }
+
+    public function test_especialidad_veterinaria_requiere_numero_positivo_y_area_valida(): void
+    {
+        $this->prepararEspecialidadesVeterinarias();
+        foreach ([['especialidad'=>'cardiologia','num_profesionales'=>0],['especialidad'=>'no_existe','num_profesionales'=>5]] as $datos) {
+            try {
+                app(AdministradorCmController::class)->registrar_especialidad_cm($this->req($datos+['principal'=>1]));
+                $this->fail('Debe validar los datos.');
+            } catch (ValidationException $e) {
+                $this->assertNotEmpty($e->errors());
+            }
+        }
+        $this->assertSame(0,DB::table('especialidades_cm')->count());
+    }
+
+    public function test_especialidad_no_puede_agregarse_en_otro_centro(): void
+    {
+        $this->prepararEspecialidadesVeterinarias();
+        try {
+            app(AdministradorCmController::class)->registrar_especialidad_cm(new Request(['id_institucion'=>20,'especialidad'=>'cardiologia','num_profesionales'=>5,'principal'=>1]));
+            $this->fail('Debe rechazar otro centro.');
+        } catch (HttpException $e) {
+            $this->assertSame(403,$e->getStatusCode());
+        }
+        $this->assertSame(0,DB::table('especialidades_cm')->count());
+    }
+
+    private function prepararResponsablesAreas(): void
+    {
+        Schema::create('lugares_atencion',function(Blueprint $t){$t->id();});
+        Schema::create('sucursal',function(Blueprint $t){$t->id();$t->integer('id_institucion');$t->integer('id_lugar_atencion');});
+        Schema::create('profesionales_lugares_atencion',function(Blueprint $t){$t->id();$t->integer('id_profesional');$t->integer('id_lugar_atencion');$t->integer('estado');});
+        (require database_path('migrations/2026_11_03_000001_create_centro_responsables_areas.php'))->up();
+        DB::table('instituciones')->where('id',10)->update(['id_lugar_atencion'=>100]);
+        DB::table('lugares_atencion')->insert(['id'=>100]);
+        DB::table('profesionales_lugares_atencion')->insert(['id_profesional'=>50,'id_lugar_atencion'=>100,'estado'=>1]);
+    }
+
+    public function test_responsable_de_hospitalizacion_se_guarda_y_actualiza_sin_duplicar_area(): void
+    {
+        $this->prepararResponsablesAreas();
+        $controller=app(AdministradorCmController::class);
+        $respuesta=$controller->editar_direccion_medica($this->req(['cargo'=>'hospitalizacion','responsable'=>50]));
+        $this->assertSame(1,$respuesta['estado']);
+        $this->assertStringContainsString('Hospitalización',$respuesta['areas_html']);
+        $this->assertStringContainsString('Directora Una',$respuesta['areas_html']);
+        $this->assertEquals(50,DB::table('centro_responsables_areas')->value('id_profesional'));
+        DB::table('profesionales_lugares_atencion')->insert(['id_profesional'=>60,'id_lugar_atencion'=>100,'estado'=>1]);
+        $controller->editar_direccion_medica($this->req(['cargo'=>'hospitalizacion','responsable'=>60]));
+        $this->assertSame(1,DB::table('centro_responsables_areas')->count());
+        $this->assertEquals(60,DB::table('centro_responsables_areas')->value('id_profesional'));
+    }
+
+    public function test_responsable_de_otro_centro_se_rechaza_con_error_del_campo(): void
+    {
+        $this->prepararResponsablesAreas();
+        try {
+            app(AdministradorCmController::class)->editar_direccion_medica($this->req(['cargo'=>'hospitalizacion','responsable'=>60]));
+            $this->fail('No debe asignar un profesional ajeno.');
+        } catch (ValidationException $e) {
+            $this->assertArrayHasKey('responsable',$e->errors());
+        }
+        $this->assertSame(0,DB::table('centro_responsables_areas')->count());
+    }
+
+    public function test_asignacion_de_area_respeta_la_institucion_autorizada(): void
+    {
+        $this->prepararResponsablesAreas();
+        try {
+            app(AdministradorCmController::class)->editar_direccion_medica(new Request(['id_institucion'=>20,'cargo'=>'hospitalizacion','responsable'=>50]));
+            $this->fail('No debe modificar otro centro.');
+        } catch (HttpException $e) {
+            $this->assertSame(403,$e->getStatusCode());
+        }
+        $this->assertSame(0,DB::table('centro_responsables_areas')->count());
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -133,12 +277,22 @@ class PerfilCentroMedicoTest extends TestCase
         $controller=new class extends AdministradorCmController {
             public function dame_areas_cm($ids){return collect();}
         };
-        $resultado=$controller->agregar_area_cm($this->req(['tipo_area'=>1,'responsable_cargo'=>50,'e_cont'=>'area@example.test','tel_c'=>'555','n_pers'=>2]));
+        $html=view('app.adm_cm.modales.anadir_area',[
+            'tipos_areas_cm'=>DB::table('tipos_areas_cm')->get(), 'profesionales'=>Profesional::orderBy('id')->get(),
+        ])->render();
+        $dom=new \DOMDocument();
+        @$dom->loadHTML('<?xml encoding="utf-8" ?>'.$html);
+        $opciones=(new \DOMXPath($dom))->query('//select[@id="responsable_cargo_area"]/option[position()>1]');
+        $this->assertCount(2,$opciones);
+        $this->assertSame('50',$opciones->item(0)->getAttribute('value'));
+        $this->assertSame('60',$opciones->item(1)->getAttribute('value'));
+        $resultado=$controller->agregar_area_cm($this->req(['tipo_area'=>1,'responsable_cargo'=>$opciones->item(0)->getAttribute('value'),'e_cont'=>'area@example.test','tel_c'=>'555','n_pers'=>2]));
         $this->assertSame(1,$resultado->getData(true)['estado']);
         $id=DB::table('areas_cm')->value('id');
         $resultado=$controller->editar_area_cm($this->req(['id_area'=>$id,'tipo_area'=>2,'responsable'=>50,'email'=>'editada@example.test','telefono'=>'666','n_persons'=>4]));
         $this->assertSame(1,$resultado['estado']);
         $area=DB::table('areas_cm')->find($id);$this->assertEquals(2,$area->id_tipo_area_cm);$this->assertEquals(10,$area->id_institucion);$this->assertSame('editada@example.test',$area->email);
+        $this->assertEquals(50,$area->id_responsable);
     }
 
     public function test_veterinary_areas_sync_with_enabled_services_and_type_is_saved(): void

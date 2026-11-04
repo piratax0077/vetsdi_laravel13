@@ -36,7 +36,10 @@ class TrabajadoresCentroVeterinario
         $nombres=LugarAtencion::whereIn('id',$asignaciones->flatten()->pluck('id_lugar_atencion'))->pluck('nombre','id');
         foreach($trabajadores as $t){$t->nombre_completo=trim($t->nombres.' '.$t->apellido_uno.' '.$t->apellido_dos);$t->categoria=$categorias->firstWhere('id',$t->categoria_id)?->nombre ?? 'Sin categoría';$t->sucursales=($asignaciones[$t->id] ?? collect())->map(fn($a)=>$nombres[$a->id_lugar_atencion] ?? 'Lugar #'.$a->id_lugar_atencion)->all();}
         $contratos=DB::table('vet_contratos_trabajadores')->where('id_institucion',$i->id)->whereIn('trabajador_id',$trabajadores->pluck('id'))->orderByDesc('fecha_inicio')->get();
-        return ['habilitado'=>true]+compact('trabajadores','categorias','contratos','lugares');
+        return ['habilitado'=>true,
+            'regiones'=>DB::table('regiones')->orderBy('nombre')->get(['id','nombre']),
+            'comunas'=>DB::table('ciudades')->orderBy('nombre')->get(['id','id_region','nombre'])
+        ]+compact('trabajadores','categorias','contratos','lugares');
     }
 
     public function detalle(Instituciones $i,int $id): array
@@ -77,12 +80,19 @@ class TrabajadoresCentroVeterinario
 
     public function guardar(Request $r,Instituciones $i): int
     {
+        foreach (['region_id','comuna_id'] as $campo) if ($r->exists($campo) && !$r->filled($campo)) $r->merge([$campo=>null]);
+        if ($r->exists('region_id') && !$r->filled('region_id')) $r->merge(['comuna_id'=>null]);
         $r->merge(['rut'=>rut_normalizar($r->rut),'email'=>$r->filled('email')?correo_normalizar($r->email):null]);
         $d=$r->validate(['id'=>'nullable|integer|min:1','rut'=>['required','string','max:20',Rule::unique('vet_trabajadores')->where('id_institucion',$i->id)->ignore($r->id)],
             'nombres'=>'required|string|max:100','apellido_uno'=>'required|string|max:80','apellido_dos'=>'nullable|string|max:80','categoria_id'=>'required|integer',
             'email'=>'nullable|email|max:255','telefono'=>'nullable|string|max:30','direccion'=>'nullable|string|max:255','banco'=>'nullable|string|max:100','tipo_cuenta'=>'nullable|string|max:60','numero_cuenta'=>'nullable|string|max:50',
+            'region_id'=>'nullable|integer|exists:regiones,id',
+            'comuna_id'=>'nullable|required_with:region_id|integer|exists:ciudades,id',
             'observaciones'=>'nullable|string|max:10000','activo'=>'required|boolean','lugares'=>'required|array|min:1','lugares.*'=>'required|integer|distinct']);
-        $this->error(rut_es_valido($d['rut']),'rut','El RUT no es válido.');
+        $this->error(rut_es_valido($d['rut']),'rut','El dígito verificador del RUT no coincide. Revise el número y el dígito final; puede escribirlo con o sin puntos.');
+        if (!empty($d['comuna_id'])) {
+            $this->error(!empty($d['region_id']) && DB::table('ciudades')->where('id',$d['comuna_id'])->where('id_region',$d['region_id'])->exists(),'comuna_id','Seleccione una comuna de la región indicada.');
+        }
         return DB::transaction(function()use($d,$i){
             Instituciones::whereKey($i->id)->lockForUpdate()->firstOrFail();
             $id=!empty($d['id'])?(int)$d['id']:null;$antes=$id?DB::table('vet_trabajadores')->where('id_institucion',$i->id)->where('id',$id)->lockForUpdate()->first():null;

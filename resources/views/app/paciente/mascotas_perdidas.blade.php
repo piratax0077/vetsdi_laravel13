@@ -8,29 +8,10 @@
     $pacienteActual = \App\Models\Paciente::where('id_usuario', auth()->id())->first();
     $mascotasTutor = $pacienteActual
         ? \App\Models\Mascota::where('id_responsable', $pacienteActual->id)->seleccionables()->orderBy('nombre')->get()
-            ->map(fn ($m) => ['id' => $m->id, 'nombre' => $m->nombre, 'foto_url' => $m->foto_url, 'fallecida' => $m->fallecida])->values()
+            ->map(fn ($m) => ['id' => $m->id, 'nombre' => $m->nombre, 'foto_url' => $m->foto_url, 'fallecida' => $m->fallecida, 'perdida' => $m->perdida])->values()
         : collect();
 
-    // Avisos de ejemplo mientras se programa el guardado real de reportes.
-    // foto = foto de perfil (si no hay, se muestra el ícono de mascota); fotos = las que subió el tutor
-    $avisos = [
-        ['id' => 1, 'tutor' => 'Camila R.', 'nombre' => 'Luna', 'especie' => 'Perro', 'raza' => 'Mestiza', 'estado' => 'perdida', 'comuna' => 'Providencia', 'direccion' => 'Av. Ricardo Lyon 1200, esquina Pocuro', 'recompensa' => 50000, 'fecha' => '27/10/2026', 'detalle' => 'Collar rojo, muy mansa. Se perdió cerca del parque Inés de Suárez.', 'foto' => 'images/promociones/promo3.jpg', 'enfoque' => '50% 20%', 'fotos' => ['images/promociones/promo3.jpg', 'images/promociones/promo1.jpg']],
-        ['id' => 2, 'tutor' => 'Felipe M.', 'nombre' => 'Michi', 'especie' => 'Gato', 'raza' => 'Siamés', 'estado' => 'perdida', 'comuna' => 'Ñuñoa', 'direccion' => 'Calle Suecia 2850, depto. 304', 'recompensa' => null, 'fecha' => '25/10/2026', 'detalle' => 'Ojos azules, tiene chip. Asustadizo con extraños.', 'foto' => null, 'fotos' => []],
-        ['id' => 3, 'tutor' => 'Javiera S.', 'nombre' => 'Sin nombre', 'especie' => 'Perro', 'raza' => 'Labrador', 'estado' => 'encontrada', 'comuna' => 'Maipú', 'direccion' => 'Av. Pajaritos 3400, frente al metro Las Parcelas', 'recompensa' => null, 'fecha' => '24/10/2026', 'detalle' => 'Encontrado en Av. Pajaritos. Está a resguardo, buscamos a su familia.', 'foto' => 'images/promociones/promo1.jpg', 'enfoque' => '68% 72%', 'fotos' => ['images/promociones/promo1.jpg']],
-    ];
-
-    // Mis avisos publicados y lo que me respondieron otros tutores de la red (ejemplo)
-    $misAvisos = [
-        [
-            'id' => 10, 'nombre' => 'Toby', 'especie' => 'Perro', 'raza' => 'Beagle', 'estado' => 'perdida', 'fecha' => '26/10/2026',
-            'direccion' => 'Av. Grecia 1500, Ñuñoa', 'foto' => 'images/promociones/promo3.jpg', 'enfoque' => '50% 20%',
-            'respuestas' => [
-                ['tutor' => 'Ignacio P.', 'tipo' => 'la_tiene', 'fecha' => '28/10/2026 18:40', 'lugar' => 'Plaza Ñuñoa, Av. Irarrázaval 3450', 'mensaje' => 'Lo encontré solito en la plaza, está conmigo y está bien. Tiene collar azul.', 'foto' => 'images/promociones/promo3.jpg', 'telefono' => '+56 9 8765 4321'],
-                ['tutor' => 'María José L.', 'tipo' => 'la_vio', 'fecha' => '27/10/2026 09:15', 'lugar' => 'Av. Grecia con Marathon', 'mensaje' => 'Lo vi cruzando hacia el estadio, iba en dirección al poniente.', 'foto' => null, 'telefono' => null],
-            ],
-        ],
-    ];
-    $totalRespuestas = collect($misAvisos)->sum(fn ($a) => count($a['respuestas']));
+    $totalRespuestas = $notificaciones->whereNull('leida_en')->count();
 @endphp
 
 @section('content')
@@ -41,6 +22,7 @@
                 <h3>Mascotas perdidas</h3>
                 <p>Revisa los avisos cercanos o reporta a tu mascota para que otros tutores te ayuden a encontrarla.</p>
             </div>
+            <button type="button" class="btn btn-outline-info mr-2" onclick="return abrirModalMascotaPerdida(event, 'encontrada');">Encontré una mascota</button>
             <button type="button" class="btn btn-info" onclick="return abrirModalMascotaPerdida(event);">
                 <i class="feather icon-plus mr-1"></i> Publicar mi mascota perdida
             </button>
@@ -95,9 +77,7 @@
                     <label class="floating-label-activo-sm" for="filtro_especie">Especie</label>
                     <select id="filtro_especie" class="form-control form-control-sm">
                         <option value="">Todas</option>
-                        <option value="Perro">Perro</option>
-                        <option value="Gato">Gato</option>
-                        <option value="Otra">Otra</option>
+                        @foreach($avisos->pluck('especie')->unique()->sort() as $especieFiltro)<option value="{{ $especieFiltro }}">{{ $especieFiltro }}</option>@endforeach
                     </select>
                 </div>
                 <div class="form-group col-md-3 mb-0">
@@ -115,7 +95,7 @@
         <div class="perdidas-grilla" id="perdidas_grilla">
             @foreach($avisos as $aviso)
                 @php $fotosAviso = array_map(fn ($ruta) => asset($ruta), $aviso['fotos']); @endphp
-                <article class="aviso-perdida {{ $aviso['estado'] }}" data-estado="{{ $aviso['estado'] }}" data-especie="{{ $aviso['especie'] }}" data-comuna="{{ $aviso['comuna'] }}">
+                <article class="aviso-perdida {{ $aviso['estado'] }}" data-estado="{{ $aviso['estado'] }}" data-especie="{{ $aviso['especie'] }}" data-region="{{ $aviso['region_id'] }}" data-comuna="{{ $aviso['comuna_id'] }}">
                     <div class="aviso-perdida-cabecera">
                         <span class="aviso-perdida-estado">{{ $aviso['estado'] == 'perdida' ? 'Perdida' : 'Encontrada' }}</span>
                         <div class="aviso-perdida-avatar">
@@ -158,11 +138,13 @@
                                     <i class="feather icon-image mr-1"></i> Fotos ({{ count($fotosAviso) }})
                                 </button>
                             @endif
+                            @unless($aviso['propio'])
                             <button type="button" class="btn btn-info btn-contactar-aviso"
                                 data-id="{{ $aviso['id'] }}" data-estado="{{ $aviso['estado'] }}" data-nombre="{{ $aviso['nombre'] }}"
                                 data-tutor="{{ $aviso['tutor'] }}" data-foto="{{ $aviso['foto'] ? asset($aviso['foto']) : asset('images/iconos/mascotas.svg') }}">
                                 <i class="feather icon-message-circle mr-1"></i> {{ $aviso['estado'] == 'perdida' ? 'La he visto' : 'Es mi mascota' }}
                             </button>
+                            @else<span class="text-muted">Tu aviso · revisa Mis avisos</span>@endunless
                         </div>
                     </div>
                 </article>
@@ -180,17 +162,20 @@
                 Solo tutores registrados en la red pueden responder tus avisos. Tu teléfono no se muestra hasta que tú decidas compartirlo.
             </p>
 
+            @include('app.paciente.partials.mascota_perdida.actividad')
             @forelse($misAvisos as $miAviso)
                 <section class="mi-aviso">
                     <div class="mi-aviso-cabecera">
                         <img src="{{ asset($miAviso['foto']) }}" alt="Foto de {{ $miAviso['nombre'] }}" style="object-position: {{ $miAviso['enfoque'] ?? 'center' }};">
                         <div class="mi-aviso-texto">
                             <h5>{{ $miAviso['nombre'] }} <span class="aviso-perdida-especie">· {{ $miAviso['especie'] }} {{ $miAviso['raza'] }}</span></h5>
-                            <small><i class="feather icon-map-pin"></i> {{ $miAviso['direccion'] }} · Se perdió el {{ $miAviso['fecha'] }}</small>
+                            <small><i class="feather icon-map-pin"></i> {{ $miAviso['direccion'] }} · {{ $miAviso['estado'] === 'perdida' ? 'Se perdió' : 'Se encontró' }} el {{ $miAviso['fecha'] }}</small>
                         </div>
-                        <button type="button" class="btn btn-info btn-sm btn-aviso-encontrada" data-nombre="{{ $miAviso['nombre'] }}">
-                            <i class="feather icon-check mr-1"></i> Ya la encontré
+                        @if(!$miAviso['cerrado_en'])
+                        <button type="button" class="btn btn-info btn-sm btn-aviso-encontrada" data-id="{{ $miAviso['id'] }}" data-nombre="{{ $miAviso['nombre'] }}">
+                            <i class="feather icon-check mr-1"></i> {{ $miAviso['estado'] === 'perdida' ? 'Ya la encontré' : 'Ya encontró su familia' }}
                         </button>
+                        @else<span class="badge badge-success">Aviso cerrado</span>@endif
                     </div>
 
                     <h6 class="mi-aviso-subtitulo">Respuestas recibidas ({{ count($miAviso['respuestas']) }})</h6>
@@ -204,32 +189,36 @@
                                     <small>{{ $respuesta['fecha'] }}</small>
                                 </div>
                                 <span class="respuesta-aviso-tipo">
-                                    {{ $respuesta['tipo'] == 'la_tiene' ? 'La tiene con él/ella' : 'La vio' }}
+                                    {{ ['la_tiene' => 'La tiene con él/ella', 'la_vio' => 'La vio', 'es_mia' => 'Es mi mascota'][$respuesta['tipo']] }}
                                 </span>
                             </div>
                             <div class="respuesta-aviso-lugar">
                                 <i class="feather icon-navigation"></i> {{ $respuesta['lugar'] }}
                             </div>
                             <p class="respuesta-aviso-mensaje">{{ $respuesta['mensaje'] }}</p>
+                            @if($respuesta['mascota_nombre'])<p>Mascota registrada: {{ $respuesta['mascota_nombre'] }}</p>@endif
+                            @if($respuesta['sena'])<p><strong>Seña particular:</strong> {{ $respuesta['sena'] }}</p>@endif
+                            @if($respuesta['fecha_avistamiento'] && $respuesta['tipo'] !== 'es_mia')<small>Fecha del avistamiento: {{ $respuesta['fecha_avistamiento'] }} {{ $respuesta['hora'] }}</small>@endif
                             <div class="respuesta-aviso-acciones">
                                 @if($respuesta['foto'])
-                                    <button type="button" class="btn btn-ver-fotos btn-sm" data-nombre="{{ $miAviso['nombre'] }}" data-fotos='@json([asset($respuesta['foto'])])'>
+                                    <button type="button" class="btn btn-ver-fotos btn-sm" data-nombre="{{ $miAviso['nombre'] }}" data-fotos='@json($respuesta['fotos'])'>
                                         <i class="feather icon-image mr-1"></i> Ver foto
                                     </button>
                                 @endif
-                                <a class="btn btn-ver-fotos btn-sm" target="_blank" rel="noopener"
-                                    href="https://www.google.com/maps/search/?api=1&query={{ urlencode($respuesta['lugar']) }}">
+                                @if($respuesta['lugar'])<a class="btn btn-ver-fotos btn-sm" target="_blank" rel="noopener"
+                                    href="https://www.google.com/maps/search/?api=1&query={{ urlencode($respuesta['latitud'] && $respuesta['longitud'] ? $respuesta['latitud'].','.$respuesta['longitud'] : ($respuesta['lugar'] ?? '')) }}">
                                     <i class="feather icon-map mr-1"></i> Ver en el mapa
-                                </a>
+                                </a>@endif
                                 @if($respuesta['telefono'])
                                     <a class="btn btn-info btn-sm" href="https://wa.me/{{ preg_replace('/\D/', '', $respuesta['telefono']) }}" target="_blank" rel="noopener">
                                         <i class="feather icon-phone mr-1"></i> Contactar {{ $respuesta['telefono'] }}
                                     </a>
-                                @else
-                                    <button type="button" class="btn btn-info btn-sm btn-compartir-contacto" data-tutor="{{ $respuesta['tutor'] }}">
+                                @endif
+                                @if(!$respuesta['contacto_compartido_en'])
+                                    <button type="button" class="btn btn-info btn-sm btn-compartir-contacto" data-id="{{ $respuesta['id'] }}" data-tutor="{{ $respuesta['tutor'] }}">
                                         <i class="feather icon-share-2 mr-1"></i> Compartir mi contacto
                                     </button>
-                                @endif
+                                @else<span class="text-success">Tu contacto ya está compartido con esta persona</span>@endif
                             </div>
                         </article>
                     @empty
@@ -385,8 +374,8 @@
             comuna.empty().append(primera);
             if (!selectRegion.value) { filtrarAvisos(); return; }
             $.get('{{ route('home.buscar_ciudad_region') }}', { region: selectRegion.value }, function (datos) {
-                $.each(JSON.parse(datos), function (i, ciudad) {
-                    comuna.append($('<option>', { value: ciudad.nombre, text: ciudad.nombre }));
+                $.each(typeof datos === 'string' ? JSON.parse(datos) : datos, function (i, ciudad) {
+                    comuna.append($('<option>', { value: ciudad.id, text: ciudad.nombre }));
                 });
                 if (alTerminar) { alTerminar(comuna); }
             });
@@ -498,12 +487,14 @@
             var estado = $('#filtro_estado').val();
             var especie = $('#filtro_especie').val();
             var comuna = $('#filtro_comuna').val();
+            var region = $('#filtro_region').val();
             var visibles = 0;
             $('#perdidas_grilla .aviso-perdida').each(function () {
                 var tarjeta = $(this);
                 var mostrar = (!estado || tarjeta.data('estado') === estado)
                     && (!especie || tarjeta.data('especie') === especie)
-                    && (!comuna || tarjeta.data('comuna') === comuna);
+                    && (!comuna || String(tarjeta.data('comuna')) === String(comuna))
+                    && (!region || String(tarjeta.data('region')) === String(region));
                 tarjeta.toggle(mostrar);
                 if (mostrar) { visibles++; }
             });
@@ -511,6 +502,7 @@
         }
 
         $('#filtro_estado, #filtro_especie, #filtro_comuna').on('change', filtrarAvisos);
+        filtrarAvisos();
 
         // Galería: arma el carrusel con las fotos que subió el tutor
         var carrusel = $('#carruselFotosPerdida');
@@ -552,9 +544,11 @@
         var avisoActual = null;
         var dropzoneContacto = null;
         var fotosContacto = [];
+        var tokenRespuesta = null;
 
         $('.btn-contactar-aviso').on('click', function () {
             avisoActual = $(this).data();
+            tokenRespuesta = tokenMascotaPerdida();
             var esPerdida = avisoActual.estado === 'perdida';
             var nombre = avisoActual.nombre;
 
@@ -718,7 +712,7 @@
             });
         }
 
-        // Envío del aviso al tutor (pendiente de conectar con el guardado y la notificación)
+        // Enviar la respuesta; conservar el formulario si falla el guardado
         $('#formContactoAviso').on('submit', function (e) {
             e.preventDefault();
             var esPerdida = avisoActual && avisoActual.estado === 'perdida';
@@ -732,41 +726,39 @@
                 return;
             }
 
-            $('#modalContactoAviso').modal('hide');
-            swal({
-                title: 'Aviso enviado',
-                text: avisoActual.tutor + ' recibirá una notificación y verá tu mensaje en "Mis avisos". Te avisaremos cuando responda.',
-                icon: 'success'
-            });
+            if (dropzoneContacto && (dropzoneContacto.getUploadingFiles().length || dropzoneContacto.getQueuedFiles().length || dropzoneContacto.getFilesWithStatus(Dropzone.ERROR).length)) {
+                swal({title: 'Revisa las fotos', text: 'Espera a que terminen de subir o retira las que tienen error.', icon: 'warning'}); return;
+            }
+            var datos = {};
+            $(this).serializeArray().forEach(function(c) { datos[c.name] = c.value; });
+            datos.token = tokenRespuesta;
+            datos.fotos = fotosContacto.slice();
+            datos.lugar = esPerdida ? $.trim($('#contacto_lugar option:selected').text()) : null;
+            if (!esPerdida) { datos.tipo = 'es_mia'; datos.latitud = null; datos.longitud = null; datos.fecha = null; datos.hora = null; }
+            var boton = $(this).find('[type="submit"]');
+            if (boton.prop('disabled')) return;
+            boton.prop('disabled', true);
+            guardarAccionPerdida(@json(route('paciente.perdidas.responder', ['aviso' => '__ID__'])).replace('__ID__', avisoActual.id), datos)
+                .done(function(d) { $('#modalContactoAviso').modal('hide'); swal({title: 'Respuesta enviada', text: d.mensaje, icon: 'success'}).then(function() { location.reload(); }); })
+                .always(function() { boton.prop('disabled', false); });
         });
 
-        // Respuestas recibidas: compartir contacto y cerrar el aviso
-        $('.btn-compartir-contacto').on('click', function () {
-            var tutor = $(this).data('tutor');
-            swal({
-                title: 'Compartir tu contacto',
-                text: tutor + ' podrá ver tu teléfono para coordinar el encuentro. ¿Continuar?',
-                icon: 'info',
-                buttons: ['Cancelar', 'Compartir']
-            }).then(function (acepta) {
-                if (acepta) {
-                    swal({ title: 'Contacto compartido', text: 'Le avisamos a ' + tutor + '.', icon: 'success' });
-                }
+        function guardarAccionPerdida(url, datos) {
+            return $.ajax({url: url, method: 'POST', contentType: 'application/json', data: JSON.stringify(datos || {}), headers: {'X-CSRF-TOKEN': CSRF_TOKEN, 'Accept': 'application/json'}})
+                .fail(function(xhr) { swal({title: 'No se pudo guardar', text: errorMascotaPerdida(xhr), icon: 'error'}); });
+        }
+        $('.btn-compartir-contacto, .btn-aviso-encontrada').on('click', function() {
+            var boton = $(this), compartir = boton.hasClass('btn-compartir-contacto');
+            swal({title: compartir ? 'Compartir tu contacto' : 'Cerrar aviso', text: compartir ? 'Esta persona podrá ver el teléfono de tu perfil. ¿Continuar?' : 'El aviso dejará de mostrarse en la red y se notificará a quienes respondieron. ¿Continuar?', icon: 'info', buttons: ['Cancelar', 'Confirmar']}).then(function(acepta) {
+                if (!acepta || boton.prop('disabled')) return;
+                boton.prop('disabled', true);
+                var url = compartir ? @json(route('paciente.perdidas.compartir', ['respuesta' => '__ID__'])) : @json(route('paciente.perdidas.cerrar', ['aviso' => '__ID__']));
+                guardarAccionPerdida(url.replace('__ID__', boton.data('id')), {}).done(function(d) { swal({text: d.mensaje, icon: 'success'}).then(function() { location.reload(); }); }).always(function() { boton.prop('disabled', false); });
             });
         });
-
-        $('.btn-aviso-encontrada').on('click', function () {
-            var nombre = $(this).data('nombre');
-            swal({
-                title: '¡Qué buena noticia!',
-                text: 'Se cerrará el aviso de ' + nombre + ' y dejará de mostrarse en la red. ¿Continuar?',
-                icon: 'success',
-                buttons: ['Cancelar', 'Cerrar aviso']
-            }).then(function (acepta) {
-                if (acepta) {
-                    swal({ title: 'Aviso cerrado', text: 'Gracias a los tutores que ayudaron. Les avisaremos que ' + nombre + ' volvió a casa.', icon: 'success' });
-                }
-            });
+        $('.btn-leer-perdida').on('click', function() {
+            var boton = $(this);
+            guardarAccionPerdida(@json(route('paciente.perdidas.leer', ['notificacion' => '__ID__'])).replace('__ID__', boton.data('id')), {}).done(function() { boton.closest('.alert').remove(); });
         });
     });
 </script>
@@ -774,7 +766,7 @@
     // Datos y funciones que pide el modal compartido de mascota perdida
     Dropzone.autoDiscover = false;
     var mascotasIniciales = @json($mascotasTutor);
-    var rutaImagenCarga = @json(route('paciente.imagen.carga'));
+    var rutaImagenCarga = @json(route('paciente.perdidas.subir'));
 
     function obtenerMascotaPorId(id) {
         return mascotasIniciales.find(function (mascota) { return String(mascota.id) === String(id); }) || null;

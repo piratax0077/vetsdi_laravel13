@@ -10,6 +10,7 @@ class BoxController extends Controller
 {
     //
     public function guardarBoxServicio(Request $request){
+        if ($request->input('origen') === 'centro_veterinario') return app(\App\Services\BoxesCentroVeterinario::class)->guardar($request);
         try {
             
             $existe = BoxCm::where('numero_box', $request->numero_box)->where('id_lugar_atencion', $request->id_lugar_atencion)->first();
@@ -38,6 +39,7 @@ class BoxController extends Controller
     }
 
     public function dameBox($id){
+        if (request('origen') === 'centro_veterinario') return app(\App\Services\BoxesCentroVeterinario::class)->obtener(request(), (int)$id);
         try {
             $box = BoxCm::find($id);
             return ['estado' => 1, 'box' => $box];
@@ -47,6 +49,7 @@ class BoxController extends Controller
     }
 
     public function editarBoxServicio(Request $request){
+        if ($request->input('origen') === 'centro_veterinario') return app(\App\Services\BoxesCentroVeterinario::class)->guardar($request, true);
         try {
             $box_cm = BoxCm::find($request->id_box);
             $box_cm->id_institucion = $request->id_institucion;

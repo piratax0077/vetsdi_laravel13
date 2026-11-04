@@ -826,7 +826,16 @@ Route::group([
     Route::post('Referidos', [App\Http\Controllers\ReferidoProfesionalController::class, 'storeTutor'])->name('paciente.referidos.store');
     Route::patch('Referidos/{referido}/cancelar', [App\Http\Controllers\ReferidoProfesionalController::class, 'cancelarTutor'])->name('paciente.referidos.cancelar');
 
-    Route::view('Mascotas_Perdidas', 'app.paciente.mascotas_perdidas')->name('paciente.mascotas_perdidas');
+    Route::get('Mascotas_Perdidas', [App\Http\Controllers\MascotasPerdidasController::class, 'index'])->name('paciente.mascotas_perdidas');
+    Route::prefix('Mascotas_Perdidas')->name('paciente.perdidas.')->group(function () {
+        Route::post('avisos', [App\Http\Controllers\MascotasPerdidasController::class, 'publicar'])->middleware('throttle:20,1')->name('publicar');
+        Route::post('avisos/{aviso}/respuestas', [App\Http\Controllers\MascotasPerdidasController::class, 'responder'])->middleware('throttle:20,1')->name('responder');
+        Route::post('avisos/{aviso}/cerrar', [App\Http\Controllers\MascotasPerdidasController::class, 'cerrar'])->name('cerrar');
+        Route::post('respuestas/{respuesta}/contacto', [App\Http\Controllers\MascotasPerdidasController::class, 'compartir'])->name('compartir');
+        Route::post('notificaciones/{notificacion}/leer', [App\Http\Controllers\MascotasPerdidasController::class, 'leer'])->name('leer');
+        Route::post('fotos', [App\Http\Controllers\MascotasPerdidasController::class, 'subir'])->middleware('throttle:30,1')->name('subir');
+        Route::get('fotos/{foto}', [App\Http\Controllers\MascotasPerdidasController::class, 'foto'])->name('foto');
+    });
 
     Route::get('Reservar_Hora', [App\Http\Controllers\EscritorioPaciente::class, 'agendarHora'])->name('paciente.agendar_hora');
 

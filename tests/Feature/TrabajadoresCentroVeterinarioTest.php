@@ -17,13 +17,16 @@ class TrabajadoresCentroVeterinarioTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();config(['database.default'=>'sqlite','database.connections.sqlite.database'=>':memory:','mail.default'=>'array','mail.mailers.array.transport'=>'array']);DB::purge('sqlite');
-        foreach(['users'=>['name','email'],'instituciones'=>['nombre','id_usuario','id_responsable','id_lugar_atencion'],'admin_inst_serv'=>['id_admin'],'contrato_dependiente'=>['id_empleado','tipo_empleado','estado','id_institucion'],'lugares_atencion'=>['nombre'],'sucursal'=>['id_institucion','id_lugar_atencion','estado'],'vet_operacion_auditoria'=>['id_institucion','id_usuario','tabla','registro_id','antes','despues']] as $tabla=>$campos)
+        foreach(['regiones'=>['nombre'],'ciudades'=>['nombre','id_region'],'users'=>['name','email'],'instituciones'=>['nombre','id_usuario','id_responsable','id_lugar_atencion'],'admin_inst_serv'=>['id_admin'],'contrato_dependiente'=>['id_empleado','tipo_empleado','estado','id_institucion'],'lugares_atencion'=>['nombre'],'sucursal'=>['id_institucion','id_lugar_atencion','estado'],'vet_operacion_auditoria'=>['id_institucion','id_usuario','tabla','registro_id','antes','despues']] as $tabla=>$campos)
             Schema::create($tabla,function(Blueprint $t)use($campos){$t->id();foreach($campos as $c)$t->text($c)->nullable();$t->timestamps();});
         DB::table('users')->insert(['id'=>1,'name'=>'Admin','email'=>'admin@example.test']);Auth::setUser(User::find(1));
         DB::table('instituciones')->insert([['id'=>10,'nombre'=>'Centro Uno','id_usuario'=>1,'id_lugar_atencion'=>100],['id'=>20,'nombre'=>'Hospital ajeno','id_usuario'=>2,'id_lugar_atencion'=>200]]);
         DB::table('lugares_atencion')->insert([['id'=>100,'nombre'=>'Matriz'],['id'=>101,'nombre'=>'Sucursal'],['id'=>200,'nombre'=>'Ajena']]);
         DB::table('sucursal')->insert(['id_institucion'=>10,'id_lugar_atencion'=>101,'estado'=>1]);
         $this->migracion()->up();
+        (require database_path('migrations/2026_11_03_000002_add_ubicacion_to_vet_trabajadores.php'))->up();
+        DB::table('regiones')->insert([['id'=>1,'nombre'=>'Región Uno'],['id'=>2,'nombre'=>'Región Dos']]);
+        DB::table('ciudades')->insert([['id'=>1,'nombre'=>'Comuna Uno','id_region'=>1],['id'=>2,'nombre'=>'Comuna Dos','id_region'=>2]]);
     }
     private function migracion(){return require database_path('migrations/2026_10_31_000001_otros_trabajadores_veterinarios.php');}
     private function servicio(): TrabajadoresCentroVeterinario{return app(TrabajadoresCentroVeterinario::class);}
@@ -33,6 +36,28 @@ class TrabajadoresCentroVeterinarioTest extends TestCase
     private function crear(array $d=[]): int{return $this->servicio()->guardar($this->req($this->datos($d)),$this->centro());}
     private function invalido(callable $fn,string $campo): void
     {try{$fn();$this->fail('Debe rechazar la operación.');}catch(ValidationException $e){$this->assertArrayHasKey($campo,$e->errors());}}
+
+    public function test_rut_de_captura_rechaza_digito_incorrecto_y_acepta_formato_y_k_minuscula(): void
+    {
+        $this->invalido(fn()=>$this->crear(['rut'=>'18.564.235-K']),'rut');
+        $id=$this->crear(['rut'=>'18.564.235-6']);
+        $this->assertSame('18564235-6',DB::table('vet_trabajadores')->where('id',$id)->value('rut'));
+        $id=$this->crear(['rut'=>'12.345.670-k']);
+        $this->assertSame('12345670-K',DB::table('vet_trabajadores')->where('id',$id)->value('rut'));
+    }
+
+    public function test_region_y_comuna_se_guardan_cargan_y_validan_al_editar(): void
+    {
+        $id=$this->crear(['region_id'=>1,'comuna_id'=>1,'direccion'=>'Calle 123']);
+        $detalle=$this->servicio()->detalle($this->centro(),$id)['trabajador'];
+        $this->assertEquals(1,$detalle->region_id);$this->assertEquals(1,$detalle->comuna_id);
+        $this->servicio()->guardar($this->req($this->datos(['id'=>$id,'region_id'=>2,'comuna_id'=>2])),$this->centro());
+        $this->assertEquals(2,DB::table('vet_trabajadores')->where('id',$id)->value('comuna_id'));
+        $this->invalido(fn()=>$this->servicio()->guardar($this->req($this->datos(['id'=>$id,'region_id'=>1,'comuna_id'=>2])),$this->centro()),'comuna_id');
+        $this->assertEquals(2,DB::table('vet_trabajadores')->where('id',$id)->value('region_id'));
+        $this->servicio()->guardar($this->req($this->datos(['id'=>$id,'region_id'=>''])),$this->centro());
+        $this->assertNull(DB::table('vet_trabajadores')->where('id',$id)->value('comuna_id'));
+    }
 
     public function test_migration_creates_default_categories_and_can_be_reversed_without_touching_existing_data(): void
     {

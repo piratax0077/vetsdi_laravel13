@@ -26,7 +26,7 @@
 								<select class="form-control form-control-sm" id="responsable_cargo_area" data-validar="seleccion" data-requerido="Seleccione un responsable">
                                         <option value="0">Seleccione</option>
 										@foreach ($profesionales as $profesional)
-                                            <option value="{{ $profesional->id_profesional }}">{{ $profesional->nombre }} {{ $profesional->apellido_uno }} {{ $profesional->apellido_dos }}</option>
+                                            <option value="{{ $profesional->id }}">{{ $profesional->nombre }} {{ $profesional->apellido_uno }} {{ $profesional->apellido_dos }}</option>
                                         @endforeach
 								</select>
 							</div>

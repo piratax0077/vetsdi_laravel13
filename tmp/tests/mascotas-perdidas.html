@@ -1,0 +1,1291 @@
+<div class="pcoded-main-container">
+    <div class="pcoded-content">
+        <div class="perdidas-intro">
+            <div>
+                <h3>Mascotas perdidas</h3>
+                <p>Revisa los avisos cercanos o reporta a tu mascota para que otros tutores te ayuden a encontrarla.</p>
+            </div>
+            <button type="button" class="btn btn-outline-info mr-2" onclick="return abrirModalMascotaPerdida(event, 'encontrada');">Encontré una mascota</button>
+            <button type="button" class="btn btn-info" onclick="return abrirModalMascotaPerdida(event);">
+                <i class="feather icon-plus mr-1"></i> Publicar mi mascota perdida
+            </button>
+        </div>
+
+        <!--Pestañas: avisos de la red y mis avisos con sus respuestas-->
+        <ul class="nav nav-pills pill-moderno pill-moderno-white" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="pill" href="#panel_avisos_red" role="tab">
+                    <i class="feather icon-users mr-1"></i> Avisos de la red
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#panel_mis_avisos" role="tab">
+                    <i class="feather icon-inbox mr-1"></i> Mis avisos
+                                            <span class="badge badge-pill badge-danger ml-1">1</span>
+                                    </a>
+            </li>
+        </ul>
+
+        <div class="tab-content p-0 bg-transparent shadow-none">
+        <div class="tab-pane fade show active" id="panel_avisos_red" role="tabpanel">
+
+        <!--Filtros-->
+        <div class="perdidas-filtros">
+            <div class="perdidas-filtros-cabecera">
+                <span class="perdidas-filtros-titulo"><i class="feather icon-filter"></i> Filtrar avisos</span>
+                <button type="button" class="btn btn-info btn-sm btn-cerca-de-mi" id="btn_cerca_de_mi">
+                    <i class="feather icon-map-pin mr-1"></i> Cerca de mí
+                </button>
+            </div>
+            <div class="perdidas-ubicacion-estado" id="ubicacion_estado" aria-live="polite"></div>
+            <div class="form-row">
+                <div class="form-group col-md-3 mb-md-0">
+                    <label class="floating-label-activo-sm" for="filtro_region">Región</label>
+                    <select id="filtro_region" class="form-control form-control-sm selector-region" data-comuna="#filtro_comuna">
+                        <option value="">Todas</option>
+                                                    <option value="1">Región Uno</option>
+                                            </select>
+                </div>
+                <div class="form-group col-md-3 mb-md-0">
+                    <label class="floating-label-activo-sm" for="filtro_comuna">Comuna</label>
+                    <select id="filtro_comuna" class="form-control form-control-sm">
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 mb-md-0">
+                    <label class="floating-label-activo-sm" for="filtro_especie">Especie</label>
+                    <select id="filtro_especie" class="form-control form-control-sm">
+                        <option value="">Todas</option>
+                        <option value="Perro">Perro</option>                    </select>
+                </div>
+                <div class="form-group col-md-3 mb-0">
+                    <label class="floating-label-activo-sm" for="filtro_estado">Estado</label>
+                    <select id="filtro_estado" class="form-control form-control-sm">
+                        <option value="">Todos</option>
+                        <option value="perdida">Perdidas</option>
+                        <option value="encontrada">Encontradas</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!--Avisos-->
+        <div class="perdidas-grilla" id="perdidas_grilla">
+                                            <article class="aviso-perdida perdida" data-estado="perdida" data-especie="Perro" data-region="1" data-comuna="1">
+                    <div class="aviso-perdida-cabecera">
+                        <span class="aviso-perdida-estado">Perdida</span>
+                        <div class="aviso-perdida-avatar">
+                                                            <img src="http://vet-sdi_v13.test/images/iconos/mascotas.svg" alt="Foto de Mascota 1" style="object-position: center;">
+                                                    </div>
+                    </div>
+                    <div class="aviso-perdida-cuerpo">
+                        <h5>Mascota 1</h5>
+                        <span class="aviso-perdida-especie">Perro · Sin registro</span>
+                                                <div class="aviso-perdida-datos">
+                            <div class="aviso-perdida-dato">
+                                <small>Comuna</small>
+                                <span><i class="feather icon-map-pin"></i>Comuna Uno</span>
+                            </div>
+                            <div class="aviso-perdida-dato">
+                                <small>Se perdió</small>
+                                <span><i class="feather icon-calendar"></i>2026-11-04</span>
+                            </div>
+                        </div>
+                        <div class="aviso-perdida-direccion">
+                            <i class="feather icon-navigation"></i>
+                            <div>
+                                <small>Dirección donde se perdió</small>
+                                <span>Plaza Uno</span>
+                            </div>
+                        </div>
+                        <p class="aviso-perdida-detalle">Collar rojo</p>
+                        <div class="aviso-perdida-acciones">
+                                                        <span class="text-muted">Tu aviso · revisa Mis avisos</span>                        </div>
+                    </div>
+                </article>
+                    </div>
+        <div class="perdidas-vacio" id="perdidas_vacio">
+            <i class="feather icon-search mr-1"></i> No hay avisos con esos filtros.
+        </div>
+        </div>
+
+        <!--Mis avisos: respuestas que mandaron otros tutores-->
+        <div class="tab-pane fade" id="panel_mis_avisos" role="tabpanel">
+            <p class="perdidas-privacidad">
+                <i class="feather icon-shield"></i>
+                Solo tutores registrados en la red pueden responder tus avisos. Tu teléfono no se muestra hasta que tú decidas compartirlo.
+            </p>
+
+            <div class="alert alert-info">
+            <strong>Mascota 1</strong> ·
+            Recibiste una respuesta. Revísala a continuación.
+            <small>2026-11-04 01:20:27</small>
+            <button type="button" class="btn btn-sm btn-outline-info btn-leer-perdida" data-id="1">Marcar como leída</button>
+        </div>
+    
+                            <section class="mi-aviso">
+                    <div class="mi-aviso-cabecera">
+                        <img src="http://vet-sdi_v13.test/images/iconos/mascotas.svg" alt="Foto de Mascota 1" style="object-position: center;">
+                        <div class="mi-aviso-texto">
+                            <h5>Mascota 1 <span class="aviso-perdida-especie">· Perro Sin registro</span></h5>
+                            <small><i class="feather icon-map-pin"></i> Plaza Uno · Se perdió el 2026-11-04</small>
+                        </div>
+                                                <button type="button" class="btn btn-info btn-sm btn-aviso-encontrada" data-id="1" data-nombre="Mascota 1">
+                            <i class="feather icon-check mr-1"></i> Ya la encontré
+                        </button>
+                                            </div>
+
+                    <h6 class="mi-aviso-subtitulo">Respuestas recibidas (1)</h6>
+
+                                            <article class="respuesta-aviso la_vio">
+                            <div class="respuesta-aviso-cabecera">
+                                <span class="respuesta-aviso-avatar">T</span>
+                                <div>
+                                    <strong>Tutor 2</strong>
+                                    <small>2026-11-04 01:20:27</small>
+                                </div>
+                                <span class="respuesta-aviso-tipo">
+                                    La vio
+                                </span>
+                            </div>
+                            <div class="respuesta-aviso-lugar">
+                                <i class="feather icon-navigation"></i> Calle Dos
+                            </div>
+                            <p class="respuesta-aviso-mensaje">Está en la plaza</p>
+                                                                                    <small>Fecha del avistamiento: 2026-11-04 12:30</small>                            <div class="respuesta-aviso-acciones">
+                                                                <a class="btn btn-ver-fotos btn-sm" target="_blank" rel="noopener"
+                                    href="https://www.google.com/maps/search/?api=1&query=-33.5%2C-70.7">
+                                    <i class="feather icon-map mr-1"></i> Ver en el mapa
+                                </a>                                                                    <a class="btn btn-info btn-sm" href="https://wa.me/56911111112" target="_blank" rel="noopener">
+                                        <i class="feather icon-phone mr-1"></i> Contactar +56911111112
+                                    </a>
+                                                                <span class="text-success">Tu contacto ya está compartido con esta persona</span>                            </div>
+                        </article>
+                                    </section>
+                    </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal para avisar al tutor: la vi, la tengo o es mi mascota-->
+<div class="modal fade" id="modalContactoAviso" tabindex="-1" role="dialog" aria-labelledby="tituloContactoAviso" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <form class="modal-content" id="formContactoAviso">
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title text-white" id="tituloContactoAviso">Avisar al tutor</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="aviso_id" id="contacto_aviso_id">
+                <div class="contacto-aviso-resumen">
+                    <img id="contacto_foto" src="http://vet-sdi_v13.test/images/iconos/mascotas.svg" alt="">
+                    <div>
+                        <strong id="contacto_titulo"></strong>
+                        <small>Tu mensaje le llega a <span id="contacto_tutor"></span> dentro de la red.</small>
+                    </div>
+                </div>
+
+                <!-- Aviso de mascota perdida: la vi o la tengo -->
+                <div id="contacto_bloque_perdida">
+                    <div class="contacto-tipos">
+                        <label class="contacto-tipo">
+                            <input type="radio" name="tipo" value="la_vio" checked>
+                            <span><i class="feather icon-eye"></i> La vi</span>
+                        </label>
+                        <label class="contacto-tipo">
+                            <input type="radio" name="tipo" value="la_tiene">
+                            <span><i class="feather icon-home"></i> La tengo conmigo</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Aviso de mascota encontrada: es mía -->
+                <div id="contacto_bloque_encontrada" class="d-none">
+                    <div class="form-group">
+                        <label class="floating-label-activo-sm" for="contacto_mi_mascota">¿Cuál de tus mascotas es?</label>
+                        <select id="contacto_mi_mascota" name="mascota_id" class="form-control form-control-sm">
+                            <option value="">No la tengo registrada</option>
+                                                            <option value="1">Mascota 1</option>
+                                                    </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="floating-label-activo-sm" for="contacto_sena"><span class="text-danger">*</span> Una seña que solo tú conozcas</label>
+                        <input type="text" id="contacto_sena" name="sena" class="form-control form-control-sm" placeholder="Ej.: cicatriz en la oreja, responde a un nombre, chip">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-12" id="contacto_grupo_lugar">
+                        <label class="floating-label-activo-sm" for="contacto_lugar"><span class="text-danger">*</span> <span id="contacto_lugar_texto">¿Dónde la viste?</span></label>
+                        <select id="contacto_lugar" name="lugar" class="form-control form-control-sm"></select>
+                        <input type="hidden" id="contacto_latitud" name="latitud">
+                        <input type="hidden" id="contacto_longitud" name="longitud">
+                        <button type="button" class="contacto-usar-ubicacion" id="contacto_usar_ubicacion">
+                            <i class="feather icon-map-pin"></i> Usar mi ubicación actual
+                        </button>
+                    </div>
+                    <div class="form-group col-6" id="contacto_grupo_fecha">
+                        <label class="floating-label-activo-sm" for="contacto_fecha">Fecha</label>
+                        <input type="date" id="contacto_fecha" name="fecha" class="form-control form-control-sm" max="2026-11-04" value="2026-11-04">
+                    </div>
+                    <div class="form-group col-6" id="contacto_grupo_hora">
+                        <label class="floating-label-activo-sm" for="contacto_hora">Hora aproximada</label>
+                        <input type="time" id="contacto_hora" name="hora" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group col-12">
+                        <label class="floating-label-activo-sm" for="contacto_mensaje"><span class="text-danger">*</span> Mensaje para el tutor</label>
+                        <textarea id="contacto_mensaje" name="mensaje" rows="3" class="form-control form-control-sm"></textarea>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="titulo-item text-dark">Fotos</div>
+                        <p class="small text-muted mb-2">Si alcanzaste a sacarle fotos, súbelas para que el tutor la reconozca.</p>
+                        <input type="hidden" id="contacto_fotos_json" name="fotos" value="[]">
+                        <div class="dropzone" id="dropzone-contacto-aviso"></div>
+                    </div>
+                </div>
+
+                <!-- Compartir teléfono: mismo bloque con switch que la recompensa -->
+                <div class="perdida-recompensa mb-0" id="contacto_bloque_telefono">
+                    <div class="perdida-recompensa-cabecera">
+                        <span class="perdida-recompensa-icono contacto-icono-telefono"><i class="feather icon-phone"></i></span>
+                        <label class="perdida-recompensa-texto" for="contacto_compartir_telefono">
+                            <strong>Compartir mi teléfono</strong>
+                            <small>Si no lo activas, el tutor solo verá tu nombre y tu mensaje, y podrá pedirte el contacto desde la red.</small>
+                        </label>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="contacto_compartir_telefono" name="compartir_telefono" value="1">
+                            <label class="custom-control-label" for="contacto_compartir_telefono"><span class="sr-only">Compartir mi teléfono</span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-info"><i class="feather icon-send"></i> Enviar aviso</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--Modal galería de fotos del aviso-->
+<div class="modal fade" id="modalFotosPerdida" tabindex="-1" role="dialog" aria-labelledby="tituloFotosPerdida" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title text-white" id="tituloFotosPerdida">Fotos</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div id="carruselFotosPerdida" class="carousel slide" data-interval="false">
+                    <div class="carousel-inner"></div>
+                    <a class="carousel-control-prev" href="#carruselFotosPerdida" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Anterior</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carruselFotosPerdida" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Siguiente</span>
+                    </a>
+                </div>
+                <div class="galeria-miniaturas"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--MODAL MASCOTA PERDIDA-->
+        <div class="modal fade" id="modal_mascota_perdida" tabindex="-1" role="dialog"
+            aria-labelledby="modalMascotaPerdidaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h5 class="modal-title text-white" id="modalMascotaPerdidaLabel">
+                            <i class="feather icon-alert-triangle"></i> Publicar mascota perdida
+                        </h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!-- Primera vista: elegir la mascota -->
+                        <div id="perdida_vista_seleccion">
+                            <p class="perdida-intro">Selecciona la mascota que se perdió para completar el aviso.</p>
+                            <div class="form-group fill mb-0">
+                                <label class="floating-label-activo-sm" for="perdida_mascota_id"><span class="text-danger">*</span> Mascota</label>
+                                <select class="form-control form-control-sm" id="perdida_mascota_id">
+                                    <option value="">Seleccione una mascota</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Segunda vista: datos del aviso -->
+                        <div id="perdida_vista_formulario" class="d-none">
+                            <div class="perdida-resumen">
+                                <img id="perdida_mascota_foto" src="http://vet-sdi_v13.test/images/iconos/mascotas.svg" alt="Foto de la mascota">
+                                <div class="perdida-resumen-texto">
+                                    <span class="perdida-resumen-titulo">Marcaste a <strong id="perdida_mascota_nombre"></strong> como perdida</span>
+                                    <button type="button" class="perdida-cambiar text-dark" onclick="return volverSeleccionMascotaPerdida(event);">
+                                        <i class="feather icon-repeat"></i> Cambiar mascota
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="perdida_datos_encontrada" class="d-none mb-3">
+                                <label for="perdida_nombre">Nombre (si lo conoces)</label>
+                                <input id="perdida_nombre" class="form-control mb-2" maxlength="100" placeholder="Sin nombre">
+                                <label for="perdida_especie">Especie</label>
+                                <select id="perdida_especie" class="form-control mb-2"><option value="Perro">Perro</option><option value="Gato">Gato</option><option value="Otra">Otra</option></select>
+                                <label for="perdida_raza">Raza (si la conoces)</label><input id="perdida_raza" class="form-control" maxlength="100">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="perdida_region">Región *</label>
+                                    <select id="perdida_region" class="form-control"><option value="">Seleccione</option>
+                                    <option value="1">Región Uno</option>                                    </select>
+                                </div>
+                                <div class="form-group col-md-6"><label for="perdida_comuna">Comuna *</label><select id="perdida_comuna" class="form-control"><option value="">Seleccione</option></select></div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="perdida_direccion"><span class="text-danger">*</span> Dirección donde se perdió</label>
+                                        <select class="form-control form-control-sm" id="perdida_direccion"></select>
+                                        <input type="hidden" id="perdida_latitud" value="">
+                                        <input type="hidden" id="perdida_longitud" value="">
+                                        <div class="perdida-mapa" id="perdida_mapa"></div>
+                                        <small class="perdida-mapa-estado" id="perdida_mapa_estado">Escribe la dirección y elige una de las sugerencias. Puedes arrastrar el pin para ajustar el punto exacto.</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="perdida_fecha"><span class="text-danger">*</span> Fecha</label>
+                                        <input type="date" class="form-control form-control-sm" id="perdida_fecha" max="2026-11-04">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="perdida_hora">Hora aproximada</label>
+                                        <input type="time" class="form-control form-control-sm" id="perdida_hora">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="floating-label-activo-sm" for="perdida_descripcion"><span class="text-danger">*</span> Descripción</label>
+                                        <textarea class="form-control form-control-sm" id="perdida_descripcion" rows="4" maxlength="2000"
+                                            placeholder="Cuenta cómo lucía cuando se perdió: collar, ropa, color, señas particulares, cómo ocurrió..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="perdida-recompensa">
+                                        <div class="perdida-recompensa-cabecera">
+                                            <span class="perdida-recompensa-icono"><img src="http://vet-sdi_v13.test/images/iconos/regalo.svg" alt=""></span>
+                                            <label class="perdida-recompensa-texto" for="perdida_recompensa">
+                                                <strong>Ofrecer recompensa</strong>
+                                                <small>Puede motivar a más personas a ayudar en la búsqueda.</small>
+                                            </label>
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="perdida_recompensa" onchange="toggleRecompensaMascotaPerdida();">
+                                                <label class="custom-control-label" for="perdida_recompensa"><span class="sr-only">Ofrecer recompensa</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="perdida-recompensa-monto d-none" id="perdida_recompensa_detalle">
+                                            <div class="perdida-monto-campo">
+                                                <span class="perdida-monto-signo">$</span>
+                                                <input type="number" class="form-control" id="perdida_recompensa_monto" min="0" step="1000" placeholder="Ej. 50000">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="titulo-item text-dark">Fotos</div>
+                                    <p class="small text-muted mb-2">Agrega fotos recientes para que sea más fácil reconocerla.</p>
+                                    <input type="hidden" id="perdida_fotos_json" value="[]">
+                                    <div class="dropzone" id="dropzone-mascota-perdida"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger d-none" id="btn_publicar_mascota_perdida" onclick="return publicarMascotaPerdida(event);">
+                            <i class="feather icon-send"></i> Publicar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+<script>
+    $(function () {
+        // Comunas según la región elegida (misma búsqueda que usa el registro)
+        function cargarComunas(selectRegion, alTerminar) {
+            var comuna = $($(selectRegion).data('comuna'));
+            var primera = comuna.find('option:first').clone();
+            comuna.empty().append(primera);
+            if (!selectRegion.value) { filtrarAvisos(); return; }
+            $.get('http://vet-sdi_v13.test/Registro_paciente_datos_residencia', { region: selectRegion.value }, function (datos) {
+                $.each(typeof datos === 'string' ? JSON.parse(datos) : datos, function (i, ciudad) {
+                    comuna.append($('<option>', { value: ciudad.id, text: ciudad.nombre }));
+                });
+                if (alTerminar) { alTerminar(comuna); }
+            });
+            filtrarAvisos();
+        }
+
+        $('.selector-region').on('change', function () {
+            cargarComunas(this);
+        });
+
+        // Cerca de mí: toma la ubicación del navegador y deja elegidas la región y la comuna
+        function normalizar(texto) {
+            return (texto || '').toString().toLowerCase()
+                .normalize('NFD').replace(/[̀-ͯ]/g, '')
+                .replace(/\bregion\b|\bde\b|\bdel\b|\bla\b|\bthe\b/g, '')
+                .replace(/[^a-z0-9]/g, '');
+        }
+
+        // Busca en un select la opción cuyo nombre coincide con alguno de los textos;
+        // primero el nombre exacto y, si no hay, uno que lo contenga
+        function buscarOpcion(select, candidatos) {
+            var encontrada = null;
+            $.each([true, false], function (j, exacto) {
+                $.each(candidatos, function (i, candidato) {
+                    var buscado = normalizar(candidato);
+                    if (!buscado) { return; }
+                    select.find('option').each(function () {
+                        var nombre = normalizar($(this).text());
+                        if (!this.value || !nombre) { return; }
+                        if (nombre === buscado || (!exacto && (nombre.indexOf(buscado) !== -1 || buscado.indexOf(nombre) !== -1))) {
+                            encontrada = this.value;
+                            return false;
+                        }
+                    });
+                    if (encontrada) { return false; }
+                });
+                if (encontrada) { return false; }
+            });
+            return encontrada;
+        }
+
+        function mostrarEstadoUbicacion(mensaje, esError) {
+            $('#ubicacion_estado').toggleClass('error', !!esError).text(mensaje).show();
+        }
+
+        $('#btn_cerca_de_mi').on('click', function () {
+            var boton = $(this);
+
+            if (!navigator.geolocation) {
+                mostrarEstadoUbicacion('Tu navegador no permite obtener la ubicación. Elige la región y comuna a mano.', true);
+                return;
+            }
+
+            boton.prop('disabled', true).addClass('buscando');
+            mostrarEstadoUbicacion('Buscando tu ubicación...');
+
+            navigator.geolocation.getCurrentPosition(function (posicion) {
+                $.getJSON('https://nominatim.openstreetmap.org/reverse', {
+                    format: 'json',
+                    lat: posicion.coords.latitude,
+                    lon: posicion.coords.longitude,
+                    'accept-language': 'es',
+                    zoom: 14
+                }).done(function (datos) {
+                    var direccion = (datos && datos.address) || {};
+                    var selectRegion = $('#filtro_region');
+                    var region = buscarOpcion(selectRegion, [direccion.state, direccion.region]);
+
+                    if (!region) {
+                        boton.prop('disabled', false).removeClass('buscando');
+                        mostrarEstadoUbicacion('No pudimos reconocer tu región. Elígela a mano.', true);
+                        return;
+                    }
+
+                    selectRegion.val(region);
+                    cargarComunas(selectRegion[0], function (selectComuna) {
+                        var comuna = buscarOpcion(selectComuna, [
+                            direccion.municipality, direccion.city, direccion.town, direccion.village,
+                            direccion.city_district, direccion.suburb, direccion.county
+                        ]);
+                        boton.prop('disabled', false).removeClass('buscando');
+
+                        if (comuna) {
+                            selectComuna.val(comuna);
+                            mostrarEstadoUbicacion('Mostrando avisos cerca de ti: ' + comuna + ', ' + selectRegion.find('option:selected').text() + '.');
+                        } else {
+                            mostrarEstadoUbicacion('Encontramos tu región, pero no la comuna. Elígela en la lista.', true);
+                        }
+                        filtrarAvisos();
+                    });
+                }).fail(function () {
+                    boton.prop('disabled', false).removeClass('buscando');
+                    mostrarEstadoUbicacion('No pudimos consultar tu ubicación en este momento. Intenta de nuevo.', true);
+                });
+            }, function (error) {
+                boton.prop('disabled', false).removeClass('buscando');
+                var mensaje = 'No fue posible obtener tu ubicación.';
+                if (error && error.code === 1) {
+                    mensaje = 'El navegador bloqueó el permiso de ubicación. Permítelo para este sitio o elige la región y comuna a mano.';
+                } else if (error && error.code === 3) {
+                    mensaje = 'La ubicación tardó demasiado. Intenta de nuevo.';
+                }
+                mostrarEstadoUbicacion(mensaje, true);
+            }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 });
+        });
+
+        // Filtro de avisos en pantalla
+        function filtrarAvisos() {
+            var estado = $('#filtro_estado').val();
+            var especie = $('#filtro_especie').val();
+            var comuna = $('#filtro_comuna').val();
+            var region = $('#filtro_region').val();
+            var visibles = 0;
+            $('#perdidas_grilla .aviso-perdida').each(function () {
+                var tarjeta = $(this);
+                var mostrar = (!estado || tarjeta.data('estado') === estado)
+                    && (!especie || tarjeta.data('especie') === especie)
+                    && (!comuna || String(tarjeta.data('comuna')) === String(comuna))
+                    && (!region || String(tarjeta.data('region')) === String(region));
+                tarjeta.toggle(mostrar);
+                if (mostrar) { visibles++; }
+            });
+            $('#perdidas_vacio').toggle(visibles === 0);
+        }
+
+        $('#filtro_estado, #filtro_especie, #filtro_comuna').on('change', filtrarAvisos);
+        filtrarAvisos();
+
+        // Galería: arma el carrusel con las fotos que subió el tutor
+        var carrusel = $('#carruselFotosPerdida');
+        var miniaturas = $('#modalFotosPerdida .galeria-miniaturas');
+
+        $('.btn-ver-fotos[data-fotos]').on('click', function () {
+            var fotos = $(this).data('fotos') || [];
+            var nombre = $(this).data('nombre');
+            var interior = carrusel.find('.carousel-inner').empty();
+            miniaturas.empty();
+
+            $.each(fotos, function (i, ruta) {
+                interior.append(
+                    $('<div>', { class: 'carousel-item' + (i === 0 ? ' active' : '') })
+                        .append($('<img>', { src: ruta, alt: 'Foto ' + (i + 1) + ' de ' + nombre }))
+                );
+                miniaturas.append(
+                    $('<img>', { src: ruta, alt: '', class: i === 0 ? 'activa' : '', 'data-indice': i })
+                );
+            });
+
+            // Con una sola foto no hacen falta flechas ni miniaturas
+            carrusel.find('.carousel-control-prev, .carousel-control-next').toggle(fotos.length > 1);
+            miniaturas.toggle(fotos.length > 1);
+
+            $('#tituloFotosPerdida').text('Fotos de ' + nombre);
+            $('#modalFotosPerdida').modal('show');
+        });
+
+        miniaturas.on('click', 'img', function () {
+            carrusel.carousel($(this).data('indice'));
+        });
+
+        carrusel.on('slid.bs.carousel', function (e) {
+            miniaturas.find('img').removeClass('activa').eq($(e.relatedTarget).index()).addClass('activa');
+        });
+
+        // Contacto entre tutores: "La he visto" en avisos de perdida y "Es mi mascota" en avisos de encontrada
+        var avisoActual = null;
+        var dropzoneContacto = null;
+        var fotosContacto = [];
+        var tokenRespuesta = null;
+
+        $('.btn-contactar-aviso').on('click', function () {
+            avisoActual = $(this).data();
+            tokenRespuesta = tokenMascotaPerdida();
+            var esPerdida = avisoActual.estado === 'perdida';
+            var nombre = avisoActual.nombre;
+
+            $('#formContactoAviso')[0].reset();
+            $('#contacto_lugar').empty().trigger('change');
+            $('#contacto_latitud, #contacto_longitud').val('');
+            $('#contacto_lugar_texto').text('¿Dónde la viste?');
+            $('#contacto_aviso_id').val(avisoActual.id);
+            $('#contacto_foto').attr('src', avisoActual.foto);
+            $('#contacto_tutor').text(avisoActual.tutor);
+            $('#tituloContactoAviso').text(esPerdida ? 'Avisar que la viste' : 'Es mi mascota');
+            $('#contacto_titulo').text(esPerdida ? '¿Viste a ' + nombre + '?' : '¿Es tu mascota?');
+
+            $('#contacto_bloque_perdida').toggleClass('d-none', !esPerdida);
+            $('#contacto_bloque_encontrada').toggleClass('d-none', esPerdida);
+            // Si es la mascota encontrada, el lugar ya lo sabe quien la tiene
+            $('#contacto_grupo_lugar, #contacto_grupo_fecha, #contacto_grupo_hora').toggleClass('d-none', !esPerdida);
+            $('#contacto_mensaje').attr('placeholder', esPerdida
+                ? 'Cuéntale cómo estaba, hacia dónde iba o cómo puede ubicarte.'
+                : 'Cuéntale por qué crees que es tuya y cuándo se perdió.');
+            $('#contacto_fecha').val('2026-11-04').trigger('change');
+
+            $('#modalContactoAviso').modal('show');
+        });
+
+        $('#modalContactoAviso').on('shown.bs.modal', function () {
+            iniciarBuscadorLugarContacto();
+            if (!dropzoneContacto) { iniciarDropzoneContacto(); }
+        });
+
+        $('#modalContactoAviso').on('hidden.bs.modal', function () {
+            if (dropzoneContacto) { dropzoneContacto.removeAllFiles(true); }
+            fotosContacto = [];
+            $('#contacto_fotos_json').val('[]');
+        });
+
+        // Al elegir "La tengo conmigo" el lugar pasa a ser dónde la encontró
+        $('input[name="tipo"]').on('change', function () {
+            var laTiene = this.value === 'la_tiene' && this.checked;
+            $('#contacto_lugar_texto').text(laTiene ? '¿Dónde la encontraste?' : '¿Dónde la viste?');
+        });
+
+        // Buscador de direcciones: el mismo de publicar mascota perdida
+        function iniciarBuscadorLugarContacto() {
+            var lugar = $('#contacto_lugar');
+            if (!$.fn.select2 || lugar.hasClass('select2-hidden-accessible')) return;
+
+            lugar.select2({
+                width: '100%',
+                dropdownParent: $('#modalContactoAviso'),
+                dropdownCssClass: 'perdida-direccion-dropdown',
+                placeholder: 'Ej. Av. Providencia 1234, Santiago',
+                minimumInputLength: 3,
+                language: {
+                    inputTooShort: function () { return 'Escribe al menos 3 letras'; },
+                    searching: function () { return 'Buscando direcciones...'; },
+                    noResults: function () { return 'No encontramos esa dirección'; },
+                    errorLoading: function () { return 'No se pudieron cargar las sugerencias'; }
+                },
+                ajax: {
+                    url: URL_BUSCADOR_DIRECCIONES + '/api/',
+                    dataType: 'json',
+                    delay: 350,
+                    data: function (params) {
+                        return { q: params.term, limit: 6, bbox: LIMITES_CHILE };
+                    },
+                    processResults: function (data, params) {
+                        var numero = extraerNumeroDireccion(params.term);
+                        var vistas = {};
+                        var resultados = (data && data.features ? data.features : [])
+                            .map(function (item) { return armarSugerenciaDireccion(item, numero); })
+                            .filter(function (item) {
+                                if (vistas[item.text]) return false;
+                                vistas[item.text] = true;
+                                return true;
+                            });
+                        return { results: resultados };
+                    }
+                },
+                templateResult: function (item) {
+                    if (!item.titulo) return item.text;
+                    var fila = $('<div></div>');
+                    $('<span class="perdida-sugerencia-titulo"></span>').text(item.titulo).appendTo(fila);
+                    if (item.detalle) {
+                        $('<span class="perdida-sugerencia-detalle"></span>').text(item.detalle).appendTo(fila);
+                    }
+                    return fila;
+                },
+                templateSelection: function (item) {
+                    return item.text || 'Ej. Av. Providencia 1234, Santiago';
+                }
+            });
+
+            lugar.on('select2:select', function (e) {
+                var punto = e.params.data;
+                $('#contacto_latitud').val(punto.lat || '');
+                $('#contacto_longitud').val(punto.lng || '');
+            });
+        }
+
+        // Ubicación actual: se busca la dirección del punto y queda elegida en el buscador
+        $('#contacto_usar_ubicacion').on('click', function () {
+            var boton = $(this);
+            if (!navigator.geolocation) {
+                swal({ title: 'Ubicación', text: 'Tu navegador no permite obtener la ubicación. Escribe el lugar.', icon: 'warning' });
+                return;
+            }
+            boton.prop('disabled', true).addClass('buscando');
+            navigator.geolocation.getCurrentPosition(function (posicion) {
+                var lat = posicion.coords.latitude;
+                var lng = posicion.coords.longitude;
+                $.getJSON(URL_BUSCADOR_DIRECCIONES + '/reverse', { lat: lat, lon: lng, limit: 1 })
+                    .done(function (data) {
+                        if (!data || !data.features || !data.features.length) return;
+                        var punto = armarSugerenciaDireccion(data.features[0]);
+                        $('#contacto_lugar').empty().append(new Option(punto.text, punto.id, true, true)).trigger('change');
+                        $('#contacto_latitud').val(lat);
+                        $('#contacto_longitud').val(lng);
+                    })
+                    .always(function () { boton.prop('disabled', false).removeClass('buscando'); });
+            }, function () {
+                boton.prop('disabled', false).removeClass('buscando');
+                swal({ title: 'Ubicación', text: 'No pudimos obtener tu ubicación. Escribe el lugar.', icon: 'warning' });
+            }, { enableHighAccuracy: true, timeout: 10000 });
+        });
+
+        // Fotos: misma zona de carga que publicar mascota perdida
+        function iniciarDropzoneContacto() {
+            var elemento = document.querySelector('#dropzone-contacto-aviso');
+            if (!elemento || typeof Dropzone === 'undefined') return;
+
+            dropzoneContacto = new Dropzone(elemento, {
+                url: rutaImagenCarga,
+                method: 'post',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                acceptedFiles: 'image/jpeg,image/png,image/jpg,.jpeg,.jpg,.png,image/*',
+                maxFilesize: 6,
+                maxFiles: 4,
+                addRemoveLinks: true,
+                paramName: 'file',
+                dictDefaultMessage: 'Arrastra las fotos aquí o haz clic para elegirlas',
+                dictRemoveFile: 'Quitar',
+                dictInvalidFileType: 'No puedes subir archivos de este tipo.',
+                dictFileTooBig: 'El archivo es demasiado grande. Máx. 6 MiB.',
+                dictMaxFilesExceeded: 'Puedes subir hasta 4 fotos.',
+                success: function (file, response) {
+                    var data = parsearRespuestaImagen(response) || response;
+                    if (!data || !data.img) return;
+                    file.rutaSubida = obtenerRutaImagenSubida(data.img);
+                    fotosContacto.push(file.rutaSubida);
+                    $('#contacto_fotos_json').val(JSON.stringify(fotosContacto));
+                },
+                removedfile: function (file) {
+                    fotosContacto = fotosContacto.filter(function (ruta) { return ruta !== file.rutaSubida; });
+                    $('#contacto_fotos_json').val(JSON.stringify(fotosContacto));
+                    if (file.previewElement) { file.previewElement.remove(); }
+                },
+                error: function (file, message, xhr) {
+                    mostrarErrorCargaImagen(typeof message === 'string' ? message : 'No se pudo subir la imagen.', xhr);
+                }
+            });
+        }
+
+        // Enviar la respuesta; conservar el formulario si falla el guardado
+        $('#formContactoAviso').on('submit', function (e) {
+            e.preventDefault();
+            var esPerdida = avisoActual && avisoActual.estado === 'perdida';
+            var faltantes = [];
+            if (esPerdida && !$.trim($('#contacto_lugar option:selected').text())) faltantes.push($('#contacto_lugar_texto').text().replace(/[¿?]/g, ''));
+            if (!esPerdida && !$.trim($('#contacto_sena').val())) faltantes.push('Una seña que solo tú conozcas');
+            if (!$.trim($('#contacto_mensaje').val())) faltantes.push('Mensaje');
+
+            if (faltantes.length) {
+                swal({ title: 'Faltan datos', text: 'Completa: ' + faltantes.join(', ') + '.', icon: 'warning' });
+                return;
+            }
+
+            if (dropzoneContacto && (dropzoneContacto.getUploadingFiles().length || dropzoneContacto.getQueuedFiles().length || dropzoneContacto.getFilesWithStatus(Dropzone.ERROR).length)) {
+                swal({title: 'Revisa las fotos', text: 'Espera a que terminen de subir o retira las que tienen error.', icon: 'warning'}); return;
+            }
+            var datos = {};
+            $(this).serializeArray().forEach(function(c) { datos[c.name] = c.value; });
+            datos.token = tokenRespuesta;
+            datos.fotos = fotosContacto.slice();
+            datos.lugar = esPerdida ? $.trim($('#contacto_lugar option:selected').text()) : null;
+            if (!esPerdida) { datos.tipo = 'es_mia'; datos.latitud = null; datos.longitud = null; datos.fecha = null; datos.hora = null; }
+            var boton = $(this).find('[type="submit"]');
+            if (boton.prop('disabled')) return;
+            boton.prop('disabled', true);
+            guardarAccionPerdida("http:\/\/vet-sdi_v13.test\/Paciente\/Mascotas_Perdidas\/avisos\/__ID__\/respuestas".replace('__ID__', avisoActual.id), datos)
+                .done(function(d) { $('#modalContactoAviso').modal('hide'); swal({title: 'Respuesta enviada', text: d.mensaje, icon: 'success'}).then(function() { location.reload(); }); })
+                .always(function() { boton.prop('disabled', false); });
+        });
+
+        function guardarAccionPerdida(url, datos) {
+            return $.ajax({url: url, method: 'POST', contentType: 'application/json', data: JSON.stringify(datos || {}), headers: {'X-CSRF-TOKEN': CSRF_TOKEN, 'Accept': 'application/json'}})
+                .fail(function(xhr) { swal({title: 'No se pudo guardar', text: errorMascotaPerdida(xhr), icon: 'error'}); });
+        }
+        $('.btn-compartir-contacto, .btn-aviso-encontrada').on('click', function() {
+            var boton = $(this), compartir = boton.hasClass('btn-compartir-contacto');
+            swal({title: compartir ? 'Compartir tu contacto' : 'Cerrar aviso', text: compartir ? 'Esta persona podrá ver el teléfono de tu perfil. ¿Continuar?' : 'El aviso dejará de mostrarse en la red y se notificará a quienes respondieron. ¿Continuar?', icon: 'info', buttons: ['Cancelar', 'Confirmar']}).then(function(acepta) {
+                if (!acepta || boton.prop('disabled')) return;
+                boton.prop('disabled', true);
+                var url = compartir ? "http:\/\/vet-sdi_v13.test\/Paciente\/Mascotas_Perdidas\/respuestas\/__ID__\/contacto" : "http:\/\/vet-sdi_v13.test\/Paciente\/Mascotas_Perdidas\/avisos\/__ID__\/cerrar";
+                guardarAccionPerdida(url.replace('__ID__', boton.data('id')), {}).done(function(d) { swal({text: d.mensaje, icon: 'success'}).then(function() { location.reload(); }); }).always(function() { boton.prop('disabled', false); });
+            });
+        });
+        $('.btn-leer-perdida').on('click', function() {
+            var boton = $(this);
+            guardarAccionPerdida("http:\/\/vet-sdi_v13.test\/Paciente\/Mascotas_Perdidas\/notificaciones\/__ID__\/leer".replace('__ID__', boton.data('id')), {}).done(function() { boton.closest('.alert').remove(); });
+        });
+    });
+</script>
+<script>
+    // Datos y funciones que pide el modal compartido de mascota perdida
+    Dropzone.autoDiscover = false;
+    var mascotasIniciales = [{"id":1,"nombre":"Mascota 1","foto_url":null,"fallecida":false,"perdida":true}];
+    var rutaImagenCarga = "http:\/\/vet-sdi_v13.test\/Paciente\/Mascotas_Perdidas\/fotos";
+
+    function obtenerMascotaPorId(id) {
+        return mascotasIniciales.find(function (mascota) { return String(mascota.id) === String(id); }) || null;
+    }
+
+    function obtenerImagenMascota(mascota) {
+        return (mascota && mascota.foto_url) || 'http://vet-sdi_v13.test/images/iconos/mascotas.svg';
+    }
+
+    function mascotaEstaFallecida(mascota) {
+        return !!(mascota && (mascota.fallecida === true || mascota.fallecida === 1 || mascota.fallecida === '1'));
+    }
+
+    // En esta pantalla no hay lista de mascotas que refrescar
+    function actualizarMascotasEnLista() {}
+
+    function parsearRespuestaImagen(respuesta) {
+        if (!respuesta) return null;
+        if (typeof respuesta === 'string') {
+            try { return JSON.parse(respuesta); } catch (e) { return null; }
+        }
+        return respuesta;
+    }
+
+    function obtenerRutaImagenSubida(img) {
+        if (!img) return '';
+        return img.ruta || img.nombre_img || '';
+    }
+
+    function mostrarErrorCargaImagen(mensaje, xhr) {
+        var texto = mensaje || 'No se pudo subir la imagen.';
+        if (xhr && xhr.responseJSON && xhr.responseJSON.message) {
+            texto = xhr.responseJSON.message;
+        } else if (xhr && xhr.responseJSON && xhr.responseJSON.errors && xhr.responseJSON.errors.file) {
+            texto = xhr.responseJSON.errors.file.join('\n');
+        }
+        if (typeof swal === 'function') {
+            swal({ title: 'Error al subir imagen', text: texto, icon: 'error' });
+        }
+    }
+
+    // ---- Mascota perdida ----
+        var dropzoneMascotaPerdida = null;
+        var fotosMascotaPerdida = [];
+        var estadoPublicacionPerdida = 'perdida';
+        var tokenPublicacionPerdida = null;
+        var comunasPublicacionPerdida = [{"id":1,"id_region":"1","nombre":"Comuna Uno"},{"id":2,"id_region":"2","nombre":"Otra regi\u00f3n"}];
+        function tokenMascotaPerdida() {
+            return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, function(c) {
+                return (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16);
+            });
+        }
+        function errorMascotaPerdida(xhr) {
+            var d = xhr.responseJSON || {};
+            return d.errors ? Object.values(d.errors).flat().join('\n') : (xhr.status === 419 ? 'Tu sesión venció. Abre otra pestaña e inicia sesión antes de reintentar.' : (xhr.status === 403 ? 'No tienes permiso para esta acción.' : 'No se pudo guardar. Conservamos los datos para que puedas reintentar.'));
+        }
+        $(document).on('change', '#perdida_region', function() {
+            var region = String(this.value), select = $('#perdida_comuna').empty().append(new Option('Seleccione', ''));
+            comunasPublicacionPerdida.filter(function(c) { return String(c.id_region) === region; }).forEach(function(c) { select.append(new Option(c.nombre, c.id)); });
+        });
+
+        function initDropzoneMascotaPerdida()
+        {
+            var element = document.querySelector('#dropzone-mascota-perdida');
+            if (!element) return;
+
+            if (element.dropzone) {
+                try { element.dropzone.destroy(); } catch (e) {}
+            }
+
+            fotosMascotaPerdida = [];
+            $('#perdida_fotos_json').val('[]');
+
+            dropzoneMascotaPerdida = new Dropzone(element, {
+                url: "http:\/\/vet-sdi_v13.test\/Paciente\/Mascotas_Perdidas\/fotos",
+                method: 'post',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                acceptedFiles: 'image/jpeg,image/png,image/jpg,.jpeg,.jpg,.png,image/*',
+                maxFilesize: 6,
+                maxFiles: 8,
+                addRemoveLinks: true,
+                createImageThumbnails: true,
+                paramName: 'file',
+                dictDefaultMessage: 'Arrastra las fotos aquí o haz clic para elegirlas',
+                dictRemoveFile: 'Quitar',
+                dictInvalidFileType: 'No puedes subir archivos de este tipo.',
+                dictFileTooBig: 'El archivo es demasiado grande. Máx. 6 MiB.',
+                dictMaxFilesExceeded: 'Puedes subir hasta 8 fotos.',
+                success: function(file, response) {
+                    var data = parsearRespuestaImagen(response) || response;
+                    if (!data || !data.img) return;
+                    fotosMascotaPerdida.push(obtenerRutaImagenSubida(data.img));
+                    $('#perdida_fotos_json').val(JSON.stringify(fotosMascotaPerdida));
+                },
+                removedfile: function(file) {
+                    if (file.xhr && file.xhr.response) {
+                        var data = parsearRespuestaImagen(file.xhr.response);
+                        var ruta = data && data.img ? obtenerRutaImagenSubida(data.img) : null;
+                        if (ruta) {
+                            fotosMascotaPerdida = fotosMascotaPerdida.filter(function(item) {
+                                return item !== ruta;
+                            });
+                            $('#perdida_fotos_json').val(JSON.stringify(fotosMascotaPerdida));
+                        }
+                    }
+                    if (file.previewElement) {
+                        file.previewElement.remove();
+                    }
+                },
+                error: function(file, message, xhr) {
+                    mostrarErrorCargaImagen(typeof message === 'string' ? message : 'No se pudo subir la imagen.', xhr);
+                }
+            });
+        }
+
+        function mostrarVistaMascotaPerdida(vista)
+        {
+            var enFormulario = vista === 'formulario';
+            $('#perdida_vista_seleccion').toggleClass('d-none', enFormulario);
+            $('#perdida_vista_formulario').toggleClass('d-none', !enFormulario);
+            $('#btn_publicar_mascota_perdida').toggleClass('d-none', !enFormulario);
+            if (enFormulario) {
+                initMapaMascotaPerdida();
+            }
+        }
+
+        function limpiarFormularioMascotaPerdida()
+        {
+            $('#perdida_hora, #perdida_descripcion, #perdida_recompensa_monto').val('');
+            $('#perdida_direccion').empty().trigger('change');
+            $('#perdida_fecha').val('2026-11-04').trigger('change');
+            $('#perdida_recompensa').prop('checked', false);
+            toggleRecompensaMascotaPerdida();
+            guardarPuntoMascotaPerdida('', '');
+            if (mapaMascotaPerdida && pinMascotaPerdida) {
+                pinMascotaPerdida.setLatLng(CENTRO_MAPA_PERDIDA);
+                mapaMascotaPerdida.setView(CENTRO_MAPA_PERDIDA, 12);
+            }
+        }
+
+        function abrirModalMascotaPerdida(event, estado)
+        {
+            if (event && typeof event.preventDefault === 'function') {
+                event.preventDefault();
+            }
+
+            estadoPublicacionPerdida = estado === 'encontrada' ? 'encontrada' : 'perdida';
+            tokenPublicacionPerdida = tokenMascotaPerdida();
+            var $select = $('#perdida_mascota_id');
+            $select.html('<option value="">Seleccione una mascota</option>');
+
+            (Array.isArray(mascotasIniciales) ? mascotasIniciales : []).forEach(function(mascota) {
+                if (!mascota || !mascota.id || mascotaEstaFallecida(mascota)) return;
+                $select.append($('<option></option>').val(mascota.id).text(mascota.nombre || ('Mascota #' + mascota.id)));
+            });
+
+            if (estadoPublicacionPerdida === 'perdida' && $select.find('option').length <= 1) {
+                swal({
+                    title: 'Sin mascotas disponibles',
+                    text: 'No tienes mascotas activas para publicar como perdidas.',
+                    icon: 'info'
+                });
+                return false;
+            }
+
+            limpiarFormularioMascotaPerdida();
+            $('#perdida_region').val('').trigger('change');
+            $('#perdida_nombre, #perdida_raza').val('');
+            $('#perdida_datos_encontrada').toggleClass('d-none', estadoPublicacionPerdida !== 'encontrada');
+            $('#perdida_vista_formulario .perdida-resumen, #perdida_vista_formulario .perdida-recompensa').toggle(estadoPublicacionPerdida === 'perdida');
+            $('#modalMascotaPerdidaLabel').text(estadoPublicacionPerdida === 'perdida' ? 'Publicar mascota perdida' : 'Publicar mascota encontrada');
+            $('label[for="perdida_direccion"]').text(estadoPublicacionPerdida === 'perdida' ? 'Dirección donde se perdió *' : 'Dirección donde se encontró *');
+            mostrarVistaMascotaPerdida(estadoPublicacionPerdida === 'perdida' ? 'seleccion' : 'formulario');
+            $('#modal_mascota_perdida').appendTo('body').modal('show');
+            return false;
+        }
+
+        // Al elegir la mascota se pasa directo al formulario del aviso
+        $(document).on('change', '#perdida_mascota_id', function() {
+            var mascota = obtenerMascotaPorId($(this).val());
+            if (!mascota) return;
+
+            $('#perdida_mascota_nombre').text(mascota.nombre || 'tu mascota');
+            $('#perdida_mascota_foto').attr('src', obtenerImagenMascota(mascota));
+            mostrarVistaMascotaPerdida('formulario');
+        });
+
+        function volverSeleccionMascotaPerdida(event)
+        {
+            if (event && typeof event.preventDefault === 'function') {
+                event.preventDefault();
+            }
+            $('#perdida_mascota_id').val('');
+            mostrarVistaMascotaPerdida('seleccion');
+            return false;
+        }
+
+        function toggleRecompensaMascotaPerdida()
+        {
+            var activa = $('#perdida_recompensa').is(':checked');
+            $('#perdida_recompensa_detalle').toggleClass('d-none', !activa);
+            $('#perdida_recompensa').closest('.perdida-recompensa').toggleClass('activa', activa);
+            if (!activa) {
+                $('#perdida_recompensa_monto').val('');
+            }
+        }
+
+        function publicarMascotaPerdida(event)
+        {
+            if (event && typeof event.preventDefault === 'function') {
+                event.preventDefault();
+            }
+
+            var aviso = {
+                token: tokenPublicacionPerdida,
+                estado: estadoPublicacionPerdida,
+                region_id: $('#perdida_region').val(), comuna_id: $('#perdida_comuna').val(),
+                nombre: $('#perdida_nombre').val(), especie: $('#perdida_especie').val(), raza: $('#perdida_raza').val(),
+                mascota_id: estadoPublicacionPerdida === 'perdida' ? $('#perdida_mascota_id').val() : '',
+                direccion: $.trim($('#perdida_direccion option:selected').text()),
+                latitud: $('#perdida_latitud').val(),
+                longitud: $('#perdida_longitud').val(),
+                fecha: $('#perdida_fecha').val(),
+                hora: $('#perdida_hora').val(),
+                descripcion: $.trim($('#perdida_descripcion').val()),
+                recompensa: $('#perdida_recompensa').is(':checked') ? 1 : 0,
+                recompensa_monto: $('#perdida_recompensa_monto').val(),
+                fotos: fotosMascotaPerdida.slice()
+            };
+
+            var faltantes = [];
+            if (estadoPublicacionPerdida === 'perdida' && !aviso.mascota_id) faltantes.push('Mascota');
+            if (!aviso.region_id || !aviso.comuna_id) faltantes.push('Región y comuna');
+            if (!aviso.direccion) faltantes.push('Dirección donde se perdió');
+            if (!aviso.fecha) faltantes.push('Fecha');
+            if (!aviso.descripcion) faltantes.push('Descripción');
+
+            if (faltantes.length) {
+                swal({
+                    title: 'Faltan datos',
+                    text: 'Completa: ' + faltantes.join(', ') + '.',
+                    icon: 'warning'
+                });
+                return false;
+            }
+
+            if (dropzoneMascotaPerdida && (dropzoneMascotaPerdida.getUploadingFiles().length || dropzoneMascotaPerdida.getQueuedFiles().length || dropzoneMascotaPerdida.getFilesWithStatus(Dropzone.ERROR).length)) {
+                swal({title: 'Revisa las fotos', text: 'Espera a que terminen de subir o retira las que tienen error.', icon: 'warning'}); return false;
+            }
+            var boton = $('#btn_publicar_mascota_perdida');
+            if (boton.prop('disabled')) return false;
+            boton.prop('disabled', true);
+            $.ajax({url: "http:\/\/vet-sdi_v13.test\/Paciente\/Mascotas_Perdidas\/avisos", method: 'POST', contentType: 'application/json', data: JSON.stringify(aviso), headers: {'X-CSRF-TOKEN': CSRF_TOKEN, 'Accept': 'application/json'}})
+                .done(function(data) {
+                    $('#modal_mascota_perdida').modal('hide');
+                    swal({title: 'Aviso publicado', text: data.mensaje, icon: 'success'}).then(function() { window.location.href = "http:\/\/vet-sdi_v13.test\/Paciente\/Mascotas_Perdidas"; });
+                }).fail(function(xhr) { swal({title: 'No se pudo publicar', text: errorMascotaPerdida(xhr), icon: 'error'}); })
+                .always(function() { boton.prop('disabled', false); });
+            return false;
+        }
+
+        // Mapa de la dirección: pin rojo que se mueve al escribir y se puede arrastrar
+        var mapaMascotaPerdida = null;
+        var pinMascotaPerdida = null;
+        var CENTRO_MAPA_PERDIDA = [-33.4489, -70.6693];
+
+        function initMapaMascotaPerdida()
+        {
+            if (typeof L === 'undefined' || !document.getElementById('perdida_mapa')) return;
+
+            if (!mapaMascotaPerdida) {
+                mapaMascotaPerdida = L.map('perdida_mapa').setView(CENTRO_MAPA_PERDIDA, 12);
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; OpenStreetMap'
+                }).addTo(mapaMascotaPerdida);
+
+                var iconoRojo = L.icon({
+                    iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-2x-red.png',
+                    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    shadowSize: [41, 41]
+                });
+
+                pinMascotaPerdida = L.marker(CENTRO_MAPA_PERDIDA, { icon: iconoRojo, draggable: true }).addTo(mapaMascotaPerdida);
+                pinMascotaPerdida.on('dragend', function() {
+                    var punto = pinMascotaPerdida.getLatLng();
+                    guardarPuntoMascotaPerdida(punto.lat, punto.lng);
+                    actualizarDireccionDesdePin(punto.lat, punto.lng);
+                });
+            }
+
+            initBuscadorDireccionPerdida();
+
+            setTimeout(function() { mapaMascotaPerdida.invalidateSize(); }, 150);
+        }
+
+        function guardarPuntoMascotaPerdida(lat, lng)
+        {
+            $('#perdida_latitud').val(lat);
+            $('#perdida_longitud').val(lng);
+        }
+
+        // Sugerencias de direcciones reales (Photon / OpenStreetMap) mientras se escribe
+        var URL_BUSCADOR_DIRECCIONES = 'https://photon.komoot.io';
+        var LIMITES_CHILE = '-75.8,-56.0,-66.4,-17.4';
+
+        // En Chile OpenStreetMap casi no trae números de casa: si la sugerencia es una
+        // calle sin número, se le agrega el número que escribió la persona
+        function armarSugerenciaDireccion(lugar, numeroEscrito)
+        {
+            var p = $.extend({}, lugar.properties || {});
+            if (!p.street && p.osm_key === 'highway' && p.name) {
+                p.street = p.name;
+                p.name = '';
+            }
+            if (p.street && !p.housenumber && numeroEscrito) {
+                p.housenumber = numeroEscrito;
+                p.numeroAgregado = true;
+            }
+            var calle = p.street ? (p.street + (p.housenumber ? ' ' + p.housenumber : '')) : '';
+            var titulo = p.name && p.name !== p.street ? p.name : (calle || p.city || 'Ubicación');
+            var detalle = [];
+            if (calle && calle !== titulo) detalle.push(calle);
+            [p.district, p.city || p.county, p.state].forEach(function(parte) {
+                if (parte && detalle.indexOf(parte) < 0 && parte !== titulo) detalle.push(parte);
+            });
+
+            var texto = [titulo].concat(detalle).join(', ');
+            return {
+                id: texto,
+                text: texto,
+                titulo: titulo,
+                detalle: detalle.join(', '),
+                calle: calle,
+                ciudad: p.city || p.county || '',
+                numeroAgregado: !!p.numeroAgregado,
+                lat: lugar.geometry.coordinates[1],
+                lng: lugar.geometry.coordinates[0]
+            };
+        }
+
+        function extraerNumeroDireccion(texto)
+        {
+            var numero = String(texto || '').match(/\b\d{1,5}\b/);
+            return numero ? numero[0] : '';
+        }
+
+        // Busca el punto exacto de la calle con número; si no existe, queda el de la calle
+        function afinarPinConNumero(lugar)
+        {
+            $.getJSON('https://nominatim.openstreetmap.org/search', {
+                street: lugar.calle,
+                city: lugar.ciudad,
+                country: 'Chile',
+                format: 'json',
+                limit: 1
+            }).done(function(resultados) {
+                if (!resultados || !resultados.length || !mapaMascotaPerdida) return;
+                var lat = parseFloat(resultados[0].lat);
+                var lng = parseFloat(resultados[0].lon);
+                pinMascotaPerdida.setLatLng([lat, lng]);
+                mapaMascotaPerdida.setView([lat, lng], 18);
+                guardarPuntoMascotaPerdida(lat, lng);
+            });
+        }
+
+        function initBuscadorDireccionPerdida()
+        {
+            var $direccion = $('#perdida_direccion');
+            if (!$.fn.select2 || $direccion.hasClass('select2-hidden-accessible')) return;
+
+            $direccion.select2({
+                width: '100%',
+                dropdownParent: $('#modal_mascota_perdida'),
+                dropdownCssClass: 'perdida-direccion-dropdown',
+                placeholder: 'Ej. Av. Providencia 1234, Santiago',
+                minimumInputLength: 3,
+                language: {
+                    inputTooShort: function() { return 'Escribe al menos 3 letras'; },
+                    searching: function() { return 'Buscando direcciones...'; },
+                    noResults: function() { return 'No encontramos esa dirección'; },
+                    errorLoading: function() { return 'No se pudieron cargar las sugerencias'; }
+                },
+                ajax: {
+                    url: URL_BUSCADOR_DIRECCIONES + '/api/',
+                    dataType: 'json',
+                    delay: 350,
+                    data: function(params) {
+                        return { q: params.term, limit: 6, bbox: LIMITES_CHILE };
+                    },
+                    processResults: function(data, params) {
+                        var numero = extraerNumeroDireccion(params.term);
+                        var vistas = {};
+                        var resultados = (data && data.features ? data.features : [])
+                            .map(function(lugar) { return armarSugerenciaDireccion(lugar, numero); })
+                            .filter(function(item) {
+                                // Una misma calle puede venir en varios tramos: se muestra una vez
+                                if (vistas[item.text]) return false;
+                                vistas[item.text] = true;
+                                return true;
+                            });
+                        return { results: resultados };
+                    }
+                },
+                templateResult: function(item) {
+                    if (!item.titulo) return item.text;
+                    var $fila = $('<div></div>');
+                    $('<span class="perdida-sugerencia-titulo"></span>').text(item.titulo).appendTo($fila);
+                    if (item.detalle) {
+                        $('<span class="perdida-sugerencia-detalle"></span>').text(item.detalle).appendTo($fila);
+                    }
+                    return $fila;
+                },
+                templateSelection: function(item) {
+                    return item.text || 'Ej. Av. Providencia 1234, Santiago';
+                }
+            });
+
+            $direccion.on('select2:select', function(e) {
+                var lugar = e.params.data;
+                if (!lugar || !mapaMascotaPerdida) return;
+                pinMascotaPerdida.setLatLng([lugar.lat, lugar.lng]);
+                mapaMascotaPerdida.setView([lugar.lat, lugar.lng], 17);
+                guardarPuntoMascotaPerdida(lugar.lat, lugar.lng);
+                if (lugar.numeroAgregado) {
+                    afinarPinConNumero(lugar);
+                }
+                $('#perdida_mapa_estado').text('Revisa que el pin quede donde se perdió. Puedes arrastrarlo si hace falta.');
+            });
+        }
+
+        // Al mover el pin se busca la dirección de ese punto y se deja escrita
+        function actualizarDireccionDesdePin(lat, lng)
+        {
+            $('#perdida_mapa_estado').text('Buscando la dirección del punto...');
+            $.getJSON(URL_BUSCADOR_DIRECCIONES + '/reverse', { lat: lat, lon: lng, limit: 1 })
+                .done(function(data) {
+                    if (!data || !data.features || !data.features.length) {
+                        $('#perdida_mapa_estado').text('Ubicación ajustada manualmente.');
+                        return;
+                    }
+                    var lugar = armarSugerenciaDireccion(data.features[0]);
+                    var opcion = new Option(lugar.text, lugar.id, true, true);
+                    $('#perdida_direccion').empty().append(opcion).trigger('change');
+                    guardarPuntoMascotaPerdida(lat, lng);
+                    $('#perdida_mapa_estado').text('Ubicación ajustada manualmente.');
+                })
+                .fail(function() {
+                    $('#perdida_mapa_estado').text('Ubicación ajustada manualmente.');
+                });
+        }
+
+        $(document).on('shown.bs.modal', '#modal_mascota_perdida', function() {
+            if (!dropzoneMascotaPerdida) {
+                initDropzoneMascotaPerdida();
+            }
+        });
+
+        $(document).on('hidden.bs.modal', '#modal_mascota_perdida', function() {
+            if (dropzoneMascotaPerdida && typeof dropzoneMascotaPerdida.removeAllFiles === 'function') {
+                dropzoneMascotaPerdida.removeAllFiles(true);
+            }
+            fotosMascotaPerdida = [];
+            $('#perdida_fotos_json').val('[]');
+        });
+
+        window.abrirModalMascotaPerdida = abrirModalMascotaPerdida;
+        window.volverSeleccionMascotaPerdida = volverSeleccionMascotaPerdida;
+        window.toggleRecompensaMascotaPerdida = toggleRecompensaMascotaPerdida;
+        window.publicarMascotaPerdida = publicarMascotaPerdida;
+</script>
