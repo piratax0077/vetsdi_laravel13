@@ -128,6 +128,7 @@
                                                                 </td>
                                                                 <td class="align-middle">
                                                                     <button type="button" class="btn btn-info btn-sm btn-icon" onclick="contacto_profesional({{ $prof_vet->id }});" data-toggle="tooltip" data-placement="top" title="Contacto"><i class="feather icon-phone"></i></button>
+                                                                    <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="editar_profesional_vet(this);" data-id="{{ $prof_vet->id }}" data-rut="{{ rut_formatear($prof_vet->rut) ?? $prof_vet->rut }}" data-sexo="{{ $prof_vet->sexo }}" data-nombre="{{ $prof_vet->nombre }}" data-apellido-uno="{{ $prof_vet->apellido_uno }}" data-apellido-dos="{{ $prof_vet->apellido_dos }}" data-correo="{{ $prof_vet->email }}" data-telefono="{{ $prof_vet->telefono_uno }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="feather icon-edit"></i></button>
                                                                 </td>
                                                                 <td class="align-middle">
                                                                     <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="f_profesional({{ $prof_vet->id }});" data-toggle="tooltip" data-placement="top" title="Información profesional"><i class="feather icon-eye"></i></button>
@@ -777,6 +778,7 @@ $(document).ready(function(){
 
 @section('modales-profesionales_inst')
     @include('app.adm_cm.modal_adm.asociar_profesional')
+    @include('app.adm_cm.modal_adm.editar_profesional_vet')
     @include('app.adm_cm.modal_adm.mensaje_profesional')
     @include('app.adm_cm.modal_adm.mensaje_difusion')
     @include('app.adm_cm.modal_adm.historial_mensajes')

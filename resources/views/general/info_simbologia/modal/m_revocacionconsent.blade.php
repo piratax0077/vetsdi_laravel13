@@ -210,7 +210,7 @@
                         html += '    <td>'+value.consentimiento.nombre+'</td>';
                         html += '    <td>'+value.diagnostico_cons+'</td>';
                         html += '    <td>'+value.cirugia_cons+'</td>';
-                        html += '    <td>'+value.fecha_cons+'</td>';
+                        html += '    <td>'+String(value.fecha_cons).replace(/(\d{1,2}:\d{2}):\d{2}(\.\d+)?/, '$1')+'</td>';
                         // html += '    <td>'+fecha_log+'</td>';
                         html += '    <td>'+estado_log[estado_log_valor]+'</td>';
                         html += '    <td><button class="btn btn-danger btn-xs" role="button" onclick="revocar_consentimiento(\''+value.id+'\',\''+value.consentimiento.nombre+'\', \''+value.diagnostico_cons+'\', \''+value.cirugia_cons+'\', \''+value.fecha_cons+'\');">Revocar</button></td>';

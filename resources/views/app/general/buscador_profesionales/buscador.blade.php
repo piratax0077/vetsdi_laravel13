@@ -23,11 +23,12 @@
                             @if(!empty($es_veterinaria_busqueda))
                                 @php
                                     // Misma foto que muestra el menú lateral de la mascota
-                                    $foto_mascota_reserva = $mascota->foto_url ?? asset('images/iconos/mascotas.svg');
+                                    $foto_base_mascota_reserva = asset('images/iconos/mascotas.svg');
+                                    $foto_mascota_reserva = ($mascota->foto_url ?? null) ?: $foto_base_mascota_reserva;
                                 @endphp
                                 <!--Para quién es la hora; al elegir veterinario su nombre queda a la derecha-->
                                 <div class="reserva-vet-profesional">
-                                    <img class="reserva-vet-profesional-icono" src="{{ $foto_mascota_reserva }}" alt="Foto de la mascota">
+                                    <img class="reserva-vet-profesional-icono" src="{{ $foto_mascota_reserva }}" alt="Foto de la mascota" onerror="this.onerror=null;this.src='{{ $foto_base_mascota_reserva }}';">
                                     <div class="reserva-vet-profesional-datos">
                                         <span class="reserva-vet-profesional-etiqueta">Reservando hora para</span>
                                         <span class="reserva-vet-profesional-nombre">{{ !empty($mascota) ? (\Illuminate\Support\Str::ucfirst(trim($mascota->nombre ?? '')) ?: '-') : 'Su mascota' }}</span>

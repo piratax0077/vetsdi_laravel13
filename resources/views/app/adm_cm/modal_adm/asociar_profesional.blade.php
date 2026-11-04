@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
-                <h5 class="modal-title d-inline mt-1" id="asociar_profesional_cm_titulo">Vincular profesional</h5>
+                <h5 class="modal-title d-inline mt-1" id="asociar_profesional_cm_titulo">Vincular profesional veterinario</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
@@ -24,7 +24,7 @@
 
                     <div class="vincular-prof-bloque">
                         <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-map-pin"></i>Lugar y cargo</h6>
-                        <div class="row">
+                        <div class="form-row">
                             <div class="col-md-12">
                                 <div class="form-group fill">
                                     @if($institucion->sucursales == 0)
@@ -92,7 +92,7 @@
 
                     <div class="vincular-prof-bloque">
                         <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-file-text"></i>Convenio</h6>
-                        <div class="row">
+                        <div class="form-row">
                             <div class="col-md-6">
                                 <div class="form-group fill">
                                     <label class="floating-label-activo-sm" for="agregar_profesional_id_tipo_convenio_institucion">Tipo de convenio</label>
@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row div_variable" style="display: none;">
+                        <div class="form-row div_variable" style="display: none;">
                             <div class="col-md-6">
                                 <div class="form-group fill">
                                     <label class="floating-label-activo-sm" for="agregar_profesional_atencion">Porcentaje por atenciones</label>
@@ -153,7 +153,7 @@
 
                     <div class="vincular-prof-bloque">
                         <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-user"></i>Datos personales</h6>
-                        <div class="row">
+                        <div class="form-row">
                             <div class="col-md-6">
                                 <div class="form-group fill">
                                     <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_rut">RUT<span class="vincular-prof-obligatorio">*</span></label>
@@ -193,7 +193,7 @@
 
                     <div class="vincular-prof-bloque">
                         <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-phone"></i>Contacto</h6>
-                        <div class="row">
+                        <div class="form-row">
                             <div class="col-md-6">
                                 <div class="form-group fill">
                                     <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_correo">Correo electr&oacute;nico<span class="vincular-prof-obligatorio">*</span></label>
@@ -211,36 +211,14 @@
                     </div>
 
                     <div class="vincular-prof-bloque">
-                        <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-briefcase"></i>Profesi&oacute;n</h6>
+                        <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-briefcase"></i>Especialidad</h6>
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group fill">
-                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_profesion">Profesi&oacute;n<span class="vincular-prof-obligatorio">*</span></label>
-                                    <select class="form-control form-control-sm" id="agregar_profesional_nuevo_profesion" name="agregar_profesional_nuevo_profesion" onchange="buscar_tipo_especialidad()">
-                                        <option selected value="0">Seleccione</option>
-                                        @if (isset($especialidad))
-                                            @foreach ($especialidad as $esp)
-                                                <option value="{{ $esp->id }}">{{ $esp->nombre }}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-12">
                                 <div class="form-group fill">
                                     <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_especialidad">Especialidad<span class="vincular-prof-obligatorio">*</span></label>
-                                    <select class="form-control form-control-sm" id="agregar_profesional_nuevo_especialidad" name="agregar_profesional_nuevo_especialidad" onchange="buscar_sub_tipo_especialidad()">
-                                        <option selected value="0">Seleccione</option>
-                                        <option>-</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group fill">
-                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_sub_tipo_especialidad">Tipo de especialidad<span class="vincular-prof-obligatorio">*</span></label>
-                                    <select class="form-control form-control-sm" id="agregar_profesional_nuevo_sub_tipo_especialidad" name="agregar_profesional_nuevo_sub_tipo_especialidad">
-                                        <option selected value="0">Seleccione</option>
-                                        <option>-</option>
+                                    {{-- Mismas especialidades que Configuración > Agregar especialidad --}}
+                                    <select class="form-control form-control-sm" id="agregar_profesional_nuevo_especialidad" name="agregar_profesional_nuevo_especialidad">
+                                        @include('app.adm_cm.partials.opciones_especialidades')
                                     </select>
                                 </div>
                             </div>
@@ -249,7 +227,7 @@
 
                     <div class="vincular-prof-bloque">
                         <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-file-text"></i>Convenio</h6>
-                        <div class="row">
+                        <div class="form-row">
                             <div class="col-md-6">
                                 <div class="form-group fill">
                                     <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_id_tipo_convenio_institucion">Tipo de convenio</label>
@@ -270,7 +248,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row div_variable" style="display: none;">
+                        <div class="form-row div_variable" style="display: none;">
                             <div class="col-md-6">
                                 <div class="form-group fill">
                                     <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_atencion">Porcentaje por atenciones</label>
@@ -717,13 +695,9 @@
             valido = 0;
             mensaje += '<li>Profesión</li>';
         }
-        if (especialidad == '') {
+        if (especialidad == '' || especialidad == '0' || especialidad == null) {
             valido = 0;
             mensaje += '<li>Especialidad</li>';
-        }
-        if (sub_tipo_especialidad == '') {
-            valido = 0;
-            mensaje += '<li>Sub tipo especialidad</li>';
         }
         if (id_tipo_convenio_institucion == '') {
             valido = 0;

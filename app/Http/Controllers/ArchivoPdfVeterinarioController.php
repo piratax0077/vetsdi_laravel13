@@ -14,6 +14,13 @@ class ArchivoPdfVeterinarioController extends Controller
         $r->validate(['id_mascota'=>'required_without:id_institucion|nullable|integer|min:1','id_institucion'=>'nullable|integer|min:1']);
         if($r->filled('id_mascota'))abort_unless($archivo->puedeVerMascota((int)$r->id_mascota),403);
         else abort_unless($archivo->puedeVerCentro((int)$r->id_institucion),403);
+        [$documentos,$historicos]=$this->listados($r);
+        return view('app.veterinaria.documentos.index',compact('documentos','historicos'));
+    }
+
+    /** Lista los PDF archivados y los documentos clínicos de una mascota o centro; la usan Documentos veterinarios y Mis documentos del tutor. */
+    public function listados(Request $r): array
+    {
         $documentos=DocumentoPdfVeterinario::query()->when($r->filled('id_mascota'),fn($q)=>$q->where('id_mascota',$r->id_mascota),fn($q)=>$q->where('id_institucion',$r->id_institucion))->latest()->paginate(20)->withQueryString();
         $historicos=collect();
         if($r->filled('id_mascota') && Schema::hasTable('documentos_laboratorio_mascota')) {
@@ -29,7 +36,7 @@ class ArchivoPdfVeterinarioController extends Controller
                 }
             }
         }
-        return view('app.veterinaria.documentos.index',compact('documentos','historicos'));
+        return [$documentos,$historicos];
     }
 
     private function fuentes(): array

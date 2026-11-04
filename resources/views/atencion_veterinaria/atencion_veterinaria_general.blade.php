@@ -8,13 +8,6 @@
                         <div class="row align-items-center pb-2">
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                                 <div class="page-header-title d-flex align-items-center flex-wrap">
-                                    <a href="{{ route('profesional.home') }}"
-                                       class="btn btn-sm btn-outline-light p-0 mr-2 mb-1 d-inline-flex align-items-center justify-content-center"
-                                       style="width:32px;height:32px;border-radius:8px;"
-                                       title="Volver al escritorio"
-                                       aria-label="Volver al escritorio">
-                                        <i class="feather icon-home m-0"></i>
-                                    </a>
                                 <h5 class="text-white d-inline f-16 mt-1"><strong>ATENCIÓN VETERINARIA GENERAL</strong></h5>
                                     <p class="font-weight-bold mt-0 mb-0 ml-md-auto text-white">
                                         @php

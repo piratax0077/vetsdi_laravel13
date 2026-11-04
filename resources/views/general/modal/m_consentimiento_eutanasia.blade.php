@@ -127,7 +127,7 @@
                     return /eutanasia/i.test((item.consentimiento || {}).nombre || '');
                 }).forEach(function(item) {
                     var fila = $('<tr>');
-                    [item.fecha_cons, item.diagnostico_cons, item.cirugia_cons, item.revocacion == 1 ? 'Revocado' : (item.confirmacion == 1 ? 'Firmado' : 'Pendiente de firma')].forEach(function(valor) {
+                    [String(item.fecha_cons).replace(/(\d{1,2}:\d{2}):\d{2}(\.\d+)?/, '$1'), item.diagnostico_cons, item.cirugia_cons, item.revocacion == 1 ? 'Revocado' : (item.confirmacion == 1 ? 'Firmado' : 'Pendiente de firma')].forEach(function(valor) {
                         $('<td>').text(valor || '-').appendTo(fila);
                     });
                     $('<td>').append($('<a>').attr({href: urlPdfEutanasia(item.id), target: '_blank', rel: 'noopener'}).text('Ver PDF')).appendTo(fila);

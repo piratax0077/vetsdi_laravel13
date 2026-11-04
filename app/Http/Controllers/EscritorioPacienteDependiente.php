@@ -732,12 +732,13 @@ class EscritorioPacienteDependiente extends Controller
             return back()->with('error', 'Mascota no encontrada');
         }
 
-        $fichas = FichaAtencion::where('id_mascota', $paciente->id)
-            ->where('id_paciente', $paciente_responsable->id)
-            ->get();
+        // Mismos listados de Veterinaria/PDF, ya validada la mascota del tutor.
+        [$documentos, $historicos] = app(\App\Http\Controllers\ArchivoPdfVeterinarioController::class)
+            ->listados(new Request(['id_mascota' => $paciente->id]));
 
         return view('app.paciente_dependiente.receta.mis_licencias', [
-            'fichas' => $fichas,
+            'documentos' => $documentos,
+            'historicos' => $historicos,
             'id_dependiente_activo' => $mascotaId,
             'id_mascota' => $mascotaId,
             'paciente' => $paciente,

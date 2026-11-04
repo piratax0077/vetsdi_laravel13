@@ -36592,6 +36592,23 @@ transition: 0.2s!important;
     border-radius: 8px;
 }
 
+/* Datos sin editar (configuración): la etiqueta va arriba del valor, sin flotar sobre él */
+.card-body .form-group > label.floating-label-activo-sm.font-weight-bolder.ml-0.mb-0 {
+    position: static !important;
+    display: block;
+    top: auto;
+    left: auto !important;
+    background-color: transparent;
+    padding: 0 !important;
+    margin-bottom: 2px !important;
+    line-height: 1.3;
+}
+
+.card-body .form-group > label.floating-label-activo-sm.font-weight-bolder.ml-0.mb-0 + div {
+    min-height: 1.3em;
+    word-break: break-word;
+}
+
 /* Encabezado general de card: ícono morado, título y botones btn-info a la derecha */
 .card .card-header.encabezado-card {
     display: -webkit-box;
@@ -47984,4 +48001,216 @@ div.dataTables_wrapper > .row > [class*="col-"] {
         top: 76px;
         right: 16px;
     }
+}
+
+/* Tarjetas de Mis documentos del tutor: compactas, con el icono a la izquierda y el título al lado */
+.card.tarjeta-documento {
+    margin-bottom: 14px;
+}
+
+.card.tarjeta-documento > a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.tarjeta-documento__cuerpo {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    cursor: pointer;
+}
+
+.tarjeta-documento__icono {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+}
+
+.tarjeta-documento__icono img {
+    width: 60px;
+    height: 60px;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+
+.card .tarjeta-documento__titulo {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    color: #272727;
+    font-size: 18px !important;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: left;
+}
+
+.tarjeta-documento__flecha {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    color: #6f42c1;
+    font-size: 20px;
+}
+
+@media (max-width: 575.98px) {
+    .tarjeta-documento__cuerpo {
+        gap: 12px;
+        padding: 12px 14px;
+    }
+
+    .tarjeta-documento__icono {
+        width: 52px;
+        height: 52px;
+    }
+
+    .tarjeta-documento__icono img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .card .tarjeta-documento__titulo {
+        font-size: 16px !important;
+    }
+}
+
+/* Ficha mascota con los colores de btn-info */
+.card-mascota-boton.btn-info {
+    background: #40abaf;
+    border: 0;
+}
+
+.card-mascota-boton.btn-info:hover,
+.card-mascota-boton.btn-info:focus {
+    background: #08a0a0;
+}
+
+/* Pie de la tarjeta: Mascota perdida y Registrar fallecimiento lado a lado */
+.card-mascota-pie {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    gap: 6px;
+}
+
+.card-mascota-pie .btn-registrar-fallecimiento {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 0;
+    flex: 1 1 0;
+    min-width: 0;
+    line-height: 1.2;
+}
+
+.card-mascota-pie .btn-reportar-perdida {
+    color: #dc3545;
+}
+
+.card-mascota-pie .btn-reportar-perdida:hover,
+.card-mascota-pie .btn-reportar-perdida:focus {
+    color: #b02a37;
+    background: #fdecee;
+}
+
+/* Menú Más acciones del encabezado de Mis Mascotas */
+.mascotas-mas-acciones .dropdown-menu {
+    min-width: 230px;
+    padding: 6px;
+    border: 1px solid #ecf0f3;
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(38, 59, 80, .16);
+}
+
+.mascotas-mas-acciones .dropdown-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 9px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.mascotas-mas-acciones .dropdown-item:not(.text-danger) {
+    color: #272727;
+}
+
+.mascotas-mas-acciones .dropdown-item i {
+    margin-right: 9px;
+    font-size: 15px;
+}
+
+.mascotas-mas-acciones .dropdown-item .badge {
+    margin-left: auto;
+}
+
+@media (max-width: 575.98px) {
+    .mascotas-mas-acciones,
+    #btn-agregar-dep {
+        margin-top: 8px;
+    }
+}
+
+/* El efecto ripple del tema recortaba (overflow: hidden) y tapaba el contador de mensajes al presionar el botón */
+.pcoded-header .mensajes-encabezado.has-ripple {
+    overflow: visible;
+}
+
+.pcoded-header .mensajes-encabezado .ripple {
+    display: none;
+}
+
+.pcoded-header .mensajes-encabezado .mensajes-encabezado-contador {
+    z-index: 2;
+}
+
+/* Más acciones: el botón se queda en el morado de btn-purple al pasar el mouse, hacer clic o abrir el menú */
+.mascotas-mas-acciones > .btn-purple,
+.mascotas-mas-acciones > .btn-purple:hover,
+.mascotas-mas-acciones > .btn-purple:focus,
+.mascotas-mas-acciones > .btn-purple:active,
+.mascotas-mas-acciones > .btn-purple:not(:disabled):not(.disabled):active,
+.mascotas-mas-acciones.show > .btn-purple.dropdown-toggle,
+.mascotas-mas-acciones.show > .btn-purple.dropdown-toggle:focus {
+    color: #fff;
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+    box-shadow: none;
+}
+
+/* Opciones del menú: mismo morado tenue y letra morada que el menú lateral al pasar el mouse o hacer clic */
+.mascotas-mas-acciones .dropdown-item:hover,
+.mascotas-mas-acciones .dropdown-item:focus,
+.mascotas-mas-acciones .dropdown-item:active,
+.mascotas-mas-acciones .dropdown-item.active {
+    color: #6f42c1;
+    background-color: rgba(111, 66, 193, .1);
+    outline: none;
+}
+
+/* Mascota perdida: el mismo efecto pero en rojo */
+.mascotas-mas-acciones .dropdown-item.text-danger:hover,
+.mascotas-mas-acciones .dropdown-item.text-danger:focus,
+.mascotas-mas-acciones .dropdown-item.text-danger:active {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, .1);
 }

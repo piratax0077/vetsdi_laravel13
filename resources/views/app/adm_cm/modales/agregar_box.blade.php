@@ -100,8 +100,97 @@
         $('#agreg_box_ad').modal('show');
     }
 
-    function guardar_box_servicio() {
-        window.boxesCentroVeterinario.guardar(false);
+    function guardar_box_servicio(){
+        let numero_box = $('#numero_box').val().trim();
+        let tipo_elegido = $('#tpo_especializacion').val();
+        let tipo_otro = $('#tpo_especializacion_otro').val().trim();
+        let id_institucion = $('#id_institucion').val();
+        let id_lugar_atencion = $('#add_empleado_id_lugar_atencion').val();
+        // Si eligió "Otro" se guarda el texto que escribió como tipo
+        let tpo_especializacion = tipo_elegido === 'Otro' ? tipo_otro : tipo_elegido;
+        let tpo_box_servicio = 'Especializado';
+        let tpo_equip_servicio = $('#tpo_equip_servicio').val();
+        // El modal ya no pide sección, pero la tabla la exige: va un valor fijo
+        let seccion_box = '1';
+        let ot_pat_act_ = '';
+        let n_camillas_box_servicio = '';
+        let equip_ad = '';
+        let url = "{{ route('adm_cm.guardar_box_servicio') }}";
+
+        var valido = 1;
+        var mensaje = '';
+
+        if(numero_box == ''){
+            valido = 0;
+            mensaje += '<li>Debe ingresar el nombre del box o sala</li>';
+        }
+        if(tipo_elegido == '0' || tipo_elegido == null){
+            valido = 0;
+            mensaje += '<li>Debe seleccionar el tipo de box o sala</li>';
+        }
+        if(tipo_elegido === 'Otro' && tipo_otro == ''){
+            valido = 0;
+            mensaje += '<li>Debe especificar el tipo</li>';
+        }
+        if(tpo_equip_servicio == '0' || tpo_equip_servicio == null){
+            valido = 0;
+            mensaje += '<li>Debe seleccionar la ubicación</li>';
+        }
+        if(valido == 0){
+            swal({
+                title: "Campos requeridos",
+                content:{
+                    element: "div",
+                    attributes:{
+                        innerHTML: '<ul class="text-left mb-0">' + mensaje + '</ul>'
+                    }
+                },
+                icon: "error",
+            });
+            return false;
+        }
+
+        $.ajax({
+            url: url,
+            type: "post",
+            data: {
+                numero_box: numero_box,
+                tpo_box_servicio: tpo_box_servicio,
+                tpo_especializacion: tpo_especializacion,
+                tpo_equip_servicio: tpo_equip_servicio,
+                seccion_box: seccion_box,
+                ot_pat_act_: ot_pat_act_,
+                n_camillas_box_servicio: n_camillas_box_servicio,
+                equip_ad: equip_ad,
+                id_institucion: id_institucion,
+                id_lugar_atencion: id_lugar_atencion,
+                _token:'{{ csrf_token() }}'
+            }
+        })
+        .done(function(data) {
+            console.log(data);
+            if (data.estado == 1)
+            {
+                $('#agreg_box_ad').modal('hide');
+                swal({
+                    title: "Box guardado",
+                    text: "Box guardado correctamente",
+                    icon: "success",
+                    // buttons: "Aceptar",
+                    //SuccessMode: true,
+                });
+                $('#tabla_boxes_atencion').empty();
+                $('#tabla_boxes_atencion').append(data.v);
+            }else{
+                swal({
+                    title: "Error",
+                    text: "Error al guardar el box",
+                    icon: "error",
+                    // buttons: "Aceptar",
+                    //SuccessMode: true,
+                });
+            }
+        });
     }
 
     // Muestra el campo de texto solo cuando el tipo elegido es "Otro"
