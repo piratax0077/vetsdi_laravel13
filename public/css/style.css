@@ -46711,11 +46711,13 @@ div.dataTables_wrapper > .row > [class*="col-"] {
    Modal "Vincular profesional" (adm. centro, página Personal)
    ========================================================================== */
 
-#asociar_profesional_cm .modal-body {
+#asociar_profesional_cm .modal-body ,
+#editar_profesional_vet .modal-body {
     padding: 16px 18px;
 }
 
-#asociar_profesional_cm .vincular-prof-ayuda {
+#asociar_profesional_cm .vincular-prof-ayuda ,
+#editar_profesional_vet .vincular-prof-ayuda {
     margin: 0 0 12px;
     color: #6b7a90;
     font-size: 12.5px;
@@ -46723,14 +46725,16 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 }
 
 /* Bloques con título morado, igual que en el modal Información */
-#asociar_profesional_cm .vincular-prof-bloque {
+#asociar_profesional_cm .vincular-prof-bloque ,
+#editar_profesional_vet .vincular-prof-bloque {
     margin-bottom: 12px;
     padding: 12px 12px 0;
     border: 1px solid #e6ebf2;
     border-radius: 12px;
 }
 
-#asociar_profesional_cm .vincular-prof-bloque-titulo {
+#asociar_profesional_cm .vincular-prof-bloque-titulo ,
+#editar_profesional_vet .vincular-prof-bloque-titulo {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -46747,17 +46751,20 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     text-transform: uppercase;
 }
 
-#asociar_profesional_cm .vincular-prof-bloque-titulo i {
+#asociar_profesional_cm .vincular-prof-bloque-titulo i ,
+#editar_profesional_vet .vincular-prof-bloque-titulo i {
     font-size: 13px;
 }
 
-#asociar_profesional_cm .vincular-prof-obligatorio {
+#asociar_profesional_cm .vincular-prof-obligatorio ,
+#editar_profesional_vet .vincular-prof-obligatorio {
     margin-left: 2px;
     color: #e5484d;
 }
 
 /* Búsqueda: campo RUT y botón en la misma línea */
-#asociar_profesional_cm .vincular-prof-busqueda {
+#asociar_profesional_cm .vincular-prof-busqueda ,
+#editar_profesional_vet .vincular-prof-busqueda {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -46767,20 +46774,23 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     gap: 10px;
 }
 
-#asociar_profesional_cm .vincular-prof-busqueda-campo {
+#asociar_profesional_cm .vincular-prof-busqueda-campo ,
+#editar_profesional_vet .vincular-prof-busqueda-campo {
     -webkit-box-flex: 1;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     min-width: 0;
 }
 
-#asociar_profesional_cm .vincular-prof-busqueda .btn {
+#asociar_profesional_cm .vincular-prof-busqueda .btn ,
+#editar_profesional_vet .vincular-prof-busqueda .btn {
     -ms-flex-negative: 0;
     flex-shrink: 0;
 }
 
 /* Ficha del profesional encontrado */
-#asociar_profesional_cm .vincular-prof-ficha {
+#asociar_profesional_cm .vincular-prof-ficha ,
+#editar_profesional_vet .vincular-prof-ficha {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -46795,7 +46805,8 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     border-radius: 12px;
 }
 
-#asociar_profesional_cm .vincular-prof-ficha-icono {
+#asociar_profesional_cm .vincular-prof-ficha-icono ,
+#editar_profesional_vet .vincular-prof-ficha-icono {
     -ms-flex-negative: 0;
     flex-shrink: 0;
     display: -webkit-box;
@@ -46815,11 +46826,13 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     font-size: 18px;
 }
 
-#asociar_profesional_cm .vincular-prof-ficha-datos {
+#asociar_profesional_cm .vincular-prof-ficha-datos ,
+#editar_profesional_vet .vincular-prof-ficha-datos {
     min-width: 0;
 }
 
-#asociar_profesional_cm .vincular-prof-ficha-etiqueta {
+#asociar_profesional_cm .vincular-prof-ficha-etiqueta ,
+#editar_profesional_vet .vincular-prof-ficha-etiqueta {
     display: block;
     color: #8a94a6;
     font-size: 10.5px;
@@ -46828,7 +46841,8 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     text-transform: uppercase;
 }
 
-#asociar_profesional_cm .vincular-prof-ficha-nombre {
+#asociar_profesional_cm .vincular-prof-ficha-nombre ,
+#editar_profesional_vet .vincular-prof-ficha-nombre {
     color: #272727;
     font-family: 'Nunito', 'Nunito Sans', sans-serif;
     font-size: 15.5px;
@@ -46837,7 +46851,8 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     word-break: break-word;
 }
 
-#asociar_profesional_cm .vincular-prof-ficha-contacto {
+#asociar_profesional_cm .vincular-prof-ficha-contacto ,
+#editar_profesional_vet .vincular-prof-ficha-contacto {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -46851,13 +46866,15 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     word-break: break-word;
 }
 
-#asociar_profesional_cm .vincular-prof-ficha-contacto i {
+#asociar_profesional_cm .vincular-prof-ficha-contacto i ,
+#editar_profesional_vet .vincular-prof-ficha-contacto i {
     margin-right: 5px;
     color: #6f42c1;
 }
 
 /* Botones de cada paso, alineados a la derecha */
-#asociar_profesional_cm .vincular-prof-acciones {
+#asociar_profesional_cm .vincular-prof-acciones ,
+#editar_profesional_vet .vincular-prof-acciones {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -46873,16 +46890,19 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 }
 
 @media (max-width: 575.98px) {
-    #asociar_profesional_cm .modal-body {
+    #asociar_profesional_cm .modal-body ,
+    #editar_profesional_vet .modal-body {
         padding: 14px 12px;
     }
 
-    #asociar_profesional_cm .vincular-prof-acciones {
+    #asociar_profesional_cm .vincular-prof-acciones ,
+    #editar_profesional_vet .vincular-prof-acciones {
         margin: 4px -12px -14px;
         padding: 12px;
     }
 
-    #asociar_profesional_cm .vincular-prof-acciones .btn {
+    #asociar_profesional_cm .vincular-prof-acciones .btn ,
+    #editar_profesional_vet .vincular-prof-acciones .btn {
         -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
         flex: 1 1 auto;
@@ -48229,37 +48249,6 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 #card-lista-dependientes .mascota-badge-compartida {
     color: var(--purple);
     background: #f4effe;
-}
-
-.tutoria-cabecera {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    min-width: 0;
-}
-
-.tutoria-cabecera-icono {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    margin-right: 12px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, .18);
-    color: #fff;
-    font-size: 18px;
 }
 
 .tutoria-descripcion {

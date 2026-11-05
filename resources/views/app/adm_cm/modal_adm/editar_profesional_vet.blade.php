@@ -84,6 +84,42 @@
                 </div>
 
                 <div class="vincular-prof-bloque">
+                    <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-map-pin"></i>Lugar y cargo</h6>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="form-group fill">
+                                @if($institucion->sucursales == 0)
+                                    <label class="floating-label-activo-sm">Casa matriz</label>
+                                    <input type="text" class="form-control form-control-sm" value="{{ $institucion->LugarAtencion()->first()->nombre }}" readonly>
+                                    <input type="hidden" name="editar_prof_id_lugar_atencion" id="editar_prof_id_lugar_atencion" value="{{ $institucion->LugarAtencion()->first()->id }}">
+                                @else
+                                    <label class="floating-label-activo-sm" for="editar_prof_id_lugar_atencion">Sucursal</label>
+                                    <select class="form-control form-control-sm" name="editar_prof_id_lugar_atencion" id="editar_prof_id_lugar_atencion">
+                                        <option>Seleccione una opción</option>
+                                        <option value="">Sucursal</option>
+                                        <option value="1">Sucursal Demo</option>
+                                    </select>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group fill">
+                                <label class="floating-label-activo-sm" for="editar_prof_cargo">En el cargo de</label>
+                                <select class="form-control form-control-sm" name="editar_prof_cargo" id="editar_prof_cargo">
+                                    <option value="0">Seleccione una opción</option>
+                                    <option value="1">Profesional</option>
+                                    <option value="2">Jefe de servicio</option>
+                                    <option value="3">Subjefe de servicio</option>
+                                    <option value="4">Director médico</option>
+                                    <option value="5">TENS</option>
+                                    <option value="6">TONS</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vincular-prof-bloque">
                     <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-file-text"></i>Convenio</h6>
                     <div class="form-row">
                         <div class="col-md-6">
@@ -135,8 +171,8 @@
                 </div>
 
                 <div class="vincular-prof-acciones">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
-                    <button type="button" class="btn btn-success" onclick="guardar_edicion_profesional_vet();"><i class="feather icon-save mr-1"></i>Guardar cambios</button>
+                    <button type="button" class="btn btn-danger" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
+                    <button type="button" class="btn btn-info" onclick="guardar_edicion_profesional_vet();"><i class="feather icon-save mr-1"></i>Guardar</button>
                 </div>
             </div>
         </div>

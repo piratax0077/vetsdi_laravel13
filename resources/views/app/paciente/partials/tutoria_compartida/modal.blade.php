@@ -39,12 +39,9 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
-                <div class="tutoria-cabecera">
-                    <span class="tutoria-cabecera-icono"><i class="fas fa-paw" aria-hidden="true"></i></span>
-                    <div>
-                        <h5 class="modal-title mb-1" id="modalInvitarCotutorLabel">Invita a un co-tutor</h5>
-                        <small>Para cuidar de <span class="tutoria-nombre-mascota">tu mascota</span></small>
-                    </div>
+                <div>
+                    <h5 class="modal-title mb-1" id="modalInvitarCotutorLabel">Invita a un co-tutor</h5>
+                    <small>Para cuidar de <span class="tutoria-nombre-mascota">tu mascota</span></small>
                 </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
