@@ -37279,6 +37279,13 @@ transition: 0.2s!important;
     display: none;
 }
 
+/* Subtítulo bajo el título */
+.modal-header.modal-header-celeste small,
+.modal-header.modal-header-purple small,
+.modal-header.modal-header-danger small {
+    color: rgba(255, 255, 255, .85);
+}
+
 .modal-header.modal-header-celeste .close,
 .modal-header.modal-header-purple .close,
 .modal-header.modal-header-danger .close {
@@ -37547,7 +37554,8 @@ table thead th,
 }
 
 /* Va fijo en la esquina superior derecha de la tarjeta */
-#card-lista-dependientes .mascota-badge-memoria {
+#card-lista-dependientes .mascota-badge-memoria,
+#card-lista-dependientes .mascota-badge-compartida {
     position: absolute;
     top: 16px;
     right: 16px;
@@ -38979,6 +38987,7 @@ table thead th,
 
 #modal_reserva_veterinaria .reserva-vet-lugar,
 #modal_agendar_proximo_control .reserva-vet-lugar,
+#modal_invitar_cotutor .reserva-vet-lugar,
 #vista_reserva_veterinaria .reserva-vet-lugar,
 .servicios-cercanos .reserva-vet-lugar {
     position: relative;
@@ -41454,7 +41463,8 @@ button.reserva-vet-lugar-caja:focus {
     padding-left: 16px;
 }
 
-#modal_traspasar_mascota .traspaso-aviso {
+#modal_traspasar_mascota .traspaso-aviso,
+#modal_invitar_cotutor .traspaso-aviso {
     margin-top: 14px;
 }
 
@@ -45029,7 +45039,7 @@ tbody tr.codigo th::first-letter {
 /* Se incluye con @include('template.partials.boton_volver'). Va sin fondo ni borde:
    solo la flecha y el texto. */
 .boton-volver-fila {
-    margin-top: -8px;
+    margin-top: -20px;
     margin-bottom: 10px;
 }
 
@@ -45051,7 +45061,7 @@ tbody tr.codigo th::first-letter {
     font-size: .92rem;
     font-weight: 700;
     line-height: 1.3;
-    color: #272727;
+    color: #6f42c1;
     background: none;
     text-decoration: none;
     cursor: pointer;
@@ -45069,7 +45079,7 @@ tbody tr.codigo th::first-letter {
 .boton-volver:hover,
 .boton-volver:focus {
     outline: 0;
-    color: #6f42c1;
+    color: #5a32a3;
     background: none;
     text-decoration: none;
 }
@@ -48213,4 +48223,159 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 .mascotas-mas-acciones .dropdown-item.text-danger:active {
     color: #dc3545;
     background-color: rgba(220, 53, 69, .1);
+}
+
+/* Tutoría compartida (Mis mascotas) */
+#card-lista-dependientes .mascota-badge-compartida {
+    color: var(--purple);
+    background: #f4effe;
+}
+
+.tutoria-cabecera {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    min-width: 0;
+}
+
+.tutoria-cabecera-icono {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    margin-right: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .18);
+    color: #fff;
+    font-size: 18px;
+}
+
+.tutoria-descripcion {
+    margin-bottom: 18px;
+    color: #4f5668;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.tutoria-roles-titulo,
+.tutoria-lista-titulo {
+    margin: 18px 0 8px;
+    color: #272727;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.tutoria-lista-titulo {
+    margin-top: 4px;
+}
+
+#modal_invitar_cotutor .tutoria-roles {
+    grid-template-columns: 1fr;
+    margin-bottom: 0;
+}
+
+#modal_invitar_cotutor .traspaso-tutor {
+    margin-top: 12px;
+}
+
+#modal_tutoria_compartida .traspaso-tutor {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* Invitados: el estado a la derecha y las acciones debajo del nombre */
+.traspaso-tutor.tutoria-persona {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    border-color: #e7e9f0;
+    background: #fff;
+}
+
+.tutoria-persona .traspaso-tutor-avatar {
+    background: #f4effe;
+    color: var(--purple);
+    font-weight: 800;
+}
+
+.tutoria-estado {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+.tutoria-acciones {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%;
+    gap: 4px 16px;
+    margin-top: 8px;
+    padding-left: 54px;
+}
+
+.tutoria-accion {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--purple);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.tutoria-accion:hover,
+.tutoria-accion:focus {
+    text-decoration: underline;
+}
+
+.tutoria-accion:disabled {
+    opacity: .55;
+    cursor: default;
+    text-decoration: none;
+}
+
+.tutoria-accion.tutoria-accion-peligro {
+    color: #d64545;
+}
+
+.tutoria-vacio {
+    margin: 4px 0 0;
+    padding: 16px;
+    border: 1px dashed #dcdfe8;
+    border-radius: 12px;
+    color: #778296;
+    font-size: 13.5px;
+    text-align: center;
+}
+
+@media (max-width: 575.98px) {
+    .tutoria-estado {
+        -webkit-box-ordinal-group: 4;
+        -ms-flex-order: 3;
+        order: 3;
+        margin: 8px 0 0 54px;
+    }
+
+    .tutoria-acciones {
+        -webkit-box-ordinal-group: 5;
+        -ms-flex-order: 4;
+        order: 4;
+    }
 }

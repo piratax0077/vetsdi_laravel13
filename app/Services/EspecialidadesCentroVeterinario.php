@@ -37,6 +37,7 @@ class EspecialidadesCentroVeterinario
                 $subtipo=new SubTipoEspecialidad();
                 $subtipo->id_tipo_especialidad=8;
                 $subtipo->nombre=$nombre;
+                $subtipo->estado=1;
                 $subtipo->saveOrFail();
             }
             $registro=EspecialidadesCm::where('id_institucion',$centro->id)->where('id_tipo_especialidad',8)

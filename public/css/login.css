@@ -794,3 +794,77 @@ body > .select2-container {
     font-size: inherit;
     vertical-align: baseline;
 }
+
+/* Invitación de tutoría compartida */
+.invitacion-tutoria .card-body {
+    padding: 32px 28px;
+}
+
+.invitacion-tutoria-foto {
+    display: inline-block;
+    width: 84px;
+    height: 84px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    border: 3px solid #f4effe;
+    border-radius: 50%;
+    background: #f4effe;
+}
+
+.invitacion-tutoria-foto img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.invitacion-tutoria-rol {
+    margin: 0 0 18px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #f9f7fd;
+    text-align: left;
+}
+
+.invitacion-tutoria-rol-titulo {
+    display: block;
+    margin-bottom: 6px;
+    color: #272727;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.invitacion-tutoria-rol ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.invitacion-tutoria-rol li {
+    padding: 3px 0;
+    color: #4a3f63;
+    font-size: 13px;
+}
+
+.invitacion-tutoria-rol .feather {
+    margin-right: 6px;
+    color: var(--purple);
+}
+
+.invitacion-tutoria-acciones {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    gap: 10px;
+}
+
+.invitacion-tutoria-acciones > * {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 0%;
+    flex: 1 1 0%;
+    margin: 0;
+}
+
+.invitacion-tutoria-acciones .btn {
+    margin: 0;
+}

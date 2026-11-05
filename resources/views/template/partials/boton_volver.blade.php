@@ -10,7 +10,7 @@
 --}}
 @php
     $url_volver = $url ?? null;
-    $texto_volver = $texto ?? 'Volver';
+    $texto_volver = $texto ?? 'Atrás';
 @endphp
 <div class="boton-volver-fila">
     <a class="boton-volver" href="{{ $url_volver ?: url()->previous() }}" @if (!$url_volver) onclick="if (window.history.length > 1) { window.history.back(); return false; }" @endif>

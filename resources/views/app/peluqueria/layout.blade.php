@@ -11,6 +11,6 @@
 @if(session('mensaje'))<div class="alert alert-success" role="status">{{ session('mensaje') }}</div>@endif
 @if($errors->any())<div class="alert alert-danger" role="alert"><ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
 @if(($peluqueriaContextos??collect())->count()>1)<form method="post" action="{{ route(($peluqueriaRutaBase??'peluqueria').'.contexto') }}" class="form-inline mb-3">@csrf<label class="mr-2" for="peluqueria-contexto">Negocio</label><select class="form-control form-control-sm mr-2" id="peluqueria-contexto" name="peluqueria_id">@foreach($peluqueriaContextos as $contexto)<option value="{{ $contexto->id }}" @selected($contexto->id==$perfil->id)>{{ $contexto->nombre }}</option>@endforeach</select><button class="btn btn-outline-info btn-sm">Cambiar negocio</button></form>@endif
-@yield('content')</div></div>
+@yield('content')</div></div>@include('template.partials.boton_volver_auto')
 <script src="{{ asset('js/vendor-all.min.js') }}"></script><script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script><script src="{{ asset('js/ripple.js') }}"></script><script src="{{ asset('js/pcoded.min.js') }}?v=20260728-2"></script><script src="{{ asset('js/plugins/sweetalert.min.js') }}"></script>@yield('page-script')
 </body></html>

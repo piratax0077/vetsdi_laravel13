@@ -207,6 +207,10 @@
                                         onclick="return abrirModalTraspasoMascota(event);">
                                         <i class="feather icon-shuffle"></i> Traspasar mascota
                                     </button>
+                                    <button type="button" class="dropdown-item" id="btn-tutoria-compartida" name="btn-tutoria-compartida"
+                                        onclick="return abrirTutoriaCompartida(event);">
+                                        <i class="feather icon-users"></i> Tutoría compartida
+                                    </button>
                                     <button type="button" class="dropdown-item" id="btn-solicitud-apareamiento" name="btn-solicitud-apareamiento"
                                         onclick="return abrirModalSolicitudApareamiento(event);">
                                         <i class="feather icon-heart"></i> Solicitud de apareamiento
@@ -291,6 +295,7 @@
     @include('app.paciente.modales.dependientes.agregar')
     @if(($titulo ?? '') === 'Mascotas')
         @include('app.paciente.modales.dependientes.traspasar_mascota')
+        @include('app.paciente.partials.tutoria_compartida.modal')
         @include('app.paciente.modales.dependientes.solicitud_apareamiento')
         @include('app.paciente.modales.dependientes.fallecimiento_mascota')
         <div class="modal fade" id="modal_seleccionar_defuncion" tabindex="-1" role="dialog"
@@ -1494,6 +1499,8 @@
             Object.keys(mascotasCache).forEach(function(id){
                 var mascota = mascotasCache[id];
                 if(!mascota || !mascota.nombre || mascotaEstaFallecida(mascota) || String(mascota.estado) === '0') return;
+                // Solo el tutor titular puede traspasar
+                if(mascota.rol_acceso && mascota.rol_acceso !== 'titular') return;
                 $select.append(
                     $('<option></option>').val(mascota.id).text(mascota.nombre)
                 );
@@ -3733,6 +3740,8 @@
                 var cardClass = 'card card-mascota' + (esFallecida ? ' card-mascota-fallecida' : '');
                 var fotoClass = 'card-mascota-foto' + (img === img_patita ? ' card-mascota-foto-vacia' : '');
                 var nombre = escaparTextoMascota(value.nombre);
+                // rol_acceso llega en las mascotas que otra persona compartió (co_tutor o cuidador)
+                var rolCompartido = value.rol_acceso && value.rol_acceso !== 'titular' ? value.rol_acceso : '';
 
                 html += '<div class="col">';
                 html += '    <div class="'+cardClass+'" data-id="'+value.id+'">';
@@ -3741,6 +3750,8 @@
                     html += '            <span class="mascota-badge-memoria">En memoria</span>';
                 } else if (mascotaEstaPerdida(value)) {
                     html += '            <span class="mascota-badge-perdida">Perdida</span>';
+                } else if (rolCompartido) {
+                    html += '            <span class="mascota-badge-compartida">' + (rolCompartido === 'cuidador' ? 'Cuidador' : 'Co-tutor') + '</span>';
                 }
                 html += '            <div class="card-mascota-perfil">';
                 html += '                <span class="'+fotoClass+'"><img src="'+img+'" alt="Foto de '+nombre+'"></span>';
@@ -3766,7 +3777,7 @@
                 html += '                <a class="card-mascota-acceso" href="'+genealogia_url+'" title="Mi genealogía"><span class="card-mascota-acceso-icono"><i class="fas fa-sitemap"></i></span>Mi genealogía</a>';
                 html += '            </div>';
 
-                if (!esFallecida) {
+                if (!esFallecida && !rolCompartido) {
                     html += '            <div class="card-mascota-pie">';
                     if (!mascotaEstaPerdida(value)) {
                         html += '                <button type="button" class="btn-registrar-fallecimiento btn-reportar-perdida" data-id="'+value.id+'" onclick="return abrirMascotaPerdidaDe('+value.id+', event);"><i class="feather icon-alert-triangle"></i> Mascota perdida</button>';
@@ -3910,6 +3921,10 @@
         window.continuarRegistroDefuncion = continuarRegistroDefuncion;
 
         @include('app.paciente.partials.mascota_perdida.script')
+
+        @if(($titulo ?? '') === 'Mascotas')
+        @include('app.paciente.partials.tutoria_compartida.script')
+        @endif
     </script>
 @endsection
 

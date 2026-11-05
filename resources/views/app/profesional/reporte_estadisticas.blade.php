@@ -1,5 +1,4 @@
 @extends('template.profesional.template')
-@section('sin_boton_volver', '1')
 @section('content')
     @php
         $porcentaje = fn ($valor, $total) => $total > 0 ? round(($valor / $total) * 100, 1) : 0;

@@ -1,8 +1,5 @@
 @extends('template.profesional.template')
 
-{{-- Esta pantalla va sin botón para volver --}}
-@section('sin_boton_volver', '1')
-
 @section('content')
 @php
     $tipos = [

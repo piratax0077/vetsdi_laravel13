@@ -1,5 +1,4 @@
 @extends('template.profesional.template')
-@section('sin_boton_volver', '1')
 @section('content')
     <style>
         .configuracion-grid > [class*="col-"] { display: flex; margin-bottom: 24px; }

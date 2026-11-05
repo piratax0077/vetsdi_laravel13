@@ -1,17 +1,32 @@
 {{--
     Botón "Volver" automático.
 
-    Va incluido en cada plantilla, justo después del contenido, pero solo aparece sobre el
-    título en Mis documentos y en el Panel de configuración. El resto de las páginas va sin
-    botón. Si la vista ya incluyó su propio botón (template.partials.boton_volver), este no
-    se repite.
+    Va incluido en cada plantilla, justo después del contenido. Aparece sobre el título en
+    Mis documentos, en el Panel de configuración y en todas las vistas del tutor y sus
+    mascotas (rutas paciente.*), salvo el escritorio del tutor y la descarga de la app. El
+    escritorio de cada mascota sí lleva el botón. Si la vista ya incluyó su propio botón (template.partials.boton_volver),
+    este no se repite.
 
     Para sumar otra página, agregar el nombre de su ruta a la lista de abajo.
     Para que una de esas vistas quede sin botón:
         @section('sin_boton_volver', '1')
 --}}
 @php
-    $con_boton_volver = request()->routeIs(
+    $es_vista_tutor = request()->routeIs('paciente.*', 'mascotas.genealogia.index', 'mascotas.genealogia.show')
+        && ! request()->routeIs('paciente.home', 'paciente.dependiente.home');
+
+    // Vistas del profesional (incluye las de veterinaria bajo /Profesional), menos su escritorio
+    $es_vista_profesional = (request()->routeIs('profesional.*') || request()->is('Profesional/*'))
+        && ! request()->routeIs('profesional.home');
+
+    // Vistas del asistente (todas sus variantes) y de peluquería / centro estético, menos sus escritorios
+    $es_vista_asistente = request()->routeIs('asistente*')
+        && ! request()->routeIs('asistente.home', 'asistente_adm.home', 'asistentecm.home', 'asistentejcm.home');
+
+    $es_vista_peluqueria = request()->routeIs('peluqueria.*', 'centro_estetico.*')
+        && ! request()->routeIs('peluqueria.home', 'centro_estetico.home');
+
+    $con_boton_volver = $es_vista_tutor || $es_vista_profesional || $es_vista_asistente || $es_vista_peluqueria || request()->routeIs(
         'profesional.mis_documentos',
         'paciente.receta.documentos',
         '*.configuracion'
