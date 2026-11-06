@@ -96,7 +96,7 @@
         estadoForm.reset();estadoForm.action=reserva.url;
         const pantallas={
             reservada:{titulo:'Confirmar hora',mensaje:'Confirma la reserva e indica la vía de confirmación.',campo:'confirmacion',accion:'confirmada'},
-            confirmada:{titulo:'Recepción de pago de atención',mensaje:'Recepciona el pago de los procedimientos reservados.',campo:'pago',accion:'pagada'},
+            confirmada:{titulo:'Recepción de pago de atención',mensaje:'Recepciona el pago de los servicios reservados.',campo:'pago',accion:'pagada'},
             pagada:{titulo:'Atender mascota',mensaje:'Hora pagada. Pulsa Atender para abrir la ficha de esta mascota.'},
             en_espera:{titulo:'En espera · Lista para atención',mensaje:'La mascota está en espera. Pulsa Atender para abrir su ficha.'},
             en_atencion:{titulo:'Atención en curso',mensaje:'Abre la ficha para continuar la atención.'},
@@ -199,7 +199,7 @@
     });
     function fijarMascota(mascota){
         mascotaFijada=mascota;
-        document.getElementById('reserva-mascota-fijada').textContent='Mascota: '+mascota.nombre+'. Todos los procedimientos de esta hora son para ella. Para otra mascota, reserva otra hora.';
+        document.getElementById('reserva-mascota-fijada').textContent='Mascota: '+mascota.nombre+'. Todos los servicios de esta hora son para ella. Para otra mascota, reserva otra hora.';
         document.getElementById('reserva-mascota-fijada').hidden=false;
         document.getElementById('reserva-paso-procedimientos').hidden=false;
         document.getElementById('reserva-paso-procedimientos').disabled=false;
@@ -323,7 +323,7 @@
         if(!tutorBuscado){error.textContent='Primero busca el RUT del tutor.';error.hidden=false;return;}
         if(!validarInicio())return;
         if(!mascotaFijada){error.textContent='Primero selecciona la mascota de esta hora.';error.hidden=false;return;}
-        if(!elegidos.size){error.textContent='Selecciona al menos un procedimiento.';error.hidden=false;return;}
+        if(!elegidos.size){error.textContent='Selecciona al menos un servicio.';error.hidden=false;return;}
         boton.disabled = true; error.hidden = true;
         try {
             const respuesta = await fetch(form.action, {method: 'POST', body: datosReserva(), headers: {Accept: 'application/json'}});

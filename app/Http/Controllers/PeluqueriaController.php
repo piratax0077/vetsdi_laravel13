@@ -93,7 +93,7 @@ class PeluqueriaController extends Controller
                 if(!$configurado) throw ValidationException::withMessages(['servicios'=>'Seleccione servicios activos del panel de configuración.']);
                 $servicio=['procedimiento_id'=>$configurado->id,'nombre'=>$configurado->nombre,'precio'=>(int)$configurado->precio];
             } else {
-                throw ValidationException::withMessages(['servicios'=>'Agregue los servicios desde el selector de procedimientos configurados.']);
+                throw ValidationException::withMessages(['servicios'=>'Agregue los servicios desde el selector de servicios configurados.']);
             }
         }
         unset($servicio);
@@ -218,7 +218,7 @@ class PeluqueriaController extends Controller
         $id=$datos['id']??null;unset($datos['id']);
         if($id){abort_unless(DB::table('peluqueria_procedimientos')->where('id',$id)->where('peluqueria_id',$perfil->id)->exists(),404);DB::table('peluqueria_procedimientos')->where('id',$id)->where('peluqueria_id',$perfil->id)->update($datos+['updated_at'=>now()]);}
         else DB::table('peluqueria_procedimientos')->insert($datos+['peluqueria_id'=>$perfil->id,'created_at'=>now(),'updated_at'=>now()]);
-        return redirect()->route(app(\App\Services\PeluqueriaAcceso::class)->rutaBase().'.configuracion')->with('mensaje','Procedimiento guardado.');
+        return redirect()->route(app(\App\Services\PeluqueriaAcceso::class)->rutaBase().'.configuracion')->with('mensaje','Servicio guardado.');
     }
     public function perfilGuardar(Request $request) {
         $perfil=$this->perfil('negocio');$datos=$request->validate(['nombre'=>'required|string|max:255','telefono'=>'required|string|max:30','direccion'=>'required|string|max:255']);
@@ -297,7 +297,7 @@ class PeluqueriaController extends Controller
         }
         $datos=$request->validate(['cliente_id'=>'required|integer','inicio'=>'required|date_format:Y-m-d\TH:i','duracion'=>'required|integer|min:1|max:480','servicio'=>'required|in:Baño,Belleza,Peluquería','valor'=>'required|integer|min:0|max:999999999','observaciones'=>'nullable|string|max:3000']);
         if($seleccionados->isNotEmpty()){
-            $datos['servicio']=$seleccionados->count()===1?$seleccionados->first()->nombre:'Reserva de '.$seleccionados->count().' procedimientos';
+            $datos['servicio']=$seleccionados->count()===1?$seleccionados->first()->nombre:'Reserva de '.$seleccionados->count().' servicios';
             $datos['procedimiento_id']=$seleccionados->first()->id;
             $datos['procedimientos_reservados']=json_encode($seleccionados->map(fn($p)=>['procedimiento_id'=>$p->id,'nombre'=>$p->nombre,'precio'=>(int)$p->precio,'duracion'=>(int)$p->duracion])->values(),JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR);
         }

@@ -3,7 +3,7 @@
 @include('app.peluqueria.estilos_agenda')
 @endsection
 @section('content')
-<div class="page-header"><h4>{{ ['agenda'=>'Mi agenda','clientes'=>'Mascotas y tutores','registro'=>'Historial de atenciones'][$seccion] }}</h4></div>
+<div class="page-header d-flex flex-wrap align-items-center justify-content-between"><h4>{{ ['agenda'=>'Mi agenda','clientes'=>'Mascotas y tutores','registro'=>'Historial de servicios realizados'][$seccion] }}</h4>@if($seccion==='clientes' && ($peluqueriaPermisos['editar_clientes']??false))<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_nuevo_registro"><i class="feather icon-plus"></i> Nuevo registro</button>@endif</div>
 @if($seccion==='clientes')@include('app.peluqueria.selector_sucursal')@endif
 @if($seccion==='agenda')
 <div class="agenda-panel mb-3">
@@ -19,23 +19,32 @@
 @if($estado!=='cancelada')<span class="status-circle mr-3"><span class="circle" style="background:{{ $presentacion['color'] }}"></span>{{ $presentacion['nombre'] }}</span>@endif
 @endforeach
 </div>
-<p class="text-muted">Selecciona la hora de inicio y el procedimiento. La cita ocupará su duración exacta. Pulsa una reserva para confirmar, recepcionar su pago, registrar la espera y atender.</p>
+<p class="text-muted">Selecciona la hora de inicio y el servicio. La cita ocupará su duración exacta. Pulsa una reserva para confirmar, recepcionar su pago, registrar la espera y atender.</p>
 </div>
 @if(($peluqueriaPermisos['reservar']??false)&&(!$sucursal||$sucursal->activo))@include('app.peluqueria.modal_reserva')@endif
 @include('app.peluqueria.modal_estado')
 @include('app.peluqueria.agenda_reservas')
 
 @elseif($seccion==='clientes')
-<section class="card" id="clientes"><div class="card-body"><h2>Tutores y mascotas</h2>@if($peluqueriaPermisos['editar_clientes']??false)<details @if(old('mascota')) open @endif><summary>Registrar tutor y mascota</summary><form method="post" action="{{ route(($peluqueriaRutaBase??'peluqueria').'.clientes') }}" class="mt-3">@csrf<div class="row">
-@foreach(['rut'=>'RUT del tutor','tutor'=>'Nombre del tutor','telefono'=>'Teléfono','email'=>'Correo (opcional)','mascota'=>'Nombre de la mascota','especie'=>'Especie','raza'=>'Raza (opcional)'] as $campo=>$etiqueta)<label class="form-group col-md-4">{{ $etiqueta }}<input class="form-control form-control-sm" name="{{ $campo }}" value="{{ old($campo) }}" type="{{ $campo==='email'?'email':'text' }}" maxlength="{{ $campo==='telefono'?30:(in_array($campo,['mascota','raza'])?100:($campo==='especie'?60:255)) }}" @required(!in_array($campo,['email','raza']))></label>@endforeach</div><label class="mt-3">Cuidados y advertencias comunicados por el tutor<textarea class="form-control caja-texto form-control-sm" name="cuidados" maxlength="3000" rows="1" onfocus="this.rows=3" onblur="this.rows=1;">{{ old('cuidados') }}</textarea></label><button class="btn btn-primary mt-3">Registrar</button></form></details>@endif
+<section class="card" id="clientes"><div class="card-body">
 <div class="table-responsive mt-3"><table class="table table-sm table-striped"><thead><tr><th>Mascota</th><th>Especie / raza</th><th>Tutor</th><th>Contacto</th></tr></thead><tbody>@forelse($clientes as $cliente)<tr><td>{{ $cliente->mascota }}</td><td>{{ $cliente->especie }} {{ $cliente->raza }}</td><td>{{ $cliente->tutor }}</td><td>{{ $cliente->telefono }}<br>{{ $cliente->email }}</td></tr>@empty<tr><td colspan="4">Aún no hay mascotas registradas.</td></tr>@endforelse</tbody></table></div></div></section>
 
+{{-- Registro de tutor y mascota en modal; lo guardado aparece en la tabla de abajo --}}
+@if($seccion==='clientes' && ($peluqueriaPermisos['editar_clientes']??false))
+<div id="modal_nuevo_registro" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_nuevo_registro_titulo" aria-hidden="true" data-abrir="{{ old('mascota')!==null ? '1' : '0' }}"><div class="modal-dialog modal-dialog-centered modal-lg" role="document"><div class="modal-content">
+<div class="modal-header modal-header-purple"><h5 class="modal-title" id="modal_nuevo_registro_titulo">Nuevo registro</h5><button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">×</span></button></div>
+<form method="post" action="{{ route(($peluqueriaRutaBase??'peluqueria').'.clientes') }}">@csrf<div class="modal-body"><div class="form-row">@foreach(['rut'=>'RUT del tutor','tutor'=>'Nombre del tutor','telefono'=>'Teléfono','email'=>'Correo (opcional)','mascota'=>'Nombre de la mascota','especie'=>'Especie','raza'=>'Raza (opcional)'] as $campo=>$etiqueta)<div class="form-group col-md-6"><label class="floating-label-activo-sm" for="nuevo-registro-{{ $campo }}">{{ $etiqueta }}</label><input class="form-control form-control-sm" id="nuevo-registro-{{ $campo }}" name="{{ $campo }}" value="{{ old($campo) }}" type="{{ $campo==='email'?'email':'text' }}" maxlength="{{ $campo==='telefono'?30:(in_array($campo,['mascota','raza'])?100:($campo==='especie'?60:255)) }}" @required(!in_array($campo,['email','raza']))></div>@endforeach</div>
+<div class="form-group mb-0"><label class="floating-label-activo-sm" for="nuevo-registro-cuidados">Cuidados y advertencias comunicados por el tutor</label><textarea class="form-control caja-texto form-control-sm" id="nuevo-registro-cuidados" name="cuidados" maxlength="3000" rows="3">{{ old('cuidados') }}</textarea></div></div>
+<div class="modal-footer justify-content-end"><button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-info"><i class="feather icon-save mr-1"></i>Guardar registro</button></div></form>
+</div></div></div>
+@endif
 @else
-<section class="card" id="registro"><div class="card-body"><h2>Servicios realizados</h2><div class="table-responsive"><table class="table table-sm table-striped"><thead><tr><th>Fecha</th><th>Mascota / tutor</th><th>Sucursal</th><th>Servicio</th><th>Registro</th><th>Valor</th></tr></thead><tbody>@forelse($historial as $atencion)<tr><td>{{ \Carbon\Carbon::parse($atencion->inicio)->format('d-m-Y H:i') }}</td><td>{{ $atencion->mascota }}<br>{{ $atencion->tutor }}</td><td>{{ $atencion->sucursal_nombre ?? 'Sin sucursal registrada' }}@if($atencion->sucursal_direccion)<br><small class="text-muted">{{ $atencion->sucursal_direccion }}</small>@endif</td><td>{{ $atencion->servicio }}<br><a href="{{ route(($peluqueriaRutaBase??'peluqueria').'.ficha',$atencion->id) }}">Ver ficha</a></td><td style="white-space:pre-wrap">{{ $atencion->registro }}</td><td>${{ number_format($atencion->valor,0,',','.') }}</td></tr>@empty<tr><td colspan="6">Las atenciones finalizadas aparecerán aquí.</td></tr>@endforelse</tbody></table></div>{{ $historial->withQueryString()->links() }}</div></section>
+<section class="card" id="registro"><div class="card-body"><div class="table-responsive"><table class="table table-sm table-striped"><thead><tr><th>Fecha</th><th>Mascota / tutor</th><th>Sucursal</th><th>Servicio</th><th>Registro</th><th>Valor</th></tr></thead><tbody>@forelse($historial as $atencion)<tr><td>{{ \Carbon\Carbon::parse($atencion->inicio)->format('d-m-Y H:i') }}</td><td>{{ $atencion->mascota }}<br>{{ $atencion->tutor }}</td><td>{{ $atencion->sucursal_nombre ?? 'Sin sucursal registrada' }}@if($atencion->sucursal_direccion)<br><small class="text-muted">{{ $atencion->sucursal_direccion }}</small>@endif</td><td>{{ $atencion->servicio }}<br><a href="{{ route(($peluqueriaRutaBase??'peluqueria').'.ficha',$atencion->id) }}">Ver ficha</a></td><td style="white-space:pre-wrap">{{ $atencion->registro }}</td><td>${{ number_format($atencion->valor,0,',','.') }}</td></tr>@empty<tr><td colspan="6">Las atenciones finalizadas aparecerán aquí.</td></tr>@endforelse</tbody></table></div>{{ $historial->withQueryString()->links() }}</div></section>
 
 @endif
 @endsection
 @section('page-script')
+<script>document.addEventListener('DOMContentLoaded',function(){var modal=document.getElementById('modal_nuevo_registro');if(modal&&window.jQuery&&(modal.dataset.abrir==='1'||window.location.hash==='#nuevo-registro')){jQuery(modal).modal('show');}});</script>
 <script src="{{ asset('js/fullcalendar-5.10.1/lib/main.min.js') }}"></script><script src="{{ asset('js/fullcalendar-5.10.1/lib/locales/es.js') }}"></script><script src="{{ asset('js/peluqueria-agenda.js') }}?v={{ filemtime(public_path('js/peluqueria-agenda.js')) }}"></script>
 
 @endsection

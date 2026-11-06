@@ -16,7 +16,7 @@ class PeluqueriaAgenda
      $abre=$inicio->copy()->setTimeFromTimeString($tramo['inicio']);$cierra=$inicio->copy()->setTimeFromTimeString($tramo['fin']);
      if($inicio->isSameDay($fin)&&$inicio->gte($abre)&&$fin->lte($cierra)){$cabe=true;break;}
     }
-    if(!$cabe)$this->error('El procedimiento completo debe caber en un tramo de atención de la sucursal.');
+    if(!$cabe)$this->error('El servicio completo debe caber en un tramo de atención de la sucursal.');
    }else{
    $abre=$inicio->copy()->setTimeFromTimeString($horario['apertura']);$cierra=$inicio->copy()->setTimeFromTimeString($horario['cierre']);
    if(!in_array($inicio->dayOfWeekIso,$horario['dias'],true)||!$inicio->isSameDay($fin)||$inicio->lt($abre)||$fin->gt($cierra))$this->error('La reserva está fuera del horario configurado para esta sucursal.');

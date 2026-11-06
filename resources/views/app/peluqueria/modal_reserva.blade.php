@@ -2,7 +2,7 @@
 <div class="modal-header pt-3 pb-2 modal-header-purple"><h5 class="modal-title text-white" id="peluqueria-reserva-titulo"><i class="feather icon-calendar mr-2" aria-hidden="true"></i>Agendar hora</h5><button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">×</button></div>
 <div class="modal-body"><div id="peluqueria-reserva-error" class="alert alert-danger" role="alert" hidden></div>
 @if($procedimientos->isEmpty())
-<p>Primero configura los procedimientos, su duración y precio.</p><a class="btn btn-info" href="{{ route(($peluqueriaRutaBase??'peluqueria').'.configuracion') }}">Configurar procedimientos</a>
+<p>Primero configura los servicios, su duración y precio.</p><a class="btn btn-info" href="{{ route(($peluqueriaRutaBase??'peluqueria').'.configuracion') }}">Configurar servicios</a>
 @else
 <form id="peluqueria-reserva-form" action="{{ route(($peluqueriaRutaBase??'peluqueria').'.agenda') }}" method="post">@csrf
 <input type="hidden" name="sucursal_id" value="{{ $sucursal->id??'' }}">
@@ -34,7 +34,7 @@
 <p id="reserva-mascota-fijada" class="border rounded p-3 mb-3" hidden></p>
 <fieldset id="reserva-paso-procedimientos" hidden disabled>
 <div class="form-row">    <div class="col-12"><div class="form-group">
-        <label class="floating-label-activo-sm" for="procedimiento-reserva">Procedimiento</label>
+        <label class="floating-label-activo-sm" for="procedimiento-reserva">Servicio</label>
         <select class="form-control form-control-sm" id="procedimiento-reserva">
             <option value="">Seleccione</option>
             @foreach($procedimientos as $procedimiento)
@@ -43,7 +43,7 @@
         </select>
     </div></div>
 </div>
-<div id="reserva-procedimientos-adicionales" class="mb-3" aria-label="Procedimientos seleccionados"></div>
+<div id="reserva-procedimientos-adicionales" class="mb-3" aria-label="Servicios seleccionados"></div>
 <div class="border rounded p-3 mb-3" aria-live="polite"><span>Total a pagar</span><strong class="float-right text-info" id="reserva-total">$0</strong><div id="reserva-detalle-costos" class="small text-muted mt-2"></div></div>
 <div class="form-group"><label class="floating-label-activo-sm" for="reserva-observaciones">Observaciones</label><textarea class="form-control caja-texto form-control-sm" id="reserva-observaciones" name="observaciones" maxlength="3000" rows="1" onfocus="this.rows=3" onblur="this.rows=1;"></textarea></div>
 </fieldset>

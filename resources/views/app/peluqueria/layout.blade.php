@@ -3,10 +3,35 @@
 </head><body>
 <nav class="pcoded-navbar menu-light"><div class="navbar-wrapper"><div class="navbar-content scroll-div"><div class="main-menu-header"><img class="img-radius" src="{{ asset('images/iconos/usuario_profesional.svg') }}" alt=""><div class="user-details">{{ $perfil->nombre }}</div></div><ul class="nav pcoded-inner-navbar">
 @php($menuPermisos=['agenda.ver'=>'ver_agenda','mascotas'=>'ver_clientes','historial'=>'ver_historial'])
-@foreach(['home'=>['icon-home',($esCentroEstetico??false)?'Escritorio del centro':'Mi escritorio'],'agenda.ver'=>['icon-calendar',($esCentroEstetico??false)?'Agendas del centro':'Mi agenda'],'mascotas'=>['icon-users','Mascotas y tutores'],'historial'=>['icon-file-text','Historial de atenciones'],'configuracion'=>['icon-settings','Panel de configuración']] as $ruta=>[$icono,$texto])@if($ruta==='home'||($ruta==='configuracion'&&array_intersect(array_keys($peluqueriaPermisos??[]),['procedimientos','personal','agenda','sucursales','negocio']))||($peluqueriaPermisos[$menuPermisos[$ruta]??'']??false))<li class="nav-item {{ request()->routeIs(($peluqueriaRutaBase??'peluqueria').'.'.$ruta)?'active':'' }}"><a class="nav-link" href="{{ route(($peluqueriaRutaBase??'peluqueria').'.'.$ruta) }}"><span class="pcoded-micon"><i class="feather {{ $icono }}"></i></span><span class="pcoded-mtext">{{ $texto }}</span></a></li>@endif
+@foreach(['home'=>['icon-home',($esCentroEstetico??false)?'Escritorio del centro':'Mi escritorio'],'agenda.ver'=>['icon-calendar',($esCentroEstetico??false)?'Agendas del centro':'Mi agenda'],'mascotas'=>['icon-users','Mascotas y tutores'],'historial'=>['icon-file-text','Historial de servicios realizados'],'configuracion'=>['icon-settings','Panel de configuración']] as $ruta=>[$icono,$texto])@if($ruta==='home'||($ruta==='configuracion'&&array_intersect(array_keys($peluqueriaPermisos??[]),['procedimientos','personal','agenda','sucursales','negocio']))||($peluqueriaPermisos[$menuPermisos[$ruta]??'']??false))<li class="nav-item {{ request()->routeIs(($peluqueriaRutaBase??'peluqueria').'.'.$ruta)?'active':'' }}"><a class="nav-link" href="{{ route(($peluqueriaRutaBase??'peluqueria').'.'.$ruta) }}"><span class="pcoded-micon"><i class="feather {{ $icono }}"></i></span><span class="pcoded-mtext">{{ $texto }}</span></a></li>@endif
 @endforeach
 <li class="nav-item"><a class="nav-link" href="{{ route('cuenta.seleccion') }}"><span class="pcoded-micon"><i class="feather icon-repeat"></i></span><span class="pcoded-mtext">Cambiar de perfil</span></a></li></ul></div></div></nav>
-<header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue"><div class="m-header"><a class="mobile-menu" id="mobile-collapse" href="#"><span></span></a><a href="{{ route(($peluqueriaRutaBase??'peluqueria').'.home') }}" class="b-brand"><img src="{{ asset('images/logo_pais.png') }}" height="45" alt="Veterchile"></a></div><div class="navbar-collapse d-flex"><span class="text-white ml-3 pelu-header-contexto">@hasSection('header-context')@yield('header-context')@else {{ ($esCentroEstetico??false)?'Centro estético · '.$perfil->nombre:'Profesional de estética' }} @endif</span><div class="ml-auto mr-3 d-flex align-items-center"><a class="btn btn-outline-light btn-sm mr-2" href="{{ route(($peluqueriaRutaBase??'peluqueria').'.home') }}"><i class="feather icon-home"></i> Mi escritorio</a><form method="post" action="{{ route('logout') }}">@csrf<button class="btn btn-outline-light btn-sm">Salir</button></form></div></div></header>
+{{-- Mismo encabezado corporativo de los demás perfiles: logo, Mi escritorio, cambio de perfil y menú de cuenta --}}
+<header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue">
+    <div class="m-header">
+        <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+        <a href="{{ route(($peluqueriaRutaBase??'peluqueria').'.home') }}" class="b-brand">
+            <img src="{{ asset('images/logo_pais.png') }}" alt="Veterchile" class="logo" height="45px">
+        </a>
+        <a href="#!" class="mob-toggler">
+            <i class="feather icon-more-vertical icono-header"></i>
+        </a>
+    </div>
+    <div class="collapse navbar-collapse">
+        @hasSection('header-context')<span class="text-white ml-3 pelu-header-contexto">@yield('header-context')</span>@endif
+        <ul class="navbar-nav ml-auto">
+            <li class="d-flex align-items-center mr-2">
+                <a href="{{ route(($peluqueriaRutaBase??'peluqueria').'.home') }}" class="btn btn-outline-header btn-xxs d-inline-flex align-items-center" style="white-space:nowrap;" data-toggle="tooltip" data-placement="bottom" title="Volver a mi escritorio">
+                    <i class="feather icon-home mr-1"></i>Mi escritorio
+                </a>
+            </li>
+            @include('template.partials.workspace_switcher')
+            <li>
+                @include('template.partials.perfil_encabezado', ['tipoPerfil' => ($esCentroEstetico??false) ? 'centro_estetico' : 'estetica'])
+            </li>
+        </ul>
+    </div>
+</header>
 <div class="pcoded-main-container"><div class="pcoded-content">
 @if(session('mensaje'))<div class="alert alert-success" role="status">{{ session('mensaje') }}</div>@endif
 @if($errors->any())<div class="alert alert-danger" role="alert"><ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif

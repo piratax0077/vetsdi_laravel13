@@ -40,6 +40,8 @@
         'AdministradorLaboratorio' => ['administrador', 'Administrador de laboratorio', null],
         'AdministradorBodega' => ['administrador', 'Administrador de bodega', null],
         'Adm_Comercial' => ['administrador', 'Administrador comercial', null],
+        'Peluqueria' => ['estetica', 'Profesional de estética', null],
+        'CentroEstetico' => ['centro_estetico', 'Centro estético', null],
         'Paciente' => ['tutor', 'Tutor', 'paciente.perfil'],
     ];
 
@@ -49,6 +51,8 @@
         'tutor' => ['Tutor', \App\Models\Paciente::class, 'nombres', 'apellido_uno'],
         'asistente' => ['Asistente', \App\Models\Asistente::class, 'nombres', 'apellido_uno'],
         'institucion' => ['Institución', \App\Models\Instituciones::class, 'nombre', null],
+        'estetica' => ['Profesional de estética', \App\Models\ProfesionalEstetica::class, 'nombre', null],
+        'centro_estetico' => ['Centro estético', \App\Models\CentroEstetico::class, 'nombre', null],
         'contador' => ['Contador', \App\Models\Contador::class, 'nombres', 'apellido_uno'],
         'administrador' => ['Administrador', null, null, null],
         'otro' => ['Usuario', null, null, null],
@@ -118,8 +122,8 @@
     $nombreFicha = $fichaPerfil ? trim($fichaPerfil->{$grupoPerfil[2]} ?? '') : '';
     $apellidoFicha = ($fichaPerfil && $grupoPerfil[3]) ? trim($fichaPerfil->{$grupoPerfil[3]} ?? '') : '';
 
-    if ($tipoPerfil === 'institucion' && $nombreFicha !== '') {
-        // Las instituciones van con su nombre completo
+    if (in_array($tipoPerfil, ['institucion', 'centro_estetico'], true) && $nombreFicha !== '') {
+        // Las instituciones y los centros estéticos van con su nombre completo
         $nombreCorto = $nombreFicha;
     } else {
         // Solo el primer nombre y el primer apellido para que quepa en el encabezado

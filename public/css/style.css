@@ -21005,7 +21005,7 @@ f-w-800 {
     background: transparent;
     /* Compensa el margen y el relleno superior de .pcoded-content */
     margin-top: -25px;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .page-header h5 {
@@ -36668,6 +36668,18 @@ transition: 0.2s!important;
     font-size: 16px;
 }
 
+/* Ícono del título sin cuadro, solo en morado (como en el escritorio de la clínica) */
+.card .card-header.encabezado-card .encabezado-card-icono.icono-sin-fondo {
+    width: auto;
+    height: auto;
+    margin-right: 10px;
+    color: #6f42c1;
+    color: var(--purple);
+    background-color: transparent;
+    border-radius: 0;
+    font-size: 22px;
+}
+
 .card .card-header.encabezado-card .encabezado-card-acciones {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -38167,6 +38179,12 @@ table thead th,
 
 .table:not(.table-dark) tbody tr:hover td[colspan] {
     background: #fff;
+}
+
+/* Tablas que no cambian de color al pasar el mouse (panel de configuración de peluquería) */
+.table.tabla-sin-hover tbody tr:hover,
+.table.tabla-sin-hover tbody tr:hover > td {
+    background: transparent;
 }
 
 /* Las celdas con color de estado (agenda del escritorio, exámenes, radiología)
@@ -46705,6 +46723,12 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     background-color: #eef1f5 !important;
     color: #6f42c1 !important;
     box-shadow: none;
+}
+
+/* Pestañas sin el subrayado turquesa que estilos_atencion_medica.css pone a los nav-link activos
+   (panel de configuración de peluquería, que carga los estilos de la agenda) */
+.pill-moderno.pill-moderno-white.pill-sin-subrayado a.nav-link {
+    background-image: none !important;
 }
 
 /* ==========================================================================

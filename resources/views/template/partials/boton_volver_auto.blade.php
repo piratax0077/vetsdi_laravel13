@@ -35,7 +35,8 @@
 @endphp
 @if ($con_boton_volver && ! $sin_boton_volver)
     <div id="boton_volver_automatico" style="display: none">
-        @include('template.partials.boton_volver')
+        {{-- Texto y destino fijos: así no toma variables sueltas de la plantilla (ej. el $texto del menú lateral) --}}
+        @include('template.partials.boton_volver', ['url' => null, 'texto' => 'Atrás'])
     </div>
     <script>
         (function() {

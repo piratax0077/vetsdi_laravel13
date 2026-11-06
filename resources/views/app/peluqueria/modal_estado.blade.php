@@ -17,7 +17,7 @@
 <div class="col-12 mb-2">
 <div class="reserva-hora-cabecera"><h6 class="titulo-item"><i class="fas fa-paw mr-2"></i>Información de la mascota</h6></div>
 <dl class="ficha-previa-datos reserva-hora-dos-columnas">
-@foreach(['mascota'=>'Nombre','especie'=>'Especie','servicio'=>'Procedimiento','inicio'=>'Fecha y hora'] as $campo=>$label)
+@foreach(['mascota'=>'Nombre','especie'=>'Especie','servicio'=>'Servicio','inicio'=>'Fecha y hora'] as $campo=>$label)
 <div class="ficha-previa-dato"><dt>{{ $label }}</dt><dd data-reserva-dato="{{ $campo }}"></dd></div>
 @endforeach
 </dl></div></div>
