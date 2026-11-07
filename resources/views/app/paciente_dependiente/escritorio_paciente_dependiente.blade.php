@@ -301,8 +301,8 @@
 
         </div>
 
-        <!--Accesos personalizados de la mascota-->
-        <div class="row m-b-30">
+        <!--Accesos personalizados de la mascota (oculto por ahora)-->
+        <div class="row m-b-30 d-none">
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-4 mb-3 mb-md-0">

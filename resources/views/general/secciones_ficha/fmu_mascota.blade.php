@@ -761,7 +761,7 @@
                     <div id="odonto_felino_c" class="collapse" aria-labelledby="odonto_felino" data-parent="#odonto_felino">
                         <div class="fvu-acordeon__cuerpo">
                             @if ($mostrarOdontogramaCanino || $mostrarOdontogramaFelino)
-                                @include('general.secciones_ficha.partials.odontograma_mascota')
+                                @include('general.secciones_ficha.partials.odontograma_mascota', ['ocultarEncabezadoOdontograma' => true])
                             @else
                                 <div class="fvu-aviso">
                                     <i class="fas fa-info-circle" aria-hidden="true"></i>

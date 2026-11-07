@@ -1,30 +1,49 @@
 {{--
-    Icono de mensajes del profesional para el encabezado.
-    Uso: @include('template.partials.mensajes_encabezado')
+    Icono de mensajes para el encabezado (profesional o tutor).
+    Uso: @include('template.partials.mensajes_encabezado')                          -> profesional
+         @include('template.partials.mensajes_encabezado', ['tipoPerfil' => 'tutor']) -> tutor
 
     Carga por su cuenta los mensajes recibidos por el usuario, así aparece en todos los
     módulos sin depender de que cada controlador los envíe a la vista.
+    Va justo al lado del botón "Mi escritorio".
 --}}
 @php
+    $esTutorMensajes = ($tipoPerfil ?? 'profesional') === 'tutor';
     $mensajesEncabezado = collect();
     $mensajesSinLeer = 0;
+    $mostrarMensajes = false;
 
-    if (Auth::check() && Auth::user()->hasRole('Profesional')) {
-        try {
-            $consultaMensajes = \App\Models\Mensajes::where('id_receptor', Auth::id());
+    try {
+        if ($esTutorMensajes) {
+            // Los mensajes del tutor van al id del paciente y solo de los tipos del tutor
+            $consultaMensajes = \App\Http\Controllers\MensajesTutorController::consultaDelTutor();
+            $mostrarMensajes = $consultaMensajes !== null;
+        } elseif (Auth::check() && Auth::user()->hasRole('Profesional')) {
+            // Se dejan fuera los tipos del tutor: esos usan el id del paciente y podrían coincidir con el del usuario
+            $consultaMensajes = \App\Models\Mensajes::where('id_receptor', Auth::id())
+                ->where(function ($consulta) {
+                    $consulta->whereNotIn('tipo_mensaje', \App\Http\Controllers\MensajesTutorController::TIPOS_TUTOR)
+                        ->orWhereNull('tipo_mensaje');
+                });
+            $mostrarMensajes = true;
+        }
+
+        if ($mostrarMensajes) {
             // Estado 1 es no leído
             $mensajesSinLeer = (clone $consultaMensajes)->where('estado', 1)->count();
             $mensajesEncabezado = $consultaMensajes->orderByDesc('fecha_envio')->orderByDesc('id')->limit(8)->get();
-        } catch (\Throwable $error) {
-            // Si la tabla no está disponible el icono queda sin mensajes
-            $mensajesEncabezado = collect();
         }
+    } catch (\Throwable $error) {
+        // Si la tabla no está disponible el icono queda sin mensajes
+        $mensajesEncabezado = collect();
     }
 
-    $rutaTodosMensajes = \Route::has('profesional.historial_mensajes') ? route('profesional.historial_mensajes') : null;
+    $rutaTodosMensajes = $esTutorMensajes
+        ? (\Route::has('paciente.mensajes') ? route('paciente.mensajes') : null)
+        : (\Route::has('profesional.historial_mensajes') ? route('profesional.historial_mensajes') : null);
 @endphp
 
-@if (Auth::check() && Auth::user()->hasRole('Profesional'))
+@if ($mostrarMensajes)
     <li>
         <div class="dropdown drp-user">
             <a href="#" class="dropdown-toggle mensajes-encabezado" data-toggle="dropdown" title="Mensajes" aria-label="Mensajes">
@@ -44,11 +63,16 @@
                     @forelse ($mensajesEncabezado as $mensajeEncabezado)
                         @php
                             $datosMensaje = json_decode($mensajeEncabezado->datos_mensaje, true);
-                            $tituloMensaje = is_array($datosMensaje) && !empty($datosMensaje['titulo']) ? $datosMensaje['titulo'] : 'Sin título';
+                            $tituloMensaje = is_array($datosMensaje) && !empty($datosMensaje['titulo'])
+                                ? $datosMensaje['titulo']
+                                : (is_array($datosMensaje) && !empty($datosMensaje['asunto']) ? $datosMensaje['asunto'] : 'Sin título');
                             $fechaMensaje = $mensajeEncabezado->fecha_envio ?: $mensajeEncabezado->created_at;
+                            $enlaceMensaje = $esTutorMensajes
+                                ? route('paciente.mensajes', ['mensaje' => $mensajeEncabezado->id])
+                                : route('profesional.mensaje', ['id' => $mensajeEncabezado->id]);
                         @endphp
                         <li>
-                            <a href="{{ route('profesional.mensaje', ['id' => $mensajeEncabezado->id]) }}" class="dropdown-item mensajes-encabezado-item">
+                            <a href="{{ $enlaceMensaje }}" class="dropdown-item mensajes-encabezado-item">
                                 <img class="mensajes-encabezado-avatar" src="{{ asset('images/iconos/usuario_profesional.svg') }}" alt="">
                                 <span class="mensajes-encabezado-texto">
                                     <span class="pro-title @if ((int) $mensajeEncabezado->estado === 1) font-weight-bold @endif">{{ $tituloMensaje }}</span>

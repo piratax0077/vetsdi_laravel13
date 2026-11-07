@@ -1,293 +1,150 @@
-@if (isset($id_ficha_atencion) && !empty($id_ficha_atencion))
-    <nav class="pcoded-navbar menu-light navbar-collapsed">
-        <div class="navbar-wrapper">
-            <div class="navbar-content scroll-div">
-                <div class="">
-                    <div class="main-menu-header">
-                        <img class="img-radius" src="{{ asset('images/iconos/usuario_profesional.svg') }}"
-                            alt="Profesional">
-                        <div class="user-details">
-                            <div id="more-details">{{ @Auth::user()->name }} <i class="fa fa-caret-down"></i></div>
-                        </div>
-                    </div>
-                    <div id="nav-user-link">
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <a href="{{ route('profesional.mi_perfil') }}" data-toggle="tooltip" title="Mi perfil">
-                                    <i class="feather icon-user"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <form action="{{ ROUTE('logout') }}" method="post" id="closeSession">
-                                    @csrf
-                                    <a data-toggle="tooltip" title="Cerrar sesión" class="text-danger"
-                                        href="javascript:{}" onclick="document.getElementById('closeSession').submit();">
-                                        <i class="feather icon-power"></i>
-                                    </a>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <ul class="nav pcoded-inner-navbar ">
-                    <li class="nav-item pcoded-menu-caption text-center">
-                        <!--<label>Menú</label>-->
-                    </li>
-                    <li class="nav-item pcoded-hasmenu">
-                        <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-home"></i></span><span class="pcoded-mtext text-center">Mi
-                                Escritorio</span></a>
-                        <ul class="pcoded-submenu">
-                            {{-- <li><a href="{{ route('profesional.home') }}">Mi Escritorio Profesional</a></li> --}}
-                            <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.home') }}','Mi Escritorio Profesional');">Mi Escritorio Profesional</a></li>
-                            {{-- <li><a href="{{ route('profesional.pacientes') }}">Mis pacientes</a></li> --}}
-                            <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.pacientes') }}','Mis pacientes');">Mis pacientes</a></li>
-                            {{-- <li><a href="{{ route('profesional.configuracion') }}"> Panel de Configuración</a></li> --}}
-                            <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.configuracion') }}',' Panel de Configuración');"> Panel de Configuración</a></li>
-                            {{-- <li><a href="{{ route('profesional.index_receta_online') }}">Receta Online</a></li>      --}}
-                            <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.index_receta_online') }}','Receta Online');">Receta Online</a></li>
-                            {{-- <li><a href="{{ route('profesional.flujo_caja') }}">Flujo de Caja</a></li> --}}
-                            <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.flujo_caja') }}','Flujo de Caja');">Flujo de Caja</a></li>
-                            <!--<li><a href="suscripcion.php">Pagos y Suscripción</a></li>-->
-                        </ul>
-                    </li>
-                    <li class="nav-item pcoded-hasmenu">
-                        <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i  class="feather icon-settings"></i></span><span class="pcoded-mtext text-center">Configuraciones</span></a>
-                        <ul class="pcoded-submenu">
-                            <li><a href="{{ route('profesional.mi_perfil') }}">Editar Perfil</a></li>
-                            <!--<li><a href="suscripcion.php">Pagos y Suscripción</a></li>-->
-                        </ul>
-                    </li>
-                    <li class="nav-item pcoded-hasmenu">
-                        <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i  class="feather icon-settings"></i></span><span class="pcoded-mtext text-center">Configuraciones</span></a>
-                        <ul class="pcoded-submenu">
-                            <li><a href="javascript:void(0)" onclick="abrirTutorialSdi('agenda')">Abrir Academia VET SDI</a></li>
-                            <!--<li><a href="suscripcion.php">Pagos y Suscripción</a></li>-->
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-@else
-    <nav class="pcoded-navbar menu-light navbar-collapsed">
-        <div class="navbar-wrapper">
-            <div class="navbar-content scroll-div">
-                <div class="">
-                    <div class="main-menu-header">
-                        <img class="img-radius" src="{{ asset('images/iconos/usuario_profesional.svg') }}"
-                            alt="Profesional">
-                        <div class="user-details">
-                            <div id="more-details">{{ @Auth::user()->name }} <i class="fa fa-caret-down"></i></div>
-                        </div>
-                    </div>
-                    <div id="nav-user-link">
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <a href="{{ route('profesional.mi_perfil') }}" data-toggle="tooltip" title="Mi perfil">
-                                    <i class="feather icon-user"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <form action="{{ ROUTE('logout') }}" method="post" id="closeSession">
-                                    @csrf
-                                    <a data-toggle="tooltip" title="Cerrar sesión" class="text-danger"
-                                        href="javascript:{}" onclick="document.getElementById('closeSession').submit();">
-                                        <i class="feather icon-power"></i>
-                                    </a>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <ul class="nav pcoded-inner-navbar ">
-                    <li class="nav-item pcoded-menu-caption text-center">
-                        <!--<label>Menú</label>-->
-                    </li>
-                    <li class="nav-item pcoded-hasmenu">
-                        <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-home"></i></span><span class="pcoded-mtext text-center">Mi
-                                Escritorio</span></a>
-                        <ul class="pcoded-submenu">
-                            <li><a href="{{ route('profesional.home') }}">Mi Escritorio Profesional</a></li>
-                            <li><a href="{{ route('profesional.pacientes') }}">Mis pacientes</a></li>
-                            <li><a href="{{ route('profesional.configuracion') }}"> Panel de Configuración</a></li>
-                            <li><a href="{{ route('profesional.index_receta_online') }}">Receta Online</a></li>
-                            <li><a href="{{ route('profesional.flujo_caja') }}">Flujo de Caja</a></li>
-                            <!--<li><a href="suscripcion.php">Pagos y Suscripción</a></li>-->
-                        </ul>
-                    </li>
-                    <li class="nav-item pcoded-hasmenu">
-                        <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i  class="feather icon-settings"></i></span><span class="pcoded-mtext text-center">Configuraciones</span></a>
-                        <ul class="pcoded-submenu">
-                            <li><a href="{{ route('profesional.mi_perfil') }}">Editar Perfil</a></li>
-                            <!--<li><a href="suscripcion.php">Pagos y Suscripción</a></li>-->
-                        </ul>
-                    </li>
-                     <li class="nav-item pcoded-hasmenu">
-                        <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i  class="feather icon-video"></i></span><span class="pcoded-mtext text-center">Tutoriales</span></a>
-                        <ul class="pcoded-submenu">
-                            <li><a href="javascript:void(0)" onclick="abrirTutorialSdi('agenda')">Funciones Agenda</a></li>
-                            <li><a href="javascript:void(0)" onclick="abrirTutorialSdi('receta')">Receta online</a></li>
-                            <li><a href="javascript:void(0)" onclick="abrirTutorialSdi('ficha')">Funciones Ficha de atención</a></li>
-                            <li><a href="javascript:void(0)" onclick="abrirTutorialSdi('pacientes')">Funciones Mis pacientes</a></li>
-                            <li><a href="javascript:void(0)" onclick="abrirTutorialSdi('app')">Descarga la App SDI</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-@endif
-
-<style>
-    .tutorial-sdi-modal .modal-dialog {
-        max-width: 1120px;
-    }
-    .tutorial-sdi-modal .modal-content {
-        border: 0;
-        border-radius: 18px;
-        overflow: hidden;
-        box-shadow: 0 24px 70px rgba(18, 38, 63, .28);
-    }
-    .tutorial-sdi-header {
-        border: 0;
-        padding: 1.1rem 1.4rem;
-        background: linear-gradient(135deg, #12786f, #16b8b8);
-    }
-    .tutorial-sdi-kicker {
-        display: block;
-        margin-top: .2rem;
-        color: rgba(255, 255, 255, .82);
-        font-size: .8rem;
-    }
-    .tutorial-sdi-body {
-        padding: 0;
-        background: #f3f7fb;
-    }
-    .tutorial-sdi-layout {
-        display: grid;
-        grid-template-columns: 290px minmax(0, 1fr);
-        min-height: 570px;
-    }
-    .tutorial-sdi-list {
-        padding: 1rem;
-        background: #fff;
-        border-right: 1px solid #e5eaf0;
-    }
-    .tutorial-sdi-search {
-        position: relative;
-        margin-bottom: .85rem;
-    }
-    .tutorial-sdi-search i {
-        position: absolute;
-        top: 50%;
-        left: .8rem;
-        transform: translateY(-50%);
-        color: #7b8794;
-    }
-    .tutorial-sdi-search input {
-        height: 40px;
-        padding-left: 2.25rem;
-        border: 1px solid #dce3ea;
-        border-radius: 10px;
-    }
-    .tutorial-sdi-item {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        padding: .8rem;
-        margin-bottom: .55rem;
-        border: 1px solid transparent;
-        border-radius: 12px;
-        background: #f6f8fb;
-        color: #344563;
-        text-align: left;
-        transition: .18s ease;
-    }
-    .tutorial-sdi-item:hover,
-    .tutorial-sdi-item.active {
-        border-color: #13b8b2;
-        background: #e9fbfa;
-        color: #107c78;
-        transform: translateX(2px);
-    }
-    .tutorial-sdi-item-icon {
-        display: inline-flex;
-        width: 38px;
-        height: 38px;
-        flex: 0 0 38px;
-        align-items: center;
-        justify-content: center;
-        margin-right: .7rem;
-        border-radius: 10px;
-        background: #fff;
-        box-shadow: 0 3px 9px rgba(25, 50, 75, .08);
-        font-size: 1.05rem;
-    }
-    .tutorial-sdi-item strong,
-    .tutorial-sdi-item small {
-        display: block;
-    }
-    .tutorial-sdi-item small {
-        margin-top: .15rem;
-        color: #8492a6;
-    }
-    .tutorial-sdi-content {
-        min-width: 0;
-        padding: 1.25rem;
-    }
-    .tutorial-sdi-player {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        padding-top: 56.25%;
-        border-radius: 15px;
-        background: #102a35;
-        box-shadow: 0 12px 30px rgba(18, 38, 63, .18);
-    }
-    .tutorial-sdi-player iframe {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        border: 0;
-    }
-    .tutorial-sdi-copy {
-        padding: 1rem .25rem 0;
-    }
-    .tutorial-sdi-copy h4 {
-        margin-bottom: .35rem;
-        color: #263a55;
-        font-weight: 700;
-    }
-    .tutorial-sdi-copy p {
-        margin-bottom: 0;
-        color: #65758b;
-    }
-    @media (max-width: 767px) {
-        .tutorial-sdi-layout {
-            grid-template-columns: 1fr;
-        }
-        .tutorial-sdi-list {
-            display: flex;
-            overflow-x: auto;
-            border-right: 0;
-            border-bottom: 1px solid #e5eaf0;
-        }
-        .tutorial-sdi-search {
-            display: none;
-        }
-        .tutorial-sdi-item {
-            min-width: 220px;
-            margin-right: .55rem;
-            margin-bottom: 0;
-        }
-        .tutorial-sdi-content {
-            padding: .85rem;
-        }
-    }
-</style>
+@if (isset($id_ficha_atencion) && !empty($id_ficha_atencion))
+    <nav class="pcoded-navbar menu-light menu-lateral navbar-collapsed">
+        <div class="navbar-wrapper">
+            <div class="navbar-content scroll-div">
+                <div class="">
+                    <div class="main-menu-header">
+                        <img class="img-radius" src="{{ asset('images/iconos/usuario_profesional.svg') }}"
+                            alt="Profesional">
+                        <div class="user-details">
+                            <div id="more-details">{{ @Auth::user()->name }} <i class="fa fa-caret-down"></i></div>
+                        </div>
+                    </div>
+                    <div id="nav-user-link">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <a href="{{ route('profesional.mi_perfil') }}" data-toggle="tooltip" title="Mi perfil">
+                                    <i class="feather icon-user"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <form action="{{ ROUTE('logout') }}" method="post" id="closeSession">
+                                    @csrf
+                                    <a data-toggle="tooltip" title="Cerrar sesión" class="text-danger"
+                                        href="javascript:{}" onclick="document.getElementById('closeSession').submit();">
+                                        <i class="feather icon-power"></i>
+                                    </a>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <ul class="nav pcoded-inner-navbar ">
+                    <li class="nav-item pcoded-menu-caption text-center">
+                        <!--<label>Menú</label>-->
+                    </li>
+                    <li class="nav-item pcoded-hasmenu">
+                        <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i
+                                    class="feather icon-home"></i></span><span class="pcoded-mtext">Mi
+                                Escritorio</span></a>
+                        <ul class="pcoded-submenu">
+                            {{-- <li><a href="{{ route('profesional.home') }}">Mi Escritorio Profesional</a></li> --}}
+                            <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.home') }}','Mi Escritorio Profesional');"><i class="feather icon-grid"></i>Mi Escritorio Profesional</a></li>
+                            {{-- <li><a href="{{ route('profesional.pacientes') }}">Mis pacientes</a></li> --}}
+                            <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.pacientes') }}','Mis pacientes');"><i class="feather icon-users"></i>Mis pacientes</a></li>
+                            {{-- <li><a href="{{ route('profesional.configuracion') }}"> Panel de Configuración</a></li> --}}
+                            <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.configuracion') }}',' Panel de Configuración');"><i class="feather icon-sliders"></i>Panel de Configuración</a></li>
+                            {{-- <li><a href="{{ route('profesional.index_receta_online') }}">Receta Online</a></li>      --}}
+                            <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.index_receta_online') }}','Receta Online');"><i class="feather icon-file-text"></i>Receta Online</a></li>
+                            {{-- <li><a href="{{ route('profesional.flujo_caja') }}">Flujo de Caja</a></li> --}}
+                            <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.flujo_caja') }}','Flujo de Caja');"><i class="feather icon-bar-chart-2"></i>Flujo de Caja</a></li>
+                            <!--<li><a href="suscripcion.php">Pagos y Suscripción</a></li>-->
+                        </ul>
+                    </li>
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>Cuenta y ayuda</label>
+                    </li>
+                    <li class="nav-item pcoded-hasmenu">
+                        <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i  class="feather icon-settings"></i></span><span class="pcoded-mtext">Configuraciones</span></a>
+                        <ul class="pcoded-submenu">
+                            <li><a href="{{ route('profesional.mi_perfil') }}"><i class="feather icon-user"></i>Editar Perfil</a></li>
+                            <!--<li><a href="suscripcion.php">Pagos y Suscripción</a></li>-->
+                        </ul>
+                    </li>
+                    <li class="nav-item pcoded-hasmenu">
+                        <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i  class="feather icon-settings"></i></span><span class="pcoded-mtext">Configuraciones</span></a>
+                        <ul class="pcoded-submenu">
+                            <li><a href="javascript:void(0)" onclick="abrirTutorialSdi('agenda')"><i class="feather icon-play-circle"></i>Abrir Academia VET SDI</a></li>
+                            <!--<li><a href="suscripcion.php">Pagos y Suscripción</a></li>-->
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+@else
+    <nav class="pcoded-navbar menu-light menu-lateral navbar-collapsed">
+        <div class="navbar-wrapper">
+            <div class="navbar-content scroll-div">
+                <div class="">
+                    <div class="main-menu-header">
+                        <img class="img-radius" src="{{ asset('images/iconos/usuario_profesional.svg') }}"
+                            alt="Profesional">
+                        <div class="user-details">
+                            <div id="more-details">{{ @Auth::user()->name }} <i class="fa fa-caret-down"></i></div>
+                        </div>
+                    </div>
+                    <div id="nav-user-link">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <a href="{{ route('profesional.mi_perfil') }}" data-toggle="tooltip" title="Mi perfil">
+                                    <i class="feather icon-user"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <form action="{{ ROUTE('logout') }}" method="post" id="closeSession">
+                                    @csrf
+                                    <a data-toggle="tooltip" title="Cerrar sesión" class="text-danger"
+                                        href="javascript:{}" onclick="document.getElementById('closeSession').submit();">
+                                        <i class="feather icon-power"></i>
+                                    </a>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <ul class="nav pcoded-inner-navbar ">
+                    <li class="nav-item pcoded-menu-caption text-center">
+                        <!--<label>Menú</label>-->
+                    </li>
+                    <li class="nav-item pcoded-hasmenu">
+                        <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i
+                                    class="feather icon-home"></i></span><span class="pcoded-mtext">Mi
+                                Escritorio</span></a>
+                        <ul class="pcoded-submenu">
+                            <li><a href="{{ route('profesional.home') }}"><i class="feather icon-grid"></i>Mi Escritorio Profesional</a></li>
+                            <li><a href="{{ route('profesional.pacientes') }}"><i class="feather icon-users"></i>Mis pacientes</a></li>
+                            <li><a href="{{ route('profesional.configuracion') }}"><i class="feather icon-sliders"></i>Panel de Configuración</a></li>
+                            <li><a href="{{ route('profesional.index_receta_online') }}"><i class="feather icon-file-text"></i>Receta Online</a></li>
+                            <li><a href="{{ route('profesional.flujo_caja') }}"><i class="feather icon-bar-chart-2"></i>Flujo de Caja</a></li>
+                            <!--<li><a href="suscripcion.php">Pagos y Suscripción</a></li>-->
+                        </ul>
+                    </li>
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>Cuenta y ayuda</label>
+                    </li>
+                    <li class="nav-item pcoded-hasmenu">
+                        <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i  class="feather icon-settings"></i></span><span class="pcoded-mtext">Configuraciones</span></a>
+                        <ul class="pcoded-submenu">
+                            <li><a href="{{ route('profesional.mi_perfil') }}"><i class="feather icon-user"></i>Editar Perfil</a></li>
+                            <!--<li><a href="suscripcion.php">Pagos y Suscripción</a></li>-->
+                        </ul>
+                    </li>
+                     <li class="nav-item pcoded-hasmenu">
+                        <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i  class="feather icon-video"></i></span><span class="pcoded-mtext">Tutoriales</span></a>
+                        <ul class="pcoded-submenu">
+                            <li><a href="javascript:void(0)" onclick="abrirTutorialSdi('agenda')"><i class="feather icon-play-circle"></i>Funciones Agenda</a></li>
+                            <li><a href="javascript:void(0)" onclick="abrirTutorialSdi('receta')"><i class="feather icon-play-circle"></i>Receta online</a></li>
+                            <li><a href="javascript:void(0)" onclick="abrirTutorialSdi('ficha')"><i class="feather icon-play-circle"></i>Funciones Ficha de atención</a></li>
+                            <li><a href="javascript:void(0)" onclick="abrirTutorialSdi('pacientes')"><i class="feather icon-play-circle"></i>Funciones Mis pacientes</a></li>
+                            <li><a href="javascript:void(0)" onclick="abrirTutorialSdi('app')"><i class="feather icon-play-circle"></i>Descarga la App SDI</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+@endif
 
 <div class="modal fade tutorial-sdi-modal" id="tutorialSdiModal" tabindex="-1" role="dialog"
     aria-labelledby="tutorialSdiTitulo" aria-hidden="true">
@@ -351,29 +208,29 @@
 </div>
 
 <div class="modal fade" id="confirmLogoutModal" tabindex="-1" role="dialog" aria-labelledby="confirmLogoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header modal-header-purple">
-                <h5 class="modal-title" id="confirmLogoutModalLabel">Confirmar</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" name="menu_url_destino" id="menu_url_destino" value="">
-                <input type="hidden" name="menu_nombre_destino" id="menu_nombre_destino" value="">
-                <p>Está por salir de la Ficha de Atención, los datos serán eliminados.</p>
-                <p>¿Está seguro de que desea continuar?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i>Cancelar</button>
-                <button type="button" class="btn btn-danger" onclick="menuContinuar();"><i class="feather icon-check"></i>Continuar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title" id="confirmLogoutModalLabel">Confirmar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="menu_url_destino" id="menu_url_destino" value="">
+                <input type="hidden" name="menu_nombre_destino" id="menu_nombre_destino" value="">
+                <p>Está por salir de la Ficha de Atención, los datos serán eliminados.</p>
+                <p>¿Está seguro de que desea continuar?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');"><i class="feather icon-x"></i>Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="menuContinuar();"><i class="feather icon-check"></i>Continuar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
     var tutorialesSdi = {
         agenda: {
             id: '1085553533',
@@ -456,17 +313,17 @@
     window.addEventListener('beforeunload', detenerTutorialSdi);
 
     function menuValidarSalidaFicha(url, nombre)
-    {
-        $('#confirmLogoutModal').modal('show');
-        $('#menu_url_destino').val(url);
-        $('#menu_nombre_destino').val(nombre);
-    }
-
-    function menuContinuar()
-    {
-        var temp = $('#menu_url_destino').val();
-        $('#menu_url_destino').val('');
-        $('#menu_nombre_destino').val('');
-        window.location.href = temp;
-    }
-</script>
+    {
+        $('#confirmLogoutModal').modal('show');
+        $('#menu_url_destino').val(url);
+        $('#menu_nombre_destino').val(nombre);
+    }
+
+    function menuContinuar()
+    {
+        var temp = $('#menu_url_destino').val();
+        $('#menu_url_destino').val('');
+        $('#menu_nombre_destino').val('');
+        window.location.href = temp;
+    }
+</script>

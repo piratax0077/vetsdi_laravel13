@@ -113,13 +113,13 @@
 
         <!--PROX CITAS DE MASCOTAS-->
         <div class="row m-b-30" >
-            <div class="col-md-8">
+            <div class="col-md-8 columna-citas">
                 <div class="card h-100 pb-0" >
                     <div class="card-header">
                         <h5><i class="feather icon-calendar mr-2"></i> Mis próximas citas</h5>
                     </div>
-                    <div class="card-body pt-4 pb-0" style="height:290px;">
-                        <div class="dt-responsive table-responsive" style="height:290px;back">
+                    <div class="card-body pt-4 pb-0" style="height:400px;">
+                        <div class="dt-responsive table-responsive" style="height:350px;back">
                             <table id="simpletable" class="table table-striped table-bordered nowrap table-xs">
                                 <thead>
                                     <tr>
@@ -227,13 +227,16 @@
                     </div>
                 </section>
 
-                <div class="card subir text-center espacio-promocional">
-                    <a href="{{ ROUTE('paciente.mascotas.promociones_especiales') }}" class="espacio-promocional-imagen">
-                        <img src="{{ asset('images/iconos/publicidad.jpg') }}" alt="Espacios promocionales">
+                <!-- Banner de ofertas: el producto lleva a promociones especiales y el botón a las generales -->
+                <div class="card espacio-promocional">
+                    <a href="{{ ROUTE('paciente.mascotas.promociones_especiales') }}" class="espacio-promocional-imagen" aria-label="Ver promociones especiales">
+                        <img src="{{ asset('images/iconos/publicidad.png') }}" alt="Alimentos en promoción">
                     </a>
-                    <div class="card-body espacio-promocional-pie">
-                        <a href="{{ ROUTE('paciente.mascotas.promociones_generales') }}" class="btn btn-arrastre">
-                            <h5 class="card-title mb-0">Visitar Espacios Promocionales</h5>
+                    <div class="espacio-promocional-contenido">
+                        <span class="espacio-promocional-etiqueta">Espacios promocionales</span>
+                        <h5 class="espacio-promocional-titulo">Ofertas que tu mascota amará</h5>
+                        <a href="{{ ROUTE('paciente.mascotas.promociones_generales') }}" class="espacio-promocional-boton">
+                            Ver ofertas <i class="feather icon-arrow-right"></i>
                         </a>
                     </div>
                 </div>

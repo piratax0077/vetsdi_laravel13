@@ -15,6 +15,8 @@
                     <i class="feather icon-home mr-1"></i>Mi escritorio
                 </a>
             </li>
+            {{-- Mensajes justo al lado del botón Mi escritorio --}}
+            @include('template.partials.mensajes_encabezado', ['tipoPerfil' => 'tutor'])
             @include('template.partials.workspace_switcher')
 			<li>
                 @include('template.partials.perfil_encabezado', ['tipoPerfil' => 'tutor'])

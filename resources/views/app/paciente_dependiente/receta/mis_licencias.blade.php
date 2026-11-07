@@ -15,9 +15,6 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header encabezado-card">
-                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-file-text"></i></span>PDF generados</h5>
-                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="tabla_pdf_generados_mascota" class="display table table-striped table-hover table-sm nowrap" style="width:100%">

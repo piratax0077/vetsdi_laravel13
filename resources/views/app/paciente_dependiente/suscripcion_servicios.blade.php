@@ -22,37 +22,20 @@
 
     <div class="pcoded-main-container">
         <div class="pcoded-content">
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ ROUTE('paciente.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                        <i class="feather icon-home"></i>
-                                    </a>
-                                </li>
-                                <li class="breadcrumb-item"><a href="#">Suscripciones y servicios cercanos</a></li>
-                            </ul>
-                        </div>
-                    </div>
+            {{-- Título de la sección: queda bajo el botón Atrás, igual que en Mascotas perdidas --}}
+            <div class="perdidas-intro">
+                <div>
+                    <h3>Encuentra servicios para tu mascota</h3>
+                    <p>Centros veterinarios, farmacias, pet shops, peluquerías y hoteles adheridos cerca de ti.</p>
                 </div>
             </div>
         </div>
 
         <div class="servicios-cercanos">
             {{-- Buscador principal --}}
-            <div class="row mt-n5 mx-1">
-                <div class="col-sm-12 mt-n5">
+            <div class="row mx-1">
+                <div class="col-sm-12">
                     <section class="servicios-tarjeta servicios-buscador">
-                        <div class="servicios-cabecera">
-                            <span class="servicios-icono"><i class="fas fa-map-marked-alt"></i></span>
-                            <div class="servicios-cabecera-texto">
-                                <h4>Encuentra servicios para tu mascota</h4>
-                                <p>Centros veterinarios, farmacias, pet shops, peluquerías y hoteles adheridos cerca de ti.</p>
-                            </div>
-                        </div>
-
                         <div class="form-row servicios-filtros">
                             <div class="form-group col-md-4">
                                 <label class="floating-label-activo-sm">Mascota</label>
@@ -117,9 +100,8 @@
                 <div class="col-12">
                     <section class="servicios-tarjeta servicios-aparece">
                         <div class="servicios-cabecera">
-                            <span class="servicios-icono"><i class="fas fa-paw"></i></span>
                             <div class="servicios-cabecera-texto">
-                                <h4>Lugares adheridos a nuestra comunidad</h4>
+                                <h4><i class="feather icon-map-pin icono-titulo-card"></i> Lugares adheridos a nuestra comunidad</h4>
                                 <p id="searchSummary">Buscando lugares cercanos...</p>
                             </div>
                         </div>
@@ -204,9 +186,8 @@
                 <div class="col-12">
                     <section class="servicios-tarjeta servicios-agenda servicios-aparece" id="tarjetaAccion">
                         <div class="servicios-cabecera">
-                            <span class="servicios-icono servicios-icono-reserva" id="accionIcono"><i class="feather icon-calendar"></i></span>
                             <div class="servicios-cabecera-texto">
-                                <h4 id="accionTitulo">-</h4>
+                                <h4><i class="feather icon-calendar icono-titulo-card" id="accionIcono"></i> <span id="accionTitulo">-</span></h4>
                                 <p id="accionSubtitulo">-</p>
                             </div>
                         </div>
@@ -493,7 +474,6 @@
                                             aria-expanded="false" aria-controls="tiendaSugerencias">
                                         <ul class="servicios-sugerencias d-none" id="tiendaSugerencias" role="listbox"></ul>
                                     </div>
-                                    <div class="servicios-atajos" id="tiendaAtajos"></div>
                                     <div id="tiendaProducto"></div>
                                 </div>
 
@@ -506,11 +486,10 @@
                                         <ul class="servicios-pedido-lista" id="tiendaItems"></ul>
 
                                         <span class="reserva-vet-etiqueta mt-3">¿Cómo lo quiere recibir?</span>
-                                        <ul class="reserva-vet-lugares servicios-entregas mb-0">
+                                        <ul class="reserva-vet-lugares servicios-entregas mb-3">
                                             <li class="reserva-vet-lugar">
                                                 <input class="reserva-vet-lugar-radio" type="radio" name="tiendaEntrega" id="entregaAhora" value="ahora" checked>
                                                 <label class="reserva-vet-lugar-caja mb-0" for="entregaAhora">
-                                                    <span class="reserva-vet-lugar-icono"><i class="fas fa-shipping-fast"></i></span>
                                                     <span class="reserva-vet-lugar-datos">
                                                         <span class="reserva-vet-lugar-nombre">Despacho ahora</span>
                                                         <span class="reserva-vet-lugar-direccion" id="entregaAhoraTexto">Seguimiento en tiempo real</span>
@@ -521,7 +500,6 @@
                                             <li class="reserva-vet-lugar">
                                                 <input class="reserva-vet-lugar-radio" type="radio" name="tiendaEntrega" id="entregaProgramada" value="programada">
                                                 <label class="reserva-vet-lugar-caja mb-0" for="entregaProgramada">
-                                                    <span class="reserva-vet-lugar-icono"><i class="feather icon-calendar"></i></span>
                                                     <span class="reserva-vet-lugar-datos">
                                                         <span class="reserva-vet-lugar-nombre">Programar despacho</span>
                                                         <span class="reserva-vet-lugar-direccion">Según disponibilidad de la empresa</span>
@@ -532,7 +510,6 @@
                                             <li class="reserva-vet-lugar">
                                                 <input class="reserva-vet-lugar-radio" type="radio" name="tiendaEntrega" id="entregaRetiro" value="retiro">
                                                 <label class="reserva-vet-lugar-caja mb-0" for="entregaRetiro">
-                                                    <span class="reserva-vet-lugar-icono"><i class="feather icon-package"></i></span>
                                                     <span class="reserva-vet-lugar-datos">
                                                         <span class="reserva-vet-lugar-nombre">Retiro en tienda</span>
                                                         <span class="reserva-vet-lugar-direccion">Listo en 20 minutos, sin costo de despacho</span>
@@ -569,7 +546,8 @@
                                                 <select class="form-control form-control-sm" id="tiendaComuna" disabled><option value="">Seleccione comuna</option></select>
                                             </div>
                                         </div>
-                                        <div class="custom-control custom-checkbox mb-3">
+                                        {{-- Repetir pedido cada mes: oculto por ahora --}}
+                                        <div class="custom-control custom-checkbox mb-3 d-none">
                                             <input type="checkbox" class="custom-control-input" id="tiendaMensual">
                                             <label class="custom-control-label" for="tiendaMensual">Repetir este pedido cada mes</label>
                                         </div>
@@ -609,8 +587,8 @@
 
     const SERVICIOS = {
         centro_veterinario: { nombre: 'Clínica veterinaria', icono: 'fas fa-clinic-medical', accion: 'Agendar hora', accionIcono: 'feather icon-calendar', flujo: 'agenda' },
-        peluqueria: { nombre: 'Peluquería', icono: 'fas fa-cut', accion: 'Agendar peluquería', accionIcono: 'fas fa-cut', flujo: 'agenda' },
-        hotel_mascotas: { nombre: 'Hotel de mascotas', icono: 'fas fa-hotel', accion: 'Reservar estadía', accionIcono: 'fas fa-hotel', flujo: 'agenda' },
+        peluqueria: { nombre: 'Peluquería', icono: 'fas fa-cut', accion: 'Agendar peluquería', accionIcono: 'feather icon-scissors', flujo: 'agenda' },
+        hotel_mascotas: { nombre: 'Hotel de mascotas', icono: 'fas fa-hotel', accion: 'Reservar estadía', accionIcono: 'feather icon-home', flujo: 'agenda' },
         alimentos: { nombre: 'Alimentos', icono: 'fas fa-bone', accion: 'Pedir alimento', accionIcono: 'feather icon-shopping-cart', flujo: 'tienda' },
         farmacia: { nombre: 'Farmacia veterinaria', icono: 'fas fa-prescription-bottle-alt', accion: 'Pedir a farmacia', accionIcono: 'feather icon-shopping-cart', flujo: 'tienda' },
         pet_shop: { nombre: 'Pet shop', icono: 'fas fa-store', accion: 'Comprar productos', accionIcono: 'feather icon-shopping-cart', flujo: 'tienda' }
@@ -1239,7 +1217,6 @@
 
             html += '<li class="reserva-vet-lugar">' +
                 '<button type="button" class="reserva-vet-lugar-caja' + (activo ? ' active' : '') + '" data-lugar="' + lugar.id + '">' +
-                    '<span class="reserva-vet-lugar-icono"><i class="' + SERVICIOS[busqueda.servicio].icono + '"></i></span>' +
                     '<span class="reserva-vet-lugar-datos">' +
                         '<span class="reserva-vet-lugar-nombre">' + escapar(INSTITUCIONES[lugar.institucion].nombre) + '</span>' +
                         '<span class="reserva-vet-lugar-direccion">' + escapar(lugar.sucursal) + ' · ' + formatoDistancia(lugar.distancia) + '</span>' +
@@ -1348,7 +1325,7 @@
         $('#fichaHorario').html(filasHorario(lugar));
 
         $('#fichaServicios').html(lugar.servicios.map(function (s) {
-            return '<span class="badge ' + (s === busqueda.servicio ? 'badge-info' : 'badge-purple-light') + ' mr-1 mb-1"><i class="' + SERVICIOS[s].icono + ' mr-1"></i>' + SERVICIOS[s].nombre + '</span>';
+            return '<span class="badge ' + (s === busqueda.servicio ? 'badge-info' : 'badge-purple-light') + ' mr-1 mb-1">' + SERVICIOS[s].nombre + '</span>';
         }).join(''));
 
         dibujarRed(lugar);
@@ -1401,8 +1378,7 @@
 
         detenerSeguimiento();
 
-        $('#accionIcono').html('<i class="' + servicio.accionIcono + '"></i>')
-            .toggleClass('servicios-icono-reserva', servicio.flujo === 'agenda');
+        $('#accionIcono').attr('class', servicio.accionIcono + ' icono-titulo-card');
         $('#accionTitulo').text(servicio.accion);
         $('#accionLugarNombre').text(institucion.nombre + ' · ' + lugar.sucursal);
         actualizarMascotaAccion();
@@ -1733,15 +1709,14 @@
     // A la izquierda va la imagen del servicio, las iniciales del veterinario o un ícono
     function tarjetaOpcion(opcion) {
         const id = 'opcion_' + opcion.grupo + '_' + opcion.valor;
-        let visual = '<span class="reserva-vet-lugar-icono"><i class="' + opcion.icono + '"></i></span>';
+        // Solo las opciones con imagen llevan algo a la izquierda; sin imagen van sin ícono ni iniciales
+        let visual = '';
 
         if (opcion.imagen) {
             visual = '<span class="servicios-opcion-imagen">' +
                 '<img src="' + escapar(opcion.imagen) + '" alt="Imagen de ' + escapar(opcion.nombre) + '" loading="lazy"' +
                     ' onerror="this.onerror=null;this.src=IMAGEN_SERVICIO_RESPALDO;">' +
             '</span>';
-        } else if (opcion.iniciales) {
-            visual = '<span class="reserva-vet-lugar-icono servicios-iniciales">' + escapar(opcion.iniciales) + '</span>';
         }
 
         const precio = opcion.precio ? '<span class="servicios-precio">' + opcion.precio + '</span>' : '';
@@ -1895,7 +1870,6 @@
 
     function bloqueHoras(titulo, icono, horas) {
         return '<div class="reserva-vet-horas-bloque">' +
-            '<div class="reserva-vet-horas-bloque-titulo"><i class="' + icono + '"></i>' + titulo + '</div>' +
             '<div class="reserva-vet-horas-grilla">' +
                 horas.map(function (h) {
                     const elegida = agenda.hora === h && agenda.fechaHora === agenda.fecha;
@@ -2143,14 +2117,6 @@
         $('#tiendaSeguimiento').addClass('d-none').empty();
         $('#entregaAhoraTexto').text('Disponibilidad y fecha informadas por la empresa');
 
-        // Atajos con lo que hay en stock en este local
-        const atajos = productosDelServicio().filter(function (p) { return stockProducto(lugar, p).hay; }).slice(0, 4);
-        $('#tiendaAtajos').html(atajos.length
-            ? '<span>Lo más pedido aquí:</span>' + atajos.map(function (p) {
-                return '<button type="button" class="servicios-atajo" data-producto="' + p.id + '">' + escapar(p.nombre) + '</button>';
-            }).join('')
-            : '');
-
         dibujarProductoElegido();
         cambiarEntrega();
     }
@@ -2178,7 +2144,6 @@
             const stock = stockProducto(lugar, p);
             html += '<li role="option">' +
                 '<button type="button" class="servicios-sugerencia" data-producto="' + p.id + '">' +
-                    '<span class="servicios-sugerencia-icono"><i class="' + p.icono + '"></i></span>' +
                     '<span class="servicios-sugerencia-datos"><strong>' + resaltar(p.nombre, texto) + '</strong><small>' + escapar(p.detalle) + '</small></span>' +
                     '<span class="servicios-sugerencia-precio">' + formatoPeso(p.precio) +
                         '<small class="' + (stock.hay ? (stock.pocas ? 'text-warning' : 'text-success') : 'text-danger') + '">' + stock.texto + '</small>' +
@@ -2645,10 +2610,6 @@
         });
 
         $('#tiendaSugerencias').on('click', '.servicios-sugerencia', function () {
-            elegirProducto($(this).data('producto'));
-        });
-
-        $('#tiendaAtajos').on('click', '.servicios-atajo', function () {
             elegirProducto($(this).data('producto'));
         });
 

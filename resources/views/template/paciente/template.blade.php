@@ -72,7 +72,7 @@
         </div>
     </div>
     @include('template.paciente.header')
-    @include('template.paciente.menu')
+    @include('template.usuario.menu')
 
     @include('template.partials.back_to_dashboard', [
         'dashboardRoute' => 'paciente.home',

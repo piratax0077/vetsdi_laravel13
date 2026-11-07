@@ -26,7 +26,13 @@
     $es_vista_peluqueria = request()->routeIs('peluqueria.*', 'centro_estetico.*')
         && ! request()->routeIs('peluqueria.home', 'centro_estetico.home');
 
-    $con_boton_volver = $es_vista_tutor || $es_vista_profesional || $es_vista_asistente || $es_vista_peluqueria || request()->routeIs(
+    // Vistas del administrador (centro médico, hospital, contabilidad, gastos, comercial), menos sus escritorios
+    // Incluye los módulos del recuadro del escritorio (áreas, historial, operación, personal, hospitalización)
+    $es_vista_administrador = (request()->is('Administrador*')
+            || request()->routeIs('vet.areas.*', 'vet.historial.*', 'vet.operacion.*', 'vet.trabajadores.*', 'vet.hospital.asignaciones', 'vet.hospital.equipo'))
+        && ! request()->routeIs('adm_cm.home', 'adm_hospital.home', 'adm_hospital_ambulatorio.home', 'contabilidad.home', 'gastos.home', 'administrador_comercial.home');
+
+    $con_boton_volver = $es_vista_administrador || $es_vista_tutor ||$es_vista_profesional || $es_vista_asistente || $es_vista_peluqueria || request()->routeIs(
         'profesional.mis_documentos',
         'paciente.receta.documentos',
         '*.configuracion'

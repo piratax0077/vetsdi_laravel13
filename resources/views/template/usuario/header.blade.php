@@ -15,6 +15,8 @@
                     <i class="feather icon-home mr-1"></i>Mi escritorio
                 </a>
             </li>
+            {{-- Mensajes justo al lado del botón Mi escritorio --}}
+            @include('template.partials.mensajes_encabezado', ['tipoPerfil' => 'tutor'])
             {{-- botones extra que agrega cada vista, por ejemplo el escritorio de la mascota activa --}}
             @stack('botones-header')
             @include('template.partials.workspace_switcher')

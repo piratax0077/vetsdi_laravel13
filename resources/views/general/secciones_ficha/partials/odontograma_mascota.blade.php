@@ -103,6 +103,7 @@
 
 <div class="row odonto-mascota-heading">
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+        @if (empty($ocultarEncabezadoOdontograma))
         <div class="odonto-mascota-heading-copy d-inline-flex align-items-center">
             <span class="odonto-mascota-heading-icon"><i class="fas fa-tooth"></i></span>
             <span>
@@ -110,6 +111,7 @@
                 <small class="odonto-mascota-subtitle">Seleccione una pieza para revisar su estado clínico</small>
             </span>
         </div>
+        @endif
         <button type="button" data-toggle="modal" data-target="#exampleModalMascota" class="btn btn-purple d-inline float-md-right mr-2">
             Ver simbología
         </button>

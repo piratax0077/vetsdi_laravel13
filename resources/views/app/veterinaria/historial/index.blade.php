@@ -8,15 +8,11 @@
     <div class="row">
         <div class="col-md-12 mb-3 encabezado-pagina">
             <div>
-                <a href="{{ route('adm_cm.home') }}" class="text-muted f-12 d-print-none" onclick="if (document.referrer && history.length > 1) { history.back(); return false; }">
-                    <i class="feather icon-arrow-left" aria-hidden="true"></i> Atrás
-                </a>
                 <h5 class="f-26 d-block mb-0">Historial de cambios</h5>
             </div>
         </div>
     </div>
     <div class="card">
-        <div class="card-header encabezado-card"><h5 class="encabezado-card-titulo">Historial de cambios</h5></div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-sm">

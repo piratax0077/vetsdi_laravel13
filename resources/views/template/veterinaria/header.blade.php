@@ -29,9 +29,10 @@
                         </a>
                     </li>
 
-                    @include('template.partials.workspace_switcher')
-
+                    {{-- Mensajes justo al lado del botón Mi escritorio --}}
                     @include('template.partials.mensajes_encabezado')
+
+                    @include('template.partials.workspace_switcher')
 
                     @if (false)
                         <li>

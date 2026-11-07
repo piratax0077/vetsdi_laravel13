@@ -1,4 +1,4 @@
-<nav class="pcoded-navbar menu-light">
+<nav class="pcoded-navbar menu-light menu-lateral navbar-collapsed">
 	<div class="navbar-wrapper">
 		<div class="navbar-content scroll-div">
 				@php
@@ -41,51 +41,42 @@
 			</div>
 
 			<ul class="nav pcoded-inner-navbar ">
-				<li class="nav-item pcoded-menu-caption text-center">
-				</li>
-                <li class="nav-item pcoded-hasmenu">
-					<a href="javascript:void(0)" class="nav-link">
-						<span class="pcoded-micon">
-							<i class="feather icon-home"></i>
-						</span>
-						<span class="pcoded-mtext text-center">Escritorio Principal</span>
-					</a>
-					<ul class="pcoded-submenu">
-						<li><a href="{{ ROUTE('paciente.home') }}">Escritorio Usuario</a></li>
-
-					</ul>
-				</li>
+				<li class="nav-item pcoded-menu-caption"></li>
 				<li class="nav-item pcoded-hasmenu">
 					<a href="javascript:void(0)" class="nav-link">
 						<span class="pcoded-micon">
 							<i class="feather icon-home"></i>
 						</span>
-						<span class="pcoded-mtext text-center">Mi Escritorio</span>
+						<span class="pcoded-mtext">Mi Escritorio</span>
 					</a>
 					<ul class="pcoded-submenu">
+						<li><a href="{{ ROUTE('paciente.home') }}"><i class="feather icon-user"></i>Escritorio tutor</a></li>
 						@if ($idDependienteActivo)
-							<li><a href="{{ ROUTE('paciente.mascota.home', [$idDependienteActivo]) }}">Mi Escritorio Mascota</a></li>
-							<li><a href="{{ ROUTE('paciente.mascota.reservar_hora', [$idDependienteActivo,'0','0','0']) }}">Reservar Cita Veterinaria</a></li>
-							<li><a href="{{ ROUTE('paciente.dependiente.mis_profesionales', [$idDependienteActivo]) }}">Mis Veterinarios</a></li>
-							<li><a href="{{ ROUTE('paciente.dependiente.mi_ficha', [$idDependienteActivo]) }}">Ficha Veterinaria Única</a></li>
-							<li><a href="{{ ROUTE('paciente.dependiente.receta', [$idDependienteActivo]) }}">Documentos</a></li>
-							<li><a href="{{ ROUTE('paciente.dependiente.receta.examen', [$idDependienteActivo]) }}">Exámenes</a></li>
-							<li><a href="{{ ROUTE('paciente.dependiente.receta.examen', [$idDependienteActivo]) }}">Controles</a></li>
-							<li><a href="{{ ROUTE('registro_vacunas', ['id_dependiente_activo'=> $idDependienteActivo]) }}">Registro Vacunas</a></li>
-							<li><a href="{{ ROUTE('registro_desparasitacion', ['id_dependiente_activo'=> $idDependienteActivo]) }}">Registro Desparasitación</a></li>
+							<li><a href="{{ ROUTE('paciente.mascota.home', [$idDependienteActivo]) }}"><i class="feather icon-grid"></i>Mi Escritorio Mascota</a></li>
+							<li><a href="{{ ROUTE('paciente.mascota.reservar_hora', [$idDependienteActivo,'0','0','0']) }}"><i class="feather icon-calendar"></i>Reservar Cita Veterinaria</a></li>
+							<li><a href="{{ ROUTE('paciente.dependiente.mis_profesionales', [$idDependienteActivo]) }}"><i class="feather icon-users"></i>Mis Veterinarios</a></li>
+							<li><a href="{{ ROUTE('paciente.dependiente.mi_ficha', [$idDependienteActivo]) }}"><i class="feather icon-clipboard"></i>Ficha Veterinaria Única</a></li>
+							<li><a href="{{ ROUTE('paciente.dependiente.receta', [$idDependienteActivo]) }}"><i class="feather icon-file-text"></i>Documentos</a></li>
+							<li><a href="{{ ROUTE('paciente.dependiente.receta.examen', [$idDependienteActivo]) }}"><i class="feather icon-activity"></i>Exámenes</a></li>
+							<li><a href="{{ ROUTE('paciente.dependiente.receta.examen', [$idDependienteActivo]) }}"><i class="feather icon-check-square"></i>Controles</a></li>
+							<li><a href="{{ ROUTE('registro_vacunas', ['id_dependiente_activo'=> $idDependienteActivo]) }}"><i class="feather icon-shield"></i>Registro Vacunas</a></li>
+							<li><a href="{{ ROUTE('registro_desparasitacion', ['id_dependiente_activo'=> $idDependienteActivo]) }}"><i class="feather icon-droplet"></i>Registro Desparasitación</a></li>
 						@endif
 					</ul>
+				</li>
+				<li class="nav-item pcoded-menu-caption">
+					<label>Cuenta</label>
 				</li>
 				<li class="nav-item pcoded-hasmenu">
 					<a href="javascript:void(0)" class="nav-link">
 						<span class="pcoded-micon">
 							<i class="feather icon-settings"></i>
 					</span>
-						<span class="pcoded-mtext text-center">Configuraciones</span></a>
+						<span class="pcoded-mtext">Configuraciones</span></a>
 					<ul class="pcoded-submenu">
 						{{-- <li><a href="{{ ROUTE('paciente.dependiente.perfil') }}">Editar Perfil</a></li> --}}
 						@if ($idDependienteActivo)
-							<li><a href="{{ ROUTE('paciente.mascotas.pagos_suscripcion') }}">Pagos y Suscripción</a></li>
+							<li><a href="{{ ROUTE('paciente.mascotas.pagos_suscripcion') }}"><i class="feather icon-credit-card"></i>Pagos y Suscripción</a></li>
 						@endif
 					</ul>
 				</li>

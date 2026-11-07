@@ -3,7 +3,7 @@
 @section('content')
     <!--Container Completo-->
     <div class="pcoded-main-container">
-        <div class="pcoded-content">
+        <div class="pcoded-content perfil-tutor-sin-espacio">
             <div class="user-profile user-card mb-4">
                 <div class="card-body py-0">
                     <div class="user-about-block m-0">
@@ -686,54 +686,23 @@
             $('#foto_perfil_input').trigger('click');
         }
 
+        // Abre el ajustador para que el tutor encuadre la foto; se sube ya cortada cuadrada
         function recortar_y_subir_foto(archivo) {
-            const lector = new FileReader();
+            ajustar_foto_perfil(archivo, function(blob) {
+                if (!blob) {
+                    swal({
+                        title: "Foto de perfil",
+                        text: "No fue posible procesar la imagen.",
+                        icon: "error",
+                    });
+                    $('#foto_perfil_input').val('');
+                    return;
+                }
 
-            lector.onload = function(e) {
-                const imagen = new Image();
-
-                imagen.onload = function() {
-                    const ladoOriginal = Math.min(imagen.width, imagen.height);
-                    const origenX = (imagen.width - ladoOriginal) / 2;
-                    const origenY = (imagen.height - ladoOriginal) / 2;
-                    const ladoSalida = 512;
-                    const canvas = document.createElement('canvas');
-
-                    canvas.width = ladoSalida;
-                    canvas.height = ladoSalida;
-
-                    const contexto = canvas.getContext('2d');
-                    contexto.drawImage(
-                        imagen,
-                        origenX,
-                        origenY,
-                        ladoOriginal,
-                        ladoOriginal,
-                        0,
-                        0,
-                        ladoSalida,
-                        ladoSalida
-                    );
-
-                    canvas.toBlob(function(blob) {
-                        if (!blob) {
-                            swal({
-                                title: "Foto de perfil",
-                                text: "No fue posible procesar la imagen.",
-                                icon: "error",
-                            });
-                            $('#foto_perfil_input').val('');
-                            return;
-                        }
-
-                        subir_foto_perfil(blob, archivo.name || 'foto_perfil.png');
-                    }, 'image/png', 0.95);
-                };
-
-                imagen.src = e.target.result;
-            };
-
-            lector.readAsDataURL(archivo);
+                subir_foto_perfil(blob, archivo.name || 'foto_perfil.png');
+            }, function() {
+                $('#foto_perfil_input').val('');
+            });
         }
 
         function subir_foto_perfil(blob, nombreArchivo) {
