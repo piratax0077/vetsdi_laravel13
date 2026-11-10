@@ -112,7 +112,181 @@
 </div>
 
 @once
+{{-- Ajustador de la foto de perfil. Al abrirse se lleva al body para que quede sobre el fondo oscuro del modal --}}
+<div class="modal fade" id="modal_ajustar_foto_perfil" tabindex="-1" role="dialog" aria-labelledby="modal_ajustar_foto_perfil_titulo" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-celeste">
+                <h5 class="modal-title" id="modal_ajustar_foto_perfil_titulo"><i class="feather icon-crop mr-1"></i> Ajustar foto de perfil</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="perfil-recorte-marco" id="perfil_recorte_marco">
+                    <img id="perfil_recorte_imagen" alt="Foto a ajustar">
+                </div>
+                <div class="perfil-recorte-zoom">
+                    <button type="button" class="btn btn-light btn-icon m-0" id="perfil_recorte_alejar" aria-label="Alejar"><i class="feather icon-zoom-out"></i></button>
+                    <input type="range" id="perfil_recorte_zoom" min="1" max="4" step="0.01" value="1" aria-label="Zoom de la foto">
+                    <button type="button" class="btn btn-light btn-icon m-0" id="perfil_recorte_acercar" aria-label="Acercar"><i class="feather icon-zoom-in"></i></button>
+                </div>
+                <p class="perfil-recorte-ayuda">Arrastra la foto para moverla y usa el zoom para acercarla.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-info" id="perfil_recorte_guardar">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    /*
+        Abre el ajustador con la imagen elegida. Al guardar entrega la foto cuadrada (512 x 512, png)
+        en al_listo(blob); si se cierra sin guardar llama a al_cancelar.
+    */
+    window.ajustar_foto_perfil = function (archivo, al_listo, al_cancelar) {
+        var $modal = jQuery('#modal_ajustar_foto_perfil');
+        var marco = document.getElementById('perfil_recorte_marco');
+        var imagen = document.getElementById('perfil_recorte_imagen');
+        var zoom = document.getElementById('perfil_recorte_zoom');
+        var lado_salida = 512;
+        var estado = { lado: 280, base: 1, escala: 1, x: 0, y: 0 };
+        var guardado = false;
+        var arrastre = null;
+        var direccion = URL.createObjectURL(archivo);
+
+        if ($modal.parent()[0] !== document.body) {
+            $modal.appendTo(document.body);
+        }
+
+        // La foto siempre cubre todo el marco: no se puede mover más allá de sus bordes
+        function acomodar() {
+            var ancho = imagen.naturalWidth * estado.escala;
+            var alto = imagen.naturalHeight * estado.escala;
+            estado.x = Math.min(0, Math.max(estado.lado - ancho, estado.x));
+            estado.y = Math.min(0, Math.max(estado.lado - alto, estado.y));
+            imagen.style.width = ancho + 'px';
+            imagen.style.height = alto + 'px';
+            imagen.style.left = estado.x + 'px';
+            imagen.style.top = estado.y + 'px';
+        }
+
+        // Cambia el zoom manteniendo fijo el centro del marco
+        function cambiar_zoom(valor) {
+            valor = Math.min(parseFloat(zoom.max), Math.max(parseFloat(zoom.min), valor));
+            var nueva = estado.base * valor;
+            var centro = estado.lado / 2;
+            estado.x = centro - (centro - estado.x) * nueva / estado.escala;
+            estado.y = centro - (centro - estado.y) * nueva / estado.escala;
+            estado.escala = nueva;
+            zoom.value = valor;
+            acomodar();
+        }
+
+        function iniciar() {
+            estado.lado = marco.clientWidth;
+            marco.style.height = estado.lado + 'px';
+            estado.base = Math.max(estado.lado / imagen.naturalWidth, estado.lado / imagen.naturalHeight);
+            estado.escala = estado.base;
+            estado.x = (estado.lado - imagen.naturalWidth * estado.escala) / 2;
+            estado.y = (estado.lado - imagen.naturalHeight * estado.escala) / 2;
+            zoom.value = 1;
+            acomodar();
+        }
+
+        function al_presionar(evento) {
+            arrastre = { id: evento.pointerId, x: evento.clientX - estado.x, y: evento.clientY - estado.y };
+            marco.classList.add('arrastrando');
+            if (marco.setPointerCapture) marco.setPointerCapture(evento.pointerId);
+        }
+
+        function al_mover(evento) {
+            if (!arrastre || arrastre.id !== evento.pointerId) return;
+            estado.x = evento.clientX - arrastre.x;
+            estado.y = evento.clientY - arrastre.y;
+            acomodar();
+        }
+
+        function al_soltar() {
+            arrastre = null;
+            marco.classList.remove('arrastrando');
+        }
+
+        function al_rueda(evento) {
+            evento.preventDefault();
+            cambiar_zoom(parseFloat(zoom.value) + (evento.deltaY < 0 ? 0.1 : -0.1));
+        }
+
+        function al_deslizar() {
+            cambiar_zoom(parseFloat(zoom.value));
+        }
+
+        function acercar() { cambiar_zoom(parseFloat(zoom.value) + 0.2); }
+        function alejar() { cambiar_zoom(parseFloat(zoom.value) - 0.2); }
+
+        function guardar() {
+            var lienzo = document.createElement('canvas');
+            lienzo.width = lado_salida;
+            lienzo.height = lado_salida;
+            var contexto = lienzo.getContext('2d');
+            contexto.imageSmoothingQuality = 'high';
+            contexto.drawImage(
+                imagen,
+                -estado.x / estado.escala, -estado.y / estado.escala,
+                estado.lado / estado.escala, estado.lado / estado.escala,
+                0, 0, lado_salida, lado_salida
+            );
+            lienzo.toBlob(function (blob) {
+                guardado = true;
+                $modal.modal('hide');
+                if (typeof al_listo === 'function') al_listo(blob);
+            }, 'image/png', 0.95);
+        }
+
+        function limpiar() {
+            marco.removeEventListener('pointerdown', al_presionar);
+            marco.removeEventListener('pointermove', al_mover);
+            marco.removeEventListener('pointerup', al_soltar);
+            marco.removeEventListener('pointercancel', al_soltar);
+            marco.removeEventListener('wheel', al_rueda);
+            zoom.removeEventListener('input', al_deslizar);
+            jQuery('#perfil_recorte_acercar').off('click', acercar);
+            jQuery('#perfil_recorte_alejar').off('click', alejar);
+            jQuery('#perfil_recorte_guardar').off('click', guardar);
+            imagen.removeAttribute('src');
+            URL.revokeObjectURL(direccion);
+            if (!guardado && typeof al_cancelar === 'function') al_cancelar();
+        }
+
+        marco.addEventListener('pointerdown', al_presionar);
+        marco.addEventListener('pointermove', al_mover);
+        marco.addEventListener('pointerup', al_soltar);
+        marco.addEventListener('pointercancel', al_soltar);
+        marco.addEventListener('wheel', al_rueda, { passive: false });
+        zoom.addEventListener('input', al_deslizar);
+        jQuery('#perfil_recorte_acercar').on('click', acercar);
+        jQuery('#perfil_recorte_alejar').on('click', alejar);
+        jQuery('#perfil_recorte_guardar').on('click', guardar);
+        $modal.one('hidden.bs.modal', limpiar);
+
+        imagen.onload = function () {
+            // El marco se mide recién cuando el modal está a la vista
+            if ($modal.hasClass('show')) {
+                iniciar();
+            } else {
+                $modal.one('shown.bs.modal', iniciar);
+            }
+        };
+        imagen.onerror = function () {
+            $modal.modal('hide');
+            swal({ title: 'Foto de perfil', text: 'No fue posible leer la imagen.', icon: 'error' });
+        };
+        imagen.src = direccion;
+        $modal.modal('show');
+    };
+
     // Muestra u oculta la contraseña al presionar el ojo del campo
     document.addEventListener('click', function (evento) {
         var boton = evento.target.closest ? evento.target.closest('.campo-clave-ver') : null;
@@ -175,6 +349,15 @@
         if (!window.jQuery) {
             return;
         }
+
+        // Con el menú de la foto abierto, la cabecera pasa sobre las pestañas y tarjetas de abajo
+        jQuery(document)
+            .on('show.bs.dropdown', '.perfil-cabecera .dropdown', function () {
+                jQuery(this).closest('.card-body').addClass('perfil-menu-abierto');
+            })
+            .on('hidden.bs.dropdown', '.perfil-cabecera .dropdown', function () {
+                jQuery(this).closest('.card-body').removeClass('perfil-menu-abierto');
+            });
 
         jQuery(document).on('click', '.pcoded-content .card .btn', function (evento) {
             var boton = jQuery(this);

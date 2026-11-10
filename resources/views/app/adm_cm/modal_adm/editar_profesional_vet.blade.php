@@ -107,12 +107,11 @@
                                 <label class="floating-label-activo-sm" for="editar_prof_cargo">En el cargo de</label>
                                 <select class="form-control form-control-sm" name="editar_prof_cargo" id="editar_prof_cargo">
                                     <option value="0">Seleccione una opción</option>
-                                    <option value="1">Profesional</option>
+                                    <option value="1">Profesional veterinario</option>
                                     <option value="2">Jefe de servicio</option>
                                     <option value="3">Subjefe de servicio</option>
                                     <option value="4">Director médico</option>
-                                    <option value="5">TENS</option>
-                                    <option value="6">TONS</option>
+                                    <option value="5">Técnico veterinario</option>
                                 </select>
                             </div>
                         </div>

@@ -90,7 +90,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Cambiar de escritorio" data-placement="button" aria-label="Cambiar de escritorio">
                 <i class="feather icon-refresh-cw icono-header"></i>
             </a>
-            <div class="dropdown-menu dropdown-menu-right profile-notification">
+            <div class="dropdown-menu dropdown-menu-right profile-notification menu-roles">
                 <div class="pro-head font-weight-bold f-16 py-2">
                     <span>{{ $workspaceUser->nombreParaMostrar() }}</span>
                     @if ($nombreRolActivo)
@@ -101,11 +101,11 @@
                 <ul class="pro-body">
                     @foreach ($workspaceOptions as $workspaceOption)
                         <li>
-                            <a href="{{ $workspaceOption['url'] }}" class="dropdown-item" @if($workspaceOption['activo'] ?? false) aria-current="true" @endif>
+                            <a href="{{ $workspaceOption['url'] }}" class="dropdown-item{{ ($workspaceOption['activo'] ?? false) ? ' menu-roles-activo' : '' }}" @if($workspaceOption['activo'] ?? false) aria-current="true" @endif>
                                 <i class="feather {{ $workspaceOption['icon'] ?? 'icon-user' }}"></i>
                                 {{ $workspaceOption['label'] }}
                                 @if ($workspaceOption['activo'] ?? false)
-                                    <i class="feather icon-check text-success ml-1" aria-label="Escritorio actual"></i>
+                                    <span class="badge badge-info menu-roles-badge">Activo</span>
                                 @endif
                                 @if (!empty($workspaceOption['note']))
                                     <small class="d-block text-muted pl-4">{{ $workspaceOption['note'] }}</small>

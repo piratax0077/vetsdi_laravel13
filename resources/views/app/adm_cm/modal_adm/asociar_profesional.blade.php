@@ -23,19 +23,19 @@
                     </div>
 
                     <div class="vincular-prof-bloque">
-                        <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-map-pin"></i>Lugar y cargo</h6>
+                        <h6 class="vincular-prof-bloque-titulo"><i class="feather icon-map-pin"></i>Lugar de atención y cargo</h6>
                         <div class="form-row">
                             <div class="col-md-12">
                                 <div class="form-group fill">
                                     @if($institucion->sucursales == 0)
-                                        <label class="floating-label-activo-sm">Casa matriz</label>
+                                        <label class="floating-label-activo-sm">Lugar de atención</label>
                                         <input type="text" class="form-control form-control-sm" value="{{ $institucion->LugarAtencion()->first()->nombre }}" readonly>
                                         <input type="hidden" name="agregar_profesional_int_id_lugar_atencion" id="agregar_profesional_int_id_lugar_atencion" value="{{ $institucion->LugarAtencion()->first()->id }}">
                                     @else
                                         <label class="floating-label-activo-sm" for="agregar_profesional_int_id_lugar_atencion">Sucursal</label>
                                         <select class="form-control form-control-sm" name="agregar_profesional_int_id_lugar_atencion" id="agregar_profesional_int_id_lugar_atencion">
                                             <option>Seleccione una opción</option>
-                                            <option value="">Sucursal</option>
+                                            <option value="">Nombre del lugar</option>
                                             <option value="1">Sucursal Demo</option>
                                         </select>
                                     @endif
@@ -46,12 +46,11 @@
                                     <label class="floating-label-activo-sm" for="agregar_profesional_cargo_int">En el cargo de</label>
                                     <select class="form-control form-control-sm" name="agregar_profesional_cargo_int" id="agregar_profesional_cargo_int" onchange="registrar_nuevo_servicio(event)">
                                         <option value="0">Seleccione una opción</option>
-                                        <option value="1">Profesional</option>
+                                        <option value="1">Profesional veterinario</option>
                                         <option value="2">Jefe de servicio</option>
                                         <option value="3">Subjefe de servicio</option>
                                         <option value="4">Director médico</option>
-                                        <option value="5">TENS</option>
-                                        <option value="6">TONS</option>
+                                        <option value="5">Técnico veterinario</option>
                                     </select>
                                 </div>
                             </div>
@@ -205,6 +204,31 @@
                                 <div class="form-group fill">
                                     <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_telefono_uno">Tel&eacute;fono<span class="vincular-prof-obligatorio">*</span></label>
                                     <input type="tel" class="form-control form-control-sm" name="agregar_profesional_nuevo_telefono_uno" id="agregar_profesional_nuevo_telefono_uno">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_direccion">Direcci&oacute;n</label>
+                                    <input type="text" class="form-control form-control-sm" name="agregar_profesional_nuevo_direccion" id="agregar_profesional_nuevo_direccion" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_region">Regi&oacute;n</label>
+                                    <select class="form-control form-control-sm" name="agregar_profesional_nuevo_region" id="agregar_profesional_nuevo_region" onchange="buscar_ciudad('agregar_profesional_nuevo_region', 'agregar_profesional_nuevo_comuna');">
+                                        <option value="">Seleccione regi&oacute;n</option>
+                                        @foreach(\Illuminate\Support\Facades\DB::table('regiones')->orderBy('id')->get(['id', 'nombre']) as $region_nuevo_prof)
+                                            <option value="{{ $region_nuevo_prof->id }}">{{ $region_nuevo_prof->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group fill">
+                                    <label class="floating-label-activo-sm" for="agregar_profesional_nuevo_comuna">Comuna</label>
+                                    <select class="form-control form-control-sm" name="agregar_profesional_nuevo_comuna" id="agregar_profesional_nuevo_comuna">
+                                        <option value="">Seleccione comuna</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -492,6 +516,9 @@
                                 $('#agregar_profesional_nuevo_apellido_dos').val( data2.registros.apmaterno );
                                 $('#agregar_profesional_nuevo_correo').val('');
                                 $('#agregar_profesional_nuevo_telefono_uno').val('');
+                $('#agregar_profesional_nuevo_direccion').val('');
+                $('#agregar_profesional_nuevo_region').val('');
+                $('#agregar_profesional_nuevo_comuna').html('<option value="">Seleccione comuna</option>');
 
                                 $('#agregar_profesional_nuevo_profesion').val('');
                                 $('#agregar_profesional_nuevo_especialidad').val('');
@@ -517,6 +544,9 @@
                                 $('#agregar_profesional_nuevo_apellido_dos').val( '' );
                                 $('#agregar_profesional_nuevo_correo').val('');
                                 $('#agregar_profesional_nuevo_telefono_uno').val('');
+                $('#agregar_profesional_nuevo_direccion').val('');
+                $('#agregar_profesional_nuevo_region').val('');
+                $('#agregar_profesional_nuevo_comuna').html('<option value="">Seleccione comuna</option>');
 
                                 $('#agregar_profesional_nuevo_profesion').val('');
                                 $('#agregar_profesional_nuevo_especialidad').val('');
@@ -645,6 +675,9 @@
         let apellido_dos = $('#agregar_profesional_nuevo_apellido_dos').val();
         let correo = $('#agregar_profesional_nuevo_correo').val();
         let telefono_uno = $('#agregar_profesional_nuevo_telefono_uno').val();
+        let direccion = $('#agregar_profesional_nuevo_direccion').val();
+        let region = $('#agregar_profesional_nuevo_region').val();
+        let comuna = $('#agregar_profesional_nuevo_comuna').val();
 
         let profesion = $('#agregar_profesional_nuevo_profesion').val();
         let especialidad = $('#agregar_profesional_nuevo_especialidad').val();
@@ -753,6 +786,9 @@
                 apellido_dos : apellido_dos,
                 correo : correo,
                 telefono_uno : telefono_uno,
+                direccion : direccion,
+                region : region,
+                comuna : comuna,
                 profesion : profesion,
                 especialidad : especialidad,
                 sub_tipo_especialidad : sub_tipo_especialidad,
@@ -793,6 +829,9 @@
                 $('#agregar_profesional_nuevo_apellido_dos').val('');
                 $('#agregar_profesional_nuevo_correo').val('');
                 $('#agregar_profesional_nuevo_telefono_uno').val('');
+                $('#agregar_profesional_nuevo_direccion').val('');
+                $('#agregar_profesional_nuevo_region').val('');
+                $('#agregar_profesional_nuevo_comuna').html('<option value="">Seleccione comuna</option>');
                 $('#agregar_profesional_nuevo_profesion').val('');
                 $('#agregar_profesional_nuevo_especialidad').val('');
                 $('#agregar_profesional_nuevo_sub_tipo_especialidad').val('');

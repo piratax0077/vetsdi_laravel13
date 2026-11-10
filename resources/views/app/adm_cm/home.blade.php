@@ -42,7 +42,6 @@
                                 <div class="saludo-texto">
                                 <h3>Hola, <span class="text-purple">{{ $nombreAdministrador }}</span></h3>
                                 <p class="text-dark">Bienvenido/a a tu escritorio de Administrador General de <strong>{{ mb_strtoupper($institucion->nombre) }}</strong></p>
-                                <span class="badge badge-info">{{ $tipoVeterinario === 'hospital' ? 'Hospital veterinario' : 'Centro veterinario' }}</span>
                                 @if (false && !empty($contextosCentro) && !empty($contextoActivo))
                                     <form method="GET" action="{{ route('adm_cm.home') }}" class="mt-3">
                                         <div class="form-row align-items-end">
@@ -75,15 +74,35 @@
 
             <!--Cierre: Header-->
 
-            <div class="card">
-                <div class="card-body">
-                    <h5><i class="feather icon-shopping-cart"></i> Venta de alimentos, farmacia y accesorios</h5>
-                    <p>Accede a Alimentos, Farmacia y Accesorios con tu cuenta de ventas.</p>
+            {{-- Accesos a la tienda del centro: cada enlace abre su sección en otra pestaña --}}
+            <div class="tarjeta-venta">
+                <div class="tarjeta-venta-texto">
+                    <span class="tarjeta-venta-icono" aria-hidden="true"><i class="feather icon-shopping-cart"></i></span>
+                    <div>
+                        <h5 class="tarjeta-venta-titulo">Venta de alimentos, farmacia y accesorios</h5>
+                        <p class="tarjeta-venta-detalle">Accede a Alimentos, Farmacia y Accesorios con tu cuenta de ventas.</p>
+                    </div>
+                </div>
+                <div class="tarjeta-venta-enlaces">
                     @foreach (app(\App\Services\ComercioCentroVeterinario::class)->enlaces() as $enlaceComercial)
+                        @php
+                            $iconoComercial = [
+                                'alimentos' => 'icon-package',
+                                'farmacia' => 'icon-plus-square',
+                                'accesorios' => 'icon-tag',
+                            ][mb_strtolower($enlaceComercial['nombre'])] ?? 'icon-shopping-bag';
+                        @endphp
                         @if($enlaceComercial['url'])
-                        <a class="btn btn-outline-info mr-2 mb-2" href="{{ $enlaceComercial['url'] }}" target="_blank" rel="noopener noreferrer">{{ $enlaceComercial['nombre'] }} <i class="feather icon-external-link" aria-hidden="true"></i></a>
+                        <a class="tarjeta-venta-enlace" href="{{ $enlaceComercial['url'] }}" target="_blank" rel="noopener noreferrer">
+                            <i class="feather {{ $iconoComercial }}" aria-hidden="true"></i>
+                            <span>{{ $enlaceComercial['nombre'] }}</span>
+                            <i class="feather icon-external-link tarjeta-venta-externo" aria-hidden="true"></i>
+                        </a>
                         @else
-                        <span class="btn btn-outline-secondary disabled mr-2 mb-2" aria-disabled="true">{{ $enlaceComercial['nombre'] }} · No disponible</span>
+                        <span class="tarjeta-venta-enlace tarjeta-venta-enlace--inactivo" aria-disabled="true">
+                            <i class="feather {{ $iconoComercial }}" aria-hidden="true"></i>
+                            <span>{{ $enlaceComercial['nombre'] }} · No disponible</span>
+                        </span>
                         @endif
                     @endforeach
                 </div>

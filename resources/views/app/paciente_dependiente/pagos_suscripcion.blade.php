@@ -4,19 +4,9 @@
 <div class="pcoded-main-container">
     <div class="pcoded-content">
 
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-<ul class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{ ROUTE('paciente.home') }}" data-toggle="tooltip"
-                                    data-placement="top" title="Volver a mi escritorio"><i
-                                        class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="#">Suscripciones y facturación</a></li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <h5 class="f-26 d-inline">Suscripciones y facturación</h5>
             </div>
         </div>
 
@@ -27,14 +17,14 @@
             #vetbilling{
                 --bg:#F5F8F7;
                 --surface:#FFFFFF;
-                --ink:#0E211E;
+                --ink:#272727;
                 --muted:#65786F;
                 --border:#E4EAE7;
-                --primary:#0F6B62;
-                --primary-dark:#0A4B45;
-                --primary-light:#E6F2F0;
-                --accent:#FF7A50;
-                --accent-dark:#E15F37;
+                --primary:#31bebe;
+                --primary-dark:#27a3a3;
+                --primary-light:#E3F6F6;
+                --accent:#6f42c1;
+                --accent-dark:#5a32a3;
                 --success:#2F9E68;
                 --success-light:#E7F7EE;
                 --warning:#C98A22;
@@ -166,9 +156,9 @@
             #vetbilling .vb-btn:active{ transform:scale(.97); }
             #vetbilling .vb-btn[disabled]{ opacity:.55; cursor:not-allowed; transform:none; }
             #vetbilling .vb-btn-primary{ background:var(--primary); color:#fff; }
-            #vetbilling .vb-btn-primary:hover{ background:var(--primary-dark); box-shadow:0 8px 18px rgba(15,107,98,.25); }
+            #vetbilling .vb-btn-primary:hover{ background:var(--primary-dark); box-shadow:0 8px 18px rgba(49,190,190,.25); }
             #vetbilling .vb-btn-accent{ background:var(--accent); color:#fff; }
-            #vetbilling .vb-btn-accent:hover{ background:var(--accent-dark); box-shadow:0 8px 18px rgba(255,122,80,.3); }
+            #vetbilling .vb-btn-accent:hover{ background:var(--accent-dark); box-shadow:0 8px 18px rgba(111,66,193,.3); }
             #vetbilling .vb-btn-ghost{ background:var(--bg); color:var(--ink); }
             #vetbilling .vb-btn-ghost:hover{ background:var(--border); }
             #vetbilling .vb-btn-outline{ background:transparent; color:var(--primary); border:1.5px solid var(--primary); }
@@ -225,7 +215,7 @@
                 border-radius:18px;
                 padding:22px;
                 color:#fff;
-                background:radial-gradient(120% 140% at 0% 0%, #17847A 0%, var(--primary-dark) 55%, #071F1C 100%);
+                background:radial-gradient(120% 140% at 0% 0%, #5fd3d3 0%, var(--primary-dark) 55%, #1a6f6f 100%);
                 box-shadow:var(--shadow-lift);
                 display:flex; flex-direction:column; justify-content:space-between;
                 overflow:hidden;
@@ -281,7 +271,7 @@
             #vetbilling .vb-ribbon{
                 position:absolute; top:-11px; left:20px;
                 background:var(--accent); color:#fff; font-size:11px; font-weight:700;
-                padding:4px 12px; border-radius:999px; box-shadow:0 4px 10px rgba(255,122,80,.35);
+                padding:4px 12px; border-radius:999px; box-shadow:0 4px 10px rgba(111,66,193,.35);
             }
 
             #vetbilling .vb-plan-name{ font-size:16px; font-weight:700; margin:6px 0 2px; }

@@ -38,6 +38,13 @@
                 <a id="boton_2" class="fas fa-notes-medical fa-2x" data-toggle="canvas" data-target="#formularios_atencion" aria-expanded="false" aria-controls="bs-canvas-right" title="Formularios de atención" data-placement="left" style="cursor:pointer;"></a>
                 <a id="boton_4" class="icono-signosv" data-toggle="canvas" data-target="#formularios_signos_vitales" aria-expanded="false" aria-controls="bs-canvas-right" title="formularios Signos Vitales" data-placement="left" style="cursor:pointer;"></a>
 
+                {{-- Ficha veterinaria general: su panel lateral es #formularios_medicina_gen (el único que carga esta pantalla),
+                     por eso este botón no depende de la especialidad del profesional --}}
+                @php($esFichaVeterinariaGeneral = \App\Support\FichaVeterinariaVista::para($profesional) === 'atencion_veterinaria.atencion_veterinaria_general')
+                @if($esFichaVeterinariaGeneral)
+                    <a id="boton_3" class="icono-vetgral" data-toggle="canvas" data-target="#formularios_medicina_gen" aria-expanded="false" aria-controls="bs-canvas-right" title="Formularios Atención Veterinaria General" data-placement="left" style="cursor:pointer;"></a>
+                @else
+
                 @if(optional($profesional->SubTipoEspecialidad)->nombre == 'Cardiología Adultos' )
                 <a id="boton_3" class="icono-cardio" data-toggle="canvas" data-target="#formularios_cardiologicos" aria-expanded="false" aria-controls="bs-canvas-right" title="Formularios Cardiología" data-placement="left" style="cursor:pointer;"></a>
                  @endif
@@ -95,6 +102,7 @@
                 @endif
                 @if(optional($profesional->SubTipoEspecialidad)->nombre == 'Neurología' )
                 <a id="boton_3" class="icono-psiquiatria" data-toggle="canvas" data-target="#form_neuro" aria-expanded="false" aria-controls="bs-canvas-right" title="Formularios Neurología" data-placement="left"></a>
+                @endif
                 @endif
             </div>
             <div class="btn-mas">

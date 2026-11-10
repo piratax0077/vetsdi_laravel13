@@ -10,7 +10,6 @@
                     <small class="text-white" id="vac_especie_resumen">Cargando datos de la mascota…</small>
                 </div>
                 <button type="button" class="close" id="cerrar_modal_vacunacion"
-                    onclick="cerrarVacunacionVeterinaria(); return false;"
                     data-dismiss="modal" data-bs-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -217,10 +216,17 @@
 </div>
 
 <script>
+// Abrir y cerrar pasan siempre por Bootstrap: así el fondo oscuro, el scroll de la página
+// y el estado interno del modal se limpian solos. El manejo manual queda solo de respaldo.
 window.abrirVacunacionVeterinaria = function () {
     var modal = document.getElementById('modal_vacunacion_desparasitacion');
     if (!modal) {
         console.error('No se encontró modal_vacunacion_desparasitacion');
+        return;
+    }
+
+    if (window.jQuery && window.jQuery.fn.modal) {
+        window.jQuery(modal).modal('show');
         return;
     }
 
@@ -236,14 +242,18 @@ window.abrirVacunacionVeterinaria = function () {
         fondo.setAttribute('data-modal-vacunacion', '1');
         document.body.appendChild(fondo);
     }
-
-    if (window.jQuery) {
-        window.jQuery(modal).trigger('shown.bs.modal');
-    }
 };
 
 window.cerrarVacunacionVeterinaria = function () {
     var modal = document.getElementById('modal_vacunacion_desparasitacion');
+    var interruptor = document.getElementById('abrir_vacunacion_desparasitacion');
+    if (interruptor) interruptor.checked = false;
+
+    if (modal && window.jQuery && window.jQuery.fn.modal) {
+        window.jQuery(modal).modal('hide');
+        return;
+    }
+
     if (modal) {
         modal.style.display = 'none';
         modal.classList.remove('show');
@@ -254,8 +264,6 @@ window.cerrarVacunacionVeterinaria = function () {
     document.querySelectorAll('.modal-backdrop[data-modal-vacunacion]').forEach(function (fondo) {
         fondo.remove();
     });
-    var interruptor = document.getElementById('abrir_vacunacion_desparasitacion');
-    if (interruptor) interruptor.checked = false;
 };
 
 (function () {
@@ -595,14 +603,12 @@ window.cerrarVacunacionVeterinaria = function () {
 
     $(document)
         .on('shown.bs.modal', '#modal_vacunacion_desparasitacion', cargar)
-        .on('click', '#cerrar_modal_vacunacion', function (evento) {
-            evento.preventDefault();
-            cerrarVacunacionVeterinaria();
-        })
         .on('hidden.bs.modal', '#modal_vacunacion_desparasitacion', function () {
             $('#abrir_vacunacion_desparasitacion').prop('checked', false);
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
+            if (!$('.modal.show').length) {
+                $('body').removeClass('modal-open').css('padding-right', '');
+                $('.modal-backdrop').remove();
+            }
         })
         .on('change', '#vac_esquema_modal, #vac_opcional_modal', function () {
             sugerirVacuna($(this));

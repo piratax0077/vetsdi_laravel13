@@ -34,6 +34,7 @@ Route::post('/Mi-perfil/contrasena', [\App\Http\Controllers\PerfilUsuarioControl
 
 Route::middleware('auth')->prefix('Autorizaciones/Asistentes')->group(function () {
     Route::get('/', [AutorizacionesAsistentesController::class, 'index'])->name('asistentes.autorizaciones');
+    Route::get('/asistente/{asistente}', [AutorizacionesAsistentesController::class, 'formulario'])->name('asistentes.autorizaciones.formulario');
     Route::post('/', [AutorizacionesAsistentesController::class, 'guardar'])->name('asistentes.autorizaciones.guardar');
     Route::delete('/politica-centro', [AutorizacionesAsistentesController::class, 'quitarPoliticaCentro'])->name('asistentes.autorizaciones.quitar_politica');
 });

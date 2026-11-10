@@ -826,6 +826,10 @@ Route::group([
     Route::post('Referidos', [App\Http\Controllers\ReferidoProfesionalController::class, 'storeTutor'])->name('paciente.referidos.store');
     Route::patch('Referidos/{referido}/cancelar', [App\Http\Controllers\ReferidoProfesionalController::class, 'cancelarTutor'])->name('paciente.referidos.cancelar');
 
+    /* Mensajes que la clínica y los profesionales envían al tutor */
+    Route::get('Mensajes', [App\Http\Controllers\MensajesTutorController::class, 'index'])->name('paciente.mensajes');
+    Route::get('Mensajes/{id}', [App\Http\Controllers\MensajesTutorController::class, 'ver'])->whereNumber('id')->name('paciente.mensajes.ver');
+
     Route::get('Mascotas_Perdidas', [App\Http\Controllers\MascotasPerdidasController::class, 'index'])->name('paciente.mascotas_perdidas');
     Route::prefix('Mascotas_Perdidas')->name('paciente.perdidas.')->group(function () {
         Route::post('avisos', [App\Http\Controllers\MascotasPerdidasController::class, 'publicar'])->middleware('throttle:20,1')->name('publicar');

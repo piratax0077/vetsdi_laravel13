@@ -1,5 +1,4 @@
 @extends('template.adm_cm.template')
-@section('sin_boton_volver', '1')
 @section('content')
     @php
         $contextosCentro = $contextosCentro ?? collect();

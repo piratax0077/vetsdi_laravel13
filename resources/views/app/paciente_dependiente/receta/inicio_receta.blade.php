@@ -20,7 +20,10 @@
                                 <span class="tarjeta-documento__icono">
                                     <img src="{{ asset('images/iconos/recetas-ro.svg') }}" alt="Mis Recetas">
                                 </span>
-                                <h4 class="tarjeta-documento__titulo">Recetas</h4>
+                                <span class="tarjeta-documento__textos">
+                                    <h4 class="tarjeta-documento__titulo">Recetas</h4>
+                                    <span class="tarjeta-documento__descripcion">Indicaciones y medicamentos recetados a su mascota.</span>
+                                </span>
                                 <i class="feather icon-chevron-right tarjeta-documento__flecha" aria-hidden="true"></i>
                             </div>
                         </a>
@@ -31,7 +34,10 @@
                                 <span class="tarjeta-documento__icono">
                                     <img src="{{ asset('images/iconos/examenes-ro.svg') }}" alt="Mis Exámenes">
                                 </span>
-                                <h4 class="tarjeta-documento__titulo">Exámenes</h4>
+                                <span class="tarjeta-documento__textos">
+                                    <h4 class="tarjeta-documento__titulo">Exámenes</h4>
+                                    <span class="tarjeta-documento__descripcion">Resultados de exámenes y estudios de laboratorio o imagen.</span>
+                                </span>
                                 <i class="feather icon-chevron-right tarjeta-documento__flecha" aria-hidden="true"></i>
                             </div>
                         </a>
@@ -50,7 +56,10 @@
                                 <span class="tarjeta-documento__icono">
                                     <img src="{{ asset('images/iconos/documentos-ro.svg') }}" alt="Mis Consentimientos">
                                 </span>
-                                <h4 class="tarjeta-documento__titulo">Consentimientos informados</h4>
+                                <span class="tarjeta-documento__textos">
+                                    <h4 class="tarjeta-documento__titulo">Consentimientos informados</h4>
+                                    <span class="tarjeta-documento__descripcion">Autorizaciones firmadas para procedimientos veterinarios.</span>
+                                </span>
                                 <i class="feather icon-chevron-right tarjeta-documento__flecha" aria-hidden="true"></i>
                             </div>
                         </a>
@@ -61,7 +70,10 @@
                                 <span class="tarjeta-documento__icono">
                                     <img src="{{ asset('images/iconos/certificados-ro.svg') }}" alt="Mis Documentos">
                                 </span>
-                                <h4 class="tarjeta-documento__titulo">Documentos</h4>
+                                <span class="tarjeta-documento__textos">
+                                    <h4 class="tarjeta-documento__titulo">Documentos</h4>
+                                    <span class="tarjeta-documento__descripcion">Certificados y otros documentos emitidos por su veterinario.</span>
+                                </span>
                                 <i class="feather icon-chevron-right tarjeta-documento__flecha" aria-hidden="true"></i>
                             </div>
                         </a>
