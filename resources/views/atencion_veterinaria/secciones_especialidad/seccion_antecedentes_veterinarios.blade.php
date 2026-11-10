@@ -9,9 +9,16 @@
         </div>
         <div id="cgc-c" class="collapse show" aria-labelledby="cgc" data-parent="#cgc">
             <div class="card-body-aten-a">
+                @isset($seccionesVeterinarias)
+                    <div class="form-group">
+                        <label class="floating-label-activo-sm" for="resumen_cronicos">Crónicos</label>
+                        <textarea class="form-control caja-texto form-control-sm" rows="2" maxlength="5000"
+                            name="resumen_cronicos" id="resumen_cronicos">{{ old('resumen_cronicos', data_get($fichaVeterinariaGeneralData ?? [], 'resumen_cronicos')) }}</textarea>
+                    </div>
+                @endisset
                 <div class="row">
                     <!--NUEVO ANTECEDENTE-->
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 {{ isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true) ? 'd-none' : '' }}">
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <div class="form-group">
@@ -105,7 +112,7 @@
                         </div>
                     </div>
                     {{-- Vacunación y desparasitación veterinaria --}}
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 {{ isset($seccionesVeterinarias) && !in_array('vacunas', $seccionesVeterinarias, true) ? 'd-none' : '' }}">
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <div class="form-group">
@@ -141,13 +148,9 @@
                     </div>
                     <div class="col-md-4">
                         <select class="form-control form-control-sm" onchange="cambiar_enfermedad_cronica();" id="cronicos" name="cronicos" >
-                            <option value="n_C">Seleccione control</option>
-                            <option value="cpeso">Obesidad</option>
-                            <option value="chipertension">Hipertensión arterial</option>
-                            <option value="cdiabet">Diabetes</option>
-                            <option value="cinsufren">Insuficiencia renal</option>
-                            <option value="epoc">Enfermedad pulmonar obstructiva crónica</option>
-
+                            @foreach(config('controles_cronicos_vet') as $clave => [$nombre])
+                                <option value="{{ $clave }}" @selected($clave === 'cpeso')>{{ $nombre }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -160,7 +163,7 @@
                 <div id="control_peso_div"  style="display:">
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <h5 class="f-20 text-center text-c-blue">Control obesidad</h5>
+                            <h5 class="f-20 text-center text-c-blue" id="titulo-control-vet">Control · Obesidad y sobrepeso</h5>
                         </div>
                     </div>
                     <div class="card-informacion">
@@ -172,7 +175,7 @@
                                             <a class="nav-link-aten text-reset active" id="obes-ctrl-tab" data-toggle="tab" href="#obes-ctrl" role="tab" aria-controls="obes-ctrl" aria-selected="true">Control</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link-aten text-reset" id="obes-hist-tab" data-toggle="tab" href="#obes-hist" onclick="ver_control_obesidad()" role="tab" aria-controls="obes-hist" aria-selected="true">Historial de controles</a>
+                                            <a class="nav-link-aten text-reset" id="obes-hist-tab" data-toggle="tab" href="#obes-hist" onclick="cargarHistorialCronicoVet()" role="tab" aria-controls="obes-hist" aria-selected="true">Historial de controles</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link-aten text-reset" id="obes-med-tab" data-toggle="tab" href="#obes-med" role="tab" aria-controls="obes-med" aria-selected="true">Medicamentos</a>
@@ -191,21 +194,19 @@
                                                 </div>
                                             </div>
                                             <div class="form-row">
-                                                <div class="form-group col-sm-12 col-md-6 col-lg-3 col-xl-3">
-                                                    <label class="floating-label-activo-sm" for="registro_peso">Peso</label>
-                                                    <input type="number" step="0.01" min="0.01" class="form-control form-control-sm" name="registro_peso" id="registro_peso">
+                                                <div class="form-group col-12 d-none" id="cronico-vet-otra-grupo">
+                                                    <label for="cronico-vet-otra" class="floating-label-activo-sm">Nombre de la condición</label>
+                                                    <input id="cronico-vet-otra" type="text" maxlength="120" class="form-control form-control-sm">
                                                 </div>
-                                                <div class="form-group col-sm-12 col-md-6 col-lg-3 col-xl-3">
-                                                    <label class="floating-label-activo-sm" for="registro_peso_variacion">Variación</label>
-                                                    <input type="number" step="0.01" class="form-control form-control-sm" name="registro_peso_variacion" id="registro_peso_variacion">
+                                            </div>
+                                            <div class="form-row" id="cronico-vet-mediciones"></div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-9">
+                                                    <label for="cronico-vet-observaciones" class="floating-label-activo-sm">Observaciones</label>
+                                                    <textarea id="cronico-vet-observaciones" rows="2" maxlength="2000" class="form-control form-control-sm"></textarea>
                                                 </div>
-                                                <div class="form-group col-sm-12 col-md-6 col-lg-3 col-xl-3">
-                                                    <label class="floating-label-activo-sm" for="registro_peso_ideal">Peso Ideal</label>
-                                                    <input type="number" step="0.01" min="0.01" class="form-control form-control-sm" name="registro_peso_ideal" id="registro_peso_ideal">
-                                                </div>
-                                                <div class="form-group col-sm-12 col-md-6 col-lg-3 col-xl-3">
-                                                    <button type="button" onclick="registrar_control_obesidad();"
-                                                    class="btn btn-info btn-sm btn-block"><i class="feather icon-save"></i> Guardar control</button>
+                                                <div class="form-group col-md-3">
+                                                    <button type="button" id="guardar-cronico-vet" class="btn btn-info btn-sm btn-block"><i class="feather icon-save"></i> Guardar control</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -216,34 +217,13 @@
                                                     <h5 class="t-aten">Historial de controles</h5>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <table id="control_obesidad" class="table table-bordered table-sm">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>N.º control</th>
-                                                                <th>Fecha</th>
-                                                                <th>Peso</th>
-                                                                <th>Variación</th>
-                                                                <th>Peso ideal</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody><tr><td colspan="5" class="text-center">Sin controles registrados.</td></tr></tbody>
-                                                    </table>
-                                                </div>
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-sm">
+                                                    <thead><tr><th>Fecha</th><th>Mediciones</th><th>Observaciones</th></tr></thead>
+                                                    <tbody id="cronico-vet-historial"></tbody>
+                                                </table>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="card-informacion">
-                                                        <div class="card-body">
-                                                            <div id="contenedor_grafico_variacion_peso_controles" style="min-height: 280px; position: relative;">
-                                                                <canvas id="grafico_peso" height="100"></canvas>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                                            <div id="cronico-vet-graficos"></div>
                                         </div>
                                         <!--MEDICAMENTOS-->
                                         <div class="tab-pane fade show" id="obes-med" role="tabpanel" aria-labelledby="obes-med-tab">
@@ -277,7 +257,7 @@
                                                         <div class="form-group fill">
                                                             <label class="floating-label-activo-sm">Posología</label>
                                                             <select class="form-control form-control-sm" id="frecuencia_medicamento_cpeso"
-                                                                name="frecuencia_medicamento_cpeso">
+                                                                name="frecuencia_medicamento_cpeso" onchange="mostrarPosologiaManualCronica('cpeso')">
                                                                 <option>Seleccione una opción</option>
                                                             </select>
                                                         </div>
@@ -368,9 +348,9 @@
                                             <div class="row">
                                                 <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 mx-auto text-center">
                                                     @if (!empty(session('lic_token')) && session('lic_token') == 1)
-                                                        <button type="button" class="btn btn-info btn_agregar_medicamento text-center" onclick="agregar_a_receta('cpeso')"><i class="feather icon-check"></i> Agregar Medicamento a Receta</button>
+                                                        <button type="button" class="btn btn-info btn_agregar_medicamento text-center" onclick="agregar_a_receta($('#cronicos').val())"><i class="feather icon-check"></i> Agregar Medicamento a Receta</button>
                                                     @else
-                                                        <button type="button" class="btn btn-info btn_agregar_medicamento text-center" onclick="agregar_a_receta('cpeso')" disabled="disabled"><i class="feather icon-check"></i> Agregar Medicamento a Receta</button>
+                                                        <button type="button" class="btn btn-info btn_agregar_medicamento text-center" onclick="agregar_a_receta($('#cronicos').val())" disabled="disabled"><i class="feather icon-check"></i> Agregar Medicamento a Receta</button>
                                                     @endif
                                                 </div>
                                             </div>
@@ -382,816 +362,13 @@
                     </div>
                 </div>
 
-                <!--CONTROL DE HIPERTENSIÓN-->
-                <div id="hipertension_div" style="display: none">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <h5 class="f-20 text-center text-c-blue">Control hipertensión</h5>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
-                                    <ul class="nav nav-tabs-aten nav-fill" id="orl_adulto" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link-aten text-reset active" id="hiper-ctrl-tab" data-toggle="tab" href="#hiper-ctrl" role="tab" aria-controls="hiper-ctrl" aria-selected="true">Control</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link-aten text-reset" id="hiper-hist-tab" onclick="dame_historial_presion()" data-toggle="tab" href="#hiper-hist" role="tab" aria-controls="hiper-hist" aria-selected="true">Historial de controles</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link-aten text-reset" id="hiper-med-tab" data-toggle="tab" href="#hiper-med" role="tab" aria-controls="hiper-med" aria-selected="true">Medicamentos</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="tab-content" id="orl_adulto">
-                                        <!--CONTROL-->
-                                        <div class="tab-pane fade show active" id="hiper-ctrl" role="tabpanel" aria-labelledby="hiper-ctrl-tab">
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <h5 class="t-aten">Control</h5>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-sm-12 col-md-6 col-lg-3 col-xl-3">
-                                                    <label class="floating-label-activo-sm">Presión Sistólica</label>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        name="presion_sistolica_hipertension" id="presion_sistolica_hipertension" onkeyup="calcularPAM()">
-                                                </div>
-                                                <div class="form-group col-sm-12 col-md-6 col-lg-3 col-xl-3">
-                                                    <label class="floating-label-activo-sm">Presión Diastólica</label>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        name="presion_diastolica_hipertension" id="presion_diastolica_hipertension" onkeyup="calcularPAM()">
-                                                </div>
-                                                <div class="form-group col-sm-12 col-md-6 col-lg-3 col-xl-3">
-                                                    <label class="floating-label-activo-sm">PAM</label>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        name="presion_arterial_media_hipertension" id="presion_arterial_media_hipertension">
-                                                </div>
-                                                <div class="form-group col-sm-12 col-md-6 col-lg-3 col-xl-3">
-                                                    <button type="button" onclick="registrar_hipertension();"
-                                                    class="btn btn-info btn-sm btn-block"><i class="feather icon-save"></i> Guardar control</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--HISTORIAL DE CONTROLES-->
-                                        <div class="tab-pane fade show" id="hiper-hist" role="tabpanel" aria-labelledby="hiper-hist-tab">
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <h5 class="t-aten">Historial de controles</h5>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <table id="control_hipertension"
-                                                        class="display table table-striped dt-responsive nowrap pb-4 table-xs"
-                                                        style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Nº Control</th>
-                                                                <th>Fecha</th>
-                                                                <th>Presión Sistólica</th>
-                                                                <th>Presión Diastólica</th>
-                                                                <th>Presión Ideal</th>
-                                                                <!-- <th class="text-center align-middle">Acción</th>-->
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @if (isset($hipertension))
-                                                                @foreach ($hipertension as $h)
-                                                                <tr>
-                                                                    <td>{{ $h->id }}</td>
-                                                                    <td>
-                                                                        {{ \Carbon\Carbon::parse($h->created_at)->format('d-m-Y H:i') }}
-                                                                    </td>
-                                                                    <td>{{ $h->sistolica }}</td>
-                                                                    <td>{{ $h->diastolica }}
-                                                                    </td>
-                                                                    <td>{{ $h->ideal }}</td>
-                                                                    <!--<td class="text-center align-middle">
-                                                                        <button href="#!" class="btn btn-danger btn-sm">
-                                                                            <i class="feather icon-x"></i> Eliminar</button>
-                                                                    </td>-->
-                                                                </tr>
-                                                                @endforeach
-                                                            @else
-                                                                <span>NO EXISTEN REGISTROS</span>
-                                                            @endif
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="card-informacion">
-                                                        <div class="card-body">
-                                                            <div id="contenedor_grafico_variacion_presion">
-                                                                <canvas id="grafico_presion" height="100"></canvas>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <!--MEDICAMENTOS-->
-                                        <div class="tab-pane fade show" id="hiper-med" role="tabpanel" aria-labelledby="hiper-med-tab">
-                                            <div id="hiper_med_formulario">
-                                                <div class="form-row ">
-                                                    <div class="col-sm-6 mt-2">
-                                                        <div class="form-group">
-                                                            <label class="floating-label-activo-sm">Medicamento</label>
-                                                            <input type="text" id="nombre_medicamento_chipertension" name="nombre_medicamento_chipertension" onblur="getDosis_cronico('chipertension');" class="form-control form-control-sm">
-                                                            <input type="hidden" id="id_medicamento_chipertension" name="id_medicamento_chipertension" class="form-control " value="">
-                                                            <input type="hidden" id="id_medicamento_tipo_control_chipertension" name="id_medicamento_tipo_control_chipertension" class="form-control" value="">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6 mt-2">
-                                                        <div class="form-group">
-                                                            <label class="floating-label-activo-sm">Composición:</label>
-                                                            <div id="nombre_composicion_farmaco_chipertension" name="nombre_composicion_farmaco_chipertension" class="p-t-5"></div>
-                                                        </div>
-                                                    </div>
-                                                    {{--  CUANDO SE ENCUENTRA MEDICAMENTO EN BUSQUEDA  --}}
-                                                    <div class="col-sm-6 mt-2 medicamento_activo">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Presentación</label>
-                                                            <select class="form-control form-control-sm" id="dosis_medicamento_chipertension" name="dosis_medicamento_chipertension" onchange="getFrecuencia_cronico('chipertension');getCantComp_cronico('chipertension');">
-                                                                <option>Seleccione una opción</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 mt-2 medicamento_activo">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Posología</label>
-                                                            <select class="form-control form-control-sm" id="frecuencia_medicamento_chipertension"
-                                                                name="frecuencia_medicamento_chipertension">
-                                                                <option>Seleccione una opción</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    {{--  SI NO SE ENCUENTRA EL MEDICAMENTO EN LA BUSQUEDA  --}}
-                                                    <div class="col-sm-6 mt-2 medicamento_inactivo" style="display:none;">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Presentación</label>
-                                                            <input type="text" name="dosis_medicamento_chipertension_2" id="dosis_medicamento_chipertension_2" class="form-control form-control-sm ">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 mt-2 medicamento_inactivo" style="display:none;">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Posología</label>
-                                                            <input type="text" name="frecuencia_medicamento_chipertension_2" id="frecuencia_medicamento_chipertension_2" class="form-control form-control-sm ">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 mt-2">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Vía de Administración</label>
-                                                            <select class="form-control form-control-sm" id="via_administracion_chipertension" name="via_administracion_chipertension" onchange="validar_via_administracion_cronico('chipertension');">
-                                                                <option value="0">Seleccione</option>
-                                                                <option value="1">V&iacute;a Oral</option>
-                                                                <option value="2">V&iacute;a Sublingual</option>
-                                                                <option value="3">V&iacute;a T&oacute;pica</option>
-                                                                <option value="4">V&iacute;a Oftalmol&oacute;gica</option>
-                                                                <option value="5">V&iacute;a &Oacute;tica</option>
-                                                                <option value="6">V&iacute;a Inhalatoria</option>
-                                                                <option value="7">V&iacute;a Nasal</option>
-                                                                <option value="8">V&iacute;a Rectal</option>
-                                                                <option value="9">V&iacute;a Vaginal</option>
-                                                                <option value="10">V&iacute;a parental</option>
-                                                                <option value="11">Otra Vía</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group fill" id="div_observaciones_medicamento_chipertension" style="display: none;">
-                                                            <label class="floating-label-activo-sm">Otra vía de Administración</label>
-                                                            <input type="text" id="observaciones_medicamento_chipertension" name="observaciones_medicamento_chipertension" class="form-control form-control-sm " disabled >
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 mt-2">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Periodo</label>
-                                                            <select class="form-control form-control-sm" id="periodo_chipertension" name="periodo_chipertension" onchange="validar_periodo_cronico('chipertension');">
-                                                                <option value="0">Seleccione</option>
-                                                                <option value="1">SOS</option>
-                                                                <option value="2">Dosis unica</option>
-                                                                <option value="3">3 d&iacute;as</option>
-                                                                <option value="4">5 d&iacute;as</option>
-                                                                <option value="5">7 d&iacute;as</option>
-                                                                <option value="6">10 d&iacute;as</option>
-                                                                <option value="7">15 d&iacute;as</option>
-                                                                <option value="8">30 d&iacute;as</option>
-                                                                <option value="9">Permanente</option>
-                                                                <option value="10">V&iacute;a parental</option>
-                                                                <option value="11">Otro Periodo</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group fill" id="div_observaciones_periodo_chipertension" style="display: none;">
-                                                            <label class="floating-label-activo-sm">Otro Periodo</label>
-                                                            <input type="text" id="observaciones_periodo_chipertension" name="observaciones_periodo_chipertension" class="form-control form-control-sm " disabled >
-                                                        </div>
-                                                    </div>
-                                                    {{-- cantidad de medicamento a despachar o comprar    --}}
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Cantidad a Comprar o Despachar</label>
-                                                            <select class="form-control form-control-sm" id="cantidad_comprar_chipertension" name="cantidad_comprar_chipertension" onchange="validar_cantidad_comprar_cronico('chipertension');">
-                                                                <option value="0">Seleccione</option>
-                                                                <option value="999">Otra cantidad</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group fill" id="div_otra_cantidad_a_comprar_chipertension" style="display: none;">
-                                                            <label class="floating-label-activo-sm">Otra Cantidad</label>
-                                                            <input type="text" id="otra_cantidad_a_comprar_chipertension" name="otra_cantidad_a_comprar_chipertension" class="form-control form-control-sm " disabled >
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-12 col-md-6  col-lg-6 col-xl-6 p-0">
-                                                        <button class="btn btn-success btn-block btn-sm" type="button" onclick="agregar_medicamento_cronico_patologia('chipertension')" id="btn_registro_med_chipertension"><i class="fa fa-plus"></i> Registrar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="chipertension-med">
-                                            </div>
-                                            <div>
-                                                <div class="row">
-                                                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 mx-auto text-center">
-                                                @if (!empty(session('lic_token')) && session('lic_token') == 1)
-                                                    <button type="button" class="btn btn-success-light-c btn_agregar_medicamento text-center" onclick="agregar_a_receta('chipertension')"><i class="feather icon-check"></i>Agregar Medicamento a Receta</button>
-                                                @else
-                                                    <button type="button" class="btn btn-success-light-c btn_agregar_medicamento text-center" onclick="agregar_a_receta('chipertension')" disabled="disabled"><i class="feather icon-check"></i>Agregar Medicamento a Receta</button>
-                                                @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!--CONTROL DE DIABETES-->
-                <div id="diabetes_div"  style="display: none">
-                     <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <h5 class="f-20 text-center text-c-blue">Control diabetes</h5>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
-                                    <ul class="nav nav-tabs-aten nav-fill" id="orl_adulto" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link-aten text-reset active" id="diabet-ctrl-tab" data-toggle="tab" href="#diabet-ctrl" role="tab" aria-controls="diabet-ctrl" aria-selected="true">Control</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link-aten text-reset" id="diabet-hist-tab" data-toggle="tab" href="#diabet-hist" role="tab" aria-controls="diabet-hist" aria-selected="true">Historial de controles</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link-aten text-reset" id="diabet-med-tab" data-toggle="tab" href="#diabet-med" role="tab" aria-controls="diabet-med" aria-selected="true">Medicamentos</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="tab-content" id="orl_adulto">
-                                        <!--CONTROL-->
-                                        <div class="tab-pane fade show active" id="diabet-ctrl" role="tabpanel" aria-labelledby="diabet-ctrl-tab">
-                                            <div class="form-row">
-                                                <div class="form-group col-sm-12 col-md-3">
-                                                    <label class="floating-label-activo-sm">Peso</label>
-                                                    <input type="text" class="form-control form-control-sm" name="peso_diabetes"
-                                                        id="peso_diabetes">
-                                                </div>
-                                                <div class="form-group col-sm-12 col-md-3">
-                                                    <label class="floating-label-activo-sm">Piés</label>
-                                                    <input type="text" class="form-control form-control-sm" name="pies_diabetes"
-                                                        id="pies_diabetes">
-                                                </div>
-                                                <div class="form-group col-sm-12 col-md-3">
-                                                    <label class="floating-label-activo-sm">Hg A1c</label>
-                                                    <input type="text" class="form-control form-control-sm" name="hga1c_diabetes"
-                                                        id="hga1c_diabetes">
-                                                </div>
-                                                <div class="form-group col-sm-12 col-md-3">
-                                                    <label class="floating-label-activo-sm">Creatina</label>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        name="creatina_diabetes" id="creatina_diabetes">
-                                                </div>
-                                                <div class="form-group col-sm-12 col-md-3">
-                                                    <label class="floating-label-activo-sm">Glucosuria</label>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        name="glucosuria_diabetes" id="glucosuria_diabetes">
-                                                </div>
-                                                <div class="form-group col-sm-12 col-md-3">
-                                                    <label class="floating-label-activo-sm">Glicosilada postprandial</label>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        name="glicosilada_postprandial_diabetes"
-                                                        id="glicosilada_postprandial_diabetes">
-                                                </div>
-                                                <div class="form-group col-sm-12 col-md-3">
-                                                    <label class="floating-label-activo-sm">Glicosilada ayuno</label>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        name="glicosilada_ayuno_diabetes" id="glicosilada_ayuno_diabetes">
-                                                </div>
-                                                <div class="form-group col-sm-12 col-md-3">
-                                                    <button type="button" onclick="registrar_diabetes();"
-                                                        class="btn btn-info btn-sm btn-block"><i
-                                                            class="feather icon-save"></i> Guardar control</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--HISTORIAL DE CONTROLES-->
-                                        <div class="tab-pane fade show" id="diabet-hist" role="tabpanel" aria-labelledby="diabet-hist-tab">
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <h5 class="t-aten">Historial de controles</h5>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                     <div style="overflow-x:auto;">
-                                                        <table id="control_diabetes"
-                                                            class="display table table-striped dt-responsive nowrap table-xs"
-                                                            style="width:100%">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Nº Control</th>
-                                                                    <th>Fecha</th>
-                                                                    <th>Peso</th>
-                                                                    <th>Piés</th>
-                                                                    <th>Hg A1c</th>
-                                                                    <th>Creatina</th>
-                                                                    <th>Glucosuria</th>
-                                                                    <th>Glicosilada ayuno</th>
-                                                                    <th>Glicosilada postprandial</th>
-                                                                    {{-- <th>Acción</th> --}}
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-
-                                                                @if (isset($diabetes))
-                                                                    @foreach ($diabetes as $d)
-                                                                        <tr>
-                                                                            <td class="text-center align-middle">{{ $d->id }}</td>
-                                                                            <td class="text-center align-middle">{{ \Carbon\Carbon::parse($d->created_at)->format('d-m-Y') }}</td>
-                                                                            <td class="text-center align-middle">{{ $d->peso }}</td>
-                                                                            <td class="text-center align-middle">{{ $d->pies }}</td>
-                                                                            <td class="text-center align-middle">{{ $d->hgac1 }}</td>
-                                                                            <td class="text-center align-middle">{{ $d->creatina }}</td>
-                                                                            <td class="text-center align-middle">{{ $d->glucosuria }}</td>
-                                                                            <td class="text-center align-middle">{{ $d->glicosilada_ayuno }}</td>
-                                                                            <td class="text-center align-middle">{{ $d->glicosilada_postprandial }}</td>
-                                                                            {{-- <td class="text-center align-middle">
-                                                                                <button href="#!" class="btn btn-danger btn-sm">
-                                                                                    <i class="feather icon-x"></i>
-                                                                                    Eliminar
-                                                                                </button>
-                                                                            </td> --}}
-                                                                        </tr>
-                                                                    @endforeach
-                                                                @else
-                                                                    <span>NO EXISTEN REGISTROS</span>
-
-                                                                @endif
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--MEDICAMENTOS-->
-                                        <div class="tab-pane fade show" id="diabet-med" role="tabpanel" aria-labelledby="diabet-med-tab">
-                                            <div id="diabet_med_formulario">
-                                                <div class="form-row ">
-                                                    <div class="col-sm-6 mt-2">
-                                                        <div class="form-group">
-                                                            <label class="floating-label-activo-sm">Medicamento</label>
-                                                            <input type="text" id="nombre_medicamento_cdiabet" name="nombre_medicamento_cdiabet" onblur="getDosis_cronico('cdiabet');" class="form-control form-control-sm">
-                                                            <input type="hidden" id="id_medicamento_cdiabet" name="id_medicamento_cdiabet" class="form-control " value="">
-                                                            <input type="hidden" id="id_medicamento_tipo_control_cdiabet" name="id_medicamento_tipo_control_cdiabet" class="form-control" value="">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6 mt-2">
-                                                        <div class="form-group">
-                                                            <label class="floating-label-activo-sm">Composición:</label>
-                                                            <div id="nombre_composicion_farmaco_cdiabet" name="nombre_composicion_farmaco_cdiabet" class="p-t-5"></div>
-                                                        </div>
-                                                    </div>
-                                                    {{--  CUANDO SE ENCUENTRA MEDICAMENTO EN BUSQUEDA  --}}
-                                                    <div class="col-sm-6 mt-2 medicamento_activo">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Presentación</label>
-                                                            <select class="form-control form-control-sm" id="dosis_medicamento_cdiabet" name="dosis_medicamento_cdiabet" onchange="getFrecuencia_cronico('cdiabet');getCantComp_cronico('cdiabet');">
-                                                                <option>Seleccione una opción</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 mt-2 medicamento_activo">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Posología</label>
-                                                            <select class="form-control form-control-sm" id="frecuencia_medicamento_cdiabet"
-                                                                name="frecuencia_medicamento_cdiabet">
-                                                                <option>Seleccione una opción</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    {{--  SI NO SE ENCUENTRA EL MEDICAMENTO EN LA BUSQUEDA  --}}
-                                                    <div class="col-sm-6 mt-2 medicamento_inactivo" style="display:none;">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Presentación</label>
-                                                            <input type="text" name="dosis_medicamento_cdiabet_2" id="dosis_medicamento_cdiabet_2" class="form-control form-control-sm ">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 mt-2 medicamento_inactivo" style="display:none;">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Posología</label>
-                                                            <input type="text" name="frecuencia_medicamento_cdiabet_2" id="frecuencia_medicamento_cdiabet_2" class="form-control form-control-sm ">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 mt-2">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Vía de Administración</label>
-                                                            <select class="form-control form-control-sm" id="via_administracion_cdiabet" name="via_administracion_cdiabet" onchange="validar_via_administracion_cronico('cdiabet');">
-                                                                <option value="0">Seleccione</option>
-                                                                <option value="1">V&iacute;a Oral</option>
-                                                                <option value="2">V&iacute;a Sublingual</option>
-                                                                <option value="3">V&iacute;a T&oacute;pica</option>
-                                                                <option value="4">V&iacute;a Oftalmol&oacute;gica</option>
-                                                                <option value="5">V&iacute;a &Oacute;tica</option>
-                                                                <option value="6">V&iacute;a Inhalatoria</option>
-                                                                <option value="7">V&iacute;a Nasal</option>
-                                                                <option value="8">V&iacute;a Rectal</option>
-                                                                <option value="9">V&iacute;a Vaginal</option>
-                                                                <option value="10">V&iacute;a parental</option>
-                                                                <option value="11">Otra Vía</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group fill" id="div_observaciones_medicamento_cdiabet" style="display: none;">
-                                                            <label class="floating-label-activo-sm">Otra vía de Administración</label>
-                                                            <input type="text" id="observaciones_medicamento_cdiabet" name="observaciones_medicamento_cdiabet" class="form-control form-control-sm " disabled >
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 mt-2">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Periodo</label>
-                                                            <select class="form-control form-control-sm" id="periodo_cdiabet" name="periodo_cdiabet" onchange="validar_periodo_cronico('cdiabet');">
-                                                                <option value="0">Seleccione</option>
-                                                                <option value="1">SOS</option>
-                                                                <option value="2">Dosis unica</option>
-                                                                <option value="3">3 d&iacute;as</option>
-                                                                <option value="4">5 d&iacute;as</option>
-                                                                <option value="5">7 d&iacute;as</option>
-                                                                <option value="6">10 d&iacute;as</option>
-                                                                <option value="7">15 d&iacute;as</option>
-                                                                <option value="8">30 d&iacute;as</option>
-                                                                <option value="9">Permanente</option>
-                                                                <option value="10">V&iacute;a parental</option>
-                                                                <option value="11">Otro Periodo</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group fill" id="div_observaciones_periodo_cdiabet" style="display: none;">
-                                                            <label class="floating-label-activo-sm">Otro Periodo</label>
-                                                            <input type="text" id="observaciones_periodo_cdiabet" name="observaciones_periodo_cdiabet" class="form-control form-control-sm " disabled >
-                                                        </div>
-                                                    </div>
-                                                    {{-- cantidad de medicamento a despachar o comprar    --}}
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group fill">
-                                                            <label class="floating-label-activo-sm">Cantidad a Comprar o Despachar</label>
-                                                            <select class="form-control form-control-sm" id="cantidad_comprar_cdiabet" name="cantidad_comprar_cdiabet" onchange="validar_cantidad_comprar_cronico('cdiabet');">
-                                                                <option value="0">Seleccione</option>
-                                                                <option value="999">Otra Cantidad</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group fill" id="div_otra_cantidad_a_comprar_cdiabet" style="display: none;">
-                                                            <label class="floating-label-activo-sm">Otra Cantidad</label>
-                                                            <input type="text" id="otra_cantidad_a_comprar_cdiabet" name="otra_cantidad_a_comprar_cdiabet" class="form-control form-control-sm " disabled >
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-12 col-md-6  col-lg-6 col-xl-6 p-0">
-                                                        <button class="btn btn-success btn-block btn-sm" type="button" onclick="agregar_medicamento_cronico_patologia('cdiabet')" id="btn_registro_med_cdiabet"><i class="fa fa-plus"></i> Registrar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="cdiabet-med">
-                                            </div>
-                                            <div>
-                                                <div class="row">
-                                                    <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8 mx-auto text-center">
-                                                @if (!empty(session('lic_token')) && session('lic_token') == 1)
-                                                    <button type="button" class="btn btn-success-light-c btn_agregar_medicamento text-center" onclick="agregar_a_receta('cdiabet')"><i class="feather icon-check"></i>Agregar Medicamento a Receta</button>
-                                                @else
-                                                    <button type="button" class="btn btn-success-light-c btn_agregar_medicamento text-center" onclick="agregar_a_receta('cdiabet')" disabled="disabled"><i class="feather icon-check"></i>Agregar Medicamento a Receta</button>
-                                                @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!--INSUFICIENCIA RENAL-->
-                <div id="cinsufren_div" style="display:none;">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <h5 class="f-20 text-center text-c-blue">Insuficiencia renal</h5>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
-                                    <ul class="nav nav-tabs-aten nav-fill" id="orl_adulto" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link-aten text-reset active" id="hiper-ctrl-tab" data-toggle="tab" href="#renal-ctrl" role="tab" aria-controls="renal-ctrl" aria-selected="true">Control</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link-aten text-reset" id="renal-hist-tab" data-toggle="tab" href="#renal-hist" role="tab" aria-controls="renal-hist" aria-selected="true">Historial de controles</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link-aten text-reset" id="renal-med-tab" data-toggle="tab" href="#renal-med" role="tab" aria-controls="renal-med" aria-selected="true">Medicamentos</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="tab-content" id="tab_cinsufren">
-                                        <!--CONTROL-->
-                                        <div class="tab-pane fade show active" id="renal-ctrl" role="tabpanel" aria-labelledby="renal-ctrl-tab">
-
-                                            <!--<div class="form-row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <h5 class="t-aten">Control</h5>
-                                                </div>
-                                            </div>-->
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <h5 class="t-aten">Control</h5>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-sm-2 col-md-2">
-                                                    <label class="floating-label-activo-sm">Peso</label>
-                                                    <input type="text" class="form-control form-control-sm" name="registro_peso" id="registro_peso">
-                                                </div>
-                                                <div class="form-group col-sm-4 col-md-4">
-                                                    <button type="button" onclick="registrar_control_insuficiencia_renal();"
-                                                    class="btn btn-info btn-sm btn-block"><i class="feather icon-save"></i> Guardar control</button>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <!--HISTORIAL DE CONTROLES-->
-                                        <div class="tab-pane fade show" id="renal-hist" role="tabpanel" aria-labelledby="renal-hist-tab">
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <h5 class="t-aten">Historial de controles</h5>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                     <table id="control_obesidad"
-                                                        class="display table table-striped dt-responsive nowrap pb-4 table-xs"
-                                                        style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Nº Control</th>
-                                                                <th>Fecha</th>
-                                                                <!-- <th class="text-center align-middle">Acción</th>-->
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-
-                                                            @if (isset($contro))
-                                                                @foreach ($contro as $cp)
-                                                                    <tr>
-                                                                        <td>{{ $cp->id }}</td>
-                                                                        <!--<td class="text-center align-middle">
-                                                                            <button href="#!" class="btn btn-danger btn-sm">
-                                                                                <i class="feather icon-x"></i> Eliminar</button>
-                                                                        </td>-->
-                                                                    </tr>
-
-                                                                @endforeach
-                                                            @else
-                                                                <span>No existen registros</span>
-
-                                                            @endif
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--MEDICAMENTOS-->
-                                        <div class="tab-pane fade show" id="renal-med" role="tabpanel" aria-labelledby="renal-med-tab">
-                                            <div id="renal_med_formulario">
-                                                <div class="form-row ">
-                                                    <div class="form-group col-sm-12 col-md-12 col-lg-9 col-xl-9 ">
-                                                        <label class="floating-label-activo-sm">Nombre medicamento</label>
-                                                        <input type="text" class="form-control form-control-sm" name="nombre_medicamentocron_cinsufren" id="nombre_medicamentocron_cinsufren">
-                                                        <input type="hidden" name="id_medicamentocron_cinsufren" id="id_medicamentocron_cinsufren" value=""/>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 ">
-                                                        <label class="floating-label-activo-sm">Presentación</label>
-                                                        <select class="form-control form-control-sm" id="dosis_medicamentocron_cinsufren" name="dosis_medicamentocron_cinsufren" onchange="getCantCompCronica('dosis_medicamentocron_cinsufren', 'med_cronicomes_cinsufren');">
-                                                            <option>Seleccione</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
-                                                        <label class="floating-label-activo-sm">Cantidad mensual</label>
-                                                        <select class="form-control form-control-sm" id="med_cronicomes_cinsufren" name="med_cronicomes_cinsufren" >
-                                                            <option value="0">Seleccione</option>
-                                                            <option value="999">Otra Cantidad</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-12 col-md-6  col-lg-6 col-xl-6 p-0">
-                                                        <button class="btn btn-success-light-c btn-block btn-sm" type="button" onclick="agregar_medicamento_cronico_patologia('cinsufren')" id="btn_registro_med_cinsufren"><i class="fa fa-plus"></i> Registrar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="cinsufren-med">
-                                            </div>
-                                            <div>
-                                                @if (!empty(session('lic_token')) && session('lic_token') == 1)
-                                                    <button type="button" class="btn btn-success-light-c btn_agregar_medicamento  btn-block btn-sm" onclick="agregar_a_receta('cinsufren')">Agregar Medicamento a Receta</button>
-                                                @else
-                                                    <button type="button" class="btn btn-success-light-c btn_agregar_medicamento  btn-block btn-sm" onclick="agregar_a_receta('cinsufren')" disabled="disabled">Agregar Medicamento a Receta</button>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- MARCADORES TUMORALES -->
-                <div id="cmtumorales_div" style="display:none;">
-                    {{--
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <h5 class="f-20 text-center text-c-blue">Marcadores Tumorales</h5>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
-                                    <ul class="nav nav-tabs-aten nav-fill" id="orl_adulto" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link-aten text-reset active" id="hiper-ctrl-tab" data-toggle="tab" href="#renal-ctrl" role="tab" aria-controls="renal-ctrl" aria-selected="true">Control</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link-aten text-reset" id="renal-hist-tab" data-toggle="tab" href="#renal-hist" role="tab" aria-controls="renal-hist" aria-selected="true">Historial de controles</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link-aten text-reset" id="renal-med-tab" data-toggle="tab" href="#renal-med" role="tab" aria-controls="renal-med" aria-selected="true">Medicamentos</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="tab-content" id="tab_cmtumorales">
-                                        <!--CONTROL-->
-                                        <div class="tab-pane fade show active" id="cmtumorales-ctrl" role="tabpanel" aria-labelledby="cmtumorales-ctrl-tab">
-                                             <form>
-                                                <div class="row">
-                                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                        <h5 class="t-aten">Control</h5>
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="form-group col-sm-2 col-md-2">
-                                                        <label class="floating-label-activo-sm">Dato</label>
-                                                        <input type="text" class="form-control form-control-sm" name="registro_cmtumorales" id="registro_cmtumorales">
-                                                    </div>
-                                                    <div class="form-group col-sm-4 col-md-4">
-                                                        <button type="button" onclick=""
-                                                        class="btn btn-info-light-c btn-sm btn-block"><i class="feather icon-save"></i> Guardar control</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <!--HISTORIAL DE CONTROLES-->
-                                        <div class="tab-pane fade show" id="renal-hist" role="tabpanel" aria-labelledby="renal-hist-tab">
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <h5 class="t-aten">Historial de controles</h5>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                                     <table id="control_cmtumorales"
-                                                        class="display table table-striped dt-responsive nowrap pb-4 table-xs"
-                                                        style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Nº Control</th>
-                                                                <th>Fecha</th>
-                                                                <!-- <th class="text-center align-middle">Acción</th>-->
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-
-                                                            @if (isset($contro))
-                                                                @foreach ($contro as $cp)
-                                                                    <tr>
-                                                                        <td>{{ $cp->id }}</td>
-                                                                        <!--<td class="text-center align-middle">
-                                                                            <button href="#!" class="btn btn-danger btn-sm">
-                                                                                <i class="feather icon-x"></i> Eliminar</button>
-                                                                        </td>-->
-                                                                    </tr>
-
-                                                                @endforeach
-                                                            @else
-                                                                <span>No existen registros</span>
-
-                                                            @endif
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--MEDICAMENTOS-->
-                                        <div class="tab-pane fade show" id="cmtumorales-med" role="tabpanel" aria-labelledby="cmtumorales-med-tab">
-                                            <div id="cmtumorales_med_formulario">
-                                                <div class="form-row ">
-                                                    <div class="form-group col-sm-12 col-md-12 col-lg-9 col-xl-9 ">
-                                                        <label class="floating-label-activo-sm">Nombre medicamento</label>
-                                                        <input type="text" class="form-control form-control-sm" name="nombre_medicamentocron_cmtumorales" id="nombre_medicamentocron_cmtumorales">
-                                                        <input type="hidden" name="id_medicamentocron_cmtumorales" id="id_medicamentocron_cmtumorales" value=""/>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xl-3 ">
-                                                        <label class="floating-label-activo-sm">Presentación</label>
-                                                        <select class="form-control form-control-sm" id="dosis_medicamentocron_cmtumorales" name="dosis_medicamentocron_cmtumorales" onchange="getCantCompCronica('dosis_medicamentocron_cmtumorales', 'med_cronicomes_cmtumorales');">
-                                                            <option>Seleccione</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
-                                                        <label class="floating-label-activo-sm">Cantidad mensual</label>
-                                                        <select class="form-control form-control-sm" id="med_cronicomes_cmtumorales" name="med_cronicomes_cmtumorales" >
-                                                            <option value="0">Seleccione</option>
-                                                            <option value="999">Otra Cantidad</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-12 col-md-6  col-lg-6 col-xl-6 p-0">
-                                                        <button class="btn btn-success-light-c btn-block btn-sm" type="button" onclick="agregar_medicamento_cronico_patologia('cmtumorales')" id="btn_registro_med_cmtumorales"><i class="fa fa-plus"></i> Registrar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="cmtumorales-med">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    --}}
-                    <h3 class="azul">En construcción</h3>
-                    <img src="{{ asset('images/pages/discount.svg') }}" alt="" class="img-fluid mb-4 wid-100">
-                </div>
-
-                <div id="creumato_div" style="display:none;">
-                    <h4 class="azul">En construcción</h4>
-                    <img src="{{ asset('images/pages/discount.svg') }}" alt="" class="img-fluid mb-4 wid-90">
-                </div>
-
-                <div id="clitemia_div" style="display:none;">
-                    <h4 class="azul">En construcción</h4>
-                    <img src="{{ asset('images/pages/discount.svg') }}" alt="" class="img-fluid mb-4 wid-90">
-                </div>
-                <div id="epoc_div" style="display: none;">
-                    <h4 class="azul">En construcción</h4>
-                    <img src="{{ asset('images/pages/discount.svg') }}" alt="" class="img-fluid mb-4 wid-90">
-                </div>
             </div>
             <!--Cierre modal body
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cerrar</button>
             </div>-->
         </div>
-    </div>r
+    </div>
 </div>
 
 <!-- MODAL AÑADIR ANTECEDENTE-->
@@ -1495,149 +672,15 @@
     /** CRONICO */
     function es_cronico()
     {
-        if ($('#enf_cronico').prop('checked')) {
-            $('#form_enfermedad_cronica').modal('show');
-            $('#hipertension_div').hide();
-            $('#control_peso_div').hide();
-            $('#diabetes_div').hide();
-
-            $('#cronicos').val('cpeso');
-            ver_medicamento_cronico();
-            // $('.medicamento_cronico_div').show();
-            // $('#senal_med_cronico').removeClass('fa-angle-down');
-            // $('#senal_med_cronico').addClass('fa-angle-up');
-
-            cambiar_enfermedad_cronica();
-
-        }
-
+        if (!$('#enf_cronico').prop('checked')) return;
+        cambiar_enfermedad_cronica();
+        $('#form_enfermedad_cronica').modal('show');
     }
 
     function cambiar_enfermedad_cronica()
     {
-
-        if($('#cronicos').val() != 'n_C')
-        {
-            // var nombre_enfermedad = $("#cronicos option:selected").text();
-            // $('#titulo_med_patologia').html( ('Medicamentos '+nombre_enfermedad).toUpperCase());
-            // $('.medicamento_patologia').show();
-            // $('#btn_registro_med_patologia').attr('onclick','agregar_medicamento_cronico_patologia(\''+$('#cronicos').val()+'\')');
-            // ver_medicamento_cronico_patologia();
-
-            // $('.medicamento_cronico_div').hide();
-            // $('#senal_med_cronico').addClass('fa-angle-down');
-            // $('#senal_med_cronico').removeClass('fa-angle-up');
-
-            ver_medicamento_cronico();
-
-            switch ($('#cronicos').val()) {
-                case 'cpeso':
-                    $('#hipertension_div').hide();
-                    $('#control_peso_div').show();
-                    $('#diabetes_div').hide();
-                    $('#cinsufren_div').hide();
-                    $('#cmtumorales_div').hide();
-                    $('#creumato_div').hide();
-                    $('#clitemia_div').hide();
-                    $('#epoc_div').hide();
-                    ver_control_obesidad();
-                break;
-                case 'chipertension':
-                    $('#hipertension_div').show();
-                    $('#control_peso_div').hide();
-                    $('#diabetes_div').hide();
-                    $('#cinsufren_div').hide();
-                    $('#cmtumorales_div').hide();
-                    $('#creumato_div').hide();
-                    $('#clitemia_div').hide();
-                    $('#epoc_div').hide();
-                    ver_control_hipertension();
-
-                break;
-                case 'cdiabet':
-                    $('#hipertension_div').hide();
-                    $('#control_peso_div').hide();
-                    $('#diabetes_div').show();
-                    $('#cinsufren_div').hide();
-                    $('#cmtumorales_div').hide();
-                    $('#creumato_div').hide();
-                    $('#clitemia_div').hide();
-                    $('#epoc_div').hide();
-                    ver_control_diabetes();
-                break;
-                case 'epoc':
-                    $('#hipertension_div').hide();
-                    $('#control_peso_div').hide();
-                    $('#diabetes_div').hide();
-                    $('#cinsufren_div').hide();
-                    $('#cmtumorales_div').hide();
-                    $('#creumato_div').hide();
-                    $('#clitemia_div').hide();
-                    $('#epoc_div').show();
-                break;
-                case 'cinsufren':
-                    $('#hipertension_div').hide();
-                    $('#control_peso_div').hide();
-                    $('#diabetes_div').hide();
-                    $('#cinsufren_div').show();
-                    $('#cmtumorales_div').hide();
-                    $('#creumato_div').hide();
-                    $('#clitemia_div').hide();
-                    $('#epoc_div').hide();
-                break;
-                case 'cmtumorales':
-                    $('#hipertension_div').hide();
-                    $('#control_peso_div').hide();
-                    $('#diabetes_div').hide();
-                    $('#cinsufren_div').hide();
-                    $('#cmtumorales_div').show();
-                    $('#creumato_div').hide();
-                    $('#clitemia_div').hide();
-                    $('#epoc_div').hide();
-                break;
-                case 'creumato':
-                    $('#hipertension_div').hide();
-                    $('#control_peso_div').hide();
-                    $('#diabetes_div').hide();
-                    $('#cinsufren_div').hide();
-                    $('#cmtumorales_div').hide();
-                    $('#creumato_div').show();
-                    $('#clitemia_div').hide();
-                    $('#epoc_div').hide();
-                break;
-                case 'clitemia':
-                    $('#hipertension_div').hide();
-                    $('#control_peso_div').hide();
-                    $('#diabetes_div').hide();
-                    $('#cinsufren_div').hide();
-                    $('#cmtumorales_div').hide();
-                    $('#creumato_div').hide();
-                    $('#clitemia_div').show();
-                    $('#epoc_div').hide();
-                break;
-
-                default:
-                    break;
-            }
-
-        }
-        else
-        {
-            $('#cronicos').val('cpeso');
-            cambiar_enfermedad_cronica();
-
-            // $('.medicamento_patologia').hide();
-
-            $('#hipertension_div').hide();
-            $('#control_peso_div').show();
-            $('#diabetes_div').hide();
-            $('#cinsufren_div').hide();
-            $('#cmtumorales_div').hide();
-            $('#creumato_div').hide();
-            $('#clitemia_div').hide();
-
-            // $('#titulo_med_patologia').html( 'Medicamentos' );
-        }
+        window.controlCronicoVet.cambiar();
+        ver_medicamento_cronico();
     }
 
     function registrar_control_obesidad()
@@ -1822,9 +865,9 @@
 
     function ver_medicamento_cronico()
     {
-        $('#'+tipo_enfermedad+'-med').html('');
+        $('#cpeso-med').empty();
 
-        let url = "{{ route('medicamento_cronico.getRegsitros') }}";
+        let url = "{{ route('vet.cronicos.medicamentos') }}";
 
         var _token = CSRF_TOKEN;
         var id_ficha_atencion = $('#id_fc').val();
@@ -1839,14 +882,15 @@
             type: "GET",
             data: {
                 _token: _token,
-                // id_ficha_atencion:id_ficha_atencion,
-                id_paciente : id_paciente,
+                id_ficha_atencion: id_ficha_atencion,
                 tipo_enfermedad : tipo_enfermedad,
             },
         })
         .done(function(data)
         {
 
+            if ($('#cronicos').val() !== tipo_enfermedad) return;
+            const textoSeguro = valor => $('<span>').text(valor == null ? '' : valor).html();
             if (data !== 'null')
             {
                 //data = JSON.parse(data);
@@ -1872,10 +916,10 @@
                     $.each(data.registros, function(index, value)
                     {
                         html += '<tr>';
-                        html += '    <td class=" align-middle">'+value.nombre_medicamento+'</td>';
-                        html += '    <td class=" align-middle">'+value.presentacion+'</td>';
-                        html += '    <td class=" align-middle">'+value.posologia+'</td>';
-                        html += '    <td class=" align-middle">'+value.cantidad+'</td>';
+                        html += '    <td class=" align-middle">'+textoSeguro(value.nombre_medicamento)+'</td>';
+                        html += '    <td class=" align-middle">'+textoSeguro(value.presentacion)+'</td>';
+                        html += '    <td class=" align-middle">'+textoSeguro(value.posologia)+'</td>';
+                        html += '    <td class=" align-middle">'+textoSeguro(value.cantidad)+'</td>';
                         html += '    <td class=" align-middle">';
                         html += '        <button type="button" class="btn btn-danger btn-icon" onclick="eliminar_med_cronico_patologia(\''+value.id+'\');"><i class="feather icon-x"></i></button>';
                         html += '    </td>';
@@ -1904,7 +948,7 @@
                 html += '</tbody>';
                 html += '</table>';
                 html += '</div>';
-                $('#'+tipo_enfermedad+'-med').html(html);
+                $('#cpeso-med').html(html);
                 $('#descripcion_hipotesis').trigger('keyup');
             }
         })
@@ -2011,7 +1055,7 @@
 
         // var nombre_medicamento = $('#nombre_medicamentocron_'+tipo+'').val();
         // var cantidad = $('#med_cronicomes_'+tipo+' option:selected').text();
-        var tipo_enfermedad = tipo;
+        var tipo_enfermedad = $('#cronicos').val();
 
         var valido = 0;
         var mensaje = '';
@@ -2034,7 +1078,15 @@
                 dosis_medicamento = $('#dosis_medicamento_'+tipo+' option:selected ').text();
             }
 
-            if($.trim(frecuencia_medicamento) == '' || frecuencia_medicamento == 0 || frecuencia_medicamento == 'Seleccione una opción' || frecuencia_medicamento == 'Seleccione' || frecuencia_medicamento == 'Seleccione')
+            if (frecuencia_medicamento === 'manual') {
+                frecuencia_medicamento = $.trim(frecuencia_medicamento_2);
+                if (!frecuencia_medicamento) {
+                    valido = 1;
+                    mensaje += 'Ingrese la posología indicada.\n';
+                }
+                id_frecuencia_medicamento = '';
+            }
+            else if($.trim(frecuencia_medicamento) == '' || frecuencia_medicamento == 0 || frecuencia_medicamento == 'Seleccione una opción' || frecuencia_medicamento == 'Seleccione' || frecuencia_medicamento == 'Seleccione')
             {
                 valido = 1;
                 mensaje += 'Debe completar el campo Posología.\n';
@@ -2723,7 +1775,9 @@
                 dosis.find('option').remove();
                 dosis.append('<option value="0">Seleccione</option>');
                 $(data).each(function(i, v) { // indice, valor
-                    dosis.append('<option value="' + v.dosis + '" data-id="'+v.id+'" data-cant_comp="'+v.cant_comp+'">' + v.present +'</option>');
+                    dosis.append($(new Option(v.present, v.id)).attr({
+                        'data-id': v.id, 'data-codigo-dosis': v.dosis, 'data-cant_comp': v.cant_comp
+                    }));
                 });
             }
         })
@@ -2732,36 +1786,40 @@
         });
     };
 
+    function mostrarPosologiaManualCronica(tipo)
+    {
+        const manual = $('#frecuencia_medicamento_' + tipo).val() === 'manual';
+        const entrada = $('#frecuencia_medicamento_' + tipo + '_2');
+        entrada.closest('.medicamento_inactivo').toggle(manual);
+        if (!manual) entrada.val('');
+    }
+
     function getFrecuencia_cronico(tipo)
     {
-        let id_dosis = $('#dosis_medicamento_'+tipo).val();
-        let url = "{{ route('dental.getFrecuencia') }}";
+        const presentacion = $('#dosis_medicamento_' + tipo + ' option:selected');
+        const lista = $('#frecuencia_medicamento_' + tipo);
+        const id = presentacion.attr('data-id');
+        const codigo = presentacion.attr('data-codigo-dosis');
+        const clave = codigo && codigo !== '0' ? codigo : id;
+        lista.empty().append(new Option('Seleccione', '0'));
+        mostrarPosologiaManualCronica(tipo);
+        if (!id) return;
 
-        $.ajax({
-            url: url,
-            type: "get",
-            data: {
-                id_dosis: id_dosis,
-            },
-        })
-        .done(function(data) {
-            console.log(data)
+        function cargar(opciones) {
+            if ($('#dosis_medicamento_' + tipo + ' option:selected').attr('data-id') !== id) return;
+            (Array.isArray(opciones) ? opciones : []).forEach(function (opcion) {
+                if (opcion.indic) lista.append(new Option(opcion.indic, opcion.id));
+            });
+            lista.append(new Option('Ingresar posología manualmente', 'manual'));
+            if (lista.find('option').length === 2) lista.val('manual').trigger('change');
+        }
 
-            if (data != null)
-            {
-                data = JSON.parse(data);
-                let dosis = $('#frecuencia_medicamento_'+tipo);
-
-                dosis.find('option').remove();
-                dosis.append('<option value="0">Seleccione</option>');
-                $(data).each(function(i, v) { // indice, valor
-                    dosis.append('<option value="' + v.id + '">' + v.indic + '</option>');
-                });
-            }
-        })
-        .fail(function(jqXHR, ajaxOptions, thrownError) {
-            console.log(jqXHR, ajaxOptions, thrownError)
-        });
+        const url = @js(route('dental.getFrecuencia'));
+        $.getJSON(url, {id_dosis: clave}).done(function (opciones) {
+            if ((!opciones || !opciones.length) && String(clave) !== String(id)) {
+                $.getJSON(url, {id_dosis: id}).done(cargar).fail(function () { cargar([]); });
+            } else cargar(opciones);
+        }).fail(function () { cargar([]); });
     };
 
     function getCantComp_cronico(tipo)
@@ -4161,3 +3219,13 @@
     }
 
 </script>
+
+<script>
+window.controlCronicoVetConfig = {
+    catalogo: @js(config('controles_cronicos_vet')),
+    historial: @js(route('vet.cronicos.historial')),
+    guardar: @js(route('vet.cronicos.guardar')),
+    token: @js(csrf_token())
+};
+</script>
+<script src="{{ asset('js/control-cronico-vet.js') }}?v={{ filemtime(public_path('js/control-cronico-vet.js')) }}"></script>

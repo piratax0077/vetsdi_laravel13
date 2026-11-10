@@ -213,7 +213,7 @@
         $('#editar_prof_apellido_dos').val(d.apellidoDos);
         $('#editar_prof_correo').val(d.correo);
         $('#editar_prof_telefono_uno').val(d.telefono);
-        $('#editar_prof_especialidad').val('0');
+        $('#editar_prof_especialidad').val(d.especialidad || '0');
         $('#editar_prof_id_tipo_convenio_institucion').val('');
         editar_prof_mostrar_montos();
         $('#editar_profesional_vet').modal('show');
@@ -222,19 +222,41 @@
     function guardar_edicion_profesional_vet()
     {
         let faltan = [];
-        if ($('#editar_prof_rut').val() == '') faltan.push('RUT');
-        if ($('#editar_prof_sexo').val() == '0') faltan.push('Sexo');
-        if ($('#editar_prof_nombre').val() == '') faltan.push('Nombres');
-        if ($('#editar_prof_apellido_uno').val() == '') faltan.push('Primer apellido');
-        if ($('#editar_prof_apellido_dos').val() == '') faltan.push('Segundo apellido');
-        if ($('#editar_prof_correo').val() == '') faltan.push('Correo electrónico');
-        if ($('#editar_prof_telefono_uno').val() == '') faltan.push('Teléfono');
         if (['', '0', null].indexOf($('#editar_prof_especialidad').val()) !== -1) faltan.push('Especialidad');
 
         if (faltan.length) {
             alert('Faltan campos obligatorios: ' + faltan.join(', '));
             return;
         }
-        $('#editar_profesional_vet').modal('hide');
+        const modal = $('#editar_profesional_vet');
+        const boton = modal.find('button[onclick="guardar_edicion_profesional_vet();"]');
+        if (boton.prop('disabled')) return;
+        boton.prop('disabled', true);
+        $.ajax({
+            url: @js(route('adm_cm.profesional.especialidad_vet', ['id' => 'PROF_ID'])).replace('PROF_ID', $('#editar_prof_id').val()),
+            type: 'PATCH',
+            headers: {Accept: 'application/json'},
+            data: {
+                _token: CSRF_TOKEN,
+                id_institucion: @json($institucion->id),
+                tipo_institucion: @json($tipo_institucion),
+                especialidad: $('#editar_prof_especialidad').val(),
+                rut: $('#editar_prof_rut').val(),
+                sexo: $('#editar_prof_sexo').val() === '0' ? null : $('#editar_prof_sexo').val(),
+                nombre: $('#editar_prof_nombre').val(),
+                apellido_uno: $('#editar_prof_apellido_uno').val(),
+                apellido_dos: $('#editar_prof_apellido_dos').val(),
+                email: $('#editar_prof_correo').val(),
+                telefono_uno: $('#editar_prof_telefono_uno').val()
+            }
+        }).done(function () {
+            modal.modal('hide');
+            window.location.reload();
+        }).fail(function (xhr) {
+            const respuesta = xhr.responseJSON || {};
+            swal({title: 'No se pudo guardar la especialidad', text: Object.values(respuesta.errors || {}).flat().join('\n') || respuesta.message || 'Intente nuevamente.', icon: 'error'});
+        }).always(function () {
+            boton.prop('disabled', false);
+        });
     }
 </script>

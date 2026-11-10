@@ -115,10 +115,10 @@
                                                                     <span>{{ rut_formatear($prof_vet->rut) ?? $prof_vet->rut }}</span>
                                                                 </td>
                                                                 <td class="align-middle">
-                                                                    <span>{{ $prof_vet->TipoEspecialidad()->first()->nombre }}</span>
+                                                                    <span>{{ $prof_vet->TipoEspecialidad?->nombre }}</span>
                                                                     @if (!empty($prof_vet->id_sub_tipo_especialidad))
                                                                         <br>
-                                                                        <span>{{ $prof_vet->SubTipoEspecialidad()->first()->nombre }}</span>
+                                                                        <span>{{ $prof_vet->SubTipoEspecialidad?->nombre }}</span>
                                                                     @endif
                                                                 </td>
                                                                 <td class="align-middle">
@@ -128,7 +128,7 @@
                                                                 </td>
                                                                 <td class="align-middle">
                                                                     <button type="button" class="btn btn-info btn-sm btn-icon" onclick="contacto_profesional({{ $prof_vet->id }});" data-toggle="tooltip" data-placement="top" title="Contacto"><i class="feather icon-phone"></i></button>
-                                                                    <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="editar_profesional_vet(this);" data-id="{{ $prof_vet->id }}" data-rut="{{ rut_formatear($prof_vet->rut) ?? $prof_vet->rut }}" data-sexo="{{ $prof_vet->sexo }}" data-nombre="{{ $prof_vet->nombre }}" data-apellido-uno="{{ $prof_vet->apellido_uno }}" data-apellido-dos="{{ $prof_vet->apellido_dos }}" data-correo="{{ $prof_vet->email }}" data-telefono="{{ $prof_vet->telefono_uno }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="feather icon-edit"></i></button>
+                                                                    <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="editar_profesional_vet(this);" data-id="{{ $prof_vet->id }}" data-especialidad="{{ array_search($prof_vet->SubTipoEspecialidad?->nombre, \App\Services\EspecialidadesCentroVeterinario::CATALOGO, true) ?: '0' }}" data-rut="{{ rut_formatear($prof_vet->rut) ?? $prof_vet->rut }}" data-sexo="{{ $prof_vet->sexo }}" data-nombre="{{ $prof_vet->nombre }}" data-apellido-uno="{{ $prof_vet->apellido_uno }}" data-apellido-dos="{{ $prof_vet->apellido_dos }}" data-correo="{{ $prof_vet->email }}" data-telefono="{{ $prof_vet->telefono_uno }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="feather icon-edit"></i></button>
                                                                 </td>
                                                                 <td class="align-middle">
                                                                     <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="f_profesional({{ $prof_vet->id }});" data-toggle="tooltip" data-placement="top" title="Información profesional"><i class="feather icon-eye"></i></button>

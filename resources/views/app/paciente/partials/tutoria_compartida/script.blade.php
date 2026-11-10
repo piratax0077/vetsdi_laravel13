@@ -1,14 +1,11 @@
         {{-- Tutoría compartida. Usa de la vista que lo incluye: mascotasCache, obtenerMascotaPorId,
              escaparTextoMascota, mascotaEstaFallecida, botonTraspasoCargando, rutaTraspasoBuscarTutor y CSRF_TOKEN. --}}
         // ---- Tutoría compartida ----
-        var DIAS_VIGENCIA_INVITACION = 7;
-        // Mientras no existan estas rutas, las invitaciones quedan solo en memoria para poder recorrer el flujo
         var rutasTutoriaCompartida = {
-            listar: '',
-            invitar: '',
-            reenviar: '',
-            cancelar: '',
-            quitar: '',
+            listar: @js(route('paciente.tutoria.listar', ['mascota' => '__MASCOTA__'])),
+            rut: @js(route('paciente.tutoria.rut', ['mascota' => '__MASCOTA__'])),
+            invitar: @js(route('paciente.tutoria.invitar', ['mascota' => '__MASCOTA__'])),
+            gestionar: @js(route('paciente.tutoria.gestionar', ['mascota' => '__MASCOTA__', 'id' => '__ID__', 'accion' => '__ACCION__'])),
         };
         var titularTutoria = @json([
             'nombre' => trim(($paciente->nombres ?? '') . ' ' . ($paciente->apellido_uno ?? '')),
@@ -53,13 +50,6 @@
             return /^[0-9.]{6,12}-?[0-9kK]$/.test(valor);
         }
 
-        function ocultarCorreoTutoria(correo)
-        {
-            var partes = String(correo || '').split('@');
-            if (partes.length !== 2) return correo || '';
-            var usuario = partes[0];
-            return usuario.slice(0, 2) + '•••' + '@' + partes[1];
-        }
 
         function formatearFechaTutoria(fechaIso)
         {
@@ -99,23 +89,17 @@
             var datos = (xhr && xhr.responseJSON) || {};
             if (datos.errors) return Object.values(datos.errors).flat().join('\n');
             if (datos.msj) return datos.msj;
+            if (xhr && xhr.status === 409 && datos.message) return datos.message;
             if (xhr && xhr.status === 419) return 'Tu sesión venció. Recarga la página e intenta nuevamente.';
             if (xhr && xhr.status === 403) return 'Solo el tutor titular puede gestionar los accesos de esta mascota.';
             return porDefecto;
         }
 
-        // Llama a la ruta si existe; si no, responde lo mismo que respondería el servidor
-        function solicitudTutoria(accion, datos, respuestaLocal)
+        function solicitudTutoria(accion, datos)
         {
-            var ruta = rutasTutoriaCompartida[accion];
-            if (!ruta) {
-                var diferido = $.Deferred();
-                setTimeout(function(){ diferido.resolve(respuestaLocal()); }, 600);
-                return diferido.promise();
-            }
-
+            var ruta = rutasTutoriaCompartida[accion] || rutasTutoriaCompartida.gestionar;
             return $.ajax({
-                url: ruta.replace('__ID__', datos.id || datos.mascota_id || ''),
+                url: ruta.replace('__MASCOTA__', datos.mascota_id).replace('__ID__', datos.id || '').replace('__ACCION__', accion),
                 type: accion === 'listar' ? 'get' : 'post',
                 headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
                 data: datos,
@@ -161,19 +145,14 @@
             tutoriaMascotaId = String(idMascota);
             $('.tutoria-nombre-mascota').text(nombreMascotaTutoria());
 
-            if (invitacionesTutoria[tutoriaMascotaId] || !rutasTutoriaCompartida.listar) {
-                invitacionesTutoria[tutoriaMascotaId] = invitacionesTutoria[tutoriaMascotaId] || [];
-                renderListaTutoria();
-                return;
-            }
-
             $('#tutoria_lista').html('<p class="tutoria-vacio"><span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span> Cargando...</p>');
             solicitudTutoria('listar', { mascota_id: tutoriaMascotaId })
                 .done(function(respuesta){
-                    invitacionesTutoria[tutoriaMascotaId] = (respuesta && respuesta.invitaciones) || [];
-                    renderListaTutoria();
+                    invitacionesTutoria[String(idMascota)] = (respuesta && respuesta.invitaciones) || [];
+                    if (tutoriaMascotaId === String(idMascota)) renderListaTutoria();
                 })
                 .fail(function(xhr){
+                    if (tutoriaMascotaId !== String(idMascota)) return;
                     $('#tutoria_lista').html('<p class="tutoria-vacio">' + escaparTextoMascota(errorRespuestaTutoria(xhr, 'No se pudo cargar la lista. Intenta nuevamente.')) + '</p>');
                 });
         }
@@ -263,12 +242,6 @@
             });
         }
 
-        function nuevaVigenciaTutoria()
-        {
-            var vence = new Date();
-            vence.setDate(vence.getDate() + DIAS_VIGENCIA_INVITACION);
-            return vence.toISOString();
-        }
 
         function abrirInvitacionTutoria()
         {
@@ -305,13 +278,8 @@
         function buscarPersonaRutTutoria(rut)
         {
             var diferido = $.Deferred();
-            if (!rutaTraspasoBuscarTutor) {
-                diferido.reject('No se pudo buscar el RUT. Ingresa su correo electrónico.');
-                return diferido.promise();
-            }
-
             $.ajax({
-                url: rutaTraspasoBuscarTutor,
+                url: rutasTutoriaCompartida.rut.replace('__MASCOTA__', tutoriaMascotaId),
                 type: 'get',
                 headers: { 'Accept': 'application/json' },
                 data: { rut: rut },
@@ -337,7 +305,7 @@
         {
             tutoriaPersonaRut = persona;
             $('#invitacion_persona_nombre').text(persona.nombre);
-            $('#invitacion_persona_correo').text('RUT ' + (persona.rut || '') + ' · ' + ocultarCorreoTutoria(persona.email));
+            $('#invitacion_persona_correo').text('RUT ' + (persona.rut || '') + ' · ' + persona.email);
             $('#invitacion_persona .traspaso-tutor-estado').toggleClass('d-none', !persona.id);
             $('#invitacion_persona').removeClass('d-none');
         }
@@ -413,35 +381,19 @@
 
             var datos = {
                 mascota_id: tutoriaMascotaId,
-                correo: correo,
+                correo: tutoriaPersonaRut ? null : correo,
                 rut: tutoriaPersonaRut ? tutoriaPersonaRut.rut : '',
                 rol: rol,
             };
 
-            solicitudTutoria('invitar', datos, function(){
-                // Si ya había una expirada o rechazada para ese correo, la nueva la reemplaza
-                var anterior = (invitacionesTutoria[tutoriaMascotaId] || []).filter(function(item){
-                    return String(item.correo).toLowerCase() === correo;
-                })[0];
-                return {
-                    estado: 1,
-                    invitacion: {
-                        id: anterior ? anterior.id : 'local-' + Date.now(),
-                        nombre: tutoriaPersonaRut ? tutoriaPersonaRut.nombre : '',
-                        correo: correo,
-                        rol: rol,
-                        estado: 'pendiente',
-                        vence_el: nuevaVigenciaTutoria(),
-                    },
-                };
-            }).done(function(respuesta){
+            solicitudTutoria('invitar', datos).done(function(respuesta){
                 tutoriaEnviando = false;
                 botonTraspasoCargando($boton, false);
                 if (respuesta && respuesta.invitacion) reemplazarInvitacionTutoria(respuesta.invitacion);
 
                 $('#modal_invitar_cotutor').one('hidden.bs.modal', function(){
                     swal({
-                        title: 'Invitación enviada a ' + correo,
+                        title: 'Invitación enviada a ' + (tutoriaPersonaRut ? tutoriaPersonaRut.nombre : correo),
                         icon: 'success',
                         buttons: false,
                         timer: 3000,
@@ -463,12 +415,9 @@
             botonTraspasoCargando($boton, true, textos[accion]);
             $('#tutoria_lista .tutoria-accion').prop('disabled', true);
 
-            solicitudTutoria(accion, { id: id, mascota_id: tutoriaMascotaId }, function(){
-                if (accion === 'reenviar') {
-                    return { estado: 1, invitacion: $.extend({}, invitacion, { estado: 'pendiente', vence_el: nuevaVigenciaTutoria() }) };
-                }
-                return { estado: 1 };
-            }).done(function(respuesta){
+            var mascotaId = tutoriaMascotaId;
+            solicitudTutoria(accion, { id: id, mascota_id: mascotaId }).done(function(respuesta){
+                if (tutoriaMascotaId !== mascotaId) return;
                 if (accion === 'reenviar') {
                     reemplazarInvitacionTutoria((respuesta && respuesta.invitacion) || invitacion);
                 } else {
@@ -483,6 +432,7 @@
                 };
                 swal({ title: mensajes[accion], icon: 'success', buttons: false, timer: 3000 });
             }).fail(function(xhr){
+                if (tutoriaMascotaId !== mascotaId) return;
                 botonTraspasoCargando($boton, false);
                 $('#tutoria_lista .tutoria-accion').prop('disabled', false);
                 swal({ title: 'No se pudo completar la acción', text: errorRespuestaTutoria(xhr, 'Intenta nuevamente.'), icon: 'error' });

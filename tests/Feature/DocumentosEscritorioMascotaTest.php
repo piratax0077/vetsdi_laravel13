@@ -12,15 +12,36 @@ use Tests\TestCase;
 
 class DocumentosEscritorioMascotaTest extends TestCase
 {
+    public function test_profesional_puede_editar_ficha_de_reserva_compartida_anterior_con_vinculo_verificado(): void
+    {
+        Schema::table('horas_medicas', fn (Blueprint $t) => $t->unsignedBigInteger('id_profesional')->nullable());
+        DB::table('profesionales')->where('id', 3)->update(['id_usuario' => 77]);
+        DB::table('fichas_atenciones')->where('id', 10)->update(['id_paciente' => 9]);
+        DB::table('horas_medicas')->insert(['id_ficha_atencion' => 10, 'id_mascota' => 4, 'id_paciente' => 9, 'id_profesional' => 3]);
+        $usuario = \Mockery::mock(User::class)->makePartial();
+        $usuario->id = 77;
+        $usuario->shouldReceive('hasRole')->with('Profesional')->andReturnTrue();
+        Auth::setUser($usuario);
+
+        $middleware = app(AutorizarFichaVeterinaria::class);
+        $request = fn () => Request::create('/', 'POST', ['id_ficha_atencion' => 10]);
+        $this->assertSame('permitido', $middleware->handle($request(), fn () => 'permitido'));
+
+        DB::table('horas_medicas')->where('id_ficha_atencion', 10)->update(['id_mascota' => 5]);
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+        $middleware->handle($request(), fn () => $this->fail('La cita corresponde a otra mascota.'));
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
         config(['database.default'=>'sqlite', 'database.connections.sqlite.database'=>':memory:']); DB::purge('sqlite');
+        (require database_path('migrations/2026_11_07_000001_create_mascotas_tutorias.php'))->up();
         foreach ([
             'pacientes'=>['id_usuario'], 'mascotas'=>['id_responsable','nombre','chip','estado','fallecida'], 'profesionales'=>['nombre','id_usuario','apellido_uno','apellido_dos','sexo','rut','email','certificado','estado','provisorio'],
             'fichas_atenciones'=>['id_mascota','id_paciente','id_profesional','id_lugar_atencion','motivo','hipotesis_diagnostico','indicaciones','antecedentes','der_por','confidencial','profesional_visible','finalizada'],
             'recomendacion'=>['atencion'], 'detalles_receta'=>['id_ficha'], 'examenes_ppf'=>['id_ficha_atencion','examen'],
-            'horas_medicas'=>['id_paciente','id_mascota','fecha_consulta','hora_inicio','id_ficha_atencion'],
+            'horas_medicas'=>['id_paciente','id_mascota','fecha_consulta','hora_inicio','id_ficha_atencion','id_estado','fecha_realizacion_consulta'],
         ] as $tabla=>$campos) Schema::create($tabla, function (Blueprint $t) use ($campos) { $t->id(); foreach ($campos as $c) $t->text($c)->nullable(); $t->timestamps(); });
         DB::table('pacientes')->insert(['id'=>2,'id_usuario'=>7]);
         DB::table('mascotas')->insert([['id'=>4,'id_responsable'=>2], ['id'=>5,'id_responsable'=>2], ['id'=>6,'id_responsable'=>9]]);

@@ -777,69 +777,47 @@
         });
     }
 
+    let busquedaRutEmpleado = null;
     function buscar_persona_rut_nuevo_empleado()
     {
-        let rut = $('#add_empleado_rut').val();
-        let url = "{{ route('personas.buscador') }}";
-        $.ajax({
-            url: url,
-            type: "get",
-            data: {
-                rut: rut
-            },
-            beforeSend: function() {
-                swal({
-                    title: "Buscando",
-                    text: "Por favor espere...",
-                    icon: "info",
-                    buttons: false,
-                    closeOnClickOutside: false,
-                    closeOnEsc: false,
-                });
+        const modal = $('#modal_agregar_personal');
+        const campo = modal.find('[name="add_empleado_rut"]');
+        const rut = $.trim(campo.val());
+        if (busquedaRutEmpleado) busquedaRutEmpleado.abort();
+        if (!rut) return;
+
+        swal({title: 'Buscando', text: 'Por favor espere...', icon: 'info', buttons: false,
+            closeOnClickOutside: false, closeOnEsc: false});
+
+        const peticion = $.ajax({
+            url: @js(route('adm_cm.personal.buscar_rut')), type: 'GET', timeout: 8000, dataType: 'json',
+            data: {rut, id_institucion: modal.find('#add_empleado_id_institucion').val(),
+                tipo_institucion: @js(($tipo_institucion ?? '') === 'servicio' ? 'servicio' : 'institucion')}
+        });
+        busquedaRutEmpleado = peticion;
+        let aviso = '';
+        peticion.done(function (respuesta) {
+            if ($.trim(campo.val()) !== rut) return;
+            const persona = respuesta.estado == 1 && respuesta.registros;
+            if (!persona) {
+                aviso = 'RUT no encontrado. Puedes completar los datos manualmente.';
+                return;
             }
-        })
-        
-        .done(function(data2) {
+            modal.find('[name="add_empleado_nombre"]').val(persona.nombre1 || '');
+            modal.find('[name="add_empleado_apellido_uno"]').val(persona.appaterno || '');
+            modal.find('[name="add_empleado_apellido_dos"]').val(persona.apmaterno || '');
+            if (persona.email) modal.find('[name="add_empleado_email"]').val(persona.email);
+            if (persona.telefono) modal.find('[name="add_empleado_telefono"]').val(persona.telefono);
+        }).fail(function (xhr, estado) {
+            if (estado !== 'abort') aviso = 'No se pudo consultar el RUT. Puedes completar los datos manualmente.';
+        }).always(function () {
+            if (busquedaRutEmpleado !== peticion) return;
+            busquedaRutEmpleado = null;
             swal.close();
-            console.log(data2);
-            if (data2.estado == 1)
-            {
-                /** encontrado */
-                $('#add_empleado_nombre').val( data2.registros.nombre1 );
-                $('#add_empleado_apellido_uno').val( data2.registros.appaterno );
-                $('#add_empleado_apellido_dos').val( data2.registros.apmaterno );
-                $('#agregar_profesional_nuevo_telefono').val( '' );
-                $('#agregar_profesional_nuevo_email').val( '' );
-
-                $('#div_agregar_profesional_busqueda').hide();
-                $('#div_agregar_profesional_ver_info_prof').hide();
-                $('#div_agregar_profesional_formulario_nuevo_prof').show();
-            }
-            else
-            {
-                swal({
-                    title: "Rut no encontrado",
-                    text: "Rogamos llenar los datos.",
-                    icon: "warning",
-                    buttons: "Aceptar",
-                    DangerMode: true,
-                })
-                /** no encontrado */
-                $('#add_empleado_nombre').val();
-                $('#add_empleado_apellido_uno').val();
-                $('#add_empleado_apellido_dos').val();
-                $('#agregar_profesional_nuevo_telefono').val();
-                $('#agregar_profesional_nuevo_email').val();
-
-                $('#div_agregar_profesional_busqueda').hide();
-                $('#div_agregar_profesional_ver_info_prof').hide();
-                $('#div_agregar_profesional_formulario_nuevo_prof').show();
-
-            }
-
-        })
-        .fail(function(jqXHR, ajaxOptions, thrownError) {
-            console.log(jqXHR, ajaxOptions, thrownError)
+            if (aviso && modal.hasClass('show')) swal({title: 'Búsqueda de RUT', text: aviso, icon: 'warning'});
         });
     }
+    $('#modal_agregar_personal').on('hide.bs.modal', function () {
+        if (busquedaRutEmpleado) busquedaRutEmpleado.abort();
+    });
 </script>

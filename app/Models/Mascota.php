@@ -198,6 +198,31 @@ class Mascota extends Model
         });
     }
 
+    public function scopeAccesiblesPor(Builder $query, Paciente $tutor, bool $edicion = false): Builder
+    {
+        return $query->where(function (Builder $consulta) use ($tutor, $edicion) {
+            $consulta->where('mascotas.id_responsable', $tutor->id)->orWhere(function (Builder $compartidas) use ($tutor, $edicion) {
+                $compartidas->seleccionables()->whereExists(
+                    MascotaTutoria::query()->selectRaw('1')
+                        ->whereColumn('mascota_id', 'mascotas.id')
+                        ->whereColumn('titular_id', 'mascotas.id_responsable')
+                        ->where('usuario_id', $tutor->id_usuario)->where('mascotas_tutorias.estado', 'activa')
+                        ->when($edicion, fn ($acceso) => $acceso->where('rol', 'co_tutor'))
+                        ->toBase()
+                );
+            });
+        });
+    }
+
+    public function rolTutoria(Paciente $tutor): ?string
+    {
+        if ((int) $this->id_responsable === (int) $tutor->id) return 'titular';
+        if ($this->fallecida || (string) $this->estado === '0') return null;
+
+        return MascotaTutoria::where('mascota_id', $this->id)->where('titular_id', $this->id_responsable)
+            ->where('usuario_id', $tutor->id_usuario)->where('estado', 'activa')->value('rol');
+    }
+
     public function scopeVivas(Builder $query): Builder
     {
         return $query->where(function (Builder $subQuery) {

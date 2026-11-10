@@ -10007,7 +10007,11 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
             // $profesional_horarios = '00:30:00';
             // $tiempo_consulta = 30;
-            abort_unless($profesional_horarios,422,'No hay un horario de atención configurado para ese día y lugar.');
+            if (!$profesional_horarios) {
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'fecha_consulta' => 'No hay un horario de atención configurado para ese día y lugar.',
+                    ]);
+                }
             $horas = date('H',strtotime($profesional_horarios->duracion_consulta));
             $minutos = date('i',strtotime($profesional_horarios->duracion_consulta));
             $totales = ($horas*60) + $minutos;
@@ -10048,7 +10052,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
             $hora_medica->id_mascota = $mascota->id;
         }
 
-        if (!$hora_medica->save()) {
+        if (!app(\App\Services\AccesoAgendaVeterinaria::class)->guardarReserva($hora_medica, $tiempo_consulta)) {
             return 'error';
         }
 
@@ -10644,7 +10648,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                     $hora_medica->autorizacion_atencion = '1234567890';
                 }
 
-                if ($hora_medica->save())
+                if (app(\App\Services\AccesoAgendaVeterinaria::class)->guardarReserva($hora_medica, $tiempo_consulta))
                 {
                     $datos['estado'] = 1;
                     $datos['msj'] = 'Hora médica creada';
@@ -11572,7 +11576,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
 
         $request->validate([
             'id_lugar_atencion' => ['required', 'integer'],
-            'duracion' => ['required'],
+            'duracion' => ['required', 'in:00:15:00,00:30:00,00:45:00,01:00:00'],
             'dia' => ['required'],
             'hora_inicio' => ['required', 'date_format:H:i'],
             'hora_termino' => ['required', 'date_format:H:i', 'after:hora_inicio'],
@@ -11599,10 +11603,17 @@ public function eliminarPiezaCoronaProtesis(Request $req){
             ], 422);
         }
 
-        $hora_inicio  = \Carbon\Carbon::parse($request->hora_inicio . ':01')->format('H:i:s');
+        $hora_inicio  = $request->hora_inicio . ':00';
         $hora_termino = \Carbon\Carbon::parse($request->hora_termino . ':00')->format('H:i:s');
         $idLugarAtencion = (int) $request->id_lugar_atencion;
         $tipoAgenda = (int) $request->tipo_agenda_medica;
+
+        abort_unless(\App\Models\ProfesionalesLugaresAtencion::where('id_profesional', $profesional->id)
+            ->where('id_lugar_atencion', $idLugarAtencion)->where('estado', 1)->exists(), 403);
+
+        if ($tipoAgenda === 3 && strtotime($hora_termino) - strtotime($hora_inicio) < strtotime($request->duracion) - strtotime('00:00:00')) {
+            return response()->json(['estado' => 0, 'msj' => 'El horario debe permitir al menos una videoconsulta completa.'], 422);
+        }
 
         // 🔎 Validar si ya existe un horario que se cruce en alguno de esos días
         $validate = ProfesionalHorario::where('id_profesional', $profesional->id)

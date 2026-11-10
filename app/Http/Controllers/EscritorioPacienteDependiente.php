@@ -65,7 +65,7 @@ class EscritorioPacienteDependiente extends Controller
 
 
 
-    private function obtenerHorasAgendadasMascota(int $idResponsable, int $idMascota)
+    private function obtenerHorasAgendadasMascota(int $idMascota)
 
     {
 
@@ -77,9 +77,8 @@ class EscritorioPacienteDependiente extends Controller
                 'LugarAtencion.Direccion.Ciudad',
                 'Estado',
             ])
-            ->where('id_paciente', $idResponsable)
             ->where('id_mascota', $idMascota)
-            ->whereDate('fecha_consulta', '>=', date('Y-m-d'))
+            ->proximasCitas()
             ->orderBy('fecha_consulta', 'ASC')
             ->orderBy('hora_inicio', 'ASC')
             ->get()
@@ -214,7 +213,7 @@ class EscritorioPacienteDependiente extends Controller
         $mascotaId = $this->resolveMascotaIdFromRequest($request);
 
         $mascota_dependiente = Mascota::where('id', $mascotaId)
-            ->where('id_responsable', $paciente_responsable->id)
+            ->accesiblesPor($paciente_responsable)
             ->first();
 
         if ($mascota_dependiente) {
@@ -223,10 +222,10 @@ class EscritorioPacienteDependiente extends Controller
                 'responsable' => $paciente_responsable,
                 'mascota' => $mascota_dependiente,
                 'documentos_emitidos' => FichaAtencion::with(['Profesional', 'RecetasEmitidas', 'OrdenesExamenes'])
-                    ->where('id_mascota', $mascota_dependiente->id)->where('id_paciente', $paciente_responsable->id)
+                    ->where('id_mascota', $mascota_dependiente->id)->where('id_paciente', $mascota_dependiente->id_responsable)
                     ->where(fn ($q) => $q->whereHas('RecetasEmitidas')->orWhereHas('OrdenesExamenes'))
                     ->orderByDesc('updated_at')->limit(10)->get(),
-                'hora_medica' => $this->obtenerHorasAgendadasMascota($paciente_responsable->id, $mascota_dependiente->id),
+                'hora_medica' => $this->obtenerHorasAgendadasMascota($mascota_dependiente->id),
             ]);
         }
 
@@ -544,7 +543,7 @@ class EscritorioPacienteDependiente extends Controller
 
             ->where('id', $id_dependiente_activo_)
 
-            ->where('id_responsable', $paciente_responsable->id)
+            ->accesiblesPor($paciente_responsable)
 
             ->first();
 
@@ -558,7 +557,8 @@ class EscritorioPacienteDependiente extends Controller
 
 
 
-        $datosFvu = $this->buildVeterinaryRecordData($mascota, $paciente_responsable);
+        $titular = Paciente::findOrFail($mascota->id_responsable);
+        $datosFvu = $this->buildVeterinaryRecordData($mascota, $titular);
 
 
 

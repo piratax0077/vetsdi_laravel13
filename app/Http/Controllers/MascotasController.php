@@ -101,10 +101,11 @@ class MascotasController extends Controller
         $paciente = Paciente::where('id_usuario', Auth::id())->firstOrFail();
         $idLugarAtencion = request()->input('id_lugar_atencion');
         $mascotas = Mascota::with(['especieMascota', 'tamanoMascota', 'lugaresAtencion'])
-            ->where('id_responsable', optional($paciente)->id)
+            ->accesiblesPor($paciente)
             ->where('estado', 1)
             ->porLugarAtencion($idLugarAtencion)
             ->get();
+        $mascotas->each(fn ($mascota) => $mascota->rol_acceso = $mascota->rolTutoria($paciente));
         $especies = EspecieMascota::orderBy('nombre')->get();
         $tamanos = TamanoMascota::orderBy('nombre')->get();
         $especieTamanos = EspecieTamanoMascota::with(['especie', 'tamano'])->get();
@@ -349,7 +350,7 @@ class MascotasController extends Controller
     {
         $user = Auth::user();
         $paciente = Paciente::where('id_usuario', Auth::id())->first();
-        $autorizado = $paciente && ((int)$mascota->id_responsable === (int)$paciente->id);
+        $autorizado = $paciente && in_array($mascota->rolTutoria($paciente), ['titular', 'co_tutor'], true);
 
         // Permitir actualización desde ficha profesional cuando exista relación real
         // entre profesional, paciente responsable y mascota.
@@ -586,10 +587,11 @@ class MascotasController extends Controller
         }
 
         $mascotas = Mascota::with(['especieMascota', 'razaMascota', 'tamanoMascota', 'lugaresAtencion'])
-            ->where('id_responsable', $paciente->id)
+            ->accesiblesPor($paciente)
             ->when($request->boolean('seleccionables'), fn ($query) => $query->seleccionables(), fn ($query) => $query->where('estado', 1))
             ->porLugarAtencion($request->input('id_lugar_atencion'))
             ->get();
+        $mascotas->each(fn ($mascota) => $mascota->rol_acceso = $mascota->rolTutoria($paciente));
 
         return response()->json([
             'estado' => 1,
@@ -1043,6 +1045,9 @@ class MascotasController extends Controller
         $resumen = $this->construirResumenTraspaso($mascota);
 
         DB::transaction(function () use ($mascota, $nuevoTutor, $tutorAnteriorId) {
+            \App\Models\MascotaTutoria::where('mascota_id', $mascota->id)->where('titular_id', $tutorAnteriorId)
+                ->update(['estado' => 'cancelada', 'usuario_id' => null]);
+
             $mascota->id_responsable = $nuevoTutor->id;
             $mascota->save();
 
@@ -1761,7 +1766,7 @@ class MascotasController extends Controller
 
         $mascota = Mascota::with(['especieMascota', 'razaMascota', 'tamanoMascota', 'Responsable'])
             ->where('id', $mascotaId)
-            ->where('id_responsable', $paciente->id)
+            ->accesiblesPor($paciente)
             ->firstOrFail();
 
         return view('app.paciente.carnet_sanitario_mascota', [
@@ -1817,7 +1822,7 @@ class MascotasController extends Controller
 
     public function guardarVacunaDesdeModal(Request $request, $mascotaId)
     {
-        $mascota = $this->resolverMascota($mascotaId);
+        $mascota = $this->resolverMascota($mascotaId, true);
         if (!$mascota) {
             return response()->json([
                 'estado' => 0,
@@ -1879,7 +1884,7 @@ class MascotasController extends Controller
 
     public function guardarDesparasitacionDesdeModal(Request $request, $mascotaId)
     {
-        $mascota = $this->resolverMascota($mascotaId);
+        $mascota = $this->resolverMascota($mascotaId, true);
         if (!$mascota) {
             return response()->json([
                 'estado' => 0,
@@ -2008,7 +2013,7 @@ class MascotasController extends Controller
         }));
     }
 
-    private function resolverMascota($id)
+    private function resolverMascota($id, bool $edicion = false)
     {
         if (empty($id)) {
             return null;
@@ -2016,7 +2021,7 @@ class MascotasController extends Controller
 
         $mascota = Mascota::find($id);
         if ($mascota) {
-            return $this->puedeAccederMascota($mascota) ? $mascota : null;
+            return $this->puedeAccederMascota($mascota, $edicion) ? $mascota : null;
         }
 
         // Compatibilidad con IDs legacy (id_paciente dependiente).
@@ -2035,13 +2040,14 @@ class MascotasController extends Controller
             ->where('nombre', $nombreMascota)
             ->first();
 
-        return $mascota && $this->puedeAccederMascota($mascota) ? $mascota : null;
+        return $mascota && $this->puedeAccederMascota($mascota, $edicion) ? $mascota : null;
     }
 
-    private function puedeAccederMascota(Mascota $mascota): bool
+    private function puedeAccederMascota(Mascota $mascota, bool $edicion = false): bool
     {
         if (!Auth::check()) return false;
-        if (Paciente::where('id_usuario', Auth::id())->whereKey($mascota->id_responsable)->exists()) return true;
+        $tutor = Paciente::where('id_usuario', Auth::id())->first();
+        if ($tutor && in_array($mascota->rolTutoria($tutor), $edicion ? ['titular', 'co_tutor'] : ['titular', 'co_tutor', 'cuidador'], true)) return true;
         $profesional = Profesional::where('id_usuario', Auth::id())->first();
         if (!$profesional) return false;
         return HoraMedica::where('id_profesional', $profesional->id)->where('id_mascota', $mascota->id)->where('id_paciente', $mascota->id_responsable)->exists()

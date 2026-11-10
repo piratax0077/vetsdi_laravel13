@@ -62,6 +62,7 @@
                 </li>
             @endforeach
         </ul>
+        <p><a href="{{ route('centros_servicios.perfiles') }}">Administrar una guardería, hotel o cementerio de mascotas</a></p>
     </main>
 
 </body>

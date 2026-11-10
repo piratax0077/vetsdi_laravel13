@@ -9,7 +9,7 @@ function setup() {
         const state=fields.get(key);
         return {val(value){if(arguments.length){state.value=value;return this;}return state.value;},
             prop(name,value){state[name]=value;return this;},modal(value){state.modal=value;return this;},
-            replaceWith(html){state.replaced=html;return this;},toggleClass(name,value){state[name]=value;return this;},
+            find(){return {length:0};},append(html){state.replaced=html;return this;},toggleClass(name,value){state[name]=value;return this;},
             filter(callback){return {length:state.options.filter(value=>callback.call({value})).length};}};
     }
     $.fn={};
@@ -20,14 +20,14 @@ function setup() {
 }
 test('agrega con nombre tipo y piso sin los campos retirados y reemplaza la tabla',()=>{
     const s=setup();
-    s.$('#numero_box').val('aa');s.$('#tpo_especializacion').val('Consulta general');s.$('#tpo_equip_servicio').val('1');
+    s.$('#agreg_box_ad [name=numero_box]').val('aa');s.$('#agreg_box_ad [name=tpo_especializacion]').val('Consulta general');s.$('#agreg_box_ad [name=tpo_equip_servicio]').val('1');
     s.api.guardar(false);s.api.guardar(false);
     assert.equal(s.requests.length,1);
     assert.equal(s.requests[0].data.tpo_especializacion,'Consulta general');
     assert.equal(s.requests[0].data.id_lugar_atencion,100);
     assert.equal(s.requests[0].data.seccion_box,undefined);
-    s.handlers.done({estado:1,v:'<table>nuevo</table>',mensaje:'Guardado'});s.handlers.always();
-    assert.equal(s.fields.get('#tabla_boxes_atencion').replaced,'<table>nuevo</table>');
+    s.handlers.done({estado:1,id:1,v:'<tr>nuevo</tr>',mensaje:'Guardado'});s.handlers.always();
+    assert.equal(s.fields.get('#tabla_boxes_atencion tbody').replaced,'<tr>nuevo</tr>');
     assert.equal(s.fields.get('#agreg_box_ad').modal,'hide');
 });
 test('carga un tipo personalizado y lo guarda al editar sin trasladar el box de sede',()=>{
@@ -37,6 +37,9 @@ test('carga un tipo personalizado y lo guarda al editar sin trasladar el box de 
     assert.equal(s.$('#editar_tpo_especializacion').val(),'Otro');
     assert.equal(s.$('#editar_tpo_especializacion_otro').val(),'Tipo personalizado');
     assert.equal(s.$('#editar_tpo_equip_servicio').val(),'2');
+    for (const campo of ['numero_box', 'tpo_especializacion', 'tpo_especializacion_otro', 'tpo_equip_servicio']) {
+        s.$('#editar_box [name=editar_' + campo + ']').val(s.$('#editar_' + campo).val());
+    }
     s.api.guardar(true);
     assert.equal(s.requests[1].url,'/editar');
     assert.equal(s.requests[1].data.id_box,7);

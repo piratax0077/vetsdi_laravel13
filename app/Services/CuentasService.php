@@ -19,7 +19,7 @@ use App\Models\UsuarioRol;
 class CuentasService
 {
     /** Los cuatro tipos de cuenta que ofrece el registro. */
-    public const TIPOS = ['tutor', 'profesional', 'asistente', 'clinica', 'peluqueria', 'centro_estetico'];
+    public const TIPOS = ['tutor', 'profesional', 'asistente', 'clinica', 'peluqueria', 'centro_estetico', 'guarderia_hotel', 'cementerio_mascotas'];
 
     /** Equivalencia con los roles de spatie que ya usan los escritorios. */
     public const ROLES_SPATIE = [
@@ -29,6 +29,8 @@ class CuentasService
         'clinica' => 'Adm_Institucion',
         'peluqueria' => 'Peluqueria',
         'centro_estetico' => 'CentroEstetico',
+        'guarderia_hotel' => 'GuarderiaHotel',
+        'cementerio_mascotas' => 'CementerioMascotas',
         'hospitalizacion' => 'HospitalizacionVeterinaria',
     ];
 
@@ -39,6 +41,8 @@ class CuentasService
         'clinica' => 'Clínica veterinaria',
         'peluqueria' => 'Profesional de estética',
         'centro_estetico' => 'Centro estético',
+        'guarderia_hotel' => 'Guardería y Hotel',
+        'cementerio_mascotas' => 'Cementerio de Mascotas',
         'hospitalizacion' => 'Hospitalización veterinaria',
     ];
 
@@ -50,6 +54,8 @@ class CuentasService
         'clinica' => 'Centro que administra su equipo, pacientes y operación.',
         'peluqueria' => 'Profesional de baño, belleza y peluquería de mascotas. Perfil independiente del veterinario.',
         'centro_estetico' => 'Institución que administra sucursales, profesionales de estética, personal, agendas y aranceles.',
+        'guarderia_hotel' => 'Centro de cuidado diurno y alojamiento de mascotas.',
+        'cementerio_mascotas' => 'Centro de servicios funerarios para mascotas.',
         'hospitalizacion' => 'Servicio de atención veterinaria y enfermería para mascotas hospitalizadas.',
     ];
 
@@ -61,6 +67,8 @@ class CuentasService
         'clinica' => 'Escritorio de la clínica y administración de su equipo.',
         'peluqueria' => 'Agenda personal, mascotas y fichas de atención estética.',
         'centro_estetico' => 'Administración del centro, equipo, sucursales, agendas y servicios.',
+        'guarderia_hotel' => 'Reservas, estadías, retiro a domicilio y acompañamiento.',
+        'cementerio_mascotas' => 'Retiros, entierros, lugares y registro de ventas.',
         'hospitalizacion' => 'Pacientes hospitalizados, atención profesional, controles y cuidados de enfermería.',
     ];
 
@@ -72,6 +80,8 @@ class CuentasService
         'clinica' => 'images/logos/iconos-inicio-sesion/institucion.svg',
         'peluqueria' => 'images/iconos/mascotas.svg',
         'centro_estetico' => 'images/logos/iconos-inicio-sesion/institucion.svg',
+        'guarderia_hotel' => 'images/logos/iconos-inicio-sesion/institucion.svg',
+        'cementerio_mascotas' => 'images/logos/iconos-inicio-sesion/institucion.svg',
         'hospitalizacion' => 'images/iconos/hospitalizacion.svg',
     ];
 
@@ -83,6 +93,8 @@ class CuentasService
         'clinica' => 'adm_cm.home',
         'peluqueria' => 'peluqueria.home',
         'centro_estetico' => 'centro_estetico.home',
+        'guarderia_hotel' => 'guarderia_hotel.home',
+        'cementerio_mascotas' => 'cementerio_mascotas.home',
         'hospitalizacion' => 'vet.hospital.servicio',
     ];
 
@@ -94,6 +106,8 @@ class CuentasService
         'clinica' => Instituciones::class,
         'peluqueria' => \App\Models\ProfesionalEstetica::class,
         'centro_estetico' => \App\Models\CentroEstetico::class,
+        'guarderia_hotel' => \App\Models\CentroServiciosMascotas::class,
+        'cementerio_mascotas' => \App\Models\CentroServiciosMascotas::class,
     ];
 
     /**
@@ -206,7 +220,8 @@ class CuentasService
         if ($tipo === 'hospitalizacion') return Profesional::where('id_usuario',$usuario->id)->first() ?? Asistente::where('id_usuario',$usuario->id)->first();
         $modelo = self::MODELOS_PERFIL[$this->validarTipo($tipo)];
 
-        return $modelo::where('id_usuario', $usuario->id)->first();
+        return $modelo::where('id_usuario', $usuario->id)
+            ->when($modelo === \App\Models\CentroServiciosMascotas::class, fn ($q) => $q->where('tipo', $tipo))->first();
     }
 
     public function etiqueta(string $tipo): string

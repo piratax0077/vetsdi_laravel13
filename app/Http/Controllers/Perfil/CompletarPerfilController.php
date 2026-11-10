@@ -67,7 +67,10 @@ class CompletarPerfilController extends Controller
 
         $request->session()->put(SeleccionCuentaController::SESION_ROL_ACTIVO, $tipo);
 
-        return view('perfil.completar_'.$tipo, array_merge([
+        $vista = in_array($tipo, ['guarderia_hotel', 'cementerio_mascotas'], true)
+            ? 'perfil.completar_centro_servicios' : 'perfil.completar_'.$tipo;
+
+        return view($vista, array_merge([
             'usuario' => $usuario,
             'tipo' => $tipo,
             'etiqueta' => $this->cuentas->etiqueta($tipo),
@@ -94,6 +97,7 @@ class CompletarPerfilController extends Controller
             'clinica' => $this->guardarClinica($request, $usuario),
             'peluqueria' => $this->guardarPeluqueria($request, $usuario),
             'centro_estetico' => $this->guardarCentroEstetico($request,$usuario),
+            'guarderia_hotel', 'cementerio_mascotas' => app(\App\Services\CentrosServiciosMascotas::class)->crear($request, $usuario, $tipo),
         };
 
         $this->cuentas->marcarPerfilCompleto($usuario, $tipo);
@@ -106,7 +110,7 @@ class CompletarPerfilController extends Controller
     private function catalogos(string $tipo): array
     {
         return match ($tipo) {
-            'peluqueria', 'centro_estetico' => [],
+            'peluqueria', 'centro_estetico', 'guarderia_hotel', 'cementerio_mascotas' => [],
             'tutor' => [
                 'regiones' => Region::orderBy('nombre')->get(['id', 'nombre']),
                 'especies' => EspecieMascota::orderBy('id')->get(['id', 'nombre']),

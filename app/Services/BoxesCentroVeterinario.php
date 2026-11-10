@@ -34,8 +34,29 @@ class BoxesCentroVeterinario
             $box->id_usuario=Auth::id();
             $box->saveOrFail();
             return ['estado'=>1,'mensaje'=>$editar ? 'Box o sala actualizado correctamente.' : 'Box o sala agregado correctamente.',
-                'v'=>view('fragm.boxes_cm',['boxes_servicio'=>BoxCm::where('id_institucion',$centro->id)->orderBy('numero_box')->get()])->render()];
+                'id' => $box->id, 'v'=>view('app.adm_cm.partials.filas_boxes', ['boxes_servicio' => [$box]])->render()];
         });
+    }
+
+    public function cambiarEstado(Request $request): array
+    {
+        $datos = $request->validate(['id' => 'required|integer', 'estado' => 'required|boolean']);
+        $centro = app(PerfilCentroMedico::class)->centro($request);
+        $box = BoxCm::where('id_institucion', $centro->id)->findOrFail($datos['id']);
+        $box->estado = $datos['estado'];
+        $box->saveOrFail();
+
+        return ['estado' => 1];
+    }
+
+    public function eliminar(Request $request): array
+    {
+        $datos = $request->validate(['id' => 'required|integer']);
+        $centro = app(PerfilCentroMedico::class)->centro($request);
+        $box = BoxCm::where('id_institucion', $centro->id)->findOrFail($datos['id']);
+        $box->deleteOrFail();
+
+        return ['estado' => 1];
     }
 
     public function obtener(Request $request, int $id): array

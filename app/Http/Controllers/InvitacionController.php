@@ -165,7 +165,7 @@ class InvitacionController extends Controller
             else
             {
                 $role = 3; // uso del rol de profesional
-                $resultado = static::store($role, 'A PROFESIONAL', $id_lugar_atencion, $rut, $nombre, $apellido_uno, $apellido_dos, $telefono, $email, $id_especialidad, $id_tipo_especialidad, $id_sub_tipo_especialidad, 0, 0, date('Y-m-d H:i:s'), '', '', '', $id_user_solicitud, $id_user_invitado);
+                $resultado = app(static::class)->store($role, 'A PROFESIONAL', $id_lugar_atencion, $rut, $nombre, $apellido_uno, $apellido_dos, $telefono, $email, $id_especialidad, $id_tipo_especialidad, $id_sub_tipo_especialidad, 0, 0, date('Y-m-d H:i:s'), '', '', '', $id_user_solicitud, $id_user_invitado);
                 $datos = $resultado;
 
                 if($envio_notificacion == 1)

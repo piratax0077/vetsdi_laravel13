@@ -35,6 +35,7 @@ class PerfilTutorMascotaTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();config(['database.default'=>'sqlite','database.connections.sqlite.database'=>':memory:']);DB::purge('sqlite');
+        (require database_path('migrations/2026_11_07_000001_create_mascotas_tutorias.php'))->up();
         foreach([
             'users'=>['name','nombres','apellido_uno','apellido_dos','telefono','email','password'],
             'pacientes'=>['id_usuario','rut','nombres','apellido_uno','apellido_dos','sexo','fecha_nac','email','telefono_uno','id_direccion','foto_perfil','id_prevision'],

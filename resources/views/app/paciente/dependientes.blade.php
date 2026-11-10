@@ -1266,6 +1266,11 @@
                 $('#btn_registrar_fallecimiento_detalle').removeClass('d-none');
             }
 
+            if (mascota.rol_acceso && mascota.rol_acceso !== 'titular') {
+                $('#btn_eliminar_mascota, #btn_registrar_fallecimiento_detalle').addClass('d-none');
+                if (mascota.rol_acceso === 'cuidador') $('#btn_editar_mascota').addClass('d-none');
+            }
+
             $modal.appendTo('body');
             $modal.modal('show');
         }

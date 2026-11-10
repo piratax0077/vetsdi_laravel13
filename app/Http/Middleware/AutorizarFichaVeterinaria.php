@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\{FichaAtencion, Mascota, Paciente, Profesional};
+use App\Models\{FichaAtencion, HoraMedica, Mascota, Paciente, Profesional};
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,9 +20,14 @@ class AutorizarFichaVeterinaria
         $mascota = Mascota::findOrFail($ficha->id_mascota);
         $profesional = Auth::user()->hasRole('Profesional') ? Profesional::where('id_usuario',Auth::id())->first() : null;
         $propio = $profesional && (int) $profesional->id === (int) $ficha->id_profesional;
-        $tutor = $lectura && Paciente::where('id_usuario',Auth::id())->whereKey($mascota->id_responsable)->exists();
-        abort_unless($propio || $tutor, 403);
-        if (!$lectura) abort_unless((int)$mascota->id_responsable === (int)$ficha->id_paciente, 403);
+        $tutor = $lectura ? Paciente::where('id_usuario', Auth::id())->first() : null;
+        abort_unless($propio || ($tutor && $mascota->rolTutoria($tutor)), 403);
+        if (!$lectura && (int) $mascota->id_responsable !== (int) $ficha->id_paciente) {
+            // Las reservas anteriores podían guardar a quien agendó en vez del titular.
+            abort_unless(HoraMedica::where('id_ficha_atencion', $ficha->id)
+                ->where('id_mascota', $mascota->id)->where('id_paciente', $ficha->id_paciente)
+                ->where('id_profesional', $profesional->id)->exists(), 403);
+        }
         foreach (['id_profesional','id_paciente','id_lugar_atencion'] as $campo) {
             abort_if($request->filled($campo) && (int)$request->input($campo) !== (int)$ficha->{$campo}, 403);
             $request->merge([$campo=>$ficha->{$campo}]);

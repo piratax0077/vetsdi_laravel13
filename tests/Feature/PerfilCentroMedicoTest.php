@@ -61,7 +61,7 @@ class PerfilCentroMedicoTest extends TestCase
     private function prepararEspecialidadesVeterinarias(): void
     {
         foreach ([
-            'tipos_especialidad'=>['nombre'], 'sub_tipo_especialidad'=>['id_tipo_especialidad','nombre'],
+            'tipos_especialidad'=>['nombre'], 'sub_tipo_especialidad'=>['id_tipo_especialidad','nombre','estado'],
             'especialidades_cm'=>['id_tipo_especialidad','id_sub_tipo_especialidad','id_lugar_atencion','id_institucion','num_profesionales','id_admin','estado','principal'],
         ] as $tabla=>$campos) Schema::create($tabla,function(Blueprint $t) use($campos){$t->id();foreach($campos as $c)$t->text($c)->nullable();$t->timestamps();});
         DB::table('tipos_especialidad')->insert(['id'=>8,'nombre'=>'Medicina veterinaria']);
@@ -80,6 +80,31 @@ class PerfilCentroMedicoTest extends TestCase
         $this->assertSame(1,DB::table('especialidades_cm')->count());
         $this->assertSame(1,DB::table('sub_tipo_especialidad')->count());
         $this->assertEquals(6,DB::table('especialidades_cm')->value('num_profesionales'));
+    }
+
+    public function test_el_centro_puede_guardar_y_listar_las_nuevas_consultas(): void
+    {
+        $this->prepararEspecialidadesVeterinarias();
+        $controller = app(AdministradorCmController::class);
+        $consultas = [
+            'gastroenterologia' => 'Consulta Gastroenterología',
+            'broncopulmonar' => 'Consulta Broncopulmonar',
+            'endocrinologia' => 'Consulta Endocrinología',
+            'medicina_general_veterinaria' => 'Consulta Medicina General Veterinaria',
+        ];
+
+        foreach ($consultas as $clave => $nombre) {
+            $respuesta = $controller->registrar_especialidad_cm($this->req([
+                'especialidad' => $clave,
+                'num_profesionales' => 2,
+                'principal' => 1,
+            ]));
+
+            $this->assertSame(1, $respuesta['estado']);
+            $this->assertContains($nombre, $respuesta['especialidades']->pluck('nombre')->all());
+        }
+
+        $this->assertSame(count($consultas), DB::table('especialidades_cm')->count());
     }
 
     public function test_especialidad_veterinaria_requiere_numero_positivo_y_area_valida(): void

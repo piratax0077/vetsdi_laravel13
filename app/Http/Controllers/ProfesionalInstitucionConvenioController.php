@@ -241,6 +241,9 @@ class ProfesionalInstitucionConvenioController extends Controller
 
     static public function envioNotificacionConvenio($tipo,$id_invitacion)
     {
+        if ((string) $tipo === '1' && (in_array(config('mail.default'), ['log', 'array'], true) || filled(config('mail.redirect_to')))) {
+            return ['estado' => 0, 'msj' => 'El correo no salió al destinatario. El entorno usa un transporte de prueba.'];
+        }
         $datos = array();
 
         $invitacion = Invitacion::with('LugarAtencion')->where('id', $id_invitacion)->first();
@@ -297,7 +300,9 @@ class ProfesionalInstitucionConvenioController extends Controller
                         else
                         {
                             $datos['mail']['estado'] = 0;
-                            $datos['mail']['msj'] = 'Falle en envio de Notificacion de bienvenida';
+                            $datos['mail']['msj'] = 'No se pudo enviar la invitación por correo.';
+                            $datos['estado'] = 0;
+                            $datos['msj'] = $datos['mail']['msj'];
                         }
                     }
                 break;

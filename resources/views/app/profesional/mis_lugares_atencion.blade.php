@@ -501,7 +501,7 @@
                                         @else
                                             <option value="0">Seleccione</option>
                                             <option value="1">Consulta veterinaria general</option>
-                                            <option value="3">Atención a domicilio</option>
+                                            <option value="3">Videoconsulta veterinaria</option>
                                             <option value="4">Exámenes veterinarios</option>
                                             <option value="5">Procedimientos y cirugías</option>
                                         @endif

@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-12">
                     <h6 class="font-weight-bold f-26">{{ !empty($es_veterinaria_busqueda) ? 'Reservar hora veterinaria' : 'Reservar hora médica' }}</h6>
-                    <p>{{ !empty($es_veterinaria_busqueda) ? 'Busque por servicio, por veterinario o por telemedicina y agende la hora en pocos pasos.' : 'Busque por especialidad, por profesional o por videoconsulta y agende la hora en pocos pasos.' }}</p>
+                    <p>{{ !empty($es_veterinaria_busqueda) ? 'Busque por servicio, por veterinario o por videoconsulta y agende la hora en pocos pasos.' : 'Busque por especialidad, por profesional o por videoconsulta y agende la hora en pocos pasos.' }}</p>
                 </div>
             </div>
             <!--Cierre: Header-->
@@ -98,7 +98,7 @@
                                         <button type="button" class="nav-link reserva-vet-lugar-caja" onclick="$('#select_tipo_agenda').val(3);$('#div_resultado_busqueda').html('')" id="buscar_videoconsulta-tab" data-toggle="tab" data-target="#buscar_videoconsulta" role="tab" aria-controls="buscar_videoconsulta" aria-selected="false">
                                             <span class="reserva-vet-lugar-icono"><i class="feather icon-video"></i></span>
                                             <span class="reserva-vet-lugar-datos">
-                                                <span class="reserva-vet-lugar-nombre">{{ !empty($es_veterinaria_busqueda) ? 'Telemedicina veterinaria' : 'Videoconsulta' }}</span>
+                                                <span class="reserva-vet-lugar-nombre">{{ !empty($es_veterinaria_busqueda) ? 'Videoconsulta veterinaria' : 'Videoconsulta' }}</span>
                                                 <span class="reserva-vet-lugar-direccion">Atención a distancia</span>
                                             </span>
                                             <span class="reserva-vet-lugar-marca" aria-hidden="true"><i class="feather icon-check"></i></span>
@@ -247,7 +247,7 @@
                                     <!--Hora por videoconsulta-->
                                     <div class="tab-pane fade" id="buscar_videoconsulta" role="tabpanel" aria-labelledby="buscar_videoconsulta-tab">
                                         {{--  <form>  --}}
-                                            <p class="small text-muted mb-4">{{ !empty($es_veterinaria_busqueda) ? 'Seleccione el área y la prestación para buscar horas de telemedicina veterinaria.' : 'Ingrese los datos solicitados para buscar horas por especialidad.' }}</p>
+                                            <p class="small text-muted mb-4">{{ !empty($es_veterinaria_busqueda) ? 'Seleccione el área y la prestación para buscar horas de videoconsulta veterinaria.' : 'Ingrese los datos solicitados para buscar horas por especialidad.' }}</p>
                                             <div class="form-row">
                                                 <div class="col-sm-12 col-md-6">
                                                     <div class="form-group">

@@ -2931,6 +2931,10 @@ class AdministradorCmController extends Controller
         $lista_profesionales['OTROS'] = array();
 
         $profesionales = $this->dame_profesionales($scopeLugarIds);
+        $invitados = Profesional::with(['TipoEspecialidad', 'SubTipoEspecialidad'])
+            ->whereIn('id', $this->conveniosProfesionalesPendientes($institucion->id, $scopeLugarIds)->select('id_profesional'))
+            ->get();
+        $profesionales = $profesionales->concat($invitados)->unique('id')->sortBy('nombre')->values();
         if($profesionales)
         {
             foreach ($profesionales as $key_prof => $value_prof)
@@ -5133,7 +5137,104 @@ class AdministradorCmController extends Controller
         return $datos;
     }
 
+    public function buscarRutEmpleado(Request $request): array
+    {
+        app(\App\Services\PerfilCentroMedico::class)->centro($request);
+        $datos = $request->validate(['rut' => 'required|string|max:20']);
+        $normalizado = rut_normalizar($datos['rut']);
+        if (!$normalizado) return ['estado' => 0, 'registros' => null];
+
+        $variantes = array_unique([$datos['rut'], $normalizado, rut_formatear($normalizado), str_replace('-', '', $normalizado)]);
+        foreach ([
+            [\App\Models\Asistente::class, 'nombres', 'telefono_uno'],
+            [\App\Models\User::class, 'nombres', 'telefono'],
+            [\App\Models\Profesional::class, 'nombre', 'telefono_uno'],
+            [\App\Models\Paciente::class, 'nombres', 'telefono_uno'],
+        ] as [$modelo, $nombre, $telefono]) {
+            $persona = $modelo::whereIn('rut', $variantes)->first();
+            if ($persona) {
+                return ['estado' => 1, 'registros' => [
+                    'nombre1' => $persona->{$nombre} ?: ($persona->name ?? ''),
+                    'appaterno' => $persona->apellido_uno, 'apmaterno' => $persona->apellido_dos,
+                    'email' => $persona->email, 'telefono' => $persona->{$telefono},
+                ]];
+            }
+        }
+
+        return ['estado' => 0, 'registros' => null];
+    }
+
+    private function conveniosProfesionalesPendientes(int $institucion, array $lugares)
+    {
+        return ProfesionalInstitucionConvenio::where('id_institucion', $institucion)
+            ->whereIn('id_lugar_atencion', $lugares)->where('estado', 1)
+            ->whereIn('id_invitacion', \App\Models\Invitacion::where('procesado', 0)->select('id'));
+    }
+
+    public function editarEspecialidadProfesionalVet(Request $request, int $id): array
+    {
+        $catalogo = app(\App\Services\EspecialidadesCentroVeterinario::class);
+        $datos = $request->validate([
+            'especialidad' => ['required', \Illuminate\Validation\Rule::in(array_keys($catalogo::CATALOGO))],
+            'rut' => 'sometimes|required|string|max:20',
+            'sexo' => 'sometimes|nullable|in:M,F',
+            'nombre' => 'sometimes|required|string|max:100',
+            'apellido_uno' => 'sometimes|nullable|string|max:100',
+            'apellido_dos' => 'sometimes|nullable|string|max:100',
+            'email' => 'sometimes|nullable|email:rfc|max:254',
+            'telefono_uno' => 'sometimes|nullable|string|max:30',
+        ]);
+        $contexto = $this->resolveAdminInstitutionContext($request);
+        abort_if(empty($contexto['scopeLugarIds']), 403);
+
+        $pendientes = $this->conveniosProfesionalesPendientes($contexto['institucion']->id, $contexto['scopeLugarIds']);
+        $profesional = Profesional::where(function ($consulta) use ($contexto, $pendientes) {
+            $consulta->whereHas('LugaresAtencion', function ($lugares) use ($contexto) {
+                $lugares->whereIn('lugares_atencion.id', $contexto['scopeLugarIds']);
+            })->orWhereIn('id', (clone $pendientes)->select('id_profesional'));
+        })->findOrFail($id);
+
+        DB::transaction(function () use ($catalogo, $datos, $profesional, $pendientes) {
+            $profesional = Profesional::lockForUpdate()->findOrFail($profesional->id);
+            $perfil = \Illuminate\Support\Arr::except($datos, ['especialidad']);
+            if (isset($perfil['rut'])) {
+                $rut = rut_normalizar($perfil['rut']);
+                if ($rut === rut_normalizar($profesional->rut)) {
+                    unset($perfil['rut']);
+                } else {
+                    $duplicado = $rut && Profesional::whereKeyNot($profesional->id)
+                        ->whereRaw("REPLACE(REPLACE(UPPER(rut), '.', ''), '-', '') = ?", [str_replace('-', '', $rut)])
+                        ->exists();
+                    if (!rut_es_valido($rut) || $duplicado) {
+                        throw \Illuminate\Validation\ValidationException::withMessages(['rut' => 'El RUT no es válido o ya está registrado.']);
+                    }
+                    $perfil['rut'] = $rut;
+                }
+            }
+
+            $subtipo = $catalogo->resolverSubtipo($datos['especialidad']);
+            $tipo = TipoEspecialidad::findOrFail($subtipo->id_tipo_especialidad);
+            $especialidad = [
+                'id_especialidad' => $tipo->id_especialidad,
+                'id_tipo_especialidad' => $tipo->id,
+                'id_sub_tipo_especialidad' => $subtipo->id,
+            ];
+            $profesional->forceFill($perfil + $especialidad)->saveOrFail();
+            $datosInvitacion = array_intersect_key($perfil, array_flip(['rut', 'nombre', 'apellido_uno', 'apellido_dos', 'email']));
+            if (array_key_exists('telefono_uno', $perfil)) $datosInvitacion['telefono'] = $perfil['telefono_uno'];
+            $invitaciones = $pendientes->where('id_profesional', $profesional->id)->pluck('id_invitacion');
+            \App\Models\Invitacion::where('procesado', 0)->whereIn('id', $invitaciones)->update($datosInvitacion + $especialidad);
+        });
+
+        return ['estado' => 1];
+    }
+
     public function asociarProfesionalNuevo(Request $request)
+    {
+        return DB::transaction(fn () => $this->registrarInvitacionProfesionalCentro($request));
+    }
+
+    private function registrarInvitacionProfesionalCentro(Request $request)
     {
 
         $datos = array();
@@ -5175,7 +5276,13 @@ class AdministradorCmController extends Controller
             $error['telefono_uno'] = 'campo requerido';
             $valido = 0;
         }
-        if(empty($request->profesion))
+        $catalogo = app(\App\Services\EspecialidadesCentroVeterinario::class);
+        $especialidadVeterinaria = isset($catalogo::CATALOGO[(string) $request->input('especialidad')]);
+        if ($especialidadVeterinaria) {
+            $contexto = $this->resolveAdminInstitutionContext($request);
+            abort_unless(in_array((int) $request->id_lugar_atencion, $contexto['scopeLugarIds'], true), 403);
+        }
+        if(!$especialidadVeterinaria && empty($request->profesion))
         {
             $error['profesion'] = 'campo requerido';
             $valido = 0;
@@ -5238,109 +5345,113 @@ class AdministradorCmController extends Controller
         {
             $institucion = '';
             $tipo_institucion = '1';
-            $id_busqueda = Auth::user()->id;
+            if ($especialidadVeterinaria) {
+                $institucion = $contexto['institucion'];
+            } else {
+                $id_busqueda = Auth::user()->id;
 
-            /** INFORMACION DE INSTITUCION Y RESPONSABLE */
-            if(Auth::user()->id == 3)
-            {
-                $id_busqueda = 5;
-                $registro = Instituciones::where('id', $id_busqueda)->first();
-            }
-            else
-            {
-                $registro = Instituciones::where('id_usuario',Auth::user()->id)->first();
-            }
-
-            if($registro)
-            {
-                // var_dump($registro);
-                // var_dump($registro->UsuarioAdministrador()->first());
-                //var_dump($registro->UsuarioAdministrador()->first()->id);
-                /** INSTITUCION */
-                $institucion = $registro;
-                $responsable = AdminInstServ::where('id',$registro->UsuarioAdministrador()->first()->id)->first();
-                $tipo_institucion = 'institucion';
-
-            }
-            else
-            {
-                $registro = Servicios::where('id_usuario',Auth::user()->id)->first();
-                if($registro)
+                /** INFORMACION DE INSTITUCION Y RESPONSABLE */
+                if(Auth::user()->id == 3)
                 {
-                    /** SERVICIOS */
-                    $institucion = $registro;
-                    $tipo_institucion = 'servicio';
+                    $id_busqueda = 5;
+                    $registro = Instituciones::where('id', $id_busqueda)->first();
                 }
                 else
                 {
-                    /** busqueda por responsable */
-                    $responsable = AdminInstServ::where('id_admin',Auth::user()->id)->first();
+                    $registro = Instituciones::where('id_usuario',Auth::user()->id)->first();
+                }
 
-                    if($responsable)
+                if($registro)
+                {
+                    // var_dump($registro);
+                    // var_dump($registro->UsuarioAdministrador()->first());
+                    //var_dump($registro->UsuarioAdministrador()->first()->id);
+                    /** INSTITUCION */
+                    $institucion = $registro;
+                    $responsable = AdminInstServ::where('id',$registro->UsuarioAdministrador()->first()->id)->first();
+                    $tipo_institucion = 'institucion';
+
+                }
+                else
+                {
+                    $registro = Servicios::where('id_usuario',Auth::user()->id)->first();
+                    if($registro)
                     {
-                        $registro = Instituciones::where('id_responsable',$responsable->id)->first();
-                        if($registro)
-                        {
-                            // var_dump($registro);
-                            // var_dump($registro->UsuarioAdministrador()->first());
-                            /** INSTITUCION */
-                            $institucion = $registro;
-                            $tipo_institucion = 'institucion';
-
-                        }
-                        else
-                        {
-                            $registro = Servicios::where('id_responsable',$responsable->id)->first();
-                            if($registro)
-                            {
-                                /** SERVICIOS */
-                                $institucion = $registro;
-                                $tipo_institucion = 'servicio';
-                            }
-                            else
-                            {
-
-                                $result_contrato = ContratoDependiente::where('tipo_empleado', 'like', '%ADMINISTRADOR%')
-                                        ->where('id_empleado', $responsable->id)
-                                        ->whereIn('estado', [2,3])
-                                        ->first();
-
-                                if($result_contrato)
-                                {
-                                    $registro = Instituciones::where('id',$result_contrato->id_institucion)->first();
-                                    if($registro)
-                                    {
-                                        /** INSTITUCION */
-                                        $institucion = $registro;
-                                        $tipo_institucion = 'institucion';
-                                    }
-                                    else
-                                    {
-                                        $registro = Servicios::where('id',$result_contrato->id_institucion)->first();
-                                        if($registro)
-                                        {
-                                            /** SERVICIOS */
-                                            $institucion = $registro;
-                                            $tipo_institucion = 'servicio';
-                                        }
-                                        else
-                                        {
-                                            return back()->with('error','Institución no encontrada');
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    return back()->with('error','Permisos de usuario no validos para Ingresar al modulo');
-                                }
-                            }
-                        }
+                        /** SERVICIOS */
+                        $institucion = $registro;
+                        $tipo_institucion = 'servicio';
                     }
                     else
                     {
-                        return back()->with('error','Institución no encontrada');
-                    }
+                        /** busqueda por responsable */
+                        $responsable = AdminInstServ::where('id_admin',Auth::user()->id)->first();
 
+                        if($responsable)
+                        {
+                            $registro = Instituciones::where('id_responsable',$responsable->id)->first();
+                            if($registro)
+                            {
+                                // var_dump($registro);
+                                // var_dump($registro->UsuarioAdministrador()->first());
+                                /** INSTITUCION */
+                                $institucion = $registro;
+                                $tipo_institucion = 'institucion';
+
+                            }
+                            else
+                            {
+                                $registro = Servicios::where('id_responsable',$responsable->id)->first();
+                                if($registro)
+                                {
+                                    /** SERVICIOS */
+                                    $institucion = $registro;
+                                    $tipo_institucion = 'servicio';
+                                }
+                                else
+                                {
+
+                                    $result_contrato = ContratoDependiente::where('tipo_empleado', 'like', '%ADMINISTRADOR%')
+                                            ->where('id_empleado', $responsable->id)
+                                            ->whereIn('estado', [2,3])
+                                            ->first();
+
+                                    if($result_contrato)
+                                    {
+                                        $registro = Instituciones::where('id',$result_contrato->id_institucion)->first();
+                                        if($registro)
+                                        {
+                                            /** INSTITUCION */
+                                            $institucion = $registro;
+                                            $tipo_institucion = 'institucion';
+                                        }
+                                        else
+                                        {
+                                            $registro = Servicios::where('id',$result_contrato->id_institucion)->first();
+                                            if($registro)
+                                            {
+                                                /** SERVICIOS */
+                                                $institucion = $registro;
+                                                $tipo_institucion = 'servicio';
+                                            }
+                                            else
+                                            {
+                                                return back()->with('error','Institución no encontrada');
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        return back()->with('error','Permisos de usuario no validos para Ingresar al modulo');
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return back()->with('error','Institución no encontrada');
+                        }
+
+                    }
                 }
             }
             /** FIN INFORMACION DE INSTITUCION Y RESPONSABLE */
@@ -5368,6 +5479,13 @@ class AdministradorCmController extends Controller
             $profesion = $request->profesion;
             $especialidad = $request->especialidad;
             $sub_tipo_especialidad = $request->sub_tipo_especialidad;
+            if ($especialidadVeterinaria) {
+                $subtipo = $catalogo->resolverSubtipo($especialidad);
+                $tipo = TipoEspecialidad::findOrFail($subtipo->id_tipo_especialidad);
+                $profesion = $tipo->id_especialidad;
+                $especialidad = $tipo->id;
+                $sub_tipo_especialidad = $subtipo->id;
+            }
             $id_user_solicitud = Auth::user()->id;
 
             $nuevo_profesional = new Profesional;
@@ -5390,7 +5508,7 @@ class AdministradorCmController extends Controller
             $nuevo_profesional->id_tipo_especialidad = $especialidad;
             $nuevo_profesional->id_sub_tipo_especialidad = $sub_tipo_especialidad;
 
-            $nuevo_profesional->save();
+            $nuevo_profesional->saveOrFail();
             $result_invitacion = InvitacionController::registroInvtacionProfesional($request->id_lugar_atencion, $rut, $nombre, $apellido_uno, $apellido_dos, $telefono, $email, $profesion, $especialidad, $sub_tipo_especialidad, $id_user_solicitud, '', '0');
 
             if($result_invitacion->estado == 1)
@@ -5415,7 +5533,7 @@ class AdministradorCmController extends Controller
 
                     // Asociamos el profesional al lugar de atencion si no lo esta
                     $reg_prof_lugar = new ProfesionalesLugaresAtencion;
-                    $reg_prof_lugar->id_profesional = $request->id_profesional;
+                    $reg_prof_lugar->id_profesional = $nuevo_profesional->id;
                     $reg_prof_lugar->id_lugar_atencion = $request->id_lugar_atencion;
                     $reg_prof_lugar->estado = 1;
                     $reg_prof_lugar->save();
@@ -5458,7 +5576,7 @@ class AdministradorCmController extends Controller
             else
             {
                 $datos['estado'] = 0;
-                $datos['msj'] = 'falla en invitacion';
+                throw \Illuminate\Validation\ValidationException::withMessages(['profesional' => 'No se pudo guardar la invitación.']);
             }
         }
         else
@@ -5466,6 +5584,9 @@ class AdministradorCmController extends Controller
             $datos['estado'] = 0;
             $datos['msj'] = 'campos requeridos';
             $datos['error'] = $error;
+        }
+        if (isset($datos['registro_prof_inst_conv']) && $datos['registro_prof_inst_conv']->estado != 1) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['convenio' => 'No se pudo guardar el convenio del profesional.']);
         }
         return $datos;
     }

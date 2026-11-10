@@ -31,6 +31,11 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <ul class="nav nav-tabs profile-tabs nav-fill mt-2" id="myTab" role="tablist">
+                                                @if ($hora_medica instanceof \App\Models\HoraMedica && $hora_medica->permiteVideoconsulta())
+                                                    <li class="nav-item">
+                                                        <a class="nav-link text-reset" href="{{ route('videoconsulta.veterinaria.sala', $hora_medica->id) }}" target="_blank" rel="noopener">Videoconsulta</a>
+                                                    </li>
+                                                @endif
                                                 <li class="nav-item">
                                                     <a class="nav-link text-reset active" id="atender-tab" data-toggle="tab" href="#atender" role="tab" aria-controls="atender" aria-selected="true">Atender paciente</a>
                                                 </li>

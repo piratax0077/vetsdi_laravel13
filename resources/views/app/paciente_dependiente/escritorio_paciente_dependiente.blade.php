@@ -184,6 +184,9 @@
                                     @forelse ($hora_medica as $hora)
                                         <tr>
                                             <td class="align-middle">
+                                                @if ($hora->permiteVideoconsulta())
+                                                    <a class="btn btn-primary btn-sm" href="{{ route('videoconsulta.veterinaria.sala', $hora->id) }}">Videoconsulta</a>
+                                                @endif
                                                 @if (in_array((int) ($hora->id_estado_visual ?? $hora->id_estado), [1, 8, 16], true))
                                                     <button class="btn btn-info btn-sm rounded-circle btn-confirmar-hora"
                                                         data-toggle="tooltip" data-placement="top" title="Confirmar Hora"

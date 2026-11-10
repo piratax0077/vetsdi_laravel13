@@ -33,7 +33,11 @@
                 <div class="form-row">
                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <label class="floating-label-activo-sm" for="descripcion_hipotesis">Diagnóstico</label>
-                        <input type="text" class="form-control form-control-sm"  data-input_igual="lic_descripcion_hipotesis,hipotesis_certificado,eno_diagnositico_confirmado,diagnostico_cons,diag_endos_eda" name="descripcion_hipotesis" id="descripcion_hipotesis" onchange="cargarIgual('descripcion_hipotesis')" value="{{ $diagnosticoActual }}">
+                        @if (!empty($diagnosticoVeterinarioTexto))
+                            <textarea class="form-control caja-texto form-control-sm" rows="2" data-input_igual="lic_descripcion_hipotesis,hipotesis_certificado,eno_diagnositico_confirmado,diagnostico_cons,diag_endos_eda" name="descripcion_hipotesis" id="descripcion_hipotesis" onchange="cargarIgual('descripcion_hipotesis')">{{ $diagnosticoActual }}</textarea>
+                        @else
+                            <input type="text" class="form-control form-control-sm" data-input_igual="lic_descripcion_hipotesis,hipotesis_certificado,eno_diagnositico_confirmado,diagnostico_cons,diag_endos_eda" name="descripcion_hipotesis" id="descripcion_hipotesis" onchange="cargarIgual('descripcion_hipotesis')" value="{{ $diagnosticoActual }}">
+                        @endif
                     </div>
                     @unless($esFichaVeterinaria)
                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">

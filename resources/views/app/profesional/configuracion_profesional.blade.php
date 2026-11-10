@@ -49,6 +49,16 @@
                     <div class="row configuracion-grid">
                         <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
                             <div class="card subir configuracion-card">
+                                <a href="{{ route('profesional.personalizar_mi_ficha') }}">
+                                    <div class="card-body text-center">
+                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/docs.svg') }}" alt="">
+                                        <h5 class="titulo-tarjeta">Personalizar mi ficha</h5>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                            <div class="card subir configuracion-card">
                                 <a href="{{ route('sitio.configurar') }}">
                                     <div class="card-body text-center" style="cursor:pointer">
                                         <img class="configuracion-card-icon" src="{{ asset('images/iconos/docs.svg') }}"

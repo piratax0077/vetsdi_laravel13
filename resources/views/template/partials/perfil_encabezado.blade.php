@@ -42,6 +42,8 @@
         'Adm_Comercial' => ['administrador', 'Administrador comercial', null],
         'Peluqueria' => ['estetica', 'Profesional de estética', null],
         'CentroEstetico' => ['centro_estetico', 'Centro estético', null],
+        'GuarderiaHotel' => ['guarderia_hotel', 'Guardería y Hotel', 'guarderia_hotel.configuracion'],
+        'CementerioMascotas' => ['cementerio_mascotas', 'Cementerio de Mascotas', 'cementerio_mascotas.configuracion'],
         'Paciente' => ['tutor', 'Tutor', 'paciente.perfil'],
     ];
 
@@ -53,6 +55,8 @@
         'institucion' => ['Institución', \App\Models\Instituciones::class, 'nombre', null],
         'estetica' => ['Profesional de estética', \App\Models\ProfesionalEstetica::class, 'nombre', null],
         'centro_estetico' => ['Centro estético', \App\Models\CentroEstetico::class, 'nombre', null],
+        'guarderia_hotel' => ['Guardería y Hotel', \App\Models\CentroServiciosMascotas::class, 'nombre', null],
+        'cementerio_mascotas' => ['Cementerio de Mascotas', \App\Models\CentroServiciosMascotas::class, 'nombre', null],
         'contador' => ['Contador', \App\Models\Contador::class, 'nombres', 'apellido_uno'],
         'administrador' => ['Administrador', null, null, null],
         'otro' => ['Usuario', null, null, null],
@@ -111,7 +115,8 @@
         }
 
         try {
-            $fichaPerfil = $fichaPerfil ?: $grupoPerfil[1]::where('id_usuario', $usuarioPerfil->id)->first();
+            $fichaPerfil = $fichaPerfil ?: $grupoPerfil[1]::where('id_usuario', $usuarioPerfil->id)
+                ->when(in_array($tipoPerfil, \App\Services\CentrosServiciosMascotas::TIPOS, true), fn ($q) => $q->where('tipo', $tipoPerfil))->first();
         } catch (\Throwable $error) {
             // Si la tabla no está disponible se usa el nombre de la cuenta
             $fichaPerfil = null;
@@ -122,7 +127,7 @@
     $nombreFicha = $fichaPerfil ? trim($fichaPerfil->{$grupoPerfil[2]} ?? '') : '';
     $apellidoFicha = ($fichaPerfil && $grupoPerfil[3]) ? trim($fichaPerfil->{$grupoPerfil[3]} ?? '') : '';
 
-    if (in_array($tipoPerfil, ['institucion', 'centro_estetico'], true) && $nombreFicha !== '') {
+    if (in_array($tipoPerfil, ['institucion', 'centro_estetico', 'guarderia_hotel', 'cementerio_mascotas'], true) && $nombreFicha !== '') {
         // Las instituciones y los centros estéticos van con su nombre completo
         $nombreCorto = $nombreFicha;
     } else {

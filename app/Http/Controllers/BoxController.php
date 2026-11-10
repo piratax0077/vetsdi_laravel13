@@ -72,7 +72,17 @@ class BoxController extends Controller
         }
     }
 
+    public function cambiarEstadoBoxCentro(Request $request): array
+    {
+        abort_unless(Auth::check(), 401);
+        return app(\App\Services\BoxesCentroVeterinario::class)->cambiarEstado($request);
+    }
+
     public function eliminarBoxServicio(Request $request){
+        if ($request->input('origen') === 'centro_veterinario') {
+            abort_unless(Auth::check(), 401);
+            return app(\App\Services\BoxesCentroVeterinario::class)->eliminar($request);
+        }
         try {
             $box_cm = BoxCm::find($request->id);
             if($box_cm->delete()){

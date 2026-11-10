@@ -46,6 +46,9 @@
                                             href="#info-liquidacion" role="tab" aria-controls="info-liquidacion"
                                             aria-selected="false">Cuentas bancarias (liquidaciones)</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-reset" href="{{ route('profesional.lugares_atencion') }}">Configurar videoconsulta</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

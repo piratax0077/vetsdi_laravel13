@@ -111,7 +111,7 @@ class EscritorioPaciente extends Controller
                 'Estado',
             ])
             ->where('id_paciente', $idPaciente)
-            ->whereDate('fecha_consulta', '>=', date('Y-m-d'))
+            ->proximasCitas()
             ->orderBy('fecha_consulta', 'ASC')
             ->orderBy('hora_inicio', 'ASC')
             ->get()
@@ -617,7 +617,7 @@ class EscritorioPaciente extends Controller
         $catalogo_veterinario_busqueda = $this->getVeterinarySearchCatalog();
         $pacienteReserva = Paciente::where('id_usuario', Auth::id())->first();
         $mascotasReserva = $pacienteReserva
-            ? Mascota::where('id_responsable', $pacienteReserva->id)->seleccionables()->orderBy('nombre')->get()
+            ? Mascota::accesiblesPor($pacienteReserva)->seleccionables()->orderBy('nombre')->get()
             : collect();
 
         if(Auth::user()->hasRole('Paciente'))
@@ -2869,7 +2869,7 @@ class EscritorioPaciente extends Controller
     {
         $tutor = Paciente::where('id_usuario', Auth::id())->first();
         $mascotaSeleccionada = $tutor
-            ? Mascota::where('id', $mascota)->where('id_responsable', $tutor->id)->seleccionables()->first()
+            ? Mascota::where('id', $mascota)->accesiblesPor($tutor)->seleccionables()->first()
             : null;
 
         if (! $tutor || ! $mascotaSeleccionada) {
@@ -2909,10 +2909,12 @@ class EscritorioPaciente extends Controller
     {
         $responsable=Paciente::where('id_usuario',Auth::id())->first();
         abort_unless($responsable&&(int)$responsable->id===(int)$request->reserva_hora_id,403,'Solo puedes reservar horas para tu tutor y sus mascotas.');
-        if($request->filled('id_mascota'))abort_unless(Mascota::whereKey($request->id_mascota)->where('id_responsable',$responsable->id)->exists(),403,'La mascota no pertenece a este tutor.');
+        $mascota = $request->filled('id_mascota')
+            ? Mascota::accesiblesPor($responsable)->seleccionables()->find($request->id_mascota)
+            : null;
+        abort_if($request->filled('id_mascota') && !$mascota, 403, 'No tienes acceso a esta mascota.');
         $datos = array();
         $valido = 1;
-        $mascota = null;
         $voucherSeleccionado = null;
 
         $paciente = paciente::where('id', $request->reserva_hora_id)->first();
@@ -2941,7 +2943,7 @@ class EscritorioPaciente extends Controller
 
             $mascota = $request->filled('id_mascota')
                 ? Mascota::where('id', $request->id_mascota)
-                    ->where('id_responsable', $responsableAutenticado->id)
+                    ->accesiblesPor($responsableAutenticado)
                     ->seleccionables()
                     ->first()
                 : null;
@@ -2986,7 +2988,7 @@ class EscritorioPaciente extends Controller
                 $texto_alias_examen = 'Consulta Dental';
                 break;
             case 'T': // 3
-                $texto_alias_examen = 'Consulta Telemedicina';
+                $texto_alias_examen = 'Videoconsulta veterinaria';
                 break;
             case 'E': // 4
                 // $texto_alias_examen = 'Consulta Examen';
@@ -2994,7 +2996,7 @@ class EscritorioPaciente extends Controller
                 break;
         }
 
-        $validar = HoraMedica::where('id_paciente', $paciente->id)
+        $validar = HoraMedica::where('id_paciente', $mascota?->id_responsable ?? $paciente->id)
                             ->where('id_profesional',$profesional->id)
                             ->where('tipo_hora_medica',$request->tipo_hora_medica)
                             ->where('fecha_consulta',\Carbon\Carbon::parse($request->fecha_consulta)->format('Y-m-d'));
@@ -3065,22 +3067,31 @@ class EscritorioPaciente extends Controller
             {
                 /** buscar tiempo de la consult */
                 $dia_de_semana = \Carbon\Carbon::parse($request->fecha_consulta)->format('w');
+                $horaSolicitada = \Carbon\Carbon::parse($request->fecha_consulta)->format('H:i:s');
+                $tipoAgenda = ['C' => 1, 'D' => 2, 'T' => 3, 'E' => 4, 'P' => 5][$request->tipo_hora_medica] ?? null;
                 $profesional_horarios = ProfesionalHorario::select('duracion_consulta')
                                                             ->where('id_profesional', $profesional->id)
                                                             ->where('id_lugar_atencion',$request->id_lugar_atencion)
-                                                            ->where('dia','like','%'.$dia_de_semana.'%')
+                                                            ->when($tipoAgenda, fn ($query) => $query->where('tipo_agenda', $tipoAgenda))
+                                                            ->whereRaw('FIND_IN_SET(?, dia)', [$dia_de_semana])
+                                                            ->where('hora_inicio', '<=', $horaSolicitada)
+                                                            ->where('hora_termino', '>', $horaSolicitada)
                                                             ->first();
 
                 // $profesional_horarios = '00:30:00';
                 // $tiempo_consulta = 30;
-                abort_unless($profesional_horarios,422,'No hay un horario de atención configurado para ese día y lugar.');
+                if (!$profesional_horarios) {
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'fecha_consulta' => 'No hay un horario de atención configurado para ese día y lugar.',
+                    ]);
+                }
             $horas = date('H',strtotime($profesional_horarios->duracion_consulta));
                 $minutos = date('i',strtotime($profesional_horarios->duracion_consulta));
                 $totales = ($horas*60) + $minutos;
                 $tiempo_consulta = $totales;
             }
 
-            $inicioReserva = \Carbon\Carbon::parse($request->fecha_consulta);
+            $inicioReserva = \Carbon\Carbon::parse($request->fecha_consulta, 'America/Santiago');
             $terminoReserva = $inicioReserva->copy()->addMinutes($tiempo_consulta);
 
             if ($inicioReserva->isPast()) {
@@ -3135,6 +3146,7 @@ class EscritorioPaciente extends Controller
                 }
 
                 $hora_medica->id_mascota = $mascota->id;
+                $hora_medica->id_paciente = $mascota->id_responsable;
             }
 
             if ($voucherSeleccionado) {
@@ -3153,7 +3165,7 @@ class EscritorioPaciente extends Controller
 
             // $hora_medica->origen = $request->origen;
 
-            if ($hora_medica->save())
+            if (app(\App\Services\AccesoAgendaVeterinaria::class)->guardarReserva($hora_medica, $tiempo_consulta))
             {
                 if (!empty($mascota)) {
                     $idLugarAtencion = (int) $request->id_lugar_atencion;
@@ -3163,7 +3175,7 @@ class EscritorioPaciente extends Controller
 
                 if($request->tipo_hora_medica == 'T')
                 {
-                    $jitsi = JitsiController::jitsiRegistroMeet( $profesional->id, $paciente->id, $hora_medica->id );
+                    $jitsi = JitsiController::jitsiRegistroMeet($profesional->id, $hora_medica->id_paciente, $hora_medica->id);
 					$hora_medica->video_llamada = $jitsi;
                 }
 

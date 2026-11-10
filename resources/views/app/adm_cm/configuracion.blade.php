@@ -2380,27 +2380,7 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {{-- Registro ficticio solo para la vista, sin conexión a datos --}}
-                                                                            <tr>
-                                                                                <td class="align-middle">Box 1</td>
-                                                                                <td class="align-middle">Consulta general</td>
-                                                                                <td class="align-middle">Piso 1</td>
-                                                                                <td class="align-middle">
-                                                                                    <div class="custom-control custom-switch">
-                                                                                        <input type="checkbox" class="custom-control-input" id="esp-box-demo" checked>
-                                                                                        <label class="custom-control-label" for="esp-box-demo"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td class="align-middle">
-                                                                                    <button title="Editar box" type="button"
-                                                                                        class="btn btn-warning btn-icon"
-                                                                                        onclick="$('#editar_box').modal('show');"><i
-                                                                                            class="feather icon-edit"></i></button>
-                                                                                    <button title="Eliminar box" type="button"
-                                                                                        class="btn btn-danger btn-icon"><i
-                                                                                            class="feather icon-x"></i></button>
-                                                                                </td>
-                                                                            </tr>
+                                                                            @include('app.adm_cm.partials.filas_boxes')
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -4373,7 +4353,7 @@
             </div>
         </div>
     </div>
-    @include('app.adm_cm.modales.agregar_box')
+    @include('app.adm_cm.modales.agregar_box', ['boxesCentro' => true])
 @endsection
 
 
@@ -7185,150 +7165,12 @@
 
     }
 
-    function dame_box(id_box) {
-        // Construye la URL con la id adjunta
-        var url = "{{ url('dame_box') }}/" + id_box;
-        $('#id_box').val(id_box);
-        $.ajax({
-                url: url,
-                type: "get",
-            })
-            .done(function(data) {
-                // abrir modal
-                $('#editar_box').modal('show');
-                console.log(data);
-                if (data != null) {
-                    $('#editar_numero_box').val(data.box.numero_box);
-                    // Si el tipo guardado no está en la lista se muestra como "Otro"
-                    var tipo_guardado = data.box.tipo_especializacion || data.box.tipo_box || '';
-                    $('#editar_tpo_especializacion').val(tipo_guardado);
-                    if ($('#editar_tpo_especializacion').val() === null) {
-                        $('#editar_tpo_especializacion').val(tipo_guardado ? 'Otro' : '0');
-                        $('#editar_tpo_especializacion_otro').val(tipo_guardado);
-                    } else {
-                        $('#editar_tpo_especializacion_otro').val('');
-                    }
-                    $('#editar_contenedor_tpo_especializacion_otro').toggleClass('d-none', $('#editar_tpo_especializacion').val() !== 'Otro');
-                    $('#editar_tpo_equip_servicio').val(data.box.ubicacion);
-                } else {
-                    swal({
-                        title: "Error",
-                        text: "Error al cargar ingresar box",
-                        icon: "error",
-                        buttons: "Aceptar",
-                        DangerMode: true,
-                    });
-                }
-            })
-            .fail(function(jqXHR, ajaxOptions, thrownError) {
-                console.log(jqXHR, ajaxOptions, thrownError)
-            });
+    function dame_box(id) {
+        window.boxesCentroVeterinario.cargar(id);
     }
 
     function editar_box() {
-        var id_box = $('#id_box').val();
-        var numero_box = $('#editar_numero_box').val();
-        var tipo_elegido = $('#editar_tpo_especializacion').val();
-        var tipo_otro = $('#editar_tpo_especializacion_otro').val().trim();
-        // Si eligió "Otro" se guarda el texto que escribió como tipo
-        var tpo_especializacion = tipo_elegido === 'Otro' ? tipo_otro : tipo_elegido;
-        var tpo_box_servicio = 'Especializado';
-        var tpo_equip_servicio = $('#editar_tpo_equip_servicio').val();
-        // El modal ya no pide sección, pero la tabla la exige: va un valor fijo
-        var seccion_box = '1';
-        var ot_pat_act_ = '';
-        var id_institucion = $('#id_institucion').val();
-        var id_lugar_atencion = $('#add_empleado_id_lugar_atencion').val();
-
-        let valido = 1;
-        let mensaje = '';
-        // validar campos
-        if (numero_box.trim() == '') {
-            valido = 0;
-            mensaje += '<li>Campo requerido Nombre</li>';
-        }
-        if (tipo_elegido == null || tipo_elegido == '0') {
-            valido = 0;
-            mensaje += '<li>Campo requerido Tipo</li>';
-        }
-        if (tipo_elegido === 'Otro' && tipo_otro == '') {
-            valido = 0;
-            mensaje += '<li>Debe especificar el tipo</li>';
-        }
-        if (tpo_equip_servicio == null || tpo_equip_servicio == 0) {
-            valido = 0;
-            mensaje += '<li>Campo requerido Ubicación</li>';
-        }
-
-        if (valido == 1) {
-            let data = {
-                id_box: id_box,
-                numero_box: numero_box,
-                tpo_box_servicio: tpo_box_servicio,
-                tpo_especializacion: tpo_especializacion,
-                tpo_equip_servicio: tpo_equip_servicio,
-                seccion_box: seccion_box,
-                ot_pat_act_: ot_pat_act_,
-                id_institucion: id_institucion,
-                id_lugar_atencion: id_lugar_atencion,
-                _token: CSRF_TOKEN,
-            }
-
-            let url = "{{ route('adm_cm.editar_box_servicio') }}";
-
-            $.ajax({
-                    url: url,
-                    type: "post",
-                    data: data,
-                })
-                .done(function(data) {
-                    console.log(data);
-                    if (data != null) {
-                        if (data.estado == 1) {
-                            swal({
-                                title: "Box",
-                                text: "Box Actualizado Correctamente",
-                                icon: "success",
-                                buttons: "Aceptar",
-                                DangerMode: true,
-                            });
-                            $('#tabla_boxes_atencion').empty();
-                            $('#tabla_boxes_atencion').append(data.v);
-                            // cerrar modal
-                            $('#editar_box').modal('hide');
-                        } else {
-                            swal({
-                                title: "Error",
-                                text: "Error al cargar ingresar box",
-                                icon: "error",
-                                buttons: "Aceptar",
-                                DangerMode: true,
-                            });
-                        }
-                    } else {
-                        swal({
-                            title: "Error",
-                            text: "Error al cargar ingresar box",
-                            icon: "error",
-                            buttons: "Aceptar",
-                            DangerMode: true,
-                        });
-                    }
-                });
-        } else {
-            swal({
-                title: "Campos requeridos",
-                content: {
-                    element: "div",
-                    attributes: {
-                        innerHTML: mensaje,
-                    },
-                },
-                icon: "error",
-                buttons: "Aceptar",
-                DangerMode: true,
-            });
-        }
+        window.boxesCentroVeterinario.guardar(true);
     }
 
     function eliminar_box(id) {
@@ -7347,55 +7189,7 @@
     }
 
     function confirmar_eliminar_box(id) {
-        let data = {
-            id: id,
-            id_institucion: $('#id_institucion').val(),
-            id_lugar_atencion: $('#add_empleado_id_lugar_atencion').val(),
-            _token: CSRF_TOKEN,
-        };
-        let url = "{{ route('adm_cm.eliminar_box_servicio') }}";
-        $.ajax({
-                url: url,
-                type: "post",
-                data: data,
-            })
-            .done(function(data) {
-                console.log(data);
-                if (data != null) {
-                    if (data.estado == 1) {
-                        $('#tabla_boxes_atencion').empty();
-                        $('#tabla_boxes_atencion').append(data.v);
-                        swal({
-                            title: "Box",
-                            text: "Box Eliminado Correctamente",
-                            icon: "success",
-                            buttons: "Aceptar",
-                            DangerMode: true,
-                        });
-                        // cerrar modal
-                        $('#editar_box').modal('hide');
-                    } else {
-                        swal({
-                            title: "Error",
-                            text: "Error al cargar ingresar box",
-                            icon: "error",
-                            buttons: "Aceptar",
-                            DangerMode: true,
-                        });
-                    }
-                } else {
-                    swal({
-                        title: "Error",
-                        text: "Error al cargar ingresar box",
-                        icon: "error",
-                        buttons: "Aceptar",
-                        DangerMode: true,
-                    });
-                }
-            })
-            .fail(function(jqXHR, ajaxOptions, thrownError) {
-                console.log(jqXHR, ajaxOptions, thrownError)
-            });
+        window.boxesCentroVeterinario.eliminar(id);
     }
 
     function añadir_bodega_nueva() {

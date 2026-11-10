@@ -1400,6 +1400,7 @@
             $.ajax({
                     url: url,
                     type: "post",
+                    headers: { Accept: "application/json" },
                     data: {
                         _token: _token,
                         fecha_consulta: fecha_consulta,
@@ -1480,7 +1481,7 @@
                     {
                         swal({
                             title: "Error!",
-                            text: "Problema en la solicitud de la hora",
+                            text: data.msj || "Problema en la solicitud de la hora",
                             icon: "error",
                             type: "error",
                             buttons: "Cerrar",
@@ -1488,13 +1489,16 @@
                     }
 
                 })
-                .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    console.log(jqXHR, ajaxOptions, thrownError)
+                .fail(function(xhr) {
+                    const respuesta = xhr.responseJSON || {};
+                    const fecha = respuesta.errors && respuesta.errors.fecha_consulta;
+                    const noDisponible = Boolean(fecha) || xhr.status === 409;
                     swal({
-                        title: "No fue posible reservar la hora",
-                        text: "La solicitud no se guardó. Intente nuevamente.",
-                        icon: "error",
-                        buttons: "Cerrar",
+                        title: noDisponible ? 'No se puede tomar esa hora' : 'No fue posible reservar la hora',
+                        text: (fecha && fecha[0]) || respuesta.msj ||
+                            (xhr.status === 422 ? respuesta.message : null) || 'Intente nuevamente.',
+                        icon: noDisponible ? 'warning' : 'error',
+                        buttons: 'Cerrar'
                     });
                 });
         };

@@ -32,9 +32,11 @@
                     <a href="{{ route('paciente.mascotas.index') }}" class="btn btn-light btn-sm mr-2 mb-1">
                         <i class="fas fa-paw mr-1"></i> Ver mis mascotas
                     </a>
+                    @if($editable)
                     <button type="button" class="btn btn-info btn-sm mb-1 js-agregar-familiar">
                         <i class="fas fa-plus mr-1"></i> Agregar familiar
                     </button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -63,13 +65,14 @@
         @endif
     </div>
 
-    @include('app.paciente.genealogia.partials.arbol', ['editable' => true, 'crias' => $crias])
+    @include('app.paciente.genealogia.partials.arbol', ['editable' => $editable, 'crias' => $crias])
 
     <form method="POST" enctype="multipart/form-data" action="{{ route('mascotas.genealogia.store', $mascota) }}">
         @csrf
         <div class="card genealogy-card genealogy-form">
             <div class="card-header bg-white"><h5 class="mb-0">Datos del pedigrí</h5></div>
             <div class="card-body">
+                <fieldset @disabled(!$editable)>
                 <div class="main-photo-box mb-4">
                     @if($mascota->foto_url)
                         <img class="photo-preview" data-preview="foto_mascota" src="{{ $mascota->foto_url }}" alt="Foto de {{ $mascota->nombre }}">
@@ -96,8 +99,9 @@
                     <div class="col-md-4 form-group"><label>Criador</label><input type="text" name="criador" class="form-control" value="{{ old('criador', optional($g)->criador) }}"></div>
                     <div class="col-md-4 form-group"><label>Observaciones</label><textarea name="observaciones" class="form-control" rows="2">{{ old('observaciones', optional($g)->observaciones) }}</textarea></div>
                 </div>
+                </fieldset>
                 <div class="row">
-                    <div class="col-md-4"><button class="btn btn-info btn-block" type="submit"><i class="fas fa-save"></i> Guardar datos</button></div>
+                    @if($editable)<div class="col-md-4"><button class="btn btn-info btn-block" type="submit"><i class="fas fa-save"></i> Guardar datos</button></div>@endif
                     <div class="col-md-4"><a class="btn btn-success btn-block" target="_blank" href="{{ route('mascotas.genealogia.certificado', $mascota) }}"><i class="fas fa-certificate"></i> Ver certificado</a></div>
                     <div class="col-md-4"><a class="btn btn-secondary btn-block" href="{{ route('paciente.mascotas.index') }}">Volver a mis mascotas</a></div>
                 </div>
@@ -105,7 +109,7 @@
         </div>
     </form>
 
-    @include('app.paciente.genealogia.partials.modal_familiar')
+    @if($editable) @include('app.paciente.genealogia.partials.modal_familiar') @endif
 
     <div class="genealogy-viewer" id="genealogyViewer" role="dialog" aria-modal="true" aria-label="Visor de fotografías">
         <div class="genealogy-viewer-dialog">

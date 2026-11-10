@@ -26,6 +26,18 @@ class HoraMedica extends Model
         return $this->hasOne(Parametro::class,'id','id_estado');
     }
 
+    public function permiteVideoconsulta(): bool
+    {
+        return (bool) $this->id_mascota
+            && ($this->tipo_hora_medica === 'T' || $this->id_jitsi_video_consulta)
+            && in_array((int) $this->id_estado, [2, 4, 5, 8], true);
+    }
+
+    public function permiteAbrirAtencion(): bool
+    {
+        return in_array((int) $this->id_estado, [4, 5, 6, 8], true);
+    }
+
     public function Paciente()
     {
         return $this->hasOne(Paciente::class,'id','id_paciente');
@@ -50,6 +62,25 @@ class HoraMedica extends Model
     {
         if(count($array) > 0)
             return $query->whereNotIn('id',$array);
+    }
+
+    public function scopeProximasCitas($query)
+    {
+        $hoy = today('America/Santiago');
+        $inicio = $hoy->copy()->setTimezone(config('app.timezone'))->toDateTimeString();
+        $fin = $hoy->copy()->addDay()->setTimezone(config('app.timezone'))->toDateTimeString();
+        return $query->where(function ($citas) use ($hoy, $inicio, $fin) {
+            $citas->where(fn ($pendientes) => $pendientes->where('id_estado', '!=', 6)
+                ->whereDate('fecha_consulta', '>=', $hoy->toDateString()))
+                ->orWhere(function ($realizadas) use ($hoy, $inicio, $fin) {
+                    $realizadas->where('id_estado', 6)->where(function ($fechas) use ($hoy, $inicio, $fin) {
+                        $realizacion = \Illuminate\Support\Facades\DB::raw('COALESCE(fecha_realizacion_consulta, updated_at)');
+                        $fechas->where(fn ($rango) => $rango->where($realizacion, '>=', $inicio)->where($realizacion, '<', $fin))
+                            ->orWhere(fn ($sinFecha) => $sinFecha->whereNull('fecha_realizacion_consulta')
+                                ->whereNull('updated_at')->whereDate('fecha_consulta', $hoy->toDateString()));
+                    });
+                });
+        });
     }
 
     public function scopeParaMascotaAgenda($query, $idMascota)

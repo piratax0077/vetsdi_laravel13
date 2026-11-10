@@ -17,6 +17,10 @@ class EspecialidadesCentroVeterinario
         'neurologia'=>'Neurología veterinaria', 'odontologia'=>'Odontología veterinaria',
         'oftalmologia'=>'Oftalmología veterinaria', 'oncologia'=>'Oncología veterinaria',
         'otorrinolaringologia'=>'Otorrinolaringología veterinaria', 'traumatologia'=>'Traumatología y ortopedia veterinaria',
+        'gastroenterologia' => 'Consulta Gastroenterología',
+        'broncopulmonar' => 'Consulta Broncopulmonar',
+        'endocrinologia' => 'Consulta Endocrinología',
+        'medicina_general_veterinaria' => 'Consulta Medicina General Veterinaria',
     ];
 
     public function guardar(Request $request): EspecialidadesCm
@@ -29,17 +33,7 @@ class EspecialidadesCentroVeterinario
         $centro=app(PerfilCentroMedico::class)->centro($request);
         return DB::transaction(function () use ($centro,$datos) {
             DB::table($centro->getTable())->where('id',$centro->id)->lockForUpdate()->first();
-            // Type 8 is the existing veterinary medicine parent of subtypes 36–38.
-            TipoEspecialidad::findOrFail(8);
-            $nombre=self::CATALOGO[$datos['especialidad']];
-            $subtipo=SubTipoEspecialidad::where('id_tipo_especialidad',8)->where('nombre',$nombre)->first();
-            if (!$subtipo) {
-                $subtipo=new SubTipoEspecialidad();
-                $subtipo->id_tipo_especialidad=8;
-                $subtipo->nombre=$nombre;
-                $subtipo->estado=1;
-                $subtipo->saveOrFail();
-            }
+            $subtipo = $this->resolverSubtipo($datos['especialidad']);
             $registro=EspecialidadesCm::where('id_institucion',$centro->id)->where('id_tipo_especialidad',8)
                 ->where('id_sub_tipo_especialidad',$subtipo->id)->first() ?? new EspecialidadesCm();
             $registro->id_institucion=$centro->id;
@@ -52,6 +46,22 @@ class EspecialidadesCentroVeterinario
             $registro->estado=1;
             $registro->saveOrFail();
             return $registro;
+        });
+    }
+
+    public function resolverSubtipo(string $clave): SubTipoEspecialidad
+    {
+        return DB::transaction(function () use ($clave) {
+            $tipo = TipoEspecialidad::lockForUpdate()->findOrFail(8);
+            $subtipo = SubTipoEspecialidad::where('id_tipo_especialidad', $tipo->id)
+                ->where('nombre', self::CATALOGO[$clave])->first() ?? new SubTipoEspecialidad();
+            if (!$subtipo->exists) {
+                $subtipo->id_tipo_especialidad = $tipo->id;
+                $subtipo->nombre = self::CATALOGO[$clave];
+                $subtipo->estado = 1;
+                $subtipo->saveOrFail();
+            }
+            return $subtipo;
         });
     }
 

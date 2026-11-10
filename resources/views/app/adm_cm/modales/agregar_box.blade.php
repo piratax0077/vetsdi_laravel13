@@ -100,6 +100,12 @@
         $('#agreg_box_ad').modal('show');
     }
 
+    @if($boxesCentro ?? false)
+    function guardar_box_servicio() {
+        window.boxesCentroVeterinario.guardar(false);
+    }
+
+    @else
     function guardar_box_servicio(){
         let numero_box = $('#numero_box').val().trim();
         let tipo_elegido = $('#tpo_especializacion').val();
@@ -193,12 +199,14 @@
         });
     }
 
+    @endif
+
     // Muestra el campo de texto solo cuando el tipo elegido es "Otro"
     function mostrar_otro_tipo_box() {
-        let esOtro = $('#tpo_especializacion').val() === 'Otro';
-        $('#contenedor_tpo_especializacion_otro').toggleClass('d-none', !esOtro);
+        let esOtro = $('#agreg_box_ad [name=tpo_especializacion]').val() === 'Otro';
+        $('#agreg_box_ad #contenedor_tpo_especializacion_otro').toggleClass('d-none', !esOtro);
         if (!esOtro) {
-            $('#tpo_especializacion_otro').val('');
+            $('#agreg_box_ad [name=tpo_especializacion_otro]').val('');
         }
     }
 
@@ -232,10 +240,13 @@
     }
 </script>
 
+@if($boxesCentro ?? false)
 <script>
 window.boxesCentroVeterinarioConfig = {
     guardar: @json(route('adm_cm.guardar_box_servicio')),
     editar: @json(route('adm_cm.editar_box_servicio')),
+    estado: @json(route('adm_cm.boxes_centro.estado')),
+    eliminar: @json(route('adm_cm.eliminar_box_servicio')),
     cargar: @json(url('dame_box')),
     institucion: @json($institucion->id),
     tipoInstitucion: @json($tipo_institucion ?? 'institucion'),
@@ -244,3 +255,4 @@ window.boxesCentroVeterinarioConfig = {
 };
 </script>
 <script src="{{ asset('js/boxes-centro-veterinario.js') }}?v={{ filemtime(public_path('js/boxes-centro-veterinario.js')) }}"></script>
+@endif

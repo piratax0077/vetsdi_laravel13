@@ -13,6 +13,7 @@ class AgendaRolesTest extends TestCase
  use CuentasAisladas;
  protected function setUp(): void {
   parent::setUp();$this->prepararCuentasAisladas();
+  (require database_path('migrations/2026_11_07_000001_create_mascotas_tutorias.php'))->up();
   Schema::create('horas_medicas',function(Blueprint $t){$t->id();foreach(['id_paciente','id_profesional','id_lugar_atencion','id_mascota','id_estado'] as $campo)$t->integer($campo)->nullable();$t->timestamps();});
   foreach(['asistentes_lugar_atencion'=>['id_asistente','id_lugar_atencion','id_profesional','estado'],'profesionales_lugares_atencion'=>['id_profesional','id_lugar_atencion','id_institucion','estado']] as $tabla=>$campos)Schema::create($tabla,function(Blueprint $t)use($campos){$t->id();foreach($campos as $c)$t->integer($c)->nullable();$t->timestamps();});
   (require database_path('migrations/2026_10_13_180000_create_autorizaciones_asistentes_table.php'))->up();

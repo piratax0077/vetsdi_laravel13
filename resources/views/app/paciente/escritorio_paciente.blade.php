@@ -272,6 +272,9 @@
                 </span>
             </a>
         </div>
+        <a class="btn btn-outline-info mb-3" href="{{ route('paciente.centros_servicios.catalogo') }}">
+            <i class="feather icon-home mr-1"></i> Guardería, hotel y cementerio de mascotas
+        </a>
         <!--Cierre: Accesos rápidos-->
     </div>
 </div>

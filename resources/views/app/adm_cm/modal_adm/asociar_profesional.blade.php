@@ -453,12 +453,12 @@
                         $('#agregar_profesional_nuevo_telefono_uno').val(data3.registro.telefono);
                         $('#agregar_profesional_nuevo_profesion').val(data3.registro.id_especialidad);
 
-                        buscar_tipo_especialidad(data3.registro.id_tipo_especialidad);
-                        // $('#agregar_profesional_nuevo_especialidad').val(data3.registro.id_tipo_especialidad);
-                        setTimeout(function(){
-                            buscar_sub_tipo_especialidad(data3.registro.id_sub_tipo_especialidad);
-                        }, 1000);
-                        // $('#agregar_profesional_nuevo_sub_tipo_especialidad').val(data3.registro.id_sub_tipo_especialidad);
+                        const subtiposVeterinarios = @js(\App\Models\SubTipoEspecialidad::where('id_tipo_especialidad', 8)->pluck('nombre', 'id'));
+                        const catalogoVeterinario = @json(\App\Services\EspecialidadesCentroVeterinario::CATALOGO);
+                        const clave = Object.keys(catalogoVeterinario).find(function (clave) {
+                            return catalogoVeterinario[clave] === subtiposVeterinarios[data3.registro.id_sub_tipo_especialidad];
+                        });
+                        $('#agregar_profesional_nuevo_especialidad').val(clave || '0');
 
                         $('#agregar_profesional_nuevo_id_tipo_convenio_institucion').val(data3.registro.convenio.id_tipo_convenio_institucion);
                         mostar_div_montos_tipo_convenio('agregar_profesional_nuevo_id_tipo_convenio_institucion');
@@ -588,11 +588,12 @@
             if (data.estado == 1)
             {
 
+                const enviada = Number(data.notificacion && data.notificacion.estado) === 1;
                 swal({
-                    title: "Invitación al Profesional Realizada con Exito.",
-                    text: "Profesional pendiente por confirmar.",
-                    icon: "success",
-                });
+                    title: enviada ? 'Invitación enviada' : 'Invitación guardada',
+                    text: enviada ? 'Profesional pendiente por confirmar.' : ((data.notificacion || {}).msj || 'El correo no se pudo enviar.'),
+                    icon: enviada ? 'success' : 'warning',
+                }).then(function () { window.location.reload(); });
 
                 $('#asociar_profesional_cm').modal('hide');
 
@@ -621,7 +622,7 @@
             {
                 swal({
                     title: "Invitación al Profesional Fallida.",
-                    text: "Profesional pendiente por confirmar.",
+                    text: Object.values(data.error || {}).flat().join("\n") || data.msj || "No se pudo guardar la invitación.",
                     icon: "error",
                 });
             }
@@ -691,10 +692,6 @@
             valido = 0;
             mensaje += '<li>Teléfono</li>';
         }
-        if (profesion == '') {
-            valido = 0;
-            mensaje += '<li>Profesión</li>';
-        }
         if (especialidad == '' || especialidad == '0' || especialidad == null) {
             valido = 0;
             mensaje += '<li>Especialidad</li>';
@@ -746,6 +743,8 @@
             type: "post",
             data: {
                 _token: CSRF_TOKEN,
+                id_institucion: @json($institucion->id),
+                tipo_institucion: @json($tipo_institucion),
                 id_lugar_atencion : id_lugar_atencion,
                 sexo: sexo,
                 rut : rut,
@@ -771,11 +770,12 @@
             if (data.estado == 1)
             {
 
+                const enviada = Number(data.notificacion && data.notificacion.estado) === 1;
                 swal({
-                    title: "Invitación al Profesional Realizada con Exito.",
-                    text: "Profesional pendiente por confirmar.",
-                    icon: "success",
-                });
+                    title: enviada ? 'Invitación enviada' : 'Invitación guardada',
+                    text: enviada ? 'Profesional pendiente por confirmar.' : ((data.notificacion || {}).msj || 'El correo no se pudo enviar.'),
+                    icon: enviada ? 'success' : 'warning',
+                }).then(function () { window.location.reload(); });
 
                 $('#asociar_profesional_cm').modal('hide');
 
@@ -807,14 +807,16 @@
             {
                 swal({
                     title: "Invitación al Profesional Fallida.",
-                    text: "Profesional pendiente por confirmar.",
+                    text: Object.values(data.error || {}).flat().join("\n") || data.msj || "No se pudo guardar la invitación.",
                     icon: "error",
                 });
             }
 
         })
-        .fail(function(jqXHR, ajaxOptions, thrownError) {
-            console.log(jqXHR, ajaxOptions, thrownError)
+        .fail(function(xhr) {
+            const respuesta = xhr.responseJSON || {};
+            swal({title: 'No se pudo guardar la invitación', icon: 'error',
+                text: Object.values(respuesta.errors || {}).flat().join('\n') || 'Revisa los datos y vuelve a intentar.'});
         });
     }
 

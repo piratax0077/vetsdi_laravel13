@@ -1,4 +1,4 @@
-<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 {{ !empty($ocultarExamenDetallado) ? 'd-none' : '' }}">
     <div class="card-a">
         <div class="card-header-a" id="motivo">
             <button class="accor-closed btn pt-1 pb-0 pl-1 btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#motivo_c" aria-expanded="false" aria-controls="motivo_c">

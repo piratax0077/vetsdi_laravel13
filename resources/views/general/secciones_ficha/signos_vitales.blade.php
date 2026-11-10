@@ -1,4 +1,4 @@
-<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 {{ !empty($ocultarSignosVitales) ? 'd-none' : '' }}">
     <div class="card-a">
         <div class="card-header-a" id="signosvit-otros">
             <button class="accor-closed btn pt-1 pb-0 pl-1 btn-block text-left collapsed card-act-open" type="button" data-toggle="collapse" data-target="#signosvit-otros-c" aria-expanded="false" aria-controls="signosvit-otros-c">

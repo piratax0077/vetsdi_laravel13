@@ -143,11 +143,12 @@
                                                 <!--Cierre: Formulario / Menor de edad-->
 
                                                 <!--Motivo consulta-->
+                                                @php($seccionesVeterinarias = ($profesional ?? null)?->seccionesFichaVeterinaria() ?? array_keys(config('ficha_veterinaria_secciones')))
                                                 @include('general.secciones_ficha.motivo')
                                                 <!--Cierre: Formulario /Motivo de la Consulta-->
-                                                @include('general.secciones_ficha.examenfisico')
+                                                @include('general.secciones_ficha.examenfisico', ['ocultarExamenDetallado' => !in_array('examen_detallado', $seccionesVeterinarias, true)])
                                                 <!--Formulario / Signos vitales y otros-->
-                                                @include('general.secciones_ficha.signos_vitales')
+                                                @include('general.secciones_ficha.signos_vitales', ['ocultarSignosVitales' => !in_array('signos_vitales', $seccionesVeterinarias, true)])
                                                 <!--Cierre: Formulario / Signos vitales y otros-->
                                                 <!-- cierre hospitalizacion -->
 
@@ -158,7 +159,7 @@
                                                 <hr>
 
                                                 <!--Diagnóstico-->
-                                                @include('general.secciones_ficha.diagnostico')
+                                                @include('general.secciones_ficha.diagnostico', ['diagnosticoVeterinarioTexto' => true])
                                                 <!--Cierre: Formulario / Diagnóstico-->
                                             </div>
                                         </div>

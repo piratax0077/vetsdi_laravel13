@@ -1017,6 +1017,13 @@ Route::post('Convenios/editar', [App\Http\Controllers\EscritorioPaciente::class,
 
     Route::get('/pagos_suscripcion',[App\Http\Controllers\MascotasController::class, 'pagos_suscripcion'])->name('paciente.mascotas.pagos_suscripcion');
 
+    Route::prefix('mascotas/{mascota}/tutoria')->where(['mascota' => '[0-9]+'])->name('paciente.tutoria.')->group(function () {
+        Route::get('/', [App\Http\Controllers\TutoriaCompartidaController::class, 'listar'])->name('listar');
+        Route::get('rut', [App\Http\Controllers\TutoriaCompartidaController::class, 'buscarRut'])->middleware('throttle:10,1')->name('rut');
+        Route::post('/', [App\Http\Controllers\TutoriaCompartidaController::class, 'invitar'])->middleware('throttle:10,1')->name('invitar');
+        Route::post('{id}/{accion}', [App\Http\Controllers\TutoriaCompartidaController::class, 'gestionar'])
+            ->whereNumber('id')->whereIn('accion', ['reenviar', 'cancelar', 'quitar'])->middleware('throttle:15,1')->name('gestionar');
+    });
     Route::get('mis-mascotas', [App\Http\Controllers\MascotasController::class, 'index'])->name('paciente.mis_mascotas');
 
 
@@ -1400,6 +1407,10 @@ Route::group([
     Route::get('Editar_paciente/{id}', [App\Http\Controllers\EscritorioProfesional::class, 'ver_paciente'])->name('profesional.editar_paciente');
 
     Route::get('Configuraciones', [App\Http\Controllers\EscritorioProfesional::class, 'config_profesional'])->name('profesional.configuracion');
+    Route::middleware('role:Profesional')->controller(\App\Http\Controllers\PersonalizarFichaVeterinariaController::class)->group(function () {
+        Route::get('Configuraciones/Personalizar-Ficha', 'editar')->name('profesional.personalizar_mi_ficha');
+        Route::post('Configuraciones/Personalizar-Ficha', 'guardar')->name('profesional.personalizar_ficha.guardar');
+    });
 
     Route::get('Mis_lugares_atencion', [App\Http\Controllers\EscritorioProfesional::class, 'mis_lugares'])->name('profesional.lugares_atencion');
 
@@ -3763,6 +3774,7 @@ Route::group([
 	Route::post('/Profesionales/asociar/existente', [App\Http\Controllers\AdministradorCmController::class, 'asociarProfesionalExistente'])->name('adm_cm.asociar_profesional_existente');
 
 	Route::post('/Profesionales/asociar/nuevo', [App\Http\Controllers\AdministradorCmController::class, 'asociarProfesionalNuevo'])->name('adm_cm.asociar_profesional_nuevo');
+    Route::patch('/Profesionales/{id}/especialidad-vet', [App\Http\Controllers\AdministradorCmController::class, 'editarEspecialidadProfesionalVet'])->whereNumber('id')->name('adm_cm.profesional.especialidad_vet');
 
 	Route::get('/Profesionales/buscar', [App\Http\Controllers\AdministradorCmController::class, 'buscar_profesional'])->name('adm_cm.profesional_buscar');
 
@@ -3777,6 +3789,8 @@ Route::group([
     Route::get('/Profesional/lugar_atencion/horario', [App\Http\Controllers\AdministradorCmController::class, 'mi_horario_lugar_atencion'])->name('adm_cm.prof_horario_lugar_atencion');
 
 	Route::post('/Personal/registro', [App\Http\Controllers\ManejoContratoController::class, 'registrarPersonal'])->name('adm_cm.registrar_personal');
+    Route::get('/Personal/buscar-rut', [App\Http\Controllers\AdministradorCmController::class, 'buscarRutEmpleado'])
+        ->middleware('throttle:20,1')->name('adm_cm.personal.buscar_rut');
 
 	Route::post('/Personal/editar', [App\Http\Controllers\ManejoContratoController::class, 'editarPersonal'])->name('adm_cm.editar_personal');
 
@@ -4350,6 +4364,7 @@ Route::get('dame_box/{id}', [App\Http\Controllers\BoxController::class, 'dameBox
 Route::post('editar_box_servicio', [App\Http\Controllers\BoxController::class, 'editarBoxServicio'])->name('adm_cm.editar_box_servicio');
 
 Route::post('eliminar_box_servicio', [App\Http\Controllers\BoxController::class, 'eliminarBoxServicio'])->name('adm_cm.eliminar_box_servicio');
+    Route::post('/boxes-centro/estado', [App\Http\Controllers\BoxController::class, 'cambiarEstadoBoxCentro'])->name('adm_cm.boxes_centro.estado');
 
 Route::post('finalizar_contrato',[App\Http\Controllers\AdministradorCmController::class,'finalizar_contrato'])->name('adm_cm.finalizar_contrato');
 
@@ -5937,6 +5952,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 require __DIR__.'/asistentes.php';
 require __DIR__.'/peluqueria.php';
+require __DIR__.'/centros_servicios.php';
+
+Route::get('VideoconsultaVeterinaria/{hora}', [\App\Http\Controllers\VideoconsultaVeterinariaController::class, 'sala'])
+    ->whereNumber('hora')->middleware('auth')->name('videoconsulta.veterinaria.sala');
 Route::middleware('auth')->prefix('Profesional/aranceles-veterinarios')->name('profesional.aranceles_vet.')->group(function(){
     Route::get('/procedimientos',[App\Http\Controllers\ArancelesVeterinariosController::class,'procedimientos'])->name('procedimientos');
     Route::get('/',[App\Http\Controllers\ArancelesVeterinariosController::class,'listar'])->name('listar');
@@ -5950,6 +5969,9 @@ Route::post('/profesional/convenios-veterinarios/{id}/desactivar', [App\Http\Con
 Route::get('/agenda/convenios-veterinarios', [App\Http\Controllers\ConveniosVeterinariosController::class, 'disponibles'])->middleware('auth')->name('agenda.convenios_veterinarios');
 
 Route::middleware(['auth', \App\Http\Middleware\AutorizarFichaVeterinaria::class])->group(function () {
+    Route::get('/mascota/controles-cronicos', [App\Http\Controllers\ControlCronicoVeterinarioController::class, 'historial'])->name('vet.cronicos.historial');
+    Route::get('/mascota/controles-cronicos/medicamentos', [App\Http\Controllers\ControlCronicoVeterinarioController::class, 'medicamentos'])->name('vet.cronicos.medicamentos');
+    Route::post('/mascota/controles-cronicos', [App\Http\Controllers\ControlCronicoVeterinarioController::class, 'guardar'])->name('vet.cronicos.guardar');
     Route::get('/mascota/documento-emitido/{tipo}', [App\Http\Controllers\DocumentoEmitidoMascotaController::class, 'ver'])->name('mascota.documento_emitido.ver');
     Route::post('/mascota/documento-emitido/{tipo}/enviar', [App\Http\Controllers\DocumentoEmitidoMascotaController::class, 'enviar'])->name('mascota.documento_emitido.enviar');
 });
@@ -5958,3 +5980,9 @@ Route::middleware(['auth', \App\Http\Middleware\AutorizarFichaVeterinaria::class
 Route::get('/{slug}', [App\Http\Controllers\SitioWebController::class, 'ficha'])
     ->where('slug', '^[A-Za-z0-9\-]+$')
     ->name('sitio.ficha');
+
+Route::get('tutoria/invitacion/{token}', [App\Http\Controllers\TutoriaCompartidaController::class, 'invitacion'])
+    ->where('token', '[A-Za-z0-9]{64}')->name('tutoria.invitacion');
+Route::post('tutoria/invitacion/{token}/{accion}', [App\Http\Controllers\TutoriaCompartidaController::class, 'responder'])
+    ->middleware(['auth', 'throttle:15,1'])->where('token', '[A-Za-z0-9]{64}')
+    ->whereIn('accion', ['aceptar', 'rechazar'])->name('tutoria.responder');

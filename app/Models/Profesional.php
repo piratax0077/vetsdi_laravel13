@@ -22,6 +22,14 @@ class Profesional extends Model
         'foto_perfil'
     ];
 
+    public function seccionesFichaVeterinaria(): array
+    {
+        $disponibles = array_keys(config('ficha_veterinaria_secciones'));
+        $guardadas = json_decode($this->getAttribute('secciones_ficha_veterinaria') ?? 'null', true);
+
+        return is_array($guardadas) ? array_values(array_intersect($disponibles, $guardadas)) : $disponibles;
+    }
+
     public function LugaresAtencion()
     {
         return $this->belongsToMany(LugarAtencion::class, 'profesionales_lugares_atencion', 'id_profesional', 'id_lugar_atencion')

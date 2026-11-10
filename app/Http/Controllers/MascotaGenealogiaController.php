@@ -52,7 +52,7 @@ class MascotaGenealogiaController extends Controller
 
     public function show(Mascota $mascota)
     {
-        $this->autorizarMascota($mascota);
+        $this->autorizarMascota($mascota, false);
         $mascota->load(array_merge(self::RELACIONES, ['hermanosRegistrados.hermano.especieMascota']));
         $especies = EspecieMascota::orderBy('nombre')->get(['id', 'nombre', 'requiere_detalle']);
         $crias = MascotaGenealogia::with('mascota.especieMascota')
@@ -76,6 +76,7 @@ class MascotaGenealogiaController extends Controller
 
         return view('app.paciente.genealogia.show', [
             'mascota' => $mascota,
+            'editable' => $this->mascotasPermitidas()->whereKey($mascota->id)->exists(),
             'especies' => $especies,
             'crias' => $crias,
             'familiares' => $this->familiares($mascota),
@@ -221,7 +222,7 @@ class MascotaGenealogiaController extends Controller
 
     public function certificado(Mascota $mascota)
     {
-        $this->autorizarMascota($mascota);
+        $this->autorizarMascota($mascota, false);
         $mascota->load(array_merge(self::RELACIONES, ['hermanosRegistrados.hermano.especieMascota']));
 
         return view('app.paciente.genealogia.certificado', [
@@ -435,17 +436,17 @@ class MascotaGenealogiaController extends Controller
         return array_merge(array_keys(self::PARENTESCOS), ['hermano']);
     }
 
-    private function mascotasPermitidas(): Builder
+    private function mascotasPermitidas(bool $editar = true): Builder
     {
         $query = Mascota::query();
         $paciente = Paciente::where('id_usuario', Auth::id())->first();
 
-        return $paciente ? $query->where('id_responsable', $paciente->id) : $query->whereRaw('1 = 0');
+        return $paciente ? $query->accesiblesPor($paciente, $editar) : $query->whereRaw('1 = 0');
     }
 
-    private function autorizarMascota(Mascota $mascota): void
+    private function autorizarMascota(Mascota $mascota, bool $editar = true): void
     {
-        abort_unless($this->mascotasPermitidas()->whereKey($mascota->id)->exists(), 403);
+        abort_unless($this->mascotasPermitidas($editar)->whereKey($mascota->id)->exists(), 403);
     }
 
     private function guardarFoto($archivo, int $mascotaId, array &$nuevasFotos): string

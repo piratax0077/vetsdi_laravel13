@@ -3395,6 +3395,21 @@
 
         };
 
+        function mostrarErrorReservaAgenda(xhr) {
+            const respuesta = xhr.responseJSON || {};
+            const fecha = respuesta.errors && respuesta.errors.fecha_consulta;
+            const noDisponible = Boolean(fecha) || xhr.status === 409;
+            const mensaje = (fecha && fecha[0]) ||
+                (xhr.status === 422 || xhr.status === 409 ? respuesta.msj || respuesta.message : null);
+
+            swal({
+                title: noDisponible ? 'No se puede tomar esa hora' : 'No fue posible reservar la hora',
+                text: mensaje || 'Intenta nuevamente o selecciona otro horario.',
+                icon: noDisponible ? 'warning' : 'error',
+                buttons: 'Aceptar'
+            });
+        }
+
         function agendar_hora() {
 
 
@@ -3470,6 +3485,7 @@
 
                     url: url,
                     type: "get",
+                    headers: { Accept: "application/json" },
                     data: {
                         _token: _token,
                         fecha_consulta: fecha_consulta,
@@ -3531,9 +3547,7 @@
                     }
 
                 })
-                .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    console.log(jqXHR, ajaxOptions, thrownError)
-                });
+                .fail(mostrarErrorReservaAgenda);
 
 
 
@@ -4092,6 +4106,7 @@
 
                     url: url,
                     type: "get",
+                    headers: { Accept: "application/json" },
                     data: {
                         _token: _token,
                         dependiente: dependiente,
@@ -4181,9 +4196,7 @@
                         // alert('Paciente no encontrado en el sistema');
                     }
                 })
-                .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    console.log(jqXHR, ajaxOptions, thrownError)
-                });
+                .fail(mostrarErrorReservaAgenda);
         };
 
         function opcion_confirmar_hora() {
