@@ -20,7 +20,8 @@
                             data-target="#collapse_form_generales" aria-expanded="true"
                             aria-controls="collapse_form_generales"><i
                                 class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                            FORMULARIOS GENERALES
+                            <span class="sb-acordeon__icono"><i class="feather icon-file-text"></i></span>
+                            <span class="sb-acordeon__titulo">FORMULARIOS GENERALES</span>
                         </button>
                     </h2>
                 </div>
@@ -129,7 +130,8 @@
                             data-toggle="collapse" data-target="#collapse_consentimientos_veterinarios"
                             aria-expanded="false" aria-controls="collapse_consentimientos_veterinarios">
                             <i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                            CONSENTIMIENTOS INFORMADOS
+                            <span class="sb-acordeon__icono"><i class="feather icon-check-square"></i></span>
+                            <span class="sb-acordeon__titulo">CONSENTIMIENTOS INFORMADOS</span>
                         </button>
                     </h2>
                 </div>
@@ -163,7 +165,8 @@
                             data-target="#collapse_form_notificaciones" aria-expanded="false"
                             aria-controls="collapse_form_notificaciones"><i
                                 class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                            FORMULARIOS DE NOTIFICACIÓN
+                            <span class="sb-acordeon__icono"><i class="feather icon-bell"></i></span>
+                            <span class="sb-acordeon__titulo">FORMULARIOS DE NOTIFICACIÓN</span>
                         </button>
                     </h2>
                 </div>

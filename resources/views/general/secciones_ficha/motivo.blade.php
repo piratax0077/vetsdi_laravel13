@@ -28,21 +28,26 @@
         <div id="anamnesis_veterinaria_c" class="collapse show" aria-labelledby="anamnesis_veterinaria">
             <div class="card-body-aten-a">
                 <div class="form-row">
-                    <div class="form-group col-12">
+                    @if (!empty($mostrarCampoAnamnesis))
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="floating-label-activo-sm" for="anamnesis">Anamnesis</label>
+                            <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3" onblur="this.rows=1" name="anamnesis" id="anamnesis"
+                                placeholder="DESCRIBA LA ANAMNESIS DEL PACIENTE">{{ old('anamnesis', data_get($datosVeterinarios, 'anamnesis', '')) }}</textarea>
+                        </div>
+                    @endif
+
+                    <div class="form-group {{ !empty($mostrarCampoAnamnesis) ? 'col-sm-12 col-md-6' : 'col-12' }}">
                         <label class="floating-label-activo-sm" for="motivo">Motivo de consulta</label>
                         <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3" onblur="this.rows=1" name="motivo" id="motivo"
                             placeholder="ESCRIBA LA INFORMACIÓN CÓMO LA DESCRIBE EL RESPONSABLE O TUTOR">{{ old('motivo', data_get($datosVeterinarios, 'motivo', data_get($fichaActual, 'motivo', ''))) }}</textarea>
                     </div>
 
-                    <div class="form-group col-12">
-                        <label class="floating-label-activo-sm" for="examen_fisico">Examen Físico</label>
-                        <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3" onblur="this.rows=1" name="examen_fisico"
-                            id="examen_fisico"
-                            placeholder="DESCRIBA LAS CARACTERÍSTICAS QUE CONSIDERE NECESARIO">{{ old('examen_fisico', data_get($datosVeterinarios, 'examen_fisico', data_get($fichaActual, 'examen_fisico', ''))) }}</textarea>
-                    </div>
+                    @if (empty($examenFisicoEnCard))
+                        @include('general.secciones_ficha.campo_examen_fisico')
+                    @endif
 
                     <div class="form-group {{ isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true) ? 'd-none' : '' }} col-sm-12 col-xl-6">
-                        <label class="floating-label-activo-sm" for="dieta">Dieta</label>
+                        <label class="floating-label-activo-sm" for="dieta">{{ $etiquetaDieta ?? 'Dieta' }}</label>
                         <textarea class="form-control caja-texto form-control-sm mb-9" rows="1" onfocus="this.rows=3"
                             onblur="this.rows=1" name="dieta" id="dieta">{{ old('dieta', data_get($datosVeterinarios, 'dieta', '')) }}</textarea>
                     </div>
@@ -52,7 +57,7 @@
                             onblur="this.rows=1" name="enfermedades_previas"
                             id="enfermedades_previas">{{ old('enfermedades_previas', data_get($datosVeterinarios, 'enfermedades_previas', '')) }}</textarea>
                     </div>
-                    <div class="form-group {{ isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true) ? 'd-none' : '' }} col-sm-12 col-md-6">
+                    <div class="form-group {{ (isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true)) || !empty($ocultarCamposAnamnesis) ? 'd-none' : '' }} col-sm-12 col-md-6">
                         <label class="floating-label-activo-sm" for="esterilizado">Esterilizado</label>
                         <select class="form-control form-control-sm" name="esterilizado" id="esterilizado">
                             <option value="">Seleccione</option>
@@ -66,19 +71,41 @@
                             onblur="this.rows=1" name="cirugias_previas"
                             id="cirugias_previas">{{ old('cirugias_previas', data_get($datosVeterinarios, 'cirugias_previas', '')) }}</textarea>
                     </div>
+                    @if (!empty($esquemaVacunacionSelector))
+                        {{-- Ficha veterinaria general: estado del esquema (sugerido según el registro de vacunas) y la última vacuna --}}
+                        @php
+                            $esquemaVacunas = \App\Support\ResumenMascotaFicha::esquemaVacunacion($mascota ?? null);
+                            $esquemaSugerido = ['al_dia' => 'Al día', 'atrasado' => 'Atrasado'][$esquemaVacunas['estado']] ?? '';
+                            $esquemaElegido = old('esquema_vacunacion', data_get($datosVeterinarios, 'esquema_vacunacion', $esquemaSugerido));
+                        @endphp
+                        <div class="form-group {{ isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true) ? 'd-none' : '' }} col-sm-12 col-md-6 col-xl-3">
+                            <label class="floating-label-activo-sm" for="esquema_vacunacion">Esquema de vacunación</label>
+                            <select class="form-control form-control-sm" name="esquema_vacunacion" id="esquema_vacunacion">
+                                <option value="">Seleccione</option>
+                                <option value="Al día" @selected($esquemaElegido === 'Al día')>Al día</option>
+                                <option value="Atrasado" @selected($esquemaElegido === 'Atrasado')>Atrasado</option>
+                            </select>
+                        </div>
+                        <div class="form-group {{ isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true) ? 'd-none' : '' }} col-sm-12 col-md-6 col-xl-3">
+                            <label class="floating-label-activo-sm" for="ultima_vacuna">Última vacuna</label>
+                            <input type="text" class="form-control form-control-sm" id="ultima_vacuna" readonly
+                                value="{{ $esquemaVacunas['ultima'] ?: 'Sin registro' }}" title="{{ $esquemaVacunas['ultima'] ?: 'Sin registro' }}">
+                        </div>
+                    @else
                     <div class="form-group {{ isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true) ? 'd-none' : '' }} col-sm-12 col-xl-6">
                         <label class="floating-label-activo-sm" for="esquema_inmunizaciones">Esquema de Inmunizaciones</label>
                         <textarea class="form-control caja-texto form-control-sm mb-9" rows="1" onfocus="this.rows=3"
                             onblur="this.rows=1" name="esquema_inmunizaciones"
                             id="esquema_inmunizaciones">{{ old('esquema_inmunizaciones', data_get($datosVeterinarios, 'esquema_inmunizaciones', '')) }}</textarea>
                     </div>
-                    <div class="form-group {{ isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true) ? 'd-none' : '' }} col-sm-12 col-md-6 col-xl-3">
+                    @endif
+                    <div class="form-group {{ (isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true)) || !empty($ocultarCamposAnamnesis) ? 'd-none' : '' }} col-sm-12 col-md-6 col-xl-3">
                         <label class="floating-label-activo-sm" for="ultima_desparasitacion">Última Desparasitación</label>
                         <input type="date" class="form-control form-control-sm" name="ultima_desparasitacion"
                             id="ultima_desparasitacion"
                             value="{{ old('ultima_desparasitacion', data_get($datosVeterinarios, 'ultima_desparasitacion', '')) }}">
                     </div>
-                    <div class="form-group {{ isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true) ? 'd-none' : '' }} col-sm-12 col-md-6 col-xl-3">
+                    <div class="form-group {{ (isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true)) || !empty($ocultarCamposAnamnesis) ? 'd-none' : '' }} col-sm-12 col-md-6 col-xl-3">
                         <label class="floating-label-activo-sm" for="producto_desparasitacion">Producto Desparasitación</label>
                         <input type="text" class="form-control form-control-sm" name="producto_desparasitacion"
                             id="producto_desparasitacion"
@@ -110,7 +137,7 @@
                             onblur="this.rows=1" name="cuales_animales"
                             id="cuales_animales">{{ old('cuales_animales', data_get($datosVeterinarios, 'cuales_animales', '')) }}</textarea>
                     </div>
-                    <div class="form-group {{ isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true) ? 'd-none' : '' }} col-12">
+                    <div class="form-group {{ (isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true)) || !empty($ocultarCamposAnamnesis) ? 'd-none' : '' }} col-12">
                         <label class="floating-label-activo-sm" for="comportamiento_animal">Comportamiento del animal</label>
                         <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=3"
                             onblur="this.rows=1" name="comportamiento_animal" id="comportamiento_animal"

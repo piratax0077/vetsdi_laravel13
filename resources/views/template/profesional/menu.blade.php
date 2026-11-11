@@ -28,6 +28,7 @@
                             </li>
                         </ul>
                     </div>
+                    @include('atencion_veterinaria.include.card_resumen_mascota')
                 </div>
                 <ul class="nav pcoded-inner-navbar ">
                     <li class="nav-item pcoded-menu-caption text-center">

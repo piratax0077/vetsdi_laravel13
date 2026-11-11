@@ -37348,6 +37348,24 @@ transition: 0.2s!important;
     box-shadow: 1px 0 0 #ece9f4, 4px 0 18px rgba(60, 40, 120, .06);
 }
 
+/* El menú mide lo mismo que la página; si la página queda más baja que la pantalla o se agranda
+   la ventana, se cortaba abajo. Este fondo fijo completa la columna blanca hasta el final de la
+   pantalla sin alargar la página. Solo en escritorio: en celular el menú se abre encima. */
+@media (min-width: 992px) {
+    .pcoded-navbar.menu-lateral:before {
+        content: "";
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        width: inherit;
+        background: #fff;
+        box-shadow: 1px 0 0 #ece9f4, 4px 0 18px rgba(60, 40, 120, .06);
+        pointer-events: none;
+    }
+}
+
 /* Foto de la cabecera del menú (hoy oculta), antes iba en línea en la vista */
 .pcoded-navbar.menu-lateral .main-menu-header .img-radius {
     width: 40px;
@@ -47343,8 +47361,8 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 }
 
 /* Pestañas sin el subrayado turquesa que estilos_atencion_medica.css pone a los nav-link activos
-   (panel de configuración de peluquería, que carga los estilos de la agenda) */
-.pill-moderno.pill-moderno-white.pill-sin-subrayado a.nav-link {
+   (configuración de peluquería; indicaciones y consentimientos del profesional) */
+.pill-moderno.pill-sin-subrayado a.nav-link {
     background-image: none !important;
 }
 
@@ -49450,4 +49468,921 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     border-radius: 20px;
     font-size: 11px;
     font-weight: 700;
+}
+
+/* ==========================================================================
+   Indicaciones médicas del profesional (Configuración > Indicaciones médicas)
+   ========================================================================== */
+
+.indicaciones-vacio {
+    display: none;
+    padding: 32px 0;
+    text-align: center;
+    color: #6c757d;
+}
+
+.indicaciones-archivo .dropzone {
+    min-height: 120px;
+    border: 2px dashed #c9b6e4;
+    border-radius: 12px;
+    background: #faf7fe;
+}
+
+.indicaciones-archivo .dropzone .dz-message {
+    margin: 2em 0;
+    color: #272727;
+}
+
+.indicaciones-vista-previa {
+    color: #272727;
+    line-height: 1.6;
+}
+
+.indicaciones-vista-previa .editor-indicacion-logo {
+    border-bottom-style: solid;
+}
+
+/* Editor de texto: barra de formato arriba y una hoja con el logo debajo */
+.editor-indicacion {
+    border: 1px solid #e3e3ec;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.editor-indicacion-barra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 10px;
+    border-bottom: 1px solid #e3e3ec;
+    border-radius: 12px 12px 0 0;
+    background: #fafafd;
+}
+
+.editor-indicacion-barra .editor-boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 6px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #272727;
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.editor-indicacion-barra .editor-boton:hover,
+.editor-indicacion-barra .editor-boton:focus,
+.editor-indicacion-barra .editor-boton.activo {
+    background: #efe8f7;
+    color: #7b35a5;
+    outline: none;
+}
+
+.editor-indicacion-barra .editor-separador {
+    width: 1px;
+    height: 22px;
+    margin: 0 4px;
+    background: #e3e3ec;
+}
+
+.editor-indicacion-barra select {
+    width: auto;
+    height: 32px;
+    padding: 0 28px 0 10px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.editor-indicacion .dropdown-menu {
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+/* Selector de color con muestras y color personalizado */
+.editor-color {
+    position: relative;
+}
+
+.editor-color-actual {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #272727;
+    box-shadow: 0 0 0 1px #c9c9d6;
+}
+
+.editor-color-panel {
+    display: none;
+    position: absolute;
+    top: 38px;
+    left: 0;
+    z-index: 1060;
+    width: 232px;
+    padding: 12px;
+    border: 1px solid #e3e3ec;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(39, 39, 39, .14);
+}
+
+.editor-color-panel.abierto {
+    display: block;
+}
+
+.editor-color-muestras {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.editor-color-muestras button {
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform .15s ease;
+}
+
+.editor-color-muestras button:hover {
+    transform: scale(1.12);
+}
+
+.editor-color-personalizado {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #272727;
+}
+
+.editor-color-personalizado input[type="color"] {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+/* Hoja donde se escribe la indicación */
+.editor-indicacion-hoja {
+    padding: 24px 28px;
+}
+
+.editor-indicacion-logo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    border-bottom: 1px dashed #e3e3ec;
+}
+
+.editor-indicacion-logo img {
+    max-width: 220px;
+    max-height: 54px;
+    object-fit: contain;
+}
+
+.editor-indicacion-logo .btn {
+    margin: 0;
+}
+
+.editor-indicacion-texto {
+    min-height: 240px;
+    max-height: 420px;
+    overflow-y: auto;
+    outline: none;
+    color: #272727;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.editor-indicacion-texto:empty:before {
+    content: attr(data-placeholder);
+    color: #a0a0ad;
+}
+
+.editor-indicacion-texto ul,
+.editor-indicacion-texto ol,
+.indicaciones-vista-previa ul,
+.indicaciones-vista-previa ol {
+    margin-bottom: 10px;
+    padding-left: 22px;
+}
+
+/* El tema quita las viñetas de las listas; aquí se recuperan */
+.editor-indicacion-texto ul li,
+.indicaciones-vista-previa ul li {
+    list-style: disc;
+}
+
+.editor-indicacion-texto ol li,
+.indicaciones-vista-previa ol li {
+    list-style: decimal;
+}
+
+.editor-indicacion-texto p,
+.indicaciones-vista-previa p {
+    margin-bottom: 8px;
+}
+
+/* Dato automático (mascota, tutor, fecha...) que se completa al usar la indicación */
+.indicacion-dato {
+    display: inline-block;
+    padding: 0 8px;
+    margin: 0 1px;
+    border-radius: 6px;
+    background: #e5fbf8;
+    color: #10827f;
+    font-size: .92em;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+    .editor-indicacion-hoja {
+        padding: 16px;
+    }
+
+    .editor-indicacion-barra select {
+        max-width: 120px;
+    }
+}
+
+/* Botón de dictado por voz: queda en rojo y pulsando mientras escucha */
+.editor-indicacion-barra .editor-boton.editor-boton-dictado.grabando {
+    background: #fde8e8;
+    color: #dc2626;
+    animation: editor-dictado-pulso 1.4s ease-in-out infinite;
+}
+
+.editor-dictado-estado {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+@keyframes editor-dictado-pulso {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, .35); }
+    50% { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+}
+
+/* Visor de archivos de las indicaciones (PDF, imagen o documento para descargar) */
+.visor-archivo {
+    overflow: hidden;
+    border: 1px solid #e3e3ec;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.visor-archivo-cabecera {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #e3e3ec;
+    background: #fafafd;
+}
+
+.visor-archivo-nombre {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    font-weight: 700;
+    color: #272727;
+    word-break: break-all;
+}
+
+.visor-archivo-nombre i {
+    color: #7b35a5;
+    font-size: 18px;
+}
+
+.visor-archivo-cabecera .btn {
+    margin: 0;
+}
+
+.visor-archivo-marco {
+    display: block;
+    width: 100%;
+    height: 460px;
+    border: 0;
+    background: #f4f4f7;
+}
+
+.visor-archivo-imagen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background: #f4f4f7;
+}
+
+.visor-archivo-imagen img {
+    max-width: 100%;
+    max-height: 460px;
+    object-fit: contain;
+}
+
+.visor-archivo-aviso {
+    padding: 28px 16px;
+    text-align: center;
+    color: #6c757d;
+}
+
+.visor-archivo-aviso i {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 34px;
+    color: #c9b6e4;
+}
+
+@media (max-width: 575.98px) {
+    .visor-archivo-marco {
+        height: 340px;
+    }
+}
+
+/* Vista previa PDF de la indicación: marco dentro del modal */
+.visor-pdf-marco {
+    display: block;
+    width: 100%;
+    height: 70vh;
+    min-height: 420px;
+    border: 1px solid #e3e3ec;
+    border-radius: 12px;
+    background: #e9e9ef;
+}
+
+.visor-pdf-ayuda {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #6c757d;
+}
+
+/* Hoja A4 que se imprime o guarda como PDF (se carga dentro del marco) */
+.hoja-pdf-documento {
+    margin: 0;
+    padding: 24px 0;
+    background: #e9e9ef;
+}
+
+.hoja-pdf {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 18mm 20mm;
+    background: #fff;
+    box-shadow: 0 6px 24px rgba(39, 39, 39, .12);
+    color: #272727;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.hoja-pdf-cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 12px;
+    margin-bottom: 22px;
+    border-bottom: 2px solid #7b35a5;
+}
+
+.hoja-pdf-cabecera img {
+    max-width: 240px;
+    max-height: 60px;
+    object-fit: contain;
+}
+
+.hoja-pdf-fecha {
+    font-size: 13px;
+    color: #6c757d;
+    white-space: nowrap;
+}
+
+.hoja-pdf-titulo {
+    margin: 0 0 16px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #272727;
+}
+
+.hoja-pdf-contenido {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.hoja-pdf-contenido p {
+    margin: 0 0 8px;
+}
+
+.hoja-pdf-contenido ul,
+.hoja-pdf-contenido ol {
+    margin: 0 0 10px;
+    padding-left: 22px;
+}
+
+.hoja-pdf-contenido ul li {
+    list-style: disc;
+}
+
+.hoja-pdf-contenido ol li {
+    list-style: decimal;
+}
+
+.hoja-pdf-dato {
+    font-weight: 700;
+    color: #10827f;
+}
+
+@media print {
+    .hoja-pdf-documento {
+        padding: 0;
+        background: #fff;
+    }
+
+    .hoja-pdf {
+        width: auto;
+        min-height: 0;
+        margin: 0;
+        box-shadow: none;
+    }
+}
+
+/* Firmas al pie del consentimiento informado (editor, Ver y PDF):
+   las dos en una fila, abajo, cada una con su línea y los datos debajo */
+.documento-firmas {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 48px;
+    margin-top: auto;
+    padding-top: 48px;
+    user-select: none;
+}
+
+.documento-firma {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+    color: #272727;
+}
+
+.documento-firma-espacio {
+    height: 56px;
+}
+
+.documento-firma-linea {
+    padding-top: 6px;
+    border-top: 1px solid #272727;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.documento-firma-datos {
+    margin: 4px 0 0;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.documento-firma-datos > div {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.documento-firma-datos dt {
+    font-weight: 700;
+    color: #6c757d;
+}
+
+.documento-firma-datos dt:after {
+    content: ":";
+}
+
+.documento-firma-datos dd {
+    margin: 0;
+}
+
+/* En el editor de consentimientos la hoja es más alta y las firmas quedan al pie */
+.editor-indicacion-hoja.con-firmas {
+    display: flex;
+    flex-direction: column;
+    min-height: 620px;
+}
+
+.editor-indicacion-hoja.con-firmas .editor-indicacion-texto {
+    flex: 1 1 auto;
+}
+
+@media (max-width: 575.98px) {
+    .documento-firmas {
+        gap: 16px;
+    }
+
+    .documento-firma-linea {
+        font-size: 12px;
+    }
+}
+
+/* Título del consentimiento: centrado bajo la línea del logo (editor y Ver) y en el PDF */
+.editor-documento-titulo {
+    margin: 0 0 16px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #272727;
+}
+
+.editor-documento-titulo:empty:before {
+    content: attr(data-placeholder);
+    font-weight: 400;
+    color: #a0a0ad;
+}
+
+.hoja-pdf-titulo.hoja-pdf-titulo-centrado {
+    text-align: center;
+}
+
+/* ==========================================================================
+   Ficha veterinaria: indicaciones y consentimientos del profesional (sidebar derecho)
+   ========================================================================== */
+
+.sidebar-documentos-titulo {
+    margin: 10px 0 6px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #6c757d;
+}
+
+.sidebar-documentos-titulo:first-child {
+    margin-top: 0;
+}
+
+.sidebar-documentos-vacio {
+    margin: 0 0 6px;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.sidebar-documentos-administrar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #7b35a5;
+}
+
+.sidebar-documentos-administrar:hover,
+.sidebar-documentos-administrar:focus {
+    color: #5e2882;
+    text-decoration: underline;
+}
+
+.documento-atencion-ayuda {
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #6c757d;
+}
+
+/* Dato automático que la atención no trae (por ejemplo, el peso): se completa a mano */
+.indicacion-dato.indicacion-dato-pendiente {
+    background: #fff4d6;
+    color: #a86b00;
+}
+
+/* ==========================================================================
+   Sidebars derechos de la ficha (antecedentes, formularios, signos vitales).
+   Mismo diseño que MedSDI: cabecera turquesa con botón de cierre redondo y
+   cada sección con ícono turquesa, título en negrita y flecha a la derecha.
+   ========================================================================== */
+
+.bs-canvas-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px !important;
+    background-color: #31bebe !important;
+}
+
+.bs-canvas-header .bs-canvas-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0 !important;
+    margin: 0 !important;
+    float: none;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, .22) !important;
+    color: #fff !important;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1;
+    text-shadow: none;
+    opacity: 1;
+    transition: background-color .2s;
+}
+
+.bs-canvas-header .bs-canvas-close span {
+    color: #fff !important;
+}
+
+.bs-canvas-header .bs-canvas-close:hover,
+.bs-canvas-header .bs-canvas-close:focus {
+    background-color: rgba(255, 255, 255, .35) !important;
+    outline: none;
+}
+
+.bs-canvas-header h5 {
+    float: none !important;
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: 17px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.card-header-sidebar .btn[data-toggle="collapse"] {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 12px 12px 8px;
+    border: 0;
+    border-radius: 0;
+    background-color: #fff;
+    color: #343a40 !important;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-align: left;
+    text-transform: uppercase;
+    box-shadow: none;
+    transition: background-color .2s;
+}
+
+.card-header-sidebar .btn[data-toggle="collapse"]:hover,
+.card-header-sidebar .btn[data-toggle="collapse"]:focus,
+.card-header-sidebar .btn[data-toggle="collapse"][aria-expanded="true"] {
+    background-color: #eef8f8;
+    box-shadow: none;
+}
+
+/* Ícono de la sección: el propio (sb-acordeon__icono) o uno por defecto si la sección no trae */
+.card-header-sidebar .sb-acordeon__icono,
+.card-header-sidebar .btn[data-toggle="collapse"]:not(:has(.sb-acordeon__icono)):before {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background-color: #40abaf;
+    color: #fff;
+    font-size: 15px;
+}
+
+.card-header-sidebar .btn[data-toggle="collapse"]:not(:has(.sb-acordeon__icono)):before {
+    content: "\e870";
+    font-family: 'feather' !important;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.card-header-sidebar .sb-acordeon__titulo {
+    flex: 1;
+    min-width: 0;
+    white-space: normal;
+}
+
+.card-header-sidebar .btn[data-toggle="collapse"] .flecha-accordion {
+    order: 3;
+    float: none !important;
+    margin-left: auto;
+    padding: 0 !important;
+    color: #40abaf;
+    transition: transform .2s;
+}
+
+.card-header-sidebar .btn[data-toggle="collapse"][aria-expanded="true"] .flecha-accordion {
+    transform: rotate(180deg);
+}
+
+/* La sección de consentimientos compartida entre fichas no trae ícono propio: lleva el de consentimientos */
+#heading_consentimientos_informados .btn[data-toggle="collapse"]:not(:has(.sb-acordeon__icono)):before {
+    content: "\e840";
+}
+
+/* Modal "Sugerir recurso" (ficha veterinaria): la ficha achica los textarea; aquí se necesita espacio para escribir */
+#modal_sugerir_recurso .sugerencia-comentarios {
+    min-height: 110px;
+    resize: vertical;
+}
+
+/* Card resumen de la mascota en el menú lateral de la ficha de atención.
+   Con el menú cerrado (solo íconos) no cabe, así que aparece al abrirlo con ☰ o al pasar el mouse */
+.pcoded-navbar.menu-lateral .resumen-mascota {
+    margin: 14px 12px 0;
+    padding: 12px;
+    background-color: #fff;
+    border: 1px solid #e4e7ee;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(39, 39, 39, .06);
+    font-family: 'Nunito Sans', 'Nunito', sans-serif;
+}
+.pcoded-navbar.menu-lateral.navbar-collapsed:not(:hover) .resumen-mascota {
+    display: none;
+}
+
+/* Indicador del resumen con el menú cerrado: foto de la mascota con insignia y su nombre,
+   para que se note que ahí hay datos. Desaparece apenas el menú se abre */
+.resumen-mascota-mini {
+    display: none;
+}
+.pcoded-navbar.menu-lateral.navbar-collapsed:not(:hover) .resumen-mascota-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 14px 8px 0;
+    padding: 8px 4px 6px;
+    background-color: #f7f3fd;
+    border: 1px solid #e3d8f6;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+}
+.resumen-mascota-mini__foto {
+    position: relative;
+    display: inline-block;
+    width: 38px;
+    height: 38px;
+}
+.resumen-mascota-mini__foto img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #d5c5f1;
+    background-color: #fff;
+}
+.resumen-mascota-mini__insignia {
+    position: absolute;
+    right: -5px;
+    bottom: -3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background-color: var(--purple);
+    color: #fff;
+    font-size: 10px;
+    line-height: 1;
+}
+.resumen-mascota-mini__insignia--alerta {
+    background-color: #c53a32;
+}
+.resumen-mascota-mini__nombre {
+    max-width: 100%;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--purple);
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.resumen-mascota__cabecera {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eceef3;
+}
+.resumen-mascota__foto {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #d5c5f1;
+    background-color: #f3eefc;
+}
+.resumen-mascota__identidad {
+    min-width: 0;
+    line-height: 1.2;
+}
+.resumen-mascota__nombre {
+    display: block;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--purple);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.resumen-mascota__especie {
+    display: block;
+    font-size: 12px;
+    color: #6c757d;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.resumen-mascota__datos {
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+}
+.resumen-mascota__dato {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px 0;
+    line-height: 1.25;
+    border-bottom: 1px dashed #f0edf6;
+}
+.resumen-mascota__dato:last-child {
+    border-bottom: 0;
+}
+.resumen-mascota__etiqueta {
+    flex: 0 0 auto;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: #8a8f99;
+}
+.resumen-mascota__valor {
+    min-width: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #272727;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.resumen-mascota__estado {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 700;
+}
+.resumen-mascota__estado--ok { background-color: #e6f6ee; color: #1f8a55; }
+.resumen-mascota__estado--alerta { background-color: #fdeceb; color: #c53a32; }
+.resumen-mascota__estado--neutro { background-color: #f1f2f5; color: #6c757d; }
+
+/* Estados con historial: abren el modal del registro (vacunas, desparasitación, enfermedades crónicas) */
+.resumen-mascota__estado--accion {
+    border: 1px solid transparent;
+    font-family: inherit;
+    line-height: inherit;
+    cursor: pointer;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.resumen-mascota__estado--accion i {
+    margin-left: 2px;
+    font-size: 11px;
+}
+.resumen-mascota__estado--accion:hover,
+.resumen-mascota__estado--accion:focus {
+    border-color: currentColor;
+    box-shadow: 0 1px 3px rgba(39, 39, 39, .12);
+    outline: none;
 }

@@ -29,7 +29,7 @@
     <main class="seleccion-contenido">
         <div class="seleccion-marca">
             {{-- El logo ya trae el nombre de la plataforma, por eso no se repite abajo --}}
-            <img src="{{ asset('images/logo_pais_vertical.png') }}" alt="Veterchile" class="seleccion-logo">
+            <img src="{{ asset('images/vet-color-h.svg') }}" alt="Veterchile" class="seleccion-logo">
         </div>
 
         @if(session('mensaje_error'))

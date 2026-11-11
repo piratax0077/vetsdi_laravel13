@@ -33,7 +33,7 @@
                 </div>
             </div>
             <!--Cierre: Header-->
-            <ul class="nav pill-moderno pill-moderno-white mb-4" role="tablist" aria-label="Configuración profesional">
+            <ul class="nav pill-moderno pill-moderno-white pill-sin-subrayado mb-4" role="tablist" aria-label="Configuración profesional">
                 <li class="nav-item"><a class="nav-link active" id="config-prof-general-tab" data-toggle="pill" href="#config-prof-general" role="tab" aria-controls="config-prof-general" aria-selected="true">Configuración</a></li>
                 <li class="nav-item"><a class="nav-link" id="config-prof-descarga-tab" data-toggle="pill" href="#config-prof-descarga" role="tab" aria-controls="config-prof-descarga" aria-selected="false">Descargar datos</a></li>
             </ul>
@@ -121,6 +121,16 @@
                                         <h5 class="titulo-tarjeta f-16">
                                         Mis equipos quirúrgicos
                                         </h5>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                            <div class="card subir configuracion-card">
+                                <a href="{{ route('profesional.indicaciones_medicas') }}">
+                                    <div class="card-body text-center" style="cursor:pointer">
+                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/indicaciones.png') }}" alt="Indicaciones y consentimientos">
+                                        <h5 class="titulo-tarjeta f-16">Indicaciones y consentimientos</h5>
                                     </div>
                                 </a>
                             </div>

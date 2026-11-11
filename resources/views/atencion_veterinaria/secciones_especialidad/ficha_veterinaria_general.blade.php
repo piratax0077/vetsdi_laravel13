@@ -29,6 +29,8 @@
     }
     .ficha-vet-tabs-row {
         justify-content: flex-start;
+        align-items: center;
+        column-gap: 16px;
         margin-right: 0;
         margin-left: 0;
     }
@@ -143,10 +145,12 @@
                                                 <!--Cierre: Formulario / Menor de edad-->
 
                                                 <!--Motivo consulta-->
-                                                @php($seccionesVeterinarias = ($profesional ?? null)?->seccionesFichaVeterinaria() ?? array_keys(config('ficha_veterinaria_secciones')))
-                                                @include('general.secciones_ficha.motivo')
+                                                @php
+    $seccionesVeterinarias = ($profesional ?? null)?->seccionesFichaVeterinaria() ?? array_keys(config('ficha_veterinaria_secciones'));
+@endphp
+                                                @include('general.secciones_ficha.motivo', ['examenFisicoEnCard' => true, 'ocultarCamposAnamnesis' => true, 'mostrarCampoAnamnesis' => true, 'etiquetaDieta' => 'Alimentación', 'esquemaVacunacionSelector' => true])
                                                 <!--Cierre: Formulario /Motivo de la Consulta-->
-                                                @include('general.secciones_ficha.examenfisico', ['ocultarExamenDetallado' => !in_array('examen_detallado', $seccionesVeterinarias, true)])
+                                                @include('general.secciones_ficha.examenfisico', ['ocultarExamenDetallado' => !in_array('examen_detallado', $seccionesVeterinarias, true), 'examenFisicoEnCard' => true])
                                                 <!--Formulario / Signos vitales y otros-->
                                                 @include('general.secciones_ficha.signos_vitales', ['ocultarSignosVitales' => !in_array('signos_vitales', $seccionesVeterinarias, true)])
                                                 <!--Cierre: Formulario / Signos vitales y otros-->

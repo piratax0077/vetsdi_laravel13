@@ -2988,6 +2988,16 @@ class EscritorioProfesional extends Controller
             'fecha_esterilizacion' => 'nullable|date',
             'fecha_esterilizacion_desconocida' => 'nullable|boolean',
             'enfermedad_cronica' => 'nullable|string|max:500',
+            'comportamiento' => 'nullable|string|max:1000',
+            'esquema_vacunacion_al_dia' => 'nullable|in:0,1',
+            'fecha_ultima_vacuna' => 'nullable|required_if:esquema_vacunacion_al_dia,1|date|before_or_equal:today',
+            'nombre_vacuna' => 'nullable|required_if:esquema_vacunacion_al_dia,1|string|max:255',
+            'comentarios_esquema_vacunacion' => 'nullable|string|max:1000',
+            'viajes' => 'nullable|string|max:1000',
+            'ultima_desparasitacion' => 'nullable|date|before_or_equal:today',
+            'producto_desparasitacion' => 'nullable|required_with:ultima_desparasitacion|string|max:255',
+            'tipo_desparasitacion' => 'nullable|required_with:ultima_desparasitacion|in:Externo,Interno,Interno y Externo',
+            'desparasitacion_realizada_por' => 'nullable|required_with:ultima_desparasitacion|in:tutor,profesional',
         ]);
 
         if ($validator->fails()) {
@@ -3115,6 +3125,54 @@ class EscritorioProfesional extends Controller
             ? $request->input('fecha_esterilizacion')
             : null;
         $mascota->enfermedad_cronica = $request->input('enfermedad_cronica');
+        $mascota->comportamiento = $request->input('comportamiento');
+        if ($request->input('esquema_vacunacion_al_dia') === '1') {
+            $nombreVacuna = trim((string) $request->input('nombre_vacuna'));
+            $mascota->vacunas = 'Esquema de vacunación al día. Última vacuna: ' . $nombreVacuna
+                . ' (' . $request->input('fecha_ultima_vacuna') . ')';
+            $mascota->vacunas_registro = [[
+                'id' => uniqid('vac_', true),
+                'edad' => '',
+                'fecha_dosis' => $request->input('fecha_ultima_vacuna'),
+                'vacuna' => $nombreVacuna,
+                'proxima_dosis' => null,
+                'especie' => $request->input('especie_id'),
+                'created_at' => now()->toDateTimeString(),
+                'realizado_por_tipo' => 'profesional',
+                'realizado_por' => 'Profesional',
+            ]];
+        } elseif ($request->input('esquema_vacunacion_al_dia') === '0') {
+            $comentarios = trim((string) $request->input('comentarios_esquema_vacunacion'));
+            $mascota->vacunas = 'Esquema de vacunación no al día' . ($comentarios !== '' ? '. ' . $comentarios : '');
+        }
+        $mascota->viajes = $request->input('viajes');
+        if ($request->filled('ultima_desparasitacion')) {
+            $mascota->ultima_desparasitacion = $request->input('ultima_desparasitacion');
+            $mascota->producto_desparasitacion = trim((string) $request->input('producto_desparasitacion'));
+
+            // Quién realizó la desparasitación: el tutor del paciente o el profesional que registra
+            if ($request->input('desparasitacion_realizada_por') === 'tutor') {
+                $nombreTutor = trim(($paciente->nombres ?? '') . ' ' . ($paciente->apellido_uno ?? ''));
+                $autor = ['realizado_por_tipo' => 'tutor', 'realizado_por' => $nombreTutor !== '' ? 'Tutor: ' . $nombreTutor : 'Tutor'];
+            } else {
+                $profesional = Profesional::where('id_usuario', Auth::id())->first();
+                $nombreProfesional = trim(($profesional->nombre ?? '') . ' ' . ($profesional->apellido_uno ?? ''));
+                $autor = ['realizado_por_tipo' => 'profesional', 'realizado_por' => $nombreProfesional !== '' ? 'Profesional: ' . $nombreProfesional : 'Profesional'];
+            }
+
+            $mascota->desparasitaciones_registro = [[
+                'id' => uniqid('des_', true),
+                'fecha_dosis' => $request->input('ultima_desparasitacion'),
+                'antiparasitario' => trim((string) $request->input('producto_desparasitacion')),
+                'tipo' => $request->input('tipo_desparasitacion'),
+                'via' => null,
+                'peso' => null,
+                'dosis' => '',
+                'lote' => '',
+                'proxima_dosis' => null,
+                'created_at' => now()->toDateTimeString(),
+            ] + $autor];
+        }
         $mascota->id_user = $paciente->id_usuario ?? Auth::id();
         $mascota->estado = 1;
 

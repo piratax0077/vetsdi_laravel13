@@ -74,15 +74,15 @@ class CuentasService
 
     /** Ícono de la card en la pantalla "Elige tu perfil". */
     public const ICONOS = [
-        'tutor' => 'images/iconos/mascotas.svg',
+        'tutor' => 'images/iconos/iconos-inicio-sesion/tutor.svg',
         'profesional' => 'images/logos/iconos-inicio-sesion/profesional.svg',
         'asistente' => 'images/logos/iconos-inicio-sesion/asistente.svg',
-        'clinica' => 'images/logos/iconos-inicio-sesion/institucion.svg',
-        'peluqueria' => 'images/iconos/mascotas.svg',
-        'centro_estetico' => 'images/logos/iconos-inicio-sesion/institucion.svg',
-        'guarderia_hotel' => 'images/logos/iconos-inicio-sesion/institucion.svg',
-        'cementerio_mascotas' => 'images/logos/iconos-inicio-sesion/institucion.svg',
-        'hospitalizacion' => 'images/iconos/hospitalizacion.svg',
+        'clinica' => 'images/iconos/iconos-inicio-sesion/institucion.svg',
+        'peluqueria' => 'images/iconos/iconos-inicio-sesion/estetica.svg',
+        'centro_estetico' => 'images/iconos/iconos-inicio-sesion/estetica.svg',
+        'guarderia_hotel' => 'images/iconos/iconos-inicio-sesion/hotel-guarderia.svg',
+        'cementerio_mascotas' => 'images/iconos/iconos-inicio-sesion/lapida.svg',
+        'hospitalizacion' => 'images/iconos/iconos-inicio-sesion/hospitalizacion.svg',
     ];
 
     /** Escritorio al que entra cada rol cuando su perfil está completo. */

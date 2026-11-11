@@ -76,7 +76,7 @@
 
     <header class="menu-flotante">
         <a class="menu-flotante-logo" href="#" aria-label="Vet SDI, ir al inicio">
-            <img src="{{ asset('images/logo_pais_vertical.png') }}" alt="Vet SDI">
+            <img src="{{ asset('images/vet-color-h.svg') }}" alt="Vet SDI">
         </a>
         <nav class="menu-flotante-acciones" aria-label="Navegación principal">
             <a class="menu-flotante-enlace" href="#">Inicio Veterchile</a>
@@ -89,7 +89,7 @@
             <!-- Ingreso a VETERCHILE -->
             <div class="card text-center" id="ingreso" @if($recuperar) hidden @endif>
                 <div class="card-body">
-                    <img src="{{ asset('images/logo_pais_vertical.png') }}" alt="" class="img-fluid mb-2 wid-120">
+                    <img src="{{ asset('images/vet-color-h.svg') }}" alt="" class="img-fluid mb-2 wid-120">
                     <h5 class="mb-4">¡Bienvenido a Veterchile!</h5>
                     <!-- mensaje -->
                     <div class="row div_mensaje">
@@ -296,7 +296,7 @@
             <!-- recuperar contraseña usuario -->
             <div class="card text-center" id="recuperar" @unless($recuperar) hidden @endunless>
                 <div class="card-body">
-                    <img src="{{ asset('images/logo_pais_vertical.png') }}" alt="" class="img-fluid mb-2 wid-120">
+                    <img src="{{ asset('images/vet-color-h.svg') }}" alt="" class="img-fluid mb-2 wid-120">
                     <h5 class="mb-4">Recuperar contraseña</h5>
                     <!-- mensaje -->
                     <div class="row div_mensaje">

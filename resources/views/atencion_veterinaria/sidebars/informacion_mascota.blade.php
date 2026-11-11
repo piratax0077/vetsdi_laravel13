@@ -5,7 +5,8 @@
                         data-toggle="collapse" data-target="#collapseMascota" aria-expanded="true"
                         aria-controls="collapseMascota">
                         <i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                        INFORMACIÓN GENERAL DE LA MASCOTA
+                        <span class="sb-acordeon__icono"><i class="feather icon-info"></i></span>
+                        <span class="sb-acordeon__titulo">INFORMACIÓN GENERAL DE LA MASCOTA</span>
                     </button>
                 </div>
                 <div id="collapseMascota" class="collapse show" aria-labelledby="headingMascota"

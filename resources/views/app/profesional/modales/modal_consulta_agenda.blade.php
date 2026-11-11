@@ -334,6 +334,79 @@
                             <textarea class="form-control form-control-sm caja-texto" id="agenda_mascota_enfermedad_cronica" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
                         </div>
                     </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="floating-label-activo-sm">Comportamiento de la mascota</label>
+                            <textarea class="form-control form-control-sm caja-texto" id="agenda_mascota_comportamiento" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label class="floating-label-activo-sm">¿Esquema de vacunación al día?</label>
+                            <select class="form-control form-control-sm" id="agenda_mascota_esquema_vacunacion">
+                                <option value="">Seleccione</option>
+                                <option value="1">Sí</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6" id="agenda_contenedor_fecha_vacuna" style="display:none;">
+                        <div class="form-group">
+                            <label class="floating-label-activo-sm">Fecha última vacuna</label>
+                            <input type="date" class="form-control form-control-sm" id="agenda_mascota_fecha_ultima_vacuna" max="{{ date('Y-m-d') }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6" id="agenda_contenedor_nombre_vacuna" style="display:none;">
+                        <div class="form-group">
+                            <label class="floating-label-activo-sm">Nombre vacuna</label>
+                            <input type="text" class="form-control form-control-sm" id="agenda_mascota_nombre_vacuna" maxlength="255">
+                        </div>
+                    </div>
+                    <div class="col-sm-12" id="agenda_contenedor_comentarios_vacunacion" style="display:none;">
+                        <div class="form-group">
+                            <label class="floating-label-activo-sm">Comentarios esq. vacunación</label>
+                            <textarea class="form-control form-control-sm caja-texto" id="agenda_mascota_comentarios_vacunacion" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label class="floating-label-activo-sm">¿Viajará en los próximos días?</label>
+                            <textarea class="form-control form-control-sm caja-texto" id="agenda_mascota_viajes" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label class="floating-label-activo-sm">Última desparasitación</label>
+                            <input type="date" class="form-control form-control-sm" id="agenda_mascota_ultima_desparasitacion" max="{{ date('Y-m-d') }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label class="floating-label-activo-sm">Producto antiparasitario</label>
+                            <input type="text" class="form-control form-control-sm" id="agenda_mascota_producto_desparasitacion" maxlength="255">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label class="floating-label-activo-sm">Tipo</label>
+                            <select class="form-control form-control-sm" id="agenda_mascota_tipo_desparasitacion">
+                                <option value="">Seleccione</option>
+                                <option value="Externo">Externo</option>
+                                <option value="Interno">Interno</option>
+                                <option value="Interno y Externo">Interno y Externo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label class="floating-label-activo-sm">¿Quién realizó la desparasitación?</label>
+                            <select class="form-control form-control-sm" id="agenda_mascota_desparasitacion_realizada_por">
+                                <option value="">Seleccione</option>
+                                <option value="tutor">Tutor</option>
+                                <option value="profesional">Profesional veterinario</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -462,6 +535,17 @@
         $('#agenda_mascota_fecha_nacimiento_desconocida').prop('checked', false);
         $('#agenda_mascota_sexo').val('0');
         $('#agenda_mascota_enfermedad_cronica').val('');
+        $('#agenda_mascota_comportamiento').val('');
+        $('#agenda_mascota_esquema_vacunacion').val('');
+        $('#agenda_mascota_fecha_ultima_vacuna').val('');
+        $('#agenda_mascota_nombre_vacuna').val('');
+        $('#agenda_mascota_comentarios_vacunacion').val('');
+        toggleEsquemaVacunacionAgenda();
+        $('#agenda_mascota_viajes').val('');
+        $('#agenda_mascota_ultima_desparasitacion').val('');
+        $('#agenda_mascota_producto_desparasitacion').val('');
+        $('#agenda_mascota_tipo_desparasitacion').val('');
+        $('#agenda_mascota_desparasitacion_realizada_por').val('');
 
         renderSelectEspeciesAgenda();
         actualizarTamanoSegunEspecieAgenda();
@@ -536,6 +620,19 @@
         toggleFechaEsterilizacionDesconocidaAgenda();
     }
 
+    // Sí: pide fecha y nombre de la última vacuna. No: pide comentarios del esquema
+    function toggleEsquemaVacunacionAgenda() {
+        var valor = $('#agenda_mascota_esquema_vacunacion').val();
+        $('#agenda_contenedor_fecha_vacuna, #agenda_contenedor_nombre_vacuna').toggle(valor === '1');
+        $('#agenda_contenedor_comentarios_vacunacion').toggle(valor === '0');
+        if (valor !== '1') {
+            $('#agenda_mascota_fecha_ultima_vacuna, #agenda_mascota_nombre_vacuna').val('');
+        }
+        if (valor !== '0') {
+            $('#agenda_mascota_comentarios_vacunacion').val('');
+        }
+    }
+
     function toggleFechaNacimientoDesconocidaAgenda() {
         var desconocida = $('#agenda_mascota_fecha_nacimiento_desconocida').is(':checked');
         $('#agenda_mascota_fecha_nacimiento').prop('disabled', desconocida);
@@ -568,8 +665,25 @@
         var fechaNacimientoDesconocida = $('#agenda_mascota_fecha_nacimiento_desconocida').is(':checked');
         var sexo = $('#agenda_mascota_sexo').val();
         var enfermedadCronica = $('#agenda_mascota_enfermedad_cronica').val();
+        var ultimaDesparasitacion = $('#agenda_mascota_ultima_desparasitacion').val();
+        var productoDesparasitacion = $.trim($('#agenda_mascota_producto_desparasitacion').val());
+        var tipoDesparasitacion = $('#agenda_mascota_tipo_desparasitacion').val();
+        var desparasitacionRealizadaPor = $('#agenda_mascota_desparasitacion_realizada_por').val();
+
+        var esquemaVacunacion = $('#agenda_mascota_esquema_vacunacion').val();
+        var fechaUltimaVacuna = $('#agenda_mascota_fecha_ultima_vacuna').val();
+        var nombreVacuna = $.trim($('#agenda_mascota_nombre_vacuna').val());
 
         var mensaje = '';
+        if (esquemaVacunacion === '1') {
+            if (!fechaUltimaVacuna) mensaje += 'Fecha última vacuna: requerido\n';
+            if (!nombreVacuna) mensaje += 'Nombre vacuna: requerido\n';
+        }
+        if (ultimaDesparasitacion) {
+            if (!productoDesparasitacion) mensaje += 'Producto antiparasitario: requerido\n';
+            if (!tipoDesparasitacion) mensaje += 'Tipo de desparasitación: requerido\n';
+            if (!desparasitacionRealizadaPor) mensaje += 'Quién realizó la desparasitación: requerido\n';
+        }
         if (!nombre) mensaje += 'Nombre Mascota: requerido\n';
         if (!especie || especie === '0') mensaje += 'Especie: requerido\n';
         if (!tamano) mensaje += 'Tipo de mascota (Tamaño): requerido\n';
@@ -608,7 +722,17 @@
                 fecha_nacimiento: fechaNacimientoDesconocida ? '' : fechaNacimiento,
                 fecha_nacimiento_desconocida: fechaNacimientoDesconocida ? 1 : 0,
                 sexo: sexo,
-                enfermedad_cronica: enfermedadCronica
+                enfermedad_cronica: enfermedadCronica,
+                comportamiento: $('#agenda_mascota_comportamiento').val(),
+                esquema_vacunacion_al_dia: esquemaVacunacion,
+                fecha_ultima_vacuna: fechaUltimaVacuna,
+                nombre_vacuna: nombreVacuna,
+                comentarios_esquema_vacunacion: $('#agenda_mascota_comentarios_vacunacion').val(),
+                viajes: $('#agenda_mascota_viajes').val(),
+                ultima_desparasitacion: ultimaDesparasitacion,
+                producto_desparasitacion: productoDesparasitacion,
+                tipo_desparasitacion: tipoDesparasitacion,
+                desparasitacion_realizada_por: desparasitacionRealizadaPor
             },
         }).done(function(data) {
             if (data.estado == 1 && data.registro) {
@@ -673,6 +797,7 @@
         actualizarTamanoSegunEspecieAgenda();
         actualizarRazaSegunEspecieAgenda();
     });
+    $(document).on('change', '#agenda_mascota_esquema_vacunacion', toggleEsquemaVacunacionAgenda);
     $(document).on('change', '#agenda_mascota_esterilizado', toggleEsterilizacionAgenda);
     $(document).on('change', '#agenda_mascota_fecha_nacimiento_desconocida', toggleFechaNacimientoDesconocidaAgenda);
     $(document).on('change', '#agenda_mascota_fecha_esterilizacion_desconocida', toggleFechaEsterilizacionDesconocidaAgenda);

@@ -26,7 +26,8 @@
                     <button class="btn btn-light btn-block text-left text-info" type="button" data-toggle="collapse"
                         data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><i
                             class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                        TUTOR / RESPONSABLE
+                        <span class="sb-acordeon__icono"><i class="feather icon-user"></i></span>
+                        <span class="sb-acordeon__titulo">TUTOR / RESPONSABLE</span>
                     </button>
                 </div>
 
@@ -312,290 +313,6 @@
                     </div>
                 </div>
             </div>
-              <!------------------CONTACTO EMERGENCIA SOS-------------------->
-            <div class="card-sidebar">
-                <div class="card-header-sidebar" id="headingTwo">
-                    <h2 class="mb-0">
-                        <button class="btn btn-light btn-block text-left collapsed text-info" type="button"
-                            data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-                            aria-controls="collapseTwo"><i
-                                class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                            CONTACTO DE EMERGENCIA
-                        </button>
-                    </h2>
-                </div>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <div class="card-body-sidebar">
-                        <div id="info_contacto">
-                            <div class="form-row align-items-center pt-1">
-                                <div class="col-1"><img class=" wid-30 pl-1 mr-2" src="{{ asset('images/sdi-iconos/rut-info.png') }}"></div>
-                                <div class="col-10  ml-2 text-secondary">
-                                    <h6 class="text-dark">RUT</h6>
-                                    <p >
-
-                                    @if ($paciente->ContactosEmergencia()->first() != null)
-                                        <span class="info">
-                                            {{ $paciente->ContactosEmergencia()->first()->rut }}
-                                        </span>
-                                    @else
-                                        <span class="info">Sin registro de contacto</span>
-                                    @endif
-
-                                    </p>
-                                </div>
-                            </div>
-
-                            <hr class="mt-2 mb-2">
-                            <div class="form-row align-items-center mt-1">
-                                <div class="col-1"><img class=" wid-30 pl-1 mr-2" src="{{ asset('images/sdi-iconos/usuario-info.png') }}"></div>
-                                <div class="col-10  ml-2 text-secondary">
-                                    <h6 class="text-dark">Nombre</h6>
-                                    <p id="nombre_completo_contacto">
-                                    @if ($paciente->ContactosEmergencia()->first() != null)
-                                        <span class="info">
-                                            {{ $paciente->ContactosEmergencia()->first()->nombre }}
-                                        </span>
-                                    @else
-                                        <span class="info">Sin registro de contacto</span>
-                                    @endif
-
-
-                                    </p>
-                                </div>
-                            </div>
-
-                            <hr class="mt-2 mb-2">
-                            <div class="form-row align-items-center mt-1">
-                                <div class="col-1"><img class=" wid-30 pl-1 mr-2" src="{{ asset('images/sdi-iconos/usuario-info.png') }}"></div>
-                                <div class="col-10  ml-2 text-secondary">
-                                    <h6 class="text-dark">Apellidos</h6>
-                                    <p id="apellidos_contacto">
-
-                                    @if ($paciente->ContactosEmergencia()->first() != null)
-                                        <span class="info">
-                                            {{ $paciente->ContactosEmergencia()->first()->apellido_uno . ' ' . $paciente->ContactosEmergencia()->first()->apellido_dos }}
-                                        </span>
-                                    @else
-                                        <span class="info">Sin registro de contacto</span>
-                                    @endif
-
-                                    </p>
-                                </div>
-                            </div>
-
-                            <hr class="mt-2 mb-2">
-                            <div class="form-row align-items-center mt-1">
-                                <div class="col-1"><img class=" wid-30 pl-2 mr-2" src="{{ asset('images/sdi-iconos/hogar-info.png') }}"></div>
-                                <div class="col-10  ml-2 text-secondary">
-                                    <h6 class="text-dark">Dirección</h6>
-                                    <p>
-                                    @if ($paciente->ContactosEmergencia()->first() != null)
-                                        <span class="info">
-
-                                            {{ $paciente->ContactosEmergencia()->first()->Direccion()->first()->direccion .
-                                                ' ' .
-                                                $paciente->ContactosEmergencia()->first()->Direccion()->first()->numero_dir }}
-                                        </span>
-                                    @else
-                                        <span class="info">Sin registro de contacto</span>
-                                    @endif
-
-                                    </p>
-                                </div>
-                            </div>
-
-                            <hr class="mt-2 mb-2">
-                            <div class="form-row align-items-center mt-1">
-                                <div class="col-1"><img class=" wid-30 pl-2 mr-2" src="{{ asset('images/sdi-iconos/hogar-info.png') }}"></div>
-                                <div class="col-10  ml-2 text-secondary">
-                                    <h6 class="text-dark">Región - Comuna</h6>
-                                    <p id="comuna_region_contacto">
-
-                                    @if ($paciente->ContactosEmergencia()->first() != null)
-                                        <span class="info">
-                                            {{ $paciente->ContactosEmergencia()->first()->Direccion()->first()->Ciudad()->first()->nombre }}
-                                        </span>
-                                    @else
-                                        <span class="info">Sin registro de contacto</span>
-                                    @endif
-
-                                    </p>
-                                </div>
-                            </div>
-
-                            <hr class="mt-2 mb-2">
-                            <div class="form-row align-items-center mt-1">
-                                <div class="col-1"><img class=" wid-30 pl-2 mr-2" src="{{ asset('images/sdi-iconos/email-info.png') }}"></div>
-                                <div class="col-10  ml-2 text-secondary">
-                                    <h6 class="text-dark">Email</h6>
-                                    <p id="email_contacto_">
-
-                                    @if ($paciente->ContactosEmergencia()->first() != null)
-                                        <span class="info">
-                                            {{ $paciente->ContactosEmergencia()->first()->email }}
-                                        </span>
-                                    @else
-                                        <span class="info">Sin registro de contacto</span>
-                                    @endif
-
-                                    </p>
-                                </div>
-                            </div>
-
-                            <hr class="mt-2 mb-2">
-                            <div class="form-row align-items-center mt-1">
-                                <div class="col-1"><img class=" wid-30 pl-1 mr-2" src="{{ asset('images/sdi-iconos/telefono-info.png') }}"></div>
-                                <div class="col-10  ml-2 text-secondary">
-                                    <h6 class="text-dark">Teléfono</h6>
-                                    <p>  @if ($paciente->ContactosEmergencia()->first() != null)
-                                        <span class="info">
-                                            {{ $paciente->ContactosEmergencia()->first()->telefono }}
-                                        </span>
-                                    @else
-                                        <span class="info">Sin registro de contacto</span>
-                                    @endif
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="form-row mt-3 mb-5">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
-                                    <button type="button" class="btn btn-primary-light-c btn-xxs"
-                                        onclick="editarInformacionContacto()"><i class="feather icon-edit"></i> Editar
-                                        información</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @if ($paciente->ContactosEmergencia()->exists())
-                        <div id="info_contacto-edit" style="display: none">
-                        <div class="form-row pt-3">
-                            <label class="col-2 text-dark font-weight-bolder">Rut</label>
-                            <div class="col-9 ml-2 text-secondary">
-                               <input id="contacto_rut_edit" name="contacto_rut_edit" type="text" class="form-control form-control-sm" value="{{ $paciente->ContactosEmergencia()->first()->rut }}">
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-2  text-dark font-weight-bolder">Nombre</label>
-                            <div class="col-9 ml-2 text-secondary">
-                                <input id="contacto_nombre_edit" name="contacto_nombre_edit" type="text" class="form-control form-control-sm" value="{{ $paciente->ContactosEmergencia()->first()->nombre }}">
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-2 text-dark font-weight-bolder">Apellido Paterno</label>
-                            <div class="col-9 ml-2 text-secondary">
-                                <input id="contacto_apellido_uno" name="contacto_apellido_uno" type="text" class="form-control form-control-sm" value="{{ $paciente->ContactosEmergencia()->first()->apellido_uno }}">
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-2 text-dark font-weight-bolder">Apellido Materno</label>
-                            <div class="col-9 ml-2 text-secondary">
-                                <input id="contacto_apellido_dos" name="contacto_apellido_dos" type="text" class="form-control form-control-sm" value="{{ $paciente->ContactosEmergencia()->first()->apellido_dos }}">
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-2 text-dark font-weight-bolder">FN</label>
-                            <div class="col-9 ml-2 text-secondary">
-                                <input type="date" name="contacto_fn_edit" id="contacto_fn_edit" value="{{ $paciente->ContactosEmergencia()->first()->fecha_nac }}">
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-2 text-dark font-weight-bolder">Sexo</label>
-                            <div class="col-9 ml-2 text-secondary">
-                                <select name="contacto_sexo_edit" id="contacto_sexo_edit" class="form-control form-control-sm">
-                                    <option value="M" @if ($paciente->ContactosEmergencia()->first()->sexo == 'M') selected @endif>Masculino
-                                    </option>
-                                    <option value="F" @if ($paciente->ContactosEmergencia()->first()->sexo == 'F') selected @endif>Femenino
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        {{-- <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-2  text-c-blue font-weight-bolder">Convenios</label>
-                            <div class="col-9 ml-2 text-secondary">
-
-                            </div>
-                        </div> --}}
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-2 text-dark font-weight-bolder">Dirección</label>
-                            <div class="col-9 ml-2 text-secondary">
-                                <input type="text" class="form-control form-control-sm" id="contacto_dir_edit"
-                                    value="{{ $paciente->ContactosEmergencia()->first()->Direccion()->first()->direccion .
-                                                ' ' .
-                                                $paciente->ContactosEmergencia()->first()->Direccion()->first()->numero_dir }}">
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1 text-dark ">
-                            <label class="col-2 text-dark font-weight-bolder">Región</label>
-                            <div class="col-9 ml-2 text-secondary">
-                                <select name="contacto_region_edit" onchange="buscar_ciudad_contacto({{ $paciente->ContactosEmergencia()->first()->Direccion()->first()->Ciudad()->first()->id }});" id="contacto_region_edit" class="form-control form-control-sm"
-                                    >
-                                    <option value="0">Seleccione región</option>
-                                    @foreach ($regiones as $region)
-                                        <option value="{{ $region->id }}"
-                                            @if ($paciente->ContactosEmergencia()->first()->Direccion()->first()->Ciudad()->first()->Region()->first()->id == $region->id) selected @endif>{{ $region->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-2 text-dark font-weight-bolder">Comuna</label>
-                            <div class="col-9 ml-2 text-secondary">
-                                <select name="contacto_comuna_edit" id="contacto_comuna_edit" class="form-control form-control-sm">
-                                    <option value="0">Seleccione comuna</option>
-                                    @foreach ($paciente->comunas_contacto_emer as $comuna)
-                                        <option value="{{ $comuna->id }}"
-                                            @if ($paciente->ContactosEmergencia()->first()->Direccion()->first()->Ciudad()->first()->id == $comuna->id) selected @endif>{{ $comuna->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-2 text-dark font-weight-bolder">Email</label>
-                            <div class="col-9 ml-2 text-secondary">
-                                <input type="text" id="contacto_email_edit" name="contacto_email_edit"
-                                    class="form-control form-control-sm" value="{{ $paciente->ContactosEmergencia()->first()->email }}">
-                            </div>
-                        </div>
-                        <hr class="mt-2">
-                        <div class="form-row mt-1">
-                            <label class="col-2 text-dark font-weight-bolder">Teléfono</label>
-                            <div class="col-9 ml-2 text-secondary">
-                                <input type="text" class="form-control form-control-sm" id="contacto_telefono_edit"
-                                    name="contacto_telefono_edit" value="{{ $paciente->ContactosEmergencia()->first()->telefono }}">
-                            </div>
-                        </div>
-                        <div class="form-row mt-3 mb-5">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
-                                <button type="button" class="btn btn-primary-light-c btn-xxs"
-                                    onclick="guardarInformacionContacto()"><i class="feather icon-save"></i> Guardar
-                                    información</button>
-                                <button type="button" class="btn btn-danger-light-c btn-xxs"
-                                    onclick="cancelarInformacionContacto()"><i class="feather icon-x"></i> Cancelar
-                                    edición</button>
-                            </div>
-                        </div>
-                    </div>
-                    @else
-                        <div class="alert alert-warning">
-                            El paciente no tiene contacto de emergencia registrado.
-                        </div>
-                    @endif
-
-                </div>
-            </div>
 
         </div>
         <!------------------ANTECEDENTES MÉDICOS---------------------->
@@ -606,7 +323,8 @@
                         data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
                         aria-controls="collapseThree"><i
                             class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                        ANTECEDENTES MÉDICOS
+                        <span class="sb-acordeon__icono"><i class="feather icon-file-plus"></i></span>
+                        <span class="sb-acordeon__titulo">ANTECEDENTES MÉDICOS</span>
                     </button>
                 </h2>
             </div>
@@ -847,14 +565,16 @@
 
         </div>
           <!------------------ANTECEDENTES FMU---------------------->
-        <div class="card-sidebar">
+        {{-- Antecedentes veterinarios para FVU: oculto en el sidebar, el contenido se mantiene por si algún script lo usa --}}
+        <div class="card-sidebar" style="display:none;">
             <div class="card-header-sidebar" id="headingFour">
                 <h2 class="mb-0">
                     <button class="btn btn-light btn-block text-left collapsed text-info" type="button"
                         data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
                         aria-controls="collapseFour"><i
                             class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                        ANTECEDENTES VETERINARIOS PARA FVU
+                        <span class="sb-acordeon__icono"><i class="feather icon-activity"></i></span>
+                        <span class="sb-acordeon__titulo">ANTECEDENTES VETERINARIOS PARA FVU</span>
                     </button>
                 </h2>
             </div>

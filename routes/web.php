@@ -1415,6 +1415,8 @@ Route::group([
         Route::get('Configuraciones/Personalizar-Ficha', 'editar')->name('profesional.personalizar_mi_ficha');
         Route::post('Configuraciones/Personalizar-Ficha', 'guardar')->name('profesional.personalizar_ficha.guardar');
     });
+    // Maqueta (solo front-end) de las indicaciones médicas; la parte funcional se conecta después.
+    Route::view('Configuraciones/Indicaciones-Medicas', 'app.profesional.indicaciones_medicas')->middleware('role:Profesional')->name('profesional.indicaciones_medicas');
 
     Route::get('Mis_lugares_atencion', [App\Http\Controllers\EscritorioProfesional::class, 'mis_lugares'])->name('profesional.lugares_atencion');
 

@@ -11,7 +11,8 @@
             <div class="card-sidebar mb-0 rounded-0">
                 <div class="card-header-sidebar" id="headingOne">
                     <button class="btn btn-light btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><i  class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                        Temperatura, pulso y respiración
+                        <span class="sb-acordeon__icono"><i class="feather icon-thermometer"></i></span>
+                        <span class="sb-acordeon__titulo">Temperatura, pulso y respiración</span>
                     </button>
                 </div>
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -40,7 +41,8 @@
                 <div class="card-header-sidebar" id="heading_utilidades">
                     <h2 class="mb-0">
                     <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_utilidades" aria-expanded="false" aria-controls="collapse_utilidades"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                        Condición corporal
+                        <span class="sb-acordeon__icono"><i class="feather icon-bar-chart-2"></i></span>
+                        <span class="sb-acordeon__titulo">Condición corporal</span>
                     </button>
                     </h2>
                 </div>
@@ -80,7 +82,8 @@
                 <div class="card-header-sidebar" id="heading_recom">
                     <h2 class="mb-0">
                     <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_recom" aria-expanded="false" aria-controls="collapse_recom"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                        Presión Arterial
+                        <span class="sb-acordeon__icono"><i class="feather icon-heart"></i></span>
+                        <span class="sb-acordeon__titulo">Presión Arterial</span>
                     </button>
                     </h2>
                 </div>
@@ -114,7 +117,8 @@
                 <div class="card-header-sidebar" id="heading_hosp">
                     <h2 class="mb-0">
                     <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_hosp" aria-expanded="false" aria-controls="collapse_hosp"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                    Perfusión, neurología y movilidad
+                    <span class="sb-acordeon__icono"><i class="feather icon-zap"></i></span>
+                    <span class="sb-acordeon__titulo">Perfusión, neurología y movilidad</span>
                     </button>
                     </h2>
                 </div>

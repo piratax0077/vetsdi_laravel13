@@ -34,6 +34,7 @@ class Mascota extends Model
         'esterilizado',
         'fecha_esterilizacion',
         'enfermedad_cronica',
+        'comportamiento',
         'dieta',
         'ultima_desparasitacion',
         'producto_desparasitacion',

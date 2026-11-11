@@ -8,12 +8,22 @@
         <div id="motivo_c" class="collapse show" aria-labelledby="motivo" data-parent="#motivo">
             <div class="card-body-aten-a">
                 <div class="form-row">
+                    @if (!empty($examenFisicoEnCard))
+                        {{-- Ficha veterinaria general: signos básicos primero y luego el examen físico libre --}}
+                        @include('general.secciones_ficha.examen_fisico_signos_basicos')
+                        {{-- Corte de línea para que Condición corporal empiece en su propia fila --}}
+                        <div class="w-100"></div>
+                    @endif
                    <!-- <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6">
                         <label class="floating-label-activo-sm" for="antecedentes">Antecedentes Especialidad</label>
                         <textarea class="form-control caja-texto form-control-sm"  rows="1"  onfocus="this.rows=5" onblur="this.rows=1;" class="form-control form-control-sm" name="antecedentes" id="antecedentes" placeholder="{{ $placeholder_antecedentes }}"></textarea>
                     </div>-->
-                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
-                        <label class="floating-label-activo-sm" for="motivo">Condición corporal</label>
+                    <div class="form-group {{ !empty($examenFisicoEnCard) ? 'col-sm-12 col-md-6 col-xl-3' : 'col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6' }}">
+                        <label class="floating-label-activo-sm" for="condicion_corporal">Condición corporal</label>
+                        @if (!empty($examenFisicoEnCard))
+                        <input type="text" class="form-control form-control-sm" name="condicion_corporal" id="condicion_corporal"
+                            value="{{ old('condicion_corporal', data_get(isset($fichaVeterinariaGeneralData) && is_array($fichaVeterinariaGeneralData) ? $fichaVeterinariaGeneralData : [], 'condicion_corporal', '')) }}">
+                        @else
                         <select class="form-control form-control-sm" name="condicion_corporal" id="condicion_corporal" value="">
                             <option value="">Seleccione</option>
                             <option value="1">1 (Caquéctico)</option>
@@ -22,7 +32,9 @@
                             <option value="4">4 (Sobrepeso)</option>
                             <option value="5">5 (Obeso)</option>
                         </select>
+                        @endif
                     </div>
+                    @if (empty($examenFisicoEnCard))
                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-2 col-xxl-2">
                         <label class="floating-label-activo-sm" for="motivo">T (ºC)</label>
                         <input type="text" class="form-control form-control-sm" name="{{ isset($mascota) ? 'temperatura_examen_fisico' : 'temperatura' }}" id="{{ isset($mascota) ? 'temperatura_examen_fisico' : 'temperatura' }}" value="">
@@ -39,22 +51,29 @@
                         <label class="floating-label-activo-sm" for="motivo">TLLC (seg)</label>
                         <input type="text" class="form-control form-control-sm" name="tllc" id="tllc" value="">
                     </div>
-                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-2 col-xxl-2">
+                    @endif
+                    <div class="form-group {{ !empty($examenFisicoEnCard) ? 'col-sm-12 col-md-6 col-xl-3' : 'col-sm-12 col-md-6 col-lg-6 col-xl-2 col-xxl-2' }}">
                         <label class="floating-label-activo-sm" for="motivo">TRPC (seg)</label>
                         <input type="text" class="form-control form-control-sm" name="trpc" id="trpc" value="">
                     </div>
-                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-2 col-xxl-2">
+                    <div class="form-group {{ !empty($examenFisicoEnCard) ? 'col-sm-12 col-md-6 col-xl-3' : 'col-sm-12 col-md-6 col-lg-6 col-xl-2 col-xxl-2' }}">
                         <label class="floating-label-activo-sm" for="motivo">Pulso</label>
                         <input type="text" class="form-control form-control-sm" name="{{ isset($mascota) ? 'pulso_examen_fisico' : 'pulso' }}" id="{{ isset($mascota) ? 'pulso_examen_fisico' : 'pulso' }}" value="">
                     </div>
+                    @if (empty($examenFisicoEnCard))
                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-2 col-xxl-2">
                         <label class="floating-label-activo-sm" for="motivo">Mucosas</label>
                         <input type="text" class="form-control form-control-sm" name="mucosas" id="mucosas" value="">
                     </div>
-                    <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-2 col-xxl-2">
+                    @endif
+                    <div class="form-group {{ !empty($examenFisicoEnCard) ? 'col-sm-12 col-md-6 col-xl-3' : 'col-sm-12 col-md-6 col-lg-6 col-xl-2 col-xxl-2' }}">
                         <label class="floating-label-activo-sm" for="motivo">% Deshidratación</label>
                         <input type="text" class="form-control form-control-sm" name="deshidratacion" id="deshidratacion" value="">
                     </div>
+
+                    @if (!empty($examenFisicoEnCard))
+                        @include('general.secciones_ficha.campo_examen_fisico', ['filasExamenFisico' => 3])
+                    @endif
 
                     <div class="form-group col-sm-12 col-md-12 col-lg-6 col-xl-4 col-xxl-4">
                         <label class="floating-label-activo-sm" for="organos_sentidos">Óganos de los sentidos</label>

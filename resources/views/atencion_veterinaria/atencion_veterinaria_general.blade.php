@@ -91,6 +91,7 @@
 
             <!-- SIDE BAR  -->
             @include("atencion_veterinaria.modales"){{-- base de botones de sidebar --}}
+            @include('atencion_veterinaria.include.boton_alertas_mascota'){{-- botón Alertas junto al + --}}
             @include("atencion_veterinaria.include.sidebar_derecho_veterinaria_general")
             @include("general.modal.modal_no_disponible")
             @include('atencion_veterinaria.formularios.modal_atencion_especialidad.cirugia.modal_clasif_colon')

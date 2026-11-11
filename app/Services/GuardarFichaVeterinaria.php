@@ -50,7 +50,7 @@ class GuardarFichaVeterinaria
                 }
             }
             $ficha->hipotesis_diagnostico = $request->descripcion_hipotesis;
-            foreach (['temperatura', 'pulso'] as $campo) {
+            foreach (['temperatura', 'pulso', 'peso'] as $campo) {
                 if (!$request->filled($campo) && $request->filled($campo.'_examen_fisico')) {
                     $ficha->{$campo} = $request->input($campo.'_examen_fisico');
                 }
