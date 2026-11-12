@@ -116,10 +116,10 @@
 
                     <div id="collapse_hosp" class="collapse" aria-labelledby="headinghospm" data-parent="#accordion_side_bar">
                         <div class="card-body-sidebar">
-                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="sol_pabellon()";>+ Solicitud PabellÃ³n</button>
-                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="ingresohosp()";>+ HospitalizaciÃ³n </button>
+                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="sol_pabellon()";>+ Solicitud Pabellón</button>
+                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="ingresohosp()";>+ Hospitalización </button>
                             <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="r_ingreso()";>+ Requisitos de ingreso</button>
-                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="ingresoequipo()">+ Equipo quirÃºrgico</button>
+                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="ingresoequipo()">+ Equipo quirúrgico</button>
                         </div>
                     </div>
                     @include("general.hospitalizacion.modals.in_solic_pabellon")

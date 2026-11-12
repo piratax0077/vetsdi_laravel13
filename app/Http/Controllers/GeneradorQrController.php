@@ -30,6 +30,31 @@ class GeneradorQrController extends Controller
         return (new Writer($renderer))->writeString((string) $valor);
     }
 
+    public function pdfEdoVeterinaria(Request $request)
+    {
+        $datos = $request->validate([
+            'calidad' => 'nullable|string|max:255',
+            'region' => 'nullable|string|max:255',
+            'comuna' => 'nullable|string|max:255',
+            'direccion' => 'nullable|string|max:500',
+            'animal' => 'nullable|string|max:255',
+            'especie' => 'nullable|string|max:255',
+            'enfermedad' => 'nullable|string|max:255',
+            'fecha' => 'nullable|date_format:Y-m-d',
+            'enfermos' => 'nullable|integer|min:0',
+            'muertos' => 'nullable|integer|min:0',
+            'sintomas' => 'nullable|string|max:20000',
+        ]);
+        $respuesta = $this->firmaEdoVeterinaria($request);
+        if ($respuesta->getStatusCode() !== 200) {
+            return $respuesta;
+        }
+        $firma = $respuesta->getData(true);
+
+        return \Barryvdh\DomPDF\Facade\Pdf::loadView('PDF.notificacion_edo_sag', compact('datos', 'firma'))
+            ->stream('notificacion-sag.pdf')->header('Cache-Control', 'no-store');
+    }
+
     public function firmaEdoVeterinaria(Request $request)
     {
         $request->validate([
@@ -44,6 +69,8 @@ class GeneradorQrController extends Controller
 
         $idFicha = (int) $request->id_ficha_atencion;
         $ficha = $idFicha > 0 ? FichaAtencion::find($idFicha) : null;
+        abort_if($idFicha > 0 && (!$ficha || (int) $ficha->id_profesional !== (int) $profesional->id), 404,
+            'No se encontró una ficha de atención del profesional conectado.');
         $idLugar = (int) ($ficha->id_lugar_atencion ?? $request->id_lugar_atencion);
         $lugar = $idLugar > 0 ? LugarAtencion::find($idLugar) : null;
         $direccion = $lugar ? $lugar->Direccion()->first() : null;

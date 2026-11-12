@@ -211,7 +211,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 mx-auto text-center">
-                                                    @if (!empty(session('lic_token')) && session('lic_token') == 1)
+                                                    @if (!empty($mascota) || (!empty(session('lic_token')) && session('lic_estado') == 1))
                                                         <button type="button" class="btn btn-info btn_agregar_medicamento text-center" onclick="agregar_a_receta($('#cronicos').val())"><i class="feather icon-check"></i> Agregar Medicamento a Receta</button>
                                                     @else
                                                         <button type="button" class="btn btn-info btn_agregar_medicamento text-center" onclick="agregar_a_receta($('#cronicos').val())" disabled="disabled"><i class="feather icon-check"></i> Agregar Medicamento a Receta</button>
@@ -1031,7 +1031,7 @@
             valido = 1;
             mensaje += 'Debe completar el campo Cantidad a Comprar.\n';
         }
-        else if($('#cantidad_comprar'+tipo).val() == '999')
+        else if($('#cantidad_comprar_'+tipo).val() == '999')
         {
             if( $.trim(otra_cantidad_a_comprar) == '')
             {
@@ -1094,7 +1094,7 @@
                         {
                             swal({
                                 title: "Medicamento Cronico.",
-                                text: "Medicamento Registrado con exito.\nMedicamento no agregado a receta por no tener activo Autorización de papeleria.",
+                                text: "Medicamento crónico registrado. Puede seleccionarlo para agregarlo a la receta.",
                                 icon: "success",
                                 // buttons: "Aceptar",
                                 //SuccessMode: true,
@@ -1840,6 +1840,10 @@
                         {
                             mensaje += valueOfElement+'\n';
                         });
+                    }
+                    else if (resp.msj)
+                    {
+                        mensaje += resp.msj;
                     }
                     else
                     {

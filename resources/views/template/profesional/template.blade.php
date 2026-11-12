@@ -1115,30 +1115,28 @@
                         //  alert('No tiene lugares de atención asignados, favor registrar uno');
                     } else {
 
-                        let lugares_atencion = $('#lugares_atencion');
+                        const lugares = (typeof data === 'string' ? JSON.parse(data) : data)
+                            .filter(lugar => String(lugar.pivot?.estado) === '1');
+                        const lista = $('#lista_lugares_atencion').empty();
+                        $('#lugares_atencion').val('');
+                        lugares.forEach(lugar => {
+                            $('<div>', {class: 'col-12 col-md-6 mb-2'}).append(
+                                $('<button>', {
+                                    type: 'button',
+                                    class: 'btn btn-outline-info btn-block text-left h-100',
+                                    'data-lugar-agenda': lugar.id,
+                                    'aria-pressed': 'false',
+                                    text: lugar.nombre_contexto || lugar.nombre
+                                })
+                            ).appendTo(lista);
+                        });
 
-                        data = JSON.parse(data);
-                        console.log(data);
-                        lugares_atencion.find('option').remove();
-                        lugares_atencion.append('<option value="0">Seleccione</option>');
-                        let contador = 0;
-                        console.log(data.length);
-                        for (let i = 0; i < data.length; i++) {
-                            if (data[i].pivot.estado == '1') {
-                                lugares_atencion.append('<option value="' + data[i].id + '">' + data[i].nombre +
-                                    '</option>');
-                                contador++;
-                            }
-                        }
-
-                        if (contador == 0) {
+                        if (lugares.length === 0) {
                             swal("Oops", "No tiene lugares de atención asignados, favor registrar uno", "error")
                             //  alert('No tiene lugares de atención asignados, favor registrar uno');
                         } else {
-                            if (contador == 1) {
-                                lugares_atencion.val(data[0].id);
-                                window.location.href = "{{ route('profesional.mi_agenda') }}?lugares_atencion=" + data[
-                                    0].id;
+                            if (lugares.length === 1) {
+                                window.location.href = "{{ route('profesional.mi_agenda') }}?lugares_atencion=" + encodeURIComponent(lugares[0].id);
                             } else {
                                 $('#modal_seleccionar_lugar_atencion').modal('show');
                                 validar_seleccionar_lugar_atencion();

@@ -25,7 +25,7 @@
     #modal_enfermedades_denuncia_obligatoria .edo-aviso i { flex-shrink: 0; font-size: 18px; }
     #modal_enfermedades_denuncia_obligatoria .edo-section { margin-bottom: 16px; background: #fff; border: 1px solid #e6eaef; border-radius: 12px; box-shadow: 0 2px 8px rgba(38, 59, 80, .05); }
     #modal_enfermedades_denuncia_obligatoria .edo-section-title { display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: #272727; font-size: 15px; font-weight: 800; border-bottom: 1px solid #eef1f4; }
-    #modal_enfermedades_denuncia_obligatoria .edo-section-numero { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 26px; height: 26px; color: #fff; font-size: 13px; font-weight: 800; background: #dc3545; border-radius: 8px; }
+    #modal_enfermedades_denuncia_obligatoria .edo-section-numero { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 26px; height: 26px; color: #fff; font-size: 13px; font-weight: 800; background: #168f86; border-radius: 8px; }
     #modal_enfermedades_denuncia_obligatoria .edo-section-body { padding: 22px 16px 6px; }
     #modal_enfermedades_denuncia_obligatoria .form-group { margin-bottom: 1.3rem; }
     #modal_enfermedades_denuncia_obligatoria input[type="file"].form-control { padding-top: 3px; }
@@ -219,17 +219,35 @@
                     <button type="button" class="btn btn-info" id="edo_btn_guardar">
                         <i class="feather icon-save"></i> Guardar
                     </button>
-                    <button type="button" class="btn btn-outline-primary" id="edo_btn_pdf">
+                    <button type="button" class="btn btn-outline-info" id="edo_btn_pdf">
                         <i class="feather icon-file-text"></i> Ver PDF
                     </button>
                     <button type="button" class="btn btn-outline-info" id="edo_btn_email">
                         <i class="feather icon-mail"></i> Enviar por email
                     </button>
-                    <button type="button" class="btn btn-danger" id="edo_btn_sag">
+                    <button type="button" class="btn btn-success" id="edo_btn_sag">
                         <i class="feather icon-send"></i> Enviar al SAG
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div id="modal_edo_pdf" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_edo_pdf_titulo" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-purple">
+                <h5 class="modal-title" id="modal_edo_pdf_titulo">Notificación al SAG · Vista previa PDF</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <iframe id="edo_pdf_marco" class="w-100 border-0 d-block" style="height: 68vh;" title="PDF de notificación al SAG"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="feather icon-arrow-left"></i> Volver</button>
+                <a id="edo_pdf_descargar" class="btn btn-info" download="notificacion-sag.pdf"><i class="feather icon-download"></i> Descargar PDF</a>
+            </div>
         </div>
     </div>
 </div>
@@ -297,32 +315,62 @@
         ].join('\r\n');
     }
 
-    function abrirDocumentoEdo(datos) {
-        var qr = $('#edo_firma_qr').html() || '';
-        var ventana = window.open('', '_blank');
-        if (!ventana) {
-            if (window.Swal) Swal.fire('Ventana bloqueada', 'Permita ventanas emergentes para visualizar el documento.', 'warning');
-            return;
+    const $formularioEdo = $('#modal_enfermedades_denuncia_obligatoria');
+    const $visorEdo = $('#modal_edo_pdf').appendTo('body');
+    let urlPdfEdo;
+    let volviendoDelPdf = false;
+
+    $visorEdo.on('hidden.bs.modal', function () {
+        $('#edo_pdf_marco').removeAttr('src');
+        $('#edo_pdf_descargar').removeAttr('href');
+        URL.revokeObjectURL(urlPdfEdo);
+        volviendoDelPdf = true;
+        $formularioEdo.modal('show');
+    });
+
+    async function abrirDocumentoEdo(datos) {
+        const boton = $('#edo_btn_pdf').prop('disabled', true);
+        try {
+            const respuesta = await fetch(@json(route('veterinaria.edo.pdf', [], false)), {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': @json(csrf_token()),
+                },
+                body: JSON.stringify({
+                    ...datos,
+                    id_ficha_atencion: Number($('#id_fc').val()) || {{ (int) ($hora_medica->id_ficha_atencion ?? $id_ficha_atencion ?? 0) }},
+                    id_lugar_atencion: {{ (int) (request('lugar_atencion_id') ?? ($lugar_atencion->id ?? 0)) }},
+                }),
+            });
+
+            if (!respuesta.ok || !respuesta.headers.get('Content-Type')?.includes('application/pdf')) {
+                throw new Error('No se pudo generar el PDF de la notificación.');
+            }
+            if (!$formularioEdo.hasClass('show')) return;
+
+            const desplazamiento = $formularioEdo.scrollTop();
+            urlPdfEdo = URL.createObjectURL(await respuesta.blob());
+            if (!$formularioEdo.hasClass('show')) {
+                URL.revokeObjectURL(urlPdfEdo);
+                return;
+            }
+            $formularioEdo.one('hidden.bs.modal', function () {
+                $('#edo_pdf_marco').attr('src', urlPdfEdo);
+                $('#edo_pdf_descargar').attr('href', urlPdfEdo);
+                $formularioEdo.one('shown.bs.modal', function () {
+                    $formularioEdo.scrollTop(desplazamiento);
+                    boton.trigger('focus');
+                });
+                $visorEdo.modal('show');
+            }).modal('hide');
+        } catch (error) {
+            if (window.Swal) Swal.fire('PDF no disponible', 'No se pudo generar el PDF de la notificación.', 'error');
+            else window.alert('No se pudo generar el PDF de la notificación.');
+        } finally {
+            boton.prop('disabled', false);
         }
-        ventana.document.write(
-            '<!doctype html><html><head><meta charset="utf-8"><title>Formulario EDO</title>' +
-            '<style>body{font-family:Arial,sans-serif;color:#263238;margin:35px}h1{color:#b4232c;font-size:22px}' +
-            '.bloque{border:1px solid #ccd5dd;border-radius:8px;padding:14px;margin:12px 0}.fila{margin:7px 0}' +
-            '.firma{margin-top:30px;text-align:right}.firma svg{width:120px;height:120px}@media print{button{display:none}}</style></head><body>' +
-            '<h1>Enfermedades de Denuncia Obligatoria (EDO)</h1>' +
-            '<div class="bloque"><div class="fila"><b>Denunciante:</b> ' + $('<div>').text(datos.nombre).html() + '</div>' +
-            '<div class="fila"><b>RUT:</b> ' + $('<div>').text(datos.rut).html() + ' · ' + $('<div>').text(datos.calidad).html() + '</div></div>' +
-            '<div class="bloque"><div class="fila"><b>Ubicación:</b> ' + $('<div>').text(datos.direccion + ', ' + datos.comuna + ', ' + datos.region).html() + '</div></div>' +
-            '<div class="bloque"><div class="fila"><b>Animal:</b> ' + $('<div>').text(datos.animal || 'Sin identificación').html() + '</div>' +
-            '<div class="fila"><b>Especie:</b> ' + $('<div>').text(datos.especie).html() + '</div>' +
-            '<div class="fila"><b>Sospecha:</b> ' + $('<div>').text(datos.enfermedad).html() + '</div>' +
-            '<div class="fila"><b>Fecha:</b> ' + $('<div>').text(datos.fecha).html() + '</div>' +
-            '<div class="fila"><b>Enfermos / muertos:</b> ' + $('<div>').text(datos.enfermos + ' / ' + datos.muertos).html() + '</div>' +
-            '<div class="fila"><b>Antecedentes:</b><br>' + $('<div>').text(datos.sintomas).html() + '</div></div>' +
-            '<div class="firma">' + qr + '<br><b>Firma Digital Avanzada SDI</b><br>' + $('<div>').text(datos.nombre).html() + '</div>' +
-            '<p><button onclick="window.print()">Imprimir / Guardar como PDF</button></p></body></html>'
-        );
-        ventana.document.close();
     }
 
     function cargarFirmaSdi() {
@@ -334,8 +382,9 @@
             url: '{{ route('veterinaria.edo.firma_sdi') }}',
             type: 'GET',
             dataType: 'json',
+            timeout: 15000,
             data: {
-                id_ficha_atencion: $('#id_fc').val() || {{ (int) ($id_ficha_atencion ?? 0) }},
+                id_ficha_atencion: Number($('#id_fc').val()) || {{ (int) ($hora_medica->id_ficha_atencion ?? $id_ficha_atencion ?? 0) }},
                 id_lugar_atencion: {{ (int) (request('lugar_atencion_id') ?? ($lugar_atencion->id ?? 0)) }}
             }
         }).done(function (respuesta) {
@@ -364,6 +413,10 @@
         });
     }
     $('#modal_enfermedades_denuncia_obligatoria').on('shown.bs.modal', function () {
+        if (volviendoDelPdf) {
+            volviendoDelPdf = false;
+            return;
+        }
         cargarFirmaSdi();
         var borrador = localStorage.getItem(edoBorradorKey);
         if (borrador) {

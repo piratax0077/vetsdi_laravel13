@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Articulo;
 use App\Models\DetalleReceta;
+use App\Models\FichaAtencion;
 use App\Models\LugarAtencion;
 use App\Models\MedicamentoUsoCronicoGeneral;
 use App\Models\Paciente;
@@ -334,10 +335,12 @@ class MedicamentoUsoCronicoGeneralController extends Controller
 
             if($resultMedCron)
             {
+                $controlesRestringidos = FichaAtencion::whereKey($request->id_ficha_atencion)->whereNotNull('id_mascota')->exists()
+                    ? [3, 4] : [1, 2, 3, 4, 5];
                 foreach ($resultMedCron as $key => $value)
                 {
                     $tipoControl = (int) $value->id_tipo_control;
-                    if (in_array($tipoControl, [1, 2, 3, 4, 5], true)
+                    if (in_array($tipoControl, $controlesRestringidos, true)
                         && (empty(session('lic_token')) || (int) session('lic_estado') !== 1)) {
                         $datos['estado'] = 0;
                         $datos['msj'] = 'El medicamento requiere autorización vigente para emitir una receta veterinaria controlada.';

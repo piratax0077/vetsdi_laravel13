@@ -53,6 +53,10 @@
                     <div class="form-group col-sm-12 {{ $esFichaVeterinaria ? 'col-md-12 col-lg-12 col-xl-12' : 'col-md-6 col-lg-6 col-xl-6' }}">
                         <label class="floating-label-activo-sm" for="indicaciones">Indicaciones</label>
                         <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=5" onblur="this.rows=1;" name="indicaciones" id="indicaciones">{{ $indicacionesActuales }}</textarea>
+                        @if($esFichaVeterinaria && !empty($hora_medica->id) && !empty($profesional))
+                            <button type="button" class="btn btn-outline-info btn-sm mt-2" data-toggle="modal"
+                                data-target="#modal_indicacion_personalizada_vet" data-indicaciones-desde-ficha>Preparar indicaciones</button>
+                        @endif
                     </div>
                     <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-3 pt-2">
                         <div class="custom-control custom-switch" >

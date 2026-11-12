@@ -5,7 +5,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <div class="form-group">
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" onchange="ag_antecendente();" id="check_antecedentes" name="check_antecedentes" value="{!! old('check_antecedentes') !!}">
+                        <input type="checkbox" class="custom-control-input" onchange="ag_antecendente();" id="check_antecedentes">
                         <label class="custom-control-label" for="check_antecedentes">Agregar antecedente</label>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <div class="form-group">
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" onchange="es_cronico();" id="enf_cronico" name="enf_cronico" value="{!! old('enf_cronico') !!}">
+                        <input type="checkbox" class="custom-control-input" onchange="es_cronico();" id="enf_cronico">
                         <label class="custom-control-label" for="enf_cronico">Control crónico</label>
                     </div>
                 </div>

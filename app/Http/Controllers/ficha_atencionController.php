@@ -10993,6 +10993,7 @@ class ficha_atencionController extends Controller
                 $array_examenes = array(
                     'prioridad' => $prioridad_text[$value_examen_ppf->id_prioridad],
                     'examen'=> $nombre_examen,
+                    'sospecha' => $value_examen_ppf->sospecha,
                     'otro' => $value_examen_ppf->otro,
                     'contraste'=>$con_contraste,
                     'tipo_examen' => $value_examen_ppf->tipo_examen,

@@ -28,9 +28,9 @@ class GuardarFichaVeterinaria
         $datosInyecciones = $request->validate([
             'nuevas_inyecciones' => 'sometimes|array|max:20',
             'nuevas_inyecciones.*' => 'required|array:medicamento,dosis,via,observaciones,procedimiento,precio_medicamento,precio_procedimiento,registro',
-            'nuevas_inyecciones.*.medicamento' => 'required|string|max:255',
-            'nuevas_inyecciones.*.dosis' => 'required|string|max:120',
-            'nuevas_inyecciones.*.via' => 'required|string|max:120',
+            'nuevas_inyecciones.*.medicamento' => 'nullable|required_without:nuevas_inyecciones.*.procedimiento|string|max:255',
+            'nuevas_inyecciones.*.dosis' => 'nullable|required_with:nuevas_inyecciones.*.medicamento|string|max:120',
+            'nuevas_inyecciones.*.via' => 'nullable|required_with:nuevas_inyecciones.*.medicamento|string|max:120',
             'nuevas_inyecciones.*.observaciones' => 'nullable|string|max:1000',
             'nuevas_inyecciones.*.procedimiento' => 'required_with:nuevas_inyecciones.*.registro|string|max:255',
             'nuevas_inyecciones.*.precio_medicamento' => 'required_with:nuevas_inyecciones.*.registro|integer|min:0|max:999999999',

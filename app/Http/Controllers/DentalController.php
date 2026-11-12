@@ -7457,6 +7457,57 @@ class DentalController extends Controller
 
     public function getArticulo(Request $request)
     {
+        if ($request->boolean('veterinaria')) {
+            $datos = $request->validate([
+                'search' => 'required|string|min:2|max:100',
+                'especie' => 'nullable|string|max:100|regex:/\A[\pL\pN ()-]+\z/u',
+                'campo' => 'nullable|in:nombre,droga',
+            ]);
+            $texto = trim($datos['search']);
+            $campo = $datos['campo'] ?? 'nombre';
+            $patron = strtr($texto, ['!' => '!!', '%' => '!%', '_' => '!_']);
+            $especieSolicitada = trim($datos['especie'] ?? '');
+            $especie = match (mb_strtolower($especieSolicitada)) {
+                'canino', 'canina', 'perro', 'perra' => 'Perro',
+                'felino', 'felina', 'gato', 'gata' => 'Gato',
+                '', 'otro', 'otra' => null,
+                default => $especieSolicitada,
+            };
+            $articulos = Articulo::select('id', 'nombre', 'droga', 'tipo_cont', 'present', 'cant_comp')
+                ->where('vigencia', 1)
+                ->where('nombre', 'not like', '%eutanasia%')
+                ->whereRaw("COALESCE(droga, '') NOT LIKE ?", ['%embutramida%'])
+                ->when($especie, fn ($consulta) => $consulta->where(fn ($grupo) => $grupo
+                    ->where('grupo', $especie)
+                    ->orWhere('grupo', 'like', $especie.' | %')
+                    ->orWhere('grupo', 'like', '% | '.$especie.' | %')
+                    ->orWhere('grupo', 'like', '% | '.$especie)))
+                ->whereRaw($campo." LIKE ? ESCAPE '!'", ['%'.$patron.'%'])
+                ->orderByRaw("CASE WHEN ".$campo." LIKE ? ESCAPE '!' THEN 0 ELSE 1 END", [$patron.'%'])
+                ->orderBy('nombre')->limit(15)->get();
+
+            return response()->json($articulos->map(function ($articulo) {
+                $forma = '';
+                $via = '';
+                foreach ([$articulo->present, $articulo->droga, $articulo->nombre] as $textoCatalogo) {
+                    if (preg_match('/\b(soluci[oó]n|suspensi[oó]n|gel|crema|pomada|polvo)\s+(oral|t[oó]pic[ao]|oft[aá]lmic[ao]|[oó]tic[ao])\s*\z/iu', trim($textoCatalogo ?? ''), $coincidencia)) {
+                        $forma = $coincidencia[0];
+                        $via = mb_convert_case($coincidencia[2], MB_CASE_TITLE);
+                        break;
+                    }
+                }
+
+                return [
+                    'value' => $articulo->id,
+                    'label' => $articulo->nombre,
+                    'droga' => $articulo->droga,
+                    'control' => $articulo->tipo_cont,
+                    'presentacion' => trim($articulo->present ?? '') ?: $forma,
+                    'via_administracion' => $via,
+                    'cant_comp' => $articulo->cant_comp,
+                ];
+            }));
+        }
         $search = $request->search;
         if ($search == '') {
             $employees = Articulo::orderby('nombre', 'asc')->select('id', 'nombre', 'droga', 'cant_comp', 'tipo_cont')->limit(15)->get();

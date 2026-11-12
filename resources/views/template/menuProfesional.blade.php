@@ -35,7 +35,7 @@
                     <li class="nav-item pcoded-hasmenu">
                         <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext text-center">Mi Escritorio</span></a>
                         <ul class="pcoded-submenu">
-                            <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.home') }}', 'Escritorio medichile ');">Escritorio medichile </a></li>
+                            <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.home') }}', 'Escritorio Veterchile ');">Escritorio Veterchile </a></li>
                             <li><a onclick="menuValidarSalidaFicha('{{ route('profesional.mi_perfil') }}', 'Mi Perfil');">Mi Perfil</a></li>
                         </ul>
                     </li>
@@ -168,7 +168,7 @@
                     <li class="nav-item pcoded-hasmenu">
                         <a href="javascript:void(0)" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext text-center">Mi Escritorio</span></a>
                         <ul class="pcoded-submenu">
-                            <li><a href="{{ route('profesional.home') }}">Escritorio medichile </a></li>
+                            <li><a href="{{ route('profesional.home') }}">Escritorio Veterchile </a></li>
                             <li><a href="{{ route('profesional.mi_perfil') }}">Mi Perfil</a></li>
                         </ul>
                     </li>

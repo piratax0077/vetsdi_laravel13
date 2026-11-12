@@ -15,5 +15,5 @@
 </p>
 <p><strong>Datos del tutor</strong><br>
     Nombre: {{ trim($tutor->nombres.' '.$tutor->apellido_uno.' '.$tutor->apellido_dos) }}
-    · RUT: {{ $tutor->rut ?: 'Sin registro' }} · Teléfono: {{ $tutor->telefono_uno ?: ($tutor->telefono_dos ?: 'Sin registro') }}
+    · RUT: {{ mb_strtoupper(trim($tutor->rut ?? '')) ?: 'Sin registro' }} · Teléfono: {{ $tutor->telefono_uno ?: ($tutor->telefono_dos ?: 'Sin registro') }}
 </p>

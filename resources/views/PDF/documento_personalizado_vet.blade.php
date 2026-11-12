@@ -38,12 +38,13 @@
             <p class="huella">SHA-256 del archivo original: {{ $adjunto['sha256'] }}</p>
         @endif
     </div>
-    @if ($consentimiento)
+    @if ($consentimiento || $firmaProfesional)
         <table class="firmas"><tr>
             @foreach ([
                 ['Firma del tutor / responsable', $firmaTutor, $qrTutor, $tutor],
                 ['Firma del profesional veterinario', $firmaProfesional, $qrProfesional, $firmaProfesional],
             ] as [$etiqueta, $firma, $qr, $persona])
+                @continue(!$consentimiento && $loop->first)
                 <td>
                     @if($qr)
                         <img class="qr" src="{{ $qr }}" alt="QR de verificación">

@@ -44,8 +44,10 @@
 
 
 @section('modals-med-exa')
-    @include('general.secciones_ficha.receta_examen.modal_recetario_sdi')
-    @include('app.cirugia.modals.modals_cesarea.modal_indicar_examenes', ['modalIndicarExamenesId' => 'indicar_examenes_receta'])
+    @empty($mascota)
+        @include('general.secciones_ficha.receta_examen.modal_recetario_sdi')
+        @include('app.cirugia.modals.modals_cesarea.modal_indicar_examenes', ['modalIndicarExamenesId' => 'indicar_examenes_receta'])
+    @endempty
 @endsection
 
 @section('page-script-med-exa')
@@ -899,6 +901,9 @@
                 return {
                     id_examen: item.id_examen || @if(!empty($mascota)) null @else '' @endif,
                     nombre_examen: item.nombre_examen || '',
+                    @if(!empty($mascota))
+                        sospecha: item.sospecha || '',
+                    @endif
                     lado: item.lado || '',
                     nombre_examen_especialidad: item.nombre_examen || '',
                     tipo: item.tipo || '',

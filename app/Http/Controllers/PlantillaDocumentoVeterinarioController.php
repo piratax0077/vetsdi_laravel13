@@ -282,12 +282,13 @@ class PlantillaDocumentoVeterinarioController extends Controller
         abort_unless((int) $mascota->id_responsable === (int) $ficha->id_paciente, 409, 'El tutor de la mascota cambió. Revisa los datos de la atención.');
         $tutor = Paciente::findOrFail($ficha->id_paciente);
         $consentimiento = !$indicacionPersonalizada && (!$plantilla || $plantilla->seccion === 'consentimiento');
+        $firmaProfesional = $consentimiento || $indicacionPersonalizada;
         $esArchivo = $plantilla?->tipo === 'archivo';
         $titulo = $plantilla?->titulo ?? $datos['titulo'] ?? 'Consentimiento para biopsia oncológica';
         $tokenPrevia = null;
         $huellaPrevia = null;
         if (!$plantilla) {
-            if ($consentimiento) {
+            if ($firmaProfesional) {
                 $huellaPrevia = hash('sha256', serialize([$request->user()->id, $ficha->id, $tutor->id, $datos]));
                 $tokenPrevia = $this->tokenVistaPrevia($request, $huellaPrevia);
             }
@@ -316,7 +317,7 @@ class PlantillaDocumentoVeterinarioController extends Controller
             'contenido_final' => $contenido,
             'datos_usados' => (object) ($esArchivo ? [] : ($datos['datos_usados'] ?? [])),
             'fecha_documento' => now('America/Santiago')->locale('es_CL')->isoFormat('D [de] MMMM [de] YYYY'),
-            'tutor' => ['nombre' => $emitidos->nombreTutor($tutor), 'rut' => $tutor->rut],
+            'tutor' => ['nombre' => $emitidos->nombreTutor($tutor), 'rut' => mb_strtoupper(trim($tutor->rut ?? ''))],
             'estado_firma' => $consentimiento ? DocumentoVeterinarioEmitido::PENDIENTE : 'no_requiere',
             'firma_profesional' => null,
             'firma_tutor' => null,
@@ -328,7 +329,7 @@ class PlantillaDocumentoVeterinarioController extends Controller
                 'Content-Disposition' => 'inline; filename="vista-previa-documento-veterinario.pdf"',
                 'Cache-Control' => 'private, no-store',
             ];
-            if ($consentimiento) {
+            if ($firmaProfesional) {
                 $firma = $emitidos->firma($request, $profesional->nombreCompleto(), $profesional->rut, 'validacion.consentimiento.profesional', $tokenPrevia);
                 $cuerpo['firma_profesional'] = $firma;
                 $cuerpo['vista_previa'] = true;
@@ -342,9 +343,9 @@ class PlantillaDocumentoVeterinarioController extends Controller
         }
 
         $documento = $emitidos->transaccion(function (array &$archivos) use (
-            $request, $emitidos, $ficha, $mascota, $profesional, $tutor, $plantilla, $consentimiento, $esArchivo, $cuerpo, $titulo, $tokenPrevia
+            $request, $emitidos, $ficha, $mascota, $profesional, $tutor, $plantilla, $consentimiento, $esArchivo, $cuerpo, $titulo, $tokenPrevia, $firmaProfesional
         ) {
-            $firma = $consentimiento ? $emitidos->firma($request, $profesional->nombreCompleto(), $profesional->rut, 'validacion.consentimiento.profesional', $tokenPrevia) : null;
+            $firma = $firmaProfesional ? $emitidos->firma($request, $profesional->nombreCompleto(), $profesional->rut, 'validacion.consentimiento.profesional', $tokenPrevia) : null;
             $cuerpo['firma_profesional'] = $firma;
 
             if ($esArchivo) {
@@ -396,6 +397,7 @@ class PlantillaDocumentoVeterinarioController extends Controller
             'msj' => $tutor->id_usuario ? 'Documento guardado en la atención y tutor avisado.' : 'Documento guardado en la atención. El tutor no tiene cuenta para recibir el aviso.',
             'url' => asset($documento->url),
             'consulta_url' => $consentimiento ? route('profesional.plantillas.firma_consulta', $documento) : null,
+            'compartir_url' => $indicacionPersonalizada ? route('profesional.plantillas.preparar_indicacion', $documento) : null,
         ]);
     }
 

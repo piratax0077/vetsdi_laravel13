@@ -1430,6 +1430,8 @@ Route::group([
     });
     Route::get('Atencion/Mis-Documentos/{documento}/firma-consulta', [\App\Http\Controllers\FirmaDocumentoVeterinarioController::class, 'qrConsulta'])
         ->middleware(['auth', 'role:Profesional', 'throttle:20,1'])->name('profesional.plantillas.firma_consulta');
+    Route::post('Atencion/Mis-Documentos/{documento}/preparar-indicacion', [\App\Http\Controllers\FirmaDocumentoVeterinarioController::class, 'prepararIndicacion'])
+        ->middleware(['auth', 'role:Profesional', 'throttle:20,1'])->name('profesional.plantillas.preparar_indicacion');
 
     Route::get('Mis_lugares_atencion', [App\Http\Controllers\EscritorioProfesional::class, 'mis_lugares'])->name('profesional.lugares_atencion');
 
@@ -5403,6 +5405,9 @@ Route::get('/qr', [App\Http\Controllers\GeneradorQrController::class, 'generar']
 Route::get('/veterinaria/edo/firma-sdi', [App\Http\Controllers\GeneradorQrController::class, 'firmaEdoVeterinaria'])
     ->middleware('auth')
     ->name('veterinaria.edo.firma_sdi');
+Route::post('/veterinaria/edo/pdf', [App\Http\Controllers\GeneradorQrController::class, 'pdfEdoVeterinaria'])
+    ->middleware('auth')
+    ->name('veterinaria.edo.pdf');
 
 
 

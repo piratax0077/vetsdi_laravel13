@@ -710,18 +710,11 @@
                                         'endTime': value.hora_termino
                                     });
                                 })
-                                var tem_hiddenDays = info_profesional_seleccionado.horario_data.horario_agenda.split(",");
-                                var tem_hiddenDays2 =[];
-
-                                $.each(tem_hiddenDays, function(key, value){
-                                    {{--  console.log(value);  --}}
-                                    tem_hiddenDays2.push(parseInt(value));
-                                });
-
-                                CalendarEl.setOption('hiddenDays',tem_hiddenDays2  );
-                                CalendarEl.setOption('businessHours', data_businessHours );
-                                CalendarEl.setOption('slotMinTime', info_profesional_seleccionado.horario_data.hora_inicio_agenda );
-                                CalendarEl.setOption('slotMaxTime', info_profesional_seleccionado.horario_data.hora_termino_agenda );
+                                CalendarEl.setOption('hiddenDays', []);
+                                CalendarEl.setOption('businessHours', data_businessHours);
+                                CalendarEl.setOption('slotMinTime', '00:00:00');
+                                CalendarEl.setOption('slotMaxTime', '24:00:00');
+                                CalendarEl.setOption('scrollTime', info_profesional_seleccionado.horario_data.hora_inicio_agenda || '08:00:00');
                                 {{--  console.log(CalendarEl.getOption('hiddenDays'));  --}}
                                 {{--  console.log(CalendarEl.getOption('businessHours'));  --}}
                                 {{--  console.log(CalendarEl.getOption('slotMinTime'));  --}}

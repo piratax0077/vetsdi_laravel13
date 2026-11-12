@@ -185,6 +185,9 @@
                     <tr>
                         <td>
                             <strong>{{ $examen['examen'] }}</strong>
+                            @if(!empty($examen['sospecha']))
+                                <br>Sospecha diagnóstica: {!! nl2br(e($examen['sospecha'])) !!}
+                            @endif
                             @if(!empty($examen['contraste']))
                                 <br>Con contraste
                             @endif

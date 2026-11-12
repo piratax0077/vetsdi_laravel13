@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+@php($esIndicacion = $documento->otro === \App\Services\DocumentoVeterinarioEmitido::INDICACION)
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Validación del consentimiento veterinario</title>
+    <title>{{ $esIndicacion ? 'Validación de indicaciones veterinarias' : 'Validación del consentimiento veterinario' }}</title>
     <style>
         * { box-sizing: border-box; }
         body { margin: 0; min-height: 100vh; padding: 32px 16px; color: #263445; background: #eef5f5; font-family: Arial, sans-serif; }
@@ -26,7 +27,7 @@
     <main class="card">
         <header class="header">
             <div class="brand">VET SDI</div>
-            <p>Validación de consentimiento informado veterinario</p>
+            <p>{{ $esIndicacion ? 'Validación de indicaciones veterinarias' : 'Validación de consentimiento informado veterinario' }}</p>
         </header>
         <section class="body">
             <div class="ok">{{ !empty($firmaProfesionalValidada) ? 'Firma del profesional válida.' : 'Firma del tutor válida. Consentimiento firmado y autorizado.' }}</div>
@@ -54,7 +55,15 @@
             @if(!empty($pdfSha256))
                 <div class="token">SHA-256 del PDF firmado: {{ $pdfSha256 }}</div>
             @endif
-            <a class="btn" href="{{ asset($documento->url) }}" target="_blank">{{ !empty($firmaProfesionalValidada) && empty($pdfSha256) ? 'Ver consentimiento emitido' : 'Ver consentimiento firmado' }}</a>
+            <a class="btn" href="{{ asset($documento->url) }}" target="_blank" rel="noopener">
+                @if($esIndicacion)
+                    Ver indicaciones emitidas
+                @elseif(!empty($firmaProfesionalValidada) && empty($pdfSha256))
+                    Ver consentimiento emitido
+                @else
+                    Ver consentimiento firmado
+                @endif
+            </a>
         </section>
     </main>
 </body>

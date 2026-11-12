@@ -28,7 +28,7 @@ class DocumentoVeterinarioEmitido
         return [
             'estado' => 'firmado',
             'nombre' => $nombre,
-            'rut' => $rut,
+            'rut' => $rut === null ? null : mb_strtoupper(trim($rut)),
             'fecha' => $fecha->format('d/m/Y H:i'),
             'fecha_iso' => $fecha->toIso8601String(),
             'token' => $token,
@@ -111,6 +111,7 @@ class DocumentoVeterinarioEmitido
             if ($documento->firma_token) {
                 return ['estado' => 1, 'msj' => 'El consentimiento ya fue firmado.', 'ruta' => asset($documento->url)];
             }
+            $this->exigirTutorActual($cuerpo, $tutor);
             abort_unless($documento->firma_profesional_token && ($cuerpo['estado_firma'] ?? null) === self::PENDIENTE, 409,
                 'El consentimiento requiere una nueva emisión con la firma del profesional.');
 
@@ -158,6 +159,13 @@ class DocumentoVeterinarioEmitido
     public function nombreTutor(Paciente $tutor): string
     {
         return trim(implode(' ', array_filter([$tutor->nombres, $tutor->apellido_uno, $tutor->apellido_dos])));
+    }
+
+    public function exigirTutorActual(array $cuerpo, Paciente $tutor): void
+    {
+        abort_unless(\App\Models\Mascota::whereKey($cuerpo['id_mascota'] ?? null)
+            ->where('id_responsable', $tutor->id)->exists(), 409,
+            'El tutor de la mascota cambió. Se debe emitir un consentimiento nuevo.');
     }
 
     public function protegerCodigo(string $codigo): string

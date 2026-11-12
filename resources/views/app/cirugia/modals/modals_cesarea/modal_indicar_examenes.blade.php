@@ -108,6 +108,15 @@
                         </div>
                     </div>
 
+                    @if(!empty($mascota))
+                        <div class="col-sm-12 mt-2">
+                            <div class="form-group">
+                                <label class="floating-label-activo-sm" for="sospecha_examen_d">Sospecha diagnóstica</label>
+                                <textarea class="form-control form-control-sm" id="sospecha_examen_d" rows="2" maxlength="255"></textarea>
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="col-sm-12">
                         <div class="modal-atencion-acciones">
                             <div class="form-group" id="grupo_contraste_examen_d" style="display:none;">
@@ -348,6 +357,7 @@
             id: item.id || null,
             id_examen: examen.id_examen || item.id_examen || null,
             nombre_examen: examen.examen || item.examen || item.nombre_examen || '',
+            sospecha: item.sospecha || examen.sospecha || '',
             lado: examen.lado || item.otro || item.lado || '',
             tipo: examen.tipo_examen || item.tipo_examen || item.tipo || '',
             prioridad: obtenerPrioridadTexto(examen.prioridad || item.prioridad || item.id_prioridad),
@@ -435,7 +445,7 @@
             var texto = $.fn.dataTable.render.text().display;
             table.row.add([
                 `${texto(resp.fecha || '')} ${texto(resp.hora || '')} <br> ${texto(resp.responsable || '')}`,
-                texto(resp.nombre_examen || ''),
+                texto(resp.nombre_examen || '') + (resp.sospecha ? '<br><small>Sospecha diagnóstica: ' + texto(resp.sospecha) + '</small>' : ''),
                 texto(resp.lado || ''),
                 texto(resp.tipo || ''),
                 texto(resp.prioridad || ''),
@@ -502,6 +512,7 @@
                 uid: 'draft-' + Date.now(),
                 id_examen: id_examen,
                 nombre_examen: examen,
+                sospecha: ($modal.find('#sospecha_examen_d').val() || '').trim(),
                 examen: examen,
                 lado: lado === 'Seleccione' ? '' : lado,
                 tipo: tipo_examen,
@@ -514,7 +525,7 @@
             }, examenesActuales.length));
 
             renderExamenesCirugiaTablaD(examenesActuales, 'Examen agregado correctamente.');
-            $modal.find('#nombre_examen_manual').val('');
+            $modal.find('#nombre_examen_manual, #sospecha_examen_d').val('');
         }else{
             swal({
                 title: "Ingreso de examen(es).",

@@ -116,8 +116,17 @@
                     @endif
                 </div>
                 <div class="alert alert-danger d-none" data-consentimiento-error role="alert"></div>
+                @if($esIndicacion)
+                    <iframe class="d-none w-100 border-0" style="height:65vh" data-indicacion-pdf title="PDF de las indicaciones"></iframe>
+                @endif
                 <div class="alert alert-success d-none" data-consentimiento-confirmacion role="status">
                     <span></span> <a target="_blank" rel="noopener">{{ $esIndicacion ? 'Ver indicaciones' : 'Ver consentimiento' }}</a>
+                    @if($esIndicacion)
+                        <button type="button" class="btn btn-outline-info btn-sm d-none" data-indicacion-compartir>Compartir por WhatsApp o correo</button>
+                    @endif
+                    @unless($esIndicacion)
+                        <button type="button" class="btn btn-outline-info btn-sm d-none" data-consentimiento-firmar-consulta>Firmar en la consulta</button>
+                    @endunless
                 </div>
             </div>
             <div class="modal-footer">
@@ -134,6 +143,15 @@ $(function () {
     const form = modal.find('form');
     const error = form.find('[data-consentimiento-error]');
     const confirmacion = form.find('[data-consentimiento-confirmacion]');
+    const visorPdf = form.find('[data-indicacion-pdf]');
+    const compartir = confirmacion.find('[data-indicacion-compartir]');
+    let urlPdf;
+    function cerrarVistaPdf() {
+        if (urlPdf) URL.revokeObjectURL(urlPdf);
+        urlPdf = null;
+        visorPdf.addClass('d-none').removeAttr('src');
+    }
+    const firmarConsulta = confirmacion.find('[data-consentimiento-firmar-consulta]');
     const verPdf = form.find('[data-consentimiento-ver-pdf]');
     const tipoBiopsia = form.find('#biopsia-tecnica');
     const acciones = form.find('[type="submit"]').add(verPdf);
@@ -181,19 +199,23 @@ $(function () {
             const formulario = form.get(0);
             const cuerpo = new FormData(formulario);
             if (comprobanteVistaPrevia) cuerpo.set('comprobante_vista_previa', comprobanteVistaPrevia);
-            if (vistaPrevia) {
+            if (vistaPrevia && !visorPdf.length) {
                 pestaña = window.open('', '_blank');
                 if (!pestaña) {
                     mostrarError('Permita las ventanas emergentes para abrir la vista previa del PDF.');
                     return;
                 }
                 pestaña.opener = null;
-                cuerpo.set('vista_previa', '1');
             }
+            if (vistaPrevia) cuerpo.set('vista_previa', '1');
             const respuesta = await fetch(formulario.action, {method: 'POST', body: cuerpo, headers: {'Accept': 'application/json'}});
             if (vistaPrevia && respuesta.ok && respuesta.headers.get('Content-Type')?.startsWith('application/pdf')) {
                 comprobanteVistaPrevia = respuesta.headers.get('X-Vista-Previa-Biopsia');
-                if (!pestaña.closed) {
+                if (visorPdf.length) {
+                    cerrarVistaPdf();
+                    urlPdf = URL.createObjectURL(await respuesta.blob());
+                    visorPdf.attr('src', urlPdf).removeClass('d-none').get(0).scrollIntoView({block: 'nearest'});
+                } else if (!pestaña.closed) {
                     const url = URL.createObjectURL(await respuesta.blob());
                     pestaña.location.replace(url);
                     setTimeout(() => URL.revokeObjectURL(url), 300000);
@@ -210,6 +232,9 @@ $(function () {
             emitido = true;
             confirmacion.removeClass('d-none').find('span').text(datos.msj);
             confirmacion.find('a').attr('href', datos.url);
+            compartir.toggleClass('d-none', !datos.compartir_url).data('url', datos.compartir_url);
+            firmarConsulta.toggleClass('d-none', !datos.consulta_url).data('url', datos.consulta_url);
+            confirmacion.get(0).scrollIntoView({block: 'nearest'});
         } catch {
             pestaña?.close();
             mostrarError(mensajeError);
@@ -219,13 +244,48 @@ $(function () {
     }
 
     verPdf.on('click', () => solicitarDocumento(true));
+    compartir.on('click', async function () {
+        compartir.prop('disabled', true);
+        try {
+            const respuesta = await fetch(compartir.data('url'), {
+                method: 'POST',
+                headers: {'Accept': 'application/json', 'X-CSRF-TOKEN': form.find('[name="_token"]').val()}
+            });
+            const datos = await respuesta.json();
+            if (!respuesta.ok || !datos.url) throw new Error();
+            window.location.assign(datos.url);
+        } catch {
+            error.removeClass('d-none').text('No se pudo preparar el envío. Inténtelo nuevamente.');
+        } finally {
+            compartir.prop('disabled', false);
+        }
+    });
+    if (visorPdf.length) {
+        modal.on('show.bs.modal', function (evento) {
+            if (!evento.relatedTarget?.hasAttribute('data-indicaciones-desde-ficha')) return;
+            const campo = form.find('[name="indicaciones"]');
+            if (!campo.val().trim()) campo.val($('#indicaciones').val() || '').trigger('input');
+            const titulo = form.find('[name="titulo"]');
+            if (!titulo.val().trim()) titulo.val('Indicaciones de la consulta').trigger('input');
+        });
+        confirmacion.find('a').on('click', function (evento) {
+            evento.preventDefault();
+            cerrarVistaPdf();
+            visorPdf.attr('src', this.href).removeClass('d-none').get(0).scrollIntoView({block: 'nearest'});
+        });
+    }
+    firmarConsulta.on('click', function () {
+        DocumentosClinicos.firmarEnConsulta($(this).data('url'));
+    });
     form.on('submit', function (evento) {
         evento.preventDefault();
         solicitarDocumento(false);
     });
     modal.on('hidden.bs.modal', function () {
+        cerrarVistaPdf();
         if (!confirmacion.hasClass('d-none')) {
             comprobanteVistaPrevia = null;
+            firmarConsulta.addClass('d-none').removeData('url');
             form.get(0).reset();
             tipoBiopsia.trigger('change');
             actualizarTexto();

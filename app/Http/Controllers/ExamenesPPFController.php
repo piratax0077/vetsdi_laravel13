@@ -61,6 +61,7 @@ class ExamenesPPFController extends Controller
             'nombre_examen'=>'required|string|max:500',
             'nombre_examen_especialidad'=>'required|string|max:500', 'tipo'=>'required|string|max:255',
             'prioridad'=>'required|in:Baja,Media,Alta,Urgente',
+            'sospecha'=>'nullable|string|max:255',
         ], ['prioridad'=>'Media','con_contraste'=>'N/C'], fn ()=>$this->reemplazarExamenes($request, $esVeterinaria));
         if ($esVeterinaria && json_decode($request->examenes, true)) {
             $resultado += app(\App\Services\EnviarDocumentoMascota::class)->enviar($ficha, 'examenes');

@@ -29,13 +29,6 @@
 <div class="user-profile user-card mt-0"style="background-color: #ecf0f5!important;">
     <div class="col-md-12 py-0 px-2 shadow-none">
         <div class="row mx-0">
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <ul class="nav nav-tabs-secciones mb-3 mt-3" id="cirugia-tabs" role="tablist">
-                    <li class="nav-item-secciones">
-                        <a class="nav-secciones active text-uppercase" id="atencion_cirugia_gen-tab" data-toggle="tab" href="#atencion_cirugia_gen" role="tab" aria-controls="atencion_orl" aria-selected="true">Atención Especialidad</a>
-                    </li>
-				</ul>
-            </div>
            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <div class="form-row mb-1" id="cirugia-avisos">
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
@@ -64,7 +57,7 @@
                     @csrf
                     <div class="tab-content" id="orl-contenido">
                         <!--ATENCIÓN ESPECIALIDAD GENERAL-->
-                        <div class="tab-pane fade show active" id="atencion_cirugia_gen" role="tabpanel" aria-labelledby="atencion_cirugia_gen-tab">
+                        <div class="tab-pane fade show active" id="atencion_cirugia_gen">
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <!--FORMULARIOS-->

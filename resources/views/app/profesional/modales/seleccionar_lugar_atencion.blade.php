@@ -13,10 +13,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <!--<label for="lugares_atencion">Lugar de Atención</label>-->
-                                <select name="lugares_atencion" id="lugares_atencion" class="form-control" onchange="ir_agenda_lugar_atencion(this.value);">
-                                    <option value="">Seleccione lugar de atención</option>
-                                </select>
+                                <input type="hidden" name="lugares_atencion" id="lugares_atencion">
+                                <div class="row" id="lista_lugares_atencion" role="group" aria-label="Lugares de atención"></div>
                             </div>
                         </div>
                     </div>
@@ -31,16 +29,12 @@
 </div>
 
 <script>
-    function ir_agenda_lugar_atencion(idLugarAtencion) {
-        validar_seleccionar_lugar_atencion();
-
-        if (!idLugarAtencion || Number(idLugarAtencion) === 0) {
-            return;
-        }
-
-        $('#btn_modal_seleccionar_lugar_atencion_ir').prop('disabled', true);
-        window.location.assign("{{ route('profesional.mi_agenda') }}?lugares_atencion=" + encodeURIComponent(idLugarAtencion));
-    }
+    $(document).on('click', '#lista_lugares_atencion [data-lugar-agenda]', function () {
+        $('#lugares_atencion').val(this.dataset.lugarAgenda);
+        $('#lista_lugares_atencion [data-lugar-agenda]').removeClass('active').attr('aria-pressed', 'false');
+        $(this).addClass('active').attr('aria-pressed', 'true');
+        document.getElementById('form_ir_mi_agenda').requestSubmit();
+    });
 
     $(document).on('submit', '#form_ir_mi_agenda', function (event) {
         var idLugarAtencion = $('#lugares_atencion').val();

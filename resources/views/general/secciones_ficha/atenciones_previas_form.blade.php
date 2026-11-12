@@ -90,7 +90,7 @@
                                                                     <button type="button"
                                                                         class="btn btn-xxs historial-doc-btn {{ $cantidadRecetasHistorial > 0 ? 'btn-warning-light-c tiene-contenido' : 'btn-light sin-contenido' }}"
                                                                         {{ $cantidadRecetasHistorial > 0 ? '' : 'disabled' }}
-                                                                        @if ($recetaActualHistorial > 0 && isset($f->id)) onclick="window.open('{{ route('mascota.documento_emitido.ver', ['tipo'=>'receta', 'id_ficha_atencion'=>$f->id]) }}', '_blank', 'noopener');"
+                                                                        @if ($recetaActualHistorial > 0 && isset($f->id)) data-receta-historial="{{ route('mascota.documento_emitido.ver', ['tipo'=>'receta', 'id_ficha_atencion'=>$f->id]) }}"
                                                                         @elseif ($cantidadRecetasHistorial > 0 && isset($f->id)) onclick="buscar_receta({{ $f->id }});" @endif><i
                                                                             class="feather icon-file-plus"></i>
                                                                         {{ $cantidadRecetasHistorial > 0 ? 'Ver' : 'Sin registros' }}
@@ -137,6 +137,32 @@
 
         <!--MODALS-->
         @include('general.secciones_ficha.modal_atencion_previa.hist_cons_receta')
+        @once
+            <div class="modal fade" id="modal_pdf_receta_historial" tabindex="-1" role="dialog" aria-labelledby="titulo_pdf_receta_historial" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header modal-header-purple">
+                            <h5 class="modal-title" id="titulo_pdf_receta_historial">Receta veterinaria</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <iframe class="w-100 border-0" style="height:70vh" title="PDF de la receta veterinaria"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function () {
+                    const modal = $('#modal_pdf_receta_historial').appendTo('body');
+                    const visor = modal.find('iframe');
+                    $(document).on('click', '[data-receta-historial]', function () {
+                        visor.attr('src', this.dataset.recetaHistorial);
+                        modal.modal('show');
+                    });
+                    modal.on('hidden.bs.modal', () => visor.removeAttr('src'));
+                });
+            </script>
+        @endonce
         @include('general.secciones_ficha.modal_atencion_previa.hist_cons_examen')
         @include('general.secciones_ficha.modal_atencion_previa.hist_cons_archivo')
         @include('general.secciones_ficha.modal_atencion_previa.hist_trabajos_dental')

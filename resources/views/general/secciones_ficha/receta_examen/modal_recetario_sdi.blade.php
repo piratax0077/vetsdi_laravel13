@@ -201,7 +201,8 @@
                                     <div class="col-sm-6 mt-2">
                                         <div class="form-group">
                                             <label class="floating-label-activo-sm">Ingrese Nombre Medicamento</label>
-                                            <input type="text" id="manual_nombre_medicamento_ficha_dental" name="manual_nombre_medicamento_ficha_dental" class="form-control form-control-sm">
+                                            <input type="text" id="manual_nombre_medicamento_ficha_dental" name="manual_nombre_medicamento_ficha_dental" class="form-control form-control-sm" autocomplete="off" aria-describedby="estado_busqueda_medicamento_manual">
+                                            <small id="estado_busqueda_medicamento_manual" class="form-text text-muted d-none" role="status"></small>
                                             <input type="hidden" id="manual_id_medicamento_ficha_dental" name="manual_id_medicamento_ficha_dental" value="0">
                                             <input type="hidden" id="med_faltante" value="">
                                         </div>
@@ -209,7 +210,7 @@
 
                                     <div class="col-sm-6 mt-2">
                                         <div class="form-group">
-                                            <label class="floating-label-activo-sm">Farmaco</label>
+                                            <label class="floating-label-activo-sm">Fármaco</label>
                                             <input type="text" id="manual_nombre_composicion_farmaco" name="manual_nombre_composicion_farmaco" class="form-control form-control-sm">
                                         </div>
                                     </div>
@@ -244,7 +245,8 @@
                                     <div class="col-sm-6 mt-2">
                                         <div class="form-group fill">
                                             <label class="floating-label-activo-sm">Ingrese Presentación</label>
-                                            <input type="text" id="manual_dosis_medicamento_ficha_dental" name="manual_dosis_medicamento_ficha_dental" class="form-control form-control-sm">
+                                            <input type="text" id="manual_dosis_medicamento_ficha_dental" name="manual_dosis_medicamento_ficha_dental" class="form-control form-control-sm" @if(!empty($mascota)) list="presentaciones-receta-vet" @endif>
+                                            @if(!empty($mascota))<datalist id="presentaciones-receta-vet"></datalist>@endif
 
                                         </div>
                                     </div>
@@ -252,7 +254,8 @@
                                     <div class="col-sm-6 mt-2">
                                         <div class="form-group fill">
                                             <label class="floating-label-activo-sm">Ingrese Posología</label>
-                                            <input type="text" id="manual_frecuencia_medicamento_ficha_dental" name="manual_frecuencia_medicamento_ficha_dental" class="form-control form-control-sm">
+                                            <input type="text" id="manual_frecuencia_medicamento_ficha_dental" name="manual_frecuencia_medicamento_ficha_dental" class="form-control form-control-sm" @if(!empty($mascota)) list="posologias-receta-vet" @endif>
+                                            @if(!empty($mascota))<datalist id="posologias-receta-vet"></datalist>@endif
                                         </div>
                                     </div>
 
@@ -315,7 +318,8 @@
                                     @if(!empty($mostrarInyeccionesConsulta))
                                     <div class="form-group col-sm-6 mt-2">
                                         <label class="floating-label-activo-sm" for="manual_cantidad_comprar">Cantidad a comprar</label>
-                                        <input type="text" class="form-control form-control-sm" id="manual_cantidad_comprar" name="manual_cantidad_comprar" maxlength="120">
+                                        <input type="text" class="form-control form-control-sm" id="manual_cantidad_comprar" name="manual_cantidad_comprar" maxlength="120" list="cantidades-receta-vet">
+                                        <datalist id="cantidades-receta-vet"></datalist>
                                     </div>
                                     @else
                                     <input type="hidden" id="manual_cantidad_comprar" name="manual_cantidad_comprar" value="">
@@ -724,6 +728,160 @@
 <script>
     var creatinina = 0;
         $(document).ready(function() {
+        const nombreManual = $('#manual_nombre_medicamento_ficha_dental');
+        const idManual = $('#manual_id_medicamento_ficha_dental');
+        const farmacoManual = $('#manual_nombre_composicion_farmaco');
+        const controlManual = $('#manual_tipo_control');
+        const presentacionManual = $('#manual_dosis_medicamento_ficha_dental');
+        const viaManual = $('#manual_via_administracion_ficha_dental');
+        const estadoBusqueda = $('#estado_busqueda_medicamento_manual');
+        const esRecetaVeterinaria = @json(!empty($mascota));
+        const opcionesPresentacion = $('#presentaciones-receta-vet');
+        const opcionesPosologia = $('#posologias-receta-vet');
+        const opcionesCantidad = $('#cantidades-receta-vet');
+        let consultaManual;
+        let articuloManual;
+        let presentacionesManual = [];
+
+        function mostrarOpciones(lista, valores) {
+            lista.empty();
+            [...new Set(valores.filter(Boolean))].forEach(valor => lista.append(new Option(valor, valor)));
+        }
+
+        function actualizarOpcionesPresentacion() {
+            opcionesPosologia.empty();
+            opcionesCantidad.empty();
+            if (!articuloManual || String(idManual.val()) !== String(articuloManual.value)) return;
+
+            const articulo = articuloManual;
+            const textoPresentacion = presentacionManual.val().trim();
+            const presentacion = presentacionesManual.find(item => item.present === textoPresentacion);
+            const sigueVigente = () => articuloManual === articulo && String(idManual.val()) === String(articulo.value)
+                && presentacionManual.val().trim() === textoPresentacion;
+            const codigoCantidad = Number(presentacion?.cant_comp || articulo.cant_comp);
+
+            if (codigoCantidad > 0) {
+                $.getJSON(@json(route('presentacion.getCantComp', [], false)), {cant_comp: codigoCantidad}).done(function (opciones) {
+                    if (sigueVigente()) mostrarOpciones(opcionesCantidad, opciones.map(opcion => opcion.cant));
+                });
+            }
+            if (!presentacion) return;
+
+            const clave = Number(presentacion.dosis) || presentacion.id;
+            const url = @json(route('dental.getFrecuencia', [], false));
+            const mostrarPosologias = opciones => {
+                if (sigueVigente()) mostrarOpciones(opcionesPosologia, opciones.map(opcion => opcion.indic));
+            };
+            $.getJSON(url, {id_dosis: clave}).done(function (opciones) {
+                if (!sigueVigente()) return;
+                if (!opciones.length && String(clave) !== String(presentacion.id)) {
+                    $.getJSON(url, {id_dosis: presentacion.id}).done(mostrarPosologias);
+                } else mostrarPosologias(opciones);
+            });
+        }
+
+        function cargarPresentacionesManual(articulo) {
+            articuloManual = articulo;
+            presentacionesManual = [];
+            mostrarOpciones(opcionesPresentacion, [articulo.presentacion]);
+            actualizarOpcionesPresentacion();
+            $.getJSON(@json(route('dental.getDosis', [], false)), {id_medicamento: articulo.value}).done(function (registros) {
+                if (articuloManual !== articulo || String(idManual.val()) !== String(articulo.value)) return;
+                presentacionesManual = registros.filter(item => item.present?.trim() && String(item.vigencia) === '1');
+                mostrarOpciones(opcionesPresentacion, [articulo.presentacion, ...presentacionesManual.map(item => item.present)]);
+                if (!presentacionManual.val() && presentacionesManual.length === 1) {
+                    const valor = presentacionesManual[0].present;
+                    presentacionManual.val(valor).data('valorCatalogo', valor);
+                }
+                actualizarOpcionesPresentacion();
+            });
+        }
+
+        if (esRecetaVeterinaria) presentacionManual.on('change', actualizarOpcionesPresentacion);
+        function mostrarEstadoBusqueda(mensaje) {
+            estadoBusqueda.text(mensaje).toggleClass('d-none', !mensaje);
+        }
+        function conectarBusquedaManual(campoBusqueda, campoCatalogo) {
+            campoBusqueda.on('input', function () {
+                if (consultaManual) consultaManual.abort();
+                campoBusqueda.autocomplete('close');
+                mostrarEstadoBusqueda('');
+                if (!idManual.val() || idManual.val() === '0') return;
+                idManual.val('0');
+                articuloManual = null;
+                opcionesPresentacion.add(opcionesPosologia).add(opcionesCantidad).empty();
+                if (campoCatalogo === 'nombre') farmacoManual.val('');
+                else nombreManual.val('');
+                controlManual.val('');
+                presentacionManual.add(viaManual).each(function () {
+                    const campo = $(this);
+                    if (campo.val() === campo.data('valorCatalogo')) campo.val('');
+                    campo.removeData('valorCatalogo');
+                });
+            }).autocomplete({
+                minLength: 2,
+                appendTo: '#indicar_recetario .modal-content',
+                focus: function () { return false; },
+                source: function (request, response) {
+                    if (consultaManual) consultaManual.abort();
+                    mostrarEstadoBusqueda('Buscando medicamentos…');
+                    consultaManual = $.post(@json(route('dental.getArticulo', [], false)), {
+                        _token: @json(csrf_token()),
+                        search: request.term,
+                        campo: campoCatalogo,
+                        veterinaria: esRecetaVeterinaria,
+                        especie: @json($mascota->tipo_especie ?? null)
+                    }, null, 'json').done(function (resultados) {
+                        if (campoBusqueda.val() !== request.term) {
+                            response([]);
+                            return;
+                        }
+                        response(resultados);
+                        const mensajeSinCoincidencias = esRecetaVeterinaria
+                            ? 'Sin coincidencias en el catálogo para esta receta veterinaria. Puede ingresar el medicamento manualmente.'
+                            : 'No hay coincidencias. Puede ingresar el medicamento manualmente.';
+                        mostrarEstadoBusqueda(resultados.length ? '' : mensajeSinCoincidencias);
+                    }).fail(function (xhr, estado) {
+                        response([]);
+                        if (estado !== 'abort' && campoBusqueda.val() === request.term) {
+                            mostrarEstadoBusqueda('No se pudo consultar el catálogo. Intente nuevamente.');
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    nombreManual.val(ui.item.label);
+                    mostrarEstadoBusqueda('');
+                    idManual.val(ui.item.value);
+                    farmacoManual.val(ui.item.droga || '');
+                    if (ui.item.presentacion) {
+                        presentacionManual.val(ui.item.presentacion).data('valorCatalogo', ui.item.presentacion);
+                    }
+                    if (ui.item.via_administracion && viaManual.is('input')) {
+                        viaManual.val(ui.item.via_administracion).data('valorCatalogo', ui.item.via_administracion);
+                    }
+                    if (controlManual.is('input')) {
+                        const opcion = $('#tipos-control-receta-vet option').filter(function () {
+                            return this.dataset.codigo === String(ui.item.control);
+                        }).first();
+                        controlManual.val(opcion.val() || '');
+                    } else {
+                        controlManual.val(String(ui.item.control ?? ''));
+                    }
+                    if (esRecetaVeterinaria) {
+                        cargarPresentacionesManual(ui.item);
+                        const pendientes = [];
+                        if (!presentacionManual.val()) pendientes.push('presentación');
+                        if (!viaManual.val()) pendientes.push('vía de administración');
+                        if (pendientes.length) {
+                            mostrarEstadoBusqueda('Complete ' + pendientes.join(' y ') + '. El catálogo no informa esos datos.');
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
+        conectarBusquedaManual(nombreManual, 'nombre');
+        if (esRecetaVeterinaria) conectarBusquedaManual(farmacoManual, 'droga');
         {{--  MEDICAMENTOS  --}}
         $("#nombre_medicamento_ficha_dental").autocomplete({
             source: function(request, response) {
@@ -1822,14 +1980,16 @@
             const opcion = $('#tipos-control-receta-vet option').filter(function () {
                 return this.value.toLowerCase() === tipo_control.trim().toLowerCase();
             }).get(0);
-            tipo_control = opcion?.dataset.codigo || '0';
+            tipo_control = opcion?.dataset.codigo ?? (tipo_control.trim() === '' ? '0' : '');
         }
 
         let dosis_medicamento_ficha_dental = $('#manual_dosis_medicamento_ficha_dental').val();
         let frecuencia_medicamento_ficha_dental = $('#manual_frecuencia_medicamento_ficha_dental').val();
 
         let cantidad_comprar = $('#manual_cantidad_comprar').val();
-        let cantidad_numero_comprar = $('#manual_cantidad_numero').val() || (cantidad_comprar.match(/^\s*([1-9]\d*)/) || [])[1];
+        let cantidad_numero_comprar = $('#manual_cantidad_numero').val()
+            || cantidad_comprar.match(/^\s*([1-9]\d*)/)?.[1]
+            || cantidad_comprar.match(/\(([1-9]\d*)\)/)?.[1];
 
         let id_via_administracion_ficha_dental = $('#manual_via_administracion_ficha_dental').is('select') ? $('#manual_via_administracion_ficha_dental').val() : 0;
         let via_administracion_ficha_dental = textoCampoRecetaSdi('#manual_via_administracion_ficha_dental');
@@ -1868,7 +2028,7 @@
                 mensaje += 'Debe completar el campo Medicamento.\n';
             }
 
-            if($.trim(tipo_control) == '0')
+            if ($.trim(tipo_control) === '' || (!$('#manual_tipo_control').is('input') && $.trim(tipo_control) === '0'))
             {
                 valido = 1;
                 mensaje += 'Debe completar el campo Tipo Control.\n';
@@ -2010,11 +2170,15 @@
                 $('#manual_id_medicamento_ficha_dental').val('');
                 $('#manual_nombre_composicion_farmaco').val('');
                 $('#manual_dosis_medicamento_ficha_dental').val('');
+                $('#estado_busqueda_medicamento_manual').text('').addClass('d-none');
                 $('#manual_frecuencia_medicamento_ficha_dental').val('');
                 $('#manual_cantidad_comprar').val('');
-                $('#manual_via_administracion_ficha_dental').val(0);
+                $('#presentaciones-receta-vet, #posologias-receta-vet, #cantidades-receta-vet').empty();
+                const viaManual = $('#manual_via_administracion_ficha_dental');
+                viaManual.val(viaManual.is('select') ? '0' : '');
                 $('#manual_observaciones_via_administracion_ficha_dental').val('');
-                $('#manual_periodo_ficha_dental').val(0);
+                const periodoManual = $('#manual_periodo_ficha_dental');
+                periodoManual.val(periodoManual.is('select') ? '0' : '');
                 $('#manual_observaciones_periodo_ficha_dental').val('');
 
                 $( "#medicamento_uso_cronico" ).prop( "checked", false ).change();

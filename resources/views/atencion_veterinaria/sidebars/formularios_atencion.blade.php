@@ -208,7 +208,7 @@
                     <div class="card-body-sidebar">
                         <!--Boton Modal Formulario Enfermedades de Declaración Obligatoria -->
                         <button type="button"
-                            class="btn btn-sm btn-danger btn-block text-left accion_modal_enfermedades_denuncia_obligatoria"
+                            class="btn btn-sm btn-info btn-block text-left accion_modal_enfermedades_denuncia_obligatoria"
                             style="font-size:10px; white-space:nowrap; padding-left:8px; padding-right:8px;"
                             data-toggle="modal" data-target="#modal_enfermedades_denuncia_obligatoria"><i class="feather icon-alert-triangle"></i> Enfermedades de Denuncia Obligatoria (EDO)</button>
 

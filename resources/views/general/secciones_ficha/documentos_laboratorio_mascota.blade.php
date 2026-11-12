@@ -235,15 +235,12 @@
     }
 
     function urlDocumento(doc) {
-        if (doc && doc.url) {
-            return normalizarUrlRelativa(doc.url);
-        }
         if (doc && doc.id && verDocumentoPlantilla) {
             return normalizarUrlRelativa(
                 verDocumentoPlantilla.replace('__ID__', encodeURIComponent(doc.id))
             );
         }
-        return '';
+        return doc && doc.url ? normalizarUrlRelativa(doc.url) : '';
     }
 
     function botonVerDocumento(doc) {
@@ -291,7 +288,7 @@
         mostrarDocumentoEnVisor(url, nodes, nombre, extension);
     }
 
-    function mostrarDocumentoEnVisor(url, nodes, nombre, extension) {
+    async function mostrarDocumentoEnVisor(url, nodes, nombre, extension) {
         nodes.contenido.innerHTML = '<div class="lab-vet-visor-placeholder"><i class="fas fa-spinner fa-spin"></i> Cargando documento...</div>';
         nodes.visor.classList.remove('d-none');
         nodes.visor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -310,6 +307,18 @@
             };
             return;
         }
+
+        const espera = nodes.contenido.firstElementChild;
+        try {
+            const respuesta = await fetch(url, {method: 'HEAD', cache: 'no-store'});
+            if (!respuesta.ok || respuesta.redirected) throw new Error();
+        } catch {
+            if (nodes.contenido.firstElementChild === espera) {
+                espera.textContent = 'No se pudo abrir el archivo. Si el original ya no está disponible, vuelva a adjuntarlo.';
+            }
+            return;
+        }
+        if (nodes.contenido.firstElementChild !== espera) return;
 
         var iframe = document.createElement('iframe');
         iframe.className = 'lab-vet-visor-iframe';

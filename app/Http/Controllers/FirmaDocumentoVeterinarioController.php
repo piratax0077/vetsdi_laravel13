@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\{DocumentoFcPaciente, Mascota, Paciente, Profesional};
 use App\Services\DocumentoVeterinarioEmitido;
+use App\Services\ArchivoPdfVeterinario;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{DB, Hash, Mail, URL};
+use Illuminate\Support\Facades\{DB, Hash, Mail, Storage, URL};
+use Illuminate\Support\Str;
 
 class FirmaDocumentoVeterinarioController extends Controller
 {
@@ -25,11 +27,33 @@ class FirmaDocumentoVeterinarioController extends Controller
     {
         $this->exigirPendiente($documento, $emitidos);
         abort_unless(Profesional::whereKey($documento->id_profesional)->where('id_usuario', $request->user()->id)->exists(), 404);
-        $this->tutorConCorreo($documento);
+        $emitidos->exigirTutorActual($emitidos->cuerpo($documento), $this->tutorConCorreo($documento));
         $url = URL::temporarySignedRoute('vet.firma.consulta', now()->addMinutes(30), ['documento' => $documento]);
         return response()->json(['estado' => 1, 'msj' => 'Escanea el QR para firmar. Vence en 30 minutos.',
             'qr' => 'data:image/svg+xml;base64,'.base64_encode(GeneradorQrController::generar($url)),
         ])->header('Cache-Control', 'private, no-store');
+    }
+
+    public function prepararIndicacion(Request $request, DocumentoFcPaciente $documento, DocumentoVeterinarioEmitido $emitidos, ArchivoPdfVeterinario $archivo)
+    {
+        $this->exigirVigente($documento);
+        abort_unless($documento->otro === DocumentoVeterinarioEmitido::INDICACION
+            && Profesional::whereKey($documento->id_profesional)->where('id_usuario', $request->user()->id)->exists(), 404);
+        $cuerpo = $emitidos->cuerpo($documento);
+        $tutor = Paciente::findOrFail($documento->id_paciente);
+        $emitidos->exigirTutorActual($cuerpo, $tutor);
+        $ruta = $cuerpo['pdf_ruta'] ?? '';
+        abort_unless(str_starts_with($ruta, 'documentos-atencion/'), 404);
+        $pdf = Storage::disk('local')->get($ruta);
+        abort_unless(is_string($pdf) && str_starts_with($pdf, '%PDF-'), 404);
+        $nombre = (Str::slug($cuerpo['titulo']) ?: 'indicaciones').'.pdf';
+        $archivado = $archivo->registrar($request, response($pdf, 200, ['Content-Disposition' => 'inline; filename="'.$nombre.'"']), [
+            'id_mascota' => (int) $cuerpo['id_mascota'],
+            'id_ficha_atencion' => (int) $documento->id_ficha_atencion,
+        ]);
+        abort_unless($archivado, 422, 'No se pudo preparar el envío de las indicaciones.');
+
+        return response()->json(['estado' => 1, 'url' => route('vet.pdf.detalle', $archivado)]);
     }
 
     public function consulta(Request $request, DocumentoFcPaciente $documento, DocumentoVeterinarioEmitido $emitidos)
@@ -80,6 +104,7 @@ class FirmaDocumentoVeterinarioController extends Controller
             $documento = DocumentoFcPaciente::whereKey($documento->id)->lockForUpdate()->firstOrFail();
             $this->exigirPendiente($documento, $emitidos);
             $cuerpo = $emitidos->cuerpo($documento);
+            $emitidos->exigirTutorActual($cuerpo, $tutor);
             if (($cuerpo['firma_consulta']['vence'] ?? 0) > now()->timestamp) {
                 return ['estado' => 1, 'msj' => 'Ya hay un código vigente en el correo registrado.'];
             }
@@ -103,7 +128,8 @@ class FirmaDocumentoVeterinarioController extends Controller
     {
         abort_unless(preg_match('/\A[A-Za-z0-9]{64}\z/', $token), 404);
         $documento = DocumentoFcPaciente::where('firma_profesional_token', $token)
-            ->where('otro', DocumentoVeterinarioEmitido::CONSENTIMIENTO)->where('estado', 1)->firstOrFail();
+            ->whereIn('otro', [DocumentoVeterinarioEmitido::CONSENTIMIENTO, DocumentoVeterinarioEmitido::INDICACION])
+            ->where('estado', 1)->firstOrFail();
         $cuerpo = $emitidos->cuerpo($documento);
         abort_unless(hash_equals($cuerpo['firma_profesional']['token'] ?? '', $token), 404);
         return view('validacion.consentimiento_firma_tutor', [

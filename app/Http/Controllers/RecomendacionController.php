@@ -450,10 +450,22 @@ class RecomendacionController extends Controller
             /** DIVIDIR DETALLE */
             $med_tipo_control = array();
             $medicamentos = json_decode($request->medicamentos);
+            $esVeterinaria = (bool) FichaAtencion::whereKey($id_ficha_atencion)->value('id_mascota');
             if ($request->medicamentos !== '[]' )
             {
                 foreach ($medicamentos as $key => $value)
                 {
+                    if ($esVeterinaria) {
+                        $control = (int) ($value->id_tipo_control ?? 0);
+                        $articulo = !empty($value->id_producto) ? Articulo::find((int) $value->id_producto) : null;
+                        if (!$articulo && $control !== 8) {
+                            $articulo = Articulo::where('nombre', $value->producto)->first();
+                        }
+                        $control = $articulo ? (int) $articulo->tipo_cont : $control;
+                        $value->id_tipo_control = in_array($control, [1, 2, 3, 4, 5, 8], true) ? $control : 2;
+                        $med_tipo_control[$value->id_tipo_control][] = $value;
+                        continue;
+                    }
                     $articuloControl = is_numeric($value->id_producto ?? null)
                         ? Articulo::find((int) $value->id_producto)
                         : null;

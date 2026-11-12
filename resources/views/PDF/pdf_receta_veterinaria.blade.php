@@ -34,10 +34,11 @@
         $mascota = $cuerpo['mascota'];
         $tutor = $receta->paciente;
         $profesional = $receta->profesional;
+        $nombreProfesional = trim(($profesional->nombre ?? '').' '.($profesional->apellido_uno ?? '').' '.($profesional->apellido_dos ?? ''));
         $lugar = $receta->lugar_atencion;
         $controlId = (int) $receta->control;
         $controlNombre = $cuerpo['controles_receta'][$controlId] ?? ('Tipo de receta '.$controlId);
-        $esControlada = in_array($controlId, [1, 2, 3, 4, 5], true);
+        $esControlada = in_array($controlId, [3, 4], true);
     @endphp
     <section class="page">
         <div class="header">
@@ -69,7 +70,7 @@
             <tr>
                 <td>
                     <div class="label">Médico/a veterinario/a</div>
-                    <div class="value">{{ trim(($profesional->nombre ?? '').' '.($profesional->apellido_uno ?? '').' '.($profesional->apellido_dos ?? '')) }}</div>
+                    <div class="value">{{ $nombreProfesional }}</div>
                     <div>RUT: {{ $profesional->rut ?? 'Sin registro' }}@if(!empty($profesional->num_colegio)) · Registro: {{ $profesional->num_colegio }}@endif</div>
                 </td>
                 <td>
@@ -111,9 +112,10 @@
                     <img class="qr" src="data:image/svg+xml;base64,{{ base64_encode($receta->qr->documento) }}">
                     <div>Validación del documento</div>
                 </td>
-                <td><div class="line">Firma médico/a veterinario/a</div></td>
+                <td><div class="line">Firma médico/a veterinario/a (opcional)</div></td>
                 <td>
                     <img class="qr" src="data:image/svg+xml;base64,{{ base64_encode($receta->qr_prof->profesional) }}">
+                    <div>{{ $nombreProfesional }}</div>
                     <div>Firma digital profesional</div>
                 </td>
             </tr>

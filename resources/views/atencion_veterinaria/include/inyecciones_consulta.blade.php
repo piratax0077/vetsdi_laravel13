@@ -17,14 +17,17 @@
             <textarea class="form-control form-control-sm caja-texto" id="inyeccion-observaciones" data-campo="observaciones" maxlength="1000" rows="1"></textarea>
         </div>
     </div>
-    <button type="button" class="btn btn-info btn-sm" id="agregar-inyeccion-consulta"><i class="feather icon-plus"></i> Agregar medicamento administrado</button>
-    <small class="form-text text-muted">El registro se guarda junto con la ficha clínica.</small>
+    <button type="button" class="btn btn-info btn-sm" id="agregar-inyeccion-consulta"><i class="feather icon-plus"></i> Agregar registro</button>
+    <small class="form-text text-muted">Para un procedimiento sin medicamento, complete el procedimiento y su precio. El registro se guarda junto con la ficha clínica.</small>
     <ul class="list-group list-group-flush mt-3" id="inyecciones-consulta-lista">
         @foreach(data_get($fichaVeterinariaGeneralData ?? [], 'inyecciones_consulta', []) as $inyeccion)
             <li class="list-group-item">
-                {{ $inyeccion['medicamento'] }} · {{ $inyeccion['dosis'] }} · {{ $inyeccion['via'] }}
-                @if(!empty($inyeccion['procedimiento'])) · {{ $inyeccion['procedimiento'] }} @endif
-                @if(isset($inyeccion['precio_medicamento'])) · Medicamento ${{ number_format($inyeccion['precio_medicamento'], 0, ',', '.') }} @endif
+                @if(!empty($inyeccion['medicamento']))
+                    {{ $inyeccion['medicamento'] }} · {{ $inyeccion['dosis'] }} · {{ $inyeccion['via'] }}
+                    @if(!empty($inyeccion['procedimiento'])) · @endif
+                @endif
+                {{ $inyeccion['procedimiento'] ?? '' }}
+                @if(!empty($inyeccion['medicamento']) && isset($inyeccion['precio_medicamento'])) · Medicamento ${{ number_format($inyeccion['precio_medicamento'], 0, ',', '.') }} @endif
                 @if(isset($inyeccion['precio_procedimiento'])) · Procedimiento ${{ number_format($inyeccion['precio_procedimiento'], 0, ',', '.') }} @endif
                 @if(!empty($inyeccion['observaciones'])) · {{ $inyeccion['observaciones'] }} @endif
             </li>
@@ -51,7 +54,7 @@ $(function () {
         const fila = $('<li class="list-group-item d-flex justify-content-between align-items-center">').appendTo(lista);
         $('<span>').text([
             inyeccion.medicamento, inyeccion.dosis, inyeccion.via, inyeccion.procedimiento,
-            'Medicamento ' + formatoPrecio.format(inyeccion.precio_medicamento),
+            inyeccion.medicamento && 'Medicamento ' + formatoPrecio.format(inyeccion.precio_medicamento),
             'Procedimiento ' + formatoPrecio.format(inyeccion.precio_procedimiento), inyeccion.observaciones
         ].filter(Boolean).join(' · ')).appendTo(fila);
         const quitar = $('<button type="button" class="btn btn-outline-danger btn-sm ml-2">Quitar</button>').on('click', function () {
@@ -74,8 +77,11 @@ $(function () {
     $('#agregar-inyeccion-consulta').on('click', function () {
         const inyeccion = {};
         campos.each(function () { inyeccion[this.dataset.campo] = this.value.trim(); });
-        if (['medicamento', 'dosis', 'via', 'procedimiento', 'precio_medicamento', 'precio_procedimiento'].some(campo => !inyeccion[campo])) {
-            swal({icon: 'warning', text: 'Complete el medicamento, la dosis, la vía, el procedimiento y ambos precios.'});
+        const requeridos = ['procedimiento', 'precio_procedimiento'];
+        if (inyeccion.medicamento) requeridos.push('dosis', 'via', 'precio_medicamento');
+        else inyeccion.precio_medicamento = '0';
+        if (requeridos.some(campo => !inyeccion[campo])) {
+            swal({icon: 'warning', text: 'Complete el procedimiento y su precio. Si administró un medicamento, indique también la dosis, la vía y su precio.'});
             return;
         }
         if (campos.toArray().some(campo => !campo.reportValidity())) return;
