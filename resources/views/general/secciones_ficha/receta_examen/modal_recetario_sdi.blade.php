@@ -23,6 +23,12 @@
                                 <span class="modal-atencion-resumen-etiqueta">Mascota</span>
                                 <strong class="modal-atencion-resumen-valor">{{ $mascota->nombre }}</strong>
                                 <span class="modal-atencion-resumen-extra">{{ optional($mascota->especieMascota)->nombre ?? $mascota->especie ?? 'Especie sin registro' }}@if(!empty($mascota->chip)) · Chip: {{ $mascota->chip }}@endif</span>
+                                @if(!empty($mostrarInyeccionesConsulta))
+                                    <span class="modal-atencion-resumen-extra">
+                                        Edad: {{ data_get($valoresDocumento ?? [], 'edad') ?: 'Sin registro' }}
+                                        · Peso: <span id="recetario-vet-peso">{{ !empty($valoresDocumento['peso']) ? $valoresDocumento['peso'].' kg' : 'Sin registro' }}</span>
+                                    </span>
+                                @endif
                             </div>
                         </div>
                         <div class="modal-atencion-resumen-dato">
@@ -36,19 +42,30 @@
                     </div>
                 @endif
                 <ul class="nav nav-pills modal-atencion-pestanas" id="tablas_examenes" role="tablist">
+                    @empty($mostrarInyeccionesConsulta)
                     <li class="nav-item">
                         <a class="nav-link-wizard active" id="rec_auto_tab" data-toggle="pill" href="#rec_auto" role="tab" aria-controls="rec_auto" aria-selected="true">Receta auto</a>
                     </li>
+                    @endempty
                     <li class="nav-item">
-                        <a class="nav-link-wizard" id="rec_manual_tab" data-toggle="pill" href="#rec_manual" role="tab" aria-controls="rec_manual" aria-selected="false" title="Si no encontró el medicamento">Receta manual</a>
+                        <a class="nav-link-wizard {{ !empty($mostrarInyeccionesConsulta) ? 'active' : '' }}" id="rec_manual_tab" data-toggle="pill" href="#rec_manual" role="tab" aria-controls="rec_manual" aria-selected="{{ !empty($mostrarInyeccionesConsulta) ? 'true' : 'false' }}" title="Si no encontró el medicamento">Receta manual</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link-wizard" id="rec_magistral_tab" data-toggle="pill" href="#rec_magistral" role="tab" aria-controls="rec_magistral" aria-selected="false" title="Preparado con varios componentes">Recetario magistral</a>
                     </li>
+                    @if(!empty($mostrarInyeccionesConsulta))
+                        <li class="nav-item">
+                            <a class="nav-link-wizard" id="inyeccion_consulta_tab" data-toggle="pill" href="#inyeccion_consulta" role="tab" aria-controls="inyeccion_consulta" aria-selected="false">Administrados en consulta</a>
+                        </li>
+                    @endif
                 </ul>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="tab-content" id="pills-tablas_examenes">
+                            @if(!empty($mostrarInyeccionesConsulta))
+                                @include('atencion_veterinaria.include.inyecciones_consulta')
+                            @endif
+                            @empty($mostrarInyeccionesConsulta)
                             <!--TAB 1-->
                             <div class="tab-pane fade show active" id="rec_auto" role="tabpanel" aria-labelledby="rec_auto_tab">
                                 <div class="form-row">
@@ -177,7 +194,8 @@
                             </div>
 
                             <!--TAB 2-->
-                            <div class="tab-pane fade show" id="rec_manual" role="tabpanel" aria-labelledby="rec_manual_tab">
+                            @endempty
+                            <div class="tab-pane fade show {{ !empty($mostrarInyeccionesConsulta) ? 'active' : '' }}" id="rec_manual" role="tabpanel" aria-labelledby="rec_manual_tab">
                                 <div class="form-row">
 
                                     <div class="col-sm-6 mt-2">
@@ -199,6 +217,16 @@
                                     <div class="col-sm-6 mt-2">
                                         <div class="form-group">
                                             <label class="floating-label-activo-sm">Tipo Control</label>
+                                            @if(!empty($mostrarInyeccionesConsulta))
+                                                <input type="text" class="form-control form-control-sm" id="manual_tipo_control" name="manual_tipo_control" list="tipos-control-receta-vet" autocomplete="off">
+                                                <datalist id="tipos-control-receta-vet">
+                                                    @foreach($receta_control ?? [] as $control)
+                                                        @if((int) $control->cod_control !== 8)
+                                                            <option value="{{ $control->descripcion }}" data-codigo="{{ $control->cod_control }}"></option>
+                                                        @endif
+                                                    @endforeach
+                                                </datalist>
+                                            @else
                                             <select name="manual_tipo_control" id="manual_tipo_control" class="form-control form-control-sm">
                                                 <option value="">Seleccione</option>
                                                 @if($receta_control)
@@ -209,6 +237,7 @@
                                                     @endforeach
                                                 @endif
                                             </select>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -230,6 +259,9 @@
                                     <div class="col-sm-6 mt-2">
                                         <div class="form-group fill">
                                             <label class="floating-label-activo-sm">Vía de Administración</label>
+                                            @if(!empty($mostrarInyeccionesConsulta))
+                                                <input type="text" class="form-control form-control-sm" id="manual_via_administracion_ficha_dental" name="manual_via_administracion_ficha_dental" maxlength="120">
+                                            @else
                                             <select class="form-control form-control-sm" id="manual_via_administracion_ficha_dental" name="manual_via_administracion_ficha_dental" onchange="validar_via_administracion_manual_sdi();">
                                                 <option value="0">Seleccione</option>
                                                 <option value="1">V&iacute;a Oral</option>
@@ -244,6 +276,7 @@
                                                 <option value="10">V&iacute;a parental</option>
                                                 <option value="11">Otra Vía</option>
                                             </select>
+                                            @endif
                                         </div>
                                         <div class="form-group fill" id="div_manual_observaciones_via_administracion_ficha_dental" style="display: none;">
                                             <label class="floating-label-activo-sm">Otra vía de Administración</label>
@@ -254,6 +287,9 @@
                                     <div class="col-sm-3 mt-2">
                                         <div class="form-group fill">
                                             <label class="floating-label-activo-sm">Periodo</label>
+                                            @if(!empty($mostrarInyeccionesConsulta))
+                                                <input type="text" class="form-control form-control-sm" id="manual_periodo_ficha_dental" name="manual_periodo_ficha_dental" maxlength="120">
+                                            @else
                                             <select class="form-control form-control-sm" id="manual_periodo_ficha_dental" name="manual_periodo_ficha_dental" onchange="validar_periodo_manual_sdi();">
                                                 <option value="0">Seleccione</option>
                                                 <option value="1">SOS</option>
@@ -268,6 +304,7 @@
                                                 <option value="10">V&iacute;a parental</option>
                                                 <option value="11">Otro Periodo</option>
                                             </select>
+                                            @endif
                                         </div>
                                         <div class="form-group fill" id="div_manual_observaciones_periodo_ficha_dental" style="display: none;">
                                             <label class="floating-label-activo-sm">Otro Periodo</label>
@@ -275,6 +312,12 @@
                                         </div>
                                     </div>
 
+                                    @if(!empty($mostrarInyeccionesConsulta))
+                                    <div class="form-group col-sm-6 mt-2">
+                                        <label class="floating-label-activo-sm" for="manual_cantidad_comprar">Cantidad a comprar</label>
+                                        <input type="text" class="form-control form-control-sm" id="manual_cantidad_comprar" name="manual_cantidad_comprar" maxlength="120">
+                                    </div>
+                                    @else
                                     <input type="hidden" id="manual_cantidad_comprar" name="manual_cantidad_comprar" value="">
 
                                     <div class="col-sm-3  mt-2">
@@ -304,6 +347,7 @@
                                         <label id="manual_cantidad_comprar_label"></label>
                                     </div>
 
+                                    @endif
                                     <div class="col-sm-12">
                                         <div class="modal-atencion-acciones">
                                             <div class="form-group">
@@ -328,6 +372,10 @@
                                     <div class="col-sm-6 mt-2">
                                         <div class="form-group">
                                             <label class="floating-label-activo-sm">Tipo Control</label>
+                                            @if(!empty($mostrarInyeccionesConsulta))
+                                                <input type="hidden" id="magistral_tipo_control" name="magistral_tipo_control" value="8">
+                                                <input type="text" class="form-control form-control-sm" value="Magistral" aria-label="Tipo de control" readonly>
+                                            @else
                                             <select name="magistral_tipo_control" id="magistral_tipo_control" class="form-control form-control-sm">
                                                 <option value="">Seleccione</option>
                                                 @if($receta_control)
@@ -342,6 +390,7 @@
                                                     @endforeach
                                                 @endif
                                             </select>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-sm-6 mt-2">
@@ -371,6 +420,9 @@
                                 <div class="form-row ">
                                     <div class="col-sm-4 mt-2">
                                         <label class="floating-label-activo-sm">Presentación</label>
+                                        @if(!empty($mostrarInyeccionesConsulta))
+                                            <input type="text" class="form-control form-control-sm" id="magistral_dosis_medicamento_ficha_dental" name="magistral_dosis_medicamento_ficha_dental" maxlength="255">
+                                        @else
                                         <select name="magistral_dosis_medicamento_ficha_dental" id="magistral_dosis_medicamento_ficha_dental" class="form-control form-control-sm">
                                             <option value="Cápsulas de gelatina duras">Cápsulas de gelatina duras</option>
                                             <option value="Colirios">Colirios</option>
@@ -387,6 +439,7 @@
                                             <option value="Suspensiones">Suspensiones</option>
                                             <option value="Viales">Viales</option>
                                         </select>
+                                        @endif
                                     </div>
                                     <div class="col-sm-4 mt-2">
                                         <div class="form-group fill">
@@ -405,6 +458,9 @@
                                     <div class="col-sm-6 mt-2">
                                         <div class="form-group fill">
                                             <label class="floating-label-activo-sm">Vía de Administración</label>
+                                            @if(!empty($mostrarInyeccionesConsulta))
+                                                <input type="text" class="form-control form-control-sm" id="magistral_via_administracion_ficha_dental" name="magistral_via_administracion_ficha_dental" maxlength="120">
+                                            @else
                                             <select class="form-control form-control-sm" id="magistral_via_administracion_ficha_dental" name="magistral_via_administracion_ficha_dental" onchange="validar_via_administracion_manual_sdi();">
                                                 <option value="0">Seleccione</option>
                                                 <option value="1">V&iacute;a Oral</option>
@@ -419,6 +475,7 @@
                                                 <option value="10">V&iacute;a parental</option>
                                                 <option value="11">Otra Vía</option>
                                             </select>
+                                            @endif
                                         </div>
                                         <div class="form-group fill" id="div_magistral_observaciones_via_administracion_ficha_dental" style="display: none;">
                                             <label class="floating-label-activo-sm">Otra vía de Administración</label>
@@ -429,6 +486,9 @@
                                     <div class="col-sm-6 mt-2">
                                         <div class="form-group fill">
                                             <label class="floating-label-activo-sm">Periodo</label>
+                                            @if(!empty($mostrarInyeccionesConsulta))
+                                                <input type="text" class="form-control form-control-sm" id="magistral_periodo_ficha_dental" name="magistral_periodo_ficha_dental" maxlength="120">
+                                            @else
                                             <select class="form-control form-control-sm" id="magistral_periodo_ficha_dental" name="magistral_periodo_ficha_dental" onchange="validar_periodo_manual_sdi();">
                                                 <option value="0">Seleccione</option>
                                                 <option value="1">SOS</option>
@@ -443,6 +503,7 @@
                                                 <option value="10">V&iacute;a parental</option>
                                                 <option value="11">Otro Periodo</option>
                                             </select>
+                                            @endif
                                         </div>
                                         <div class="form-group fill" id="div_magistral_observaciones_periodo_ficha_dental" style="display: none;">
                                             <label class="floating-label-activo-sm">Otro Periodo</label>
@@ -1740,6 +1801,15 @@
         }
     }
 
+    function escaparTextoRecetaSdi(valor) {
+        return $('<span>').text(valor ?? '').html();
+    }
+
+    function textoCampoRecetaSdi(selector) {
+        const campo = $(selector);
+        return campo.is('select') ? campo.find('option:selected').text() : campo.val().trim();
+    }
+
     function indicar_medicamento_manual_sdi()
     {
         if ($('#tabla_medicamento_cirugia_sdi tr.tabla_medicamento_cirugia_sdi').length && editorMedicamentoVacioSdi('manual_')) return;
@@ -1748,20 +1818,26 @@
         let id_medicamento = $('#manual_id_medicamento_ficha_dental').val();
         let farmaco = $('#manual_nombre_composicion_farmaco').val();
         let tipo_control = $('#manual_tipo_control').val();
+        if ($('#manual_tipo_control').is('input')) {
+            const opcion = $('#tipos-control-receta-vet option').filter(function () {
+                return this.value.toLowerCase() === tipo_control.trim().toLowerCase();
+            }).get(0);
+            tipo_control = opcion?.dataset.codigo || '0';
+        }
 
         let dosis_medicamento_ficha_dental = $('#manual_dosis_medicamento_ficha_dental').val();
         let frecuencia_medicamento_ficha_dental = $('#manual_frecuencia_medicamento_ficha_dental').val();
 
         let cantidad_comprar = $('#manual_cantidad_comprar').val();
-        let cantidad_numero_comprar = $('#manual_cantidad_numero').val();
+        let cantidad_numero_comprar = $('#manual_cantidad_numero').val() || (cantidad_comprar.match(/^\s*([1-9]\d*)/) || [])[1];
 
-        let id_via_administracion_ficha_dental = $('#manual_via_administracion_ficha_dental').val();
-        let via_administracion_ficha_dental = $('#manual_via_administracion_ficha_dental option:selected').text();
+        let id_via_administracion_ficha_dental = $('#manual_via_administracion_ficha_dental').is('select') ? $('#manual_via_administracion_ficha_dental').val() : 0;
+        let via_administracion_ficha_dental = textoCampoRecetaSdi('#manual_via_administracion_ficha_dental');
 
         let observaciones_medicamento_ficha_dental = $('#manual_observaciones_via_administracion_ficha_dental').val();
 
-        let id_periodo_ficha_dental = $('#manual_periodo_ficha_dental').val();
-        let periodo_ficha_dental = $('#manual_periodo_ficha_dental option:selected').text();
+        let id_periodo_ficha_dental = $('#manual_periodo_ficha_dental').is('select') ? $('#manual_periodo_ficha_dental').val() : 0;
+        let periodo_ficha_dental = textoCampoRecetaSdi('#manual_periodo_ficha_dental');
 
         let observaciones_periodo_ficha_dental = $('#manual_observaciones_periodo_ficha_dental').val();
 
@@ -1822,7 +1898,7 @@
                 valido = 1;
                 mensaje += 'Debe completar el campo Via de Administración.\n';
             }
-            else if($('#via_administracion_ficha_dental').val() == 11)
+            else if(id_via_administracion_ficha_dental == 11)
             {
                 if( $.trim(observaciones_medicamento_ficha_dental) == '')
                 {
@@ -1840,7 +1916,7 @@
                 valido = 1;
                 mensaje += 'Debe completar el campo Periodo.\n';
             }
-            else if($('#periodo_ficha_dental').val() == 11)
+            else if(id_periodo_ficha_dental == 11)
             {
                 if( $.trim(observaciones_periodo_ficha_dental) == '')
                 {
@@ -1858,7 +1934,7 @@
                 valido = 1;
                 mensaje += 'Debe completar el campo Cantidad a Comprar.\n';
             }
-            else
+            else if ($('#manual_cantidad_numero').length)
             {
                 const regex = /\(\d+\) \w+ \w+/g;
                 if (!regex.test(cantidad_comprar))
@@ -1871,6 +1947,11 @@
                 {
                     console.log('correcto');
                 }
+            }
+
+            if (!cantidad_numero_comprar && !$('#manual_cantidad_numero').length) {
+                valido = 1;
+                mensaje += 'Indique la cantidad comenzando por el número de unidades.\n';
             }
 
             if(valido == 0)
@@ -1890,25 +1971,25 @@
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + tipo_control + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + id_medicamento + '</td>' +
-                                '<td class="text-center align-middle text-wrap">' + nombre_medicamento_ficha_dental + '</td>' +
-                                '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + farmaco + '</td>' +
+                                '<td class="text-center align-middle text-wrap">' + escaparTextoRecetaSdi(nombre_medicamento_ficha_dental) + '</td>' +
+                                '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + escaparTextoRecetaSdi(farmaco) + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">0</td>' +
-                                '<td class="text-center align-middle text-wrap">' + dosis_medicamento_ficha_dental + '</td>' +
+                                '<td class="text-center align-middle text-wrap">' + escaparTextoRecetaSdi(dosis_medicamento_ficha_dental) + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">0</td>' +
-                                '<td class="text-center align-middle text-wrap">' + frecuencia_medicamento_ficha_dental + '</td>' +
+                                '<td class="text-center align-middle text-wrap">' + escaparTextoRecetaSdi(frecuencia_medicamento_ficha_dental) + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + id_via_administracion_ficha_dental + '</td>' +
-                                '<td class="text-center align-middle text-wrap">' + via_administracion_ficha_dental + '</td>' +
+                                '<td class="text-center align-middle text-wrap">' + escaparTextoRecetaSdi(via_administracion_ficha_dental) + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + id_periodo_ficha_dental + '</td>' +
-                                '<td class="text-center align-middle text-wrap">' + periodo_ficha_dental + '</td>' +
+                                '<td class="text-center align-middle text-wrap">' + escaparTextoRecetaSdi(periodo_ficha_dental) + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + medicamento_uso_cronico + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + cantidad_numero_comprar + '</td>' +
-                                '<td class="text-center align-middle text-wrap">' + cantidad_comprar + '</td>' +
+                                '<td class="text-center align-middle text-wrap">' + escaparTextoRecetaSdi(cantidad_comprar) + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap"><button type="button" name="remove" id="' + i +'" class="btn btn-danger btn-icon btn-sm btn_remove" title="Quitar" onclick="eliminar_medicamento_sdi(\'row' + i + '\');"><i class="feather icon-x"></i></button></td>'+
                             '</tr>';
@@ -1971,13 +2052,13 @@
         let dosis_medicamento_ficha_dental = $('#magistral_dosis_medicamento_ficha_dental').val();
         let frecuencia_medicamento_ficha_dental = $('#magistral_frecuencia_medicamento_ficha_dental').val();
 
-        let id_via_administracion_ficha_dental = $('#magistral_via_administracion_ficha_dental').val();
-        let via_administracion_ficha_dental = $('#magistral_via_administracion_ficha_dental option:selected').text();
+        let id_via_administracion_ficha_dental = $('#magistral_via_administracion_ficha_dental').is('select') ? $('#magistral_via_administracion_ficha_dental').val() : 0;
+        let via_administracion_ficha_dental = textoCampoRecetaSdi('#magistral_via_administracion_ficha_dental');
 
         let observaciones_medicamento_ficha_dental = $('#magistral_observaciones_via_administracion_ficha_dental').val();
 
-        let id_periodo_ficha_dental = $('#magistral_periodo_ficha_dental').val();
-        let periodo_ficha_dental = $('#magistral_periodo_ficha_dental option:selected').text();
+        let id_periodo_ficha_dental = $('#magistral_periodo_ficha_dental').is('select') ? $('#magistral_periodo_ficha_dental').val() : 0;
+        let periodo_ficha_dental = textoCampoRecetaSdi('#magistral_periodo_ficha_dental');
         let observaciones_periodo_ficha_dental = $('#magistral_observaciones_periodo_ficha_dental').val();
 
         let cantidad_comprar = $('#magistral_cantidad_comprar').val();
@@ -2006,7 +2087,7 @@
             }
 
             array_med.push( {'nombre':nombre, 'cantidad':cantidad } );
-            text_med += ''+nombre+':'+cantidad+'<br>';
+            text_med += escaparTextoRecetaSdi(nombre) + ':' + escaparTextoRecetaSdi(cantidad) + '<br>';
         });
 
 
@@ -2043,7 +2124,7 @@
                 valido = 1;
                 mensaje += 'Debe completar el campo Via de Administración.\n';
             }
-            else if($('#via_administracion_ficha_dental').val() == 11)
+            else if(id_via_administracion_ficha_dental == 11)
             {
                 if( $.trim(observaciones_medicamento_ficha_dental) == '')
                 {
@@ -2061,7 +2142,7 @@
                 valido = 1;
                 mensaje += 'Debe completar el campo Periodo.\n';
             }
-            else if($('#magistral_periodo_ficha_dental').val() == 11)
+            else if(id_periodo_ficha_dental == 11)
             {
                 if( $.trim(observaciones_periodo_ficha_dental) == '')
                 {
@@ -2108,26 +2189,26 @@
                 var fila = '<tr class="tabla_medicamento_cirugia_sdi" id="row' + i + '">' +
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + tipo_control + '</td>' +
 
-                                '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + JSON.stringify(array_med) + '</td>' +
+                                '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + escaparTextoRecetaSdi(JSON.stringify(array_med)) + '</td>' +
                                 '<td class="text-center align-middle text-wrap">' + text_med + '</td>' +
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden"></td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">0</td>' +
-                                '<td class="text-center align-middle text-wrap">' + dosis_medicamento_ficha_dental + '</td>' +
+                                '<td class="text-center align-middle text-wrap">' + escaparTextoRecetaSdi(dosis_medicamento_ficha_dental) + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">0</td>' +
-                                '<td class="text-center align-middle text-wrap">' + frecuencia_medicamento_ficha_dental + '</td>' +
+                                '<td class="text-center align-middle text-wrap">' + escaparTextoRecetaSdi(frecuencia_medicamento_ficha_dental) + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + id_via_administracion_ficha_dental + '</td>' +
-                                '<td class="text-center align-middle text-wrap">' + via_administracion_ficha_dental + '</td>' +
+                                '<td class="text-center align-middle text-wrap">' + escaparTextoRecetaSdi(via_administracion_ficha_dental) + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + id_periodo_ficha_dental + '</td>' +
-                                '<td class="text-center align-middle text-wrap">' + periodo_ficha_dental + '</td>' +
+                                '<td class="text-center align-middle text-wrap">' + escaparTextoRecetaSdi(periodo_ficha_dental) + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">' + medicamento_uso_cronico + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap hidden" hidden="hidden">1</td>' +
-                                '<td class="text-center align-middle text-wrap">' + cantidad_comprar + '</td>' +
+                                '<td class="text-center align-middle text-wrap">' + escaparTextoRecetaSdi(cantidad_comprar) + '</td>' +
 
                                 '<td class="text-center align-middle text-wrap"><button type="button" name="remove" id="' + i +'" class="btn btn-danger btn-icon btn-sm btn_remove" title="Quitar" onclick="eliminar_medicamento_sdi(\'row' + i + '\');"><i class="feather icon-x"></i></button></td>'+
                             '</tr>';

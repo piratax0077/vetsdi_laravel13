@@ -94,7 +94,7 @@
                         </div>
                          <!--Exámenes-->
                         <div class="tab-pane fade show" id="band_exam" role="tabpanel" aria-labelledby="band_exam_tab">
-                            @include('general.secciones_ficha.bandeja_examenes')
+                            @include('general.secciones_ficha.bandeja_examenes', ['examenesUnificadosVet' => !empty($mascota)])
                         </div>
                         <!--Hospitalización-->
 						<div class="tab-pane fade show" id="hospitalizacion" role="tabpanel" aria-labelledby="hospitalizacion-tab">
@@ -126,7 +126,7 @@
      @include('atencion_veterinaria.formularios.modal_atencion_especialidad.cirugia.modal_sol_examenes_com')
     @include('general.hospitalizacion.modals.in_solic_pabellon')
 	@include("general.modal.modal_no_disponible")
-    @include('general.secciones_ficha.receta_examen.modal_recetario_sdi')
+    @include('general.secciones_ficha.receta_examen.modal_recetario_sdi', ['mostrarInyeccionesConsulta' => !empty($mascota)])
     @include('atencion_veterinaria.formularios.modal_atencion_general.modal_indicar_examenes')
     @include('app.cirugia.modals.modals_cesarea.modal_indicar_examenes', ['modalIndicarExamenesId' => 'indicar_examenes_receta'])
 @include('app.profesional.modales.boton_flotante_agenda_autorizacion')

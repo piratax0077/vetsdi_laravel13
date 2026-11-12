@@ -55,6 +55,7 @@
 
 
                   @include('general.sidebar.seccion_consentimientos')
+                  @include('atencion_veterinaria.include.sidebar_mis_documentos')
 
                 <div class="card-sidebar">
 
@@ -76,17 +77,21 @@
 
                         <div class="card-body-sidebar">
 
-                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="icirugia()";>+ Indicaciones post cirugÃ­a En General</button>
+                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="icirugia()";>+ Indicaciones post cirugía En General</button>
 
                             <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="cuidados_hda_op()";>+ Indicaciones cuidado herida operatoria</button>
 
                             <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="ind_rge()";>+ Recomendaciones Paciente con RGE</button>
+                            @include('atencion_veterinaria.include.boton_indicacion_personalizada')
 
                         </div>
 
                     </div>
 
                     @include("general.modal.m_cuidados_cirugia")
+                    @if(!empty($mascota) && !empty($hora_medica->id) && !empty($profesional))
+                        @include('atencion_veterinaria.include.consentimiento_biopsia', ['indicacionPersonalizada' => true])
+                    @endif
 
 
                     @include("atencion_veterinaria.formularios.modal_atencion_especialidad.cirugia.modal_cuidados_herida_operatoria")
@@ -101,7 +106,7 @@
 
                         <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_hosp" aria-expanded="false" aria-controls="collapse_hosp"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
 
-                        FORMULARIOS DE HOSPITALIZACIÃ“N
+                        FORMULARIOS DE HOSPITALIZACIÓN
 
                         </button>
 
@@ -132,7 +137,7 @@
 
                         <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_sugerencias" aria-expanded="false" aria-controls="collapse_sugerencias"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
 
-                            AYUDENOS A MEJORAR
+                            AYÚDENOS A MEJORAR
 
                         </button>
 

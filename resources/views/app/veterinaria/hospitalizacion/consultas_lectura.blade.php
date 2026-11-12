@@ -2,7 +2,7 @@
     <p class="text-muted small">Consulta de los controles y cuidados registrados por enfermería durante esta hospitalización. Solo lectura.</p>
     <div class="table-responsive"><table class="table table-striped table-sm"><thead><tr><th>Fecha</th><th>Registrado por</th><th>Evolución y cuidados</th><th>Peso (kg)</th><th>Temperatura (°C)</th><th>FC (lat/min)</th><th>FR (resp/min)</th><th>Dolor (0–10)</th></tr></thead><tbody>
     @forelse($evolucionesEnfermeria as $notaEnfermeria)
-    <tr><td>{{ $notaEnfermeria->fecha }}</td><td>{{ $notaEnfermeria->autor ?? '#'.$notaEnfermeria->id_usuario }}</td><td style="white-space:pre-wrap">{{ $notaEnfermeria->observaciones }}</td><td>{{ $notaEnfermeria->peso ?? '—' }}</td><td>{{ $notaEnfermeria->temperatura ?? '—' }}</td><td>{{ $notaEnfermeria->frecuencia_cardiaca ?? '—' }}</td><td>{{ $notaEnfermeria->frecuencia_respiratoria ?? '—' }}</td><td>{{ $notaEnfermeria->dolor ?? '—' }}</td></tr>
+    <tr><td>{{ $notaEnfermeria->fecha }}</td><td>{{ $notaEnfermeria->autor ?? '#'.$notaEnfermeria->id_usuario }}</td><td style="white-space:pre-wrap">{{ $notaEnfermeria->observaciones }}@include('app.veterinaria.hospitalizacion.presion_registrada', ['registroPresion' => $notaEnfermeria])</td><td>{{ $notaEnfermeria->peso ?? '—' }}</td><td>{{ $notaEnfermeria->temperatura ?? '—' }}</td><td>{{ $notaEnfermeria->frecuencia_cardiaca ?? '—' }}</td><td>{{ $notaEnfermeria->frecuencia_respiratoria ?? '—' }}</td><td>{{ $notaEnfermeria->dolor ?? '—' }}</td></tr>
     @empty<tr><td colspan="8" class="text-center text-muted">No hay evoluciones de enfermería registradas para esta hospitalización.</td></tr>@endforelse
     </tbody></table></div>
     {{ $evolucionesEnfermeria->links('pagination::bootstrap-4') }}

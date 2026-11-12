@@ -334,6 +334,7 @@
             $('#modal_agregar_dep_nuevo_esterilizado').val('');
             $('#modal_agregar_dep_nuevo_fecha_esterilizacion').val('');
             $('#modal_agregar_dep_nuevo_enfermedad_cronica').val('');
+            ['comportamiento', 'dieta', 'cirugias', 'vacunas', 'viajes', 'ultima_desparasitacion', 'producto_desparasitacion', 'tipo_desparasitacion', 'desparasitacion_realizada_por', 'vive_con_animales'].forEach(campo => $('#modal_agregar_dep_nuevo_' + campo).val(''));
             toggleEsterilizacion();
             $('#imagenes_ven_pre').val('');
             $('#imagenes_ven_post').val('');
@@ -1185,6 +1186,14 @@
                 datos.esterilizado = esterilizado;
                 datos.fecha_esterilizacion = (esterilizado === '1') ? fecha_esterilizacion : '';
                 datos.enfermedad_cronica = enfermedad_cronica;
+                datos.comportamiento = $('#modal_agregar_dep_nuevo_comportamiento').val();
+                datos.dieta = $('#modal_agregar_dep_nuevo_dieta').val();
+                datos.cirugias = $('#modal_agregar_dep_nuevo_cirugias').val();
+                datos.vacunas = $('#modal_agregar_dep_nuevo_vacunas').val();
+                datos.viajes = $('#modal_agregar_dep_nuevo_viajes').val();
+                datos.ultima_desparasitacion = $('#modal_agregar_dep_nuevo_ultima_desparasitacion').val();
+                datos.producto_desparasitacion = $('#modal_agregar_dep_nuevo_producto_desparasitacion').val();
+                datos.vive_con_animales = $('#modal_agregar_dep_nuevo_vive_con_animales').val();
 
                 datos.fecha_nacimiento = fecha_nac;
 
@@ -1195,6 +1204,8 @@
                 datos.galeria = galeria;
 
                 datos.observaciones_fotos = observaciones;
+                datos.tipo_desparasitacion = $('#modal_agregar_dep_nuevo_tipo_desparasitacion').val();
+                datos.desparasitacion_realizada_por = $('#modal_agregar_dep_nuevo_desparasitacion_realizada_por').val();
 
 
 

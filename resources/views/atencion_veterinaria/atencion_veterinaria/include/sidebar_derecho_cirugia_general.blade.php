@@ -130,7 +130,7 @@
 
                         <div class="card-body-sidebar">
 
-                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="icirugia()";>+ Indicaciones post cirugÃ­a En General</button>
+                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="icirugia()";>+ Indicaciones post cirugía En General</button>
 
                             <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="cuidados_hda_op()";>+ Indicaciones cuidado herida operatoria</button>
 
@@ -155,7 +155,7 @@
 
                         <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_hosp" aria-expanded="false" aria-controls="collapse_hosp"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
 
-                        FORMULARIOS DE HOSPITALIZACIÃ“N
+                        FORMULARIOS DE HOSPITALIZACIÓN
 
                         </button>
 
@@ -186,7 +186,7 @@
 
                         <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_sugerencias" aria-expanded="false" aria-controls="collapse_sugerencias"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
 
-                            AYUDENOS A MEJORAR
+                            AYÚDENOS A MEJORAR
 
                         </button>
 

@@ -29,10 +29,10 @@
             <p>Validación de consentimiento informado veterinario</p>
         </header>
         <section class="body">
-            <div class="ok">Firma del tutor válida. Consentimiento firmado y autorizado.</div>
+            <div class="ok">{{ !empty($firmaProfesionalValidada) ? 'Firma del profesional válida.' : 'Firma del tutor válida. Consentimiento firmado y autorizado.' }}</div>
             <div class="grid">
                 <div class="item">
-                    <div class="label">Tutor responsable</div>
+                    <div class="label">{{ !empty($firmaProfesionalValidada) ? 'Profesional firmante' : 'Tutor responsable' }}</div>
                     <div class="value">{{ $firmaTutor['nombre'] }}</div>
                     <div>RUT: {{ $firmaTutor['rut'] ?: 'No informado' }}</div>
                 </div>
@@ -51,7 +51,10 @@
                 </div>
             </div>
             <div class="token">Identificador de firma: {{ $firmaTutor['token'] }}</div>
-            <a class="btn" href="{{ asset($documento->url) }}" target="_blank">Ver consentimiento firmado</a>
+            @if(!empty($pdfSha256))
+                <div class="token">SHA-256 del PDF firmado: {{ $pdfSha256 }}</div>
+            @endif
+            <a class="btn" href="{{ asset($documento->url) }}" target="_blank">{{ !empty($firmaProfesionalValidada) && empty($pdfSha256) ? 'Ver consentimiento emitido' : 'Ver consentimiento firmado' }}</a>
         </section>
     </main>
 </body>

@@ -22,6 +22,13 @@
 
              <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="cons_eutan()";>+ Consentimiento para Eutanasia</button>
 
+            @if(!empty($mascota) && !empty($hora_medica->id) && !empty($profesional))
+                <button type="button" class="btn btn-sm btn-info btn-block text-left"
+                    data-toggle="modal" data-target="#modal_consentimiento_biopsia">+ Consentimiento para biopsia</button>
+                <button type="button" class="btn btn-sm btn-info btn-block text-left"
+                    data-toggle="modal" data-target="#modal_consentimiento_personalizado_vet">+ Consentimiento personalizado</button>
+            @endif
+
             <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="cons_revtto()";>+ Revocación consentimiento</button>
 
             <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="certificado_alta()";>+ Certificado de alta</button>
@@ -37,6 +44,11 @@
     @include("general.modal.m_aconsent_tto")
 
     @include("general.modal.m_consentimiento_eutanasia")
+
+    @if(!empty($mascota) && !empty($hora_medica->id) && !empty($profesional))
+        @include('atencion_veterinaria.include.consentimiento_biopsia')
+        @include('atencion_veterinaria.include.consentimiento_biopsia', ['consentimientoPersonalizado' => true])
+    @endif
 
     @include("general.modal.m_revocacionconsent")
 

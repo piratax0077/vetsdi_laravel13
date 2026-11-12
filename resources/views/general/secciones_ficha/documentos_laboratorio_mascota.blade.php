@@ -381,6 +381,18 @@
             }).join('')
             : '<tr><td colspan="5" class="text-center text-muted">No hay resultados pendientes.</td></tr>';
 
+        var resultados = document.getElementById('lab-vet-resultados-unificados');
+        if (resultados) {
+            resultados.innerHTML = docs.filter(function (x) { return x.estado === 'clasificado'; }).map(function (x) {
+                return '<tr><td>' + esc(x.fecha) + '</td><td>' + esc(x.nombre) + '</td><td>' +
+                    esc(etiquetas[x.tipo_examen] || x.tipo_examen || 'Otro') + '</td><td>' +
+                    esc(x.observacion || '—') + '</td><td class="text-nowrap">' + botonVerDocumento(x) + '</td></tr>';
+            }).join('');
+            var vacio = document.getElementById('examenes-resultados-vet-vacio');
+            vacio.hidden = resultados.rows.length > 0 || resultados.previousElementSibling.rows.length > 0;
+            return;
+        }
+
         ['sangre', 'radiologico', 'especialidad', 'otro'].forEach(function (tipo) {
             grupo(tipo, docs.filter(function (x) {
                 return x.estado === 'clasificado' && x.tipo_examen === tipo;

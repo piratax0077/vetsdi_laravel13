@@ -103,7 +103,13 @@
             .append($('<span class="visor-archivo-nombre">').append($('<i class="feather">').addClass(icono)).append($('<span>').text(archivo.nombre)));
         if (archivo.url) {
             var acciones = $('<div>');
-            acciones.append($('<a class="btn btn-outline-info btn-sm" target="_blank" rel="noopener"><i class="feather icon-external-link"></i> Abrir</a>').attr('href', archivo.url));
+            var abrir = $('<a class="btn btn-outline-info btn-sm" target="_blank" rel="noopener"><i class="feather icon-external-link"></i> Abrir</a>');
+            if (archivo.archivo && (extension === 'svg' || archivo.tipo === 'image/svg+xml')) {
+                abrir.addClass('disabled').attr('aria-disabled', 'true');
+            } else {
+                abrir.attr('href', archivo.url);
+            }
+            acciones.append(abrir);
             acciones.append(' ').append($('<a class="btn btn-info btn-sm"><i class="feather icon-download"></i> Descargar</a>').attr({ href: archivo.url, download: archivo.nombre }));
             cabecera.append(acciones);
         }
@@ -120,7 +126,23 @@
         }
     }
 
+    async function firmarEnConsulta(url) {
+        try {
+            var respuesta = await fetch(url, { headers: { Accept: 'application/json' }, cache: 'no-store' });
+            var datos = await respuesta.json();
+            if (!respuesta.ok || datos.estado !== 1) throw new Error(datos.msj || 'No se pudo abrir la firma en la consulta.');
+            var contenido = $('<div>').append(
+                $('<img width="220" height="220" alt="QR para firmar en la consulta">').attr('src', datos.qr),
+                $('<p class="mt-2">').text(datos.msj)
+            );
+            swal({ title: 'Firmar en la consulta', content: contenido.get(0), button: 'Cerrar' });
+        } catch (error) {
+            swal({ icon: 'error', text: error.message });
+        }
+    }
+
     window.DocumentosClinicos = {
+        firmarEnConsulta: firmarEnConsulta,
         escaparHtml: escaparHtml,
         completarDatos: completarDatos,
         contenidoParaPdf: contenidoParaPdf,

@@ -62,7 +62,9 @@
                                                 @php
                                                     $cuerpoDocumento = json_decode((string) $documento->cuerpo, true) ?: [];
                                                     $firmaTutorDocumento = $cuerpoDocumento['firma_tutor'] ?? null;
-                                                    $esConsentimiento = $documento->otro === 'consentimiento_informado_veterinario';
+                                                    $esConsentimientoPlantilla = $documento->otro === 'consentimiento_veterinario_plantilla';
+                                                    $esConsentimiento = $esConsentimientoPlantilla || $documento->otro === 'consentimiento_informado_veterinario';
+                                                    $esIndicacion = $documento->otro === 'indicacion_veterinaria';
                                                 @endphp
                                                 <tr>
                                                     <td class="text-wrap text-center align-middle">{{ optional($documento->updated_at)->format('d/m/Y') }}</td>
@@ -72,7 +74,9 @@
                                                     <td class="align-middle text-center">{{ optional($documento->ficha_atencion)->mascota_descripcion ?? '-' }}</td>
                                                     <td class="align-middle text-center">{{ $documento->observacion ?: ($esConsentimiento ? 'Consentimiento informado veterinario' : 'Presupuesto veterinario') }}</td>
                                                     <td class="align-middle text-center">
-                                                        @if($firmaTutorDocumento)
+                                                        @if($esIndicacion)
+                                                            Indicación veterinaria
+                                                        @elseif($firmaTutorDocumento)
                                                             <span class="badge badge-success">Firmado por tutor</span><br>
                                                             <small>{{ $firmaTutorDocumento['fecha'] ?? '' }}</small>
                                                         @else
@@ -81,8 +85,16 @@
                                                     </td>
                                                     <td class="text-center align-middle">
                                                         <a href="{{ asset($documento->url) }}" target="_blank" class="btn btn-info-light-c btn-xxs">
-                                                            <i class="feather icon-file-text"></i> {{ $esConsentimiento ? 'Ver consentimiento' : 'Ver presupuesto' }}
+                                                            <i class="feather icon-file-text"></i> {{ $esIndicacion ? 'Ver indicación' : ($esConsentimiento ? 'Ver consentimiento' : 'Ver presupuesto') }}
                                                         </a>
+                                                        @if($esConsentimientoPlantilla && $documento->firma_profesional_token && !$firmaTutorDocumento)
+                                                            <button type="button" class="btn btn-purple btn-xxs" data-firma-consulta="{{ route('profesional.plantillas.firma_consulta', $documento) }}" onclick="DocumentosClinicos.firmarEnConsulta(this.dataset.firmaConsulta)">
+                                                                <i class="fas fa-qrcode"></i> Firmar en la consulta
+                                                            </button>
+                                                        @endif
+                                                        @if($esConsentimientoPlantilla && $firmaTutorDocumento && isset($cuerpoDocumento['adjunto']))
+                                                            <a class="btn btn-info-light-c btn-xxs" href="{{ route('vet.documentos.emitido', ['documento' => $documento, 'original' => 1]) }}">Ver archivo original</a>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -157,6 +169,7 @@
 
 @section('page-script')
 
+    <script src="{{ asset('js/documentos_clinicos.js') }}?v=20261111-2"></script>
     <script>
 
         $(document).ready(function() {

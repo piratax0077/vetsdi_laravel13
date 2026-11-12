@@ -54,6 +54,7 @@
         var creatinina = 0;
         var modalIndicarExamenesId = '#indicar_examenes_receta';
         $(document).ready(function() {
+            @empty($mascota)
             {{--  EXAMENES  --}}
             {{--  funcion para capturar el tipo de examen y buscar los subtipo que estan relacionados con el  --}}
             $(document).off('change.vetExamen', '#tipo_examen_d')
@@ -124,6 +125,7 @@
 
             });
 
+            @endempty
             {{--  mostrar ocultar mensaje de examenes de radiologia con contraste --}}
             $('#imagenologia_con_contraste_d').change(function(){
                 if($('#imagenologia_con_contraste_d').is(':checked') )
@@ -889,10 +891,13 @@
 
 
         function registro_examen_ficha() {
+            @if(!empty($mascota))
+                if (!$(modalIndicarExamenesId).data('examenesCargados')) return;
+            @endif
             var examenesSolicitados = $(modalIndicarExamenesId).data('examenesSolicitados') || [];
             var rows1 = examenesSolicitados.map(function(item) {
                 return {
-                    id_examen: item.id_examen || '',
+                    id_examen: item.id_examen || @if(!empty($mascota)) null @else '' @endif,
                     nombre_examen: item.nombre_examen || '',
                     lado: item.lado || '',
                     nombre_examen_especialidad: item.nombre_examen || '',
@@ -1091,6 +1096,16 @@
             var _token = CSRF_TOKEN;
             var id_ficha = $('#id_fc').val();
             var id_hora_medica = $('#hora_medica').val();
+            @if(!empty($mascota))
+                var $modalExamen = $(modalIndicarExamenesId);
+                var $accionesExamen = $modalExamen.find('#agregar_examen_tabla, [data-generar-orden-examen]');
+                $modalExamen.data('examenesCargados', false);
+                $accionesExamen.prop('disabled', true);
+                if (!Number(id_ficha)) {
+                    renderExamenesCirugiaTablaD([], 'Guarde la ficha de atención antes de indicar exámenes.');
+                    return;
+                }
+            @endif
 
             if (typeof renderExamenesCirugiaTablaD === 'function') {
                 renderExamenesCirugiaTablaD([], 'Cargando exámenes...');
@@ -1118,9 +1133,16 @@
                     if (typeof renderExamenesCirugiaTablaD === 'function') {
                         renderExamenesCirugiaTablaD(data.estado == 1 ? data.registros : [], data.msj);
                     }
+                    @if(!empty($mascota))
+                        $modalExamen.data('examenesCargados', true);
+                        $accionesExamen.prop('disabled', false);
+                    @endif
                 }
             })
             .fail(function(jqXHR, ajaxOptions, thrownError) {
+                @if(!empty($mascota))
+                    renderExamenesCirugiaTablaD([], 'No se pudo cargar la orden. Cierre el modal y vuelva a abrirlo.');
+                @endif
                 console.log(jqXHR, ajaxOptions, thrownError)
             });
 

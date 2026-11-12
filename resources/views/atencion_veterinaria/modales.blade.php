@@ -43,6 +43,8 @@
                 @php($esFichaVeterinariaGeneral = \App\Support\FichaVeterinariaVista::para($profesional) === 'atencion_veterinaria.atencion_veterinaria_general')
                 @if($esFichaVeterinariaGeneral)
                     <a id="boton_3" class="icono-vetgral" data-toggle="canvas" data-target="#formularios_medicina_gen" aria-expanded="false" aria-controls="bs-canvas-right" title="Formularios Atención Veterinaria General" data-placement="left" style="cursor:pointer;"></a>
+                @elseif(\App\Support\FichaVeterinariaVista::para($profesional) === 'atencion_veterinaria.atencion_medica_cirugia_general')
+                    <a id="boton_3" class="fas fa-cut fa-2x" data-toggle="canvas" data-target="#formularios_cir_gen" aria-expanded="false" aria-controls="bs-canvas-right" title="Formularios Cirugía" data-placement="left"></a>
                 @else
 
                 @if(optional($profesional->SubTipoEspecialidad)->nombre == 'Cardiología Adultos' )
@@ -84,10 +86,6 @@
                 @if(optional($profesional->SubTipoEspecialidad)->nombre == 'Cirugía digestiva' )
 					<a id="boton_3" class="fas fa-cut fa-2x" data-toggle="canvas" data-target="#formularios_cir_digest" aria-expanded="false" aria-controls="bs-canvas-right" title="Formularios Cirugía Digestiva" data-placement="left"></a>
 				@endif
-
-                @if(optional($profesional->SubTipoEspecialidad)->nombre == 'Cirugía General' )
-                    <a id="boton_3" class="fas fa-cut fa-2x" data-toggle="canvas" data-target="#formularios_cir_gen" aria-expanded="false" aria-controls="bs-canvas-right" title="Formularios Cirugía" data-placement="left"></a>
-                @endif
 
                 @if(optional($profesional->SubTipoEspecialidad)->nombre == 'Medicina general adultos y niños' )
                     <a id="boton_3" class="fas fa-stethoscope fa-2x" data-toggle="canvas" data-target="#formularios_medicina_gen" aria-expanded="false" aria-controls="bs-canvas-right" title="Formularios Medicina General" data-placement="left"></a>

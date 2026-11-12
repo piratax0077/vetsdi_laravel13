@@ -26,15 +26,21 @@
             <input type="hidden" name="medicamentos" id="medicamentos" value="{{ old('medicamentos', $fichaVeterinariaGeneralData['medicamentos'] ?? '[]') }}">
             <input type="hidden" name="examenes" id="examenes" value="{{ old('examenes', $fichaVeterinariaGeneralData['examenes'] ?? '[]') }}">
             <input type="hidden" name="input_lista_imagenes" id="input_lista_imagenes" value="{{ old('input_lista_imagenes', '') }}">
+            @include('general.secciones_ficha.motivo', ['examenFisicoEnCard' => true, 'ocultarCamposAnamnesis' => true, 'anamnesisVetGeneral' => true])
+            @include('general.secciones_ficha.examenfisico', ['examenFisicoEnCard' => true])
             <div class="card"><div class="card-body"><h5>Consulta odontológica de {{ $mascota->nombre }}</h5>
                 <div class="form-row">
-                    @foreach(['motivo' => 'Motivo de consulta', 'antecedentes' => 'Antecedentes odontológicos', 'examen_fisico' => 'Examen oral', 'anestesia_dental' => 'Anestesia y monitorización', 'hemorragias_dentales' => 'Hemorragias', 'fracturas_dentales' => 'Fracturas y lesiones', 'evaluacion_caras_grupos' => 'Evaluación de caras y grupos dentales', 'trabajos_laboratorio_dental' => 'Indicaciones para el laboratorio dental'] as $campo => $nombre)
-                        <div class="form-group col-md-6"><label for="vet-{{ $campo }}">{{ $nombre }}</label><textarea class="form-control" id="vet-{{ $campo }}" name="{{ $campo }}" rows="3">{{ old($campo, $fichaVeterinariaGeneralData[$campo] ?? data_get($fichaAtencion ?? null, $campo, '')) }}</textarea></div>
+                    @foreach(['antecedentes' => 'Antecedentes odontológicos', 'examen_oral' => 'Examen oral', 'anestesia_dental' => 'Anestesia y monitorización', 'hemorragias_dentales' => 'Hemorragias', 'fracturas_dentales' => 'Fracturas y lesiones', 'evaluacion_caras_grupos' => 'Evaluación de caras y grupos dentales', 'trabajos_laboratorio_dental' => 'Indicaciones para el laboratorio dental'] as $campo => $nombre)
+                        @php
+                            $campoAnterior = $campo === 'examen_oral' ? 'examen_fisico' : $campo;
+                            $valor = $fichaVeterinariaGeneralData[$campo] ?? data_get($fichaAtencion ?? null, $campoAnterior, '');
+                        @endphp
+                        <div class="form-group col-md-6"><label for="vet-{{ $campo }}">{{ $nombre }}</label><textarea class="form-control" id="vet-{{ $campo }}" name="{{ $campo }}" rows="3">{{ old($campo, $valor) }}</textarea></div>
                     @endforeach
                 </div>
             </div></div>
-            @include('general.secciones_ficha.signos_vitales')
-            @include('general.secciones_ficha.diagnostico')
+            @include('atencion_veterinaria.secciones_especialidad.seccion_antecedentes_veterinarios')
+            @include('general.secciones_ficha.diagnostico', ['etiquetaNotasClinicas' => 'Notas internas para la consulta'])
             <div class="text-center mb-3">
                 <button type="submit" class="btn btn-info" onclick="document.getElementById('cerrarsession').value='0'">Guardar ficha y odontograma</button>
                 <button type="submit" class="btn btn-purple" onclick="document.getElementById('cerrarsession').value='1'">Guardar y finalizar consulta</button>

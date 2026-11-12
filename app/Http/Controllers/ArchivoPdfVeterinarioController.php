@@ -1,8 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\{DocumentoPdfVeterinario,Mascota,Paciente};
+use App\Models\{DocumentoFcPaciente,DocumentoPdfVeterinario,Mascota,Paciente};
 use App\Services\ArchivoPdfVeterinario;
+use App\Services\DocumentoVeterinarioEmitido;
 use App\Mail\CorreoGenerico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{DB,Mail,Schema,Storage,URL};
@@ -29,6 +30,15 @@ class ArchivoPdfVeterinarioController extends Controller
             }
         }
         if($r->filled('id_mascota') && Schema::hasTable('fichas_atenciones')) {
+            if ($usuario = auth()->id()) {
+                $historicos = $historicos->concat(DocumentoFcPaciente::indicacionesMascota((int) $r->id_mascota, $usuario)
+                    ->where('documento', 'like', '%.pdf')->latest('id')->limit(100)->get()->map(fn ($documento) => [
+                        'tipo' => 'indicacion',
+                        'id' => $documento->id,
+                        'titulo' => $documento->observacion ?: $documento->documento,
+                        'fecha' => $documento->fecha_envio,
+                    ]));
+            }
             foreach($this->fuentes() as $tipo=>[$tabla,$campo,$titulo]) {
                 if(!Schema::hasTable($tabla) || !Schema::hasColumn($tabla,$campo))continue;
                 foreach(DB::table($tabla)->whereIn($campo,DB::table('fichas_atenciones')->where('id_mascota',$r->id_mascota)->select('id'))->orderByDesc('id')->limit(100)->get() as $d) {
@@ -52,6 +62,10 @@ class ArchivoPdfVeterinarioController extends Controller
 
     public function historico(Request $r,ArchivoPdfVeterinario $archivo,string $tipo,int $origen)
     {
+        if ($tipo === 'indicacion') {
+            $documento = DocumentoFcPaciente::where('otro', DocumentoVeterinarioEmitido::INDICACION)->findOrFail($origen);
+            return app(FirmaDocumentoVeterinarioController::class)->archivo($r, $documento, app(DocumentoVeterinarioEmitido::class));
+        }
         if($tipo==='laboratorio') {
             $documento=\App\Models\DocumentoLaboratorioMascota::findOrFail($origen);
             abort_unless($archivo->puedeVerMascota((int)$documento->id_mascota),403);

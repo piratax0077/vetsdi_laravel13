@@ -41,6 +41,21 @@ return Application::configure(basePath: dirname(__DIR__))->withRouting(
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        $rutasPlantillas = ['profesional.plantillas.guardar', 'profesional.plantillas.estado', 'profesional.plantillas.eliminar', 'profesional.plantillas.biopsia', 'profesional.plantillas.consentimiento_personalizado', 'profesional.plantillas.indicacion_personalizada'];
+        $exceptions->shouldRenderJsonWhen(fn (Request $request) => $request->routeIs(...$rutasPlantillas) || $request->expectsJson());
+        $exceptions->respond(function ($response, $exception, Request $request) {
+            if ($request->routeIs('profesional.plantillas.*', 'profesional.indicaciones_medicas')
+                && $response instanceof \Illuminate\Http\JsonResponse && $response->getStatusCode() >= 400) {
+                $estado = $response->getStatusCode();
+                $datos = $estado < 500 ? $response->getData(true) : [];
+                $response->setData([
+                    'estado' => 0,
+                    'msj' => $estado === 404 ? 'Plantilla no encontrada.' : ($datos['message'] ?? 'No se pudo completar la operación. Inténtelo nuevamente.'),
+                ] + array_intersect_key($datos, ['errors' => true]));
+            }
+            return $response;
+        });
+
         $exceptions->render(function (HttpException $exception, Request $request) {
             if ($exception->getStatusCode() !== 419) {
                 return null;

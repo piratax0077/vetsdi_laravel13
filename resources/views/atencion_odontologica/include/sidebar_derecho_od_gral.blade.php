@@ -182,11 +182,18 @@
                                 <button type="button"
                                     class="btn btn-sm btn-info btn-block accion_m_aconsentcirm">Higiene y Control
                                 </button></a>
+                            @include('atencion_veterinaria.include.boton_indicacion_personalizada')
                         </div>
                     </div>
                 </div>
+                @if(!empty($mascota) && !empty($hora_medica->id) && !empty($profesional))
+                    @include('atencion_veterinaria.include.consentimiento_biopsia', ['indicacionPersonalizada' => true])
+                @endif
                <!-- SECCION CONSENTIMIENTOS -->
-                {{-- @include('general.sidebar.seccion_consentimientos') --}}
+                @if(!empty($mascota))
+                    @include('general.sidebar.seccion_consentimientos')
+                    @include('atencion_veterinaria.include.sidebar_mis_documentos')
+                @endif
                 <div class="card-sidebar">
                     <div class="card-header-sidebar" id="heading_utilidades">
                         <h2 class="mb-0">

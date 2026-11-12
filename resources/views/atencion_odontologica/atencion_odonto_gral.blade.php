@@ -145,7 +145,7 @@
                         </div>
                         <!--Exámenes-->
                         <div class="tab-pane fade show" id="band_exam" role="tabpanel" aria-labelledby="band_exam_tab">
-                            @include('general.secciones_ficha.bandeja_examenes')
+                            @include('general.secciones_ficha.bandeja_examenes', ['examenesUnificadosVet' => !empty($mascota)])
                         </div>
                         <!--Hospitalización-->
                         <div class="tab-pane fade show" id="hospitalizacion" role="tabpanel"
@@ -159,10 +159,13 @@
 
         <!-- SIDE BAR IMPLANTOLOGIA -->
         @include('atencion_odontologica.modales'){{-- base de botones de sidebar --}}
+        @if(!empty($mascota))
+            @include('general.sidebar.modal_form_generales.modal_vacunacion_desparasitacion')
+        @endif
    @include('atencion_odontologica.include.sidebar_derecho_od_gral')
         {{-- modales y data de sidebar especialidad --}}
 
-        @include('general.secciones_ficha.receta_examen.modal_recetario_sdi')
+        @include('general.secciones_ficha.receta_examen.modal_recetario_sdi', ['mostrarInyeccionesConsulta' => !empty($mascota)])
 
 
         <!--Modals de especialidad -->
@@ -177,7 +180,11 @@
         @include('app.dental.modals.formularios_dentales.pedido_material_trabajo.m_pmateriales')
         @include('atencion_odontologica.formularios_dentales_tons.laboratorio_dental.m_trabajo')
         @include('atencion_odontologica.formularios_dentales_tons.laboratorio_dental.m_trabajoM')
-                @include("atencion_odontologica.formularios.modal_atencion_general.modal_indicar_examenes")
+        @if(!empty($mascota))
+            @include('app.cirugia.modals.modals_cesarea.modal_indicar_examenes', ['modalIndicarExamenesId' => 'indicar_examenes_receta'])
+        @else
+            @include('atencion_odontologica.formularios.modal_atencion_general.modal_indicar_examenes')
+        @endif
     
 
         {{--

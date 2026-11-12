@@ -48,6 +48,7 @@
                         <input type="text" class="form-control form-control-sm" name="peso" id="peso" value="{!! old('peso') !!}">
                         @endif
                     </div>
+                    @if (empty($omitirTallaImc))
                     <div class="form-group col-md-2">
                         @if (isset($fichaAtencion) && $fichaAtencion->talla != null)
                         <label class="floating-label-activo-sm">Talla</label>
@@ -66,6 +67,8 @@
                         <input type="text" class="form-control form-control-sm" name="imc" id="imc" value="{!! old('imc') !!}">
                         @endif
                     </div>
+                    @endif
+
                     <div class="form-group col-md-2">
                         @if (isset($fichaAtencion) && $fichaAtencion->estado_nutricional
                         != null)

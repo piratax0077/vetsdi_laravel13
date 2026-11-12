@@ -2430,6 +2430,8 @@ class EscritorioPaciente extends Controller
             ->whereIn('otro', [
                 'presupuesto_odontologico_veterinario',
                 'consentimiento_informado_veterinario',
+                'consentimiento_veterinario_plantilla',
+                'indicacion_veterinaria',
             ])
             ->where('estado', 1)
             ->orderByDesc('updated_at')
@@ -2598,11 +2600,22 @@ class EscritorioPaciente extends Controller
     {
         $request->validate(['acepta' => 'required|accepted']);
 
-        $paciente = Paciente::where('id_usuario', Auth::id())->firstOrFail();
+        $tutor = Paciente::where('id_usuario', Auth::id())->firstOrFail();
+        $documento = DocumentoFcPaciente::whereKey($idDocumento)->where('id_paciente', $tutor->id)
+            ->where('estado', 1)->firstOrFail();
+        if ($documento->otro === \App\Services\DocumentoVeterinarioEmitido::CONSENTIMIENTO) {
+            return response()->json(app(\App\Services\DocumentoVeterinarioEmitido::class)->firmarTutor($request, $documento->id, $tutor));
+        }
+        return DB::transaction(fn () => $this->guardarFirmaConsentimientoVeterinario($request, $idDocumento, $tutor));
+    }
+
+    private function guardarFirmaConsentimientoVeterinario(Request $request, $idDocumento, Paciente $paciente)
+    {
         $documento = DocumentoFcPaciente::where('id', $idDocumento)
             ->where('id_paciente', $paciente->id)
             ->where('otro', 'consentimiento_informado_veterinario')
             ->where('estado', 1)
+            ->lockForUpdate()
             ->firstOrFail();
 
         $cuerpo = json_decode((string) $documento->cuerpo, true) ?: [];
@@ -2614,10 +2627,6 @@ class EscritorioPaciente extends Controller
             ]);
         }
 
-        $consentimiento = ConConsentimientosPcte::where('id', $cuerpo['id_consentimiento_pcte'] ?? null)
-            ->where('id_paciente', $paciente->id)
-            ->where('id_profesional', $documento->id_profesional)
-            ->firstOrFail();
         $ficha = FichaAtencion::where('id', $documento->id_ficha_atencion)
             ->where('id_paciente', $paciente->id)
             ->firstOrFail();
@@ -2635,17 +2644,21 @@ class EscritorioPaciente extends Controller
             'ip' => $request->ip(),
         ];
 
+        $consentimiento = ConConsentimientosPcte::where('id', $cuerpo['id_consentimiento_pcte'] ?? null)
+            ->where('id_paciente', $paciente->id)
+            ->where('id_profesional', $documento->id_profesional)
+            ->firstOrFail();
         ConsentimientosController::generarPdfFirmable(
             $consentimiento,
             $firmaTutor,
             public_path(ltrim($documento->url, '/'))
         );
-
         $consentimiento->confirmacion = 1;
-        $consentimiento->save();
+        $consentimiento->saveOrFail();
 
         $cuerpo['firma_tutor'] = $firmaTutor;
         $cuerpo['estado_firma'] = 'firmado';
+        $documento->firma_token = $tokenFirma;
         $documento->cuerpo = json_encode($cuerpo, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $documento->fecha_envio = now();
         $documento->estado_envio = 1;
@@ -2674,20 +2687,16 @@ class EscritorioPaciente extends Controller
 
     public function validarFirmaConsentimientoTutor(string $token)
     {
-        $documento = DocumentoFcPaciente::where('otro', 'consentimiento_informado_veterinario')
+        abort_unless(preg_match('/\A[A-Za-z0-9]{64}\z/', $token), 404, 'Firma de tutor no encontrada.');
+        $documento = DocumentoFcPaciente::where('firma_token', $token)
+            ->whereIn('otro', ['consentimiento_informado_veterinario', 'consentimiento_veterinario_plantilla'])
             ->where('estado', 1)
-            ->get()
-            ->first(function ($registro) use ($token) {
-                $cuerpo = json_decode((string) $registro->cuerpo, true);
-                $tokenGuardado = $cuerpo['firma_tutor']['token'] ?? '';
-                return $tokenGuardado !== '' && hash_equals($tokenGuardado, $token);
-            });
+            ->first();
 
-        if (!$documento) {
-            abort(404, 'Firma de tutor no encontrada.');
-        }
-
-        $firmaTutor = json_decode((string) $documento->cuerpo, true)['firma_tutor'];
+        $cuerpo = json_decode((string) $documento?->cuerpo, true) ?: [];
+        $firmaTutor = $cuerpo['firma_tutor'] ?? null;
+        $pdfSha256 = $cuerpo['pdf_sha256'] ?? null;
+        abort_unless(is_string($firmaTutor['token'] ?? null) && hash_equals($firmaTutor['token'], $token), 404, 'Firma de tutor no encontrada.');
         $ficha = FichaAtencion::find($documento->id_ficha_atencion);
         $paciente = Paciente::find($documento->id_paciente);
         $profesional = Profesional::find($documento->id_profesional);
@@ -2699,7 +2708,8 @@ class EscritorioPaciente extends Controller
             'ficha',
             'paciente',
             'profesional',
-            'mascota'
+            'mascota',
+            'pdfSha256'
         ));
     }
 

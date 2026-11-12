@@ -117,7 +117,7 @@
                
 
                 <div class="col-sm-12 col-md-12">
-                    <form action="{{ route('fichaAtencion.registrar_ficha_vet_general') }}" method="POST">
+                    <form id="ficha-veterinaria-general-form" action="{{ route('fichaAtencion.registrar_ficha_vet_general') }}" method="POST">
                         <div class="col-sm-12 col-md-12">
                             <input type="hidden" name="examenes" id="examenes" value="{!! old('examenes') !!}">
                             <input type="hidden" name="examenes_esp" id="examenes_esp" value="{!! old('examenes_esp') !!}">
@@ -148,11 +148,11 @@
                                                 @php
     $seccionesVeterinarias = ($profesional ?? null)?->seccionesFichaVeterinaria() ?? array_keys(config('ficha_veterinaria_secciones'));
 @endphp
-                                                @include('general.secciones_ficha.motivo', ['examenFisicoEnCard' => true, 'ocultarCamposAnamnesis' => true, 'mostrarCampoAnamnesis' => true, 'etiquetaDieta' => 'Alimentación', 'esquemaVacunacionSelector' => true])
+                                                @include('general.secciones_ficha.motivo', ['examenFisicoEnCard' => true, 'ocultarCamposAnamnesis' => true, 'anamnesisVetGeneral' => true])
                                                 <!--Cierre: Formulario /Motivo de la Consulta-->
-                                                @include('general.secciones_ficha.examenfisico', ['ocultarExamenDetallado' => !in_array('examen_detallado', $seccionesVeterinarias, true), 'examenFisicoEnCard' => true])
+                                                @include('general.secciones_ficha.examenfisico', ['examenFisicoEnCard' => true])
                                                 <!--Formulario / Signos vitales y otros-->
-                                                @include('general.secciones_ficha.signos_vitales', ['ocultarSignosVitales' => !in_array('signos_vitales', $seccionesVeterinarias, true)])
+                                                @include('general.secciones_ficha.signos_vitales', ['ocultarSignosVitales' => !in_array('signos_vitales', $seccionesVeterinarias, true), 'omitirTallaImc' => true])
                                                 <!--Cierre: Formulario / Signos vitales y otros-->
                                                 <!-- cierre hospitalizacion -->
 
@@ -163,7 +163,7 @@
                                                 <hr>
 
                                                 <!--Diagnóstico-->
-                                                @include('general.secciones_ficha.diagnostico', ['diagnosticoVeterinarioTexto' => true])
+                                                @include('general.secciones_ficha.diagnostico', ['diagnosticoVeterinarioTexto' => true, 'etiquetaNotasClinicas' => 'Notas internas para la consulta'])
                                                 <!--Cierre: Formulario / Diagnóstico-->
                                             </div>
                                         </div>
@@ -720,49 +720,7 @@
             actualizarTotalesPresupuesto();
             });
 
-        $(function () 
-        {
-            const $bcs = $('#imc');
-            const $estadoNutricional = $('#estado_nutricional');
 
-            $bcs.attr({
-                type: 'number',
-                min: 1,
-                max: 9,
-                step: 1,
-                inputmode: 'numeric',
-                placeholder: '1 a 9'
-            });
-            $bcs.closest('.form-group').find('label').first()
-                .text('Condición corporal (BCS)');
-
-            if (!$bcs.siblings('.bcs-ayuda').length) 
-            {
-                $bcs.after(
-                    '<small class="form-text text-muted bcs-ayuda">' +
-                    'Escala veterinaria 1–9: evaluación visual y por palpación.' +
-                    '</small>'
-                );
-            }
-
-            $estadoNutricional.prop('readonly', true);
-
-            function actualizarEstadoNutricionalBcs() 
-            {
-                const bcs = Number.parseInt($bcs.val(), 10);
-                let estado = '';
-
-                if (bcs >= 1 && bcs <= 3) estado = 'Bajo peso';
-                else if (bcs >= 4 && bcs <= 5) estado = 'Condición ideal';
-                else if (bcs >= 6 && bcs <= 7) estado = 'Sobrepeso';
-                else if (bcs >= 8 && bcs <= 9) estado = 'Obesidad';
-
-                $estadoNutricional.val(estado);
-            }
-
-            $bcs.on('input change', actualizarEstadoNutricionalBcs);
-            actualizarEstadoNutricionalBcs();
-        });
 
     
 

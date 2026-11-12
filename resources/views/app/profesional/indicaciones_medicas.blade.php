@@ -1,9 +1,5 @@
 @extends('template.profesional.template')
 @section('content')
-@php
-    // Plantillas de muestra compartidas con el sidebar de la ficha veterinaria
-    $secciones = require resource_path('views/app/profesional/indicaciones/datos_muestra.php');
-@endphp
 <div class="pcoded-main-container">
     <div class="pcoded-content">
         <!--Header-->
@@ -44,13 +40,16 @@
                                         <label class="floating-label-activo-sm">Categoría</label>
                                         <select class="form-control form-control-sm filtro-documento" data-seccion="{{ $clave }}" data-filtro="categoria">
                                             <option value="">Todas</option>
-                                            @foreach ($seccion['categorias'] as $categoria)
+                                            @foreach ($seccion['categorias_filtro'] as $categoria)
                                                 <option value="{{ $categoria }}">{{ $categoria }}</option>
                                             @endforeach
                                         </select>
                                         {{-- Sugerencias para el campo Categoría del modal; ahí se puede escribir cualquier otra --}}
                                         <datalist id="categorias_{{ $clave }}">
                                             @foreach ($seccion['categorias'] as $categoria)
+                                                <option value="{{ $categoria }}" data-sugerida></option>
+                                            @endforeach
+                                            @foreach (array_diff($seccion['categorias_filtro'], $seccion['categorias']) as $categoria)
                                                 <option value="{{ $categoria }}"></option>
                                             @endforeach
                                         </datalist>
@@ -70,21 +69,21 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($seccion['registros'] as $registro)
-                                            <tr data-seccion="{{ $clave }}" data-titulo="{{ \Illuminate\Support\Str::lower($registro['titulo']) }}" data-categoria="{{ $registro['categoria'] }}" data-tipo="{{ $registro['tipo'] }}"
-                                                data-contenido="{{ $registro['contenido'] ?? '' }}" data-archivo="{{ $registro['archivo'] ?? '' }}" data-logo="{{ $registro['logo'] ?? '' }}">
+                                            <tr data-id="{{ $registro['id'] }}" data-seccion="{{ $clave }}" data-titulo="{{ \Illuminate\Support\Str::lower($registro['titulo']) }}" data-categoria="{{ $registro['categoria'] }}" data-tipo="{{ $registro['tipo'] }}"
+                                                data-contenido="{{ $registro['contenido'] ?? '' }}" data-archivo="{{ $registro['archivo'] ?? '' }}" data-archivo-url="{{ $registro['archivo_url'] }}" data-archivo-tipo="{{ $registro['archivo_tipo'] }}" data-logo="{{ $registro['logo'] ?? '' }}" data-lugar="{{ $registro['id_lugar_atencion'] }}">
                                                 <td class="align-middle">{{ $registro['titulo'] }}</td>
                                                 <td class="align-middle">{{ $registro['categoria'] }}</td>
                                                 <td class="align-middle">{{ $registro['alcance'] === 'personal' ? 'Personal' : 'Compartida' }}</td>
                                                 <td class="align-middle">
                                                     <div class="switch switch-success d-inline m-r-10">
-                                                        <input type="checkbox" id="documento_estado_{{ $registro['id'] }}" @checked($registro['activo'])>
+                                                        <input type="checkbox" id="documento_estado_{{ $registro['id'] }}" @checked($registro['activo']) @disabled(!$registro['propia'])>
                                                         <label for="documento_estado_{{ $registro['id'] }}" class="cr"></label>
                                                     </div>
                                                 </td>
                                                 <td class="align-middle text-left">
                                                     <button type="button" class="btn btn-purple btn-icon" onclick="verIndicacion(this)"><i class="feather icon-eye"></i></button>
-                                                    <button type="button" class="btn btn-danger btn-icon" onclick="eliminarIndicacion(this)"><i class="feather icon-x"></i></button>
-                                                    <button type="button" class="btn btn-warning btn-icon" onclick="editarIndicacion(this)"><i class="feather icon-edit"></i></button>
+                                                    <button type="button" class="btn btn-danger btn-icon" onclick="eliminarIndicacion(this)" @disabled(!$registro['propia'])><i class="feather icon-x"></i></button>
+                                                    <button type="button" class="btn btn-warning btn-icon" onclick="editarIndicacion(this)" @disabled(!$registro['propia'])><i class="feather icon-edit"></i></button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -192,7 +191,7 @@
                                     <div>
                                         <button type="button" class="btn btn-outline-info btn-sm" onclick="$('#editor_logo_archivo').trigger('click')"><i class="feather icon-image"></i> Cambiar logo</button>
                                         <button type="button" class="btn btn-outline-dark btn-sm d-none" id="editor_logo_restablecer" onclick="restablecerLogo()">Usar logo Veterchile</button>
-                                        <input type="file" id="editor_logo_archivo" class="d-none" accept="image/png,image/jpeg,image/svg+xml,image/webp" onchange="cambiarLogo(this)">
+                        <input type="file" id="editor_logo_archivo" class="d-none" accept="image/png,image/jpeg,image/svg+xml,image/webp" onchange="cambiarLogo(this)">
                                     </div>
                                 </div>
                                 <!-- Título del consentimiento, centrado bajo la línea del logo; se completa con el campo Título -->
@@ -223,7 +222,7 @@
                     </div>
                     <div class="tab-pane fade indicaciones-archivo" id="indicacion_panel_archivo" role="tabpanel">
                         <form action="#" class="dropzone" id="indicacion_dropzone">
-                            <div class="dz-message">Arrastra aquí el archivo o haz clic para seleccionarlo<br><small>PDF, Word o imagen. Máximo 5 MB.</small></div>
+                            <div class="dz-message">Arrastra aquí el archivo o haz clic para seleccionarlo<br><small>PDF, DOC, DOCX o imagen. Máximo 5 MB.</small></div>
                         </form>
                         <!-- Visor del archivo subido -->
                         <div class="visor-archivo mt-3 d-none" id="indicacion_visor_archivo"></div>
@@ -281,7 +280,7 @@
 @endsection
 
 @section('page-script')
-<script src="{{ asset('js/documentos_clinicos.js') }}?v=20261110-1"></script>
+<script src="{{ asset('js/documentos_clinicos.js') }}?v=20261111-1"></script>
 <script>
     var filaEnEdicion = null;
     var dropzoneIndicacion = null;
@@ -316,23 +315,29 @@
             dropzoneIndicacion = new Dropzone(zonaArchivo, {
                 url: '#',
                 autoProcessQueue: false,
-                maxFiles: 1,
                 maxFilesize: 5,
-                acceptedFiles: '.pdf,.doc,.docx,image/*',
+                acceptedFiles: '.pdf,.doc,.docx,.png,.jpg,.jpeg,.gif,.webp,.svg',
                 addRemoveLinks: true,
                 dictRemoveFile: 'Quitar',
-                dictMaxFilesExceeded: 'Solo se puede adjuntar un archivo.'
+                dictInvalidFileType: 'Selecciona un PDF, DOC, DOCX o una imagen compatible.',
+                dictFileTooBig: 'El archivo no puede superar los 5 MB.',
+                accept: function (archivo, aceptar) {
+                    this.files.filter(anterior => anterior !== archivo).forEach(anterior => this.removeFile(anterior));
+                    archivo.previewUrl = URL.createObjectURL(archivo);
+                    archivoActual = { archivo, url: archivo.previewUrl, nombre: archivo.name, tipo: archivo.type };
+                    mostrarVisorArchivo($('#indicacion_visor_archivo'), archivoActual);
+                    aceptar();
+                }
             });
-            // Al elegir un archivo se muestra en el visor; al quitarlo, se oculta
-            dropzoneIndicacion.on('addedfile', function (archivo) {
-                if (this.files.length > 1) this.removeFile(this.files[0]);
-                archivoActual = { url: URL.createObjectURL(archivo), nombre: archivo.name, tipo: archivo.type };
-                mostrarVisorArchivo($('#indicacion_visor_archivo'), archivoActual);
+            dropzoneIndicacion.on('error', function (archivo, msj) {
+                this.removeFile(archivo);
+                swal({icon: 'error', text: msj});
             });
-            dropzoneIndicacion.on('removedfile', function () {
+            dropzoneIndicacion.on('removedfile', function (archivo) {
+                if (archivo.previewUrl) URL.revokeObjectURL(archivo.previewUrl);
                 if (this.files.length) return;
-                archivoActual = null;
-                $('#indicacion_visor_archivo').addClass('d-none').empty();
+                archivoActual = filaEnEdicion?.attr('data-tipo') === 'archivo' ? archivoDeFila(filaEnEdicion) : null;
+                mostrarVisorArchivo($('#indicacion_visor_archivo'), archivoActual);
             });
         }
         // El título escrito arriba se refleja en la hoja del consentimiento
@@ -406,14 +411,21 @@
 
     // Suma la categoría a las sugerencias si es nueva
     // Una categoría nueva se suma a las sugerencias del modal y al select del buscador de su tabla
-    function recordarCategoria(categoria) {
-        var lista = $('#categorias_' + seccionActual);
-        var existe = lista.find('option').filter(function () {
-            return this.value.toLowerCase() === categoria.toLowerCase();
-        }).length;
-        if (existe) return;
-        lista.append($('<option>').val(categoria));
-        $('.filtro-documento[data-seccion="' + seccionActual + '"][data-filtro="categoria"]').append($('<option>').val(categoria).text(categoria));
+    function actualizarCategorias(seccion) {
+        const lista = $('#categorias_' + seccion);
+        lista.find('option:not([data-sugerida])').remove();
+        const sugeridas = new Set(lista.find('option').map(function () { return this.value; }).get());
+        const filtro = $('.filtro-documento[data-seccion="' + seccion + '"][data-filtro="categoria"]');
+        const seleccion = filtro.val();
+        const categorias = new Set($('#tabla_' + seccion + ' tbody tr[data-categoria]').map(function () {
+            return this.dataset.categoria;
+        }).get());
+        filtro.find('option').slice(1).remove();
+        categorias.forEach(categoria => {
+            if (!sugeridas.has(categoria)) lista.append($('<option>').val(categoria));
+            filtro.append($('<option>').val(categoria).text(categoria));
+        });
+        filtro.val(categorias.has(seleccion) ? seleccion : filtro.find('option:first').val());
     }
 
     /* ---------- Modal agregar / editar ---------- */
@@ -539,7 +551,7 @@
         var archivo = input.files && input.files[0];
         input.value = '';
         if (!archivo) return;
-        if (!/^image\//.test(archivo.type)) {
+        if (!['image/png', 'image/jpeg', 'image/svg+xml', 'image/webp'].includes(archivo.type)) {
             swal({ title: 'Archivo no válido', text: 'El logo debe ser una imagen (PNG, JPG, SVG o WEBP).', icon: 'error' });
             return;
         }
@@ -722,7 +734,39 @@
         );
     }
 
-    function guardarIndicacion() {
+    const urlPlantillas = @json(route('profesional.plantillas.guardar'));
+    const lugarPlantillas = @json($lugar);
+    async function solicitudPlantilla(url, method, body) {
+        const headers = {'Accept': 'application/json', 'X-CSRF-TOKEN': @json(csrf_token())};
+        if (body && !(body instanceof FormData)) {
+            headers['Content-Type'] = 'application/json';
+            body = JSON.stringify(body);
+        }
+        const respuesta = await fetch(url, {method, headers, body});
+        const datos = await respuesta.json().catch(() => ({}));
+        if (!respuesta.ok || datos.estado !== 1) {
+            throw new Error(Object.values(datos.errors || {}).flat().join('\n') || datos.msj || datos.message || 'No se pudo completar la operación.');
+        }
+        return datos;
+    }
+
+    $('#tabla_indicaciones, #tabla_consentimientos').on('change', 'input[type=checkbox]', async function () {
+        const control = this;
+        control.disabled = true;
+        try {
+            const datos = await solicitudPlantilla(urlPlantillas + '/' + $(control).closest('tr').attr('data-id') + '/estado', 'PATCH', {activo: control.checked});
+            control.checked = datos.activo;
+        } catch (error) {
+            control.checked = !control.checked;
+            swal({icon: 'error', text: error.message});
+        } finally {
+            control.disabled = false;
+        }
+    });
+
+    let guardandoPlantilla = false;
+    async function guardarIndicacion() {
+        if (guardandoPlantilla) return;
         detenerDictado();
         var titulo = $('#indicacion_titulo').val().trim();
         var categoria = $('#indicacion_categoria').val().trim();
@@ -740,23 +784,53 @@
             swal({ title: 'Faltan datos', text: faltan.join(', '), icon: 'error' });
             return;
         }
-        var alcance = $('#indicacion_alcance').val() === 'personal' ? 'Personal' : 'Compartida';
-        var fila = filaEnEdicion || crearFila(seccionActual).appendTo('#tabla_' + seccionActual + ' tbody');
-        fila.attr({
-            'data-titulo': titulo.toLowerCase(),
-            'data-categoria': categoria,
-            'data-tipo': esTexto ? 'texto' : 'archivo',
-            'data-contenido': esTexto ? contenido : '',
-            'data-archivo': esTexto ? '' : archivo,
-            'data-archivo-url': esTexto ? '' : archivoActual.url,
-            'data-archivo-tipo': esTexto ? '' : archivoActual.tipo,
-            'data-logo': esTexto ? $('#editor_logo').attr('src') : ''
-        });
-        fila.find('td:eq(0)').text(titulo);
-        fila.find('td:eq(1)').text(categoria);
-        fila.find('td:eq(2)').text(alcance);
+        const filaAnterior = filaEnEdicion;
+        const seccion = seccionActual;
+        const datos = new FormData();
+        const logo = $('#editor_logo').attr('src');
+        Object.entries({
+            seccion, titulo, categoria, tipo: esTexto ? 'texto' : 'archivo',
+            alcance: $('#indicacion_alcance').val(), contenido: esTexto ? contenido : ''
+        }).forEach(([clave, valor]) => datos.set(clave, valor));
+        if (lugarPlantillas && datos.get('alcance') === 'compartida' && !filaAnterior?.attr('data-lugar')) {
+            datos.set('id_lugar_atencion', lugarPlantillas);
+        }
+        if (esTexto && logo !== (filaAnterior?.attr('data-logo') || LOGO_BASE)) {
+            datos.set('logo', logo === LOGO_BASE ? '' : logo);
+        }
+        if (!esTexto && archivoActual.archivo) datos.set('adjunto', archivoActual.archivo);
 
-        recordarCategoria(categoria);
+        guardandoPlantilla = true;
+        let registro;
+        try {
+            const url = filaAnterior ? urlPlantillas + '/' + filaAnterior.attr('data-id') : urlPlantillas;
+            const respuesta = await solicitudPlantilla(url, 'POST', datos);
+            registro = respuesta.plantilla;
+        } catch (error) {
+            swal({icon: 'error', text: error.message});
+            return;
+        } finally {
+            guardandoPlantilla = false;
+        }
+        const fila = filaAnterior || crearFila(seccion).appendTo('#tabla_' + seccion + ' tbody');
+        fila.attr({
+            'data-id': registro.id,
+            'data-titulo': registro.titulo.toLowerCase(),
+            'data-categoria': registro.categoria,
+            'data-tipo': registro.tipo,
+            'data-contenido': registro.contenido || '',
+            'data-archivo': registro.archivo || '',
+            'data-archivo-url': registro.archivo_url || '',
+            'data-archivo-tipo': registro.archivo_tipo || '',
+            'data-lugar': registro.id_lugar_atencion || '',
+            'data-logo': registro.logo || ''
+        });
+        fila.find('td:eq(0)').text(registro.titulo);
+        fila.find('td:eq(1)').text(registro.categoria);
+        fila.find('td:eq(2)').text(registro.alcance === 'personal' ? 'Personal' : 'Compartida');
+        fila.find('input[type=checkbox]').prop('checked', registro.activo);
+
+        actualizarCategorias(seccion);
         $('#modal_indicacion').modal('hide');
         filtrarIndicaciones(seccionActual);
         swal({ icon: 'success', title: 'Éxito', text: TEXTOS_SECCION[seccionActual].guardado });
@@ -770,10 +844,17 @@
             icon: 'warning',
             buttons: ['Cancelar', 'Eliminar'],
             dangerMode: true
-        }).then(function (acepta) {
+        }).then(async function (acepta) {
             if (!acepta) return;
-            $(boton).closest('tr').remove();
-            filtrarIndicaciones(seccion);
+            const fila = $(boton).closest('tr');
+            try {
+                await solicitudPlantilla(urlPlantillas + '/' + fila.attr('data-id'), 'DELETE');
+                fila.remove();
+                actualizarCategorias(seccion);
+                filtrarIndicaciones(seccion);
+            } catch (error) {
+                swal({icon: 'error', text: error.message});
+            }
         });
     }
 </script>

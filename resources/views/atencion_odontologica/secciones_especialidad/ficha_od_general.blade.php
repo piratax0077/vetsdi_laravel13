@@ -113,7 +113,13 @@
                             </div>
                             <!--Motivo consulta-->
 
-                            @include('atencion_odontologica.generales.motivo_consulta')
+                            @if(!empty($mascota))
+                                <input type="hidden" name="id_mascota" id="id_mascota_fc" value="{{ $mascota->id }}">
+                                @include('general.secciones_ficha.motivo', ['examenFisicoEnCard' => true, 'ocultarCamposAnamnesis' => true, 'anamnesisVetGeneral' => true])
+                                @include('general.secciones_ficha.examenfisico', ['examenFisicoEnCard' => true])
+                                @include('atencion_veterinaria.secciones_especialidad.seccion_antecedentes_veterinarios')
+                            @endif
+                            @include('atencion_odontologica.generales.motivo_consulta', ['bloqueComunVeterinario' => !empty($mascota)])
                             <!--EXAMEN ODONT GENERAL - PARAMETROS DE CONTROL-->
                             <!--ODONTOLOGIA URGENCIA-->
                             @include('atencion_odontologica.generales.control_urgencias')
@@ -145,7 +151,7 @@
                             {{--  <!--CRONICOS / GES / CONFIDENCIAL -->
                             @include('general.secciones_ficha.seccion_cronicos_ges_confidencial')  --}}
                             <!--Diagnóstico-->
-                            @include('general.secciones_ficha.diagnostico')
+                            @include('general.secciones_ficha.diagnostico', ['etiquetaNotasClinicas' => !empty($mascota) ? 'Notas internas para la consulta' : null])
                             <!--Diagnóstico-->
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <div class="card">

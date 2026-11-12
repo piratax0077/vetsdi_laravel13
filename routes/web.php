@@ -1416,7 +1416,20 @@ Route::group([
         Route::post('Configuraciones/Personalizar-Ficha', 'guardar')->name('profesional.personalizar_ficha.guardar');
     });
     // Maqueta (solo front-end) de las indicaciones médicas; la parte funcional se conecta después.
-    Route::view('Configuraciones/Indicaciones-Medicas', 'app.profesional.indicaciones_medicas')->middleware('role:Profesional')->name('profesional.indicaciones_medicas');
+    Route::middleware(['auth', 'role:Profesional'])->controller(\App\Http\Controllers\PlantillaDocumentoVeterinarioController::class)->group(function () {
+        Route::get('Configuraciones/Indicaciones-Medicas', 'index')->name('profesional.indicaciones_medicas');
+        Route::post('Configuraciones/Indicaciones-Medicas/{plantilla?}', 'guardar')->name('profesional.plantillas.guardar');
+        Route::patch('Configuraciones/Indicaciones-Medicas/{plantilla}/estado', 'estado')->name('profesional.plantillas.estado');
+        Route::delete('Configuraciones/Indicaciones-Medicas/{plantilla}', 'eliminar')->name('profesional.plantillas.eliminar');
+        Route::get('Configuraciones/Indicaciones-Medicas/{plantilla}/archivo', 'archivo')->name('profesional.plantillas.archivo');
+        Route::get('Atencion/{hora}/Mis-Documentos/plantillas', 'paraAtencion')->whereNumber('hora')->name('profesional.plantillas.atencion');
+        Route::post('Atencion/Mis-Documentos/emitir', 'emitir')->middleware('throttle:20,1')->name('profesional.plantillas.emitir');
+        Route::post('Atencion/Mis-Documentos/biopsia', 'emitirBiopsia')->middleware('throttle:20,1')->name('profesional.plantillas.biopsia');
+        Route::post('Atencion/Mis-Documentos/consentimiento-personalizado', 'emitirConsentimientoPersonalizado')->middleware('throttle:20,1')->name('profesional.plantillas.consentimiento_personalizado');
+        Route::post('Atencion/Mis-Documentos/indicacion-personalizada', 'emitirIndicacionPersonalizada')->middleware('throttle:20,1')->name('profesional.plantillas.indicacion_personalizada');
+    });
+    Route::get('Atencion/Mis-Documentos/{documento}/firma-consulta', [\App\Http\Controllers\FirmaDocumentoVeterinarioController::class, 'qrConsulta'])
+        ->middleware(['auth', 'role:Profesional', 'throttle:20,1'])->name('profesional.plantillas.firma_consulta');
 
     Route::get('Mis_lugares_atencion', [App\Http\Controllers\EscritorioProfesional::class, 'mis_lugares'])->name('profesional.lugares_atencion');
 
@@ -5406,6 +5419,14 @@ Route::get('/validacion/profesional', [App\Http\Controllers\CertificadoControlle
 Route::get('/validacion/profesional2', [App\Http\Controllers\CertificadoController::class, 'validarProfesional'])->name('validacion_profesional_2');
 Route::get('/validacion/presupuesto/tutor/{token}', [App\Http\Controllers\EscritorioPaciente::class, 'validarFirmaPresupuestoTutor'])->name('validacion.presupuesto.tutor');
 Route::get('/validacion/consentimiento/tutor/{token}', [App\Http\Controllers\EscritorioPaciente::class, 'validarFirmaConsentimientoTutor'])->name('validacion.consentimiento.tutor');
+Route::get('/validacion/consentimiento/profesional/{token}', [\App\Http\Controllers\FirmaDocumentoVeterinarioController::class, 'validarProfesional'])->name('validacion.consentimiento.profesional');
+Route::get('/Veterinaria/Documentos/{documento}/emitido', [\App\Http\Controllers\FirmaDocumentoVeterinarioController::class, 'archivo'])
+    ->middleware('auth')->name('vet.documentos.emitido');
+Route::middleware('signed')->prefix('Veterinaria/Consentimiento/{documento}')->controller(\App\Http\Controllers\FirmaDocumentoVeterinarioController::class)->group(function () {
+    Route::get('firma', 'consulta')->name('vet.firma.consulta');
+    Route::post('firma', 'guardarConsulta')->middleware('throttle:20,1')->name('vet.firma.guardar');
+    Route::get('documento', 'archivoConsulta')->name('vet.firma.archivo');
+});
 
 
 

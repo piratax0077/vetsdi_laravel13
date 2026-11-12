@@ -51,8 +51,7 @@
                                                 @php
                                                     $cuerpoDocumento = json_decode((string) $documento->cuerpo, true) ?: [];
                                                     $firmaTutorDocumento = $cuerpoDocumento['firma_tutor'] ?? null;
-                                                    $esConsentimiento = $documento->otro === 'consentimiento_informado_veterinario';
-                                                @endphp
+                                                    $esConsentimientoPlantilla = $documento->otro === 'consentimiento_veterinario_plantilla';                                                    $esConsentimiento = $esConsentimientoPlantilla || $documento->otro === 'consentimiento_informado_veterinario';                                                    $esIndicacion = $documento->otro === 'indicacion_veterinaria';                                                @endphp
                                                 <tr id="documento-{{ $documento->id }}">
                                                     <td class="text-wrap text-center align-middle">{{ optional($documento->updated_at)->format('d/m/Y') }}</td>
                                                     <td class="align-middle text-center">
@@ -61,21 +60,16 @@
                                                     </td>
                                                     <td class="align-middle text-center">{{ $documento->observacion ?: ($esConsentimiento ? 'Consentimiento informado veterinario' : 'Presupuesto veterinario') }}</td>
                                                     <td class="align-middle text-center">
-                                                        @if($firmaTutorDocumento)
-                                                            <span class="badge badge-success">Firmado</span><br>
-                                                            <small>{{ $firmaTutorDocumento['fecha'] ?? '' }}</small>
+                                                        @if($esIndicacion)                                                            Indicación veterinaria                                                        @elseif($firmaTutorDocumento)                                                            @if($esConsentimientoPlantilla && $documento->firma_token)                                                                <a class="badge badge-success" href="{{ route('validacion.consentimiento.tutor', ['token' => $documento->firma_token]) }}">Firmado</a><br>                                                            @else                                                                <span class="badge badge-success">Firmado</span><br>                                                            @endif                                                            <small>{{ $firmaTutorDocumento['fecha'] ?? '' }}</small>
                                                         @else
                                                             <span class="badge badge-warning">Pendiente de firma</span>
                                                         @endif
                                                     </td>
                                                     <td class="text-center align-middle">
                                                         <a href="{{ asset($documento->url) }}" target="_blank" class="btn btn-info-light-c btn-xxs">
-                                                            <i class="feather icon-file-text"></i> {{ $esConsentimiento ? 'Ver consentimiento' : 'Ver presupuesto' }}
-                                                        </a>
-                                                        @if(!$firmaTutorDocumento)
-                                                            @if($esConsentimiento)
-                                                                <button type="button" class="btn btn-purple btn-xxs" onclick="firmarConsentimientoTutor({{ $documento->id }})">
-                                                                    <i class="fas fa-qrcode"></i> Firmar y autorizar
+                                                            <i class="feather icon-file-text"></i> {{ $esIndicacion ? 'Ver indicación' : ($esConsentimiento ? 'Ver consentimiento' : 'Ver presupuesto') }}                                                        </a>
+                                                        @if($esConsentimientoPlantilla && $firmaTutorDocumento && isset($cuerpoDocumento['adjunto']))                                                            <a class="btn btn-info-light-c btn-xxs" href="{{ route('vet.documentos.emitido', ['documento' => $documento, 'original' => 1]) }}">Ver archivo original</a>                                                        @endif                                                        @if(!$esIndicacion && !$firmaTutorDocumento)                                                            @if($esConsentimiento)
+                                                                <button type="button" class="btn btn-purple btn-xxs" onclick="firmarConsentimientoTutor({{ $documento->id }})">                                                                    <i class="fas fa-qrcode"></i> Firmar y autorizar
                                                                 </button>
                                                             @else
                                                                 <button type="button" class="btn btn-purple btn-xxs" onclick="firmarPresupuestoTutor({{ $documento->id }})">
@@ -128,11 +122,9 @@
 @endsection
 @section('page-script')
     <script>
-        function firmarConsentimientoTutor(idDocumento) {
-            swal({
+        function firmarConsentimientoTutor(idDocumento) {            swal({
                 title: 'Firmar y autorizar consentimiento',
-                text: 'Declaro que revisé el consentimiento y autorizo el procedimiento veterinario. Se generará una firma electrónica con QR y se enviará al profesional.',
-                icon: 'warning',
+                text: 'Declaro que revisé el consentimiento y autorizo el procedimiento veterinario. Se generará una firma electrónica con QR y se enviará al profesional.',                icon: 'warning',
                 buttons: ['Cancelar', 'Firmar y autorizar']
             }).then(function(acepta) {
                 if (!acepta) return;

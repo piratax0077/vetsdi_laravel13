@@ -711,6 +711,7 @@
   function setModoEdicion(idMascota) {
     mascotaEditandoId = idMascota || null;
     $('#mascota_editar_id').val(mascotaEditandoId || '');
+    $('#modal_agregar_dep_nuevo_tipo_desparasitacion, #modal_agregar_dep_nuevo_desparasitacion_realizada_por').prop('disabled', !!mascotaEditandoId);
     if (!@json((bool) auth()->user()?->hasRole('Profesional'))) {
       // Initial identification can be declared at registration; saved clinical data is read-only.
       ['esterilizado', 'fecha_esterilizacion', 'fecha_esterilizacion_desconocida', 'enfermedad_cronica', 'cirugias', 'vacunas', 'ultima_desparasitacion', 'producto_desparasitacion'].forEach(function (campo) {
@@ -1338,6 +1339,11 @@
             $('#modal_agregar_dep_nuevo_viajes').val(mascota.viajes || '');
             $('#modal_agregar_dep_nuevo_ultima_desparasitacion').val(formatearFechaInput(mascota.ultima_desparasitacion));
             $('#modal_agregar_dep_nuevo_producto_desparasitacion').val(mascota.producto_desparasitacion || '');
+            $('#modal_agregar_dep_nuevo_comportamiento').val(mascota.comportamiento || '');
+            const registroDesparas = (Array.isArray(mascota.desparasitaciones_registro) ? mascota.desparasitaciones_registro : []).find(registro =>
+                formatearFechaInput(registro.fecha_dosis) === formatearFechaInput(mascota.ultima_desparasitacion) && registro.antiparasitario === mascota.producto_desparasitacion);
+            $('#modal_agregar_dep_nuevo_tipo_desparasitacion').val(registroDesparas?.tipo || '');
+            $('#modal_agregar_dep_nuevo_desparasitacion_realizada_por').val(registroDesparas?.realizado_por_tipo || '');
             var viveConAnimales = mascota.vive_con_animales;
             $('#modal_agregar_dep_nuevo_vive_con_animales').val(
                 viveConAnimales === true || viveConAnimales === 1 || viveConAnimales === '1'
@@ -2876,6 +2882,7 @@
             $('#modal_agregar_dep_nuevo_fecha_esterilizacion').val('');
             $('#modal_agregar_dep_nuevo_fecha_esterilizacion_desconocida').prop('checked', false);
             $('#modal_agregar_dep_nuevo_enfermedad_cronica').val('');
+            $('#modal_agregar_dep_nuevo_comportamiento, #modal_agregar_dep_nuevo_tipo_desparasitacion, #modal_agregar_dep_nuevo_desparasitacion_realizada_por').val('');
             $('#modal_agregar_dep_nuevo_dieta').val('');
             $('#modal_agregar_dep_nuevo_cirugias').val('');
             $('#modal_agregar_dep_nuevo_vacunas').val('');
@@ -3531,6 +3538,7 @@
                 datos.fecha_esterilizacion_desconocida = fecha_esterilizacion_desconocida ? 1 : 0;
                 datos.fecha_esterilizacion = (esterilizado === '1' && !fecha_esterilizacion_desconocida) ? fecha_esterilizacion : '';
                 datos.enfermedad_cronica = enfermedad_cronica;
+                datos.comportamiento = $('#modal_agregar_dep_nuevo_comportamiento').val();
                 datos.dieta = dieta;
                 datos.cirugias = cirugias;
                 datos.vacunas = vacunas;
@@ -3543,6 +3551,10 @@
                 datos.foto_perfil = foto_perfil;
                 datos.galeria = galeria;
                 datos.observaciones_fotos = observaciones;
+                if (!mascotaId) {
+                    datos.tipo_desparasitacion = $('#modal_agregar_dep_nuevo_tipo_desparasitacion').val();
+                    datos.desparasitacion_realizada_por = $('#modal_agregar_dep_nuevo_desparasitacion_realizada_por').val();
+                }
 
                 $btnRegistrar.data('guardando', true).prop('disabled', true);
 

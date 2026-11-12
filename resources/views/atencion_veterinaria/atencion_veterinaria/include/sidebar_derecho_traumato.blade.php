@@ -115,7 +115,7 @@
                     <div class="card-header-sidebar" id="heading_sugerencias">
                         <h2 class="mb-0">
                         <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_sugerencias" aria-expanded="false" aria-controls="collapse_sugerencias"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                            AYUDENOS A MEJORAR
+                            AYÚDENOS A MEJORAR
                         </button>
                         </h2>
                     </div>

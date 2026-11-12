@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\{ConConsentimientosPcte, DocumentoLaboratorioMascota, FichaAtencion, FichaVeterinariaGeneral, Mascota};
+use App\Models\{ConConsentimientosPcte, DocumentoFcPaciente, DocumentoLaboratorioMascota, FichaAtencion, FichaVeterinariaGeneral, Mascota};
 use App\Support\DenticionVeterinaria;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -56,6 +56,16 @@ class FichaVeterinariaUnica
                 'estado' => 'Emitido',
                 'url' => route('pdf.informe_medico', ['id_informe_medico' => $informe->id]),
             ]));
+        }
+        if ($usuario = auth()->id()) {
+            $documentos = $documentos->concat(DocumentoFcPaciente::indicacionesMascota($mascota->id, $usuario)->get()
+                ->map(fn ($documento) => [
+                    'tipo' => 'Indicación veterinaria',
+                    'nombre' => $documento->observacion ?: $documento->documento,
+                    'fecha' => $this->fecha($documento->getRawOriginal('fecha_envio')),
+                    'estado' => 'Emitida',
+                    'url' => route('vet.documentos.emitido', $documento),
+                ]));
         }
         $documentos = $documentos->map(function ($documento) {
             $documento['fecha'] = $this->fecha($documento['fecha'] ?? null);

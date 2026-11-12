@@ -25,8 +25,22 @@ class GuardarFichaVeterinaria
             'descripcion_hipotesis' => 'required|string',
         ], ['descripcion_hipotesis.required' => 'El diagnóstico es obligatorio.'])->validate();
 
+        $datosInyecciones = $request->validate([
+            'nuevas_inyecciones' => 'sometimes|array|max:20',
+            'nuevas_inyecciones.*' => 'required|array:medicamento,dosis,via,observaciones,procedimiento,precio_medicamento,precio_procedimiento,registro',
+            'nuevas_inyecciones.*.medicamento' => 'required|string|max:255',
+            'nuevas_inyecciones.*.dosis' => 'required|string|max:120',
+            'nuevas_inyecciones.*.via' => 'required|string|max:120',
+            'nuevas_inyecciones.*.observaciones' => 'nullable|string|max:1000',
+            'nuevas_inyecciones.*.procedimiento' => 'required_with:nuevas_inyecciones.*.registro|string|max:255',
+            'nuevas_inyecciones.*.precio_medicamento' => 'required_with:nuevas_inyecciones.*.registro|integer|min:0|max:999999999',
+            'nuevas_inyecciones.*.precio_procedimiento' => 'required_with:nuevas_inyecciones.*.registro|integer|min:0|max:999999999',
+            'nuevas_inyecciones.*.registro' => 'sometimes|string|size:32|regex:/\A[0-9a-f]+\z/',
+        ]);
+        $inyecciones = $datosInyecciones['nuevas_inyecciones'] ?? [];
+
         $imagenes = $this->validarImagenes($request);
-        return DB::transaction(function () use ($request, $idProfesional, $especialidad, $imagenes) {
+        return DB::transaction(function () use ($request, $idProfesional, $especialidad, $imagenes, $inyecciones) {
             $hora = HoraMedica::whereKey($request->input('hora_medica'))->lockForUpdate()->firstOrFail();
             abort_unless((int) $hora->id_profesional === $idProfesional && $hora->id_mascota, 403);
             $mascota = \App\Models\Mascota::whereKey($hora->id_mascota)->lockForUpdate()->firstOrFail();
@@ -74,7 +88,21 @@ class GuardarFichaVeterinaria
             $detalle = FichaVeterinariaGeneral::where('id_fichas_atenciones', $ficha->id)->latest('id')->first()
                 ?? new FichaVeterinariaGeneral();
             $anteriores = json_decode($detalle->datos ?? '{}', true) ?: [];
-            $datos = array_replace($anteriores, $request->except(['_token', '_method', 'input_lista_imagenes']));
+            $datos = array_replace($anteriores, $request->except(['_token', '_method', 'input_lista_imagenes', 'inyecciones_consulta', 'nuevas_inyecciones']));
+            if ($inyecciones) {
+                $registros = collect($anteriores['inyecciones_consulta'] ?? [])->pluck('registro')->filter()->flip();
+                $datos['inyecciones_consulta'] = $anteriores['inyecciones_consulta'] ?? [];
+                foreach ($inyecciones as $inyeccion) {
+                    $registro = $inyeccion['registro'] ?? null;
+                    if ($registro && $registros->has($registro)) {
+                        continue;
+                    }
+                    $datos['inyecciones_consulta'][] = $inyeccion;
+                    if ($registro) {
+                        $registros->put($registro, true);
+                    }
+                }
+            }
             $datos['especialidad_veterinaria'] = $especialidad;
             $datos['id_mascota'] = $hora->id_mascota;
             $datos['id_paciente_fc'] = $hora->id_paciente;

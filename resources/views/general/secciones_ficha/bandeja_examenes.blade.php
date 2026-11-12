@@ -4,6 +4,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <h4 class="text-c-blue mt-3 f-20 mb-0">Exámenes</h4>
             </div>
+            @empty($examenesUnificadosVet)
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <ul class="nav nav-tabs-secciones mb-2" id="pediatria_general" role="tablist">
                     <li class="nav-item-secciones">
@@ -20,6 +21,7 @@
                     </li>
                 </ul>
             </div>
+            @endempty
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 {{-- El visor es compartido por todas las pestañas de exámenes. --}}
                         <div id="lab-vet-visor" class="lab-vet-visor mb-3 d-none" aria-live="polite">
@@ -31,6 +33,10 @@
                             </div>
                             <div id="lab-vet-visor-contenido" class="lab-vet-visor-contenido"></div>
                         </div>
+                @if(!empty($examenesUnificadosVet))
+                    @include('atencion_veterinaria.include.examenes_resultados')
+                    @include('general.secciones_ficha.documentos_laboratorio_mascota')
+                @else
                 <div class="tab-content" id="ped-contenido">
                     <!--BANDEJA DE ENTRADA-->
                     <div class="tab-pane fade show active" id="bandeja-entrada" role="tabpanel" aria-labelledby="bandeja-entrada-tab">
@@ -358,6 +364,7 @@
                     </div>
 
                 </div>
+                @endif
             </div>
         </div>
     </div>
@@ -589,6 +596,7 @@
 
     function carga_bandeja_entrada()
     {
+        if (document.getElementById('examenes-resultados-vet')) return;
         $('#bandeja_entrada tbody').html('');
         carga_bandeja_entrada_examen_especialidad();
         carga_bandeja_entrada_resultado_examen();
@@ -711,6 +719,7 @@
     {{-- BANDEJA EXAMENES ESPECIALES --}}
     function carga_bandeja_revisados()
     {
+        if (document.getElementById('examenes-resultados-vet')) return;
         let url = "{{ route('examen.especialidad.ver.registros') }}";
         var id_paciente = $('#id_paciente_fc').val();
         var estado = 6;
@@ -774,6 +783,7 @@
     {{-- BANDEJA EXAMENES RADIOLOGIA --}}
     function carga_bandeja_radiologia()
     {
+        if (document.getElementById('examenes-resultados-vet')) return;
         let url = "{{ route('resultado.examen.ver') }}";
         var id_paciente = $('#id_paciente_fc').val();
         var estado = 1;
@@ -837,6 +847,7 @@
     {{-- BANDEJA EXAMENES GENERALES --}}
     function carga_bandeja_general()
     {
+        if (document.getElementById('examenes-resultados-vet')) return;
         let url = "{{ route('resultado.examen.ver') }}";
         var id_paciente = $('#id_paciente_fc').val();
         var estado = 1;

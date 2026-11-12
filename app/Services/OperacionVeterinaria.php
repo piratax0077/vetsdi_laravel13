@@ -221,6 +221,15 @@ class OperacionVeterinaria
         $d = $r->validate(['tipo_registro'=>'sometimes|in:veterinaria,enfermeria,cirugia,control,evolucion', 'procedimiento'=>'nullable|required_if:tipo_registro,cirugia|string|max:150', 'internacion_id'=>'required|integer', 'fecha'=>'required|date|before_or_equal:now', 'observaciones'=>'required|string|max:20000', 'peso'=>'nullable|numeric|gt:0|max:99999', 'temperatura'=>'nullable|numeric|min:0|max:99']);
         $internacion = $this->registro('vet_internaciones', $i->id, (int)$d['internacion_id']);
         $d += $r->validate(['frecuencia_cardiaca'=>'nullable|integer|min:1|max:600','frecuencia_respiratoria'=>'nullable|integer|min:1|max:300','dolor'=>'nullable|integer|min:0|max:10']);
+        $presion = $r->validate([
+            'presion_pas' => 'nullable|required_with:presion_pad,presion_metodo|integer|min:1|max:999',
+            'presion_pad' => 'nullable|required_with:presion_pas,presion_metodo|integer|min:1|max:999|lte:presion_pas',
+            'presion_metodo' => 'nullable|string|max:255',
+        ]);
+        if (isset($presion['presion_pas'], $presion['presion_pad'])) {
+            $presion['presion_pam'] = round(($presion['presion_pas'] + 2 * $presion['presion_pad']) / 3, 1);
+        }
+        $d += $presion;
         $this->exigir($internacion->estado === 'hospitalizada', 'internacion_id', 'Solo puede agregar evolución a una internación activa.');
         $this->exigir(Carbon::parse($d['fecha'])->gte(Carbon::parse($internacion->ingreso)), 'fecha', 'La evolución debe ser posterior al ingreso.');
         $d['fecha'] = Carbon::parse($d['fecha'])->format('Y-m-d H:i:s');

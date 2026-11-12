@@ -7,7 +7,7 @@
     ));
 @endphp
 <div class="form-group col-12">
-    <label class="floating-label-activo-sm" for="examen_fisico">Examen Físico</label>
+    <label class="floating-label-activo-sm" for="examen_fisico">{{ $etiquetaExamenFisico ?? 'Examen Físico' }}</label>
     {{-- Con filasExamenFisico el campo queda siempre de ese alto; si no, se abre al escribir --}}
     <textarea class="form-control caja-texto form-control-sm"
         @if (!empty($filasExamenFisico)) rows="{{ $filasExamenFisico }}" data-fixed-rows @else rows="1" onfocus="this.rows=3" onblur="this.rows=1" @endif

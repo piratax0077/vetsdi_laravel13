@@ -11,6 +11,13 @@ class DocumentoFcPacienteController extends Controller
 {
     public function registrar_enviar(Request $request)
     {
+        if (in_array($request->input('otro'), [
+            \App\Services\DocumentoVeterinarioEmitido::INDICACION,
+            \App\Services\DocumentoVeterinarioEmitido::CONSENTIMIENTO,
+        ], true)) {
+            return response()->json(['estado' => 0, 'msj' => 'Emite este documento desde la ficha veterinaria.'], 422);
+        }
+
         $datos = array();
         $error = array();
         $valido = 1;

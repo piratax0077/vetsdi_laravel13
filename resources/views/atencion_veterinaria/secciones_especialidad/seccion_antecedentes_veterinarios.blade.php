@@ -1,141 +1,5 @@
 <script src="{{ asset('js/plugins/Chart.min.js') }}"></script>
 
-<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-    <div class="card-a" style=" border: 1px solid #6c9bd5;">
-        <div class="card-header-a" id="cgc" >
-        <button class="accor-closed btn pt-1 pb-0 pl-1 btn-block text-left collapsed" type="button"  data-toggle="collapse" data-target="#cgc-c" aria-expanded="false" aria-controls="cgc-c">
-              Nuevo Antecedente / Crónicos / Vacunas y Desparasitación
-            </button>
-        </div>
-        <div id="cgc-c" class="collapse show" aria-labelledby="cgc" data-parent="#cgc">
-            <div class="card-body-aten-a">
-                @isset($seccionesVeterinarias)
-                    <div class="form-group">
-                        <label class="floating-label-activo-sm" for="resumen_cronicos">Crónicos</label>
-                        <textarea class="form-control caja-texto form-control-sm" rows="2" maxlength="5000"
-                            name="resumen_cronicos" id="resumen_cronicos">{{ old('resumen_cronicos', data_get($fichaVeterinariaGeneralData ?? [], 'resumen_cronicos')) }}</textarea>
-                    </div>
-                @endisset
-                <div class="row">
-                    <!--NUEVO ANTECEDENTE-->
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 {{ isset($seccionesVeterinarias) && !in_array('antecedentes', $seccionesVeterinarias, true) ? 'd-none' : '' }}">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="form-group">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" onchange="ag_antecendente();" id="check_antecedentes" name="check_antecedentes" value="{!! old('check_antecedentes') !!}">
-                                        <label class="custom-control-label" for="check_antecedentes">Agregar antecedente</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" hidden>
-                            <div class="col-sm-12">
-                                <div class="alert alert-warning mx-auto" role="alert">
-                                    <table class="table table-borderless mt-0 mb-0">
-                                        <tbody>
-                                            <tr id="tr_obesidad">
-                                                <td class="align-middle pb-1 pt-1">Obesidad</td>
-                                                <td class="align-middle pb-1 pt-1">
-                                                    <button type="button" class="btn  btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="Quitar">
-                                                        <i class="feather icon-x"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr id="tr_diabetes">
-                                                <td class="align-middle pb-1 pt-1">Diabetes</td>
-                                                <td class="align-middle pb-1 pt-1">
-                                                    <button type="button" class="btn  btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="Quitar">
-                                                        <i class="feather icon-x"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr id="tr_hipertesion">
-                                                <td class="align-middle pb-1 pt-1">Hipertensión</td>
-                                                <td class="align-middle pb-1 pt-1">
-                                                    <button type="button" class="btn  btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="Quitar">
-                                                        <i class="feather icon-x"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- CRONICO --}}
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="form-group">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" onchange="es_cronico();" id="enf_cronico" name="enf_cronico" data-toggle="modal" data-target="#form_enfermo_cronico" value="{!! old('enf_cronico') !!}">
-                                        <label class="custom-control-label" for="enf_cronico">Control crónico</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" hidden>
-                            <div class="col-sm-12">
-                                <div class="alert alert-warning mx-auto" role="alert">
-                                    <table class="table table-borderless mt-0 mb-0">
-                                        <tbody>
-                                            <tr id="tr_obesidad">
-                                                <td class="align-middle pb-1 pt-1">Obesidad</td>
-                                                <td class="align-middle pb-1 pt-1">
-                                                    <button type="button" class="btn  btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="Quitar">
-                                                        <i class="feather icon-x"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr id="tr_diabetes">
-                                                <td class="align-middle pb-1 pt-1">Diabetes</td>
-                                                <td class="align-middle pb-1 pt-1">
-                                                    <button type="button" class="btn  btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="Quitar">
-                                                        <i class="feather icon-x"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr id="tr_hipertesion">
-                                                <td class="align-middle pb-1 pt-1">Hipertensión</td>
-                                                <td class="align-middle pb-1 pt-1">
-                                                    <button type="button" class="btn  btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="Quitar">
-                                                        <i class="feather icon-x"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- Vacunación y desparasitación veterinaria --}}
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 {{ isset($seccionesVeterinarias) && !in_array('vacunas', $seccionesVeterinarias, true) ? 'd-none' : '' }}">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="form-group">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input"
-                                            id="abrir_vacunacion_desparasitacion"
-                                            onchange="if (this.checked) { abrirVacunacionVeterinaria(); } else { cerrarVacunacionVeterinaria(); }">
-                                        <label class="custom-control-label" for="abrir_vacunacion_desparasitacion"
-                                            onclick="setTimeout(function () { var control = document.getElementById('abrir_vacunacion_desparasitacion'); if (control && control.checked) abrirVacunacionVeterinaria(); }, 0)">
-                                            Vacunas y desparasitación
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!-- MODAL CRONICO -->
 <!--******* Modal: ¿Enfermo crónico? *******-->
 <div id="form_enfermedad_cronica" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="form_enfermedad_cronica" aria-hidden="true">
@@ -401,7 +265,7 @@
                                 <input type="hidden" value="" id="id-antecedente-m">
                                 <input type="hidden" value="" id="tipo-antecedente-m">
                                 <input type="hidden" value="{{ $profesional->rut }}" id="user-rut">
-                                <input type="hidden" value="{{ $profesional->Especialidad()->first()->nombre }}" id="user-profesion">
+                                <input type="hidden" value="{{ $profesional->Especialidad()->first()?->nombre ?? 'Veterinaria' }}" id="user-profesion">
                                 <input type="hidden" value="{{ $profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos }}" id="user-profesional">
                                 <input type="hidden" value="{{Auth::user()->id}}" id="user-id">
                                 <button type="button" class="btn btn-sm btn-info text-center" id="agregar-antecedente" onclick="agregarAntecedente()"><i class="feather icon-save"></i> Agregar antecedentes</button>
@@ -672,14 +536,12 @@
     /** CRONICO */
     function es_cronico()
     {
-        if (!$('#enf_cronico').prop('checked')) return;
-        cambiar_enfermedad_cronica();
-        $('#form_enfermedad_cronica').modal('show');
+        $('#form_enfermedad_cronica').modal($('#enf_cronico').prop('checked') ? 'show' : 'hide');
     }
 
     function cambiar_enfermedad_cronica()
     {
-        window.controlCronicoVet.cambiar();
+        window.controlCronicoVet?.cambiar();
         ver_medicamento_cronico();
     }
 
@@ -2048,6 +1910,7 @@
     }
 
     $(document)
+        .on('shown.bs.modal', '#form_enfermedad_cronica', cambiar_enfermedad_cronica)
         .on('hide.bs.modal hidden.bs.modal', '#m_agregar_antecedente', function () {
             restablecerInterruptor('#check_antecedentes');
         })
@@ -2109,7 +1972,10 @@
                                         @foreach (\App\Models\EnfermedadCronica::query()->orderBy('Nombre')->get(['id', 'Nombre']) as $patologiaCronica)
                                             <option value="{{ $patologiaCronica->Nombre }}" data-id="{{ $patologiaCronica->id }}">{{ $patologiaCronica->Nombre }}</option>
                                         @endforeach
+                                        <option value="__otro__">Otra Patología Crónica (Especifique)</option>
                                     </select>
+                                    <input type="text" class="form-control form-control-sm mt-2 d-none" id="nombre_otra_enfermedad"
+                                        aria-label="Nombre de la otra patología crónica" placeholder="Escriba la patología crónica..." maxlength="255" disabled>
                                 </td>
                             </tr>
                             <tr>
@@ -2289,6 +2155,34 @@
         });
     }
 
+    function actualizarOtraPatologiaCronica() {
+        const otra = $('#m_agregar_antecedente #nombre').val() === '__otro__';
+        $('#nombre_otra_enfermedad').toggleClass('d-none', !otra).prop('disabled', !otra);
+        if (!otra) $('#nombre_otra_enfermedad').val('');
+    }
+
+    $(document).on('change', '#m_agregar_antecedente #nombre', function () {
+        actualizarOtraPatologiaCronica();
+        if (this.value === '__otro__') $('#nombre_otra_enfermedad').trigger('focus');
+    });
+
+    function nombrePatologiaParaGuardar(tipo) {
+        const nombre = $('#m_agregar_antecedente #nombre').val();
+        if (tipo === '1' && !nombre) {
+            msg('Antecedente', 'Seleccione una patología crónica.', 'danger');
+            return null;
+        }
+        if (nombre !== '__otro__') return nombre;
+
+        const otra = $('#nombre_otra_enfermedad').val().trim();
+        if (!otra || /[<>]/.test(otra)) {
+            msg('Antecedente', 'Ingrese el nombre de la patología crónica en texto simple.', 'danger');
+            $('#nombre_otra_enfermedad').trigger('focus');
+            return null;
+        }
+        return otra;
+    }
+
     const agregarAntecedente = () => {
 
         $('#title-antecedente').html('Agregar Antecedente');
@@ -2298,9 +2192,10 @@
         var tipo = $('#tipo-antecedente-m').val();
 
         /* CAMPOS */
-        data.nombre = $('#nombre').val();
-        data.nombre_enfermedad_cronica = $('#nombre').val();
-        data.id_enfermedad_cronica = $('#nombre option:selected').data('id') || '';
+        data.nombre = nombrePatologiaParaGuardar(tipo);
+        if (tipo === '1' && !data.nombre) return;
+        data.nombre_enfermedad_cronica = data.nombre;
+        data.id_enfermedad_cronica = $('#m_agregar_antecedente #nombre option:selected').data('id') || '';
         data.comentario = $('#comentario').val();
         data.procedimiento = $('#procedimiento').val();
         data.nombre_medicamento_cronico = $('#nombre_medicamento_cronico').val();
@@ -2328,6 +2223,7 @@
                 if(resp.estado==1)
                 {
                     $('#nombre').val('');
+                    actualizarOtraPatologiaCronica();
                     $('#comentario').val('');
                     $('#procedimiento').val('');
                     $('#nombre_medicamento_cronico').val('');
@@ -2387,6 +2283,7 @@
                         {
                             case '1':
                                 $('#listado_patologias_paciente').empty();
+                                const textoSeguro = valor => $('<span>').text(valor ?? '').html();
                                 head_ =`
                                     <tr>
                                         <th>Nombre</th>
@@ -2398,14 +2295,14 @@
                                 `;
                                 html_ +=`
                                     <tr>
-                                        <td>${e.antecedente_data.nombre}</td>
-                                        <td>${e.antecedente_data.comentario}</td>
-                                        <td>${e.antecedente_data.profesional} <br/>${e.antecedente_data.rut_responsable}</td>
-                                        <td>${e.antecedente_data.fecha_regitro}</td>
+                                        <td>${textoSeguro(e.antecedente_data.nombre)}</td>
+                                        <td>${textoSeguro(e.antecedente_data.comentario)}</td>
+                                        <td>${textoSeguro(e.antecedente_data.profesional)} <br/>${textoSeguro(e.antecedente_data.rut_responsable)}</td>
+                                        <td>${textoSeguro(e.antecedente_data.fecha_regitro)}</td>
                                         <td>${permiso_}</td>
                                     </tr>
                                 `;
-                                html_patologias += `<li>${e.antecedente_data.nombre}</li>`;
+                                html_patologias += `<li>${textoSeguro(e.antecedente_data.nombre)}</li>`;
                             break;
                             case '2':
                                 head_ =`
@@ -2611,7 +2508,12 @@
                 {
                     $('#procedimiento').val(resp.registros.antecedente_data.procedimiento);
                     $('#comentario').val(resp.registros.antecedente_data.comentario);
-                    $('#nombre').val(resp.registros.antecedente_data.nombre);
+                    const $nombre = $('#m_agregar_antecedente #nombre').val(resp.registros.antecedente_data.nombre);
+                    if ($('#tipo-antecedente-m').val() === '1' && !$nombre.val() && resp.registros.antecedente_data.nombre) {
+                        $nombre.val('__otro__');
+                        $('#nombre_otra_enfermedad').val(resp.registros.antecedente_data.nombre);
+                    }
+                    actualizarOtraPatologiaCronica();
                     $('#fecha').val(resp.registros.antecedente_data.fecha);
                     $('#nombre_medicamento_cronico').val(resp.registros.antecedente_data.nombre_medicamento_cronico);
                     $('#dosis').val(resp.registros.antecedente_data.dosis);
@@ -2637,9 +2539,10 @@
 
         /* CAMPOS */
         data.id = $('#id-antecedente-m').val();
-        data.nombre = $('#nombre').val();
-        data.nombre_enfermedad_cronica = $('#nombre').val();
-        data.id_enfermedad_cronica = $('#nombre option:selected').data('id') || '';
+        data.nombre = nombrePatologiaParaGuardar(tipo);
+        if (tipo === '1' && !data.nombre) return;
+        data.nombre_enfermedad_cronica = data.nombre;
+        data.id_enfermedad_cronica = $('#m_agregar_antecedente #nombre option:selected').data('id') || '';
         data.comentario = $('#comentario').val();
         data.procedimiento = $('#procedimiento').val();
         data.nombre_medicamento_cronico = $('#nombre_medicamento_cronico').val();
@@ -2675,6 +2578,7 @@
 
                     $('#id-antecedente-m').val('');
                     $('#nombre').val('');
+                    actualizarOtraPatologiaCronica();
                     $('#comentario').val('');
                     $('#procedimiento').val('');
                     $('#nombre_medicamento_cronico').val('');
@@ -2710,6 +2614,7 @@
 
         $('#id-antecedente-m').val('');
         $('#nombre').val('');
+        actualizarOtraPatologiaCronica();
         $('#comentario').val('');
         $('#procedimiento').val('');
         $('#nombre_medicamento_cronico').val('');

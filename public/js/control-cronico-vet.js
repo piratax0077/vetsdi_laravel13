@@ -14,7 +14,7 @@
     let peticionHistorial;
 
     function parametros() {
-        return {id_ficha_atencion: $('#id_fc').val(), condicion: selector.val(), otra: otra.val().trim()};
+        return {id_ficha_atencion: $('#id_fc').val(), condicion: selector.val(), otra: (otra.val() || '').trim()};
     }
 
     function limpiarHistorial() {
@@ -26,7 +26,10 @@
     }
 
     function cambiar() {
-        const condicion = selector.val();
+        const valorSeleccionado = selector.val();
+        const condicion = Object.hasOwn(config.catalogo, valorSeleccionado) ? valorSeleccionado : selector.find('option').first().val();
+        if (!condicion) return;
+        selector.val(condicion);
         const [nombre, metricas] = config.catalogo[condicion];
         modal.find('#titulo-control-vet').text('Control · ' + nombre);
         modal.find('#cronico-vet-otra-grupo').toggleClass('d-none', condicion !== 'otra');

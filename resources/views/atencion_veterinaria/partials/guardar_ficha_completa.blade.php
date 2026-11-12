@@ -25,6 +25,7 @@
                     const errores = Object.values(resultado.errors || {}).flat().join('\n');
                     throw new Error(errores || resultado.mensaje || resultado.message || 'No se pudo guardar la ficha.');
                 }
+                $(form).trigger('fichaVeterinariaGuardada', [datos]);
                 swal({title: 'Ficha guardada', text: resultado.mensaje, icon: 'success'});
             } catch (error) {
                 swal({title: 'No se pudo guardar', text: error.message, icon: 'error'});

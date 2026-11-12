@@ -10,7 +10,7 @@
                 <div class="accordion" id="accordion_side_bar">
 
 
-                  <div class="accordion" id="accordion_side_bar">
+                  <div class="accordion">
                         @include('general.sidebar.seccion_consentimientos')
                         <!-- SECCION CONSENTIMIENTOS -->
                   </div>
@@ -28,9 +28,13 @@
                         <div class="card-body-sidebar">
                             <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="icirugia()";>+ Indicaciones post cirugía En General</button>
                             <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="ind_rge()";>+ Recomendaciones Paciente con RGE</button>
+                            @include('atencion_veterinaria.include.boton_indicacion_personalizada')
                         </div>
                     </div>
                     @include("general.modal.m_cuidados_cirugia")
+                    @if(!empty($mascota) && !empty($hora_medica->id) && !empty($profesional))
+                        @include('atencion_veterinaria.include.consentimiento_biopsia', ['indicacionPersonalizada' => true])
+                    @endif
                 </div>
                 <div class="card-sidebar">
                     <div class="card-header-sidebar" id="heading_hosp">

@@ -74,7 +74,7 @@ class ResumenMascotaFicha
             }
         }
 
-        return 'Sin registro';
+        return trim((string) $mascota->comportamiento) ?: 'Sin registro';
     }
 
     private static function tieneEnfermedadCronica($texto): bool

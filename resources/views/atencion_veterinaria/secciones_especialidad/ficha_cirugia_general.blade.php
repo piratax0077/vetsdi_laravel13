@@ -75,7 +75,11 @@
                                         <!--Cierre: Formulario / Menor de edad-->
 
                                         <!--Motivo consulta-->
-                                        @include('general.secciones_ficha.motivo')
+                                        @include('general.secciones_ficha.motivo', ['examenFisicoEnCard' => true, 'ocultarCamposAnamnesis' => true, 'anamnesisVetGeneral' => true])
+                                        @if(!empty($mascota))
+                                            <input type="hidden" name="id_mascota" id="id_mascota_fc" value="{{ $mascota->id }}">
+                                        @endif
+                                        @include('general.secciones_ficha.examenfisico', ['examenFisicoEnCard' => true])
 
 										<!--CIRUGIA GENERAL-->
                                         @include('general.secciones_ficha.cirugia_general.cirugia_adulto')
@@ -103,12 +107,12 @@
                                         <!-- cierre control post qx -->
 
                                         <!-- ges -->
-                                        @include('general.secciones_ficha.seccion_cronicos_ges_confidencial')
+                                        @include('atencion_veterinaria.secciones_especialidad.seccion_antecedentes_veterinarios')
                                         <!-- cierre ges -->
                                         <hr>
 
                                         <!-- Diagnóstico -->
-                                        @include('general.secciones_ficha.diagnostico')
+                                        @include('general.secciones_ficha.diagnostico', ['etiquetaNotasClinicas' => 'Notas internas para la consulta'])
                                         <!-- cierre Diagnóstico -->
                                     </div>
                                 </div>
@@ -941,6 +945,16 @@
         };
 
         var lista_imagenes = {};
+        Dropzone.options.misImagenes = {
+            url: "{{ route('profesional.imagen.carga') }}",
+            headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+            acceptedFiles: '.jpg,.jpeg,.png',
+            addRemoveLinks: true,
+            init: function () {
+                this.on('success', () => cargar_lista_imagenes(this, 'examen_fisico'));
+                this.on('removedfile', () => cargar_lista_imagenes(this, 'examen_fisico'));
+            }
+        };
         function cargar_lista_imagenes(obj_dropzone, alias_examen)
         {
             // console.log('--------------cargar_lista_imagenes----------------------');
@@ -953,17 +967,16 @@
                     if(value.xhr !== undefined)
                     {
                         var img_temp = JSON.parse(value.xhr.response);
-                        lista_imagenes[alias_examen][index] = [
-                            url=img_temp.img.url,
-                            nombre_origian= img_temp.img.original_file_name,
-                            nombre_img = img_temp.img.nombre_img,
-                            file_extension = img_temp.img.file_extension,
-                        ];
-                        $('#input_lista_imagenes').val('');
-                        $('#input_lista_imagenes').val(JSON.stringify(lista_imagenes));
+                        lista_imagenes[alias_examen].push([
+                            img_temp.img.url,
+                            img_temp.img.original_file_name,
+                            img_temp.img.nombre_img,
+                            img_temp.img.file_extension,
+                        ]);
                     }
                 }
             });
+            $('#input_lista_imagenes').val(JSON.stringify(Object.values(lista_imagenes).flat()));
 
 
         }

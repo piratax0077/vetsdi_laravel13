@@ -147,6 +147,12 @@
                             onclick="cons_eutan()">
                             + Consentimiento para eutanasia
                         </button>
+                        @if(!empty($mascota) && !empty($hora_medica->id) && !empty($profesional))
+                            <button type="button" class="btn btn-sm btn-info btn-block text-left"
+                                data-toggle="modal" data-target="#modal_consentimiento_biopsia">+ Consentimiento para biopsia</button>
+                            <button type="button" class="btn btn-sm btn-info btn-block text-left"
+                                data-toggle="modal" data-target="#modal_consentimiento_personalizado_vet">+ Consentimiento personalizado</button>
+                        @endif
                         <button type="button" class="btn btn-sm btn-info btn-block text-left"
                             onclick="cons_revtto()">
                             + Revocación de consentimiento
@@ -158,6 +164,33 @@
                     </div>
                 </div>
             </div>
+            @if(!empty($mascota) && !empty($hora_medica->id) && !empty($profesional))
+                @include('atencion_veterinaria.include.consentimiento_biopsia')
+                @include('atencion_veterinaria.include.consentimiento_biopsia', ['consentimientoPersonalizado' => true])
+                @include('atencion_veterinaria.include.sidebar_mis_documentos', [
+                    'panelDocumentosId' => 'collapse_mis_documentos_atencion',
+                    'acordeonDocumentos' => '#accordion_formularios_atencion',
+                ])
+                <div class="card-sidebar">
+                    <div class="card-header-sidebar" id="heading_indicaciones_pacientes_atencion">
+                        <h2 class="mb-0">
+                            <button type="button" class="btn btn-light btn-block text-left collapsed" data-toggle="collapse"
+                                data-target="#collapse_indicaciones_pacientes_atencion" aria-expanded="false" aria-controls="collapse_indicaciones_pacientes_atencion">
+                                <i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
+                                <span class="sb-acordeon__icono"><i class="feather icon-clipboard"></i></span>
+                                <span class="sb-acordeon__titulo">INDICACIONES A PACIENTES</span>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse_indicaciones_pacientes_atencion" class="collapse"
+                        aria-labelledby="heading_indicaciones_pacientes_atencion" data-parent="#accordion_formularios_atencion">
+                        <div class="card-body-sidebar">
+                            @include('atencion_veterinaria.include.boton_indicacion_personalizada')
+                        </div>
+                    </div>
+                </div>
+                @include('atencion_veterinaria.include.consentimiento_biopsia', ['indicacionPersonalizada' => true])
+            @endif
             <div class="card-sidebar">
                 <div class="card-header-sidebar" id="heading_form_notificaciones">
                     <h2 class="mb-0">

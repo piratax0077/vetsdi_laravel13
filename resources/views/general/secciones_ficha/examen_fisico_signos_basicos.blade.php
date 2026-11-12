@@ -1,34 +1,32 @@
-{{-- Fila de signos básicos al inicio de la card Examen físico (ficha veterinaria general).
-     Celular: de a dos. Tablet y notebook: 4 arriba y 3 abajo. Pantalla grande (1200px o más): los 7 en una línea. --}}
 @php
-    $datosSignos = isset($fichaVeterinariaGeneralData) && is_array($fichaVeterinariaGeneralData) ? $fichaVeterinariaGeneralData : [];
-    $valorSigno = fn ($campo) => old($campo, data_get($datosSignos, $campo, ''));
+    $datosSignos = $fichaVeterinariaGeneralData ?? [];
+    $valorSigno = fn ($campo, $columna = null) => old($campo, data_get(
+        $datosSignos, $campo, $columna ? data_get($fichaAtencion ?? null, $columna, '') : ''
+    ));
 @endphp
-<div class="form-group col-6 col-md-3 col-xl">
-    <label class="floating-label-activo-sm" for="temperatura_examen_fisico">T° (°C)</label>
-    <input type="text" class="form-control form-control-sm" name="temperatura_examen_fisico" id="temperatura_examen_fisico" value="{{ $valorSigno('temperatura_examen_fisico') }}">
+<div class="form-group col-12 col-md-6">
+    <label class="floating-label-activo-sm" for="condicion_corporal">Condición corporal</label>
+    <textarea class="form-control caja-texto form-control-sm" name="condicion_corporal" id="condicion_corporal" rows="1">{{ $valorSigno('condicion_corporal') }}</textarea>
 </div>
-<div class="form-group col-6 col-md-3 col-xl">
-    <label class="floating-label-activo-sm" for="peso_examen_fisico">Peso (kg)</label>
-    <input type="text" class="form-control form-control-sm" name="peso_examen_fisico" id="peso_examen_fisico" value="{{ $valorSigno('peso_examen_fisico') }}">
-</div>
-<div class="form-group col-6 col-md-3 col-xl">
-    <label class="floating-label-activo-sm" for="frecuencia_respiratoria">FR (R/min)</label>
-    <input type="text" class="form-control form-control-sm" name="frecuencia_respiratoria" id="frecuencia_respiratoria" value="{{ $valorSigno('frecuencia_respiratoria') }}">
-</div>
-<div class="form-group col-6 col-md-3 col-xl">
-    <label class="floating-label-activo-sm" for="tllc">TLLC (seg)</label>
-    <input type="text" class="form-control form-control-sm" name="tllc" id="tllc" value="{{ $valorSigno('tllc') }}">
-</div>
-<div class="form-group col-6 col-md-4 col-xl">
-    <label class="floating-label-activo-sm" for="frecuencia_cardiaca">FC (L/min)</label>
-    <input type="text" class="form-control form-control-sm" name="frecuencia_cardiaca" id="frecuencia_cardiaca" value="{{ $valorSigno('frecuencia_cardiaca') }}">
-</div>
-<div class="form-group col-6 col-md-4 col-xl">
-    <label class="floating-label-activo-sm" for="mucosas">Mucosas</label>
-    <input type="text" class="form-control form-control-sm" name="mucosas" id="mucosas" value="{{ $valorSigno('mucosas') }}">
-</div>
-<div class="form-group col-12 col-md-4 col-xl">
-    <label class="floating-label-activo-sm" for="presion_arterial_examen_fisico">Presión Arterial (mmHg)</label>
-    <input type="text" class="form-control form-control-sm" name="presion_arterial_examen_fisico" id="presion_arterial_examen_fisico" value="{{ $valorSigno('presion_arterial_examen_fisico') }}">
-</div>
+@foreach ([
+    'temperatura_examen_fisico' => ['T (°C)', 'temperatura'],
+    'frecuencia_cardiaca' => ['FC (L/min)', null],
+    'frecuencia_respiratoria' => ['FR (R/min)', null],
+] as $campo => [$etiqueta, $columna])
+    <div class="form-group col-6 col-md-2">
+        <label class="floating-label-activo-sm" for="{{ $campo }}">{{ $etiqueta }}</label>
+        <input type="text" class="form-control form-control-sm" name="{{ $campo }}" id="{{ $campo }}" value="{{ $valorSigno($campo, $columna) }}">
+    </div>
+@endforeach
+@foreach ([
+    'tllc' => ['TLLC (seg)', null],
+    'trpc' => ['TRPC (seg)', null],
+    'pulso_examen_fisico' => ['Pulso', 'pulso'],
+    'mucosas' => ['Mucosas', null],
+    'deshidratacion' => ['% Deshidratación', null],
+] as $campo => [$etiqueta, $columna])
+    <div class="form-group col-6 col-md-2">
+        <label class="floating-label-activo-sm" for="{{ $campo }}">{{ $etiqueta }}</label>
+        <input type="text" class="form-control form-control-sm" name="{{ $campo }}" id="{{ $campo }}" value="{{ $valorSigno($campo, $columna) }}">
+    </div>
+@endforeach

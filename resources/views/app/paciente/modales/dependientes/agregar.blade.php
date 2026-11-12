@@ -355,6 +355,13 @@
                     </div>
                 </div>
 
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        <label class="floating-label-activo-sm" for="modal_agregar_dep_nuevo_comportamiento">Comportamiento de la mascota</label>
+                        <textarea class="form-control form-control-sm" rows="1" onfocus="this.rows=3" onblur="this.rows=1;" id="modal_agregar_dep_nuevo_comportamiento" maxlength="1000"></textarea>
+                    </div>
+                </div>
+
                 <div class="col-sm-12">
                     <div class="titulo-item">Antecedentes veterinarios</div>
                 </div>
@@ -372,13 +379,13 @@
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div class="form-group">
-                        <label class="floating-label-activo-sm" for="modal_agregar_dep_nuevo_vacunas">Vacunas o esquema de inmunización conocido</label>
+                        <label class="floating-label-activo-sm" for="modal_agregar_dep_nuevo_vacunas">¿Esquema de vacunación al día?</label>
                         <textarea class="form-control form-control-sm" rows="1" name="modal_agregar_dep_nuevo_vacunas" id="modal_agregar_dep_nuevo_vacunas"></textarea>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div class="form-group">
-                        <label class="floating-label-activo-sm" for="modal_agregar_dep_nuevo_viajes">Viajes recientes</label>
+                        <label class="floating-label-activo-sm" for="modal_agregar_dep_nuevo_viajes">¿Viajará en los próximos días?</label>
                         <textarea class="form-control form-control-sm" rows="1" name="modal_agregar_dep_nuevo_viajes" id="modal_agregar_dep_nuevo_viajes"></textarea>
                     </div>
                 </div>
@@ -390,8 +397,29 @@
                 </div>
                 <div class="col-sm-12 col-md-4">
                     <div class="form-group">
-                        <label class="floating-label-activo-sm" for="modal_agregar_dep_nuevo_producto_desparasitacion">Producto de desparasitación</label>
+                        <label class="floating-label-activo-sm" for="modal_agregar_dep_nuevo_producto_desparasitacion">Producto antiparasitario</label>
                         <input type="text" class="form-control form-control-sm" name="modal_agregar_dep_nuevo_producto_desparasitacion" id="modal_agregar_dep_nuevo_producto_desparasitacion" maxlength="255">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <div class="form-group">
+                        <label class="floating-label-activo-sm" for="modal_agregar_dep_nuevo_tipo_desparasitacion">Tipo</label>
+                        <select class="form-control form-control-sm" id="modal_agregar_dep_nuevo_tipo_desparasitacion">
+                            <option value="">No informado</option>
+                            <option value="Externo">Externo</option>
+                            <option value="Interno">Interno</option>
+                            <option value="Interno y Externo">Interno y Externo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        <label class="floating-label-activo-sm" for="modal_agregar_dep_nuevo_desparasitacion_realizada_por">¿Quién realizó la desparasitación?</label>
+                        <select class="form-control form-control-sm" id="modal_agregar_dep_nuevo_desparasitacion_realizada_por">
+                            <option value="">No informado</option>
+                            <option value="tutor">Tutor</option>
+                            <option value="profesional">Profesional veterinario</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4">

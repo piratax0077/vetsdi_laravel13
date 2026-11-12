@@ -1,6 +1,8 @@
 @php
     $modalIndicarExamenesId = $modalIndicarExamenesId ?? 'indicar_examenes';
+    $catalogoVeterinario = !empty($mascota) ? config('examenes_veterinarios') : [];
 @endphp
+@once('examen_modal_'.$modalIndicarExamenesId)
 
 <div id="{{ $modalIndicarExamenesId }}" class="modal fade modal-atencion" tabindex="-1" role="dialog" aria-labelledby="modal_indicar_examen"
     aria-hidden="true">
@@ -13,7 +15,14 @@
                 </button>
             </div>
             <div class="modal-body">
-
+                @if($catalogoVeterinario)
+                    <ul class="nav nav-pills modal-atencion-pestanas mb-3" role="tablist">
+                        <li class="nav-item"><a class="nav-link-wizard active" data-toggle="pill" href="#{{ $modalIndicarExamenesId }}_catalogo" role="tab" aria-selected="true">Exámenes frecuentes</a></li>
+                        <li class="nav-item"><a class="nav-link-wizard" data-toggle="pill" href="#{{ $modalIndicarExamenesId }}_manual" role="tab" aria-selected="false">Ingreso manual</a></li>
+                    </ul>
+                    <div class="tab-content">
+                    <div class="tab-pane fade show active" id="{{ $modalIndicarExamenesId }}_catalogo" role="tabpanel">
+                @endif
                 <div class="form-row">
                     <div class="col-sm-12 col-md-6 mt-2">
                         <div class="form-group">
@@ -21,10 +30,15 @@
 
                             <select class="form-control form-control-sm" name="tipo_examen_d" id="tipo_examen_d">
                                 <option value="0">Seleccione</option>
-                                @foreach ($examenMedico as $exa)
-                                    <option value="{{ $exa->cod_examen }}">
-                                        {{ $exa->nombre_examen }}</option>
-                                @endforeach
+                                @if($catalogoVeterinario)
+                                    @foreach(array_keys($catalogoVeterinario) as $tipo)
+                                        <option value="{{ $tipo }}">{{ $tipo }}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($examenMedico as $exa)
+                                        <option value="{{ $exa->cod_examen }}">{{ $exa->nombre_examen }}</option>
+                                    @endforeach
+                                @endif
 
                             </select>
                         </div>
@@ -46,6 +60,29 @@
                             </select>
                         </div>
                     </div>
+                    @if($catalogoVeterinario)
+                        </div>
+                        </div>
+                        <div class="tab-pane fade" id="{{ $modalIndicarExamenesId }}_manual" role="tabpanel" data-examen-manual>
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mt-2">
+                                    <label class="floating-label-activo-sm" for="tipo_examen_manual">Tipo de examen</label>
+                                    <select class="form-control form-control-sm" id="tipo_examen_manual">
+                                        @foreach(array_keys($catalogoVeterinario) as $tipo)
+                                            <option value="{{ $tipo }}">{{ $tipo }}</option>
+                                        @endforeach
+                                        <option value="Otro">Otro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6 mt-2">
+                                    <label class="floating-label-activo-sm" for="nombre_examen_manual">Nombre del examen</label>
+                                    <input class="form-control form-control-sm" type="text" id="nombre_examen_manual" maxlength="255">
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="form-row">
+                    @endif
                     <div class="col-sm-6 mt-2" id="grupo_lado_examen_d" style="display:none;">
                         <div class="form-group">
                             <label class="floating-label-activo-sm" for="lado_d">Lado</label>
@@ -127,7 +164,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="registro_examen_ficha();" data-dismiss="modal" class="btn btn-info"><i class="feather icon-check"></i> Generar orden de examen</button>
+                <button type="button" onclick="registro_examen_ficha();" @unless($catalogoVeterinario) data-dismiss="modal" @endunless data-generar-orden-examen class="btn btn-info"><i class="feather icon-check"></i> Generar orden de examen</button>
             </div>
         </div>
     </div>
@@ -135,7 +172,13 @@
 
 <script>
     (function enlazarSelectoresExamenVeterinario() {
+        var catalogo = @json($catalogoVeterinario);
+        var usaCatalogoVet = Object.keys(catalogo).length > 0;
         function requiereDatosImagen($modal) {
+            if (usaCatalogoVet) {
+                var selector = $modal.find('[data-examen-manual]').hasClass('active') ? '#tipo_examen_manual' : '#tipo_examen_d';
+                return $modal.find(selector).val() === 'Imagenología';
+            }
             var textos = [
                 $modal.find('#tipo_examen_d option:selected').text(),
                 $modal.find('#sub_tipo_examen_d option:selected').text(),
@@ -181,6 +224,13 @@
                 var tipo = $(this).val();
 
                 llenarSelector($examen, [], 'Seleccione');
+                if (usaCatalogoVet) {
+                    llenarSelector($subtipo, Object.keys(catalogo[tipo] || {}).map(function (nombre) {
+                        return {cod_examen: nombre, nombre_examen: nombre};
+                    }), 'Seleccione');
+                    actualizarCamposImagen($modal);
+                    return;
+                }
                 if (!tipo || tipo === '0') {
                     llenarSelector($subtipo, [], 'Seleccione');
                     return;
@@ -208,6 +258,13 @@
                 var $modal = $('#{{ $modalIndicarExamenesId }}');
                 var $examen = $modal.find('#examen_d');
                 var subtipo = $(this).val();
+                if (usaCatalogoVet) {
+                    var tipo = $modal.find('#tipo_examen_d').val();
+                    llenarSelector($examen, (catalogo[tipo]?.[subtipo] || []).map(function (nombre) {
+                        return {cod_examen: nombre, nombre_examen: nombre};
+                    }), 'Seleccione');
+                    return;
+                }
 
                 if (!subtipo) {
                     llenarSelector($examen, [], 'Seleccione');
@@ -238,6 +295,9 @@
             .on('shown.bs.modal.cargaExamenVeterinario', '#{{ $modalIndicarExamenesId }}', function () {
                 actualizarCamposImagen($(this));
             });
+        $('#{{ $modalIndicarExamenesId }}')
+            .on('shown.bs.tab', '[data-toggle="pill"]', function () { actualizarCamposImagen($(this).closest('.modal')); })
+            .on('change', '#tipo_examen_manual', function () { actualizarCamposImagen($(this).closest('.modal')); });
     })();
 
     function obtenerPrioridadTexto(prioridad) {
@@ -260,7 +320,8 @@
         var fecha = item && item.fecha ? item.fecha : '';
         var hora = item && item.hora ? item.hora : '';
         var responsable = item && item.responsable ? item.responsable : '';
-        var textoContraste = examen.imagenologia_con_contraste_d || item.con_contraste_texto || 'N/C';
+        var textoContraste = examen.imagenologia_con_contraste_d || item.con_contraste_texto
+            || (item.con_contraste === 'Con Contraste' ? item.con_contraste : 'N/C');
 
         if (textoContraste === 'N/C' && (examen.imagenologia_con_contraste || item.con_contraste == 1)) {
             textoContraste = 'Con Contraste';
@@ -285,7 +346,7 @@
         return {
             uid: item.uid || ('examen-modal-' + index + '-' + (item.id || examen.id_examen || Date.now())),
             id: item.id || null,
-            id_examen: examen.id_examen || item.id_examen || '',
+            id_examen: examen.id_examen || item.id_examen || null,
             nombre_examen: examen.examen || item.examen || item.nombre_examen || '',
             lado: examen.lado || item.otro || item.lado || '',
             tipo: examen.tipo_examen || item.tipo_examen || item.tipo || '',
@@ -371,14 +432,15 @@
         }
 
         registros.forEach(function(resp, index) {
+            var texto = $.fn.dataTable.render.text().display;
             table.row.add([
-                `${resp.fecha || ''} ${resp.hora || ''} <br> ${resp.responsable || ''}`,
-                resp.nombre_examen || '',
-                resp.lado || '',
-                resp.tipo || '',
-                resp.prioridad || '',
-                resp.con_contraste || 'N/C',
-                `<button type="button" class="btn btn-danger btn-icon btn-sm btn_remove" title="Quitar" onclick="quitarExamenDelModal('${resp.uid}', ${index});"><i class="feather icon-x"></i></button>`
+                `${texto(resp.fecha || '')} ${texto(resp.hora || '')} <br> ${texto(resp.responsable || '')}`,
+                texto(resp.nombre_examen || ''),
+                texto(resp.lado || ''),
+                texto(resp.tipo || ''),
+                texto(resp.prioridad || ''),
+                texto(resp.con_contraste || 'N/C'),
+                `<button type="button" class="btn btn-danger btn-icon btn-sm btn_remove" title="Quitar" onclick="quitarExamenDelModal(null, ${index});"><i class="feather icon-x"></i></button>`
             ]);
         });
 
@@ -398,6 +460,15 @@
         var lado = $modal.find("#lado_d option:selected").text();
         var id_paciente = $('#id_paciente').val();
         var id_ficha_atencion = $('#id_fc').val();
+        var esManual = $modal.find('[data-examen-manual]').hasClass('active');
+        if (esManual) {
+            tipo_examen = $modal.find('#tipo_examen_manual').val();
+            sub_tipo_examen = 'Manual';
+            examen = $modal.find('#nombre_examen_manual').val().trim();
+        }
+        @if($catalogoVeterinario)
+            id_examen = null;
+        @endif
 
         var imagenologia_con_contraste_d = 'N/C';
         if($modal.find('#imagenologia_con_contraste_d').is(':checked'))
@@ -443,6 +514,7 @@
             }, examenesActuales.length));
 
             renderExamenesCirugiaTablaD(examenesActuales, 'Examen agregado correctamente.');
+            $modal.find('#nombre_examen_manual').val('');
         }else{
             swal({
                 title: "Ingreso de examen(es).",
@@ -451,6 +523,7 @@
                 buttons: "Aceptar",
                 //SuccessMode: true,
             });
+            return;
         }
 
         // $('.examenes_sin_registros').remove();
@@ -487,13 +560,16 @@
 
 
 
-        $modal.find("#tipo_examen_d").val('');
+        $modal.find("#tipo_examen_d").val('0');
         $modal.find("#sub_tipo_examen_d").val('');
         $modal.find("#examen_d").val('');
         $modal.find("#prioridad_d").val(2);
         $modal.find('#imagenologia_con_contraste_d').prop('checked', false);
         $modal.find('#mensaje_imagenologia_con_contraste_d').hide();
         $modal.find("#lado_d").val(0);
+        @if($catalogoVeterinario)
+            $modal.find('#tipo_examen_d').trigger('change');
+        @endif
     }
 
     function quitarExamenDelModal(uid, index){
@@ -529,3 +605,4 @@
         quitarExamenDelModal(id, null);
     }
 </script>
+@endonce

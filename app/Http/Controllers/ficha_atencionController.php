@@ -483,11 +483,16 @@ class ficha_atencionController extends Controller
                 ->first();
             if ($fichaVeterinariaGeneral && !empty($fichaVeterinariaGeneral->datos)) {
                 $decoded = json_decode($fichaVeterinariaGeneral->datos, true);
-                if (json_last_error() === JSON_ERROR_NONE) {
+                if (is_array($decoded)) {
                     $fichaVeterinariaGeneralData = $decoded;
                 }
             }
         }
+
+        $valoresDocumento = $this->valoresDocumentoVeterinario(
+            $mascota, $responsable_mascota ?? $paciente, $profesional, $mascota_edad,
+            $fichaAtencion, $fichaVeterinariaGeneralData
+        );
 
         $prevision = collect(); // La ficha veterinaria no utiliza previsión.
         $medicamento = Producto::all();
@@ -1600,6 +1605,7 @@ class ficha_atencionController extends Controller
                 'laboratorios' => $laboratorios,
                 'fichaVeterinariaGeneral' => $fichaVeterinariaGeneral,
                 'fichaVeterinariaGeneralData' => $fichaVeterinariaGeneralData,
+                'valoresDocumento' => $valoresDocumento,
             ]
         );
     }
@@ -6355,6 +6361,39 @@ class ficha_atencionController extends Controller
     }
 
     /** REGISTRO FICHA ATENCION VETERINARIA GENERAL */
+    private function valoresDocumentoVeterinario(
+        ?Mascota $mascota, Paciente $tutor, Profesional $profesional, ?int $edad,
+        FichaAtencion $ficha, array $datos
+    ): array {
+        $peso = '';
+        foreach ([$ficha->peso, $datos['peso_examen_fisico'] ?? null, $datos['peso'] ?? null] as $valor) {
+            if (is_scalar($valor) && preg_match('/^\d+(?:[.,]\d+)?$/D', trim((string) $valor))
+                && (float) str_replace(',', '.', (string) $valor) > 0) {
+                $peso = trim((string) $valor);
+                break;
+            }
+        }
+
+        return [
+            'mascota' => $mascota?->nombre ?? '',
+            'especie' => $mascota?->especieMascota?->nombre ?: ($mascota?->otra_especie ?? ''),
+            'raza' => $mascota?->razaMascota?->nombre ?? '',
+            'peso' => $peso,
+            'microchip' => $mascota?->chip ?? '',
+            'edad' => match ($edad) {
+                null => '',
+                0 => 'Menos de 1 año',
+                1 => '1 año',
+                default => $edad.' años',
+            },
+            'tutor' => trim(implode(' ', array_filter([$tutor->nombres, $tutor->apellido_uno, $tutor->apellido_dos]))),
+            'rut_tutor' => mb_strtoupper(trim($tutor->rut ?? '')),
+            'profesional' => $profesional->nombreCompleto(),
+            'rut_profesional' => mb_strtoupper(trim($profesional->rut ?? '')),
+            'fecha' => now()->format('d/m/Y'),
+        ];
+    }
+
     public function store_vet_general(Request $request)
     {
         return app(GuardarFichaVeterinariaController::class)->guardar($request, 'general');
@@ -10908,7 +10947,8 @@ class ficha_atencionController extends Controller
             {
                 $nombre_examen = $value_examen_ppf->examen;
 
-                $examen_base = ExamenMedico::where('nombre_examen', $value_examen_ppf->examen)->where('habilitado',1)->first();
+                $examen_base = $ficha_atencion->id_mascota && !$value_examen_ppf->id_examen
+                    ? null : ExamenMedico::where('nombre_examen', $nombre_examen)->where('habilitado', 1)->first();
 
                 $id_base = optional($examen_base)->cod_parent;
                 $codigo = optional($examen_base)->codigo;

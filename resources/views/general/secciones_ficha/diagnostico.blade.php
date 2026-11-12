@@ -47,7 +47,7 @@
                     </div>
                     @endunless
                     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                        <label class="floating-label-activo-sm" for="descripcion_hipotesis">Obs. Cínicas para recordar en consulta</label>
+                        <label class="floating-label-activo-sm" for="obs_clinicas">{{ $etiquetaNotasClinicas ?? 'Obs. Cínicas para recordar en consulta' }}</label>
                         <textarea class="form-control caja-texto form-control-sm" rows="1" onfocus="this.rows=5" onblur="this.rows=1;" name="obs_clinicas" id="obs_clinicas">{{ $observacionesActuales }}</textarea>
                     </div>
                     <div class="form-group col-sm-12 {{ $esFichaVeterinaria ? 'col-md-12 col-lg-12 col-xl-12' : 'col-md-6 col-lg-6 col-xl-6' }}">

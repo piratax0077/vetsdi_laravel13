@@ -2989,12 +2989,13 @@ class EscritorioProfesional extends Controller
             'fecha_esterilizacion_desconocida' => 'nullable|boolean',
             'enfermedad_cronica' => 'nullable|string|max:500',
             'comportamiento' => 'nullable|string|max:1000',
+            'vacunas' => 'nullable|string|max:1000',
             'esquema_vacunacion_al_dia' => 'nullable|in:0,1',
             'fecha_ultima_vacuna' => 'nullable|required_if:esquema_vacunacion_al_dia,1|date|before_or_equal:today',
             'nombre_vacuna' => 'nullable|required_if:esquema_vacunacion_al_dia,1|string|max:255',
             'comentarios_esquema_vacunacion' => 'nullable|string|max:1000',
             'viajes' => 'nullable|string|max:1000',
-            'ultima_desparasitacion' => 'nullable|date|before_or_equal:today',
+            'ultima_desparasitacion' => 'nullable|required_with:tipo_desparasitacion,desparasitacion_realizada_por|date|before_or_equal:today',
             'producto_desparasitacion' => 'nullable|required_with:ultima_desparasitacion|string|max:255',
             'tipo_desparasitacion' => 'nullable|required_with:ultima_desparasitacion|in:Externo,Interno,Interno y Externo',
             'desparasitacion_realizada_por' => 'nullable|required_with:ultima_desparasitacion|in:tutor,profesional',
@@ -3126,7 +3127,9 @@ class EscritorioProfesional extends Controller
             : null;
         $mascota->enfermedad_cronica = $request->input('enfermedad_cronica');
         $mascota->comportamiento = $request->input('comportamiento');
-        if ($request->input('esquema_vacunacion_al_dia') === '1') {
+        if ($request->filled('vacunas')) {
+            $mascota->vacunas = $request->input('vacunas');
+        } elseif ($request->input('esquema_vacunacion_al_dia') === '1') {
             $nombreVacuna = trim((string) $request->input('nombre_vacuna'));
             $mascota->vacunas = 'Esquema de vacunación al día. Última vacuna: ' . $nombreVacuna
                 . ' (' . $request->input('fecha_ultima_vacuna') . ')';
@@ -13427,6 +13430,8 @@ public function eliminarPiezaCoronaProtesis(Request $req){
             ->whereIn('otro', [
                 'presupuesto_odontologico_veterinario',
                 'consentimiento_informado_veterinario',
+                'consentimiento_veterinario_plantilla',
+                'indicacion_veterinaria',
             ])
             ->where('estado', 1)
             ->orderByDesc('updated_at')

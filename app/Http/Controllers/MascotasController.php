@@ -206,9 +206,12 @@ class MascotasController extends Controller
                 }),
             ],
             'enfermedad_cronica' => 'nullable|string|max:500',
+            'comportamiento' => 'nullable|string|max:1000',
             'dieta' => 'nullable|string',
-            'ultima_desparasitacion' => 'nullable|date|before_or_equal:today',
+            'ultima_desparasitacion' => 'nullable|required_with:tipo_desparasitacion,desparasitacion_realizada_por|date|before_or_equal:today',
             'producto_desparasitacion' => 'nullable|string|max:255',
+            'tipo_desparasitacion' => 'nullable|in:Externo,Interno,Interno y Externo',
+            'desparasitacion_realizada_por' => 'nullable|in:tutor,profesional',
             'cirugias' => 'nullable|string',
             'vacunas' => 'nullable|string',
             'viajes' => 'nullable|string',
@@ -309,6 +312,7 @@ class MascotasController extends Controller
             ? $request->input('fecha_esterilizacion')
             : null;
         $mascota->enfermedad_cronica = $request->input('enfermedad_cronica');
+        $mascota->comportamiento = $request->input('comportamiento');
         $mascota->dieta = $request->input('dieta');
         $mascota->ultima_desparasitacion = $request->input('ultima_desparasitacion');
         $mascota->producto_desparasitacion = $request->input('producto_desparasitacion');
@@ -318,6 +322,22 @@ class MascotasController extends Controller
         $mascota->vive_con_animales = $viveConAnimales;
         $mascota->vacunas_registro = [];
         $mascota->desparasitaciones_registro = [];
+        if ($request->filled('ultima_desparasitacion') && ($request->filled('tipo_desparasitacion') || $request->filled('desparasitacion_realizada_por'))) {
+            $realizadaPor = $request->input('desparasitacion_realizada_por');
+            $mascota->desparasitaciones_registro = [[
+                'id' => uniqid('des_', true),
+                'fecha_dosis' => $request->input('ultima_desparasitacion'),
+                'antiparasitario' => $request->input('producto_desparasitacion'),
+                'tipo' => $request->input('tipo_desparasitacion'),
+                'realizado_por_tipo' => $realizadaPor,
+                'realizado_por' => match ($realizadaPor) {
+                    'tutor' => 'Tutor',
+                    'profesional' => 'Profesional veterinario',
+                    default => null,
+                },
+                'created_at' => now()->toDateTimeString(),
+            ]];
+        }
         $mascota->suscripciones_servicios_registro = [];
         $mascota->reservas_servicios_registro = [];
         $mascota->id_user = Auth::id();
@@ -437,6 +457,7 @@ class MascotasController extends Controller
                 }),
             ],
             'enfermedad_cronica' => 'nullable|string|max:500',
+            'comportamiento' => 'nullable|string|max:1000',
             'dieta' => 'nullable|string',
             'ultima_desparasitacion' => 'nullable|date|before_or_equal:today',
             'producto_desparasitacion' => 'nullable|string|max:255',
@@ -536,6 +557,9 @@ class MascotasController extends Controller
             ? $request->input('fecha_esterilizacion')
             : null;
         $mascota->enfermedad_cronica = $request->input('enfermedad_cronica');
+        if ($request->exists('comportamiento')) {
+            $mascota->comportamiento = $request->input('comportamiento');
+        }
         $mascota->dieta = $request->input('dieta');
         $mascota->ultima_desparasitacion = $request->input('ultima_desparasitacion');
         $mascota->producto_desparasitacion = $request->input('producto_desparasitacion');
@@ -1811,6 +1835,9 @@ class MascotasController extends Controller
                 'id' => $mascota->id,
                 'nombre' => $mascota->nombre,
                 'fecha_nacimiento' => optional($mascota->fecha_nacimiento)->format('Y-m-d'),
+                'tipo_especie' => $mascota->tipo_especie,
+                'raza' => $mascota->razaMascota?->nombre,
+                'ultima_desparasitacion' => $mascota->ultima_desparasitacion?->format('Y-m-d'),
                 'especie' => optional($mascota->especieMascota)->nombre
                     ?? $mascota->otra_especie
                     ?? $mascota->especie,
@@ -1831,6 +1858,7 @@ class MascotasController extends Controller
         }
 
         app(\App\Services\AccesoSanitarioMascota::class)->exigirEscritura($mascota);
+        $esFelino = $mascota->tipo_especie === 'Felino';
         $validator = Validator::make(
             $request->all(),
             [
@@ -1839,6 +1867,9 @@ class MascotasController extends Controller
                 'vacuna' => 'required|string|max:255',
                 'proxima_dosis' => 'nullable|date|after_or_equal:fecha_dosis',
                 'especie' => 'nullable|string|in:canina,felina,otra',
+                'observaciones' => 'nullable|string|max:2000',
+                'felv_test' => ['nullable', Rule::prohibitedIf(!$esFelino), 'in:si,no'],
+                'felv_resultado' => ['nullable', Rule::prohibitedIf(!$esFelino), 'required_if:felv_test,si', 'prohibited_unless:felv_test,si', 'in:positivo,negativo'],
             ],
             [
                 'fecha_dosis.required' => 'Debe ingresar la fecha de dosis.',
@@ -1847,6 +1878,7 @@ class MascotasController extends Controller
                 'vacuna.max' => 'El nombre de la vacuna no puede superar 255 caracteres.',
                 'proxima_dosis.date' => 'La próxima dosis no es una fecha válida.',
                 'proxima_dosis.after_or_equal' => 'La próxima dosis debe ser igual o posterior a la fecha de dosis.',
+                'felv_resultado.required_if' => 'Indique si el resultado del test de leucemia felina fue positivo o negativo.',
             ]
         );
 
@@ -1868,6 +1900,9 @@ class MascotasController extends Controller
             'vacuna' => trim((string) $request->input('vacuna')),
             'proxima_dosis' => $request->input('proxima_dosis'),
             'especie' => $request->input('especie'),
+            'observaciones' => $request->input('observaciones'),
+            'felv_test' => $request->input('felv_test'),
+            'felv_resultado' => $request->input('felv_resultado'),
             'created_at' => now()->toDateTimeString(),
         ] + $this->autorRegistroSanitario('profesional');
 
@@ -1902,7 +1937,8 @@ class MascotasController extends Controller
                 'realizado_por' => $registraTutor ? 'required|string|in:tutor,profesional_externo' : 'nullable',
                 'fecha_dosis' => 'required|date',
                 'antiparasitario' => 'required|string|max:255',
-                'tipo' => 'required|string|in:Externo,Interno,Interno y Externo',
+                'tipo' => 'required|string|in:Externo,Interno,Interno y Externo,Otro',
+                'tipo_otro' => 'nullable|required_if:tipo,Otro|prohibited_unless:tipo,Otro|string|max:255',
                 'via' => 'nullable|string|in:Oral,Tópica,Inyectable,Collar,Otra',
                 'peso' => 'nullable|numeric|min:0|max:999.99',
                 'dosis' => 'nullable|string|max:120',
@@ -1918,6 +1954,7 @@ class MascotasController extends Controller
                 'antiparasitario.max' => 'El antiparasitario no puede superar 255 caracteres.',
                 'tipo.required' => 'Debe seleccionar el tipo.',
                 'tipo.in' => 'El tipo seleccionado no es válido.',
+                'tipo_otro.required_if' => 'Especifique el otro tipo de desparasitación.',
                 'proxima_dosis.date' => 'La próxima dosis no es una fecha válida.',
                 'proxima_dosis.after_or_equal' => 'La próxima dosis debe ser igual o posterior a la fecha de dosis.',
             ]
@@ -1941,6 +1978,7 @@ class MascotasController extends Controller
             'fecha_dosis' => $request->input('fecha_dosis'),
             'antiparasitario' => trim((string) $request->input('antiparasitario')),
             'tipo' => $request->input('tipo'),
+            'tipo_otro' => $request->input('tipo_otro'),
             'via' => $request->input('via'),
             'peso' => $request->filled('peso') ? (float) $request->input('peso') : null,
             'dosis' => trim((string) $request->input('dosis', '')),
@@ -1960,6 +1998,7 @@ class MascotasController extends Controller
         return [
             'estado' => 1,
             'msj' => 'Desparasitación agregada correctamente',
+            'ultima_desparasitacion' => $mascota->ultima_desparasitacion?->format('Y-m-d'),
             'desparasitaciones' => $this->normalizarRegistros($mascota->desparasitaciones_registro),
         ];
         });

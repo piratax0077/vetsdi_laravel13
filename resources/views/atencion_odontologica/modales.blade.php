@@ -54,6 +54,9 @@
                     @endif
 
                 @endif  --}}
+                    @if(!empty($mascota))
+                        <a id="boton_3" class="fab fas fa-tooth fa-2x" data-toggle="canvas" data-target="#formularios_odontologia" aria-expanded="false" aria-controls="bs-canvas-right" title="Formularios Odontología" data-placement="left"></a>
+                    @else
                     @if($profesional->Especialidad()->first()->nombre == 'TECNICO ODONTOLOGICO (TONS)' )
                     <a id="boton_3" class="fas fa-bezier-curve fa-2x" data-toggle="canvas" data-target="#tons" aria-expanded="false" aria-controls="bs-canvas-right" title="Formularios Enfermera Universitaria" data-placement="left"></a>
                     @endif
@@ -93,6 +96,7 @@
                     @if($profesional->TipoEspecialidad()->first()->nombre == 'CIRUGÍA MAXILOFACIAL' )
                     <a id="boton_3" class="fas fa-child fa-2x" data-toggle="canvas" data-target="#formularios_maxilo_facial" aria-expanded="false" aria-controls="bs-canvas-right" title="Formularios Cirug{ia Maxilo-facial}" data-placement="left"></a>
                     @endif
+                @endif
                 @endif
             </div>
             <div class="btn-mas">

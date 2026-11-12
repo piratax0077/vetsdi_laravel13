@@ -63,7 +63,7 @@
                     </div>
                     <div id="collapse_recom" class="collapse" aria-labelledby="heading_recom" data-parent="#accordion_side_bar">
                         <div class="card-body-sidebar">
-                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="icirugia()";>+ Indicaciones post cirugÃ­a En General</button>
+                            <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="icirugia()";>+ Indicaciones post cirugía En General</button>
                             <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="cuidados_hda_op()";>+ Indicaciones cuidado herida operatoria</button>
                             <button type="button" class="btn btn-sm btn-info btn-block text-left" onclick="ind_rge()";>+ Recomendaciones Paciente con RGE</button>
                         </div>
@@ -75,7 +75,7 @@
                     <div class="card-header-sidebar" id="heading_hosp">
                         <h2 class="mb-0">
                         <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_hosp" aria-expanded="false" aria-controls="collapse_hosp"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                        FORMULARIOS DE HOSPITALIZACIÃ“N
+                        FORMULARIOS DE HOSPITALIZACIÓN
                         </button>
                         </h2>
                     </div>
@@ -94,7 +94,7 @@
                     <div class="card-header-sidebar" id="heading_sugerencias">
                         <h2 class="mb-0">
                         <button class="btn btn-light btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_sugerencias" aria-expanded="false" aria-controls="collapse_sugerencias"><i class="feather icon-chevron-down float-right pt-1 flecha-accordion"></i>
-                            AYUDENOS A MEJORAR
+                            AYÚDENOS A MEJORAR
                         </button>
                         </h2>
                     </div>

@@ -54,19 +54,21 @@ class ExamenesPPFController extends Controller
     public function registroExamenes_r(Request $request)
     {
         $request->mergeIfMissing(['tipo_ficha'=>1]);
-        $resultado = app(\App\Services\ColeccionClinica::class)->reemplazar($request, 'examenes', [
-            'id_examen'=>'required|integer|min:1', 'nombre_examen'=>'required|string',
-            'nombre_examen_especialidad'=>'required|string', 'tipo'=>'required|string',
-            'prioridad'=>'required|in:Baja,Media,Alta,Urgente',
-        ], ['prioridad'=>'Media','con_contraste'=>'N/C'], fn ()=>$this->reemplazarExamenes($request));
         $ficha = FichaAtencion::findOrFail($request->id_ficha_atencion);
-        if ($ficha->id_mascota && json_decode($request->examenes, true)) {
+        $esVeterinaria = (bool) $ficha->id_mascota;
+        $resultado = app(\App\Services\ColeccionClinica::class)->reemplazar($request, 'examenes', [
+            'id_examen'=>$esVeterinaria ? 'nullable|integer|min:1' : 'required|integer|min:1',
+            'nombre_examen'=>'required|string|max:500',
+            'nombre_examen_especialidad'=>'required|string|max:500', 'tipo'=>'required|string|max:255',
+            'prioridad'=>'required|in:Baja,Media,Alta,Urgente',
+        ], ['prioridad'=>'Media','con_contraste'=>'N/C'], fn ()=>$this->reemplazarExamenes($request, $esVeterinaria));
+        if ($esVeterinaria && json_decode($request->examenes, true)) {
             $resultado += app(\App\Services\EnviarDocumentoMascota::class)->enviar($ficha, 'examenes');
         }
         return $resultado;
     }
 
-    private function reemplazarExamenes(Request $request)
+    private function reemplazarExamenes(Request $request, bool $esVeterinaria)
     {
         $datos = array();
         if ($request->examenes == '[]' ) {
@@ -125,7 +127,7 @@ class ExamenesPPFController extends Controller
                     $request->id_ficha_atencion,
                     $request->id_ficha_otros_prof,
                     $request->id_ficha_gineco_obstetrica,
-                    $examenes[$i]->id_examen,
+                    $examenes[$i]->id_examen ?? null,
                     $examenes[$i]->nombre_examen,
                     $examenes[$i]->nombre_examen_especialidad,
                     $examenes[$i]->tipo,
@@ -135,7 +137,8 @@ class ExamenesPPFController extends Controller
                     isset($examenes[$i]->sospecha)?$examenes[$i]->sospecha:'',
                     isset($examenes[$i]->observacion)?$examenes[$i]->observacion:'',
                     isset($examenes[$i]->enfasis)?$examenes[$i]->enfasis:'',
-                    isset($examenes[$i]->lado)?$examenes[$i]->lado:''
+                    isset($examenes[$i]->lado)?$examenes[$i]->lado:'',
+                    $esVeterinaria
                 );
 
                 if($retorno['estado'] == 1)
@@ -177,7 +180,7 @@ class ExamenesPPFController extends Controller
      * @param [type] $otro
      * @return array()
      */
-    public function registroExamen($id_prioridad, $id_paciente, $id_profesional, $id_ficha_atencion, $id_ficha_otros_prof, $id_ficha_gineco_obstetrica, $id_examen, $examen, $examen_especialidad, $tipo_examen, $tipo_ficha, $con_contraste, $archivo, $sospecha, $observacion, $prioridad, $otro)
+    public function registroExamen($id_prioridad, $id_paciente, $id_profesional, $id_ficha_atencion, $id_ficha_otros_prof, $id_ficha_gineco_obstetrica, $id_examen, $examen, $examen_especialidad, $tipo_examen, $tipo_ficha, $con_contraste, $archivo, $sospecha, $observacion, $prioridad, $otro, bool $esVeterinaria = false)
     {
         // var_dump($id_prioridad); //int(2)
         // var_dump($id_paciente); //string(1) "7"
@@ -236,7 +239,7 @@ class ExamenesPPFController extends Controller
         }
 
 
-        if(empty($id_examen))
+        if(empty($id_examen) && !$esVeterinaria)
         {
             $validos = 1;
             $error['id_examen'] = 'Campo requerido id_examen';
@@ -277,7 +280,8 @@ class ExamenesPPFController extends Controller
         {
 
             /** BUSCAR CODIGO FONASA */
-            $examen_medico = ExamenMedico::select('codigo')->where('nombre_examen','like',''.$examen.'%' )->first();
+            $examen_medico = $esVeterinaria && !$id_examen
+                ? null : ExamenMedico::select('codigo')->where('nombre_examen','like',''.$examen.'%' )->first();
 
             $codigo = 0;
             if($examen_medico)
