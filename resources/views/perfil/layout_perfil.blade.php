@@ -8,8 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="author" content="SDI" />
     <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/completar_perfil.css') }}?t={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}?t={{ time() }}">
 </head>
 
 <body class="pagina-perfil">

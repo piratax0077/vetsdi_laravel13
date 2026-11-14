@@ -1097,7 +1097,9 @@ class ficha_atencionController extends Controller
             $periodontograma_veterinario = DB::table('periodontogramas_mascotas')
                 ->where('mascota_id', $mascota->id)->where('ficha_atencion_id', $id_ficha)->get();
         }
-        if (!empty($mascota) && \Schema::hasTable('odontogramas_fichas_mascotas')) {
+        // La copia por ficha es la foto de una atención cerrada; en una ficha abierta se muestra el estado vigente de cada pieza.
+        $fichaDentalCerrada = (int) FichaAtencion::whereKey($id_ficha_atencion)->value('finalizada') === 1;
+        if (!empty($mascota) && $fichaDentalCerrada && \Schema::hasTable('odontogramas_fichas_mascotas')) {
             $copiaOdontoVet = DB::table('odontogramas_fichas_mascotas')->where('ficha_atencion_id', $id_ficha_atencion)->where('mascota_id', $mascota->id)->first();
             if ($copiaOdontoVet) {
                 $odontograma_veterinario = collect(json_decode($copiaOdontoVet->odontograma, true))->map(fn ($pieza) => (object) $pieza);
@@ -2270,10 +2272,12 @@ class ficha_atencionController extends Controller
 
 
         $titulo = 'Solicitud de Exámenes: '.$tipo_examen;
+        // Formato que el profesional eligió en "Plantilla de exámenes"
+        $plantilla = \App\Models\PlantillaPdfProfesional::paraPdf($profesional->id ?? null, 'examenes');
 
         return PdfController::generarPDF(
             $titulo,
-            compact('array_ficha_atencion', 'array_lugar_atencion', 'array_profesional', 'array_paciente', 'detalle_orden'),
+            compact('array_ficha_atencion', 'array_lugar_atencion', 'array_profesional', 'array_paciente', 'detalle_orden', 'plantilla'),
             'Exámenes '.$paciente->rut,
             'pdf_orden_examen'
         );

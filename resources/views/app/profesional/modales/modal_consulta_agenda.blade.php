@@ -12,8 +12,33 @@
 
                 <form id="datos_hora_medica">
                     <div class="row reserva-hora-datos">
-                        {{-- TUTOR --}}
+                        {{-- MASCOTA: va primero, igual que en "Agendar hora" --}}
                         <div class="col-12 mb-3">
+                            <div class="reserva-hora-cabecera">
+                                <h6 class="titulo-item"><i class="fas fa-paw mr-2"></i>Información de la mascota</h6>
+                            </div>
+                            <dl class="ficha-previa-datos reserva-hora-dos-columnas">
+                                <div class="ficha-previa-dato">
+                                    <dt>Nombre</dt>
+                                    <dd id="datos_consulta_mascota_nombre"></dd>
+                                </div>
+                                <div class="ficha-previa-dato">
+                                    <dt>Especie</dt>
+                                    <dd id="datos_consulta_mascota_raza"></dd>
+                                </div>
+                                <div class="ficha-previa-dato">
+                                    <dt>Esterilizado</dt>
+                                    <dd id="datos_consulta_mascota_esterilizado"></dd>
+                                </div>
+                                <div class="ficha-previa-dato">
+                                    <dt>Última consulta</dt>
+                                    <dd id="datos_consulta_mascota_ultima_consulta"></dd>
+                                </div>
+                            </dl>
+                        </div>
+
+                        {{-- TUTOR --}}
+                        <div class="col-12 mb-2">
                             <div class="reserva-hora-cabecera">
                                 <h6 class="titulo-item"><i class="feather icon-user mr-2"></i>Información del tutor</h6>
                                 <button type="button" onclick="editar_info_paciente_asistente();" class="btn btn-xxs btn-info paciente_view_asistente">
@@ -86,31 +111,6 @@
                                 <div class="ficha-previa-dato reserva-hora-dato-fijo">
                                     <dt>Dirección</dt>
                                     <dd class="reserva-hora-direccion"><span id="datos_consulta_direcion"></span> <span id="datos_consulta_numero"></span><span class="reserva-hora-direccion-parte" id="datos_consulta_ciudad"></span><span class="reserva-hora-direccion-parte" id="datos_consulta_region"></span></dd>
-                                </div>
-                            </dl>
-                        </div>
-
-                        {{-- MASCOTA --}}
-                        <div class="col-12 mb-2">
-                            <div class="reserva-hora-cabecera">
-                                <h6 class="titulo-item"><i class="fas fa-paw mr-2"></i>Información de la mascota</h6>
-                            </div>
-                            <dl class="ficha-previa-datos reserva-hora-dos-columnas">
-                                <div class="ficha-previa-dato">
-                                    <dt>Nombre</dt>
-                                    <dd id="datos_consulta_mascota_nombre"></dd>
-                                </div>
-                                <div class="ficha-previa-dato">
-                                    <dt>Especie</dt>
-                                    <dd id="datos_consulta_mascota_raza"></dd>
-                                </div>
-                                <div class="ficha-previa-dato">
-                                    <dt>Esterilizado</dt>
-                                    <dd id="datos_consulta_mascota_esterilizado"></dd>
-                                </div>
-                                <div class="ficha-previa-dato">
-                                    <dt>Última consulta</dt>
-                                    <dd id="datos_consulta_mascota_ultima_consulta"></dd>
                                 </div>
                             </dl>
                         </div>
@@ -270,13 +270,13 @@
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                             <label class="floating-label-activo-sm">Especie</label>
-                            <select class="form-control form-control-sm" id="agenda_mascota_especie"></select>
+                            <select class="form-control form-control-sm" id="agenda_mascota_especie" data-buscador-especie></select>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                             <label class="floating-label-activo-sm">Raza</label>
-                            <select class="form-control form-control-sm" id="agenda_mascota_raza">
+                            <select class="form-control form-control-sm" id="agenda_mascota_raza" data-buscador-raza data-especie="#agenda_mascota_especie">
                                 <option value="">Seleccione</option>
                                 <option value="sin">Sin raza</option>
                             </select>

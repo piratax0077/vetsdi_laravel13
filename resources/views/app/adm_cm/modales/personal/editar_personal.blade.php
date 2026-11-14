@@ -363,10 +363,10 @@
 
                     // data.registro.contrato.otro;
                     $('#edit_empleado_dias_laborales').val(data.registro.contrato.dias_laborales.split(",")).select2();
-                    $('#edit_empleado_hora_entrada').val(data.registro.contrato.hora_ingreso);
-                    $('#edit_empleado_hora_salida').val(data.registro.contrato.hora_salida);
-                    $('#edit_empleado_hora_entrada_colacion').val(data.registro.contrato.hora_inicio_colacion);
-                    $('#edit_empleado_hora_salida_colacion').val(data.registro.contrato.hora_termino_colacion);
+                    $('#edit_empleado_hora_entrada').val(String(data.registro.contrato.hora_ingreso || '').substring(0, 5));
+                    $('#edit_empleado_hora_salida').val(String(data.registro.contrato.hora_salida || '').substring(0, 5));
+                    $('#edit_empleado_hora_entrada_colacion').val(String(data.registro.contrato.hora_inicio_colacion || '').substring(0, 5));
+                    $('#edit_empleado_hora_salida_colacion').val(String(data.registro.contrato.hora_termino_colacion || '').substring(0, 5));
                     // data.registro.contrato.fecha_creacion;
                     // data.registro.contrato.id_admin_creador;
                     // data.registro.contrato.id_tipo_admin_creador;

@@ -19,14 +19,14 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-            <div class="page-header">
+            <div class="page-header encabezado-ficha">
                 <div class="page-block">
-                    <div class="row align-items-center">
+                    <div class="row align-items-center pb-2">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                            <div class="page-header-title">
-                                <h5 class="text-white d-inline f-16 mt-1 float-left"><strong>ATENCIÓN ODONTOLOGÍA
+                            <div class="page-header-title d-flex align-items-center flex-wrap">
+                                <h5 class="text-white d-inline f-16 mt-1"><strong>ATENCIÓN ODONTOLOGÍA
                                         GENERAL</strong></h5>
-                                <h6 class="font-weight-bold mt-0 mb-0 text-white float-md-right">
+                                <p class="font-weight-bold mt-0 mb-0 ml-md-auto text-white">
                                     @php
                                         $meses = [
                                             'Enero',
@@ -47,7 +47,7 @@
                                         $fecha = $fecha->format('d') . ' de ' . $mes . ' de ' . $fecha->format('Y');
                                     @endphp
                                     {{ $fecha }}
-                                </h6>
+                                </p>
                             </div>
                         </div>
                     </div>

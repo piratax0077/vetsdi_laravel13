@@ -6,15 +6,17 @@
     <div class="card-body"><div class="alert d-none" role="status" id="otros-trabajadores-resultado"></div><div class="table-responsive">
         <table id="tab_otros_contratos" class="display table table-striped dt-responsive nowrap" style="width:100%">
             <thead><tr><th>Nombre / RUT</th><th>Categoría</th><th>Tipo de contrato / Fecha</th><th>Remuneración mes</th><th>Acción</th></tr></thead><tbody>
+            {{-- Las fechas se muestran como dd-mm-aaaa, sin hora --}}
+            @php($fechaContrato = fn ($fecha) => $fecha ? \Carbon\Carbon::parse($fecha)->format('d-m-Y') : '')
             @forelse($otrosTrabajadores['contratos'] as $contrato)
             @php($trabajador = $otrosTrabajadores['trabajadores']->firstWhere('id',$contrato->trabajador_id))
             <tr>
                 <td><strong>{{ $trabajador->nombre_completo }}</strong><br>{{ rut_formatear($trabajador->rut) ?? $trabajador->rut }}</td><td>{{ $trabajador->categoria }}</td>
-                <td>{{ \App\Services\TrabajadoresCentroVeterinario::TIPOS_CONTRATO[$contrato->tipo] ?? $contrato->tipo }}<br>{{ $contrato->fecha_inicio }}{{ $contrato->fecha_fin ? ' a '.$contrato->fecha_fin : '' }}<br><span class="badge {{ $contrato->estado === 'vigente' ? 'badge-success' : 'badge-secondary' }}">{{ ucfirst($contrato->estado) }}</span>@if($contrato->fecha_termino)<br>Término: {{ $contrato->fecha_termino }}@endif</td>
+                <td>{{ \App\Services\TrabajadoresCentroVeterinario::TIPOS_CONTRATO[$contrato->tipo] ?? $contrato->tipo }}<br>{{ $fechaContrato($contrato->fecha_inicio) }}{{ $contrato->fecha_fin ? ' a '.$fechaContrato($contrato->fecha_fin) : '' }}<br><span class="badge {{ $contrato->estado === 'vigente' ? 'badge-success' : 'badge-secondary' }}">{{ ucfirst($contrato->estado) }}</span>@if($contrato->fecha_termino)<br>Término: {{ $fechaContrato($contrato->fecha_termino) }}@endif</td>
                 <td>${{ number_format($contrato->remuneracion,0,',','.') }}</td>
-                <td><button type="button" class="btn btn-info btn-sm btn-icon" title="Información" aria-label="Información" data-otro-accion="info" data-id="{{ $trabajador->id }}"><i class="feather icon-info"></i></button>
+                <td><button type="button" class="btn btn-primary btn-sm btn-icon" title="Información" aria-label="Información" data-otro-accion="info" data-id="{{ $trabajador->id }}"><i class="feather icon-eye"></i></button>
                 @if($contrato->estado === 'vigente')
-                <button type="button" class="btn btn-info btn-sm btn-icon" title="Editar contrato" aria-label="Editar contrato" data-otro-accion="contrato" data-id="{{ $trabajador->id }}" data-contrato="{{ $contrato->id }}"><i class="feather icon-edit"></i></button>
+                <button type="button" class="btn btn-warning btn-sm btn-icon" title="Editar contrato" aria-label="Editar contrato" data-otro-accion="contrato" data-id="{{ $trabajador->id }}" data-contrato="{{ $contrato->id }}"><i class="feather icon-edit"></i></button>
                 <button type="button" class="btn btn-danger btn-sm btn-icon" title="Finalizar contrato" aria-label="Finalizar contrato" data-otro-accion="terminar" data-id="{{ $trabajador->id }}" data-contrato="{{ $contrato->id }}"><i class="feather icon-x"></i></button>
                 @endif</td>
             </tr>

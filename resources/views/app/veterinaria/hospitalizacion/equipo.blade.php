@@ -2,13 +2,8 @@
 @section('content')
 <div class="pcoded-main-container"><div class="pcoded-content">
 <h4>Equipo del servicio de hospitalización veterinaria</h4><p>{{ $institucion->nombre }}</p><a class="btn btn-outline-info mb-3" href="{{ route('vet.areas.gestion',['area'=>'hospitalizacion','id_institucion'=>$institucion->id]) }}">Volver a gestión</a>
-<p>El personal vinculado accede desde «Cambiar perfil» → «Hospitalización veterinaria». Enfermería registra controles y cuidados; el profesional veterinario gestiona ingresos, evolución, cirugía, alta y controles posteriores.</p>
 @if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
 @if($errors->any())<div class="alert alert-danger"><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
-<div class="card"><div class="card-header"><h5>Asignar o actualizar acceso al servicio</h5></div><div class="card-body"><form method="post" action="{{ route('vet.hospital.equipo.guardar') }}">@csrf<input type="hidden" name="id_institucion" value="{{ $institucion->id }}"><div class="form-row">
-<div class="form-group col-md-6"><label class="floating-label-activo-sm" for="equipo-usuario">Integrante vinculado al centro</label><select class="form-control" id="equipo-usuario" name="id_usuario" required><option value="">Seleccione</option>@foreach($candidatos as $c)<option value="{{ $c->id }}" @selected(old('id_usuario') == $c->id)>{{ $c->name }}</option>@endforeach</select></div>
-<div class="form-group col-md-3"><label class="floating-label-activo-sm" for="equipo-perfil">Rol en el servicio</label><select class="form-control" id="equipo-perfil" name="perfil" required><option value="profesional">Profesional veterinario</option><option value="enfermeria" @selected(old('perfil') === 'enfermeria')>Enfermería veterinaria</option></select></div>
-<div class="form-group col-md-3"><label class="floating-label-activo-sm" for="equipo-activo">Acceso</label><select class="form-control" id="equipo-activo" name="activo" required><option value="1">Activo</option><option value="0" @selected(old('activo') === '0')>Desactivado</option></select></div></div><button type="submit" class="btn btn-info">Guardar acceso</button></form></div></div>
-<div class="card"><div class="card-header"><h5>Accesos configurados</h5></div><div class="card-body"><div class="table-responsive"><table class="table"><thead><tr><th>Integrante</th><th>Rol</th><th>Estado</th></tr></thead><tbody>@forelse($equipo as $e)<tr><td>{{ $e->name }}</td><td>{{ $e->perfil === 'enfermeria' ? 'Enfermería veterinaria' : 'Profesional veterinario' }}</td><td>{{ $e->activo ? 'Activo' : 'Desactivado' }}</td></tr>@empty<tr><td colspan="3">No hay accesos adicionales configurados. Los profesionales vinculados al centro ya pueden ingresar al servicio.</td></tr>@endforelse</tbody></table></div></div></div>
+@include('app.veterinaria.hospitalizacion.partials.equipo_contenido')
 </div></div>
 @endsection

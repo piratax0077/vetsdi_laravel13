@@ -86,13 +86,12 @@
         });
     }
 
-    // Fecha de envío como dd-mm-aaaa (y hora si viene)
+    // Fecha de envío como dd-mm-aaaa, sin la hora
     function historial_mensajes_fecha(fecha) {
         if (!fecha) return '';
-        let partes = String(fecha).split(' ');
+        let partes = String(fecha).split(/[ T]/);
         let dia = partes[0].split('-');
         let texto = dia.length === 3 ? dia[2] + '-' + dia[1] + '-' + dia[0] : partes[0];
-        if (partes[1]) texto += ' ' + partes[1].substring(0, 5);
         return texto;
     }
 </script>

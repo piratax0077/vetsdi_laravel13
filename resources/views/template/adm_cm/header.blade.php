@@ -19,6 +19,8 @@
                     </li>
                 @endif
 
+                @include('template.partials.mensajes_encabezado')
+
                 @include('template.partials.workspace_switcher')
 			</li>
 			<li>

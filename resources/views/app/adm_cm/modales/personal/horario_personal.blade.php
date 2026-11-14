@@ -186,10 +186,10 @@
                 {
                     let id = value.id;
                     let id_empleado = value.id_empleado;
-                    var hora_ingreso = value.hora_ingreso;
-                    var hora_salida = value.hora_salida;
-                    var hora_inicio_colacion = value.hora_inicio_colacion;
-                    var hora_termino_colacion = value.hora_termino_colacion;
+                    var hora_ingreso = String(value.hora_ingreso || "").substring(0, 5);
+                    var hora_salida = String(value.hora_salida || "").substring(0, 5);
+                    var hora_inicio_colacion = String(value.hora_inicio_colacion || "").substring(0, 5);
+                    var hora_termino_colacion = String(value.hora_termino_colacion || "").substring(0, 5);
                     let dia = '';
                     dias = value.dias_laborales.split(',');
                     for (let i = 0; i < dias.length; i++)

@@ -69,7 +69,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="floating-label-activo-sm" for="apareamiento_raza_buscada"><span class="text-danger">*</span> Raza buscada</label>
-                                    <select class="form-control form-control-sm" id="apareamiento_raza_buscada" disabled>
+                                    <select class="form-control form-control-sm" id="apareamiento_raza_buscada" disabled data-buscador-raza data-sin-agregar>
                                         <option value="">Seleccione primero una mascota</option>
                                     </select>
                                 </div>

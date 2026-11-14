@@ -48,7 +48,12 @@ class PlantillaDocumentoVeterinarioController extends Controller
         if ($request->expectsJson()) {
             return response()->json(['estado' => 1, 'msj' => 'Plantillas cargadas.', 'secciones' => $secciones]);
         }
-        return view('app.profesional.indicaciones_medicas', compact('secciones', 'lugar'));
+        // Pestañas "Plantilla receta" y "Plantilla de exámenes": lo que el profesional ya guardó
+        $plantillasPdf = [
+            'receta' => \App\Models\PlantillaPdfProfesional::paraPdf($profesional->id, 'receta'),
+            'examenes' => \App\Models\PlantillaPdfProfesional::paraPdf($profesional->id, 'examenes'),
+        ];
+        return view('app.profesional.indicaciones_medicas', compact('secciones', 'lugar', 'plantillasPdf'));
     }
 
     public function guardar(Request $request, ?PlantillaDocumentoVeterinario $plantilla = null)

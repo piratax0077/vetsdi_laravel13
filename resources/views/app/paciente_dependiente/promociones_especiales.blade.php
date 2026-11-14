@@ -3,22 +3,9 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <!--Header-->
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-<ul class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ ROUTE('paciente.home') }}" title="Volver al inicio" aria-label="Volver al inicio"><i class="feather icon-home" aria-hidden="true"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row ">
-            <div class="col-12 text-center">
-                 <h4 class="text-white f-24">Promociones especiales</h4>
-                </div>
-        </div>
+            <div class="row">
+                <div class="col-md-12 mb-3 encabezado-pagina">
+                    <h5 class="f-26 d-inline">Promociones especiales</h5>
                 </div>
             </div>
             <!--Cierre: Header-->

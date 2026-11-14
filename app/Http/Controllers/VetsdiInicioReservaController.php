@@ -12,10 +12,14 @@ use App\Models\Prevision;
 use App\Models\Profesional;
 use App\Models\ProfesionalHorario;
 use App\Models\Region;
+use App\Services\AccesoAgendaVeterinaria;
+use App\Services\AgendaDisponibilidad;
+use App\Support\LugarAtencionInstitucionResolver;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class VetsdiInicioReservaController extends Controller
 {
@@ -95,9 +99,11 @@ class VetsdiInicioReservaController extends Controller
             ]);
         }
 
-        $mascotas = Mascota::with('especieMascota')
+        // Ruta pública: cualquiera puede escribir un RUT, así que el correo y el teléfono van
+        // enmascarados. Al reservar se usan los datos guardados, nunca los que lleguen de la web.
+        $mascotas = Mascota::with(['especieMascota', 'razaMascota'])
             ->where('id_responsable', $paciente->id)
-            ->where('estado', 1)
+            ->seleccionables()
             ->orderBy('nombre')
             ->get()
             ->map(function (Mascota $mascota) {
@@ -105,7 +111,10 @@ class VetsdiInicioReservaController extends Controller
                     'id' => $mascota->id,
                     'nombre' => $mascota->nombre,
                     'especie_id' => $mascota->especie_id ?: $mascota->especie,
-                    'especie_nombre' => optional($mascota->especieMascota)->nombre,
+                    'especie_nombre' => optional($mascota->especieMascota)->nombre ?: $mascota->otra_especie,
+                    'sexo' => $mascota->sexo,
+                    'raza_id' => $mascota->raza_id,
+                    'raza_nombre' => optional($mascota->razaMascota)->nombre,
                 ];
             })
             ->values();
@@ -119,8 +128,8 @@ class VetsdiInicioReservaController extends Controller
                 'nombres' => $paciente->nombres,
                 'apellido_uno' => $paciente->apellido_uno,
                 'apellido_dos' => $paciente->apellido_dos === 'N/A' ? '' : $paciente->apellido_dos,
-                'email' => $paciente->email,
-                'telefono' => $paciente->telefono_uno ?: $paciente->telefono_dos,
+                'email' => $this->enmascararCorreo($paciente->email),
+                'telefono' => $this->enmascararTelefono($paciente->telefono_uno ?: $paciente->telefono_dos),
             ],
             'mascotas' => $mascotas,
         ]);
@@ -259,210 +268,279 @@ class VetsdiInicioReservaController extends Controller
     public function horas(Request $request)
     {
         $request->validate([
-            'id_profesional' => 'required|integer',
+            'id_profesional' => 'required_without:id_prestador|nullable|integer',
+            'id_prestador' => 'required_without:id_profesional|nullable|integer',
             'id_lugar_atencion' => 'required|integer',
             'fecha' => 'required|date_format:Y-m-d',
         ]);
 
+        $idProfesional = (int) ($request->input('id_prestador') ?: $request->input('id_profesional'));
+        $idLugar = (int) $request->input('id_lugar_atencion');
         $fecha = Carbon::createFromFormat('Y-m-d', $request->input('fecha'))->startOfDay();
-        $horario = $this->getHorario((int) $request->input('id_profesional'), (int) $request->input('id_lugar_atencion'), $fecha);
+        $tipoAgenda = $this->tipoAgenda($request);
 
-        if (!$horario) {
-            return response()->json([
-                'estado' => 0,
-                'msj' => 'No hay agenda configurada para la fecha seleccionada.',
-                'horarios' => [],
-            ]);
-        }
-
-        $duracion = $this->resolveDurationMinutes($horario);
-        $bloques = [];
-
-        $inicio = Carbon::parse($fecha->format('Y-m-d').' '.$horario->hora_inicio);
-        $termino = Carbon::parse($fecha->format('Y-m-d').' '.$horario->hora_termino);
-
-        for ($slot = $inicio->copy(); $slot->lt($termino); $slot->addMinutes($duracion)) {
-            if ($this->slotDisponible((int) $request->input('id_profesional'), (int) $request->input('id_lugar_atencion'), $slot, $duracion)) {
-                $bloques[] = [
-                    'fecha' => $slot->format('Y-m-d'),
-                    'hora' => $slot->format('H:i'),
-                    'fecha_hora' => $slot->format('Y-m-d H:i'),
-                    'timestamp' => $slot->timestamp,
-                ];
-            }
-        }
+        // Todos los turnos del día, sin horas pasadas, bloqueadas ni ocupadas en ningún lugar
+        $bloques = app(AgendaDisponibilidad::class)->bloquesLibres($idProfesional, $idLugar, $fecha->toDateString(), $tipoAgenda);
 
         return response()->json([
             'estado' => 1,
-            'msj' => 'registros',
+            'msj' => $bloques ? 'registros' : 'sin horas disponibles',
             'text_fecha' => $fecha->translatedFormat('l d \\d\\e F \\d\\e Y'),
-            'horarios' => $bloques,
+            'horas' => array_map(fn ($b) => substr($b['hora'], 0, 5), $bloques),
+            'horarios' => array_map(function ($b) use ($fecha) {
+                $inicio = Carbon::parse($fecha->toDateString().' '.$b['hora']);
+
+                return [
+                    'fecha' => $inicio->format('Y-m-d'),
+                    'hora' => $inicio->format('H:i'),
+                    'fecha_hora' => $inicio->format('Y-m-d H:i'),
+                    'timestamp' => $inicio->timestamp,
+                ];
+            }, $bloques),
         ]);
     }
 
     public function reservar(Request $request)
     {
+        // id_prestador es el nombre que usa el buscador nuevo; id_profesional se mantiene por compatibilidad
+        if (!$request->filled('id_profesional') && $request->filled('id_prestador')) {
+            $request->merge(['id_profesional' => $request->input('id_prestador')]);
+        }
+
         $validator = Validator::make($request->all(), [
             'id_profesional' => 'required|integer',
             'id_lugar_atencion' => 'required|integer',
             'fecha' => 'required|date_format:Y-m-d',
             'hora' => 'required|date_format:H:i',
-            'responsable_id' => 'nullable|integer|exists:pacientes,id',
+            'responsable_id' => 'nullable|integer',
             'responsable_rut' => 'required|string|max:20',
-            'responsable_nombres' => 'required|string|max:100',
-            'responsable_apellido_uno' => 'required|string|max:50',
+            'responsable_nombres' => 'required_without:responsable_id|nullable|string|max:100',
+            'responsable_apellido_uno' => 'required_without:responsable_id|nullable|string|max:50',
             'responsable_apellido_dos' => 'nullable|string|max:50',
-            'responsable_email' => 'required|email|max:200',
-            'responsable_telefono' => 'required|string|max:20',
-            'mascota_id' => 'nullable|integer|exists:mascotas,id',
+            'responsable_email' => 'required_without:responsable_id|nullable|email|max:200',
+            'responsable_telefono' => 'required_without:responsable_id|nullable|string|max:20',
+            'mascota_id' => 'nullable|integer',
             'mascota_nombre' => 'required_without:mascota_id|nullable|string|max:100',
             'mascota_especie_id' => 'required_without:mascota_id|nullable|integer|exists:especies_mascotas,id',
+            'mascota_raza_id' => 'nullable|integer|exists:razas_mascotas,id',
+            'mascota_otra_especie' => 'nullable|string|max:100',
+            'mascota_sexo' => 'nullable|in:M,F',
             'comentarios' => 'nullable|string|max:1000',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'estado' => 0,
-                'msj' => 'Datos incompletos o inválidos.',
+                'msj' => 'Revisa los datos ingresados.',
                 'errores' => $validator->errors(),
             ], 422);
         }
 
-        $respuesta = DB::transaction(function () use ($request) {
-            $profesional = Profesional::with(['Especialidad', 'TipoEspecialidad', 'SubTipoEspecialidad'])->findOrFail((int) $request->input('id_profesional'));
-            $lugar = LugarAtencion::with('Direccion.Ciudad')->findOrFail((int) $request->input('id_lugar_atencion'));
-            $especie = null;
+        $rutIngresado = (string) $request->input('responsable_rut');
+        if (!$this->rutValido($rutIngresado)) {
+            return $this->errorReserva('El RUT ingresado no es válido.', 422);
+        }
 
-            if ($request->filled('mascota_especie_id')) {
-                $especie = EspecieMascota::findOrFail((int) $request->input('mascota_especie_id'));
+        $profesional = Profesional::with(['Especialidad', 'TipoEspecialidad', 'SubTipoEspecialidad'])->find((int) $request->input('id_profesional'));
+        $lugar = LugarAtencion::with('Direccion.Ciudad')->find((int) $request->input('id_lugar_atencion'));
+        if (!$profesional || !$lugar) {
+            return $this->errorReserva('No encontramos al profesional o el lugar de atención.', 422);
+        }
+
+        // El profesional tiene que atender en ese lugar
+        $atiendeEnLugar = \App\Models\ProfesionalesLugaresAtencion::where('id_profesional', $profesional->id)
+            ->where('id_lugar_atencion', $lugar->id)
+            ->where('estado', 1)
+            ->exists();
+        if (!$atiendeEnLugar) {
+            return $this->errorReserva('El profesional no atiende en ese lugar.', 422);
+        }
+
+        $tipoHora = $this->tipoHoraMedica($request);
+        $tipoAgenda = ['C' => 1, 'D' => 2, 'T' => 3, 'E' => 4, 'P' => 5][$tipoHora];
+        $fecha = $request->input('fecha');
+        $hora = $request->input('hora').':00';
+
+        // La hora tiene que ser uno de los bloques libres (mismos criterios que guardarReserva)
+        $bloque = collect(app(AgendaDisponibilidad::class)->bloquesLibres($profesional->id, $lugar->id, $fecha, $tipoAgenda))
+            ->firstWhere('hora', $hora);
+        if (!$bloque) {
+            return $this->errorReserva('La hora seleccionada ya no está disponible. Elige otra.', 409);
+        }
+        $duracion = (int) $bloque['duracion'];
+
+        // ---- Tutor: se identifica por RUT. Si ya existe NO se modifican sus datos ----
+        $paciente = null;
+        if ($request->filled('responsable_id')) {
+            $paciente = Paciente::find((int) $request->input('responsable_id'));
+            if (!$paciente || $this->normalizeRut((string) $paciente->rut) !== $this->normalizeRut($rutIngresado)) {
+                return $this->errorReserva('El RUT no coincide con el tutor seleccionado.', 422);
             }
+        }
+        if (!$paciente) {
+            $paciente = $this->findPacienteByRut($rutIngresado);
+        }
+        $tutorNuevo = !$paciente;
 
-            $inicio = Carbon::createFromFormat('Y-m-d H:i', $request->input('fecha').' '.$request->input('hora'));
-            $horario = $this->getHorario($profesional->id, $lugar->id, $inicio);
-
-            if (!$horario) {
-                return response()->json([
-                    'estado' => 0,
-                    'msj' => 'El profesional no atiende en ese bloque.',
-                ], 422);
-            }
-
-            $duracion = $this->resolveDurationMinutes($horario);
-
-            if (!$this->slotDisponible($profesional->id, $lugar->id, $inicio, $duracion)) {
-                return response()->json([
-                    'estado' => 0,
-                    'msj' => 'La hora seleccionada ya no está disponible.',
-                ], 409);
-            }
-
-            $rutIngresado = (string) $request->input('responsable_rut');
-            $rutNormalizado = $this->normalizeRut($rutIngresado);
-            $rutFormateado = $this->formatRut($rutIngresado);
-
-            $paciente = null;
-
-            if ($request->filled('responsable_id')) {
-                $paciente = Paciente::findOrFail((int) $request->input('responsable_id'));
-
-                if ($rutNormalizado !== '' && $this->normalizeRut((string) $paciente->rut) !== $rutNormalizado) {
-                    return response()->json([
-                        'estado' => 0,
-                        'msj' => 'El RUT ingresado no coincide con el responsable seleccionado.',
-                    ], 422);
+        if ($tutorNuevo) {
+            // Un tutor nuevo necesita todos sus datos (los existentes ya están guardados)
+            foreach (['responsable_nombres', 'responsable_apellido_uno', 'responsable_email', 'responsable_telefono'] as $campo) {
+                if (!$request->filled($campo)) {
+                    return $this->errorReserva('Completa tus datos para registrarte y reservar.', 422);
                 }
             }
+        }
 
-            if (!$paciente && $rutNormalizado !== '') {
-                $paciente = $this->findPacienteByRut($rutIngresado);
+        // ---- Mascota ----
+        $mascota = null;
+        $especie = null;
+        if ($request->filled('mascota_id')) {
+            if ($tutorNuevo) {
+                return $this->errorReserva('La mascota seleccionada no corresponde al tutor.', 422);
             }
-
-            if (!$paciente) {
-                $paciente = Paciente::whereRaw('LOWER(email) = ?', [mb_strtolower($request->input('responsable_email'))])->first();
+            $mascota = Mascota::with('especieMascota')
+                ->where('id', (int) $request->input('mascota_id'))
+                ->where('id_responsable', $paciente->id)
+                ->seleccionables()
+                ->first();
+            if (!$mascota) {
+                return $this->errorReserva('La mascota seleccionada no corresponde al tutor.', 422);
             }
-
-            if (!$paciente) {
-                $paciente = new Paciente();
-                $paciente->token = md5(uniqid((string) mt_rand(), true));
-                $paciente->rut = $rutFormateado !== '' ? $rutFormateado : $this->generateExternalRut();
-                $paciente->nombres = trim((string) $request->input('responsable_nombres'));
-                $paciente->apellido_uno = trim((string) $request->input('responsable_apellido_uno'));
-                $paciente->apellido_dos = trim((string) $request->input('responsable_apellido_dos', '')) ?: 'N/A';
-                $paciente->telefono_uno = trim((string) $request->input('responsable_telefono'));
-                $paciente->sexo = 'O';
-                $paciente->email = mb_strtolower(trim((string) $request->input('responsable_email')));
-                $paciente->fecha_nac = '2000-01-01';
-                $paciente->id_prevision = optional(Prevision::orderBy('id')->first())->id ?? 1;
-                $paciente->save();
-            } else {
-                if ($rutFormateado !== '' && strncmp((string) $paciente->rut, 'EXT', 3) !== 0) {
-                    $paciente->rut = $rutFormateado;
+            $especie = $mascota->especieMascota ?: EspecieMascota::find($mascota->especie_id ?: $mascota->especie);
+        } else {
+            $especie = EspecieMascota::find((int) $request->input('mascota_especie_id'));
+            if (!$especie) {
+                return $this->errorReserva('Selecciona la especie de tu mascota.', 422);
+            }
+            if ($request->filled('mascota_raza_id')) {
+                $razaValida = DB::table('razas_mascotas')
+                    ->where('id', (int) $request->input('mascota_raza_id'))
+                    ->where('especie_id', $especie->id)
+                    ->exists();
+                if (!$razaValida) {
+                    return $this->errorReserva('La raza no corresponde a la especie elegida.', 422);
                 }
-                $paciente->telefono_uno = trim((string) $request->input('responsable_telefono'));
-                $paciente->nombres = trim((string) $request->input('responsable_nombres'));
-                $paciente->apellido_uno = trim((string) $request->input('responsable_apellido_uno'));
-                $paciente->apellido_dos = trim((string) $request->input('responsable_apellido_dos', '')) ?: ($paciente->apellido_dos ?: 'N/A');
-                $paciente->email = mb_strtolower(trim((string) $request->input('responsable_email')));
-                $paciente->save();
             }
+            if ($this->esEspecieOtra($especie) && !$request->filled('mascota_otra_especie')) {
+                return $this->errorReserva('Cuéntanos qué especie es tu mascota.', 422);
+            }
+        }
 
-            $mascota = null;
+        // El test de leucemia felina solo se reserva para gatos
+        $item = trim((string) $request->input('item', ''));
+        if ($item !== '' && stripos($item, 'leucemia felina') !== false && (int) optional($especie)->id !== 2) {
+            return $this->errorReserva('El test de leucemia felina es solo para gatos.', 422);
+        }
 
-            if ($request->filled('mascota_id')) {
-                $mascota = Mascota::with('especieMascota')
-                    ->where('id', (int) $request->input('mascota_id'))
-                    ->where('id_responsable', $paciente->id)
-                    ->first();
+        // Regla del escritorio: una hora por día con el mismo profesional para la misma mascota
+        if ($mascota) {
+            $yaTiene = HoraMedica::where('id_mascota', $mascota->id)
+                ->where('id_profesional', $profesional->id)
+                ->where('tipo_hora_medica', $tipoHora)
+                ->where('fecha_consulta', $fecha)
+                ->whereNotIn('id_estado', AgendaDisponibilidad::ESTADOS_LIBRES)
+                ->exists();
+            if ($yaTiene) {
+                return $this->errorReserva('Tu mascota ya tiene una hora con este profesional ese día.', 422);
+            }
+        }
+
+        // ---- Guardar ----
+        // "mascotas" es MyISAM y no se deshace con la transacción: la mascota nueva se crea al final,
+        // con todo lo demás ya validado, y si la hora no se puede guardar se borra a mano.
+        $mascotaCreada = null;
+
+        try {
+            $horaMedica = DB::transaction(function () use ($request, $paciente, $tutorNuevo, &$mascota, &$mascotaCreada, $especie, $profesional, $lugar, $fecha, $hora, $duracion, $tipoHora, $item, $rutIngresado) {
+                if ($tutorNuevo) {
+                    $paciente = new Paciente();
+                    $paciente->token = md5(uniqid((string) mt_rand(), true));
+                    $paciente->rut = $this->formatRut($rutIngresado);
+                    $paciente->nombres = trim((string) $request->input('responsable_nombres'));
+                    $paciente->apellido_uno = trim((string) $request->input('responsable_apellido_uno'));
+                    $paciente->apellido_dos = trim((string) $request->input('responsable_apellido_dos', '')) ?: 'N/A';
+                    $paciente->telefono_uno = trim((string) $request->input('responsable_telefono'));
+                    $paciente->sexo = 'O';
+                    $paciente->email = mb_strtolower(trim((string) $request->input('responsable_email')));
+                    $paciente->fecha_nac = '2000-01-01';
+                    $paciente->id_prevision = optional(Prevision::orderBy('id')->first())->id ?? 1;
+                    $paciente->save();
+                }
 
                 if (!$mascota) {
-                    return response()->json([
-                        'estado' => 0,
-                        'msj' => 'La mascota seleccionada no corresponde al responsable indicado.',
-                    ], 422);
+                    $mascota = new Mascota();
+                    $mascota->id_responsable = $paciente->id;
+                    $mascota->nombre = trim((string) $request->input('mascota_nombre'));
+                    $mascota->especie_id = $especie->id;
+                    $mascota->especie = $especie->id;
+                    $mascota->raza_id = $request->filled('mascota_raza_id') ? (int) $request->input('mascota_raza_id') : null;
+                    $mascota->otra_especie = $this->esEspecieOtra($especie) ? trim((string) $request->input('mascota_otra_especie')) : null;
+                    $mascota->sexo = $request->input('mascota_sexo') ?: null;
+                    $mascota->tiene_chip = false;
+                    $mascota->esterilizado = false;
+                    $mascota->vacunas_registro = [];
+                    $mascota->desparasitaciones_registro = [];
+                    $mascota->suscripciones_servicios_registro = [];
+                    $mascota->reservas_servicios_registro = [];
+                    $mascota->id_user = $paciente->id_usuario;
+                    $mascota->estado = 1;
+                    $mascota->save();
+                    $mascotaCreada = $mascota;
                 }
 
-                $especie = $mascota->especieMascota ?: EspecieMascota::find($mascota->especie_id ?: $mascota->especie);
+                $horaMedica = new HoraMedica();
+                $horaMedica->id_paciente = $paciente->id;
+                $horaMedica->id_mascota = $mascota->id;
+                $horaMedica->id_profesional = $profesional->id;
+                $horaMedica->id_estado = 1;
+                $horaMedica->id_lugar_atencion = $lugar->id;
+                $horaMedica->fecha_consulta = $fecha;
+                $horaMedica->hora_inicio = $hora;
+                $horaMedica->hora_termino = Carbon::parse($fecha.' '.$hora)->addMinutes($duracion)->format('H:i:s');
+                $horaMedica->tipo_hora_medica = $tipoHora;
+                $horaMedica->alias_examen = ['C' => 'Consulta', 'D' => 'Consulta Dental', 'T' => 'Videoconsulta veterinaria'][$tipoHora] ?? ($item ?: 'Consulta');
+                $horaMedica->descripcion = trim($paciente->nombres.' '.$paciente->apellido_uno.' '.($paciente->apellido_dos === 'N/A' ? '' : $paciente->apellido_dos));
+                $horaMedica->observaciones = trim(
+                    'Reserva web pública. Mascota: '.$mascota->nombre.' ('.$especie->nombre.').'.
+                    ($item !== '' ? ' Servicio: '.$item.'.' : '').
+                    (!empty($request->input('comentarios')) ? ' Observaciones: '.$request->input('comentarios') : '')
+                );
+                $horaMedica->medio_pago = 'en_consulta';
+
+                // Misma validación final que la reserva del escritorio (turno, bloqueos y choques)
+                app(AccesoAgendaVeterinaria::class)->guardarReserva($horaMedica, $duracion);
+
+                return $horaMedica;
+            });
+        } catch (ValidationException $e) {
+            $this->borrarMascotaCreada($mascotaCreada);
+
+            return $this->errorReserva('La hora seleccionada ya no está disponible. Elige otra.', 409);
+        } catch (\Throwable $e) {
+            $this->borrarMascotaCreada($mascotaCreada);
+            report($e);
+
+            return $this->errorReserva('No pudimos guardar la reserva. Intenta nuevamente en unos minutos.', 500);
+        }
+
+        $paciente = Paciente::find($horaMedica->id_paciente);
+
+        // La mascota queda vinculada al lugar donde se atiende, igual que al reservar desde el escritorio
+        $mascota->vincularLugarAtencion($lugar->id, LugarAtencionInstitucionResolver::resolve($lugar->id), 'agenda_responsable');
+
+        if ($tipoHora === 'T') {
+            try {
+                $horaMedica->video_llamada = JitsiController::jitsiRegistroMeet($profesional->id, $horaMedica->id_paciente, $horaMedica->id);
+            } catch (\Throwable $e) {
+                report($e);
             }
+        }
 
-            if (!$mascota) {
-                if (!$especie) {
-                    return response()->json([
-                        'estado' => 0,
-                        'msj' => 'Selecciona el tipo de mascota antes de confirmar.',
-                    ], 422);
-                }
+        $direccion = optional($lugar->Direccion);
+        $ciudad = optional($direccion->Ciudad);
 
-                $mascota = new Mascota();
-                $mascota->id_responsable = $paciente->id;
-                $mascota->nombre = trim((string) $request->input('mascota_nombre'));
-                $mascota->especie_id = $especie->id;
-                $mascota->especie = $especie->id;
-                $mascota->id_user = $paciente->id_usuario;
-                $mascota->estado = 1;
-                $mascota->save();
-            }
-
-            $horaMedica = new HoraMedica();
-            $horaMedica->id_paciente = $paciente->id;
-            $horaMedica->id_mascota = $mascota->id;
-            $horaMedica->id_profesional = $profesional->id;
-            $horaMedica->id_estado = 1;
-            $horaMedica->id_lugar_atencion = $lugar->id;
-            $horaMedica->fecha_consulta = $inicio->format('Y-m-d');
-            $horaMedica->hora_inicio = $inicio->format('H:i:s');
-            $horaMedica->hora_termino = $inicio->copy()->addMinutes($duracion)->subSecond()->format('H:i:s');
-            $horaMedica->tipo_hora_medica = 'C';
-            $horaMedica->alias_examen = 'Consulta';
-            $horaMedica->descripcion = trim($paciente->nombres.' '.$paciente->apellido_uno.' '.$paciente->apellido_dos);
-            $horaMedica->observaciones = trim(
-                'Reserva externa VET SDI. Mascota: '.$mascota->nombre.' ('.$especie->nombre.').' .
-                (!empty($request->input('comentarios')) ? ' Observaciones: '.$request->input('comentarios') : '')
-            );
-            $horaMedica->save();
-
-            $direccion = optional($lugar->Direccion);
-            $ciudad = optional($direccion->Ciudad);
-
+        try {
+            // El correo va siempre al email guardado del tutor
             SendMailController::envioCorreo(
                 'hora_agendada',
                 [[
@@ -473,7 +551,7 @@ class VetsdiInicioReservaController extends Controller
                 [],
                 'VET SDI - Reserva confirmada',
                 [
-                    'nombre_paciente' => trim($paciente->nombres.' '.$paciente->apellido_uno.' '.$paciente->apellido_dos),
+                    'nombre_paciente' => trim($paciente->nombres.' '.$paciente->apellido_uno.' '.($paciente->apellido_dos === 'N/A' ? '' : $paciente->apellido_dos)),
                     'fecha' => $horaMedica->fecha_consulta,
                     'hora' => substr($horaMedica->hora_inicio, 0, 5),
                     'profesional_nombre' => trim($profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos),
@@ -494,63 +572,111 @@ class VetsdiInicioReservaController extends Controller
                 '',
                 ''
             );
+        } catch (\Throwable $e) {
+            // La hora ya quedó guardada: un problema con el correo no la deshace
+            report($e);
+        }
 
-            return response()->json([
-                'estado' => 1,
-                'msj' => 'Reserva creada correctamente.',
-                'registro' => [
-                    'id' => $horaMedica->id,
-                    'fecha' => $horaMedica->fecha_consulta,
-                    'hora' => substr($horaMedica->hora_inicio, 0, 5),
-                    'profesional' => trim($profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos),
-                    'lugar_atencion' => $lugar->nombre,
-                    'mascota' => $mascota->nombre,
-                    'especie' => $especie->nombre,
-                ],
-            ]);
-        });
-
-        return $respuesta;
+        return response()->json([
+            'estado' => 1,
+            'msj' => 'Reserva creada correctamente.',
+            'registro' => [
+                'id' => $horaMedica->id,
+                'fecha' => $horaMedica->fecha_consulta,
+                'hora' => substr($horaMedica->hora_inicio, 0, 5),
+                'profesional' => trim($profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos),
+                'lugar_atencion' => $lugar->nombre,
+                'mascota' => $mascota->nombre,
+                'especie' => $especie->nombre,
+            ],
+        ]);
     }
 
-    protected function getHorario(int $idProfesional, int $idLugarAtencion, Carbon $fecha): ?ProfesionalHorario
+    /** Respuesta de error de la reserva, con el mensaje que ve la persona */
+    protected function errorReserva(string $mensaje, int $codigo)
     {
-        $dia = (int) $fecha->format('N');
-
-        return ProfesionalHorario::where('id_profesional', $idProfesional)
-            ->where('id_lugar_atencion', $idLugarAtencion)
-            ->where('dia', 'like', '%'.$dia.'%')
-            ->where('tipo_agenda', 1)
-            ->first();
+        return response()->json(['estado' => 0, 'msj' => $mensaje], $codigo);
     }
 
-    protected function resolveDurationMinutes(ProfesionalHorario $horario): int
+    /** Si la hora no se guardó, la mascota recién creada se borra (la tabla no hace rollback) */
+    protected function borrarMascotaCreada(?Mascota $mascota): void
     {
-        $duracion = explode(':', (string) $horario->duracion_consulta);
-        $horas = isset($duracion[0]) ? (int) $duracion[0] : 0;
-        $minutos = isset($duracion[1]) ? (int) $duracion[1] : 0;
-        $total = ($horas * 60) + $minutos;
-
-        return $total > 0 ? $total : 15;
+        if ($mascota && $mascota->exists) {
+            try {
+                $mascota->lugaresAtencion()->delete();
+            } catch (\Throwable $e) {
+                // sin vínculos que borrar
+            }
+            $mascota->delete();
+        }
     }
 
-    protected function slotDisponible(int $idProfesional, int $idLugarAtencion, Carbon $inicio, int $duracion): bool
+    /** Servicio y modalidad del buscador → tipo de hora del escritorio (C, D, T, E o P) */
+    protected function tipoHoraMedica(Request $request): string
     {
-        $termino = $inicio->copy()->addMinutes($duracion)->subSecond();
+        if ($request->input('modalidad') === 'videoconsulta') {
+            return 'T';
+        }
 
-        return !HoraMedica::where('id_profesional', $idProfesional)
-            ->where('id_lugar_atencion', $idLugarAtencion)
-            ->where('fecha_consulta', $inicio->format('Y-m-d'))
-            ->whereNotIn('id_estado', [3, 14, 15])
-            ->where(function ($query) use ($inicio, $termino) {
-                $query->whereBetween('hora_inicio', [$inicio->format('H:i:s'), $termino->format('H:i:s')])
-                    ->orWhereBetween('hora_termino', [$inicio->format('H:i:s'), $termino->format('H:i:s')])
-                    ->orWhere(function ($subQuery) use ($inicio, $termino) {
-                        $subQuery->where('hora_inicio', '<=', $inicio->format('H:i:s'))
-                            ->where('hora_termino', '>=', $termino->format('H:i:s'));
-                    });
-            })
-            ->exists();
+        return [
+            'procedimiento' => 'P',
+            'examenes' => 'E',
+            'odontologia' => 'D',
+        ][(string) $request->input('servicio')] ?? 'C';
+    }
+
+    /** tipo_agenda de los turnos que corresponde a la búsqueda (1 consulta … 5 procedimiento) */
+    protected function tipoAgenda(Request $request): int
+    {
+        return ['C' => 1, 'D' => 2, 'T' => 3, 'E' => 4, 'P' => 5][$this->tipoHoraMedica($request)];
+    }
+
+    protected function esEspecieOtra(EspecieMascota $especie): bool
+    {
+        return stripos(\Illuminate\Support\Str::ascii((string) $especie->nombre), 'otr') === 0;
+    }
+
+    /** RUT chileno con dígito verificador correcto */
+    protected function rutValido(string $rut): bool
+    {
+        $limpio = $this->normalizeRut($rut);
+        if (strlen($limpio) < 2 || !ctype_digit(substr($limpio, 0, -1))) {
+            return false;
+        }
+        $cuerpo = substr($limpio, 0, -1);
+        $suma = 0;
+        $factor = 2;
+        for ($i = strlen($cuerpo) - 1; $i >= 0; $i--) {
+            $suma += ((int) $cuerpo[$i]) * $factor;
+            $factor = $factor === 7 ? 2 : $factor + 1;
+        }
+        $resto = 11 - ($suma % 11);
+        $esperado = $resto === 11 ? '0' : ($resto === 10 ? 'K' : (string) $resto);
+
+        return substr($limpio, -1) === $esperado;
+    }
+
+    /** "camila.rojas@correo.cl" → "ca•••@correo.cl" */
+    protected function enmascararCorreo(?string $correo): string
+    {
+        $correo = trim((string) $correo);
+        if ($correo === '' || strpos($correo, '@') === false) {
+            return '';
+        }
+        [$usuario, $dominio] = explode('@', $correo, 2);
+
+        return mb_substr($usuario, 0, 2).'•••@'.$dominio;
+    }
+
+    /** "+56 9 1234 5678" → "+56 9 •••• 5678" */
+    protected function enmascararTelefono(?string $telefono): string
+    {
+        $digitos = preg_replace('/\D/', '', (string) $telefono);
+        if (strlen($digitos) < 4) {
+            return '';
+        }
+
+        return '•••• '.substr($digitos, -4);
     }
 
     protected function generateExternalRut(): string

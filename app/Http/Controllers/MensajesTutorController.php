@@ -62,6 +62,41 @@ class MensajesTutorController extends Controller
         return response()->json(['estado' => 1, 'datos' => $this->formatear($mensaje)]);
     }
 
+    /**
+     * Respuesta del tutor a un negocio de servicios (peluquería, hotel o cementerio).
+     * Llega a la bandeja del usuario que escribió, como mensaje directo (tipo 1).
+     */
+    public function responder(\Illuminate\Http\Request $request, $id)
+    {
+        $consulta = self::consultaDelTutor();
+        $original = $consulta ? $consulta->where('id', $id)->first() : null;
+        $datosOriginal = $original ? json_decode((string) $original->datos_mensaje, true) : null;
+
+        if (! $original || ! is_array($datosOriginal) || empty($datosOriginal['negocio']) || ! $original->id_usuario) {
+            return response()->json(['estado' => 0, 'mensaje' => 'Este mensaje no admite respuesta.'], 422);
+        }
+
+        $datos = $request->validate(['mensaje' => 'required|string|max:3000']);
+        $asunto = 'Re: '.trim((string) ($datosOriginal['asunto'] ?? $datosOriginal['titulo'] ?? 'Mensaje'));
+
+        $respuesta = new Mensajes();
+        $respuesta->id_usuario = Auth::id();
+        $respuesta->id_receptor = (int) $original->id_usuario;
+        $respuesta->datos_mensaje = json_encode([
+            'titulo' => $asunto,
+            'asunto' => $asunto,
+            'mensaje' => $datos['mensaje'],
+            'remitente' => Auth::user()->nombreParaMostrar(),
+            'respuesta_a' => (int) $original->id,
+        ], JSON_UNESCAPED_UNICODE);
+        $respuesta->tipo_mensaje = 1;
+        $respuesta->fecha_envio = Carbon::now()->format('Y-m-d H:i:s');
+        $respuesta->estado = 1;
+        $respuesta->save();
+
+        return response()->json(['estado' => 1, 'mensaje' => 'Respuesta enviada.']);
+    }
+
     /** Arma los datos que muestra la vista, tolerando mensajes antiguos con campos faltantes. */
     private function formatear(Mensajes $mensaje): array
     {
@@ -82,7 +117,9 @@ class MensajesTutorController extends Controller
             'id' => $mensaje->id,
             'asunto' => trim((string) ($datos['asunto'] ?? $datos['titulo'] ?? '')) ?: 'Sin asunto',
             'mensaje' => (string) ($datos['mensaje'] ?? ''),
-            'remitente' => $remitente ? $remitente->nombreParaMostrar() : 'VetSDI',
+            // Los negocios de servicios firman con el nombre del negocio
+            'remitente' => trim((string) ($datos['negocio'] ?? '')) ?: ($remitente ? $remitente->nombreParaMostrar() : 'VetSDI'),
+            'puede_responder' => ! empty($datos['negocio']) && (bool) $mensaje->id_usuario,
             'tipo' => $tipos[(int) $mensaje->tipo_mensaje] ?? 'Mensaje',
             'fecha' => $fecha ? Carbon::parse($fecha)->format('d-m-Y H:i') : '',
             'hace' => $fecha ? Carbon::parse($fecha)->locale('es')->diffForHumans() : '',

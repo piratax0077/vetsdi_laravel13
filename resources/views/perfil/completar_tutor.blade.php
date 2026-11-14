@@ -67,7 +67,7 @@
 
             <div class="perfil-campo">
                 <label for="mascota_especie">Especie</label>
-                <select name="mascota_especie" id="mascota_especie" class="@error('mascota_especie') es-invalido @enderror">
+                <select name="mascota_especie" id="mascota_especie" class="@error('mascota_especie') es-invalido @enderror" data-buscador-especie data-cambio-nativo>
                     <option value="">Elige la especie</option>
                     @foreach($especies as $especie)
                         <option value="{{ $especie->id }}" @selected(old('mascota_especie') == $especie->id)>{{ $especie->nombre }}</option>
@@ -80,7 +80,7 @@
 
             <div class="perfil-campo">
                 <label for="mascota_raza">Raza</label>
-                <select name="mascota_raza" id="mascota_raza"
+                <select name="mascota_raza" id="mascota_raza" data-buscador-raza data-especie="#mascota_especie" data-cambio-nativo
                     class="@error('mascota_raza') es-invalido @enderror"
                     data-elegida="{{ old('mascota_raza') }}">
                     <option value="">Primero elige la especie</option>
@@ -138,4 +138,5 @@
 @push('scripts')
     <script type="application/json" id="catalogo-razas">{!! json_encode($razasPorEspecie) !!}</script>
     <script src="{{ asset('js/perfil/completar_perfil.js') }}?t={{ time() }}"></script>
+    @include('template.include.selector_razas')
 @endpush

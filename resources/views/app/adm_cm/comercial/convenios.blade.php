@@ -9,25 +9,9 @@
 <!--Container Completo-->
 <div class="pcoded-main-container">
     <div class="pcoded-content">
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="page-header-title">
-                            <h5 class="font-weight-bolder">Mis Convenios</h5>
-                        </div>
-                        <ul class="breadcrumb mb-4">
-                            <li class="breadcrumb-item">
-                                <a href="{{ url('/') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                    <i class="feather icon-home"></i>
-                                </a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="#">Convenios</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-12 mb-3 encabezado-pagina">
+                <h5 class="f-26 d-inline">Mis Convenios</h5>
             </div>
         </div>
         <div class="col-sm-12">

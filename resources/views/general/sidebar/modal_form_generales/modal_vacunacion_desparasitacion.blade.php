@@ -104,7 +104,9 @@
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3">
                                         <label class="floating-label-activo-sm" for="des_raza_modal">Raza</label>
-                                        <input type="text" class="form-control form-control-sm" id="des_raza_modal" readonly>
+                                        {{-- Raza con buscador: si se cambia, se actualiza en la ficha de la mascota al guardar --}}
+                                        <input type="hidden" id="des_especie_id_modal">
+                                        <select class="form-control form-control-sm" id="des_raza_modal" data-buscador-raza data-cargar-razas data-especie="#des_especie_id_modal"></select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3">
                                         <label class="floating-label-activo-sm" for="des_peso_modal">Peso (kg)</label>
@@ -299,7 +301,10 @@ window.cerrarVacunacionVeterinaria = function () {
         if (!felina) $('input[name="vac_felv_test"]').prop('checked', false);
         actualizarResultadoFelv();
         $('#des_especie_modal').val(mascota.especie || '');
-        $('#des_raza_modal').val(mascota.raza || '');
+        $('#des_especie_id_modal').val(mascota.especie_id || '');
+        if (typeof window.recargarRazasMascota === 'function') {
+            window.recargarRazasMascota(document.getElementById('des_raza_modal'), mascota.raza_id || '');
+        }
     }
 
     function renderVacunas(items) {
@@ -440,6 +445,7 @@ window.cerrarVacunacionVeterinaria = function () {
                 tipo: tipo,
                 tipo_otro: tipoOtro,
                 peso: $('#des_peso_modal').val(),
+                raza_id: $('#des_raza_modal').val() || '',
                 dosis: $('#des_dosis_modal').val(),
                 lote: $('#des_lote_modal').val(),
                 proxima_dosis: $('#des_proxima_dosis_modal').val()

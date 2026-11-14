@@ -1757,6 +1757,144 @@ class MascotasController extends Controller
         return view('app.paciente_dependiente.pagos_suscripcion');
     }
 
+    /**
+     * Registro rápido desde el modal "Agendar hora" del escritorio del tutor:
+     * nombre, especie (canino, felino u otra), raza opcional y sexo.
+     * La mascota queda a nombre del tutor de la cuenta y la ficha se completa después en Mis mascotas.
+     */
+    public function registroRapido(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'especie' => 'required|in:canina,felina,otra',
+            'otra_especie' => 'nullable|required_if:especie,otra|string|max:500',
+            'raza_id' => 'nullable|integer',
+            'sexo' => 'required|in:M,F',
+        ], [
+            'otra_especie.required_if' => 'Indique cuál es la especie de la mascota.',
+        ], [
+            'nombre' => 'nombre',
+            'especie' => 'especie',
+            'sexo' => 'sexo',
+        ]);
+
+        $paciente = Paciente::where('id_usuario', Auth::id())->first();
+        if (!$paciente) {
+            return response()->json(['estado' => 0, 'msj' => 'No encontramos al tutor de la cuenta.'], 404);
+        }
+
+        $slugEspecie = $request->input('especie') === 'otra' ? 'otros' : $request->input('especie');
+        $especie = EspecieMascota::where('slug', $slugEspecie)->first();
+        if (!$especie) {
+            return response()->json(['estado' => 0, 'msj' => 'La especie seleccionada no está disponible.'], 422);
+        }
+
+        // La raza solo se guarda si es de la especie elegida (canino o felino)
+        $razaId = null;
+        if ($request->filled('raza_id') && $request->input('especie') !== 'otra') {
+            $razaId = RazaMascota::where('id', $request->input('raza_id'))
+                ->where('especie_id', $especie->id)
+                ->value('id');
+        }
+
+        $mascota = new Mascota();
+        $mascota->id_responsable = $paciente->id;
+        $mascota->tiene_chip = false;
+        $mascota->nombre = trim($request->input('nombre'));
+        $mascota->especie_id = $especie->id;
+        $mascota->especie = $especie->id;
+        $mascota->raza_id = $razaId;
+        $mascota->otra_especie = $request->input('especie') === 'otra' ? trim($request->input('otra_especie')) : null;
+        $mascota->sexo = $request->input('sexo');
+        $mascota->esterilizado = false;
+        $mascota->vacunas_registro = [];
+        $mascota->desparasitaciones_registro = [];
+        $mascota->suscripciones_servicios_registro = [];
+        $mascota->reservas_servicios_registro = [];
+        $mascota->id_user = Auth::id();
+        $mascota->estado = 1;
+        $mascota->ficha_incompleta_veterfarma = false;
+        $mascota->save();
+
+        return response()->json([
+            'estado' => 1,
+            'msj' => 'Mascota registrada.',
+            'mascota' => [
+                'id' => $mascota->id,
+                'nombre' => $mascota->nombre,
+                'especie_texto' => $mascota->otra_especie ?: $especie->nombre,
+            ],
+        ]);
+    }
+
+    /**
+     * Raza escrita a mano en un buscador de razas ("Agregar ... como otra raza").
+     * Si ya existe para esa especie (sin importar mayúsculas ni tildes) se devuelve la misma;
+     * si no, se agrega al catálogo para que quede disponible en todos los registros.
+     * La especie puede venir como id, slug ("canina") o nombre ("Canino", "Perro").
+     */
+    public function crearRaza(Request $request)
+    {
+        $datos = $request->validate([
+            'especie' => 'required|string|max:60',
+            'nombre' => 'required|string|min:2|max:100',
+        ], [], ['especie' => 'especie', 'nombre' => 'raza']);
+
+        $especie = $this->especiePorValor($datos['especie']);
+        if (!$especie) {
+            return response()->json(['estado' => 0, 'msj' => 'Elija primero la especie de la mascota.'], 422);
+        }
+
+        $nombre = trim(preg_replace('/\s+/', ' ', $datos['nombre']));
+        $nombre = mb_strtoupper(mb_substr($nombre, 0, 1)).mb_substr($nombre, 1);
+        $normalizado = \Illuminate\Support\Str::slug($nombre);
+
+        $raza = RazaMascota::where('especie_id', $especie->id)->get(['id', 'nombre', 'slug'])
+            ->first(fn ($r) => \Illuminate\Support\Str::slug($r->nombre) === $normalizado);
+
+        if (!$raza) {
+            $raza = new RazaMascota();
+            $raza->especie_id = $especie->id;
+            $raza->nombre = $nombre;
+            if (\Illuminate\Support\Facades\Schema::hasColumn('razas_mascotas', 'slug')) {
+                $raza->slug = $normalizado;
+            }
+            $raza->save();
+        }
+
+        return response()->json(['estado' => 1, 'raza' => ['id' => $raza->id, 'nombre' => $raza->nombre, 'especie_id' => $especie->id]]);
+    }
+
+    // Razas de una especie dada por id, slug o nombre (buscador de razas de peluquería y vacunación)
+    public function listarRazas(Request $request)
+    {
+        $especie = $this->especiePorValor((string) $request->query('especie', ''));
+        if (!$especie) {
+            return response()->json(['estado' => 1, 'razas' => []]);
+        }
+
+        return response()->json([
+            'estado' => 1,
+            'especie_id' => $especie->id,
+            'razas' => RazaMascota::where('especie_id', $especie->id)->orderBy('nombre')->get(['id', 'nombre']),
+        ]);
+    }
+
+    private function especiePorValor(string $valor): ?EspecieMascota
+    {
+        $valor = trim($valor);
+        if (ctype_digit($valor)) {
+            return EspecieMascota::find((int) $valor);
+        }
+
+        $clave = \Illuminate\Support\Str::slug($valor);
+        $alias = ['perro' => 'canina', 'canino' => 'canina', 'perros' => 'canina', 'gato' => 'felina', 'felino' => 'felina', 'gatos' => 'felina', 'otra' => 'otros', 'otro' => 'otros'];
+        $clave = $alias[$clave] ?? $clave;
+
+        return EspecieMascota::where('slug', $clave)->first()
+            ?: EspecieMascota::all()->first(fn ($e) => \Illuminate\Support\Str::slug($e->nombre) === $clave);
+    }
+
     public function razasPorEspecie($especie)
     {
         $razas = RazaMascota::where('especie_id', $especie)
@@ -1836,6 +1974,8 @@ class MascotasController extends Controller
                 'nombre' => $mascota->nombre,
                 'fecha_nacimiento' => optional($mascota->fecha_nacimiento)->format('Y-m-d'),
                 'tipo_especie' => $mascota->tipo_especie,
+                'especie_id' => $mascota->especie_id,
+                'raza_id' => $mascota->raza_id,
                 'raza' => $mascota->razaMascota?->nombre,
                 'ultima_desparasitacion' => $mascota->ultima_desparasitacion?->format('Y-m-d'),
                 'especie' => optional($mascota->especieMascota)->nombre
@@ -1944,6 +2084,7 @@ class MascotasController extends Controller
                 'dosis' => 'nullable|string|max:120',
                 'lote' => 'nullable|string|max:120',
                 'proxima_dosis' => 'nullable|date|after_or_equal:fecha_dosis',
+                'raza_id' => 'nullable|integer',
             ],
             [
                 'realizado_por.required' => 'Debe indicar quién realizó la desparasitación.',
@@ -1992,6 +2133,11 @@ class MascotasController extends Controller
         if (!$mascota->ultima_desparasitacion || $ultima['fecha_dosis'] >= $mascota->ultima_desparasitacion->format('Y-m-d')) {
             $mascota->ultima_desparasitacion = $ultima['fecha_dosis'];
             $mascota->producto_desparasitacion = $ultima['antiparasitario'];
+        }
+        // La raza elegida en el buscador del modal queda en la ficha de la mascota (solo si es de su especie)
+        if ($request->filled('raza_id') && (int) $request->input('raza_id') !== (int) $mascota->raza_id
+            && RazaMascota::where('id', (int) $request->input('raza_id'))->where('especie_id', $mascota->especie_id)->exists()) {
+            $mascota->raza_id = (int) $request->input('raza_id');
         }
         $mascota->save();
 

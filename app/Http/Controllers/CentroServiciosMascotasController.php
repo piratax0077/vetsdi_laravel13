@@ -142,6 +142,11 @@ class CentroServiciosMascotasController extends Controller
         $centro = CentroServiciosMascotas::where('publicado', true)->findOrFail($id);
         $solicitud = $this->servicio->solicitar($request, $centro, $this->tutor($request));
 
+        // El modal "Reservar hora" del escritorio del tutor la envía por ajax
+        if ($request->expectsJson()) {
+            return response()->json(['estado' => 1, 'id' => $solicitud, 'msj' => 'Solicitud recibida. El centro revisará la disponibilidad.']);
+        }
+
         return redirect()->route('paciente.centros_servicios.detalle', $solicitud)->with('mensaje', 'Solicitud recibida. El centro revisará la disponibilidad.');
     }
 

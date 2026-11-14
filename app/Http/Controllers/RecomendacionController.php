@@ -1019,9 +1019,12 @@ class RecomendacionController extends Controller
                         return [$id => $control->descripcion ?? ('Tipo de receta '.$id)];
                     });
 
+                    // Formato que el profesional eligió en "Plantilla receta"
+                    $plantilla = \App\Models\PlantillaPdfProfesional::paraPdf($profesional->id ?? null, 'receta');
+
                     return PdfController::generarPDF(
                         'RECETA VETERINARIA',
-                        compact('recomendacion', 'cantidad_recetas', 'fecha_atencion', 'mascota', 'controles_receta'),
+                        compact('recomendacion', 'cantidad_recetas', 'fecha_atencion', 'mascota', 'controles_receta', 'plantilla'),
                         'Receta Veterinaria '.$mascota->nombre,
                         'pdf_receta_veterinaria'
                     );

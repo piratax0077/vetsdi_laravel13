@@ -210,20 +210,9 @@
     <div class="pcoded-content">
         <div class="msg-page-wrap">
 
-            <div class="page-header mb-3">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <ul class="breadcrumb mb-0 pt-3">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('paciente.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio">
-                                        <i class="feather icon-home"></i>
-                                    </a>
-                                </li>
-                                <li class="breadcrumb-item"><a href="#">Mis mensajes</a></li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-12 mb-3 encabezado-pagina">
+                    <h5 class="f-26 d-inline">Mis mensajes</h5>
                 </div>
             </div>
 

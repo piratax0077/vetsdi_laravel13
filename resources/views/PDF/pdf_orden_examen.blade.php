@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ $titulo }}</title>
+    @php
+        // Formato elegido por el profesional en "Plantilla de exámenes"; sin plantilla guardada sale como siempre
+        $plantilla = $cuerpo['plantilla'] ?? \App\Models\PlantillaPdfProfesional::predeterminada('examenes');
+        $color = $plantilla['color'];
+        $mostrar = $plantilla['mostrar'];
+        $alineacionMarca = ['izquierda' => 'left', 'centro' => 'center', 'derecha' => 'right'][$plantilla['posicion_logo']] ?? 'left';
+        $letra = \App\Models\PlantillaPdfProfesional::tamanoLetraPx($plantilla);
+    @endphp
     <style>
         @page { margin: 28px 38px 30px; }
         * { box-sizing: border-box; }
@@ -10,7 +18,7 @@
             margin: 0;
             color: #263445;
             font-family: DejaVu Sans, sans-serif;
-            font-size: 10px;
+            font-size: {{ $letra }}px;
         }
         table { width: 100%; border-collapse: collapse; }
         .orden-pagina {
@@ -19,10 +27,11 @@
             page-break-after: always;
         }
         .orden-pagina:last-child { page-break-after: auto; }
-        .cabecera { border-bottom: 2px solid #168c83; padding-bottom: 9px; }
-        .logo-celda { width: 31%; vertical-align: middle; }
+        .cabecera { border-bottom: 2px solid {{ $color }}; padding-bottom: 9px; }
+        .logo-celda { width: 31%; vertical-align: middle; text-align: {{ $alineacionMarca }}; }
+        .logo { max-height: 60px; max-width: 200px; }
         .marca-vet {
-            color: #168c83;
+            color: {{ $color }};
             font-size: 26px;
             font-weight: bold;
             letter-spacing: .6px;
@@ -38,13 +47,13 @@
             width: 69%;
             vertical-align: top;
             padding-left: 18px;
-            border-left: 3px solid #168c83;
+            border-left: 3px solid {{ $color }};
             line-height: 1.35;
         }
-        .profesional strong { font-size: 13px; color: #137c74; }
+        .profesional strong { font-size: 13px; color: {{ $color }}; }
         .titulo {
             margin: 16px 0 10px;
-            color: #168c83;
+            color: {{ $color }};
             font-size: 20px;
             text-align: center;
             text-transform: uppercase;
@@ -67,7 +76,7 @@
         .examenes th {
             padding: 7px 8px;
             color: #fff;
-            background: #168c83;
+            background: {{ $color }};
             text-align: left;
             font-size: 9px;
             text-transform: uppercase;
@@ -78,6 +87,11 @@
             vertical-align: top;
         }
         .examenes tbody tr:nth-child(even) { background: #f7fafb; }
+        .examen-item { padding: 8px 0 8px 10px; border-left: 3px solid {{ $color }}; margin-bottom: 9px; }
+        .examen-item-nombre { font-size: {{ $letra + 2 }}px; font-weight: bold; }
+        .examen-item-dato { margin-top: 3px; }
+        .examen-item-dato span { color: #53657a; }
+        .pie-texto { margin-top: 4px; color: #657789; font-size: 8px; }
         .pie-contenedor {
             position: absolute;
             right: 0;
@@ -130,10 +144,15 @@
         <div class="cabecera">
             <table>
                 <tr>
-                    <td class="logo-celda">
-                        <div class="marca-vet">VET SDI</div>
-                        <div class="marca-sub">Salud veterinaria digital</div>
+                    <td class="logo-celda" @if(empty($mostrar['profesional'])) style="width:100%;" @endif>
+                        @if(!empty($plantilla['logo']))
+                            <img class="logo" src="{{ $plantilla['logo'] }}" alt="Logo">
+                        @elseif($plantilla['texto_marca'] !== '')
+                            <div class="marca-vet">{{ $plantilla['texto_marca'] }}</div>
+                            <div class="marca-sub">Salud veterinaria digital</div>
+                        @endif
                     </td>
+                    @if(!empty($mostrar['profesional']))
                     <td class="profesional">
                         <strong>{{ $cuerpo['array_profesional']['nombre'] }}</strong><br>
                         Médico veterinario
@@ -146,13 +165,15 @@
                         {{ $cuerpo['array_lugar_atencion']['nombre'] }}<br>
                         {{ $cuerpo['array_lugar_atencion']['direccion'] }}
                     </td>
+                    @endif
                 </tr>
             </table>
         </div>
 
-        <h1 class="titulo">Orden de exámenes veterinarios</h1>
+        <h1 class="titulo">{{ $plantilla['titulo'] }}</h1>
         <h2 class="tipo">{{ $tipoExamen }}</h2>
 
+        @if(!empty($mostrar['paciente']))
         <table class="datos">
             <tr>
                 <td class="etiqueta">Paciente:</td>
@@ -167,10 +188,32 @@
                 <td>{{ $cuerpo['array_paciente']['direccion'] }}</td>
             </tr>
         </table>
+        @endif
 
-        <div class="fecha">Fecha: {{ $cuerpo['array_ficha_atencion']['created_at'] }}</div>
+        @if(!empty($mostrar['fecha']))
+            <div class="fecha">Fecha: {{ $cuerpo['array_ficha_atencion']['created_at'] }}</div>
+        @endif
         <p class="instruccion">Ruego practicar los siguientes exámenes:</p>
 
+        @if($plantilla['formato'] === 'lista')
+            {{-- Formato lista: un examen debajo de otro, sin tabla --}}
+            @foreach ($detalle as $examen)
+                <div class="examen-item">
+                    <div class="examen-item-nombre">{{ $examen['examen'] }}</div>
+                    @if(!empty($examen['sospecha']))
+                        <div class="examen-item-dato"><span>Sospecha diagnóstica:</span> {!! nl2br(e($examen['sospecha'])) !!}</div>
+                    @endif
+                    @if(!empty($examen['contraste']))
+                        <div class="examen-item-dato">Con contraste</div>
+                    @endif
+                    <div class="examen-item-dato">
+                        <span>Prioridad:</span> {{ $examen['prioridad'] }}
+                        · <span>Lado:</span> {{ $examen['otro'] ?: 'No aplica' }}
+                        · <span>Código:</span> {{ !empty($examen['codigo']) && $examen['codigo'] !== 'NULL' ? $examen['codigo'] : '-' }}
+                    </div>
+                </div>
+            @endforeach
+        @else
         <table class="examenes">
             <thead>
                 <tr>
@@ -199,8 +242,10 @@
                 @endforeach
             </tbody>
         </table>
+        @endif
 
         <div class="pie-contenedor">
+            @if(!empty($mostrar['firmas']))
             <table class="pie">
                 <tr>
                     <td class="qr-celda">
@@ -225,11 +270,17 @@
                     </td>
                 </tr>
             </table>
+            @endif
 
+            @if(!empty($mostrar['codigo']))
             <div class="validacion">
                 Documento verificable mediante el código QR. Identificador:
                 {{ $cuerpo['array_ficha_atencion']['token'] }}
             </div>
+            @endif
+            @if($plantilla['pie'] !== '')
+                <div class="pie-texto">{{ $plantilla['pie'] }}</div>
+            @endif
         </div>
     </section>
 @endforeach

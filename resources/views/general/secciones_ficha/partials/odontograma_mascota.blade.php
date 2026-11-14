@@ -15,6 +15,10 @@
     $piezasCaninasAnchas = ['104', '204', '304', '404'];
     $claseEspecieMascota = $esCanino ? 'odonto-mascota-canino' : 'odonto-mascota-felino';
 
+    // Sin una ficha de atención abierta el odontograma solo se consulta.
+    $fichaOdontoVet = (int) ($id_ficha_atencion ?? $id_ficha ?? data_get($ficha_atencion ?? null, 'id', 0));
+    $lugarOdontoVet = (int) ($id_lugar_atencion ?? (request('lugar_atencion_id') ?: request('lugar_atencion') ?: data_get($hora_medica ?? null, 'id_lugar_atencion', 0)));
+
     $piezasEstadoMascota = [];
     $fuenteHistorialMascota = collect(($odontograma_veterinario ?? collect())->isNotEmpty()
         ? $odontograma_veterinario : []);
@@ -32,7 +36,7 @@
             $piezasEstadoMascota[$piezaCodigo] = [
                 'carie' => false,
                 'implante' => false,
-                'hallazgo' => data_get($registro, 'hallazgo', 'Sin alteraciones'),
+                'hallazgo' => data_get($registro, 'hallazgo') ?: 'Sin registro',
                 'tratamiento' => data_get($registro, 'tratamiento', ''),
                 'caras' => data_get($registro, 'caras', '[]'),
                 'observaciones' => data_get($registro, 'observaciones', ''),
@@ -52,7 +56,9 @@
 @php
     $renderPiezaMascota = function ($piezaCodigo, $mostrarCodigoArriba = false, $indice = 0, $total = 1) use ($piezasEstadoMascota, $baseImagenMascota, $piezasCaninasAnchas) {
         $piezaCodigo = (string) $piezaCodigo;
-        $estadoPieza = $piezasEstadoMascota[$piezaCodigo] ?? ['carie' => false, 'implante' => false, 'hallazgo' => 'Sin alteraciones', 'tratamiento' => '', 'caras' => '[]', 'observaciones' => ''];
+        $estadoPieza = $piezasEstadoMascota[$piezaCodigo] ?? ['carie' => false, 'implante' => false, 'hallazgo' => 'Sin registro', 'tratamiento' => '', 'caras' => '[]', 'observaciones' => ''];
+        // Una pieza queda destacada cuando tiene un diagnóstico o un procedimiento guardado.
+        $piezaConRegistro = !in_array($estadoPieza['hallazgo'], ['Sin registro', 'Sin alteraciones'], true) || !empty($estadoPieza['tratamiento']);
         $rutaImagen = asset("{$baseImagenMascota}/d{$piezaCodigo}.png");
         $claseAncho = in_array($piezaCodigo, $piezasCaninasAnchas, true)
             ? 'odonto-mascota-img-canine'
@@ -68,7 +74,7 @@
     @if ($mostrarCodigoArriba)
         <span class="odonto-mascota-codigo odonto-mascota-codigo-top">{{ $piezaCodigo }}</span>
     @endif
-    <div class="odonto-mascota-tooth" id="t{{ $piezaCodigo }}">
+    <div class="odonto-mascota-tooth {{ $piezaConRegistro ? 'odonto-mascota-con-registro' : '' }}" id="t{{ $piezaCodigo }}">
         <img
             src="{{ $rutaImagen }}"
             class="img-fluid {{ $claseAncho }}"
@@ -149,6 +155,22 @@
                         @endif
                     @endforeach
                 </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumen de lo guardado en cada pieza; se arma desde los datos de los dientes -->
+        <div class="card mt-3">
+            <div class="card-header encabezado-card">
+                <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-list"></i></span>Piezas registradas</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-0" id="odontoVetRegistroVacio">Aún no hay piezas registradas. Seleccione una pieza del odontograma.</p>
+                <div class="table-responsive" id="odontoVetRegistroTabla" hidden>
+                    <table class="table table-sm table-hover mb-0">
+                        <thead><tr><th>Pieza</th><th>Diagnóstico</th><th>Procedimiento</th><th>Caras</th><th>Observaciones</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -234,37 +256,45 @@
                         <img id="detallePiezaMascotaImagen" src="" alt="" class="odonto-mascota-detail-img">
                         <h5 class="mt-3">Pieza <strong id="detallePiezaMascotaCodigo"></strong></h5>
                         <span class="badge badge-info">{{ $esCanino ? 'Canino' : 'Felino' }}</span>
+                        <small class="d-block text-muted mt-2">Último registro</small>
+                        <strong class="d-block" id="detallePiezaMascotaEstados">Sin registro</strong>
                     </div>
                     <div class="col-md-9">
+                        <!-- Diagnóstico: lo que se observa en la pieza -->
+                        <h6 class="odonto-mascota-seccion"><i class="fas fa-stethoscope"></i> Diagnóstico</h6>
+                        <div class="form-group"><label for="odontoVetHallazgo">Hallazgo</label><select id="odontoVetHallazgo" class="form-control">
+                            @foreach(['Sin registro','Sin alteraciones','Placa o sarro','Gingivitis','Enfermedad periodontal','Caries','Fractura','Desgaste','Movilidad','Pieza ausente','Persistencia de deciduo','Lesión resortiva','Maloclusión','Fístula o absceso','Lesión oral','Implante'] as $h)<option>{{ $h }}</option>@endforeach
+                        </select></div>
+                        <label>Caras afectadas</label><div class="mb-3" id="odontoVetCaras">
+                            @foreach(['Vestibular','Palatina/Lingual','Mesial','Distal','Oclusal'] as $cara)<label class="mr-3"><input type="checkbox" value="{{ $cara }}"> {{ $cara }}</label>@endforeach
+                        </div>
+
+                        <!-- Procedimiento: lo que se hará o se hizo en la pieza -->
+                        <h6 class="odonto-mascota-seccion"><i class="fas fa-tools"></i> Procedimiento</h6>
                         <div class="form-group">
-                            <label><i class="fas fa-coins text-info"></i> Prestación odontológica del tarifario UCOV</label>
+                            <label for="odontoVetTarifaUco"><i class="fas fa-coins text-info"></i> Prestación odontológica del tarifario UCOV</label>
                             <select id="odontoVetTarifaUco" class="form-control">
                                 <option value="">Cargando catálogo odontológico...</option>
                             </select>
                             <small id="odontoVetDetalleUco" class="form-text text-muted">También puede ingresar un tratamiento manual si la prestación aún no está en el catálogo.</small>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6"><label>Hallazgo</label><select id="odontoVetHallazgo" class="form-control">
-                                @foreach(['Sin registro','Sin alteraciones','Placa o sarro','Gingivitis','Enfermedad periodontal','Caries','Fractura','Desgaste','Movilidad','Pieza ausente','Persistencia de deciduo','Lesión resortiva','Maloclusión','Fístula o absceso','Lesión oral','Implante'] as $h)<option>{{ $h }}</option>@endforeach
-                            </select></div>
-                            <div class="form-group col-md-6"><label>Tratamiento</label><select id="odontoVetTratamiento" class="form-control">
+                            <div class="form-group col-md-7"><label for="odontoVetTratamiento">Tratamiento</label><select id="odontoVetTratamiento" class="form-control">
                                 <option value="">Seleccione</option>@foreach(['Observación y control','Profilaxis y destartraje','Pulido','Extracción','Endodoncia','Restauración','Tratamiento periodontal','Analgesia y antibiótico','Biopsia','Cirugía oral','Implante o prótesis'] as $t)<option>{{ $t }}</option>@endforeach
                             </select></div>
+                            <div class="form-group col-md-5"><label for="odontoVetValor">Valor para presupuesto</label><input id="odontoVetValor" type="number" min="0" class="form-control" placeholder="$"></div>
                         </div>
-                        <label>Caras afectadas</label><div class="mb-2" id="odontoVetCaras">
-                            @foreach(['Vestibular','Palatina/Lingual','Mesial','Distal','Oclusal'] as $cara)<label class="mr-3"><input type="checkbox" value="{{ $cara }}"> {{ $cara }}</label>@endforeach
-                        </div>
-                        <div class="form-group"><label>Observaciones</label><textarea id="odontoVetObservaciones" class="form-control" rows="2"></textarea></div>
-                        <div class="form-row align-items-end">
-                            <div class="form-group col-md-5"><label>Valor para presupuesto</label><input id="odontoVetValor" type="number" min="0" class="form-control" placeholder="$"></div>
-                            <div class="form-group col-md-7 text-right">
-                                <button type="button" class="btn btn-outline-info" onclick="guardarPeriodontoVet()"><i class="fas fa-chart-line"></i> Periodontograma</button>
-                                <button type="button" class="btn btn-success" onclick="guardarPiezaVet(false)"><i class="fas fa-save"></i> Guardar pieza</button>
-                                <button type="button" class="btn btn-primary" onclick="guardarPiezaVet(true)"><i class="fas fa-file-invoice-dollar"></i> Guardar y presupuestar</button>
-                            </div>
-                        </div>
+                        <div class="form-group mb-0"><label for="odontoVetObservaciones">Observaciones</label><textarea id="odontoVetObservaciones" class="form-control" rows="2"></textarea></div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
+                @if($fichaOdontoVet)
+                    <button type="button" class="btn btn-outline-info" onclick="guardarPeriodontoVet()"><i class="fas fa-chart-line"></i> Periodontograma</button>
+                    <button type="button" class="btn btn-success" onclick="guardarPiezaVet(false)"><i class="fas fa-save"></i> Guardar pieza</button>
+                    <button type="button" class="btn btn-primary" onclick="guardarPiezaVet(true)"><i class="fas fa-file-invoice-dollar"></i> Guardar y presupuestar</button>
+                @endif
             </div>
         </div>
     </div>
@@ -509,6 +539,28 @@
             max-width: 46px;
         }
 
+        .odonto-mascota-con-registro {
+            border-color: #159c98;
+            box-shadow: 0 0 0 2px rgba(21, 156, 152, .22);
+        }
+
+        .odonto-mascota-seccion {
+            margin-bottom: .75rem;
+            padding-bottom: .4rem;
+            border-bottom: 1px solid #e5edef;
+            color: #272727;
+            font-weight: 700;
+        }
+
+        .odonto-mascota-seccion i {
+            margin-right: .35rem;
+            color: #159c98;
+        }
+
+        #odontoVetRegistroTabla tbody tr {
+            cursor: pointer;
+        }
+
         .odonto-mascota-detail-modal {
             border: 0;
             border-radius: 14px;
@@ -575,8 +627,8 @@
         var odontoVetContexto = {
             mascota: {{ (int) data_get($mascota ?? null, 'id', 0) }},
             paciente: {{ (int) data_get($paciente ?? null, 'id', 0) }},
-            ficha: {{ (int) ($id_ficha_atencion ?? $id_ficha ?? data_get($ficha_atencion ?? null, 'id', 0)) }},
-            lugar: {{ (int) (request('lugar_atencion_id') ?: request('lugar_atencion') ?: data_get($hora_medica ?? null, 'id_lugar_atencion', 0)) }},
+            ficha: {{ $fichaOdontoVet }},
+            lugar: {{ $lugarOdontoVet }},
             csrf: '{{ csrf_token() }}'
         };
         var catalogoUcoOdontoVet = [];
@@ -644,6 +696,11 @@
             hallazgoSelect.value = hallazgo;
             tratamientoSelect.value = tratamiento;
             document.getElementById('odontoVetObservaciones').value = elemento.dataset.observaciones || '';
+            // La prestación y el valor son propios de cada pieza: no se arrastran de la anterior.
+            document.getElementById('odontoVetTarifaUco').value = '';
+            document.getElementById('odontoVetValor').value = '';
+            document.getElementById('odontoVetDetalleUco').textContent = 'También puede ingresar un tratamiento manual si la prestación aún no está en el catálogo.';
+            odontoVetReferencia = null;
             document.querySelectorAll('#odontoVetCaras input').forEach(function(c){ c.checked = false; });
             try { JSON.parse(elemento.dataset.caras || '[]').forEach(function(v){ var c = document.querySelector('#odontoVetCaras input[value="'+v+'"]'); if(c)c.checked=true; }); } catch(e) {}
 
@@ -660,12 +717,69 @@
 
         function avisoOdontoVet(icon, text) {
             if (window.Swal) return Swal.fire({icon:icon,title:text,timer:1800,showConfirmButton:false});
+            if (typeof window.swal === 'function') return swal({title:text,icon:icon,timer:icon==='success'?1800:null,buttons:icon==='success'?false:undefined});
             alert(text);
         }
 
+        // Marca visual del diente (caries, implante y borde) según lo guardado.
+        function pintarPiezaVet(elemento) {
+            var diente = elemento.closest('.odonto-mascota-tooth');
+            if (!diente) return;
+            var texto = ((elemento.dataset.hallazgo || '') + ' ' + (elemento.dataset.tratamiento || '')).toLowerCase();
+            var marcas = {caries: texto.indexOf('carie') !== -1, implante: texto.indexOf('implante') !== -1};
+            Object.keys(marcas).forEach(function (tipo) {
+                var marca = diente.querySelector('.odonto-mascota-' + tipo);
+                if (marcas[tipo] && !marca) {
+                    marca = document.createElement('span');
+                    marca.className = 'odonto-mascota-mark odonto-mascota-' + tipo;
+                    diente.appendChild(marca);
+                } else if (!marcas[tipo] && marca) {
+                    marca.remove();
+                }
+            });
+            diente.classList.toggle('odonto-mascota-con-registro', piezaVetConRegistro(elemento));
+        }
+
+        function piezaVetConRegistro(elemento) {
+            var hallazgo = elemento.dataset.hallazgo || 'Sin registro';
+            return ['Sin registro', 'Sin alteraciones'].indexOf(hallazgo) === -1 || !!elemento.dataset.tratamiento;
+        }
+
+        // Listado bajo el odontograma con las piezas que tienen algo guardado.
+        function pintarRegistroPiezasVet() {
+            var contenedor = document.getElementById('odontoVetRegistroTabla');
+            if (!contenedor) return;
+            var cuerpo = contenedor.querySelector('tbody'), filas = 0;
+            cuerpo.innerHTML = '';
+            document.querySelectorAll('.odonto-mascota-tooth img[data-pieza]').forEach(function (elemento) {
+                var hallazgo = elemento.dataset.hallazgo || 'Sin registro';
+                if (hallazgo === 'Sin registro' && !elemento.dataset.tratamiento) return;
+                var caras = [];
+                try { caras = JSON.parse(elemento.dataset.caras || '[]') || []; } catch (e) {}
+                var fila = document.createElement('tr');
+                [elemento.dataset.pieza, hallazgo, elemento.dataset.tratamiento || '—', caras.join(', ') || '—', elemento.dataset.observaciones || '—'].forEach(function (valor) {
+                    var celda = document.createElement('td');
+                    celda.textContent = valor;
+                    fila.appendChild(celda);
+                });
+                fila.addEventListener('click', function () { mostrarDetallePiezaMascota(elemento); });
+                cuerpo.appendChild(fila);
+                filas++;
+            });
+            contenedor.hidden = filas === 0;
+            document.getElementById('odontoVetRegistroVacio').hidden = filas > 0;
+        }
+
+        function iniciarOdontogramaVet() {
+            pintarRegistroPiezasVet();
+            // Al cerrar el modal sin guardar se descartan los cambios y se puede elegir otra pieza.
+            if (window.jQuery) jQuery('#modalDetallePiezaMascota').on('hidden.bs.modal', function () { piezaDentalVetActual = null; });
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciarOdontogramaVet); else iniciarOdontogramaVet();
+
         function datosPiezaVet() {
             return {mascota_id:odontoVetContexto.mascota, paciente_id:odontoVetContexto.paciente,
-                ficha_atencion_id:odontoVetContexto.ficha, lugar_atencion_id:odontoVetContexto.lugar,
+                ficha_atencion_id:odontoVetContexto.ficha, lugar_atencion_id:odontoVetContexto.lugar || null,
                 pieza:piezaDentalVetActual.dataset.pieza, hallazgo:document.getElementById('odontoVetHallazgo').value,
                 tratamiento:document.getElementById('odontoVetTratamiento').value,
                 caras:Array.from(document.querySelectorAll('#odontoVetCaras input:checked')).map(function(x){return x.value;}),
@@ -676,14 +790,15 @@
         var odontoVetGuardando = null, odontoVetReferencia = null;
         async function guardarPiezaVet(presupuestar) {
             if (odontoVetGuardando) return odontoVetGuardando;
-            if (!piezaDentalVetActual || !odontoVetContexto.mascota) return false;
-            var datos=datosPiezaVet(), botones=document.querySelectorAll('#modalDetallePiezaMascota button');
+            if (!piezaDentalVetActual || !odontoVetContexto.mascota || !odontoVetContexto.ficha) return false;
+            var pieza=piezaDentalVetActual, datos=datosPiezaVet(), botones=document.querySelectorAll('#modalDetallePiezaMascota button');
             var url='{{ route('veterinaria.odontologia.pieza.guardar') }}';
             if (presupuestar) {
                 datos.valor=Number(document.getElementById('odontoVetValor').value || 0);
                 datos.tarifa_uco_id=Number(document.getElementById('odontoVetTarifaUco').value || 0) || null;
                 if (!datos.tratamiento || !Number.isInteger(datos.valor) || datos.valor < 0) { avisoOdontoVet('error','Seleccione un tratamiento e ingrese un valor válido.'); return false; }
-                odontoVetReferencia ||= window.odontologiaVetUuid();
+                odontoVetReferencia ||= window.odontologiaVetUuid ? window.odontologiaVetUuid()
+                    : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); });
                 datos.referencia_operacion=odontoVetReferencia;
                 url='{{ route('veterinaria.odontologia.presupuesto.guardar') }}';
             }
@@ -691,14 +806,17 @@
             var solicitud=odontoVetFetch(url,datos);
             window.odontologiaVetPendientes ||= new Set(); window.odontologiaVetPendientes.add(solicitud);
             odontoVetGuardando=solicitud.then(function(respuesta){
-                piezaDentalVetActual.dataset.hallazgo=datos.hallazgo;
-                piezaDentalVetActual.dataset.tratamiento=datos.tratamiento || '';
-                piezaDentalVetActual.dataset.observaciones=datos.observaciones || '';
-                piezaDentalVetActual.dataset.caras=JSON.stringify(datos.caras);
-                piezaDentalVetActual.style.outline=datos.hallazgo==='Sin alteraciones' ? '' : '2px solid #159c98';
-                window.odontoVetBaseline=JSON.stringify(datosPiezaVet());
+                pieza.dataset.hallazgo=datos.hallazgo;
+                pieza.dataset.tratamiento=datos.tratamiento || '';
+                pieza.dataset.observaciones=datos.observaciones || '';
+                pieza.dataset.caras=JSON.stringify(datos.caras);
+                pintarPiezaVet(pieza);
+                pintarRegistroPiezasVet();
+                window.odontoVetBaseline=JSON.stringify(datos);
                 if (presupuestar) odontoVetReferencia=null;
                 document.dispatchEvent(new CustomEvent('odontologia-veterinaria:actualizado'));
+                // Se cierra el modal para seguir de inmediato con la siguiente pieza.
+                if (window.jQuery && jQuery.fn.modal) jQuery('#modalDetallePiezaMascota').modal('hide');
                 avisoOdontoVet('success',respuesta.msj || 'Pieza guardada');
                 return true;
             }).catch(function(error){avisoOdontoVet('error',error.message);return false;})

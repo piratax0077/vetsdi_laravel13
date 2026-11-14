@@ -379,6 +379,11 @@ Route::prefix('vetsdinicio')->group(function () {
         Route::get('horas', [App\Http\Controllers\VetsdiInicioReservaController::class, 'horas'])->name('api.vetsdinicio.horas');
     });
 
+    // Tutor por RUT (paso Mascota del buscador público). Devuelve el correo y el teléfono enmascarados
+    Route::get('responsable', [App\Http\Controllers\VetsdiInicioReservaController::class, 'responsable'])
+        ->middleware('throttle:10,1')
+        ->name('api.vetsdinicio.responsable');
+
     Route::post('reservar', [App\Http\Controllers\VetsdiInicioReservaController::class, 'reservar'])
         ->middleware('throttle:10,1')
         ->name('api.vetsdinicio.reservar');

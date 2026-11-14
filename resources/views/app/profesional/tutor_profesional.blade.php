@@ -25,41 +25,70 @@
             'consentimientos' => 'Consentimientos',
             'mascotas' => 'Mascotas',
             'firmados' => 'Lo que firmó',
-            'compras' => 'Sus compras',
-            'cuenta' => 'Su cuenta',
+            'compras' => 'Transacciones',
+            'notas' => 'Notas internas',
         ];
     @endphp
 
     <div class="pcoded-main-container">
         <div class="pcoded-content">
 
+            <!--Perfil del tutor: nombre, datos principales y acciones-->
             <div class="row">
-                <div class="col-md-12 mb-3 encabezado-pagina">
-                    <div class="mb-2 mb-md-0">
-                        <a href="{{ route('profesional.pacientes') }}" class="text-muted f-12 d-print-none">
-                            <i class="feather icon-arrow-left" aria-hidden="true"></i> Mascotas y tutores
-                        </a>
-                        <h5 class="f-26 d-block mb-0">{{ $nombreTutor }}</h5>
-                        <span class="text-muted">
-                            @if ($telefonoTutor)
-                                <a href="tel:{{ preg_replace('/[^0-9+]/', '', $telefonoTutor) }}" class="text-muted">{{ $telefonoTutor }}</a> ·
-                            @endif
-                            @if ($tutor->rut)
-                                {{ $tutor->rut }}
-                            @else
-                                <span class="text-danger">falta el RUT</span>
-                            @endif
-                        </span>
-                    </div>
-                    <div class="ml-md-auto d-print-none">
-                        <button type="button" class="btn btn-icon btn-warning js-tooltip-accion" onclick="enviar_mensaje_paciente({{ $tutor->id }})"
-                            title="Envíe un mensaje al tutor" aria-label="Envíe un mensaje al tutor">
-                            <i class="feather icon-mail"></i>
-                        </button>
-                        <button type="button" class="btn btn-icon btn-purple js-tooltip-accion" onclick="window.print()"
-                            title="Copia de todos sus datos" aria-label="Copia de todos sus datos" data-placement="left">
-                            <i class="feather icon-printer"></i>
-                        </button>
+                <div class="col-sm-12">
+                    <div class="card tarjeta-datos-tutor">
+                        <div class="card-body">
+                            <div class="tarjeta-datos-tutor__cuerpo">
+                                <h5 class="tarjeta-datos-tutor__nombre">
+                                    {{ $nombreTutor }}
+                                    <span @class(["badge badge-light-danger f-12 align-middle ml-1", "d-none" => !$bloqueoTutor]) id="etiqueta_tutor_bloqueado"
+                                        title="{{ $bloqueoTutor ? "Motivo: " . $bloqueoTutor->motivo : "" }}">
+                                        <i class="feather icon-lock mr-1" aria-hidden="true"></i>Bloqueado
+                                    </span>
+                                </h5>
+                                <ul class="tarjeta-datos-tutor__datos">
+                                    <li>
+                                        <i class="feather icon-credit-card" aria-hidden="true"></i>
+                                        <span class="tarjeta-datos-tutor__etiqueta">RUT</span>
+                                        @if ($tutor->rut)
+                                            {{ strtoupper($tutor->rut) }}
+                                        @else
+                                            <span class="text-danger">Sin registro</span>
+                                        @endif
+                                    </li>
+                                    <li>
+                                        <i class="feather icon-phone" aria-hidden="true"></i>
+                                        <span class="tarjeta-datos-tutor__etiqueta">Teléfono</span>
+                                        @if ($telefonoTutor)
+                                            <a href="tel:{{ preg_replace("/[^0-9+]/", "", $telefonoTutor) }}">{{ $telefonoTutor }}</a>
+                                        @else
+                                            Sin registro
+                                        @endif
+                                    </li>
+                                    <li>
+                                        <i class="feather icon-map-pin" aria-hidden="true"></i>
+                                        <span class="tarjeta-datos-tutor__etiqueta">Dirección</span>
+                                        {{ $direccionTexto ?: "Sin registro" }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tarjeta-datos-tutor__acciones d-print-none">
+                                <button type="button" class="btn btn-sm btn-warning mb-1" onclick="enviar_mensaje_paciente({{ $tutor->id }})">
+                                    <i class="feather icon-mail mr-1"></i>Mensaje
+                                </button>
+                                <button type="button" class="btn btn-sm btn-purple mb-1" onclick="window.print()">
+                                    <i class="feather icon-printer mr-1"></i>Imprimir
+                                </button>
+                                <button type="button" @class(['btn btn-sm btn-danger mb-1', 'd-none' => $bloqueoTutor]) id="boton_abrir_bloquear_tutor"
+                                    onclick="abrir_bloquear_tutor(false)">
+                                    <i class="feather icon-lock mr-1"></i>Bloquear tutor
+                                </button>
+                                <button type="button" @class(['btn btn-sm btn-danger mb-1', 'd-none' => !$bloqueoTutor]) id="boton_desbloquear_tutor"
+                                    onclick="desbloquear_tutor()">
+                                    <i class="feather icon-unlock mr-1"></i>Desbloquear tutor
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,10 +96,10 @@
             <div class="row">
                 <div class="col-sm-12">
                     <!--Una card por pestaña; al imprimir salen todas-->
-                    <ul class="nav nav-tabs-secciones d-print-none" id="tutor-secciones" role="tablist">
+                    <ul class="nav pill-moderno pill-moderno-white pill-sin-subrayado pill-con-flechas d-print-none" id="tutor-secciones" role="tablist">
                         @foreach ($pestanasTutor as $clave => $nombrePestana)
-                            <li class="nav-item-secciones">
-                                <a @class(['nav-secciones', 'active' => $loop->first]) id="tutor-{{ $clave }}-tab" data-toggle="pill"
+                            <li class="nav-item">
+                                <a @class(['nav-link', 'active' => $loop->first]) id="tutor-{{ $clave }}-tab" data-toggle="tab"
                                     href="#tutor-{{ $clave }}" role="tab" aria-controls="tutor-{{ $clave }}"
                                     aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $nombrePestana }}</a>
                             </li>
@@ -81,15 +110,17 @@
                         <!--Contacto-->
                         <div class="tab-pane d-print-block active" id="tutor-contacto" role="tabpanel" aria-labelledby="tutor-contacto-tab">
                             <div class="card">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0 text-dark">Contacto</h5>
+                                </div>
                                 <div class="card-body">
-                                    <h6 class="ficha-profesional__titulo"><i class="fas fa-address-book mr-1" aria-hidden="true"></i> Contacto</h6>
                                     <div class="form-row mb-n2">
                                         <div class="col-sm-6 col-lg-4 mb-2">
                                             <div class="ficha-profesional__dato py-2 h-100">
                                                 <span class="ficha-profesional__icono"><i class="fas fa-envelope" aria-hidden="true"></i></span>
                                                 <div>
                                                     <span class="ficha-profesional__etiqueta">Correo</span>
-                                                    <span class="ficha-profesional__valor">
+                                                    <span class="ficha-profesional__valor font-weight-normal">
                                                         @if ($tutor->email)
                                                             <a href="mailto:{{ $tutor->email }}">{{ $tutor->email }}</a>
                                                         @else
@@ -104,7 +135,7 @@
                                                 <span class="ficha-profesional__icono"><i class="fas fa-phone-alt" aria-hidden="true"></i></span>
                                                 <div>
                                                     <span class="ficha-profesional__etiqueta">Teléfono</span>
-                                                    <span class="ficha-profesional__valor">
+                                                    <span class="ficha-profesional__valor font-weight-normal">
                                                         @if ($telefonoTutor)
                                                             <a href="tel:{{ preg_replace('/[^0-9+]/', '', $telefonoTutor) }}">{{ $telefonoTutor }}</a>
                                                         @else
@@ -119,7 +150,7 @@
                                                 <span class="ficha-profesional__icono"><i class="fas fa-shield-alt" aria-hidden="true"></i></span>
                                                 <div>
                                                     <span class="ficha-profesional__etiqueta">Convenio</span>
-                                                    <span class="ficha-profesional__valor">{{ $convenio ?: 'Sin registro' }}</span>
+                                                    <span class="ficha-profesional__valor font-weight-normal">{{ $convenio ?: 'Sin registro' }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -128,7 +159,7 @@
                                                 <span class="ficha-profesional__icono"><i class="fas fa-home" aria-hidden="true"></i></span>
                                                 <div>
                                                     <span class="ficha-profesional__etiqueta">Dirección</span>
-                                                    <span class="ficha-profesional__valor">{{ $direccionTexto ?: 'Sin registro' }}</span>
+                                                    <span class="ficha-profesional__valor font-weight-normal">{{ $direccionTexto ?: 'Sin registro' }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -137,7 +168,7 @@
                                                 <span class="ficha-profesional__icono"><i class="far fa-calendar-alt" aria-hidden="true"></i></span>
                                                 <div>
                                                     <span class="ficha-profesional__etiqueta">Atenciones contigo</span>
-                                                    <span class="ficha-profesional__valor">
+                                                    <span class="ficha-profesional__valor font-weight-normal">
                                                         {{ $totalAtenciones }}
                                                         @if ($ultimaAtencion)
                                                             · última el {{ \Carbon\Carbon::parse($ultimaAtencion)->format('d-m-Y') }}
@@ -154,9 +185,11 @@
                         <!--Autorizaciones que el tutor dio desde su perfil-->
                         <div class="tab-pane d-print-block" id="tutor-consentimientos" role="tabpanel" aria-labelledby="tutor-consentimientos-tab">
                             <div class="card">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0 text-dark">Consentimientos</h5>
+                                    <p class="text-muted font-weight-normal mb-0 mt-1">Lo que esta persona aceptó desde su perfil, y cuándo.</p>
+                                </div>
                                 <div class="card-body">
-                                    <h6 class="ficha-profesional__titulo"><i class="fas fa-user-check mr-1" aria-hidden="true"></i> Consentimientos</h6>
-                                    <p class="text-muted mb-2">Lo que esta persona aceptó desde su perfil, y cuándo.</p>
                                     <ul class="list-group list-group-flush">
                                         @foreach ($autorizaciones as $textoAutorizacion => $aceptada)
                                             <li class="list-group-item d-flex flex-wrap justify-content-between align-items-center px-0 py-2">
@@ -176,8 +209,10 @@
                         <!--Mascotas del tutor que el profesional ha atendido-->
                         <div class="tab-pane d-print-block" id="tutor-mascotas" role="tabpanel" aria-labelledby="tutor-mascotas-tab">
                             <div class="card">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0 text-dark">Mascotas</h5>
+                                </div>
                                 <div class="card-body">
-                                    <h6 class="ficha-profesional__titulo"><i class="fas fa-paw mr-1" aria-hidden="true"></i> Mascotas</h6>
                                     @if ($mascotas->isEmpty())
                                         <div class="ficha-profesional__vacio">Todavía no has atendido mascotas de este tutor.</div>
                                     @else
@@ -193,23 +228,30 @@
                                                 @endphp
                                                 <div class="col-md-6 mb-2">
                                                     <div class="ficha-profesional__dato py-2 h-100">
-                                                        <span class="traspaso-mascota-foto">
+                                                        <span @class(['traspaso-mascota-foto foto-mascota-tutor', 'foto-mascota-tutor--sin-foto' => !$mascota->foto_url])>
                                                             <img src="{{ $fotoMascota }}" alt="Foto de {{ $mascota->nombre }}"
-                                                                onerror="this.onerror=null;this.src='{{ $fotoRespaldoMascota }}';">
+                                                                onerror="this.onerror=null;this.src='{{ $fotoRespaldoMascota }}';this.parentNode.classList.add('foto-mascota-tutor--sin-foto');">
                                                         </span>
                                                         <div class="flex-grow-1">
                                                             <span class="ficha-profesional__valor">{{ $mascota->nombre ?? 'Mascota' }}</span>
-                                                            <span class="ficha-profesional__etiqueta">{{ $especie }}{{ $raza ? ' · ' . $raza : '' }}{{ $mascota->fallecida ? ' · Fallecida' : '' }}</span>
+                                                            <span class="ficha-profesional__etiqueta">Especie: {{ $especie }} · Sexo: {{ in_array($mascota->sexo, ['F', 'M'], true) ? $mascota->sexo : '-' }}</span>
                                                         </div>
+                                                        @if ($mascota->fallecida)
+                                                            <span class="badge badge-light-secondary f-12 px-2 py-1 mr-2 flex-shrink-0">
+                                                                <i class="fas fa-cross mr-1" aria-hidden="true"></i>Fallecida
+                                                            </span>
+                                                        @endif
                                                         <div class="d-flex flex-shrink-0 d-print-none">
                                                             <a href="{{ route('profesional.mascota.ficha_veterinaria', ['mascota' => $mascota->id]) }}"
+                                                                target="_blank" rel="noopener"
                                                                 class="btn btn-icon btn-purple js-tooltip-accion mr-1"
-                                                                title="Ver ficha veterinaria" aria-label="Ver ficha veterinaria">
+                                                                title="FVU" aria-label="FVU">
                                                                 <i class="feather icon-file-text"></i>
                                                             </a>
                                                             <a href="{{ route('profesional.atenciones_previas_paciente', ['id' => $tutor->id, 'id_mascota' => $mascota->id]) }}"
+                                                                target="_blank" rel="noopener"
                                                                 class="btn btn-icon btn-primary js-tooltip-accion"
-                                                                title="Revisar consultas anteriores" aria-label="Revisar consultas anteriores">
+                                                                title="Historial de atenciones" aria-label="Historial de atenciones">
                                                                 <i class="feather icon-clock"></i>
                                                             </a>
                                                         </div>
@@ -225,9 +267,11 @@
                         <!--Consentimientos y documentos firmados-->
                         <div class="tab-pane d-print-block" id="tutor-firmados" role="tabpanel" aria-labelledby="tutor-firmados-tab">
                             <div class="card">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0 text-dark">Lo que firmó</h5>
+                                    <p class="text-muted font-weight-normal mb-0 mt-1">Consentimientos y autorizaciones a su nombre. Se emiten desde la ficha de cada mascota.</p>
+                                </div>
                                 <div class="card-body">
-                                    <h6 class="ficha-profesional__titulo"><i class="fas fa-file-signature mr-1" aria-hidden="true"></i> Lo que firmó</h6>
-                                    <p class="text-muted mb-2">Consentimientos y autorizaciones a su nombre. Se emiten desde la ficha de cada mascota.</p>
                                     @if ($consentimientos->isEmpty() && $documentosFirmados->isEmpty())
                                         <div class="ficha-profesional__vacio">Todavía no ha firmado ninguno.</div>
                                     @else
@@ -294,9 +338,11 @@
                         <!--Cobros registrados a nombre del tutor-->
                         <div class="tab-pane d-print-block" id="tutor-compras" role="tabpanel" aria-labelledby="tutor-compras-tab">
                             <div class="card">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0 text-dark">Transacciones</h5>
+                                    <p class="text-muted font-weight-normal mb-0 mt-1">Lo que se le ha cobrado en tus atenciones. Un cobro devuelto queda tachado y no se esconde.</p>
+                                </div>
                                 <div class="card-body">
-                                    <h6 class="ficha-profesional__titulo"><i class="fas fa-receipt mr-1" aria-hidden="true"></i> Sus compras</h6>
-                                    <p class="text-muted mb-2">Lo que se le ha cobrado en tus atenciones. Un cobro devuelto queda tachado y no se esconde.</p>
                                     @if ($cobros->isEmpty())
                                         <div class="ficha-profesional__vacio">Todavía no se le ha cobrado nada.</div>
                                     @else
@@ -309,6 +355,8 @@
                                                         <th>N° documento</th>
                                                         <th class="text-right">Valor</th>
                                                         <th class="text-right">Pagó</th>
+                                                        <th>Medio de pago</th>
+                                                        <th>Estado</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -317,9 +365,6 @@
                                                             <td>{{ $cobro->fecha_atencion ? \Carbon\Carbon::parse($cobro->fecha_atencion)->format('d-m-Y') : '-' }}</td>
                                                             <td>
                                                                 {{ optional($cobro->TipoBono)->nombre ?? 'Atención' }}
-                                                                @if ($cobro->devuelto)
-                                                                    <span class="badge badge-light-danger ml-1">Devuelto</span>
-                                                                @endif
                                                             </td>
                                                             <td>{{ $cobro->numero_bono ?: '-' }}</td>
                                                             @if ($cobro->devuelto)
@@ -329,6 +374,17 @@
                                                                 <td class="text-right">{{ $pesos($cobro->valor_atencion) }}</td>
                                                                 <td class="text-right">{{ $pesos($cobro->a_pagar) }}</td>
                                                             @endif
+                                                            {{-- La recepción del pago todavía no guarda el medio de pago --}}
+                                                            <td class="text-muted">Sin registro</td>
+                                                            <td>
+                                                                @if ($cobro->devuelto)
+                                                                    <span class="badge badge-light-danger">Devuelto</span>
+                                                                @elseif ($cobro->pago_confirmado_en)
+                                                                    <span class="badge badge-light-success">Pagado</span>
+                                                                @else
+                                                                    <span class="badge badge-light-warning">Pendiente de pago</span>
+                                                                @endif
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -342,36 +398,10 @@
                             </div>
                         </div>
 
-                        <!--Resumen de la cuenta-->
-                        <div class="tab-pane d-print-block" id="tutor-cuenta" role="tabpanel" aria-labelledby="tutor-cuenta-tab">
+                        <!--Notas internas: solo las ve el profesional-->
+                        <div class="tab-pane d-print-block" id="tutor-notas" role="tabpanel" aria-labelledby="tutor-notas-tab">
                             <div class="card">
-                                <div class="card-body">
-                                    <h6 class="ficha-profesional__titulo"><i class="fas fa-wallet mr-1" aria-hidden="true"></i> Su cuenta</h6>
-                                    <p class="text-muted mb-3">Lo que pagó y lo que se le devolvió.</p>
-                                    <div class="form-row mb-n2">
-                                        <div class="col-sm-6 col-lg-4 mb-2">
-                                            <div class="tarjeta-indicador tarjeta-indicador--morado">
-                                                <span class="tarjeta-indicador-icono"><i class="feather icon-file-text"></i></span>
-                                                <strong class="tarjeta-indicador-valor">{{ $pesos($cuenta['cobrado']) }}</strong>
-                                                <span class="tarjeta-indicador-etiqueta">Valor de sus atenciones</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-4 mb-2">
-                                            <div class="tarjeta-indicador">
-                                                <span class="tarjeta-indicador-icono"><i class="feather icon-check-circle"></i></span>
-                                                <strong class="tarjeta-indicador-valor">{{ $pesos($cuenta['pagado']) }}</strong>
-                                                <span class="tarjeta-indicador-etiqueta">Pagado por el tutor</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-lg-4 mb-2">
-                                            <div class="tarjeta-indicador tarjeta-indicador--rojo">
-                                                <span class="tarjeta-indicador-icono"><i class="feather icon-rotate-ccw"></i></span>
-                                                <strong class="tarjeta-indicador-valor">{{ $pesos($cuenta['devuelto']) }}</strong>
-                                                <span class="tarjeta-indicador-etiqueta">Devuelto</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @include('app.profesional.notas_tutor')
                             </div>
                         </div>
                     </div>
@@ -381,13 +411,152 @@
     </div>
 
     @include('app.profesional.modales.mensaje_paciente')
+    @include('app.profesional.modales.bloquear_tutor')
 @endsection
 
 @section('page-script')
+<script src="{{ asset('js/pestanas_desplazables.js') }}?v=20261113"></script>
 <script>
     function enviar_mensaje_paciente(id_paciente){
         $('#modalMensajePaciente').modal('show');
         $('#id_paciente_mensaje').val(id_paciente);
+    }
+
+    // Notas internas y bloqueo del tutor
+    var tutor_bloqueado = {{ $bloqueoTutor ? 'true' : 'false' }};
+    var notas_conflictivas_para_bloquear = 3;
+
+    function texto_veces_conflictivo(veces) {
+        return veces === 1 ? 'vez conflictivo' : 'veces conflictivo';
+    }
+
+    function mensaje_error_ajax(xhr, por_defecto) {
+        var datos = xhr && xhr.responseJSON ? xhr.responseJSON : {};
+        if (datos.errors) {
+            var primero = Object.keys(datos.errors)[0];
+            return datos.errors[primero][0];
+        }
+        return datos.msj || por_defecto;
+    }
+
+    // con_aviso = true cuando se abre solo por las notas conflictivas
+    function abrir_bloquear_tutor(con_aviso) {
+        $('#aviso_tres_conflictivas').toggleClass('d-none', !con_aviso);
+        $('#bloquear_tutor_motivo').val('').removeClass('is-invalid');
+        $('#modal_bloquear_tutor').modal('show');
+    }
+
+    function marcar_tutor_bloqueado(bloqueado) {
+        tutor_bloqueado = bloqueado;
+        $('#etiqueta_tutor_bloqueado').toggleClass('d-none', !bloqueado);
+        $('#boton_abrir_bloquear_tutor').toggleClass('d-none', bloqueado);
+        $('#boton_desbloquear_tutor').toggleClass('d-none', !bloqueado);
+    }
+
+    $('#nota_tutor_conflictivo').on('change', function () {
+        $('label[for="nota_tutor_conflictivo"]').text(this.checked ? 'Sí' : 'No');
+    });
+
+    $('#form_nota_tutor').on('submit', function (evento) {
+        evento.preventDefault();
+        var formulario = this;
+        var $nota = $('#nota_tutor_texto');
+        $nota.val($.trim($nota.val()));
+        if (!formulario.checkValidity()) {
+            $(formulario).addClass('was-validated');
+            return;
+        }
+
+        var $boton = $('#boton_agregar_nota_tutor').prop('disabled', true);
+        $.ajax({
+            url: "{{ route('profesional.tutor.notas.guardar', ['tutor' => $tutor->id]) }}",
+            type: 'POST',
+            data: {
+                nota: $nota.val(),
+                conflictivo: $('#nota_tutor_conflictivo').is(':checked') ? 1 : 0,
+                _token: "{{ csrf_token() }}"
+            }
+        }).done(function (respuesta) {
+            var nota = respuesta.nota;
+            var $fila = $('<tr></tr>').append(
+                $('<td class="text-nowrap"></td>').text(nota.fecha),
+                $('<td style="white-space: pre-line;"></td>').text(nota.texto),
+                $('<td></td>').append(nota.conflictivo
+                    ? '<span class="badge badge-light-danger">Sí</span>'
+                    : '<span class="badge badge-light-secondary">No</span>')
+            );
+            $('#lista_notas_tutor').prepend($fila);
+            $('#notas_tutor_vacio').addClass('d-none');
+            $('#tabla_notas_tutor').removeClass('d-none');
+
+            var veces = parseInt(respuesta.veces_conflictivo, 10) || 0;
+            $('.js-veces-conflictivo').text(veces);
+            $('.js-veces-conflictivo-texto').text(texto_veces_conflictivo(veces));
+
+            formulario.reset();
+            $(formulario).removeClass('was-validated');
+            $('label[for="nota_tutor_conflictivo"]').text('No');
+            marcar_tutor_bloqueado(!!respuesta.bloqueado);
+
+            // Desde la tercera nota conflictiva se propone bloquearlo
+            if (nota.conflictivo && veces >= notas_conflictivas_para_bloquear && !tutor_bloqueado) {
+                abrir_bloquear_tutor(true);
+            }
+        }).fail(function (xhr) {
+            swal({ title: 'Error', text: mensaje_error_ajax(xhr, 'No se pudo guardar la nota.'), icon: 'error', button: 'Aceptar' });
+        }).always(function () {
+            $boton.prop('disabled', false);
+        });
+    });
+
+    $('#boton_bloquear_tutor').on('click', function () {
+        var $motivo = $('#bloquear_tutor_motivo');
+        $motivo.val($.trim($motivo.val()));
+        if (!$motivo.val()) {
+            $motivo.addClass('is-invalid');
+            return;
+        }
+        $motivo.removeClass('is-invalid');
+
+        var $boton = $(this).prop('disabled', true);
+        $.ajax({
+            url: "{{ route('profesional.tutor.bloquear', ['tutor' => $tutor->id]) }}",
+            type: 'POST',
+            data: { motivo: $motivo.val(), _token: "{{ csrf_token() }}" }
+        }).done(function () {
+            $('#etiqueta_tutor_bloqueado').attr('title', 'Motivo: ' + $motivo.val());
+            marcar_tutor_bloqueado(true);
+            $('#modal_bloquear_tutor').modal('hide');
+            swal({ title: 'Tutor bloqueado', text: 'Ya no podrá tomar horas contigo.', icon: 'success', button: 'Aceptar' });
+        }).fail(function (xhr) {
+            swal({ title: 'Error', text: mensaje_error_ajax(xhr, 'No se pudo bloquear al tutor.'), icon: 'error', button: 'Aceptar' });
+        }).always(function () {
+            $boton.prop('disabled', false);
+        });
+    });
+
+    function desbloquear_tutor() {
+        swal({
+            title: '¿Desbloquear al tutor?',
+            text: 'Podrá volver a tomar horas contigo.',
+            icon: 'warning',
+            buttons: ['Cancelar', 'Desbloquear'],
+            dangerMode: true
+        }).then(function (confirmado) {
+            if (!confirmado) {
+                return;
+            }
+            $.ajax({
+                url: "{{ route('profesional.tutor.desbloquear', ['tutor' => $tutor->id]) }}",
+                type: 'POST',
+                data: { _token: "{{ csrf_token() }}" }
+            }).done(function () {
+                marcar_tutor_bloqueado(false);
+                swal({ title: 'Tutor desbloqueado', text: 'Ya puede volver a tomar horas contigo.', icon: 'success', button: 'Aceptar' });
+            }).fail(function (xhr) {
+                swal({ title: 'Error', text: mensaje_error_ajax(xhr, 'No se pudo desbloquear al tutor.'), icon: 'error', button: 'Aceptar' });
+            });
+        });
     }
 
     // Tooltips de los botones de icono: en pantallas táctiles se muestran al tocar y se ocultan solos

@@ -1,6 +1,6 @@
 {{--
-    Icono de mensajes para el encabezado (profesional o tutor).
-    Uso: @include('template.partials.mensajes_encabezado')                          -> profesional
+    Icono de mensajes para el encabezado. Se muestra siempre, en todos los perfiles.
+    Uso: @include('template.partials.mensajes_encabezado')                          -> profesional, centro, peluquería, hotel, cementerio
          @include('template.partials.mensajes_encabezado', ['tipoPerfil' => 'tutor']) -> tutor
 
     Carga por su cuenta los mensajes recibidos por el usuario, así aparece en todos los
@@ -11,24 +11,25 @@
     $esTutorMensajes = ($tipoPerfil ?? 'profesional') === 'tutor';
     $mensajesEncabezado = collect();
     $mensajesSinLeer = 0;
-    $mostrarMensajes = false;
+    // El ícono se muestra siempre; si la cuenta no tiene mensajes queda con la lista vacía
+    $mostrarMensajes = true;
+    $consultaMensajes = null;
+    $esProfesionalMensajes = Auth::check() && Auth::user()->hasRole('Profesional');
 
     try {
         if ($esTutorMensajes) {
             // Los mensajes del tutor van al id del paciente y solo de los tipos del tutor
             $consultaMensajes = \App\Http\Controllers\MensajesTutorController::consultaDelTutor();
-            $mostrarMensajes = $consultaMensajes !== null;
-        } elseif (Auth::check() && Auth::user()->hasRole('Profesional')) {
+        } elseif (Auth::check()) {
             // Se dejan fuera los tipos del tutor: esos usan el id del paciente y podrían coincidir con el del usuario
             $consultaMensajes = \App\Models\Mensajes::where('id_receptor', Auth::id())
                 ->where(function ($consulta) {
                     $consulta->whereNotIn('tipo_mensaje', \App\Http\Controllers\MensajesTutorController::TIPOS_TUTOR)
                         ->orWhereNull('tipo_mensaje');
                 });
-            $mostrarMensajes = true;
         }
 
-        if ($mostrarMensajes) {
+        if ($consultaMensajes) {
             // Estado 1 es no leído
             $mensajesSinLeer = (clone $consultaMensajes)->where('estado', 1)->count();
             $mensajesEncabezado = $consultaMensajes->orderByDesc('fecha_envio')->orderByDesc('id')->limit(8)->get();
@@ -38,9 +39,18 @@
         $mensajesEncabezado = collect();
     }
 
-    $rutaTodosMensajes = $esTutorMensajes
-        ? (\Route::has('paciente.mensajes') ? route('paciente.mensajes') : null)
-        : (\Route::has('profesional.historial_mensajes') ? route('profesional.historial_mensajes') : null);
+    // Peluquería, centro estético, hotel y cementerio tienen su propia bandeja: <perfil>.mensajes
+    $perfilRutaMensajes = strstr((string) optional(request()->route())->getName(), '.', true);
+    $rutaNegocioMensajes = in_array($perfilRutaMensajes, ['peluqueria', 'centro_estetico', 'guarderia_hotel', 'cementerio_mascotas'], true)
+        && \Route::has($perfilRutaMensajes.'.mensajes') ? $perfilRutaMensajes.'.mensajes' : null;
+
+    if ($esTutorMensajes) {
+        $rutaTodosMensajes = \Route::has('paciente.mensajes') ? route('paciente.mensajes') : null;
+    } elseif ($rutaNegocioMensajes) {
+        $rutaTodosMensajes = route($rutaNegocioMensajes);
+    } else {
+        $rutaTodosMensajes = $esProfesionalMensajes && \Route::has('profesional.historial_mensajes') ? route('profesional.historial_mensajes') : null;
+    }
 @endphp
 
 @if ($mostrarMensajes)
@@ -69,7 +79,9 @@
                             $fechaMensaje = $mensajeEncabezado->fecha_envio ?: $mensajeEncabezado->created_at;
                             $enlaceMensaje = $esTutorMensajes
                                 ? route('paciente.mensajes', ['mensaje' => $mensajeEncabezado->id])
-                                : route('profesional.mensaje', ['id' => $mensajeEncabezado->id]);
+                                : ($rutaNegocioMensajes
+                                    ? route($rutaNegocioMensajes, ['mensaje' => $mensajeEncabezado->id])
+                                    : route('profesional.mensaje', ['id' => $mensajeEncabezado->id]));
                         @endphp
                         <li>
                             <a href="{{ $enlaceMensaje }}" class="dropdown-item mensajes-encabezado-item">

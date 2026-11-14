@@ -2515,8 +2515,10 @@
                                 $('#input_reserva_hora_telefono').val(data.telefono_uno);
 
 
-                                $('#reserva_direccion').text(data.direccion.direccion + ' ' + data.direccion
-                                    .numero_dir + ', ' + data.direccion.ciudad.nombre);
+                                // Sin número de dirección no se muestra "null"
+                                $('#reserva_direccion').text([data.direccion.direccion, data.direccion.numero_dir]
+                                    .filter(function(parte) { return parte !== null && parte !== undefined && String(parte).trim() !== ''; })
+                                    .join(' ') + ', ' + data.direccion.ciudad.nombre);
                                 $('#input_reserva_direccion_direccion').val(data.direccion.direccion);
                                 $('#input_reserva_direccion_numero_dir').val(data.direccion.numero_dir);
 
@@ -2749,10 +2751,12 @@
             $('#reserva_mascota_nombre').text(mascota ? (mascota.nombre || '') : '');
             $('#reserva_mascota_especie').text(obtenerNombreEspecieMascota(mascota));
             $('#reserva_mascota_tamano').text(mascota ? ((mascota.tamanoMascota && mascota.tamanoMascota.nombre) || mascota.tamano || '') : '');
-            $('#reserva_mascota_sexo').text(mascota ? (mascota.sexo || '') : '');
+            var sexoMascota = mascota ? String(mascota.sexo || '').trim().toUpperCase() : '';
+            var sexosMascota = { 'M': 'Macho', 'MACHO': 'Macho', 'H': 'Hembra', 'F': 'Hembra', 'HEMBRA': 'Hembra' };
+            $('#reserva_mascota_sexo').text(sexosMascota[sexoMascota] || (mascota && mascota.sexo && mascota.sexo !== '0' ? mascota.sexo : ''));
             $('#reserva_mascota_fecha_nacimiento').text(mascota ? formatearFechaNacimientoMascotaConEdad(mascota.fecha_nacimiento) : '');
             $('#reserva_mascota_chip').text(mascota ? (mascota.chip || '') : '');
-            $('#reserva_mascota_esterilizado').text(mascota ? (mascota.esterilizado ? 'Si' : 'No') : '');
+            $('#reserva_mascota_esterilizado').text(mascota ? (mascota.esterilizado ? 'Sí' : 'No') : '');
         }
 
         function renderSelectMascotaNuevaReserva() {
@@ -4395,7 +4399,7 @@
                 $('<strong>', {class: 'small text-primary d-block', text: dias[dia]}).appendTo($tarjeta);
                 const bloques = disponibles.filter(function (bloque) { return Number(bloque.dia) % 7 === dia; });
                 bloques.forEach(function (bloque) {
-                    $('<div>', {class: 'small', text: bloque.hora_inicio + ' – ' + bloque.hora_termino}).appendTo($tarjeta);
+                    $('<div>', {class: 'small', text: String(bloque.hora_inicio || '').substring(0, 5) + ' – ' + String(bloque.hora_termino || '').substring(0, 5)}).appendTo($tarjeta);
                 });
                 if (!bloques.length) $('<div>', {class: 'small text-muted', text: 'Sin bloques libres'}).appendTo($tarjeta);
                 $columna.append($tarjeta).appendTo($contenedor);

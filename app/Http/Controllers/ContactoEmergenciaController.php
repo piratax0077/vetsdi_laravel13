@@ -169,7 +169,7 @@ class ContactoEmergenciaController extends Controller
                       'body' => 'Estimado/a '.$contacto->nombres.' '.$contacto->apellido_uno.' '.$contacto->apellido_dos.',<br>
                       Junto con saludar, por medio de este correo le informamos que se ha reservado su hora medida <br>'.
                       'Fecha: '.$contacto->fecha_consulta.'<br>'.
-                      'Hora : '.$hora_medica->hora_inicio.'<br>'.
+                      'Hora : ' . substr((string) $hora_medica->hora_inicio, 0, 5) .'<br>'.
                       'Profesional: <b>'.$profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos.'<b> <br><br>'.
                       'Que tenga un excelente día. </br></br>'.
                       'Saludos.',

@@ -5,17 +5,26 @@
         <!--Header-->
         <div class="row">
             <div class="col-md-12 mb-3">
-                <h5 class="titulo-modulo f-26 d-inline">Indicaciones y consentimientos</h5>
+                <h5 class="titulo-modulo f-26 d-inline">Configurar emisión de documentos</h5>
             </div>
         </div>
         <!--Cierre: Header-->
-        <ul class="nav pill-moderno pill-moderno-white pill-sin-subrayado mb-4" role="tablist" aria-label="Indicaciones y consentimientos">
+        <ul class="nav pill-moderno pill-moderno-white pill-sin-subrayado mb-4" role="tablist" aria-label="Configurar emisión de documentos">
             @foreach ($secciones as $clave => $seccion)
                 <li class="nav-item">
                     <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="pestana_{{ $clave }}_tab" data-toggle="pill" href="#pestana_{{ $clave }}" role="tab"
                         aria-controls="pestana_{{ $clave }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $seccion['pestana'] }}</a>
                 </li>
             @endforeach
+            {{-- Personalización de los PDF que se emiten desde la ficha --}}
+            <li class="nav-item">
+                <a class="nav-link" id="pestana_plantilla_receta_tab" data-toggle="pill" href="#pestana_plantilla_receta" role="tab"
+                    aria-controls="pestana_plantilla_receta" aria-selected="false">Plantilla receta</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pestana_plantilla_examenes_tab" data-toggle="pill" href="#pestana_plantilla_examenes" role="tab"
+                    aria-controls="pestana_plantilla_examenes" aria-selected="false">Plantilla de exámenes</a>
+            </li>
         </ul>
         <div class="tab-content">
             @foreach ($secciones as $clave => $seccion)
@@ -95,6 +104,12 @@
                     </div>
                 </div>
             @endforeach
+            <div class="tab-pane fade" id="pestana_plantilla_receta" role="tabpanel" aria-labelledby="pestana_plantilla_receta_tab">
+                @include('app.profesional.indicaciones.plantilla_pdf', ['tipo' => 'receta', 'configuracion' => $plantillasPdf['receta']])
+            </div>
+            <div class="tab-pane fade" id="pestana_plantilla_examenes" role="tabpanel" aria-labelledby="pestana_plantilla_examenes_tab">
+                @include('app.profesional.indicaciones.plantilla_pdf', ['tipo' => 'examenes', 'configuracion' => $plantillasPdf['examenes']])
+            </div>
         </div>
     </div>
 </div>
@@ -857,5 +872,207 @@
             }
         });
     }
+</script>
+<script>
+    /* ---------- Plantillas de PDF (receta y orden de exámenes) ---------- */
+    $(function () {
+        var TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+        $('.plantilla-pdf').each(function () {
+            var $tarjeta = $(this);
+            var $formulario = $tarjeta.find('.js-plantilla-formulario');
+            var $vista = $tarjeta.find('.js-plantilla-vista');
+            var $cargando = $tarjeta.find('.js-plantilla-cargando');
+            // Logo nuevo elegido (base64) y si se pidió quitar el guardado
+            var logoNuevo = '';
+            var quitarLogo = false;
+            var temporizador = null;
+            var cargada = false;
+
+            function datosFormulario() {
+                var datos = {
+                    color: $formulario.find('[name="color"]').val(),
+                    texto_marca: $formulario.find('[name="texto_marca"]').val(),
+                    posicion_logo: $formulario.find('[name="posicion_logo"]').val(),
+                    titulo: $.trim($formulario.find('[name="titulo"]').val()),
+                    formato: $formulario.find('[name="formato"]').val(),
+                    tamano_letra: $formulario.find('[name="tamano_letra"]').val(),
+                    pie: $formulario.find('[name="pie"]').val(),
+                    mostrar: $formulario.find('[name="mostrar[]"]:checked').map(function () { return this.value; }).get(),
+                    quitar_logo: quitarLogo ? 1 : 0
+                };
+                if (logoNuevo) {
+                    datos.logo = logoNuevo;
+                }
+                return datos;
+            }
+
+            function mensajeError(xhr, porDefecto) {
+                var respuesta = xhr && xhr.responseJSON ? xhr.responseJSON : {};
+                if (respuesta.errors) {
+                    return respuesta.errors[Object.keys(respuesta.errors)[0]][0];
+                }
+                return respuesta.message || respuesta.msj || porDefecto;
+            }
+
+            function actualizarVista() {
+                var datos = datosFormulario();
+                if (!datos.titulo) {
+                    return;
+                }
+                $cargando.addClass('activo');
+                $.ajax({
+                    url: $tarjeta.data('url-vista-previa'),
+                    type: 'POST',
+                    data: datos,
+                    headers: { 'X-CSRF-TOKEN': TOKEN }
+                }).done(function (html) {
+                    $vista.attr('srcdoc', html);
+                }).always(function () {
+                    $cargando.removeClass('activo');
+                });
+            }
+
+            function programarVista() {
+                clearTimeout(temporizador);
+                temporizador = setTimeout(actualizarVista, 450);
+            }
+
+            function mostrarLogo(ruta) {
+                $tarjeta.find('.js-plantilla-logo-imagen').attr('src', ruta || '').toggleClass('d-none', !ruta);
+                $tarjeta.find('.js-plantilla-logo-vacio').toggleClass('d-none', !!ruta);
+                $tarjeta.find('.js-plantilla-logo-quitar').toggleClass('d-none', !ruta);
+            }
+
+            // La vista previa se arma la primera vez que se abre la pestaña
+            $('a[href="#' + $tarjeta.closest('.tab-pane').attr('id') + '"]').on('shown.bs.tab', function () {
+                if (!cargada) {
+                    cargada = true;
+                    actualizarVista();
+                }
+            });
+
+            $formulario.on('input change', 'input, select, textarea', function () {
+                if (!$(this).hasClass('js-plantilla-logo-archivo')) {
+                    programarVista();
+                }
+            });
+
+            $tarjeta.find('.js-plantilla-logo-cambiar').on('click', function () {
+                $tarjeta.find('.js-plantilla-logo-archivo').trigger('click');
+            });
+
+            $tarjeta.find('.js-plantilla-logo-archivo').on('change', function () {
+                var archivo = this.files && this.files[0];
+                this.value = '';
+                if (!archivo) {
+                    return;
+                }
+                if (['image/png', 'image/jpeg', 'image/svg+xml', 'image/webp'].indexOf(archivo.type) === -1) {
+                    swal({ title: 'Archivo no válido', text: 'El logo debe ser una imagen (PNG, JPG, SVG o WEBP).', icon: 'error' });
+                    return;
+                }
+                if (archivo.size > 2 * 1024 * 1024) {
+                    swal({ title: 'Imagen muy pesada', text: 'El logo no puede superar los 2 MB.', icon: 'error' });
+                    return;
+                }
+                var lector = new FileReader();
+                lector.onload = function (e) {
+                    logoNuevo = e.target.result;
+                    quitarLogo = false;
+                    mostrarLogo(logoNuevo);
+                    programarVista();
+                };
+                lector.readAsDataURL(archivo);
+            });
+
+            $tarjeta.find('.js-plantilla-logo-quitar').on('click', function () {
+                logoNuevo = '';
+                quitarLogo = true;
+                mostrarLogo('');
+                programarVista();
+            });
+
+            // Abre el PDF real en otra pestaña con lo que hay en el formulario
+            $tarjeta.find('.js-plantilla-ver-pdf').on('click', function () {
+                var datos = datosFormulario();
+                if (!datos.titulo) {
+                    $formulario.addClass('was-validated');
+                    return;
+                }
+                var $envio = $('<form method="POST" target="_blank" class="d-none"></form>').attr('action', $tarjeta.data('url-vista-previa'));
+                var campos = $.extend({ _token: TOKEN, salida: 'pdf' }, datos);
+                $.each(campos, function (nombre, valor) {
+                    if ($.isArray(valor)) {
+                        $.each(valor, function (i, item) { $envio.append($('<input type="hidden">').attr('name', nombre + '[]').val(item)); });
+                    } else {
+                        $envio.append($('<input type="hidden">').attr('name', nombre).val(valor));
+                    }
+                });
+                $envio.appendTo('body').trigger('submit').remove();
+            });
+
+            $formulario.on('submit', function (evento) {
+                evento.preventDefault();
+                var datos = datosFormulario();
+                if (!datos.titulo) {
+                    $formulario.addClass('was-validated');
+                    return;
+                }
+                var $boton = $tarjeta.find('.js-plantilla-guardar').prop('disabled', true);
+                $.ajax({
+                    url: $tarjeta.data('url-guardar'),
+                    type: 'POST',
+                    data: datos,
+                    headers: { 'X-CSRF-TOKEN': TOKEN, 'Accept': 'application/json' }
+                }).done(function (respuesta) {
+                    logoNuevo = '';
+                    quitarLogo = false;
+                    $formulario.removeClass('was-validated');
+                    swal({ title: 'Plantilla guardada', text: respuesta.msj, icon: 'success', button: 'Aceptar' });
+                }).fail(function (xhr) {
+                    swal({ title: 'Error', text: mensajeError(xhr, 'No se pudo guardar la plantilla.'), icon: 'error', button: 'Aceptar' });
+                }).always(function () {
+                    $boton.prop('disabled', false);
+                });
+            });
+
+            $tarjeta.find('.js-plantilla-restablecer').on('click', function () {
+                swal({
+                    title: '¿Restablecer la plantilla?',
+                    text: 'El PDF volverá al formato original y se quitará tu logo.',
+                    icon: 'warning',
+                    buttons: ['Cancelar', 'Restablecer'],
+                    dangerMode: true
+                }).then(function (confirmado) {
+                    if (!confirmado) {
+                        return;
+                    }
+                    $.ajax({
+                        url: $tarjeta.data('url-restablecer'),
+                        type: 'POST',
+                        headers: { 'X-CSRF-TOKEN': TOKEN, 'Accept': 'application/json' }
+                    }).done(function (respuesta) {
+                        var base = respuesta.configuracion;
+                        $formulario.find('[name="color"]').val(base.color);
+                        $formulario.find('[name="texto_marca"]').val(base.texto_marca);
+                        $formulario.find('[name="posicion_logo"]').val(base.posicion_logo);
+                        $formulario.find('[name="titulo"]').val(base.titulo);
+                        $formulario.find('[name="formato"]').val(base.formato);
+                        $formulario.find('[name="tamano_letra"]').val(base.tamano_letra);
+                        $formulario.find('[name="pie"]').val(base.pie);
+                        $formulario.find('[name="mostrar[]"]').each(function () { this.checked = !!base.mostrar[this.value]; });
+                        logoNuevo = '';
+                        quitarLogo = false;
+                        mostrarLogo('');
+                        actualizarVista();
+                        swal({ title: 'Plantilla restablecida', icon: 'success', button: 'Aceptar' });
+                    }).fail(function (xhr) {
+                        swal({ title: 'Error', text: mensajeError(xhr, 'No se pudo restablecer la plantilla.'), icon: 'error', button: 'Aceptar' });
+                    });
+                });
+            });
+        });
+    });
 </script>
 @endsection

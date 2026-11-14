@@ -1253,8 +1253,8 @@
 
                         html='';
                         html += '<tr>';
-                        html += '    <td>'+valueOfElement.hora_inicio+'</td>';
-                        html += '    <td>'+valueOfElement.hora_termino+'</td>';
+                        html += '    <td>'+String(valueOfElement.hora_inicio || '').substring(0, 5)+'</td>';
+                        html += '    <td>'+String(valueOfElement.hora_termino || '').substring(0, 5)+'</td>';
                         html += '    <td>'+dia+'</td>';
                         html += '    <td><button type="button" onclick="eliminar_horario_sucursal( '+valueOfElement.id+', '+valueOfElement.id_institucion+', '+valueOfElement.id_lugar_atencion+', '+valueOfElement.id_sucursal+');" class="btn btn-danger btn-sm btn-icon" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="feather icon-x"></i></button></td>';
                         html += '</tr>';

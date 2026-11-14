@@ -11,6 +11,8 @@ foreach (['guarderia_hotel' => 'GuarderiaHotel', 'cementerio_mascotas' => 'Cemen
         Route::get('/', [Centro::class, 'index'])->name('home');
         Route::get('configuracion', [Centro::class, 'configuracion'])->name('configuracion');
         Route::post('configuracion', [Centro::class, 'guardarConfiguracion'])->name('configuracion.guardar');
+        Route::get('mensajes', [App\Http\Controllers\MensajesNegocioController::class, 'index'])->name('mensajes');
+        Route::post('mensajes', [App\Http\Controllers\MensajesNegocioController::class, 'enviar'])->middleware('throttle:20,1')->name('mensajes.enviar');
         Route::get('solicitudes/{id}', [Centro::class, 'detalleCentro'])->whereNumber('id')->name('detalle');
         Route::post('solicitudes/{id}', [Centro::class, 'operar'])->whereNumber('id')->name('operar');
         if ($tipo === 'cementerio_mascotas') {

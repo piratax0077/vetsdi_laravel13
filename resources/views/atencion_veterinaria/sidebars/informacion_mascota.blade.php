@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="sidebar_mascota_especie_id">Especie</label>
-                                    <select required id="sidebar_mascota_especie_id" class="form-control form-control-sm" onchange="actualizarCatalogosMascotaSidebar()">
+                                    <select required id="sidebar_mascota_especie_id" data-buscador-especie class="form-control form-control-sm" onchange="actualizarCatalogosMascotaSidebar()">
                                         <option value="">Seleccione</option>
                                         @foreach($especiesSidebar as $especie)
                                             <option value="{{ $especie->id }}" @selected($mascota->especie_id == $especie->id)>{{ $especie->nombre }}</option>
@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="sidebar_mascota_raza_id">Raza</label>
-                                    <select id="sidebar_mascota_raza_id" class="form-control form-control-sm"></select>
+                                    <select id="sidebar_mascota_raza_id" class="form-control form-control-sm" data-buscador-raza data-especie="#sidebar_mascota_especie_id"></select>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="sidebar_mascota_tamano_id">Tamaño</label>

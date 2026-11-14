@@ -287,7 +287,18 @@ class EscritorioPacienteDependiente extends Controller
                 return back()->with('error', 'Mascota no encontrada');
             }
 
-            // return view('app.paciente.buscador_profesional_paciente')->with(
+            // Los mismos servicios del modal "Reservar hora" del escritorio del tutor
+            // (consulta, procedimiento, exámenes, peluquería, hotel y cementerio)
+            $escritorioTutor = app(\App\Http\Controllers\EscritorioPaciente::class);
+            $catalogo_veterinario_busqueda = $escritorioTutor->catalogoReservaTutor();
+
+            // El test de leucemia felina se ofrece en Exámenes solo si la mascota es un gato
+            $esGato = (int) ($paciente_dependiente->especie_id ?: $paciente_dependiente->especie) === 2;
+            foreach ($catalogo_veterinario_busqueda as $i => $servicio) {
+                if (($servicio['slug'] ?? '') === 'examenes' && $esGato) {
+                    $catalogo_veterinario_busqueda[$i]['items'][] = 'Test de leucemia felina (FeLV)';
+                }
+            }
 
             return view('app.general.buscador_profesionales.buscador')->with(
 
@@ -299,7 +310,12 @@ class EscritorioPacienteDependiente extends Controller
 
                     'es_veterinaria_busqueda' => true,
 
+                    // Mismo flujo y lógica que el modal del escritorio, pero con la mascota ya elegida
+                    'flujo_tutor' => true,
+
                     'catalogo_veterinario_busqueda' => $catalogo_veterinario_busqueda,
+
+                    'catalogo_videoconsulta_busqueda' => $escritorioTutor->catalogoVideoconsultaTutor(),
 
                     // Esta pantalla usa exclusivamente el catálogo veterinario.
                     // No se entregan catálogos clínicos humanos como respaldo.

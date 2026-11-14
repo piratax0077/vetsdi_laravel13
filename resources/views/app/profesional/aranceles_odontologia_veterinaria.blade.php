@@ -21,23 +21,9 @@
 @section('content')
 <div class="pcoded-main-container ucov-page">
     <div class="pcoded-content m-top">
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12 mt-2">
-<ul class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('profesional.home') }}" title="Volver a mi escritorio">
-                                    <i class="feather icon-home"></i>
-                                </a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('profesional.configuracion') }}">Configuración</a>
-                            </li>
-                            <li class="breadcrumb-item"><span>Aranceles odontológicos veterinarios</span></li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-12 mb-3 encabezado-pagina">
+                <h5 class="f-26 d-inline">Aranceles odontológicos veterinarios</h5>
             </div>
         </div>
 

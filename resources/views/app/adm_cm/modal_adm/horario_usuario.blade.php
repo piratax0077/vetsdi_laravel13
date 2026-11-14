@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header modal-header-purple">
-                <h5 class="modal-title d-inline mt-1">Días de Atención</h5>
+                <h5 class="modal-title d-inline mt-1">Horario y días de atención</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span aria-hidden="true">×</span></button>
             </div>
 
@@ -14,8 +14,8 @@
                             <thead>
                                 <tr>
                                     <th class="align-left">Día</th>
-                                    <th class="align-left">Hora Inicio</th>
-                                    <th class="align-left">Hora Término</th>
+                                    <th class="align-left">Hora inicio</th>
+                                    <th class="align-left">Hora término</th>
                                 </tr>
                             </thead>
                             <tbody>

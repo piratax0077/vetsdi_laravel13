@@ -530,81 +530,48 @@ $(document).ready(function(){
 
         /** Modals Horario */
         function horario_profesional_vet(id_profesional, id_lugar_atencion) {
+            const nombresDias = {1: 'Lunes', 2: 'Martes', 3: 'Miércoles', 4: 'Jueves', 5: 'Viernes', 6: 'Sábado', 7: 'Domingo', 0: 'Domingo'};
+            // Las horas se muestran como 00:00, sin segundos
+            const horaCorta = function (hora) { return String(hora || '').substring(0, 5); };
+            const avisoHorario = function (texto) {
+                $('#mi_horario_table tbody').html($('<tr>').append($('<td colspan="3" class="text-center text-muted">').text(texto)));
+            };
 
-            $('#mi_horario_table tbody').html('');
-            let url = "{{ route('adm_cm.prof_horario_lugar_atencion') }}";
+            // El modal se abre al tiro y el horario se llena cuando llega la respuesta
+            avisoHorario('Cargando horario...');
             $('#horario_usuario').modal('show');
             $.ajax({
-                url: url,
+                url: "{{ route('adm_cm.prof_horario_lugar_atencion') }}",
                 type: "get",
                 data: {
-                    //_token: _token,
                     id_profesional: id_profesional,
                     id_lugar_atencion: id_lugar_atencion,
                 },
             })
             .done(function(data) {
-                console.log(data.length);
-                if (data != null && data.length > 0) {
-                    data = data;
-                    console.log(data);
-
-                    for (i = 0; i < data.length; i++) {
-                        let id = data[i].id;
-                        let hora_inicio = data[i].hora_inicio;
-                        let hora_termino = data[i].hora_termino;
-                        let dia = '';
-                        dias = data[i].dia.split(',');
-                        for (let i = 0; i < dias.length; i++) {
-                            if (dias[i] == 1) {
-                                dia += 'Lunes '
-                            } else if (dias[i] == 2) {
-                                dia += 'Martes '
-                            } else if (dias[i] == 3) {
-                                dia += 'Miercoles '
-                            } else if (dias[i] == 4) {
-                                dia += 'Jueves '
-                            } else if (dias[i] == 5) {
-                                dia += 'Viernes '
-                            }
-                        }
-
-                        let j = 1; //contador para asignar id al boton que borrara la fila
-                        var fila = '';
-                        fila += '<tr class="tr_horario" id="row' + j +'">';
-                        fila += '<td class="align-left">' + dia + '</td>';
-                        fila += '<td class="align-left">'+hora_inicio + '</td>';
-                        fila += '<td class="align-left">' + hora_termino + '</td>';
-                        fila += '</tr>';
-
-                        j++;
-
-                        $('#mi_horario_table tbody').append(fila);
-                        // $('#mi_horario_table').dataTable({
-                        //     "searching": false,
-                        //     responsive: true,
-                        // })
-
-                    }
-
-                } else {
-                    $('#horario_usuario').modal('hide');
-                    swal({
-                        title: "El Profesional no ha configurado su horario.",
-                        icon: "error",
-                    });
+                if (data == null || !data.length) {
+                    // Sin horario se avisa dentro del mismo modal, sin cerrarlo
+                    avisoHorario('El profesional todavía no ha configurado su horario.');
+                    return;
                 }
 
+                let cuerpo = $('#mi_horario_table tbody').html('');
+                $.each(data, function (i, horario) {
+                    let dias = String(horario.dia || '').split(',').map(function (dia) {
+                        return nombresDias[dia.trim()];
+                    }).filter(Boolean).join(', ');
+
+                    cuerpo.append($('<tr class="tr_horario">').append(
+                        $('<td class="align-left">').text(dias),
+                        $('<td class="align-left">').text(horaCorta(horario.hora_inicio)),
+                        $('<td class="align-left">').text(horaCorta(horario.hora_termino))
+                    ));
+                });
             })
             .fail(function(jqXHR, ajaxOptions, thrownError) {
                 console.log(jqXHR, ajaxOptions, thrownError)
-                $('#horario_usuario').modal('hide');
-                swal({
-                    title: "No fue posible cargar el horario del Profesional.",
-                    icon: "error",
-                });
+                avisoHorario('No fue posible cargar el horario del profesional.');
             });
-
         }
 
         function f_profesional(id_profesional) {

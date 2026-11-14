@@ -52,10 +52,15 @@ class ServicioHospitalizacionVeterinariaController extends Controller
 
     public function equipo(Request $r,OperacionVeterinaria $s,HospitalizacionAcceso $acceso)
     {
-        $institucion=$s->institucion($r);
+        return view('app.veterinaria.hospitalizacion.equipo',$this->datosEquipo($s->institucion($r),$acceso));
+    }
+
+    /** Integrantes que se pueden asignar y accesos ya configurados; los usa esta página y la pestaña "Equipo del servicio" */
+    public function datosEquipo($institucion,HospitalizacionAcceso $acceso): array
+    {
         $candidatos=$acceso->candidatos($institucion->id);
         $equipo=DB::table('vet_equipo_hospitalizacion as e')->join('users as u','u.id','=','e.id_usuario')->where('e.id_institucion',$institucion->id)->select('e.*','u.name')->orderBy('u.name')->get();
-        return view('app.veterinaria.hospitalizacion.equipo',compact('institucion','candidatos','equipo'));
+        return compact('institucion','candidatos','equipo');
     }
 
     public function guardarEquipo(Request $r,OperacionVeterinaria $s,HospitalizacionAcceso $acceso)
@@ -70,6 +75,8 @@ class ServicioHospitalizacionVeterinariaController extends Controller
             DB::table('vet_equipo_hospitalizacion')->updateOrInsert($scope,['perfil'=>$d['perfil'],'activo'=>$d['activo'],'created_at'=>$antes->created_at ?? now(),'updated_at'=>now()]);
             DB::table('vet_operacion_auditoria')->insert(['id_institucion'=>$institucion->id,'id_usuario'=>Auth::id(),'tabla'=>'vet_equipo_hospitalizacion','registro_id'=>$d['id_usuario'],'antes'=>json_encode($antes),'despues'=>json_encode($d),'created_at'=>now()]);
         });
+        // Desde la pestaña del área se vuelve a esa misma pestaña, con la alerta flotante de las áreas
+        if($r->input('_volver')==='area') return redirect()->route('vet.areas.index',['area'=>'hospitalizacion','id_institucion'=>$institucion->id,'vista'=>'equipo'])->with('alerta_area','Equipo del servicio actualizado.');
         return back()->with('success','Equipo hospitalario actualizado.');
     }
 }

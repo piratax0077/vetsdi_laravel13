@@ -2315,7 +2315,10 @@
                                                     Espera</a>
                                             </li>
                                         @endif
-                                        <li class="nav-item-secciones-info"><a class="nav-secciones-info text-uppercase" id="peluqueria-config-tab" data-toggle="tab" href="#peluqueria-config" role="tab" aria-controls="peluqueria-config" aria-selected="false">Peluquería y belleza</a></li>
+                                        {{-- Una pestaña por cada área del centro --}}
+                                        @foreach(\App\Services\OperacionVeterinaria::SERVICIOS as $claveArea => $nombreArea)
+                                        <li class="nav-item-secciones-info"><a class="nav-secciones-info text-uppercase" id="{{ $claveArea }}-config-tab" data-toggle="tab" href="#{{ $claveArea }}-config" role="tab" aria-controls="{{ $claveArea }}-config" aria-selected="false">{{ $nombreArea }}</a></li>
+                                        @endforeach
                                         <li class="nav-item-secciones-info">
                                             <a class="nav-secciones-info  text-uppercase" id="area-i-tab"
                                                 data-toggle="tab" href="#area-i" role="tab"
@@ -2339,7 +2342,7 @@
                                     <div class="tab-content" id="agregar_inf_cm">
 
                                         @include('app.adm_cm.partials.hospitalizacion_configuracion')
-                                        @include('app.adm_cm.partials.peluqueria_configuracion')
+                                        @include('app.adm_cm.partials.areas_servicios_configuracion')
                                         {{-- BOXES --}}
                                         <div class="tab-pane fade show active" id="box" role="tabpanel"
                                             aria-labelledby="box-tab">
@@ -3041,7 +3044,7 @@
     <input type="hidden" id="id_institucion" name="id_institucion" value="">
     <input type="hidden" id="id_lugar_atencion" name="id_lugar_atencion" value="">
     @include('app.adm_cm.modales.anadir_area')
-    @include('app.adm_cm.modales.anadir_box')
+    {{-- El modal antiguo de boxes (anadir_box) no se abría desde ninguna parte y sus botones no tenían función; los boxes se administran con agregar_box --}}
     @include('app.adm_cm.modales.agregar_bodega')
     @include('app.adm_cm.modales.agregar_bodega_editar')
     <div id="permisos_rol" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="permisos_rol"
@@ -7230,8 +7233,9 @@
                         for (i = 0; i < data.length; i++) {
 
                             let id = data[i].id;
-                            let hora_inicio = data[i].hora_inicio;
-                            let hora_termino = data[i].hora_termino;
+                            // En pantalla solo horas y minutos
+                            let hora_inicio = String(data[i].hora_inicio || '').substring(0, 5);
+                            let hora_termino = String(data[i].hora_termino || '').substring(0, 5);
                             let id_lugar_atencion = data[i].id_lugar_atencion;
                             let dia = '';
                             dias = data[i].dia.split(',');

@@ -122,7 +122,12 @@ class OperacionVeterinariaController extends Controller
             $secciones['hospitalizacion']['filas']->appends(['vista'=>null,'editar'=>null,'detalle'=>null]);
             $secciones['plazas']['filas']->appends(['vista'=>'plazas','editar'=>null,'detalle'=>null]);
             $datos['seccionesHospitalizacion'] = $secciones;
+            // El equipo del servicio se muestra como una pestaña de esta misma vista
+            $datos['equipoHospitalizacion'] = app(ServicioHospitalizacionVeterinariaController::class)->datosEquipo($datos['institucion'],app(\App\Services\HospitalizacionAcceso::class));
         }
+        // La gestión del área (responsable, compras y gastos) es una pestaña más en todas las áreas
+        $datos['gestionDelArea'] = app(GestionAreaVeterinariaController::class)->datos($datos['institucion'],$area,'pagina_gastos');
+        $datos['gestionDelArea']['gastos']->appends(['vista'=>'gestion','pestana'=>null,'editar'=>null,'detalle'=>null]);
         return view('app.veterinaria.areas.index',$datos+['areaCentro'=>$area,'tituloArea'=>OperacionVeterinaria::AREAS[$area]]);
     }
 

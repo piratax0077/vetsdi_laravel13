@@ -8,7 +8,7 @@
                 <h5>Videoconsulta veterinaria · {{ $hora->Mascota->nombre }}</h5>
             </div>
             <div class="card-body">
-                <p>{{ $hora->fecha_consulta }} · {{ $hora->hora_inicio }}</p>
+                <p>{{ $hora->fecha_consulta }} · {{ substr((string) $hora->hora_inicio, 0, 5) }}</p>
                 <button class="btn btn-primary" type="button" id="iniciar-video">Ingresar a la llamada</button>
                 <button class="btn btn-outline-primary" type="button" id="copiar-video">Copiar enlace</button>
                 @if ($profesional && $hora->permiteAbrirAtencion())

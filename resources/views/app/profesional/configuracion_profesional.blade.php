@@ -129,8 +129,8 @@
                             <div class="card subir configuracion-card">
                                 <a href="{{ route('profesional.indicaciones_medicas') }}">
                                     <div class="card-body text-center" style="cursor:pointer">
-                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/indicaciones.png') }}" alt="Indicaciones y consentimientos">
-                                        <h5 class="titulo-tarjeta f-16">Indicaciones y consentimientos</h5>
+                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/indicaciones.png') }}" alt="Configurar emisión de documentos">
+                                        <h5 class="titulo-tarjeta f-16">Configurar emisión de documentos</h5>
                                     </div>
                                 </a>
                             </div>

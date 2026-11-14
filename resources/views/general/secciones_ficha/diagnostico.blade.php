@@ -680,46 +680,23 @@
         $('#pc_horas_disponibles').empty().append($mensaje);
     }
 
-    // Separa las horas en mañana y tarde para que se ubiquen de un vistazo
+    // Muestra las horas disponibles en una sola grilla
     function pintarHorasProximoControl(registros) {
         const $horas = $('#pc_horas_disponibles').empty();
-        const bloques = [
-            { titulo: 'Mañana', icono: 'icon-sun', horas: [] },
-            { titulo: 'Tarde', icono: 'icon-sunset', horas: [] }
-        ];
+        const $grilla = $('<div class="reserva-vet-horas-grilla">');
 
         $.each(registros, function (_, registro) {
-            const texto = String(registro.hora).slice(0, 5);
-            bloques[Number(texto.slice(0, 2)) < 12 ? 0 : 1].horas.push({ valor: registro.hora, texto: texto });
-        });
-
-        $.each(bloques, function (_, bloque) {
-            if (bloque.horas.length === 0) {
-                return;
-            }
-
-            const $grilla = $('<div class="reserva-vet-horas-grilla">');
-            $.each(bloque.horas, function (_, hora) {
-                $grilla.append(
-                    $('<button type="button" class="reserva-vet-hora" aria-pressed="false">')
-                        .attr('data-hora', hora.valor)
-                        .text(hora.texto)
-                        .on('click', function () {
-                            seleccionarHoraProximoControl(this);
-                        })
-                );
-            });
-
-            $horas.append(
-                $('<div class="reserva-vet-horas-bloque">')
-                    .append(
-                        $('<span class="reserva-vet-horas-bloque-titulo">')
-                            .append($('<i class="feather">').addClass(bloque.icono))
-                            .append(document.createTextNode(bloque.titulo))
-                    )
-                    .append($grilla)
+            $grilla.append(
+                $('<button type="button" class="reserva-vet-hora" aria-pressed="false">')
+                    .attr('data-hora', registro.hora)
+                    .text(String(registro.hora).slice(0, 5))
+                    .on('click', function () {
+                        seleccionarHoraProximoControl(this);
+                    })
             );
         });
+
+        $horas.append($('<div class="reserva-vet-horas-bloque">').append($grilla));
 
         $('#pc_horas_total')
             .text(registros.length === 1 ? '1 hora' : registros.length + ' horas')

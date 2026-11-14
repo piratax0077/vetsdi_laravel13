@@ -8,7 +8,9 @@
         $abrirModalRegistro = $registroEnModal && ($registro || old('_formulario') === $accion.'-nuevo');
         // Hospitalización muestra dos secciones en la misma página y cada una necesita su modal
         $idModalRegistro = $seccion === 'plazas' ? 'modal_registro_plazas' : 'modal_registro_area';
-        $pestanaCatalogo = $vistaEnPestanas && (request('pestana') === 'catalogo' || ($servicioEditado ?? null) || str_starts_with((string) old('_formulario'),'servicio-'));
+        // La gestión del área es la tercera pestaña; se abre al volver de guardar o si su formulario trajo errores
+        $pestanaGestion = $vistaEnPestanas && isset($gestionDelArea) && (request('vista') === 'gestion' || str_starts_with((string) old('_formulario'),'gestion-'));
+        $pestanaCatalogo = !$pestanaGestion && $vistaEnPestanas && (request('pestana') === 'catalogo' || ($servicioEditado ?? null) || str_starts_with((string) old('_formulario'),'servicio-'));
     @endphp
     @if($registroEnModal)
     <div id="{{ $idModalRegistro }}" class="modal fade modal-area-operacion" tabindex="-1" role="dialog" aria-labelledby="{{ $idModalRegistro }}_titulo" aria-hidden="true" data-abrir="{{ $abrirModalRegistro ? '1' : '0' }}" @if($registro) data-url-cerrar="{{ $urlSeccion() }}" @endif>
@@ -29,11 +31,14 @@
     @endif
     @if($vistaEnPestanas)
     <ul class="nav pill-moderno pill-moderno-white" role="tablist" aria-label="Secciones de {{ $tituloArea }}">
-        <li class="nav-item"><a class="nav-link {{ $pestanaCatalogo ? '' : 'active' }}" data-toggle="pill" href="#pestana_registros" role="tab">{{ $seccion === 'laboratorio' ? 'Estadísticas del laboratorio' : 'Registros del establecimiento' }}</a></li>
+        <li class="nav-item"><a class="nav-link {{ $pestanaCatalogo || $pestanaGestion ? '' : 'active' }}" data-toggle="pill" href="#pestana_registros" role="tab">{{ $seccion === 'laboratorio' ? 'Estadísticas del laboratorio' : 'Registros del establecimiento' }}</a></li>
         <li class="nav-item"><a class="nav-link {{ $pestanaCatalogo ? 'active' : '' }}" data-toggle="pill" href="#pestana_catalogo" role="tab">{{ $seccion === 'laboratorio' ? 'Exámenes que realiza el laboratorio' : 'Catálogo de servicios' }}</a></li>
+        @isset($gestionDelArea)
+        <li class="nav-item"><a class="nav-link {{ $pestanaGestion ? 'active' : '' }}" data-toggle="pill" href="#pestana_gestion" role="tab">Gestión del área</a></li>
+        @endisset
     </ul>
     <div class="tab-content">
-    <div class="tab-pane fade {{ $pestanaCatalogo ? '' : 'show active' }}" id="pestana_registros" role="tabpanel">
+    <div class="tab-pane fade {{ $pestanaCatalogo || $pestanaGestion ? '' : 'show active' }}" id="pestana_registros" role="tabpanel">
     @endif
     @if($seccion === 'laboratorio')
         @include('app.veterinaria.operacion.estadisticas_laboratorio')
@@ -51,12 +56,12 @@
         </form>
         @endif
         @isset($estadisticaAtenciones)
-        <div class="row" aria-label="Resumen de atenciones filtradas">
+        <div class="resumen-area resumen-area--seis" aria-label="Resumen de atenciones filtradas">
             @foreach(['total'=>'Total de atenciones','completadas'=>'Completadas','pendientes'=>'Pendientes / en atención','canceladas'=>'Canceladas','ausencias'=>'No asistieron','valor_completadas'=>'Valor de servicios completados'] as $indicador=>$etiqueta)
-            <div class="col-6 col-md-4 col-xl-2 mb-3"><div class="bg-light rounded p-3 h-100"><small class="text-muted d-block">{{ $etiqueta }}</small><strong class="f-20">{{ $indicador === 'valor_completadas' ? '$' : '' }}{{ number_format($estadisticaAtenciones->{$indicador},0,',','.') }}</strong></div></div>
+            <div class="resumen-area-dato"><span class="resumen-area-etiqueta">{{ $etiqueta }}</span><span class="resumen-area-valor">{{ $indicador === 'valor_completadas' ? '$' : '' }}{{ number_format($estadisticaAtenciones->{$indicador},0,',','.') }}</span></div>
             @endforeach
         </div>
-        <p class="text-muted small">Resumen de todos los registros que coinciden con los filtros, incluidas las otras páginas. El valor de servicios completados no representa pagos recibidos.</p>
+        <p class="resumen-area-nota">Resumen de todos los registros que coinciden con los filtros, incluidas las otras páginas. El valor de servicios completados no representa pagos recibidos.</p>
         @endisset
         <div class="table-responsive"><table class="table table-striped table-sm"><thead><tr>@foreach($columnas as $key=>$label)<th>{{ $formulariosEnModal && $key === 'activa' ? 'Estado' : $label }}</th>@endforeach<th>Acciones</th></tr></thead><tbody>
         @forelse($filas as $fila)<tr>
@@ -152,6 +157,11 @@
     @endif
     @if($vistaEnPestanas)
     </div>
+    @isset($gestionDelArea)
+    <div class="tab-pane fade {{ $pestanaGestion ? 'show active' : '' }}" id="pestana_gestion" role="tabpanel">
+        @include('app.veterinaria.areas.partials.gestion_contenido',$gestionDelArea+['enArea'=>true])
+    </div>
+    @endisset
     </div>
     {{-- Fuera de las pestañas: un modal dentro de una pestaña oculta no se vería --}}
     <div id="modal_servicio_area" class="modal fade modal-area-operacion" tabindex="-1" role="dialog" aria-labelledby="modal_servicio_area_titulo" aria-hidden="true" data-abrir="{{ ($servicioEditado || old('_formulario') === 'servicio-nuevo') ? '1' : '0' }}" @if($servicioEditado) data-url-cerrar="{{ $urlSeccion(['pestana'=>'catalogo']) }}" @endif>

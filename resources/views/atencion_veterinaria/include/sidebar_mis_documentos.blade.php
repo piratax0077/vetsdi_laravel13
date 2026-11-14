@@ -1,5 +1,5 @@
 {{-- Sidebar derecho de la ficha veterinaria: indicaciones y consentimientos creados por el profesional
-     en Configuración > Indicaciones y consentimientos, listos para abrir y emitir en esta atención. --}}
+     en Configuración > Configurar emisión de documentos, listos para abrir y emitir en esta atención. --}}
 @php
     $plantillasActivas = ['indicaciones' => [], 'consentimientos' => []];
     $lugarConfiguracion = null;

@@ -6,7 +6,7 @@
             <!--Header-->
             <div class="row">
                 <div class="col-md-12 mb-3">
-                    <h5 class="f-26 d-inline">Mis exámenes</h5>
+                    <h5 class="f-26 d-inline">Mis exámenes emitidos</h5>
                 </div>
             </div>
             <!--Cierre: Header-->
@@ -25,10 +25,7 @@
                                         <th class=" align-middle">Mascota</th>
                                         <th class=" align-middle">Nombre del examen</th>
                                         <th class=" align-middle">Tipo</th>
-                                        {{-- <th class=" align-middle">Comentarios</th> --}}
-                                        {{--<th class=" align-middle">Acción</th>--}}
-                                        {{--<th class=" align-middle">Estado</th>--}}
-                                        <th class=" align-middle">Examen</th>
+                                        <th class=" align-middle">Documento</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -64,114 +61,5 @@
             </div>
         </div>
     </div>
-    <!--Cierre: Container Completo-['
-    <!--'] Modal examen profesional-->
-    <!-- <div id="agregar_examen_profesional_ro" class="modal fade" tabindex="-1" role="dialog"
-        aria-labelledby="agregar_receta_profesional_ro" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header modal-header-purple">
-                    <h5 class="modal-title text-center">Agregar examen</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
-                            aria-hidden="true">×</span></button>
-                </div>
-                    <!--<form id="recetas_profesional" method="POST" action="{{ route('examen_ppf.registrar') }}">
-                    <form id="recetas_profesional">
-                        <div class="modal-body">
-
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <h6 class="text-c-blue ml-2 mb-3">Ingrese los datos del examen</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <input type="hidden" value="" id="email_paciente"/>
-                                <input type="hidden" value="" id="id_paciente"/>
-                                <input type="hidden" value="" id="code_paciente"/>
-                                <input type="hidden" value="{{ csrf_token() }}" id="_token"/>
-                                <input type="hidden" value="{{ @Auth::user()->id }}" id="id_profesional"/>
-
-                                <div class="col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <label class="floating-label-activo-sm">RUT del Tutor</label>
-                                        <input type="person" class="form-control" name="rut_paciente" id="rut_paciente" >
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <label class="floating-label-activo-sm">Nombres del Tutor</label>
-                                        <input type="text" class="form-control" name="nombres_paciente" id="nombres_paciente">
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <label class="floating-label-activo-sm">Apellidos del Tutor</label>
-                                        <input type="text" class="form-control" name="apellidos_paciente"
-                                            id="apellidos_paciente">
-                                    </div>
-                                </div>
-                                <!--<div class="col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <label class="floating-label">Nombre del Examen</label>
-                                        <select id="nombre_examen" name="nombre_examen" class="form-control">
-                                            <option selected value="0">Seleccione una opción </option>
-                                            <option>..</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <label class="floating-label-activo-sm">Asociar a Atención de fecha:</label>
-                                        <select id="id_ficha_atencion"  name="id_ficha_atencion" class="form-control">>
-                                            <option value="0">Seleccione Atención</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-6">
-                                    <div class="form-group">
-                                        <label class="floating-label-activo-sm">Tipo del Examen</label>
-                                        <input type="text" class="form-control" name="t_examen" id="t_examen">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-6">
-                                    <div class="form-group">
-                                        <label class="floating-label-activo-sm">Nombre del Examen</label>
-                                        <input type="text" class="form-control" name="n_examen" id="n_examen">
-                                    </div>
-                                </div>
-                                <!--
-                                <div class="col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <label class="floating-label-activo-sm">Fecha del Examen</label>
-                                        <input type="date" class="form-control" name="fecha_paciente" id="fecha_paciente">
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <h6 class="ml-2 mt-2">Adjuntar examen</h6>
-                                        <input type="file" class="aform-control-file pb-3" id="adjuntar_examen_receta_online" onchange="convertToBase64();">
-                                        <input type="hidden" value="" id="adjuntar_examen_receta_online_base64"/>
-                                    </div>
-                                </div>
-                                <!--<div class="col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <label class="floating-label">Comentarios</label>
-                                        <textarea class="form-control caja-texto form-control-sm" name="comentarios_examen" id="comentarios_examen" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
-                        <button type="button" class="btn btn-info" onclick="guardar_examen();">Guardar y Subir Examen</button>
-                        <!-- <input type="submit" class="btn btn-info" value="Guardar y Subir Examen"/>
-                    </div>
-                 </form>
-            </div>
-        </div>
-    </div>-->
+    <!--Cierre: Container Completo-->
 @endsection

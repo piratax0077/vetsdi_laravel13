@@ -21154,6 +21154,8 @@ f-w-800 {
 
 .page-header.encabezado-escritorio .page-header-title p {
     color: rgba(39, 39, 39, .65) !important;
+    /* Aire bajo el subtítulo para que no quede pegado a las cards */
+    margin-bottom: 12px;
 }
 
 /* Si la vista pide el texto oscuro, se respeta */
@@ -29926,6 +29928,65 @@ body.box-layout .pcoded-navbar.theme-horizontal ~ .pcoded-header {
     border: 1px solid #ced4da;
 }
 
+/* Buscadores de especie y raza (selector_razas.js): mismo aspecto que form-control / form-control-sm */
+.select2-container--default.selector-mascota .select2-selection--single {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: auto;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.select2-container--default.selector-mascota-control .select2-selection--single {
+    min-height: 41.2px;
+    padding: 0 19px;
+    font-size: 12.8px;
+}
+
+.select2-container--default.selector-mascota-sm .select2-selection--single {
+    min-height: 34.8px;
+    padding: 0 10px;
+    font-size: 14.4px;
+}
+
+.select2-container--default.selector-mascota .select2-selection--single .select2-selection__rendered {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 0 22px 0 0;
+    color: #495057;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+.select2-container--default.selector-mascota .select2-selection--single .select2-selection__arrow {
+    top: 50%;
+    right: 8px;
+    height: 20px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.select2-container--default.selector-mascota.select2-container--disabled .select2-selection--single {
+    background-color: #e9ecef;
+}
+
+/* Lista desplegada: mismo radio y letra que el campo */
+.select2-container--default.selector-mascota .select2-dropdown,
+.select2-container--open .select2-dropdown {
+    border-color: #ced4da;
+}
+
+.selector-raza-nueva {
+    color: #6f42c1;
+    font-weight: 700;
+}
+
 .select2-container--default .select2-results__option[aria-selected=true] {
     background-color: #ecf0f5;
 }
@@ -36799,6 +36860,74 @@ transition: 0.2s!important;
     font-size: 12.5px;
 }
 
+/* Todos los modales del sistema abren centrados, igual que modal-dialog-centered */
+.modal .modal-dialog:not(.modal-dialog-scrollable) {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    min-height: calc(100% - 1rem);
+}
+
+.modal .modal-dialog:not(.modal-dialog-scrollable)::before {
+    display: block;
+    height: calc(100vh - 1rem);
+    content: "";
+}
+
+@media (min-width: 576px) {
+    .modal .modal-dialog:not(.modal-dialog-scrollable) {
+        min-height: calc(100% - 3.5rem);
+    }
+
+    .modal .modal-dialog:not(.modal-dialog-scrollable)::before {
+        height: calc(100vh - 3.5rem);
+    }
+}
+
+/* Ficha odontológica veterinaria: mismo fondo y orden que la ficha veterinaria general */
+.ficha-odontologica-vet > .user-profile {
+    background-color: #ecf0f5 !important;
+}
+
+/* Los márgenes negativos del tema corren los form-row con width:100% */
+.ficha-odontologica-vet .form-row {
+    width: auto;
+}
+
+.ficha-odontologica-vet .tab-content,
+.ficha-odontologica-vet .tab-pane,
+.ficha-odontologica-vet .card {
+    max-width: 100%;
+}
+
+/* Los presupuestos se dibujan por JS; se les da el mismo aspecto de tarjeta blanca */
+.ficha-odontologica-vet #vet-presupuestos-lista > section {
+    background-color: #fff;
+    border-color: #edf0f5 !important;
+}
+
+.ficha-odontologica-vet #vet-presupuestos-lista > section > h5 {
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+@media (max-width: 767.98px) {
+    .ficha-odontologica-vet .nav-tabs-secciones {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        width: 100%;
+        overflow-x: auto;
+    }
+}
+
 @media (max-width: 575.98px) {
     .card .card-header.encabezado-card {
         padding: 12px 14px;
@@ -36890,6 +37019,266 @@ transition: 0.2s!important;
 .aviso-sin-registros--peligro {
     background: #fdf2f2;
     border: 1px solid #f5c6cb;
+}
+
+/* Ficha del tutor (profesional): perfil con inicial, nombre, RUT, teléfono, dirección y acciones.
+   Fondo blanco que se tiñe de turquesa suave hacia la derecha */
+.card.tarjeta-datos-tutor {
+    background: linear-gradient(100deg, #fff 0%, #fff 45%, rgba(49, 190, 190, .12) 100%);
+    border: 1px solid rgba(49, 190, 190, .18);
+}
+
+.tarjeta-datos-tutor .card-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 20px;
+    padding: 20px 24px;
+}
+
+.tarjeta-datos-tutor__cuerpo {
+    flex: 1 1 280px;
+    min-width: 0;
+}
+
+.tarjeta-datos-tutor__nombre {
+    margin: 0 0 8px;
+    color: #272727;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.tarjeta-datos-tutor__datos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tarjeta-datos-tutor__datos li {
+    display: flex;
+    align-items: center;
+    color: #272727;
+    font-size: 14px;
+}
+
+.tarjeta-datos-tutor__datos li i {
+    margin-right: 6px;
+    color: #31bebe;
+}
+
+.tarjeta-datos-tutor__datos a {
+    color: #272727;
+}
+
+.tarjeta-datos-tutor__etiqueta {
+    margin-right: 6px;
+    color: #6c757d;
+}
+
+.tarjeta-datos-tutor__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.tarjeta-datos-tutor__acciones .btn {
+    margin-right: 0;
+}
+
+@media only screen and (max-width: 575px) {
+    .tarjeta-datos-tutor .card-body {
+        padding: 16px;
+    }
+
+    .tarjeta-datos-tutor__nombre {
+        font-size: 19px;
+    }
+
+    .tarjeta-datos-tutor__acciones {
+        margin-left: 0;
+    }
+}
+
+/* Ficha del tutor (profesional), pestaña Mascotas: círculo sin sombra;
+   sin foto, la pata va más chica sobre turquesa muy claro */
+.traspaso-mascota-foto.foto-mascota-tutor {
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.traspaso-mascota-foto.foto-mascota-tutor--sin-foto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(49, 190, 190, .1);
+}
+
+.traspaso-mascota-foto.foto-mascota-tutor--sin-foto img {
+    width: 55%;
+    height: 55%;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+
+/* Indicaciones y consentimientos: pestañas Plantilla receta y Plantilla de exámenes */
+.plantilla-pdf-subtitulo {
+    margin: 8px 0 22px;
+    color: #272727;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.plantilla-pdf-logo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.plantilla-pdf-logo-muestra {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 64px;
+    padding: 6px;
+    border: 1px dashed #d5dbe3;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 12px;
+}
+
+.plantilla-pdf-logo-muestra img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.plantilla-pdf-color {
+    height: 31px;
+    padding: 2px 4px;
+    cursor: pointer;
+}
+
+.plantilla-pdf-datos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 8px 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background-color: #f8f9fc;
+}
+
+.plantilla-pdf-datos .custom-control-label {
+    color: #272727;
+    cursor: pointer;
+}
+
+.plantilla-pdf-vista {
+    position: relative;
+    height: 720px;
+    overflow: hidden;
+    border: 1px solid #e6ebf2;
+    border-radius: 10px;
+    background-color: #eef1f5;
+}
+
+.plantilla-pdf-vista iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background-color: #fff;
+}
+
+.plantilla-pdf-vista-cargando {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background-color: rgba(39, 39, 39, .75);
+    color: #fff;
+    font-size: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+}
+
+.plantilla-pdf-vista-cargando.activo {
+    opacity: 1;
+}
+
+@media only screen and (max-width: 991px) {
+    .plantilla-pdf-vista {
+        height: 520px;
+        margin-top: 8px;
+    }
+}
+
+/* Pestañas desplazables (public/js/pestanas_desplazables.js): flechas a los lados
+   cuando los pills con la clase pill-con-flechas no caben en la pantalla */
+.pestanas-flechas {
+    position: relative;
+}
+
+.pestanas-flechas-boton {
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    z-index: 2;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    padding: 0;
+    border: 0;
+    color: #6f42c1;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.pestanas-flechas-boton.visible {
+    display: flex;
+}
+
+.pestanas-flechas-boton--izquierda {
+    left: 1px;
+    border-radius: 12px 0 0 12px;
+    background: linear-gradient(to right, #fff 60%, rgba(255, 255, 255, 0));
+}
+
+.pestanas-flechas-boton--derecha {
+    right: 1px;
+    border-radius: 0 12px 12px 0;
+    background: linear-gradient(to left, #fff 60%, rgba(255, 255, 255, 0));
+}
+
+.pestanas-flechas-boton:focus {
+    outline: none;
+}
+
+.pestanas-flechas-boton:focus-visible {
+    box-shadow: inset 0 0 0 2px rgba(111, 66, 193, .4);
+}
+
+/* Caja gris del interruptor sí/no (¿Tutor conflictivo? en las notas internas) */
+.bloque-estado {
+    margin-top: 6px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background-color: #f8f9fc;
+}
+
+.bloque-estado .custom-control-label,
+.was-validated .bloque-estado .custom-control-input:valid ~ .custom-control-label {
+    color: #272727;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 .aviso-sin-registros--peligro .aviso-sin-registros-icono {
@@ -38660,6 +39049,23 @@ table thead th,
     background: transparent;
 }
 
+/* Bandeja de mensajes: el mensaje abierto queda marcado en morado suave */
+.table.tabla-mensajes tbody tr.fila-seleccionada > td,
+.table.tabla-mensajes tbody tr.fila-seleccionada:hover > td {
+    background: #f4effc;
+}
+
+.table.tabla-mensajes tbody tr.fila-seleccionada > td:first-child {
+    -webkit-box-shadow: inset 3px 0 0 #6f42c1;
+    box-shadow: inset 3px 0 0 #6f42c1;
+}
+
+/* Texto del mensaje: respeta los saltos de línea y no se sale de la tarjeta */
+.contenido-mensaje {
+    white-space: pre-line;
+    word-break: break-word;
+}
+
 /* Las celdas con color de estado (agenda del escritorio, exámenes, radiología)
    mantienen su fondo; sin esto el transparente general de las celdas lo tapa. */
 .table:not(.table-dark) tbody td.bg-estado-light-verde {
@@ -39474,6 +39880,17 @@ table thead th,
 
 .reserva-vet-lugares:empty {
     display: none;
+}
+
+/* Título de la card de reserva de hora, un poco más grande que el encabezado general */
+#vista_reserva_veterinaria .card-header.encabezado-card .encabezado-card-titulo {
+    font-size: 20px;
+}
+
+@media (max-width: 575.98px) {
+    #vista_reserva_veterinaria .card-header.encabezado-card .encabezado-card-titulo {
+        font-size: 18px;
+    }
 }
 
 #modal_reserva_veterinaria .reserva-vet-lugar,
@@ -41210,6 +41627,128 @@ button.reserva-vet-lugar-caja:focus {
     }
 
     #historial_mensajes_profesional .historial-mensaje-icono {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   Mis mensajes del profesional: ver un mensaje y enviar uno nuevo
+   (misma línea visual del historial de mensajes)
+   ========================================================================== */
+
+#modal_mensaje_a_profesional .ver-mensaje {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    gap: 14px;
+}
+
+#modal_mensaje_a_profesional .ver-mensaje-icono {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: #7c4dcb;
+    background: #f1eafd;
+    border-radius: 50%;
+    font-size: 17px;
+}
+
+#modal_mensaje_a_profesional .ver-mensaje-contenido {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+#modal_mensaje_a_profesional .ver-mensaje-encabezado {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 4px 10px;
+}
+
+#modal_mensaje_a_profesional .ver-mensaje-titulo {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    word-break: break-word;
+}
+
+#modal_mensaje_a_profesional .ver-mensaje-fecha,
+#modal_mensaje_a_profesional .ver-mensaje-remitente {
+    color: #8a94a6;
+    font-size: 12px;
+}
+
+#modal_mensaje_a_profesional .ver-mensaje-fecha {
+    white-space: nowrap;
+}
+
+#modal_mensaje_a_profesional .ver-mensaje-remitente {
+    margin: 2px 0 0;
+    word-break: break-word;
+}
+
+#modal_mensaje_a_profesional .ver-mensaje-asunto {
+    margin: 10px 0 0;
+    color: #6f42c1;
+    font-size: 13px;
+    font-weight: 700;
+    word-break: break-word;
+}
+
+#modal_mensaje_a_profesional .ver-mensaje-texto {
+    margin-top: 10px;
+    padding: 12px 14px;
+    color: #4a5568;
+    background: #fbfaff;
+    border: 1px solid #e6ebf2;
+    border-radius: 12px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    white-space: pre-line;
+    word-break: break-word;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+#modal_mensaje_a_profesional .modal-footer,
+#modal_mensaje_a_profesional_de_profesional .modal-footer {
+    border-top: 1px solid #f0edf6;
+}
+
+/* El texto de la etiqueta queda sobre el campo con botón de búsqueda */
+#modal_mensaje_a_profesional_de_profesional .floating-label-activo-sm {
+    z-index: 4;
+}
+
+#modal_mensaje_a_profesional_de_profesional .form-group {
+    margin-bottom: 1.25rem;
+}
+
+@media (max-width: 575.98px) {
+    #modal_mensaje_a_profesional .ver-mensaje-icono {
         display: none;
     }
 }
@@ -44673,6 +45212,60 @@ tbody tr.codigo th::first-letter {
         flex: 0 0 68%;
         max-width: 68%;
         padding-right: 0;
+    }
+}
+
+/* --- Agendar hora: mascota arriba y tutor abajo, ambas tarjetas a lo ancho --- */
+
+/* La tarjeta de la mascota lleva un fondo suave para distinguirla de la del tutor */
+.reserva-hora-datos .reserva-hora-mascota {
+    padding: 4px 18px;
+    background: #fbfaff;
+}
+
+.reserva-hora-datos .reserva-hora-tutor {
+    padding: 4px 18px;
+}
+
+.reserva-hora-datos .reserva-hora-mascota .ficha-previa-dato,
+.reserva-hora-datos .reserva-hora-tutor .ficha-previa-dato {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-bottom-color: #efeaf8;
+}
+
+.reserva-hora-datos .reserva-hora-mascota dd,
+.reserva-hora-datos .reserva-hora-tutor dd {
+    color: #4a4f5c;
+}
+
+/* Desde tablet la mascota va en cuatro columnas: la primera fila lleva línea
+   y la segunda cierra la tarjeta */
+@media (min-width: 768px) {
+    .reserva-hora-datos .reserva-hora-mascota .ficha-previa-dato {
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+        padding-right: 14px;
+        border-bottom: 1px solid #efeaf8;
+    }
+
+    .reserva-hora-datos .reserva-hora-mascota .ficha-previa-dato:nth-child(n+5) {
+        border-bottom: 0;
+    }
+
+    /* En el tutor el rut ocupa lo mismo que una columna de la mascota,
+       así ambas tarjetas quedan alineadas */
+    .reserva-hora-datos .reserva-hora-tutor .ficha-previa-dato.reserva-hora-dato-angosto {
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+
+    .reserva-hora-datos .reserva-hora-tutor .ficha-previa-dato.reserva-hora-dato-amplio {
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
     }
 }
 
@@ -48595,6 +49188,79 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     background: rgba(70, 128, 255, 0.03);
 }
 
+/* Resumen de las áreas (atenciones, compras y gastos): recuadros tenues, sin íconos */
+.resumen-area {
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+/* Con seis indicadores las columnas son fijas para que ninguno quede solo en una fila */
+.resumen-area--seis {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (min-width: 1200px) {
+    .resumen-area--seis {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+}
+
+.resumen-area-dato {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid #ece6f5;
+    border-radius: 12px;
+    background: #fbfaff;
+}
+
+.resumen-area-etiqueta {
+    display: block;
+    margin-bottom: 6px;
+    color: #6b7a90;
+    font-family: 'Nunito Sans', 'Nunito', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.resumen-area-valor {
+    display: block;
+    color: #272727;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.2;
+    word-break: break-word;
+}
+
+.resumen-area-nota {
+    margin-bottom: 16px;
+    color: #6b7a90;
+    font-size: 12.5px;
+    line-height: 1.45;
+}
+
+@media (max-width: 575.98px) {
+    .resumen-area {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .resumen-area-dato {
+        padding: 10px 12px;
+    }
+
+    .resumen-area-valor {
+        font-size: 19px;
+    }
+}
+
 /* Estado de las reservas de cada área: mismos colores de la agenda (parametros, Agenda_Estado) */
 .badge.estado-agenda {
     color: #fff;
@@ -50385,4 +51051,282 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     border-color: currentColor;
     box-shadow: 0 1px 3px rgba(39, 39, 39, .12);
     outline: none;
+}
+
+
+/*
+ * Formulario obligatorio de perfil, uno por rol.
+ *
+ * Comparte el fondo y los colores de la pantalla "Elige tu perfil" para que se
+ * note que es el mismo paso del ingreso.
+ */
+
+:root {
+    --perfil-azul: #2b6fd6;
+    --perfil-azul-oscuro: #1f52a3;
+    --perfil-morado: #6f42c1;
+    --perfil-morado-oscuro: #59339c;
+    --perfil-titulo: #272727;
+    --perfil-texto: #7b8190;
+    --perfil-error: #d6312b;
+}
+
+.pagina-perfil {
+    min-height: 100vh;
+    margin: 0;
+    padding-bottom: 60px;
+    background: linear-gradient(135deg, #eef2fb 0%, #f3f5fc 38%, #e6f4f6 100%);
+    background-attachment: fixed;
+    font-family: "Nunito", "Nunito Sans", sans-serif;
+    color: var(--perfil-titulo);
+}
+
+.perfil-barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 24px 0;
+}
+
+.perfil-volver,
+.perfil-salir {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 1px solid rgba(43, 111, 214, 0.35);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--perfil-azul);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease;
+}
+
+.perfil-volver:hover,
+.perfil-volver:focus-visible,
+.perfil-salir:hover,
+.perfil-salir:focus-visible {
+    background: var(--perfil-azul);
+    color: #fff;
+    text-decoration: none;
+}
+
+.perfil-contenido {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 20px 0;
+}
+
+.perfil-tarjeta {
+    padding: 36px 38px 34px;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 14px 34px rgba(39, 61, 110, 0.1);
+}
+
+.perfil-logo {
+    display: block;
+    width: 160px;
+    max-width: 60%;
+    height: auto;
+    margin: 0 auto 16px;
+}
+
+.perfil-titulo {
+    margin: 0 0 8px;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    color: var(--perfil-titulo);
+}
+
+.perfil-bajada {
+    margin: 0 0 26px;
+    font-size: 15px;
+    line-height: 1.5;
+    text-align: center;
+    color: var(--perfil-texto);
+}
+
+.perfil-aviso {
+    margin: 0 0 20px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: #fff4e0;
+    color: #8a5a00;
+    font-size: 14px;
+}
+
+/* Bloques del formulario */
+.perfil-bloque {
+    margin: 0 0 26px;
+    padding: 0;
+    border: 0;
+}
+
+.perfil-bloque-titulo {
+    width: auto;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ececf2;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--perfil-titulo);
+}
+
+.perfil-fila {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.perfil-campo {
+    margin-bottom: 16px;
+}
+
+.perfil-campo.es-ancho {
+    grid-column: 1 / -1;
+}
+
+.perfil-campo label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--perfil-titulo);
+}
+
+.perfil-campo input,
+.perfil-campo select {
+    width: 100%;
+    height: 42px;
+    padding: 8px 12px;
+    border: 1px solid #d8d8e3;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 15px;
+    color: var(--perfil-titulo);
+}
+
+.perfil-campo input:focus,
+.perfil-campo select:focus {
+    border-color: var(--perfil-azul);
+    outline: 2px solid rgba(43, 111, 214, 0.25);
+    outline-offset: 0;
+}
+
+.perfil-campo input.es-invalido,
+.perfil-campo select.es-invalido {
+    border-color: var(--perfil-error);
+}
+
+.perfil-ayuda {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--perfil-texto);
+}
+
+.perfil-error {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--perfil-error);
+}
+
+.perfil-opcional {
+    font-weight: 400;
+    color: var(--perfil-texto);
+}
+
+/* Opciones en linea, como la modalidad del asistente o el sexo de la mascota */
+.perfil-opciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.perfil-opcion {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 10px 16px;
+    border: 1px solid #d8d8e3;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color .2s ease, background-color .2s ease;
+}
+
+.perfil-opcion:hover {
+    border-color: var(--perfil-azul);
+}
+
+.perfil-opcion input {
+    width: auto;
+    height: auto;
+    margin: 0;
+}
+
+/* La clase la pone el JS; :has cubre a los navegadores que ya lo soportan */
+.perfil-opcion.esta-elegida,
+.perfil-opcion:has(input:checked) {
+    border-color: var(--perfil-azul);
+    background: rgba(43, 111, 214, 0.08);
+    color: var(--perfil-azul);
+}
+
+.perfil-opcion:focus-within {
+    outline: 2px solid var(--perfil-azul);
+    outline-offset: 2px;
+}
+
+.perfil-boton {
+    width: 100%;
+    height: 46px;
+    margin-top: 6px;
+    border: 0;
+    border-radius: 8px;
+    background: #6f42c1;
+    background: var(--perfil-morado);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color .2s ease;
+}
+
+.perfil-boton:hover,
+.perfil-boton:focus-visible {
+    background: #59339c;
+    background: var(--perfil-morado-oscuro);
+}
+
+/* Celular */
+@media (max-width: 575px) {
+    .perfil-contenido {
+        padding: 16px 14px 0;
+    }
+
+    .perfil-tarjeta {
+        padding: 26px 20px 24px;
+    }
+
+    .perfil-fila {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .perfil-titulo {
+        font-size: 22px;
+    }
 }

@@ -7,6 +7,8 @@
         function form(id){return document.getElementById(id);}
         function modal(id){window.jQuery('#'+id).appendTo(document.body).modal('show');}
         function aviso(el,texto,ok){el.className='alert '+(ok?'alert-success':'alert-danger');el.textContent=texto;}
+        // Deja la fecha como dd-mm-aaaa y descarta la hora si viene
+        function soloFecha(v){var p=String(v||'').split(/[ T]/)[0].split('-');return p.length===3?p[2]+'-'+p[1]+'-'+p[0]:String(v||'');}
         function uuid(){var b=crypto.getRandomValues(new Uint8Array(16));b[6]=(b[6]&15)|64;b[8]=(b[8]&63)|128;var s=Array.from(b,function(x){return x.toString(16).padStart(2,'0');}).join('');return s.slice(0,8)+'-'+s.slice(8,12)+'-'+s.slice(12,16)+'-'+s.slice(16,20)+'-'+s.slice(20);}
         function campo(f,n,v){var e=f.elements[n];if(!e)return;v=v==null?'':String(v);if(e.tagName==='SELECT' && v!=='' && (n==='banco'||n==='tipo_cuenta') && !Array.from(e.options).some(function(o){return o.value===v;}))e.add(new Option(v,v));e.value=v;}
         function preparar(f,datos){f.reset();f.querySelector('[data-resultado]').className='alert d-none';Array.from(f.elements).forEach(function(e){if(e.name && e.name!=='_token' && e.name!=='lugares[]')campo(f,e.name,datos[e.name]);});}
@@ -65,10 +67,10 @@
                 caja.append(titulo,fila);contenedor.append(caja);
             });
             var contratos=form('otro-info-contratos');contratos.replaceChildren();
-            d.contratos.forEach(function(c){var p=textoNodo('p',(config.tiposContrato[c.tipo]||c.tipo)+' · '+c.fecha_inicio+(c.fecha_fin?' a '+c.fecha_fin:'')+' · '+c.estado+' · $'+Number(c.remuneracion).toLocaleString('es-CL'));p.className='otro-info-item mb-2';contratos.append(p);});
+            d.contratos.forEach(function(c){var p=textoNodo('p',(config.tiposContrato[c.tipo]||c.tipo)+' · '+soloFecha(c.fecha_inicio)+(c.fecha_fin?' a '+soloFecha(c.fecha_fin):'')+' · '+c.estado+' · $'+Number(c.remuneracion).toLocaleString('es-CL'));p.className='otro-info-item mb-2';contratos.append(p);});
             if(!d.contratos.length)contratos.append(textoNodo('p','Sin contratos registrados.','text-muted'));
             var mensajes=form('otro-info-mensajes');mensajes.replaceChildren();
-            d.mensajes.forEach(function(m){var caja=document.createElement('div');caja.className='otro-info-item';caja.append(textoNodo('strong',m.asunto),textoNodo('p',m.created_at+' · '+m.destinatario+' · '+m.estado,'small text-muted mb-1'),textoNodo('p',m.mensaje,'text-wrap mb-0'));mensajes.append(caja);});
+            d.mensajes.forEach(function(m){var caja=document.createElement('div');caja.className='otro-info-item';caja.append(textoNodo('strong',m.asunto),textoNodo('p',soloFecha(m.created_at)+' · '+m.destinatario+' · '+m.estado,'small text-muted mb-1'),textoNodo('p',m.mensaje,'text-wrap mb-0'));mensajes.append(caja);});
             if(!d.mensajes.length)mensajes.append(textoNodo('p','Sin mensajes registrados.','text-muted'));
             modal('modalOtroInfo');
         }

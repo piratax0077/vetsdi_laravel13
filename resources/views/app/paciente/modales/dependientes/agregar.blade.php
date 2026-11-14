@@ -293,7 +293,7 @@
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                     <div class="form-group">
                         <label class="floating-label-activo-sm" for="espec_masc">Especie</label>
-                        <select name="espec_masc" id="espec_masc" class="form-control form-control-sm" onchange="handleEspecieChange();">
+                        <select name="espec_masc" id="espec_masc" class="form-control form-control-sm" onchange="handleEspecieChange();" data-buscador-especie>
                             <option value="0">Seleccione</option>
                             @foreach(($especiesMascotas ?? []) as $especie)
                                 <option value="{{ $especie->id }}">{{ $especie->nombre }}</option>
@@ -308,7 +308,7 @@
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                     <div class="form-group">
                         <label class="floating-label-activo-sm"><span class="requerido" style="color: red;" id="requerido_modal_agregar_dep_nuevo_raza">*</span>Raza</label>
-                        <select class="form-control form-control-sm" name="modal_agregar_dep_nuevo_raza" id="modal_agregar_dep_nuevo_raza">
+                        <select class="form-control form-control-sm" name="modal_agregar_dep_nuevo_raza" id="modal_agregar_dep_nuevo_raza" data-buscador-raza data-especie="#espec_masc">
                             <option value="">Seleccione</option>
                             <option value="sin">Sin raza</option>
                         </select>

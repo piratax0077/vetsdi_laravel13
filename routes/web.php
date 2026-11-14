@@ -829,6 +829,7 @@ Route::group([
     /* Mensajes que la clínica y los profesionales envían al tutor */
     Route::get('Mensajes', [App\Http\Controllers\MensajesTutorController::class, 'index'])->name('paciente.mensajes');
     Route::get('Mensajes/{id}', [App\Http\Controllers\MensajesTutorController::class, 'ver'])->whereNumber('id')->name('paciente.mensajes.ver');
+    Route::post('Mensajes/{id}/responder', [App\Http\Controllers\MensajesTutorController::class, 'responder'])->whereNumber('id')->middleware('throttle:20,1')->name('paciente.mensajes.responder');
 
     Route::get('Mascotas_Perdidas', [App\Http\Controllers\MascotasPerdidasController::class, 'index'])->name('paciente.mascotas_perdidas');
     Route::prefix('Mascotas_Perdidas')->name('paciente.perdidas.')->group(function () {
@@ -983,6 +984,18 @@ Route::post('Convenios/editar', [App\Http\Controllers\EscritorioPaciente::class,
     Route::get('mascotas/razas/{especie}', [App\Http\Controllers\MascotasController::class, 'razasPorEspecie'])
         ->whereNumber('especie')
         ->name('paciente.mascotas.razas');
+    Route::post('mascotas/registro-rapido', [App\Http\Controllers\MascotasController::class, 'registroRapido'])
+        ->name('paciente.mascotas.registro_rapido');
+    // Modal "Reservar hora" del escritorio del tutor: peluquería y hotel
+    Route::get('reserva-servicios/peluquerias', [App\Http\Controllers\ReservaServiciosTutorController::class, 'peluquerias'])
+        ->name('paciente.reserva_servicios.peluquerias');
+    Route::get('reserva-servicios/peluquerias/horas', [App\Http\Controllers\ReservaServiciosTutorController::class, 'peluqueriaHoras'])
+        ->name('paciente.reserva_servicios.peluqueria_horas');
+    Route::post('reserva-servicios/peluquerias/reservar', [App\Http\Controllers\ReservaServiciosTutorController::class, 'peluqueriaReservar'])
+        ->middleware('throttle:10,1')
+        ->name('paciente.reserva_servicios.peluqueria_reservar');
+    Route::get('reserva-servicios/hoteles', [App\Http\Controllers\ReservaServiciosTutorController::class, 'hoteles'])
+        ->name('paciente.reserva_servicios.hoteles');
     Route::put('mascotas/{mascota}', [App\Http\Controllers\MascotasController::class, 'update'])->whereNumber('mascota')->name('paciente.mascotas.update');
     Route::delete('mascotas/{mascota}', [App\Http\Controllers\MascotasController::class, 'destroy'])->whereNumber('mascota')->name('paciente.mascotas.destroy');
     Route::get('mascotas/{mascota}/memorial', [App\Http\Controllers\MascotasController::class, 'memorial'])->whereNumber('mascota')->name('paciente.mascotas.memorial');
@@ -1403,6 +1416,15 @@ Route::group([
     Route::get('Mis_pacientes/tutor/{tutor}', [App\Http\Controllers\EscritorioProfesional::class, 'ver_tutor'])
         ->whereNumber('tutor')
         ->name('profesional.tutor.informacion');
+    Route::post('Mis_pacientes/tutor/{tutor}/notas', [App\Http\Controllers\EscritorioProfesional::class, 'guardar_nota_tutor'])
+        ->whereNumber('tutor')
+        ->name('profesional.tutor.notas.guardar');
+    Route::post('Mis_pacientes/tutor/{tutor}/bloquear', [App\Http\Controllers\EscritorioProfesional::class, 'bloquear_tutor'])
+        ->whereNumber('tutor')
+        ->name('profesional.tutor.bloquear');
+    Route::post('Mis_pacientes/tutor/{tutor}/desbloquear', [App\Http\Controllers\EscritorioProfesional::class, 'desbloquear_tutor'])
+        ->whereNumber('tutor')
+        ->name('profesional.tutor.desbloquear');
 
     Route::get('Recetas', [App\Http\Controllers\EscritorioProfesional::class, 'buscar_receta_ficha'])->name('profesional.buscar_recetas');
 
@@ -1427,6 +1449,12 @@ Route::group([
         Route::post('Atencion/Mis-Documentos/biopsia', 'emitirBiopsia')->middleware('throttle:20,1')->name('profesional.plantillas.biopsia');
         Route::post('Atencion/Mis-Documentos/consentimiento-personalizado', 'emitirConsentimientoPersonalizado')->middleware('throttle:20,1')->name('profesional.plantillas.consentimiento_personalizado');
         Route::post('Atencion/Mis-Documentos/indicacion-personalizada', 'emitirIndicacionPersonalizada')->middleware('throttle:20,1')->name('profesional.plantillas.indicacion_personalizada');
+    });
+    // Personalización de los PDF de receta y de orden de exámenes (pestañas de Configurar emisión de documentos)
+    Route::middleware(['auth', 'role:Profesional'])->controller(\App\Http\Controllers\PlantillaPdfProfesionalController::class)->group(function () {
+        Route::post('Configuraciones/Plantilla-PDF/{tipo}', 'guardar')->whereIn('tipo', ['receta', 'examenes'])->name('profesional.plantilla_pdf.guardar');
+        Route::post('Configuraciones/Plantilla-PDF/{tipo}/restablecer', 'restablecer')->whereIn('tipo', ['receta', 'examenes'])->name('profesional.plantilla_pdf.restablecer');
+        Route::post('Configuraciones/Plantilla-PDF/{tipo}/vista-previa', 'vistaPrevia')->whereIn('tipo', ['receta', 'examenes'])->middleware('throttle:60,1')->name('profesional.plantilla_pdf.vista_previa');
     });
     Route::get('Atencion/Mis-Documentos/{documento}/firma-consulta', [\App\Http\Controllers\FirmaDocumentoVeterinarioController::class, 'qrConsulta'])
         ->middleware(['auth', 'role:Profesional', 'throttle:20,1'])->name('profesional.plantillas.firma_consulta');
@@ -5126,6 +5154,7 @@ Route::group([
     Route::get('buscar_profesional_buscador', [App\Http\Controllers\EscritorioGeneral::class, 'buscarProfesionalBuscador'])->name('profesional.buscador');
 
     Route::get('informacion_profesional', [App\Http\Controllers\EscritorioGeneral::class, 'informacionProfesional'])->name('profesional.informacionProfesional');
+    Route::get('proxima_hora_por_lugar', [App\Http\Controllers\EscritorioGeneral::class, 'proximaHoraPorLugar'])->name('profesional.proximaHoraPorLugar');
 
 
 
@@ -5985,6 +6014,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 require __DIR__.'/asistentes.php';
 require __DIR__.'/peluqueria.php';
 require __DIR__.'/centros_servicios.php';
+
+// Buscador de razas (selector_razas.js): agrega al catálogo una raza escrita a mano.
+// Lo usan tutores, profesionales y centros en cualquier registro de mascota.
+Route::post('razas-mascotas', [App\Http\Controllers\MascotasController::class, 'crearRaza'])
+    ->middleware(['auth', 'throttle:20,1'])
+    ->name('razas_mascotas.crear');
+Route::get('razas-mascotas', [App\Http\Controllers\MascotasController::class, 'listarRazas'])
+    ->middleware('auth')
+    ->name('razas_mascotas.listar');
 
 Route::get('VideoconsultaVeterinaria/{hora}', [\App\Http\Controllers\VideoconsultaVeterinariaController::class, 'sala'])
     ->whereNumber('hora')->middleware('auth')->name('videoconsulta.veterinaria.sala');

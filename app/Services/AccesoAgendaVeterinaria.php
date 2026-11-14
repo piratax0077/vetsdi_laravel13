@@ -44,24 +44,32 @@ class AccesoAgendaVeterinaria
             $turnos = ProfesionalHorario::where('id_profesional', $hora->id_profesional)
                 ->where('id_lugar_atencion', $hora->id_lugar_atencion)
                 ->when($tipo, fn ($query) => $query->where('tipo_agenda', $tipo))
-                ->where('hora_inicio', '<=', $inicioHora)
-                ->where('hora_termino', '>=', $finHora)->get();
+                ->get();
 
-            $atiende = $turnos->contains(function ($turno) use ($inicio, $dia) {
+            // Los horarios se guardan con un segundo de desfase (09:30:01 a 15:30:00) y la
+            // hora puede llegar en punto o con ese segundo, así que todo se compara por minuto.
+            $inicioMinuto = $inicio->startOfMinute();
+            $finMinuto = $fin->startOfMinute();
+            $atiende = $turnos->contains(function ($turno) use ($inicioMinuto, $finMinuto, $dia) {
                 $dias = preg_split('/[^0-9]+/', (string) $turno->dia, -1, PREG_SPLIT_NO_EMPTY);
-                if (!in_array((string) $inicio->dayOfWeek, $dias, true)) return false;
+                if (!in_array((string) $inicioMinuto->dayOfWeek, $dias, true)) return false;
+
+                $apertura = CarbonImmutable::parse($dia.' '.$turno->hora_inicio, 'America/Santiago')->startOfMinute();
+                $cierre = CarbonImmutable::parse($dia.' '.$turno->hora_termino, 'America/Santiago')->startOfMinute();
+                if ($inicioMinuto->lt($apertura) || $finMinuto->gt($cierre)) return false;
 
                 $partes = explode(':', (string) $turno->duracion_consulta);
                 $paso = ((int) ($partes[0] ?? 0) * 60 + (int) ($partes[1] ?? 0)) * 60;
-                $apertura = CarbonImmutable::parse($dia.' '.$turno->hora_inicio, 'America/Santiago');
-                return ($inicio->timestamp - $apertura->timestamp) % ($paso ?: 900) === 0;
+                return ($inicioMinuto->timestamp - $apertura->timestamp) % ($paso ?: 900) === 0;
             });
             if ($duracion <= 0 || $inicio->isPast() || !$inicio->isSameDay($fin) || !$atiende) {
                 throw ValidationException::withMessages(['fecha_consulta' => 'La cita debe quedar dentro de un horario de atención disponible.']);
             }
 
+            // Solo bloquean los bloqueos activos: uno anulado por el profesional deja libre el horario
             $bloqueada = ProfesionalHorariosBloqueo::where('id_profesional', $hora->id_profesional)
                 ->where('id_lugar_atencion', $hora->id_lugar_atencion)
+                ->where('estado', 1)
                 ->whereDate('fecha_inicio', '<=', $dia)->whereDate('fecha_termino', '>=', $dia)->get()
                 ->contains(function ($bloqueo) use ($inicio, $fin) {
                     if ((int) $bloqueo->todo_dia === 1) return true;

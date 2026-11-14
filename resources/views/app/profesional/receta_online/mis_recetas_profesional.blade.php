@@ -6,7 +6,7 @@
             <!--Header-->
             <div class="row">
                 <div class="col-md-12 mb-3">
-                    <h5 class="f-26 d-inline">Mis recetas</h5>
+                    <h5 class="f-26 d-inline">Mis recetas emitidas</h5>
                 </div>
             </div>
             <!--Cierre: Header-->
@@ -55,105 +55,5 @@
         </div>
     </div>
     <!--Cierre: Container Completo-->
-    <!-- Modal recetas profesional-->
-    <!--<div id="agregar_receta_profesional_ro" class="modal fade" tabindex="-1" role="dialog"
-        aria-labelledby="agregar_receta_profesional_ro" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header modal-header-purple">
-                    <h5 class="modal-title text-center">Agregar receta</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="$(this).closest('.modal').modal('hide');"><span
-                            aria-hidden="true">×</span></button>
-                </div>
-                <div class="modal-body">
-                    <form id="recetas_profesional">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12">
-                                <div class="form-group">
-                                    <h6 class="text-c-blue ml-2 mb-3">Ingrese los datos del paciente</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="floating-label">RUT</label>
-                                    <input type="person" class="form-control" name="rut_paciente" id="rut_paciente">
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="floating-label">Edad</label>
-                                    <input type="number" class="form-control" name="edad_paciente" id="edad_paciente">
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="floating-label">Nombres</label>
-                                    <input type="text" class="form-control" name="nombres_paciente" id="nombres_paciente">
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="floating-label">Apellidos</label>
-                                    <input type="text" class="form-control" name="apellidos_paciente"
-                                        id="apellidos_paciente">
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="floating-label">Dirección</label>
-                                    <input type="address" class="form-control" name="direccion_paciente"
-                                        id="direccion_paciente">
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="floating-label">Región / Comuna</label>
-                                    <select id="region_comuna" name="region_comuna" class="form-control">
-                                        <option selected value="0">Seleccione una opción </option>
-                                        <optgroup label="Región de Valparaíso">
-                                            <option>Viña del Mar</option>
-                                            <option>Valparaíso</option>
-                                            <option>San Felipe</option>
-                                            <option>etc...</option>
-                                        </optgroup>
-                                        <optgroup label="Región Metropolitana">
-                                            <option>Santiago</option>
-                                            <option>Maipú</option>
-                                            <option>etc...</option>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="floating-label-activo">Fecha</label>
-                                    <input type="date" class="form-control" name="fecha_paciente" id="fecha_paciente">
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="floating-label">Diagnóstico</label>
-                                    <input type="text" class="form-control" name="diagnostico_paciente"
-                                        id="diagnostico_paciente">
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-12">
-                                <div class="form-group">
-                                    <label class="floating-label">Rp:</label>
-                                    <textarea class="form-control caja-texto form-control-sm" name="descripcion_rp" id="descripcion_rp" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" onclick="$(this).closest('.modal').modal('hide');">Cancelar</button>
-                    <button type="submit" class="btn btn-info">Guardar Cambios</button>
-                </div>
-            </div>
-        </div>
-    </div>-->
 @endsection
 

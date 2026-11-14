@@ -4,7 +4,7 @@
 <nav class="pcoded-navbar menu-light menu-lateral navbar-collapsed"><div class="navbar-wrapper"><div class="navbar-content scroll-div"><div class="main-menu-header"><img class="img-radius" src="{{ asset('images/iconos/usuario_profesional.svg') }}" alt=""><div class="user-details">{{ $perfil->nombre }}</div></div><ul class="nav pcoded-inner-navbar">
 <li class="nav-item pcoded-menu-caption"></li>
 @php($menuPermisos=['agenda.ver'=>'ver_agenda','mascotas'=>'ver_clientes','historial'=>'ver_historial'])
-@foreach(['home'=>['icon-home',($esCentroEstetico??false)?'Escritorio del centro':'Mi escritorio'],'agenda.ver'=>['icon-calendar',($esCentroEstetico??false)?'Agendas del centro':'Mi agenda'],'mascotas'=>['icon-users','Mascotas y tutores'],'historial'=>['icon-file-text','Historial de servicios realizados'],'configuracion'=>['icon-settings','Panel de configuración']] as $ruta=>[$icono,$texto])@if($ruta==='home'||($ruta==='configuracion'&&array_intersect(array_keys($peluqueriaPermisos??[]),['procedimientos','personal','agenda','sucursales','negocio']))||($peluqueriaPermisos[$menuPermisos[$ruta]??'']??false))<li class="nav-item {{ request()->routeIs(($peluqueriaRutaBase??'peluqueria').'.'.$ruta)?'active':'' }}"><a class="nav-link" href="{{ route(($peluqueriaRutaBase??'peluqueria').'.'.$ruta) }}"><span class="pcoded-micon"><i class="feather {{ $icono }}"></i></span><span class="pcoded-mtext">{{ $texto }}</span></a></li>@endif
+@foreach(['home'=>['icon-home',($esCentroEstetico??false)?'Escritorio del centro':'Mi escritorio'],'agenda.ver'=>['icon-calendar',($esCentroEstetico??false)?'Agendas del centro':'Mi agenda'],'mascotas'=>['icon-users','Mascotas y tutores'],'historial'=>['icon-file-text','Historial de servicios realizados'],'mensajes'=>['icon-mail','Mensajes'],'configuracion'=>['icon-settings','Panel de configuración']] as $ruta=>[$icono,$texto])@if($ruta==='home'||$ruta==='mensajes'||($ruta==='configuracion'&&array_intersect(array_keys($peluqueriaPermisos??[]),['procedimientos','personal','agenda','sucursales','negocio']))||($peluqueriaPermisos[$menuPermisos[$ruta]??'']??false))<li class="nav-item {{ request()->routeIs(($peluqueriaRutaBase??'peluqueria').'.'.$ruta)?'active':'' }}"><a class="nav-link" href="{{ route(($peluqueriaRutaBase??'peluqueria').'.'.$ruta) }}"><span class="pcoded-micon"><i class="feather {{ $icono }}"></i></span><span class="pcoded-mtext">{{ $texto }}</span></a></li>@endif
 @endforeach
 <li class="nav-item pcoded-menu-caption"><label>Cuenta</label></li>
 <li class="nav-item"><a class="nav-link" href="{{ route('cuenta.seleccion') }}"><span class="pcoded-micon"><i class="feather icon-repeat"></i></span><span class="pcoded-mtext">Cambiar de perfil</span></a></li></ul></div></div></nav>
@@ -27,6 +27,7 @@
                     <i class="feather icon-home mr-1"></i>Mi escritorio
                 </a>
             </li>
+            @include('template.partials.mensajes_encabezado')
             @include('template.partials.workspace_switcher')
             <li>
                 @include('template.partials.perfil_encabezado', ['tipoPerfil' => ($esCentroEstetico??false) ? 'centro_estetico' : 'estetica'])
@@ -39,5 +40,8 @@
 @if($errors->any())<div class="alert alert-danger" role="alert"><ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
 @if(($peluqueriaContextos??collect())->count()>1)<form method="post" action="{{ route(($peluqueriaRutaBase??'peluqueria').'.contexto') }}" class="form-inline mb-3">@csrf<label class="mr-2" for="peluqueria-contexto">Negocio</label><select class="form-control form-control-sm mr-2" id="peluqueria-contexto" name="peluqueria_id">@foreach($peluqueriaContextos as $contexto)<option value="{{ $contexto->id }}" @selected($contexto->id==$perfil->id)>{{ $contexto->nombre }}</option>@endforeach</select><button class="btn btn-outline-info btn-sm">Cambiar negocio</button></form>@endif
 @yield('content')</div></div>@include('template.partials.boton_volver_auto')
-<script src="{{ asset('js/vendor-all.min.js') }}"></script><script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script><script src="{{ asset('js/ripple.js') }}"></script><script src="{{ asset('js/pcoded.min.js') }}?v=20260728-2"></script><script src="{{ asset('js/plugins/sweetalert.min.js') }}"></script>@yield('page-script')
+<script src="{{ asset('js/vendor-all.min.js') }}"></script><script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script><script src="{{ asset('js/ripple.js') }}"></script><script src="{{ asset('js/pcoded.min.js') }}?v=20260728-2"></script><script src="{{ asset('js/plugins/sweetalert.min.js') }}"></script>
+{{-- Especie y raza con buscador en los registros de mascotas --}}
+@include('template.include.selector_razas')
+@yield('page-script')
 </body></html>

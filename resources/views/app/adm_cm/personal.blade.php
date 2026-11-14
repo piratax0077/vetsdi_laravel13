@@ -9,23 +9,15 @@
 <div class="pcoded-main-container">
     <div class="pcoded-content">
 <div class="text-right mb-3"><a href="{{ route('asistentes.autorizaciones') }}" class="btn btn-info btn-sm"><i class="feather icon-shield"></i> Autorizaciones de asistentes</a></div>
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <a href="{{ route('adm_cm.home') }}" class="text-muted f-12 d-print-none d-inline-block mb-2"
-                            onclick="if (window.history.length > 1) { window.history.back(); return false; }">
-                            <i class="feather icon-arrow-left" aria-hidden="true"></i> Atrás
-                        </a>
-                        <div class="page-header-title">
-                            <h5 class="m-b-10 font-weight-bold">Personal del Centro Médico</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ ROUTE('adm_cm.home') }}" data-toggle="tooltip" data-placement="top" title="Volver a mi escritorio"><i class="feather  icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="profesionales_cm">Personal</a></li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ route('adm_cm.home') }}" class="text-muted f-12 d-print-none d-inline-block mb-2"
+                    onclick="if (window.history.length > 1) { window.history.back(); return false; }">
+                    <i class="feather icon-arrow-left" aria-hidden="true"></i> Atrás
+                </a>
+            </div>
+            <div class="col-md-12 mb-3 encabezado-pagina">
+                <h5 class="f-26 d-inline">Personal del Centro Médico</h5>
             </div>
         </div>
         <div class="row">

@@ -55,6 +55,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {{-- Las fechas se muestran como dd-mm-aaaa, sin hora --}}
+                                            @php($fechaContrato = fn ($fecha) => $fecha ? \Carbon\Carbon::parse($fecha)->format('d-m-Y') : '')
                                             @foreach($profesionales_contratados ?? [] as $profesional)
                                                 @php($nombreProfesional = $profesional->nombre.' '.$profesional->apellido_uno.' '.$profesional->apellido_dos)
                                                 <tr>
@@ -70,7 +72,7 @@
                                                     <td class="align-middle">
                                                         @if($profesional->contrato !== null)
                                                             <span>{{ $profesional->contrato->tipo_contrato == 1 ? 'INDEFINIDO' : '' }}</span><br>
-                                                            <span>{{ $profesional->contrato->fecha_inicio }}</span>
+                                                            <span>{{ $fechaContrato($profesional->contrato->fecha_inicio) }}</span>
                                                         @else
                                                             <span>Convenio</span>
                                                         @endif
@@ -88,14 +90,11 @@
                                                     </td>
                                                     <td class="align-middle">
                                                         {{-- Abre el mismo modal de registro con los datos cargados; si aún no tiene contrato, se crea al guardar --}}
-                                                        <button type="button" class="btn btn-info btn-sm btn-icon" onclick="editar_contrato_profesional({{ $profesional->id }});" data-toggle="tooltip" data-placement="top" title="Editar contrato"><i class="feather icon-edit"></i></button>
-                                                        @if($profesional->contrato !== null)
-                                                            <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="modal_desactivar_profesional({{ $profesional->id }}, {{ $profesional->contrato->id }}, {{ \Illuminate\Support\Js::from($nombreProfesional) }});" data-toggle="tooltip" data-placement="top" title="Desvincular"><i class="feather icon-x"></i></button>
-                                                        @else
-                                                            <button type="button" class="btn btn-info btn-sm btn-icon" onclick="contacto_profesional_contrato({{ $profesional->id }});" data-toggle="tooltip" data-placement="top" title="Contacto"><i class="feather icon-phone"></i></button>
-                                                            <button type="button" class="btn btn-success btn-sm btn-icon" onclick="depositar_remuneracion({{ $profesional->id }});" data-toggle="tooltip" data-placement="top" title="Depositar"><i class="fas fa-hand-holding-usd"></i></button>
-                                                            <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="modal_desactivar_profesional({{ $profesional->id }}, 0, {{ \Illuminate\Support\Js::from($nombreProfesional) }});" data-toggle="tooltip" data-placement="top" title="Desvincular"><i class="feather icon-x"></i></button>
-                                                        @endif
+                                                        <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="editar_contrato_profesional({{ $profesional->id }});" data-toggle="tooltip" data-placement="top" title="Editar contrato"><i class="feather icon-edit"></i></button>
+                                                        {{-- Contacto y Depositar están siempre, igual que en Asistentes; sin contrato se desvincula con id 0 --}}
+                                                        <button type="button" class="btn btn-info btn-sm btn-icon" onclick="contacto_profesional_contrato({{ $profesional->id }});" data-toggle="tooltip" data-placement="top" title="Contacto"><i class="feather icon-phone"></i></button>
+                                                        <button type="button" class="btn btn-success btn-sm btn-icon" onclick="depositar_remuneracion({{ $profesional->id }});" data-toggle="tooltip" data-placement="top" title="Depositar"><i class="fas fa-hand-holding-usd"></i></button>
+                                                        <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="modal_desactivar_profesional({{ $profesional->id }}, {{ $profesional->contrato->id ?? 0 }}, {{ \Illuminate\Support\Js::from($nombreProfesional) }});" data-toggle="tooltip" data-placement="top" title="Desvincular"><i class="feather icon-x"></i></button>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -143,7 +142,7 @@
                                                         @if($contratoAsistente)
                                                             {{-- En contratos de dependientes: 1 indefinido, 2 a plazo fijo --}}
                                                             <span>{{ $contratoAsistente->tipo_contrato == 1 ? 'INDEFINIDO' : 'PLAZO FIJO' }}</span><br>
-                                                            <span>{{ $contratoAsistente->fecha_inicio }}</span>
+                                                            <span>{{ $fechaContrato($contratoAsistente->fecha_inicio) }}</span>
                                                         @else
                                                             <span class="text-muted">Sin contrato vigente</span>
                                                         @endif
@@ -157,10 +156,10 @@
                                                     </td>
                                                     <td class="align-middle">
                                                         @if($contratoAsistente)
-                                                            <button type="button" class="btn btn-info btn-sm btn-icon" onclick="editar_contrato_asistente({{ $asistente->id }}, {{ \Illuminate\Support\Js::from($contratoAsistente) }}, {{ \Illuminate\Support\Js::from(mb_strtoupper($asistente->asistente_tipo->nombre)) }});" data-toggle="tooltip" data-placement="top" title="Editar contrato"><i class="feather icon-edit"></i></button>
+                                                            <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="editar_contrato_asistente({{ $asistente->id }}, {{ \Illuminate\Support\Js::from($contratoAsistente) }}, {{ \Illuminate\Support\Js::from(mb_strtoupper($asistente->asistente_tipo->nombre)) }});" data-toggle="tooltip" data-placement="top" title="Editar contrato"><i class="feather icon-edit"></i></button>
                                                         @else
                                                             {{-- Sin contrato vigente no hay nada que editar; el asistente se vuelve a contratar desde Registrar contrato --}}
-                                                            <button type="button" class="btn btn-info btn-sm btn-icon" disabled data-toggle="tooltip" data-placement="top" title="Sin contrato vigente"><i class="feather icon-edit"></i></button>
+                                                            <button type="button" class="btn btn-warning btn-sm btn-icon" disabled data-toggle="tooltip" data-placement="top" title="Sin contrato vigente"><i class="feather icon-edit"></i></button>
                                                         @endif
                                                         <button type="button" class="btn btn-info btn-sm btn-icon" onclick="contacto('asistente', {{ $asistente->id }});" data-toggle="tooltip" data-placement="top" title="Contacto"><i class="feather icon-phone"></i></button>
                                                         <button type="button" class="btn btn-success btn-sm btn-icon" onclick="depositar_remuneracion({{ $asistente->id }}, 'asistente');" data-toggle="tooltip" data-placement="top" title="Depositar"><i class="fas fa-hand-holding-usd"></i></button>

@@ -15,7 +15,7 @@
                         <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button>
                         @endif
                         <div class="dropdown-menu">
-                        <button class="dropdown-item" type="button" class="btn  btn-primary" onclick="Asociar_personal();">Asociar asistente</button>
+                        <button class="dropdown-item" type="button" onclick="Asociar_personal();">Asociar asistente</button>
                         </div>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                     <table id="asistentes_personal" class="display table table-striped dt-responsive nowrap" style="width:100%">
                         <thead>
                             <tr>
-                                <th class="align-middle">Nombre / Rut</th>
+                                <th class="align-middle">Nombre / RUT</th>
                                 <th class="align-middle">Tipo</th>
                                 <th class="align-middle">Sucursales</th>
                                 <th class="align-middle">Acción</th>
@@ -52,16 +52,17 @@
                                         <button type="button" class="btn btn-info btn-sm btn-icon" onclick="abrir_autorizaciones_asistente({{ $asistente->id }});" data-toggle="tooltip" data-placement="top" title="Autorizaciones"><i class="feather icon-shield"></i></button>
 
                                         <!--Botón Modal-->
-                                        <button type="button" class="btn btn-success btn-sm btn-icon" onclick="datos_depositos('asistente publico',{{ $asistente->id_usuario }});" data-toggle="tooltip" data-placement="top" title="Datos Bancarios"><i class="feather icon-credit-card"></i></button>
+                                        <button type="button" class="btn btn-success btn-sm btn-icon" onclick="datos_depositos('asistente publico',{{ $asistente->id_usuario }});" data-toggle="tooltip" data-placement="top" title="Datos bancarios"><i class="feather icon-credit-card"></i></button>
                                         <!--Botón Modal-->
-                                        <button type="button" class="btn btn-purple btn-sm btn-icon" onclick="horario_profesional_cm('{{ $asistente->asistente_tipo->nombre }}',{{ $asistente->id }}, {{ $institucion->id_lugar_atencion }});" data-toggle="tooltip" data-placement="top" title="Horario y Días de atención"><i class="feather icon-clock"></i></button>
+                                        <button type="button" class="btn btn-purple btn-sm btn-icon" onclick="horario_profesional_cm('{{ $asistente->asistente_tipo->nombre }}',{{ $asistente->id }}, {{ $institucion->id_lugar_atencion }});" data-toggle="tooltip" data-placement="top" title="Horario y días de atención"><i class="feather icon-clock"></i></button>
                                  
                                         <!--Botón Modal-->
-                                        <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="roles_permisos({{ $asistente->asistente_tipo->id }}, {{ $asistente->id_usuario }}, '{{ $asistente->roles }}');" data-toggle="tooltip" data-placement="top" title="Ver"><i class="feather icon-settings"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="roles_permisos({{ $asistente->asistente_tipo->id }}, {{ $asistente->id_usuario }}, '{{ $asistente->roles }}');" data-toggle="tooltip" data-placement="top" title="Roles y permisos"><i class="feather icon-settings"></i></button>
                             
-                                        <button type="button" class="btn btn-info btn-xxs" onclick="editar_datos_asistente({{ $asistente->id }});"><i class="feather icon-edit"></i> Editar</button>
+                                        {{-- Editar y Desvincular con el mismo botón redondo del resto de las pestañas --}}
+                                        <button type="button" class="btn btn-warning btn-sm btn-icon" onclick="editar_datos_asistente({{ $asistente->id }});" data-toggle="tooltip" data-placement="top" title="Editar"><i class="feather icon-edit"></i></button>
                                         @if($asistente->contrato !== null)
-                                        <button type="button" class="btn btn-danger btn-xxs" onclick="modal_desactivar_asistente({{ $asistente->id}}, {{ $asistente->contrato->id }}, '{{ $asistente->nombres.' '.$asistente->apellido_uno.' '.$asistente->apellido_dos }}');"><i class="feather icon-x"></i> Desvincular</button>
+                                        <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="modal_desactivar_asistente({{ $asistente->id}}, {{ $asistente->contrato->id }}, '{{ $asistente->nombres.' '.$asistente->apellido_uno.' '.$asistente->apellido_dos }}');" data-toggle="tooltip" data-placement="top" title="Desvincular"><i class="feather icon-x"></i></button>
                                         @endif
                                     </td>
                                 </tr>

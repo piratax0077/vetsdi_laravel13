@@ -93,6 +93,104 @@ class EscritorioGeneral extends Controller
      * @param Request $request
      * @return array (Profesional)
      */
+    /**
+     * Busca en los aranceles del veterinario (consultas, procedimientos y exámenes activos) el que
+     * corresponde al servicio elegido. Se compara por palabras: "Consulta general" sirve para
+     * "Consulta veterinaria general". Devuelve el valor con IVA si corresponde, o null si no lo tiene.
+     */
+    /** Medicina general veterinaria (y sus nombres antiguos): la ofrece todo médico veterinario */
+    private function esMedicinaGeneralVeterinaria(string $item): bool
+    {
+        $texto = \Illuminate\Support\Str::lower(\Illuminate\Support\Str::ascii($item));
+
+        return (bool) preg_match('/^(medicina (veterinaria )?general|consulta (veterinaria )?general|control (canino|felino))/', trim($texto));
+    }
+
+    /** ¿El profesional tiene activo ese servicio en sus aranceles? (mismo cruce de palabras que el valor) */
+    private function ofreceServicioArancel(array $datos, string $servicio): bool
+    {
+        $palabras = function (string $texto): array {
+            $texto = \Illuminate\Support\Str::lower(\Illuminate\Support\Str::ascii($texto));
+            $lista = preg_split('/[^a-z0-9]+/', $texto, -1, PREG_SPLIT_NO_EMPTY);
+            $comunes = ['de', 'del', 'la', 'las', 'los', 'el', 'y', 'en', 'para', 'veterinaria', 'veterinario', 'veterinarias', 'consulta'];
+
+            return array_values(array_unique(array_diff($lista, $comunes)));
+        };
+        $buscado = $palabras($servicio);
+        if (!$buscado) {
+            return false;
+        }
+
+        foreach (['aranceles', 'procedimientos', 'examenes'] as $catalogo) {
+            foreach ($datos[$catalogo] ?? [] as $item) {
+                if (empty($item['activo']) || empty($item['nombre'])) {
+                    continue;
+                }
+                $nombre = $palabras($item['nombre']);
+                if ($nombre && (!array_diff($nombre, $buscado) || !array_diff($buscado, $nombre))) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private function valorServicioArancel(array $datos, string $servicio): ?array
+    {
+        $palabras = function (string $texto): array {
+            $texto = \Illuminate\Support\Str::lower(\Illuminate\Support\Str::ascii($texto));
+            $lista = preg_split('/[^a-z0-9]+/', $texto, -1, PREG_SPLIT_NO_EMPTY);
+            $comunes = ['de', 'del', 'la', 'las', 'los', 'el', 'y', 'en', 'para', 'veterinaria', 'veterinario', 'veterinarias'];
+
+            return array_values(array_unique(array_diff($lista, $comunes)));
+        };
+        $buscado = $palabras($servicio);
+        if (!$buscado) {
+            return null;
+        }
+
+        $iva = (float) ($datos['config']['parametros']['iva'] ?? 19);
+        $mejor = null;
+        foreach (['aranceles', 'procedimientos', 'examenes'] as $catalogo) {
+            foreach ($datos[$catalogo] ?? [] as $item) {
+                if (empty($item['activo']) || empty($item['nombre'])) {
+                    continue;
+                }
+                $nombre = $palabras($item['nombre']);
+                $coincide = $nombre && (!array_diff($nombre, $buscado) || !array_diff($buscado, $nombre));
+                if (!$coincide) {
+                    continue;
+                }
+
+                $valores = [];
+                $desde = false;
+                if (!empty($item['variaPorTamano'])) {
+                    foreach ($item['preciosTamano'] ?? [] as $tamano) {
+                        if (!empty($tamano['activo'])) {
+                            $valores[] = ['neto' => (int) $tamano['valorNeto'], 'iva' => !empty($tamano['afectoIva'])];
+                        }
+                    }
+                    $desde = count($valores) > 1;
+                }
+                if (!$valores) {
+                    $valores[] = ['neto' => (int) ($item['valorNeto'] ?? 0), 'iva' => !empty($item['afectoIva'])];
+                }
+                $totales = array_map(fn ($v) => (int) round($v['iva'] ? $v['neto'] * (1 + $iva / 100) : $v['neto']), $valores);
+                $valor = min($totales);
+                if ($valor <= 0) {
+                    continue;
+                }
+                $desde = $desde && count(array_unique($totales)) > 1;
+                if ($mejor === null || $valor < $mejor['valor']) {
+                    $mejor = ['valor' => $valor, 'desde' => $desde];
+                }
+            }
+        }
+
+        return $mejor;
+    }
+
     public function buscarProfesionalBuscador(Request $request)
     {
         $datos = array();
@@ -181,6 +279,17 @@ class EscritorioGeneral extends Controller
                 // Médico veterinario, odontólogo veterinario y peluquería/aseo.
                 // Evita mezclar profesionales del sistema clínico humano.
                 $sql .= " AND profesionales.id_especialidad IN (1,2,15)";
+
+                // Solo aparece quien ofrece horas: debe tener horario registrado en al menos
+                // uno de sus lugares de atención activos
+                $sql .= " AND profesionales.id IN (
+                    SELECT ph.id_profesional
+                    FROM profesional_horarios ph
+                    INNER JOIN profesionales_lugares_atencion pla
+                        ON pla.id_profesional = ph.id_profesional
+                        AND pla.id_lugar_atencion = ph.id_lugar_atencion
+                        AND pla.estado = 1
+                )";
             }
 
             if(!$esVeterinaria && !empty($request->id_especialidad))
@@ -341,6 +450,43 @@ class EscritorioGeneral extends Controller
 
         $registros =  $registros_validos;
 
+        // Especialidad, procedimiento o examen: solo aparece quien lo ofrece en sus aranceles.
+        // La medicina general la atiende todo médico veterinario, así que no filtra.
+        if ($esVeterinaria && $registros && $veterinariaItem !== '' && !$this->esMedicinaGeneralVeterinaria($veterinariaItem)) {
+            $arancelesFiltro = DB::table('aranceles_profesionales')
+                ->whereIn('id_profesional', array_map(fn ($r) => $r->profesionales_id, $registros))
+                ->pluck('datos', 'id_profesional');
+
+            $registros = array_values(array_filter($registros, function ($registro) use ($arancelesFiltro, $veterinariaItem) {
+                $datosArancel = isset($arancelesFiltro[$registro->profesionales_id])
+                    ? json_decode($arancelesFiltro[$registro->profesionales_id], true)
+                    : null;
+
+                return is_array($datosArancel) && $this->ofreceServicioArancel($datosArancel, $veterinariaItem);
+            }));
+        }
+
+        // El modal "Reservar hora" del tutor muestra el valor del servicio elegido según los aranceles de cada veterinario
+        if ($esVeterinaria && $request->boolean('con_valores') && $registros) {
+            // "Medicina general veterinaria" es solo el nombre que ve el tutor de la consulta veterinaria general
+            $servicioValor = ($veterinariaItem === '' || $veterinariaItem === 'Medicina general veterinaria')
+                ? 'Consulta veterinaria general'
+                : $veterinariaItem;
+            $aranceles = DB::table('aranceles_profesionales')
+                ->whereIn('id_profesional', array_map(fn ($r) => $r->profesionales_id, $registros))
+                ->pluck('datos', 'id_profesional');
+
+            foreach ($registros as $registro) {
+                $datosArancel = isset($aranceles[$registro->profesionales_id]) ? json_decode($aranceles[$registro->profesionales_id], true) : null;
+                $registro->valor_servicio = is_array($datosArancel) ? $this->valorServicioArancel($datosArancel, $servicioValor) : null;
+            }
+            if ($request->filled('veterinaria_area_nombre')) {
+                foreach ($registros as $registro) {
+                    $registro->veterinaria_area = trim((string) $request->input('veterinaria_area_nombre'));
+                }
+            }
+        }
+
         if($registros)
         {
             $datos['estado'] = 1;
@@ -358,208 +504,53 @@ class EscritorioGeneral extends Controller
 
     public function cargarFechaMasProxima($id_profesional, $tipo_agenda)
     {
-        $datos = array();
+        // Próxima hora libre de cada lugar activo del profesional, con los mismos criterios de la reserva
+        // (domingo = 0, todos los turnos del día, bloqueos y choques en cualquier lugar). Ver AgendaDisponibilidad.
+        $lugar_atencion_activo = ProfesionalesLugaresAtencion::where('id_profesional', $id_profesional)
+            ->where('estado', '1')
+            ->pluck('id_lugar_atencion')
+            ->toArray();
 
-        $lugar_atencion_activo = ProfesionalesLugaresAtencion::where('id_profesional',$id_profesional)->where('estado','1')->pluck('id_lugar_atencion')->toArray();
+        $proximas = app(\App\Services\AgendaDisponibilidad::class)
+            ->proximaPorLugar((int) $id_profesional, $lugar_atencion_activo, $tipo_agenda);
 
-        // var_dump($tipo_agenda);
-        $profesional_horarios = ProfesionalHorario::where('id_profesional',$id_profesional)
-                                                    ->whereIn('id_lugar_atencion',$lugar_atencion_activo)
-                                                    // ->orderBy('id_lugar_atencion', 'ASC')
-                                                    ->orderBy('dia', 'ASC')
-                                                    ->orderBy('hora_inicio', 'ASC')
-                                                    ->tipoAgenda($tipo_agenda)
-                                                    ->get();
-
-        // echo json_encode($profesional_horarios);
-
-        $mes_inicio = date('m');
-        $anio_inicio = date('Y');
-        $dia_hoy = date('Y-m-d');
-        $array_bloques = array();
-
-        $fechas_mas_proxima = array();
-        $fechas_mas_proxima_final = array(
-            // 'id_lugar_atencion' => '',
-            // 'dia' => date('Y-m-d') ,
-            // 'hora' => date('H:i:s')
-        );
-
-        foreach ($profesional_horarios as $key_prof_hora => $value_prof_hora)
-        {
-            if(!isset($fechas_mas_proxima[$value_prof_hora->id_lugar_atencion]))
-                $fechas_mas_proxima[$value_prof_hora->id_lugar_atencion] = array();
-
-            $finalizar = 0;
-            // echo 'paso 0'.$finalizar;
-            // if($finalizar == 1) break;
-            $hora_inicio_turno  = $value_prof_hora->hora_inicio;
-            $hora_termino_turno  = $value_prof_hora->hora_termino;
-
-            /** duracion de consulta en minutos */
-            $duracion =  $value_prof_hora->duracion_consulta;
-            $array_duracion = explode(':', $duracion);
-            $duracion_total = 0;
-
-            if((int)$array_duracion[0]>0)
-                $duracion_total += (int)$array_duracion[0]*60;
-            if((int)$array_duracion[1]>0)
-                $duracion_total += (int)$array_duracion[1];
-
-            $array_dia = explode(',',$value_prof_hora->dia);
-
-            foreach ($array_dia as $key_dia => $value_dia)
-            {
-                // echo 'paso 1'.$finalizar;
-                if($finalizar == 1) break;
-
-                $dia_termino_for = strtotime('+1 days', strtotime($dia_hoy));
-
-                $paso = 0;
-                for ($dia=strtotime($dia_hoy); $dia <= $dia_termino_for ; $dia = strtotime('+1 days',$dia)) {
-                    $paso++;
-                    if($paso>20)break;
-                    if(date('w',$dia) == $value_dia)
-                    {
-                        // echo '*entro';
-                        for ($hora=strtotime($hora_inicio_turno); $hora <= strtotime( '+'. $duracion_total.' minute', strtotime($hora_termino_turno) ); $hora = strtotime('+'. $duracion_total.' minute',$hora))
-                        {
-                            if($finalizar == 1) break;
-
-                            $filtro_tipo_hora = 'C';
-                            switch ($tipo_agenda) {
-                                // 1 -> Atención General
-                                case '1':
-                                    $filtro_tipo_hora = 'C';
-                                    break;
-
-                                // 2 -> Atención Dental
-                                case '2':
-                                    $filtro_tipo_hora = 'D';
-                                    break;
-
-                                // 3 -> Atención Telemedicina
-                                case '3':
-                                    $filtro_tipo_hora = 'T';
-                                    break;
-
-                                // 4 -> Examene
-                                case '4':
-                                    $filtro_tipo_hora = 'E';
-                                    break;
-
-                                default:
-                                    $filtro_tipo_hora = 'C';
-                                    break;
-                            }
-
-                            // echo '*filtro_tipo_hora hora:'.$filtro_tipo_hora;
-                            // echo '*dia hora:'.date('Y-m-d',$dia);
-                            // echo '*hora hora:'.date('H:i:s',$hora);
-                            $hora_medica = HoraMedica::where('id_profesional', $id_profesional)->where('fecha_consulta',date('Y-m-d',$dia))->where('hora_inicio',date('H:i:s',$hora))->where('tipo_hora_medica', $filtro_tipo_hora)->first();
-
-                            // var_dump(date('Y-m-d', $dia));
-                            // var_dump(date('H:i:s',$hora));
-                            // echo json_encode($hora_medica);
-
-                            if($hora_medica)
-                            {
-                                $finalizar = 0;
-                                // $dia_termino_for = strtotime('+1 days', $dia_termino_for);
-                                $dia_termino_for = $dia_termino_for + 86400;
-                            }
-                            else
-                            {
-                                $finalizar = 1;
-                                if(count($fechas_mas_proxima[$value_prof_hora->id_lugar_atencion]) > 0)
-                                {
-                                    $dias_registrado = strtotime($fechas_mas_proxima[$value_prof_hora->id_lugar_atencion][0]['dia']);
-                                    $hora_registrado = strtotime($fechas_mas_proxima[$value_prof_hora->id_lugar_atencion][0]['hora']);
-                                    if($dias_registrado >= $dia)
-                                    {
-                                        if($hora_registrado >= $hora)
-                                        {
-                                            $fechas_mas_proxima[$value_prof_hora->id_lugar_atencion][0] = array('dia' => date('Y-m-d',$dia) , 'hora' => date('H:i:s',$hora) );
-
-                                            if(count($fechas_mas_proxima_final)>0)
-                                            {
-                                                $dias_registrado_final = strtotime($fechas_mas_proxima_final['dia']);
-                                                $hora_registrado_final = strtotime($fechas_mas_proxima_final['hora']);
-                                                if($dias_registrado_final >= $dia)
-                                                {
-                                                    if($hora_registrado_final >= $hora)
-                                                    {
-                                                        $fechas_mas_proxima_final = array(
-                                                            'id_lugar_atencion' => $value_prof_hora->id_lugar_atencion,
-                                                            'dia' => date('Y-m-d',$dia) ,
-                                                            'hora' => date('H:i:s',$hora)
-                                                        );
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                $fechas_mas_proxima_final = array(
-                                                    'id_lugar_atencion' => $value_prof_hora->id_lugar_atencion,
-                                                    'dia' => date('Y-m-d',$dia) ,
-                                                    'hora' => date('H:i:s',$hora)
-                                                );
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    $fechas_mas_proxima[$value_prof_hora->id_lugar_atencion][0] = array('dia' => date('Y-m-d',$dia) , 'hora' => date('H:i:s',$hora) );
-
-                                    if(count($fechas_mas_proxima_final)>0)
-                                    {
-                                        $dias_registrado_final = strtotime($fechas_mas_proxima_final['dia']);
-                                        $hora_registrado_final = strtotime($fechas_mas_proxima_final['hora']);
-                                        if($dias_registrado_final >= $dia)
-                                        {
-                                            if($hora_registrado_final >= $hora)
-                                            {
-                                                $fechas_mas_proxima_final = array(
-                                                    'id_lugar_atencion' => $value_prof_hora->id_lugar_atencion,
-                                                    'dia' => date('Y-m-d',$dia) ,
-                                                    'hora' => date('H:i:s',$hora)
-                                                );
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        $fechas_mas_proxima_final = array(
-                                            'id_lugar_atencion' => $value_prof_hora->id_lugar_atencion,
-                                            'dia' => date('Y-m-d',$dia) ,
-                                            'hora' => date('H:i:s',$hora)
-                                        );
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-
-
-                        // $dia_termino_for = strtotime('+1 days', $dia_termino_for);
-                        $dia_termino_for = $dia_termino_for + 86400;
-                    }
-
-                    // echo '*Paso:';
-                    // echo $paso;
-                }
+        // La más próxima de cada lugar queda guardada para quien la necesite (ver proximaHoraPorLugar)
+        $this->proximasPorLugar = [];
+        $fecha_mas_proxima = array();
+        foreach ($proximas as $id_lugar => $proxima) {
+            $this->proximasPorLugar[$id_lugar] = array($proxima);
+            $clave = $proxima['dia'].' '.$proxima['hora'];
+            if (!$fecha_mas_proxima || $clave < $fecha_mas_proxima['dia'].' '.$fecha_mas_proxima['hora']) {
+                $fecha_mas_proxima = array(
+                    'id_lugar_atencion' => $id_lugar,
+                    'dia' => $proxima['dia'],
+                    'hora' => $proxima['hora'],
+                );
             }
         }
-        // echo json_encode($fechas_mas_proxima);
-        // echo '*******';
-        // echo json_encode($fechas_mas_proxima_final);
 
-        return $fechas_mas_proxima_final;
+        return $fecha_mas_proxima;
+    }
 
+    private array $proximasPorLugar = [];
+
+    /**
+     * Próxima hora libre del profesional en cada uno de sus lugares de atención.
+     * La usa el modal "Reservar hora" del tutor al desplegar los lugares de un veterinario.
+     */
+    public function proximaHoraPorLugar(Request $request)
+    {
+        $request->validate(['id_profesional' => 'required|integer|min:1', 'tipo_agenda' => 'nullable|string|max:10']);
+        $this->cargarFechaMasProxima((int) $request->id_profesional, $request->input('tipo_agenda') ?: 1);
+
+        $proximas = [];
+        foreach ($this->proximasPorLugar as $idLugar => $lista) {
+            if (!empty($lista[0])) {
+                $proximas[$idLugar] = $lista[0];
+            }
+        }
+
+        return response()->json(['estado' => 1, 'registros' => $proximas]);
     }
 
     public function informacionProfesional(Request $request)
@@ -714,28 +705,11 @@ class EscritorioGeneral extends Controller
                                         ->orderBy('dia', 'ASC')
                                         ->get();
 
-        $dias_no_laborales = ['1','2','3','4','5','6','7'];
-        $dias_laborales = [];
-
-        foreach ($horario as $hor) {
-            $ho = explode(',', $hor->dia);
-            foreach ($ho as $h) {
-                $h = trim($h);
-                // Agregar a días laborales si no está ya
-                if (!in_array($h, $dias_laborales)) {
-                    $dias_laborales[] = $h;
-                }
-
-                // Quitar de los días no laborales si está presente
-                if (($key = array_search($h, $dias_no_laborales)) !== false) {
-                    unset($dias_no_laborales[$key]);
-                }
-            }
-        }
-
-        // Ordenar los arrays si quieres mantener un orden consistente
-        sort($dias_laborales);
-        sort($dias_no_laborales);
+        // Los días se guardan como 0 = domingo … 6 = sábado (el calendario usa la misma numeración)
+        $dias_laborales = $horario->flatMap(function ($hor) {
+            return \App\Services\AgendaDisponibilidad::diasDelTurno($hor->dia);
+        })->unique()->sort()->values()->all();
+        $dias_no_laborales = array_values(array_diff([0, 1, 2, 3, 4, 5, 6], $dias_laborales));
 
         $horario_agenda_laboral = implode(',', $dias_laborales);
         $horario_agenda_no_laboral = implode(',', $dias_no_laborales);
@@ -775,83 +749,44 @@ class EscritorioGeneral extends Controller
 
         $datos = array();
 
-        $dia_semana = date('N',strtotime($request->dia));
+        if (empty($request->dia) || strtotime($request->dia) === false) {
+            $datos['estado'] = 0;
+            $datos['msj'] = 'sin registros';
+            return $datos;
+        }
 
-        $profesional_horarios = ProfesionalHorario::where('id_profesional',$request->id_profesional)
-                                                ->where('id_lugar_atencion',$request->id_lugar_atencion)
-                                                ->where('dia','like','%'.$dia_semana.'%')
-                                                ->tipoAgenda($request->tipo_agenda)
-                                                ->orderBy('dia', 'ASC')
-                                                ->first();
-        if($profesional_horarios)
+        // Todos los turnos del día, sin horas pasadas, bloqueadas ni ocupadas en ningún lugar.
+        // Son los mismos criterios con que se guarda la reserva (ver AgendaDisponibilidad).
+        $agenda = app(\App\Services\AgendaDisponibilidad::class);
+        $dia = \Carbon\Carbon::parse($request->dia);
+        $turnos_del_dia = $agenda->turnos((int) $request->id_profesional, (int) $request->id_lugar_atencion, $request->tipo_agenda)
+            ->filter(function ($turno) use ($dia) {
+                return in_array($dia->dayOfWeek, \App\Services\AgendaDisponibilidad::diasDelTurno($turno->dia), true);
+            });
+
+        if ($turnos_del_dia->isNotEmpty())
         {
-            $array_bloques = array();
+            $bloques = $agenda->bloquesLibres((int) $request->id_profesional, (int) $request->id_lugar_atencion, $dia->toDateString(), $request->tipo_agenda);
 
-            $hora_inicio_turno  = $request->dia.' '.$profesional_horarios->hora_inicio;
-            $hora_termino_turno  = $request->dia.' '.$profesional_horarios->hora_termino;
-
-            /** duracion de consulta en minutos */
-            $duracion =  $profesional_horarios->duracion_consulta;
-            $array_duracion = explode(':', $duracion);
-            $duracion_total = 0;
-
-            if((int)$array_duracion[0]>0)
-                $duracion_total += (int)$array_duracion[0]*60;
-            if((int)$array_duracion[1]>0)
-                $duracion_total += (int)$array_duracion[1];
-
-            if ($duracion_total <= 0) {
-                $duracion_total = 15;
-            }
-
-            $fin_turno = strtotime($hora_termino_turno);
-            $ahora = time();
-
-            for ($hora = strtotime($hora_inicio_turno);
-                 strtotime('+'.$duracion_total.' minute', $hora) <= $fin_turno;
-                 $hora = strtotime('+'.$duracion_total.' minute', $hora))
-            {
-                // Nunca ofrecer horas pasadas, aunque pertenezcan al horario configurado.
-                if ($hora <= $ahora) {
-                    continue;
-                }
-
-                $inicio_bloque = date('H:i:s', $hora);
-                $termino_bloque = date('H:i:s', strtotime('+'.$duracion_total.' minute', $hora));
-
-                $hora_medica = HoraMedica::where('fecha_consulta', date('Y-m-d',$hora))
-                                            ->where('id_profesional', $request->id_profesional)
-                                            ->where('id_lugar_atencion', $request->id_lugar_atencion)
-                                            ->whereNotIn('id_estado', [3, 14, 15])
-                                            ->where(function ($query) use ($inicio_bloque, $termino_bloque) {
-                                                $query->where(function ($subQuery) use ($inicio_bloque, $termino_bloque) {
-                                                    $subQuery->where('hora_inicio', '<', $termino_bloque)
-                                                        ->where('hora_termino', '>', $inicio_bloque);
-                                                });
-                                            })
-                                            ->first();
-
-                if(!$hora_medica)
-                {
-                    $array_bloques[] = array(
-                                            'dia' => date('Y-m-d',$hora),
-                                            'hora' => date('H:i:s',$hora),
-                                            'fecha_hora' => date('Y-m-d H:i:s',$hora)
-                                        );
-                }
-            }
+            $array_bloques = array_map(function ($bloque) use ($dia) {
+                return array(
+                    'dia' => $dia->toDateString(),
+                    'hora' => $bloque['hora'],
+                    'fecha_hora' => $dia->toDateString().' '.$bloque['hora'],
+                );
+            }, $bloques);
 
             $datos['estado'] = count($array_bloques) > 0 ? 1 : 0;
             $datos['msj'] = count($array_bloques) > 0 ? 'registros' : 'sin horas disponibles';
             $datos['registros'] = $array_bloques;
-            $datos['text_fecha'] = $texto_dia[(int)$dia_semana].' '. date('d',strtotime($request->dia)).' '.$texto_mes[(int)date('m',strtotime($request->dia))];
+            $datos['text_fecha'] = $texto_dia[$dia->dayOfWeek].' '. $dia->format('d').' '.$texto_mes[(int) $dia->format('m')];
 
         }
         else
         {
             $datos['estado'] = 0;
             $datos['msj'] = 'sin registros';
-            $datos['profesional_horario'] = $profesional_horarios;
+            $datos['profesional_horario'] = null;
         }
 
         return $datos;
@@ -873,11 +808,12 @@ class EscritorioGeneral extends Controller
 
         $datos = array();
 
-        $dia_semana = date('N',strtotime($request->dia));
+        // 0 = domingo … 6 = sábado, igual que se guardan los turnos
+        $dia_semana = (int) date('w',strtotime($request->dia));
 
         $profesional_horarios = ProfesionalHorario::where('id_profesional',$request->id_profesional)
                                                 ->where('id_lugar_atencion',$request->id_lugar_atencion)
-                                                ->where('dia','like','%'.$dia_semana.'%')
+                                                ->whereRaw('FIND_IN_SET(?, REPLACE(dia, " ", ""))', [$dia_semana])
                                                 ->orderBy('dia', 'ASC')
                                                 ->first();
         if($profesional_horarios)

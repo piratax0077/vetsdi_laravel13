@@ -479,7 +479,7 @@ class EscritorioAsistenteCmJefe extends Controller
                 'body' => 'Estimado/a ' . $paciente->nombres . ' ' . $paciente->apellido_uno . ' ' . $paciente->apellido_dos . ',<br>
                     Junto con saludar, por medio de este correo le informamos que se ha reservado su hora medida <br>' .
                     'Fecha: ' . $hora_medica->fecha_consulta . '<br>' .
-                    'Hora : ' . $hora_medica->hora_inicio . '<br>' .
+                    'Hora : ' . substr((string) $hora_medica->hora_inicio, 0, 5) . '<br>' .
                     'Profesional: <b>' . $profesional->nombre . ' ' . $profesional->apellido_uno . ' ' . $profesional->apellido_dos . '<b> <br><br>' .
                     'Que tenga un excelente día. </br></br>' .
                     'Saludos.',
@@ -537,7 +537,7 @@ class EscritorioAsistenteCmJefe extends Controller
             'body' => 'Estimado/a ' . $paciente->nombres . ' ' . $paciente->apellido_uno . ' ' . $paciente->apellido_dos . ',<br>
                     Junto con saludar, por medio de este correo le informamos que se ha reservado su hora medida <br>' .
                 'Fecha: ' . $hora_medica->fecha_consulta . '<br>' .
-                'Hora : ' . $hora_medica->hora_inicio . '<br>' .
+                'Hora : ' . substr((string) $hora_medica->hora_inicio, 0, 5) . '<br>' .
                 'Profesional: <b>' . $profesional->nombre . ' ' . $profesional->apellido_uno . ' ' . $profesional->apellido_dos . '<b> <br><br>' .
                 'Que tenga un excelente día. </br></br>' .
                 'Saludos.',

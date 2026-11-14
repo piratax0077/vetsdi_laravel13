@@ -185,7 +185,7 @@
         document.getElementById('reserva-cliente-existente').hidden = agregar;
         document.getElementById('reserva-cliente-nuevo').hidden = !agregar;
         document.getElementById('reserva-cliente').disabled = agregar;
-        document.querySelectorAll('#reserva-cliente-nuevo input').forEach(function (input) {
+        document.querySelectorAll('#reserva-cliente-nuevo input, #reserva-cliente-nuevo select').forEach(function (input) {
             input.disabled = !agregar; input.required = agregar && input.dataset.obligatorio === '1';
         });
     }
@@ -209,7 +209,7 @@
     document.getElementById('reserva-fijar-nueva-mascota').addEventListener('click',function(){
         if(mascotaFijada)return;
         const campos={};
-        for(const input of document.querySelectorAll('#reserva-cliente-nuevo input')){
+        for(const input of document.querySelectorAll('#reserva-cliente-nuevo input, #reserva-cliente-nuevo select')){
             if(!input.reportValidity())return;
             campos[input.name]=input.value;
         }

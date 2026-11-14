@@ -73,8 +73,6 @@
                                                 <th>ID</th>
                                                 <th>Mascota</th>
                                                 <th>Tutor</th>
-                                                <th>Especie</th>
-                                                <th>Raza</th>
                                                 <th>Convenio</th>
                                                 <th>Chip-Tatuaje</th>
                                                 <th>Lugar</th>
@@ -95,7 +93,7 @@
                                                         ? $nombreResponsable . ($rutResponsable ? '<br>' . $rutResponsable : '')
                                                         : '-';
                                                     $especie = optional($mascota->especieMascota)->nombre ?? $mascota->especie ?? '-';
-                                                    $raza = $mascota->otra_especie ?? '-';
+                                                    $raza = optional($mascota->razaMascota)->nombre ?? $mascota->otra_especie ?? '-';
                                                     $convenio = optional(optional($responsable)->Prevision)->nombre ?? '-';
                                                     $chip = $mascota->tiene_chip ? ($mascota->chip ?: 'Si') : 'No';
                                                     $imagenesMascota = mascota_imagenes_publicas($mascota);
@@ -110,7 +108,11 @@
                                                 @endphp
                                                 <tr>
                                                     <td>#{{ $mascota->id }}</td>
-                                                    <td>{{ $mascota->nombre ?? '-' }}</td>
+                                                    <td>
+                                                        {{ $mascota->nombre ?? '-' }}
+                                                        <small class="d-block text-muted">Especie: {{ $especie }}</small>
+                                                        <small class="d-block text-muted">Raza: {{ $raza }}</small>
+                                                    </td>
                                                     <td>
                                                         {!! $responsableTexto !!}
                                                         @if ($responsable)
@@ -119,13 +121,33 @@
                                                                 title="Ver información del tutor" aria-label="Ver información del tutor">
                                                                 <i class="feather icon-info"></i>
                                                             </a>
+                                                            @php
+                                                                $vecesConflictivo = (int) ($vecesConflictivoPorTutor[$responsable->id] ?? 0);
+                                                            @endphp
+                                                            @if ($vecesConflictivo > 0)
+                                                                <span class="badge badge-light-danger f-12 px-2 py-1 mt-1 d-table" title="Notas internas que lo marcaron como conflictivo">
+                                                                    <i class="feather icon-alert-triangle mr-1" aria-hidden="true"></i><strong>{{ $vecesConflictivo }}</strong> {{ $vecesConflictivo === 1 ? 'vez conflictivo' : 'veces conflictivo' }}
+                                                                </span>
+                                                            @endif
                                                         @endif
                                                     </td>
-                                                    <td>{{ $especie }}</td>
-                                                    <td>{{ $raza }}</td>
                                                     <td>{{ $convenio }}</td>
                                                     <td>{{ $chip }}</td>
-                                                    <td>{{ $centroActivo }}</td>
+                                                    @php
+                                                        // Lugar de la última atención de la mascota; si no hay, el contexto activo
+                                                        $lugarMascota = $lugarPorMascota[$mascota->id] ?? null;
+                                                        $direccionLugar = optional($lugarMascota)->Direccion;
+                                                        $direccionLugarTexto = trim(collect([
+                                                            trim((optional($direccionLugar)->direccion ?? '') . ' ' . (optional($direccionLugar)->numero_dir ?? '')),
+                                                            optional(optional($direccionLugar)->Ciudad)->nombre,
+                                                        ])->filter()->implode(', '));
+                                                    @endphp
+                                                    <td>
+                                                        {{ optional($lugarMascota)->nombre ?: $centroActivo }}
+                                                        @if ($direccionLugarTexto)
+                                                            <small class="d-block text-muted">{{ $direccionLugarTexto }}</small>
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         <div class="acciones-mascota">
                                                             <button type="button" class="btn btn-icon btn-info js-ver-mascota js-tooltip-accion"
@@ -173,7 +195,7 @@
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td colspan="9" class="text-center">Sin registros</td>
+                                                    <td colspan="7" class="text-center">Sin registros</td>
                                                 </tr>
                                             @endforelse
                                         </tbody>

@@ -74,8 +74,14 @@
                     <p class="mensajes-tutor-modal-detalle" id="mensaje_tutor_detalle"></p>
                     <div class="mensajes-tutor-modal-cuerpo" id="mensaje_tutor_cuerpo"></div>
                     <div class="mensajes-tutor-modal-archivos d-none" id="mensaje_tutor_archivos"></div>
+                    {{-- Respuesta: solo en mensajes de peluquería, hotel o cementerio --}}
+                    <div class="form-group mt-3 mb-0 d-none" id="mensaje_tutor_respuesta">
+                        <label class="floating-label-activo-sm" for="mensaje_tutor_respuesta_texto">Responder</label>
+                        <textarea class="form-control form-control-sm" id="mensaje_tutor_respuesta_texto" rows="3" maxlength="3000" placeholder="Escribe tu respuesta"></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-info d-none" id="mensaje_tutor_responder"><i class="feather icon-send"></i> Enviar respuesta</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -87,6 +93,8 @@
 <script>
     (function () {
         var rutaVer = @json(route('paciente.mensajes.ver', ['id' => '__ID__']));
+        var rutaResponder = @json(route('paciente.mensajes.responder', ['id' => '__ID__']));
+        var mensajeAbierto = null;
 
         function texto(valor) {
             return $('<div>').text(valor == null ? '' : valor).html();
@@ -125,6 +133,10 @@
                 });
                 $archivos.toggleClass('d-none', !(datos.archivos || []).length);
 
+                mensajeAbierto = datos.id;
+                $('#mensaje_tutor_respuesta_texto').val('');
+                $('#mensaje_tutor_respuesta, #mensaje_tutor_responder').toggleClass('d-none', !datos.puede_responder);
+
                 if ($item.hasClass('no-leido')) {
                     $item.removeClass('no-leido').find('.badge').remove();
                     descontarNoLeido();
@@ -140,6 +152,34 @@
 
         $(document).on('click', '.mensajes-tutor-item', function () {
             abrirMensaje($(this).data('id'));
+        });
+
+        // Envía la respuesta del tutor al negocio que le escribió
+        $('#mensaje_tutor_responder').on('click', function () {
+            var $boton = $(this);
+            var respuesta = $.trim($('#mensaje_tutor_respuesta_texto').val());
+
+            if (!mensajeAbierto || !respuesta) {
+                $('#mensaje_tutor_respuesta_texto').focus();
+                return;
+            }
+
+            $boton.prop('disabled', true);
+            $.post(rutaResponder.replace('__ID__', mensajeAbierto), { _token: @json(csrf_token()), mensaje: respuesta })
+                .done(function (resultado) {
+                    $('#modal_mensaje_tutor').modal('hide');
+                    if (typeof swal === 'function') {
+                        swal({ title: resultado.mensaje || 'Respuesta enviada.', icon: 'success' });
+                    }
+                })
+                .fail(function () {
+                    if (typeof swal === 'function') {
+                        swal({ title: 'No pudimos enviar la respuesta', text: 'Intenta de nuevo en unos minutos.', icon: 'error' });
+                    }
+                })
+                .always(function () {
+                    $boton.prop('disabled', false);
+                });
         });
 
         // Si se llega desde el ícono de arriba, se abre el mensaje elegido

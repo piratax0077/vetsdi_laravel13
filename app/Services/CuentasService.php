@@ -36,7 +36,7 @@ class CuentasService
 
     public const ETIQUETAS = [
         'tutor' => 'Tutor',
-        'profesional' => 'Profesional',
+        'profesional' => 'Profesional veterinario',
         'asistente' => 'Asistente',
         'clinica' => 'Clínica veterinaria',
         'peluqueria' => 'Profesional de estética',
@@ -75,8 +75,8 @@ class CuentasService
     /** Ícono de la card en la pantalla "Elige tu perfil". */
     public const ICONOS = [
         'tutor' => 'images/iconos/iconos-inicio-sesion/tutor.svg',
-        'profesional' => 'images/logos/iconos-inicio-sesion/profesional.svg',
-        'asistente' => 'images/logos/iconos-inicio-sesion/asistente.svg',
+        'profesional' => 'images/iconos/iconos-inicio-sesion/profesional.svg',
+        'asistente' => 'images/iconos/iconos-inicio-sesion/asistente.svg',
         'clinica' => 'images/iconos/iconos-inicio-sesion/institucion.svg',
         'peluqueria' => 'images/iconos/iconos-inicio-sesion/estetica.svg',
         'centro_estetico' => 'images/iconos/iconos-inicio-sesion/estetica.svg',

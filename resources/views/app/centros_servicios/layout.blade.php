@@ -17,7 +17,7 @@
 <nav class="pcoded-navbar menu-light" aria-label="Administración">
     <div class="navbar-wrapper"><div class="navbar-content scroll-div">
         <ul class="nav pcoded-inner-navbar">
-            @php($menu = ['home' => ['icon-calendar', 'Solicitudes y agenda'], 'configuracion' => ['icon-settings', 'Configuración']])
+            @php($menu = ['home' => ['icon-calendar', 'Solicitudes y agenda'], 'mensajes' => ['icon-mail', 'Mensajes'], 'configuracion' => ['icon-settings', 'Configuración']])
             @if($base === 'cementerio_mascotas')
                 @php($menu['inventario'] = ['icon-map-pin', 'Lugares y ventas'])
             @endif
@@ -41,6 +41,7 @@
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
             <li class="d-flex align-items-center mr-2"><a href="{{ route($base.'.home') }}" class="btn btn-outline-header btn-xxs"><i class="feather icon-home mr-1"></i>Mi escritorio</a></li>
+            @include('template.partials.mensajes_encabezado')
             @include('template.partials.workspace_switcher')
             <li>@include('template.partials.perfil_encabezado', ['tipoPerfil' => $base])</li>
         </ul>

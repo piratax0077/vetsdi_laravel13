@@ -28,13 +28,20 @@
                         </div>
 
                         <div class="encabezado-agenda-acciones">
-                            {{-- Selector solo visual por ahora: todavía no tiene acción asociada --}}
-                            <select class="select-box-agenda" id="select_box_agenda" aria-label="Seleccionar box">
+                            {{-- Al elegir un box se guarda como el box asignado al profesional en este lugar --}}
+                            <input type="hidden" name="id_box" id="id_box" value="{{ $lug_prof_box ? $lug_prof_box->id_box : '' }}">
+                            {{-- Sin boxes activos en el lugar no hay nada que elegir: el selector no se muestra --}}
+                            @if (!empty($boxes) && count($boxes) > 0)
+                            <select class="select-box-agenda" id="select_box_agenda" aria-label="Seleccionar box"
+                                data-id-asignacion="{{ $lug_prof_box ? $lug_prof_box->id : '' }}"
+                                data-id-profesional="{{ $profesional->id }}"
+                                data-id-lugar-atencion="{{ $lugares_atencion->id }}">
                                 <option value="">Seleccionar box</option>
                                 @foreach ($boxes as $box_agenda)
-                                    <option value="{{ $box_agenda->id }}" {{ ($lug_prof_box && $lug_prof_box->id_box == $box_agenda->id) ? 'selected' : '' }}>{{ $box_agenda->tipo_box.' - '.$box_agenda->numero_box }}</option>
+                                    <option value="{{ $box_agenda->id }}" {{ ($lug_prof_box && $lug_prof_box->id_box == $box_agenda->id) ? 'selected' : '' }}>{{ 'Box o Sala - '.$box_agenda->tipo_box.' - '.$box_agenda->numero_box }}</option>
                                 @endforeach
                             </select>
+                            @endif
 
                             <div class="botones-encabezado-agenda">
                                 @include('general.info_simbologia.simbologia_agenda')
@@ -44,24 +51,6 @@
                         </div>
                     </div>
 
-
-                    @if ($boxes->count() > 0)
-                        <div class="align-middle m-b-25">
-                            <div class="d-inline-block f-11">
-
-                                @if ($lug_prof_box)
-                                    <input type="hidden" name="id_box" id="id_box" value="{{ $lug_prof_box->id_box }}">
-                                    <span><strong>BOX</strong></span> <button type="button" class="btn btn-warning-light-c btn-xxxs" id="btn_ver_modificar_box_prof"  onclick="abrir_editar_box_prof('{{ $lug_prof_box->id }}')"><i class="feather icon-edit"></i></button><br>
-                                    <span><strong id="profesional_box" style="font-size: 16px;">{{ $lug_prof_box->box->tipo_box.' - '.$lug_prof_box->box->numero_box }}</strong></span>
-                                @else
-                                    <input type="hidden" name="id_box" id="id_box" value="">
-                                    <span><strong>BOX</strong></span> <button type="button" class="btn btn-warning-light-c btn-xxxs" id="btn_ver_modificar_box_prof"  onclick="abrir_agregar_box_prof('{{ $profesional->id }}')"><i class="feather icon-edit"></i></button><br>
-                                    <span><strong id="profesional_box" style="font-size: 16px;">-</strong></span>
-                                @endif
-
-                            </div>
-                        </div>
-                    @endif
 
                 </div>
                 <div class="col-md-12 mr-5 px-4 card">
@@ -271,7 +260,43 @@
                                                 });
                                             </script>
                                             <div class="row reserva-hora-datos">
-                                              <div class="col-lg-7 mb-3">
+                                              {{-- Primero la mascota que se agenda y debajo su tutor, ambos a lo ancho --}}
+                                              <div class="col-12 mb-3">
+                                                <div class="reserva-hora-cabecera">
+                                                    <h6 class="titulo-item"><i class="fas fa-paw mr-2"></i>Información de la mascota</h6>
+                                                </div>
+                                                <dl class="ficha-previa-datos reserva-hora-dos-columnas reserva-hora-mascota">
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Nombre</dt>
+                                                        <dd id="reserva_mascota_nombre"></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Especie</dt>
+                                                        <dd id="reserva_mascota_especie"></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Tamaño</dt>
+                                                        <dd id="reserva_mascota_tamano"></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Sexo</dt>
+                                                        <dd id="reserva_mascota_sexo"></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Fecha de nacimiento</dt>
+                                                        <dd id="reserva_mascota_fecha_nacimiento"></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Chip</dt>
+                                                        <dd id="reserva_mascota_chip"></dd>
+                                                    </div>
+                                                    <div class="ficha-previa-dato">
+                                                        <dt>Esterilizado</dt>
+                                                        <dd id="reserva_mascota_esterilizado"></dd>
+                                                    </div>
+                                                </dl>
+                                              </div>
+                                              <div class="col-12 mb-3">
                                                 <div class="reserva-hora-cabecera">
                                                     <h6 class="titulo-item"><i class="feather icon-user mr-2"></i>Información del tutor</h6>
                                                     <button type="button" onclick="editar_info_paciente();" class="btn btn-xxs btn-info paciente_view">
@@ -280,7 +305,7 @@
                                                     <input type="hidden" name="modificando_paciente" id="modificando_paciente" value="0">
                                                 </div>
 
-                                                <dl class="ficha-previa-datos reserva-hora-filas">
+                                                <dl class="ficha-previa-datos reserva-hora-filas reserva-hora-tutor">
                                                     <div class="ficha-previa-dato reserva-hora-dato-mitad reserva-hora-dato-angosto reserva-hora-dato-fijo">
                                                         <dt>RUT</dt>
                                                         <dd><span id="reserva_rut_paciente"></span></dd>
@@ -380,41 +405,6 @@
                                                     </div>
                                                 </dl>
 
-                                              </div>
-                                              <div class="col-lg-5 mb-3">
-                                                <div class="reserva-hora-cabecera">
-                                                    <h6 class="titulo-item"><i class="fas fa-paw mr-2"></i>Información de la mascota</h6>
-                                                </div>
-                                                <dl class="ficha-previa-datos reserva-hora-dos-columnas">
-                                                    <div class="ficha-previa-dato">
-                                                        <dt>Nombre</dt>
-                                                        <dd id="reserva_mascota_nombre"></dd>
-                                                    </div>
-                                                    <div class="ficha-previa-dato">
-                                                        <dt>Especie</dt>
-                                                        <dd id="reserva_mascota_especie"></dd>
-                                                    </div>
-                                                    <div class="ficha-previa-dato">
-                                                        <dt>Tamaño</dt>
-                                                        <dd id="reserva_mascota_tamano"></dd>
-                                                    </div>
-                                                    <div class="ficha-previa-dato">
-                                                        <dt>Sexo</dt>
-                                                        <dd id="reserva_mascota_sexo"></dd>
-                                                    </div>
-                                                    <div class="ficha-previa-dato">
-                                                        <dt>Fecha nacimiento</dt>
-                                                        <dd id="reserva_mascota_fecha_nacimiento"></dd>
-                                                    </div>
-                                                    <div class="ficha-previa-dato">
-                                                        <dt>Chip</dt>
-                                                        <dd id="reserva_mascota_chip"></dd>
-                                                    </div>
-                                                    <div class="ficha-previa-dato">
-                                                        <dt>Esterilizado</dt>
-                                                        <dd id="reserva_mascota_esterilizado"></dd>
-                                                    </div>
-                                                </dl>
                                               </div>
                                             </div>
                                             <div class="reserva-hora-acciones paciente_edit" style="display:none">
@@ -553,13 +543,13 @@
                                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                                     <div class="form-group">
                                       <label class="floating-label-activo-sm">Especie</label>
-                                        <select class="form-control form-control-sm" id="reserva_mascota_nueva_especie"></select>
+                                        <select class="form-control form-control-sm" id="reserva_mascota_nueva_especie" data-buscador-especie></select>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                                     <div class="form-group">
                                        <label class="floating-label-activo-sm">Raza</label>
-                                        <select class="form-control form-control-sm" id="reserva_mascota_nueva_raza">
+                                        <select class="form-control form-control-sm" id="reserva_mascota_nueva_raza" data-buscador-raza data-especie="#reserva_mascota_nueva_especie">
                                             <option value="">Seleccione</option>
                                             <option value="sin">Sin raza</option>
                                         </select>
@@ -1108,8 +1098,73 @@
 
     @include('app.profesional.modales.boton_flotante_agenda_exa_ciru')
 
-    {{-- lugar atencion box profesional --}}
-    @include('general.asignacion_box_prof.asignacion_box_prof')
+    {{-- Asignación de box del profesional desde el selector del encabezado de la agenda --}}
+    <script>
+        $(function () {
+            var $select_box = $('#select_box_agenda');
+            var box_anterior = $select_box.val();
+
+            $select_box.on('change', function () {
+                var id_box = $select_box.val();
+                var id_asignacion = $select_box.attr('data-id-asignacion');
+
+                // "Seleccionar box" no quita la asignación: se vuelve al box que estaba
+                if (id_box == '') {
+                    $select_box.val(box_anterior);
+                    return;
+                }
+
+                // Si el profesional ya tiene box en este lugar se modifica; si no, se crea
+                var url = id_asignacion != ''
+                    ? '{{ route("lugar_box_profesional.modificar") }}'
+                    : '{{ route("lugar_box_profesional.agregar") }}';
+
+                $select_box.prop('disabled', true);
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: id_asignacion,
+                        id_lugar_atencion: $select_box.attr('data-id-lugar-atencion'),
+                        id_profesional: $select_box.attr('data-id-profesional'),
+                        id_box: id_box,
+                    },
+                })
+                .done(function (response) {
+                    if (response && response.estado == '1') {
+                        box_anterior = id_box;
+                        $select_box.attr('data-id-asignacion', response.registros.id);
+                        $('#id_box').val(id_box);
+                        swal({
+                            title: "Asignación de Box",
+                            text: response.msj,
+                            icon: "success",
+                        });
+                    } else {
+                        $select_box.val(box_anterior);
+                        swal({
+                            title: "Asignación de Box",
+                            text: (response && response.msj) ? response.msj : 'No se pudo asignar el box',
+                            icon: "error",
+                        });
+                    }
+                })
+                .fail(function () {
+                    $select_box.val(box_anterior);
+                    swal({
+                        title: "Asignación de Box",
+                        text: 'No se pudo asignar el box',
+                        icon: "error",
+                    });
+                })
+                .always(function () {
+                    $select_box.prop('disabled', false);
+                });
+            });
+        });
+    </script>
 
 @endsection
 

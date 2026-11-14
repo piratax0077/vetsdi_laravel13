@@ -61,8 +61,28 @@
                     </a>
                 </li>
             @endforeach
+
+            {{-- Guardería y Hotel / Cementerio de Mascotas que aún no tiene: al ingresar se crea el perfil y entra --}}
+            @foreach(\App\Services\CentrosServiciosMascotas::TIPOS as $tipoCentro)
+                @continue($roles->contains('tipo', $tipoCentro))
+                <li class="seleccion-card">
+                    <img class="seleccion-card-icono" src="{{ asset(CuentasService::ICONOS[$tipoCentro]) }}" alt="" aria-hidden="true">
+
+                    <h2 class="seleccion-card-titulo">{{ CuentasService::ETIQUETAS[$tipoCentro] }}</h2>
+
+                    <p class="seleccion-card-texto">{{ CuentasService::DESCRIPCIONES[$tipoCentro] }}</p>
+
+                    <form class="seleccion-card-formulario" method="post" action="{{ route('centros_servicios.activar') }}">
+                        @csrf
+                        <input type="hidden" name="tipo" value="{{ $tipoCentro }}">
+                        <button type="submit" class="seleccion-card-enlace">
+                            Ingresar <span aria-hidden="true">&rarr;</span>
+                            <span class="sr-only">a {{ CuentasService::ETIQUETAS[$tipoCentro] }}</span>
+                        </button>
+                    </form>
+                </li>
+            @endforeach
         </ul>
-        <p><a href="{{ route('centros_servicios.perfiles') }}">Administrar una guardería, hotel o cementerio de mascotas</a></p>
     </main>
 
 </body>

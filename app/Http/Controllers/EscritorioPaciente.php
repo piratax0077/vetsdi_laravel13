@@ -299,8 +299,28 @@ class EscritorioPaciente extends Controller
 
                 }
                 else
+                {
                     $mascotasIncompletas = \App\Models\Mascota::where('id_responsable', $paciente->id)->where('ficha_incompleta_veterfarma', true)->get(['id','nombre']);
-                    return view('app.paciente.escritorio_paciente')->with(['paciente' => $paciente, 'hora_medica' => $hora_medica, 'mascotasIncompletas' => $mascotasIncompletas]);
+
+                    // Para el modal "Agenda cita": las mascotas activas del tutor y los mismos
+                    // catálogos que usa la página de reserva de hora veterinaria
+                    $mascotasReservaCita = Mascota::where('id_responsable', $paciente->id)
+                        ->seleccionables()
+                        ->with(['especieMascota', 'razaMascota'])
+                        ->orderBy('nombre')
+                        ->get();
+
+                    return view('app.paciente.escritorio_paciente')->with([
+                        'paciente' => $paciente,
+                        'hora_medica' => $hora_medica,
+                        'mascotasIncompletas' => $mascotasIncompletas,
+                        'mascotasReservaCita' => $mascotasReservaCita,
+                        'regionesReservaCita' => Region::all(),
+                        'ciudadesReservaCita' => Ciudad::all(),
+                        'catalogoReservaCita' => $this->catalogoReservaTutor(),
+                        'catalogoVideoconsultaCita' => $this->catalogoVideoconsultaTutor(),
+                    ]);
+                }
             }
 
             /** formulario nuevos */
@@ -524,6 +544,55 @@ class EscritorioPaciente extends Controller
         }
 
         return redirect()->route('paciente.convenios')->with('success', 'Convenio registrado.');
+    }
+
+    /**
+     * Servicios del modal "Reservar hora" del escritorio del tutor.
+     * Consulta, procedimiento y exámenes buscan veterinarios; peluquería, hotel y cementerio
+     * tienen su propio formulario en el modal (campo "flujo").
+     */
+    public function catalogoReservaTutor(): array
+    {
+        $catalogo = collect($this->getVeterinarySearchCatalog())->keyBy('slug');
+
+        return [
+            [
+                'slug' => 'consulta',
+                'nombre' => 'Consulta',
+                'etiqueta' => 'Especialidad',
+                'flujo' => 'veterinario',
+                'items' => array_merge(['Medicina general veterinaria'], $catalogo['consulta_especialista']['items'] ?? []),
+            ],
+            [
+                'slug' => 'procedimiento',
+                'nombre' => 'Procedimiento',
+                'etiqueta' => 'Procedimiento',
+                'flujo' => 'veterinario',
+                'items' => ['Implantación de microchip', 'Corte de uñas', 'Certificado para viajes (SAG)', 'Limpieza de oídos'],
+            ],
+            [
+                'slug' => 'examenes',
+                'nombre' => 'Exámenes',
+                'etiqueta' => 'Examen',
+                'flujo' => 'veterinario',
+                'items' => $catalogo['procedimientos_examenes']['items'] ?? [],
+            ],
+            ['slug' => 'peluqueria', 'nombre' => 'Peluquería / grooming', 'flujo' => 'peluqueria', 'items' => []],
+            ['slug' => 'hotel', 'nombre' => 'Hotel', 'flujo' => 'hotel', 'items' => []],
+            ['slug' => 'cementerio', 'nombre' => 'Cementerio / cremación', 'flujo' => 'cementerio', 'items' => []],
+        ];
+    }
+
+    // Por videoconsulta solo se atiende la consulta veterinaria general
+    public function catalogoVideoconsultaTutor(): array
+    {
+        return [[
+            'slug' => 'teleconsulta',
+            'nombre' => 'Consulta',
+            'etiqueta' => 'Tipo de consulta',
+            'flujo' => 'veterinario',
+            'items' => ['Medicina general veterinaria'],
+        ]];
     }
 
     private function getVeterinarySearchCatalog(): array
@@ -3171,6 +3240,11 @@ class EscritorioPaciente extends Controller
             $hora_medica->acomp_lista = json_encode($request->lista_Acompanante);
 
             $hora_medica->autorizacion_atencion = $request->autorizacion_atencion;
+
+            // Solo se aceptan las dos formas de pago del paso de confirmación
+            $hora_medica->medio_pago = in_array($request->medio_pago, ['tarjeta', 'en_consulta'], true)
+                ? $request->medio_pago
+                : 'en_consulta';
             // $hora_medica->id_log_users_devices = '';
 
             // $hora_medica->origen = $request->origen;

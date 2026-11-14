@@ -10,6 +10,9 @@ Route::middleware('auth')->prefix($prefijo)->name($rol.'.')->group(function(){
     Route::post('/configuracion/bloqueos',[App\Http\Controllers\PeluqueriaConfiguracionController::class,'bloqueo'])->name('configuracion.bloqueo');
     Route::post('/configuracion/bloqueos/{id}/quitar',[App\Http\Controllers\PeluqueriaConfiguracionController::class,'quitarBloqueo'])->whereNumber('id')->name('configuracion.bloqueo.quitar');
 
+    Route::get('/mensajes',[App\Http\Controllers\MensajesNegocioController::class,'index'])->name('mensajes');
+    Route::post('/mensajes',[App\Http\Controllers\MensajesNegocioController::class,'enviar'])->middleware('throttle:20,1')->name('mensajes.enviar');
+
     Route::get('/',[PeluqueriaController::class,'index'])->name('home');
     Route::get('/agenda',[PeluqueriaController::class,'index'])->name('agenda.ver');
     Route::get('/agenda/eventos',[PeluqueriaController::class,'eventos'])->name('agenda.eventos');

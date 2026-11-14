@@ -1,14 +1,22 @@
-<!--Paso 3: lugar, fecha y hora (antes era el modal "Reservar hora")-->
-<div class="reserva-vet-panel" data-paso="3">
+<!--Paso de lugar, fecha y hora (antes era el modal "Reservar hora")-->
+<div class="reserva-vet-panel" data-paso="{{ 3 + ($pr ?? 0) }}">
+    @if(!empty($flujo_tutor))
+        @include('app.paciente.partials.reserva_servicios_tutor_fecha')
+        <div id="reserva_fecha_veterinario">
+    @endif
     <input type="hidden" name="modal_reserva_hora_id_profesional" id="modal_reserva_hora_id_profesional" value="">
     <input type="hidden" name="modal_reserva_hora_tipo_agenda" id="modal_reserva_hora_tipo_agenda" value="">
 
     <div class="reserva-vet-panel-encabezado">
         <h6>¿Dónde y cuándo quiere la atención?</h6>
-        <p class="small text-muted mb-0">Elija el lugar y un día marcado en el calendario. Al hacer clic en una hora pasará a confirmar la reserva.</p>
+        {{-- En el modal del escritorio del tutor va solo el título --}}
+        @if(empty($con_paso_mascota))
+            <p class="small text-muted mb-0">Elija el lugar y un día marcado en el calendario. Al hacer clic en una hora pasará a confirmar la reserva.</p>
+        @endif
     </div>
 
-    @if(!empty($es_veterinaria_busqueda) && empty($mascota))
+    {{-- Con el paso de mascota (modal del escritorio) la mascota ya viene elegida --}}
+    @if(!empty($es_veterinaria_busqueda) && empty($mascota) && empty($con_paso_mascota))
         @php($mascotasReserva = $mascotas ?? collect())
         <div class="form-row mt-3" id="seleccion_mascota_reserva">
             <div class="col-12">
@@ -58,7 +66,7 @@
             <!--flatpickr cambia el input a texto, por eso se oculta con d-none y se muestra solo el calendario.
                 Mientras la fecha está deshabilitada (sin lugar o sin días) se ve el aviso en su lugar-->
             <div class="reserva-vet-calendario">
-                <input class="d-none" type="date" name="modal_reserva_fecha" id="modal_reserva_fecha" onchange="cargar_horas_disponibles_calendario_profesion(this.value);" min="{{ date('Y-m-d') }}" max="{{ date('Y-m-d', strtotime('+60 days')) }}" tabindex="-1" aria-hidden="true" disabled>
+                <input class="d-none" type="date" name="modal_reserva_fecha" id="modal_reserva_fecha" onchange="cargar_horas_disponibles_calendario_profesion(this.value);" min="{{ date('Y-m-d') }}" max="{{ date('Y-m-d', strtotime('+60 days')) }}" tabindex="-1" aria-hidden="true" data-fecha-nativa disabled>
                 <div class="reserva-vet-horas-vacio">
                     <i class="feather icon-calendar"></i>
                     <span>Al elegir un lugar verá aquí los días con atención.</span>
@@ -88,14 +96,17 @@
     </div>
 
     <div class="reserva-vet-acciones">
-        <button type="button" class="btn btn-outline-secondary reserva-vet-volver" onclick="irPasoReservaHora(2);">
+        <button type="button" class="btn btn-outline-secondary reserva-vet-volver" onclick="irPasoReservaHora({{ 2 + ($pr ?? 0) }});">
             <i class="feather icon-chevron-left"></i> Anterior
         </button>
     </div>
+    @if(!empty($flujo_tutor))
+        </div>
+    @endif
 </div>
 
-<!--Paso 4: resumen y confirmación (antes era el modal "Tomar hora")-->
-<div class="reserva-vet-panel" data-paso="4">
+<!--Paso de resumen y confirmación (antes era el modal "Tomar hora")-->
+<div class="reserva-vet-panel" data-paso="{{ 4 + ($pr ?? 0) }}">
     <div class="reserva-vet-panel-encabezado">
         <h6>Revise su reserva</h6>
         <p class="small text-muted mb-0">Si todo está correcto, confirme para agendar la hora.</p>
@@ -239,6 +250,35 @@
                 </div>
             </div>
 
+            <!--Forma de pago: mismas tarjetas con radio que el lugar de atención-->
+            <div id="seccion_forma_pago">
+                <label class="label">Forma de pago</label>
+                <div class="reserva-vet-lugares" role="radiogroup" aria-label="Forma de pago">
+                    <label class="reserva-vet-lugar">
+                        <input type="radio" class="reserva-vet-lugar-radio" name="reserva_hora_medio_pago" value="tarjeta">
+                        <span class="reserva-vet-lugar-caja">
+                            <span class="reserva-vet-lugar-icono"><i class="feather icon-credit-card"></i></span>
+                            <span class="reserva-vet-lugar-datos">
+                                <span class="reserva-vet-lugar-nombre">Pagar con tarjeta</span>
+                                <span class="reserva-vet-lugar-direccion">Débito o crédito</span>
+                            </span>
+                            <span class="reserva-vet-lugar-marca" aria-hidden="true"><i class="feather icon-check"></i></span>
+                        </span>
+                    </label>
+                    <label class="reserva-vet-lugar">
+                        <input type="radio" class="reserva-vet-lugar-radio" name="reserva_hora_medio_pago" value="en_consulta" checked>
+                        <span class="reserva-vet-lugar-caja">
+                            <span class="reserva-vet-lugar-icono"><i class="feather icon-home"></i></span>
+                            <span class="reserva-vet-lugar-datos">
+                                <span class="reserva-vet-lugar-nombre">Pagar en consulta</span>
+                                <span class="reserva-vet-lugar-direccion">Al llegar al lugar de atención</span>
+                            </span>
+                            <span class="reserva-vet-lugar-marca" aria-hidden="true"><i class="feather icon-check"></i></span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
             <div id="seccion_acompanante">
                 <label class="label">Acompañado por </label>
                 <div class="row">
@@ -291,7 +331,7 @@
             </div>
 
             <div class="reserva-vet-acciones">
-                <button type="button" class="btn btn-outline-secondary reserva-vet-volver" onclick="irPasoReservaHora(3);">
+                <button type="button" class="btn btn-outline-secondary reserva-vet-volver" onclick="irPasoReservaHora({{ 3 + ($pr ?? 0) }});">
                     <i class="feather icon-chevron-left"></i> Anterior
                 </button>
                 <button type="button" onclick="agendar_hora();" class="btn btn-info"><i class="feather icon-check"></i> Confirmar reserva</button>
@@ -451,7 +491,7 @@
                 </div>
             </div>
             <div class="reserva-vet-acciones">
-                <button type="button" class="btn btn-outline-secondary reserva-vet-volver" onclick="irPasoReservaHora(3);">
+                <button type="button" class="btn btn-outline-secondary reserva-vet-volver" onclick="irPasoReservaHora({{ 3 + ($pr ?? 0) }});">
                     <i class="feather icon-chevron-left"></i> Anterior
                 </button>
                 <button type="button" id="guardar_reserva_paciente" onclick="agendar_hora_paciente_nuevo();" class="btn btn-info">

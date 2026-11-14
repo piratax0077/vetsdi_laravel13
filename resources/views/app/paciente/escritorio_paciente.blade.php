@@ -115,8 +115,11 @@
         <div class="row m-b-30" >
             <div class="col-md-8 columna-citas">
                 <div class="card h-100 pb-0" >
-                    <div class="card-header">
+                    <div class="card-header encabezado-citas">
                         <h5><i class="feather icon-calendar mr-2"></i> Mis próximas citas</h5>
+                        <button type="button" class="btn btn-info btn-sm" onclick="abrirModalAgendaCita();">
+                            <i class="feather icon-calendar mr-1"></i> Agendar hora
+                        </button>
                     </div>
                     <div class="card-body pt-4 pb-0" style="height:400px;">
                         <div class="dt-responsive table-responsive" style="height:350px;back">
@@ -275,12 +278,48 @@
                 </span>
             </a>
         </div>
-        <a class="btn btn-outline-info mb-3" href="{{ route('paciente.centros_servicios.catalogo') }}">
-            <i class="feather icon-home mr-1"></i> Guardería, hotel y cementerio de mascotas
-        </a>
         <!--Cierre: Accesos rápidos-->
     </div>
 </div>
+@endsection
+
+@section('modales')
+    @php
+        // Datos que necesitan los pasos de la reserva de hora veterinaria dentro del modal
+        $datosAgendaCita = [
+            'es_veterinaria_busqueda' => true,
+            'con_paso_mascota' => true,
+            'mascotas' => $mascotasReservaCita ?? collect(),
+            'regiones' => $regionesReservaCita ?? collect(),
+            'ciudades' => $ciudadesReservaCita ?? collect(),
+            'catalogo_veterinario_busqueda' => $catalogoReservaCita ?? [],
+            'catalogo_videoconsulta_busqueda' => $catalogoVideoconsultaCita ?? [],
+            'filtros' => ['id_profesion' => 0, 'id_especialidad' => 0, 'id_subespecialidad' => 0],
+        ];
+    @endphp
+
+    <!--Agendar hora: los mismos pasos de "Reservar hora veterinaria", partiendo por la mascota-->
+    <div class="modal fade" id="modal_agenda_cita_tutor" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_agenda_cita_tutor_titulo" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header modal-header-reserva">
+                    <h5 class="modal-title" id="modal_agenda_cita_tutor_titulo"><span class="modal-header-reserva-icono"><i class="feather icon-calendar"></i></span>Reservar hora</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="vista_reserva_veterinaria">
+                        @include('app.general.buscador_profesionales.partials.pasos_reserva', $datosAgendaCita)
+                    </div>
+                </div>
+                <!--Los botones del paso que se está viendo se traen acá, así siempre quedan en el pie-->
+                <div class="modal-footer reserva-vet-pie" id="reserva_hora_pie"></div>
+            </div>
+        </div>
+    </div>
+
+    @include('app.general.buscador_profesionales.modals.ficha_profesional')
 @endsection
 
 @section('page-styles')
@@ -419,10 +458,292 @@
         .estado-hora-chip.desconocida {
             background-color: #4a5568;
         }
+
+        /* Mis próximas citas: el botón "Agendar hora" a la derecha del título */
+        .card .card-header.encabezado-citas {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .card .card-header.encabezado-citas .btn {
+            margin: 0;
+        }
+
+        /* Modal "Agendar hora": mismo cuerpo que el modal de reserva veterinaria */
+        #modal_agenda_cita_tutor .modal-body {
+            padding: 20px 24px 24px;
+            background: #fcfcfe;
+        }
+
+        /* Todo el modal con las esquinas redondeadas, también abajo */
+        #modal_agenda_cita_tutor .modal-content {
+            border: 0;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* Pie: volver a la izquierda, avanzar a la derecha */
+        #modal_agenda_cita_tutor .modal-footer.reserva-vet-pie {
+            display: block;
+            padding: 14px 24px;
+            background: #fff;
+            border-top: 1px solid #edf0f5;
+        }
+
+        #modal_agenda_cita_tutor .reserva-vet-pie .reserva-vet-acciones {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: end;
+            -ms-flex-pack: end;
+            justify-content: flex-end;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        /* Elección de mascota: el select y, al lado, la tarjeta para una mascota nueva */
+        #modal_agenda_cita_tutor .reserva-vet-mascota-eleccion {
+            display: -ms-grid;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            gap: 14px;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+
+        #modal_agenda_cita_tutor .reserva-vet-mascota-select.d-none ~ .reserva-vet-mascota-nueva-boton {
+            grid-column: 1 / -1;
+        }
+
+        #modal_agenda_cita_tutor .reserva-vet-mascota-o {
+            color: #9aa1b2;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        #modal_agenda_cita_tutor .reserva-vet-mascota-nueva-boton {
+            border-style: dashed;
+            border-color: #cdbdf5;
+            background: #fbf9ff;
+        }
+
+        #modal_agenda_cita_tutor .reserva-vet-mascota-nueva-boton.active {
+            border-style: solid;
+        }
+
+        #modal_agenda_cita_tutor .reserva-vet-mascota-nueva {
+            margin-top: 18px;
+            padding: 18px 18px 4px;
+            border: 1px solid #edf0f5;
+            border-radius: 14px;
+            background: #fff;
+        }
+
+        /* Título "Nueva mascota": el .titulo-item de siempre, con la franja más fina y más aire abajo */
+        #modal_agenda_cita_tutor .reserva-vet-mascota-nueva .titulo-item {
+            margin-bottom: 22px;
+            border-bottom-width: 1px;
+        }
+
+        @include('app.general.buscador_profesionales.partials.reserva_tutor_estilos', ['ambito' => '#modal_agenda_cita_tutor'])
+
+        @media (max-width: 767.98px) {
+            #modal_agenda_cita_tutor .reserva-vet-mascota-eleccion {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 10px;
+            }
+
+            #modal_agenda_cita_tutor .reserva-vet-mascota-o {
+                text-align: center;
+            }
+        }
+
+        /* Cabecera blanca con el título grande, como el encabezado general de card */
+        #modal_agenda_cita_tutor .modal-header-reserva {
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            padding: 18px 24px;
+            background: #fff;
+            filter: none;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        #modal_agenda_cita_tutor .modal-header-reserva .modal-title,
+        #modal_agenda_cita_tutor .modal-header-reserva h5 {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            margin: 0;
+            color: #272727 !important;
+            font-family: 'Nunito', 'Nunito Sans', sans-serif;
+            font-size: 24px !important;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        #modal_agenda_cita_tutor .modal-header-reserva-icono {
+            display: -webkit-inline-box;
+            display: -ms-inline-flexbox;
+            display: inline-flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -ms-flex-negative: 0;
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            margin-right: 10px;
+            color: #fff;
+            background-color: #6f42c1;
+            border-radius: 10px;
+            font-size: 19px;
+        }
+
+        #modal_agenda_cita_tutor .modal-header-reserva .close {
+            margin: 0 -8px 0 auto !important;
+            background-color: #f3f4f8 !important;
+            color: #6c757d !important;
+        }
+
+        #modal_agenda_cita_tutor .modal-header-reserva .close:hover {
+            background-color: #e7e9f0 !important;
+            color: #272727 !important;
+        }
+
+        @media (max-width: 575.98px) {
+            #modal_agenda_cita_tutor .modal-body {
+                padding: 16px 12px;
+            }
+
+            #modal_agenda_cita_tutor .modal-footer.reserva-vet-pie {
+                padding: 12px;
+            }
+        }
     </style>
 @endsection
 
 @section('page-script')
+    <!--Calendario de la reserva: el modal "Agendar hora" lo usa en línea, como la página de reserva-->
+    <script src="{{ asset('js/flatpickr/flatpickr.min.js') }}"></script>
+    <script>
+        // En este modal las tarjetas de veterinario muestran el valor del servicio elegido
+        window.mostrarValoresReserva = true;
+    </script>
+    @include('template.partials.buscador_reserva_script', $datosAgendaCita)
+    <script>
+        @include('app.general.buscador_profesionales.partials.pasos_reserva_script', $datosAgendaCita)
+
+        // Especies del registro rápido de mascota, para pedir las razas de canino y felino
+        window.especiesMascotaReserva = {!! json_encode(\App\Models\EspecieMascota::whereIn('slug', ['canina', 'felina'])->pluck('id', 'slug')) !!};
+
+        // Botón "Agendar hora" de Mis próximas citas
+
+        // Las alertas de la reserva llevan el botón turquesa; la marca se quita cuando ya no hay
+        // modal ni alerta abiertos, así las demás alertas del escritorio quedan como estaban
+        function quitarAlertasReservaHora() {
+            setTimeout(function () {
+                if (!$('#modal_agenda_cita_tutor').hasClass('show') && !$('.swal-overlay--show-modal').length) {
+                    $('body').removeClass('reserva-hora-alertas');
+                }
+            }, 400);
+        }
+        $(document).on('hidden.bs.modal', '#modal_agenda_cita_tutor', quitarAlertasReservaHora);
+        $(document).on('click', '.swal-button, .swal-overlay', quitarAlertasReservaHora);
+
+        function abrirModalAgendaCita() {
+            $('body').addClass('reserva-hora-alertas');
+            reiniciarReservaHora();
+            if (typeof window.reiniciarServiciosReserva === 'function') {
+                window.reiniciarServiciosReserva();
+            }
+            $('#modal_agenda_cita_tutor').modal('show');
+        }
+
+        // "Ver ficha": se cierra el modal de la reserva y se abre la ficha en su propio modal.
+        // Al cerrar la ficha, la reserva vuelve a abrirse tal como estaba (mismo paso y misma posición).
+        (function () {
+            const $reserva = $('#modal_agenda_cita_tutor');
+            const $ficha = $('#ficha_profesional');
+            let volverAReserva = false;
+            let posicion = 0;
+
+            function errorFicha() {
+                swal({ title: 'Información del profesional', text: 'No pudimos cargar la ficha del profesional.', icon: 'error', buttons: 'OK' });
+            }
+
+            window.f_profesional = function (idProfesional) {
+                $.get(@json(route('profesional.informacionProfesional')), { id_profesional: idProfesional })
+                    .done(function (data) {
+                        if (!data || data.estado != 1) {
+                            errorFicha();
+                            return;
+                        }
+                        pintarFichaProfesional(data);
+
+                        if (!$reserva.hasClass('show')) {
+                            $ficha.modal('show');
+                            return;
+                        }
+                        // Primero se cierra la reserva y, ya cerrada, se abre la ficha (así no quedan dos fondos)
+                        volverAReserva = true;
+                        posicion = $reserva.scrollTop();
+                        $reserva.one('hidden.bs.modal', function () {
+                            $ficha.modal('show');
+                        }).modal('hide');
+                    })
+                    .fail(errorFicha);
+            };
+
+            $ficha.on('hidden.bs.modal', function () {
+                if (!volverAReserva) {
+                    return;
+                }
+                volverAReserva = false;
+                $('body').addClass('reserva-hora-alertas');
+                $reserva.one('shown.bs.modal', function () {
+                    $reserva.scrollTop(posicion);
+                }).modal('show');
+            });
+        })();
+
+        @include('app.general.buscador_profesionales.partials.reserva_tutor_script', ['ambito' => '#modal_agenda_cita_tutor'])
+
+        // La hora quedó agendada: se cierra el modal y la cita aparece en la tabla
+        window.reservaHoraAgendada = function () {
+            $('#modal_agenda_cita_tutor').modal('hide');
+            if (typeof cargar_horas_medicas === 'function') {
+                cargar_horas_medicas();
+            }
+        };
+    </script>
+    {{-- Peluquería, hotel y cementerio: va después de los pasos porque usa sus funciones --}}
+    @include('app.paciente.partials.reserva_servicios_tutor_script')
     <script>
         function obtenerClaseEstadoHora(idEstado)
         {

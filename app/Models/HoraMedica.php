@@ -21,6 +21,16 @@ class HoraMedica extends Model
         'descripcion',  // Reemplaza con el nombre real del primer campo
     ];
 
+    // Un tutor bloqueado por el profesional no puede tomar hora con él, venga la reserva de donde venga
+    protected static function booted()
+    {
+        static::creating(function (HoraMedica $hora) {
+            if (TutorBloqueo::estaBloqueado($hora->id_paciente, $hora->id_profesional)) {
+                throw new \App\Exceptions\TutorBloqueadoException();
+            }
+        });
+    }
+
     public function Estado()
     {
         return $this->hasOne(Parametro::class,'id','id_estado');

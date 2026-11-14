@@ -193,6 +193,20 @@
     text-decoration: none;
 }
 
+/* Cards de centros que aún no tiene (cementerio, guardería): "Ingresar" es el botón que crea el perfil */
+.seleccion-card-formulario {
+    margin-top: auto;
+}
+
+button.seleccion-card-enlace {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
 .seleccion-card-enlace:focus-visible {
     outline: 2px solid var(--seleccion-morado);
     outline-offset: 4px;

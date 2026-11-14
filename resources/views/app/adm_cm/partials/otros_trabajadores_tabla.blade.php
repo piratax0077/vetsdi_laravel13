@@ -18,12 +18,12 @@
                         <td class="align-middle">{{ $trabajador->categoria }}</td>
                         <td class="align-middle">@foreach($trabajador->sucursales as $sucursal)<span>{{ $sucursal }}</span><br>@endforeach</td>
                         <td class="align-middle">
-                            <button type="button" class="btn btn-info btn-sm btn-icon" title="Información" aria-label="Información" data-otro-accion="info" data-id="{{ $trabajador->id }}"><i class="feather icon-info"></i></button>
-                            <button type="button" class="btn btn-info btn-sm btn-icon" title="Editar" aria-label="Editar" data-otro-accion="editar" data-id="{{ $trabajador->id }}"><i class="feather icon-edit"></i></button>
+                            <button type="button" class="btn btn-primary btn-sm btn-icon" title="Información" aria-label="Información" data-otro-accion="info" data-id="{{ $trabajador->id }}"><i class="feather icon-eye"></i></button>
+                            <button type="button" class="btn btn-warning btn-sm btn-icon" title="Editar" aria-label="Editar" data-otro-accion="editar" data-id="{{ $trabajador->id }}"><i class="feather icon-edit"></i></button>
                             <button type="button" class="btn btn-purple btn-sm btn-icon" title="Contrato" aria-label="Contrato" data-otro-accion="contrato" data-id="{{ $trabajador->id }}"><i class="feather icon-file-text"></i></button>
                             <button type="button" class="btn {{ $trabajador->activo ? 'btn-danger' : 'btn-success' }} btn-sm btn-icon" title="{{ $trabajador->activo ? 'Desvincular' : 'Reactivar' }}" aria-label="{{ $trabajador->activo ? 'Desvincular' : 'Reactivar' }}" data-otro-accion="estado" data-activo="{{ $trabajador->activo ? 0 : 1 }}" data-id="{{ $trabajador->id }}"><i class="feather {{ $trabajador->activo ? 'icon-user-minus' : 'icon-user-plus' }}"></i></button>
                         </td>
-                        <td class="align-middle"><button type="button" class="btn btn-info btn-sm btn-icon" title="Mensaje por correo" aria-label="Mensaje por correo" data-otro-accion="mensaje" data-id="{{ $trabajador->id }}" @disabled(!$trabajador->activo || !$trabajador->email)><i class="feather icon-mail"></i></button></td>
+                        <td class="align-middle"><button type="button" class="btn btn-warning btn-sm btn-icon" title="Mensaje por correo" aria-label="Mensaje por correo" data-otro-accion="mensaje" data-id="{{ $trabajador->id }}" @disabled(!$trabajador->activo || !$trabajador->email)><i class="feather icon-mail"></i></button></td>
                     </tr>
                     @empty
                     <tr data-vacio><td colspan="5" class="text-center">Sin trabajadores registrados. Agregue personal de mantención, limpieza, contabilidad u otra categoría.</td></tr>

@@ -78,70 +78,28 @@
             <div class="modal-content">
                 <div class="modal-header modal-header-purple">
                     <h5 class="modal-title">Mensaje</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_modal_mensaje()">
+                    <button type="button" class="close text-white" aria-label="Cerrar" onclick="cerrar_modal_mensaje()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group col-sm-12 col-md-12 col-lg-3 col-xl-4">
-                            <label class="floating-label-activo-sm">Fecha</label>
-                             <input type="text" class="form-control form-control-sm" id="fecha_msj" name="fecha_msj" disabled>
-                        </div>
-                        <div class="form-group col-sm-12 col-md-12 col-lg-9 col-xl-8">
-                            <label class="floating-label-activo-sm">Remitente</label>
-                             <input type="text" class="form-control form-control-sm" id="remitente_msj" name="remitente_msj" disabled>
-                        </div>
-                         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <label class="floating-label-activo-sm">Título</label>
-                             <input type="text" class="form-control form-control-sm" id="titulo_msj" name="titulo_msj" disabled>
-                        </div>
-                         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <label class="floating-label-activo-sm">Asunto</label>
-                             <input type="text" class="form-control form-control-sm" id="asunto_msj" name="asunto_msj" disabled>
-                        </div>
-                        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <label class="floating-label-activo-sm">Mensaje</label>
-                            <textarea class="form-control caja-texto form-control-sm" id="mensaje_msj" name="mensaje_msj" disabled rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
-                        </div>
-
-                        <!--<div class="col-12">
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Fecha:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="fecha_msj" name="fecha_msj" readonly>
-                                </div>
+                    <!-- Lectura del mensaje con el mismo diseño del historial de mensajes -->
+                    <div class="ver-mensaje">
+                        <div class="ver-mensaje-icono"><i class="feather icon-mail"></i></div>
+                        <div class="ver-mensaje-contenido">
+                            <div class="ver-mensaje-encabezado">
+                                <h6 class="ver-mensaje-titulo" id="titulo_msj"></h6>
+                                <span class="ver-mensaje-fecha"><i class="feather icon-calendar"></i> <span id="fecha_msj"></span></span>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Remitente:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="remitente_msj" name="remitente_msj" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Titulo:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="titulo_msj" name="titulo_msj" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Asunto:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="asunto_msj" name="asunto_msj" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Mensaje:</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control caja-texto form-control-sm" id="mensaje_msj" name="mensaje_msj" readonly rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
-                                </div>
-                            </div>
-                        </div>-->
+                            <p class="ver-mensaje-remitente"><i class="feather icon-user"></i> <span id="remitente_msj"></span></p>
+                            <p class="ver-mensaje-asunto" id="asunto_msj"></p>
+                            <div class="ver-mensaje-texto" id="mensaje_msj"></div>
+                        </div>
                     </div>
                 </div>
-                <!--<div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cerrar_modal_mensaje();">Cerrar</button>
-                </div>-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="cerrar_modal_mensaje();">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
@@ -150,75 +108,57 @@
         <div class="modal-dialog modal-lg modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header-purple">
-                    <h5 class="modal-title">Mensaje</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrar_modal_mensaje_de_profesional()">
+                    <h5 class="modal-title">Enviar mensaje</h5>
+                    <button type="button" class="close text-white" aria-label="Cerrar" onclick="cerrar_modal_mensaje_de_profesional()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <ul class="nav nav-pills mb-5" id="pills-tab" role="tablist">
-                        <li class="nav-item">
-                            <a class="btn btn-sm btn-outline-info mr-1 active" id="pills-nuevo_mensaje-tab" data-toggle="pill" href="#pills-nuevo_mensaje" role="tab" aria-controls="pills-nuevo_mensaje" aria-selected="true">
-                                Nuevo Mensaje
-                            </a>
-                        </li>
-                        {{-- <li class="nav-item">
-                            <a class="btn btn-sm btn-outline-info mr-1 " id="pills-mensajes_recibidos-tab" data-toggle="pill" href="#pills-mensajes_recibidos" role="tab" aria-controls="pills-mensajes_recibidos" aria-selected="false">
-                                Recepción de programas
-                            </a>
-                        </li> --}}
-                    </ul>
-                    <div class="tab-content" id="pills-tabContent">
-
-                        {{-- PESTAÑA NUEVO MENSAJE --}}
-                        <div class="tab-pane fade show active " id="pills-nuevo_mensaje" role="tabpanel" aria-labelledby="pills-nuevo_mensaje-tab">
-                            <div class="form-row">
-                                <div class="form-group col-sm-12 col-md-12 col-lg-3 col-xl-4">
-                                    <label class="floating-label-activo-sm">Fecha</label>
-                                    <input type="date" class="form-control form-control-sm" id="fecha_msj_de_profesional" name="fecha_msj_de_profesional" value="<?php echo date('Y-m-d') ?>">
-                                </div>
-                                <div class="form-group col-sm-10 col-xl-7">
-                                    <label class="floating-label-activo-sm">RUT</label>
-                                    <input type="text" class="form-control form-control-sm" name="agregar_profesional_int_rut" id="agregar_profesional_int_rut">
-                                </div>
-                                <div class="form-group col-sm-2 col-xl-1">
-                                    <button type="button" class="btn btn-info btn-sm "  id="agregar_profesional_btn_buscar_rut" onclick="buscar_profesional();"><i class="fas fa-search"></i></button>
-                                </div>
-                                <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <label class="floating-label-activo-sm">Remitente</label>
-                                    @if(isset($profesional))
-                                    <input type="text" class="form-control form-control-sm" id="remitente_a_profesional" name="remitente_a_profesional" value="{{  $profesional->nombre }} {{ $profesional->apellido_uno }} {{ $profesional->apellido_dos }}" disabled>
-                                    @else
-                                    <input type="text" class="form-control form-control-sm" id="remitente_a_profesional" name="remitente_a_profesional" value="{{ Auth::user()->name }}" disabled>
-                                    @endif
-                                </div>
-                                <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <label class="floating-label-activo-sm">Receptor</label>
-                                    <input type="text" class="form-control form-control-sm" id="receptor_a_profesional" name="receptor_a_profesional" disabled>
-                                </div>
-                                <input type="hidden" id="id_profesional" name="id_profesional" value="">
-                                <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <label class="floating-label-activo-sm">Título</label>
-                                    <input type="text" class="form-control form-control-sm" id="titulo_msj_de_profesional" name="titulo_msj_de_profesional">
-                                </div>
-                                <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <label class="floating-label-activo-sm">Asunto</label>
-                                    <input type="text" class="form-control form-control-sm" id="asunto_msj_de_profesional" name="asunto_msj_de_profesional">
-                                </div>
-                                <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <label class="floating-label-activo-sm">Mensaje</label>
-                                    <textarea class="form-control caja-texto form-control-sm" id="mensaje_msj_de_profesional" name="mensaje_msj_de_profesional" rows="1" onfocus="this.rows=2;" onblur="this.rows=1;"></textarea>
-                                </div>
-                                <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <button class="btn btn-primary btn-sm float-right" onclick="enviar_mensaje_confirmar()">Enviar</button>
+                    <!-- Solo hay un formulario, así que va directo y sin pestañas -->
+                    <div class="form-row">
+                        <div class="form-group col-sm-12 col-md-4">
+                            <label class="floating-label-activo-sm">Fecha</label>
+                            <input type="date" class="form-control form-control-sm" id="fecha_msj_de_profesional" name="fecha_msj_de_profesional" value="<?php echo date('Y-m-d') ?>">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-8">
+                            <label class="floating-label-activo-sm">RUT del profesional</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="agregar_profesional_int_rut" id="agregar_profesional_int_rut" placeholder="Ej: 12345678-9" onkeyup="enter_buscar_profesional(event)">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-info" id="agregar_profesional_btn_buscar_rut" onclick="buscar_profesional();" title="Buscar profesional"><i class="feather icon-search"></i></button>
                                 </div>
                             </div>
                         </div>
-                        {{-- PESTAÑA HISTORIAL MENSAJES --}}
-                        <div class="tab-pane" id="pills-mensajes_recibidos" role="tabpanel" aria-labelledby="pills-mensajes_recibidos-tab">
-                            <h5>Historial de mensajes</h5>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="floating-label-activo-sm">Remitente</label>
+                            @if(isset($profesional))
+                            <input type="text" class="form-control form-control-sm" id="remitente_a_profesional" name="remitente_a_profesional" value="{{  $profesional->nombre }} {{ $profesional->apellido_uno }} {{ $profesional->apellido_dos }}" disabled>
+                            @else
+                            <input type="text" class="form-control form-control-sm" id="remitente_a_profesional" name="remitente_a_profesional" value="{{ Auth::user()->name }}" disabled>
+                            @endif
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="floating-label-activo-sm">Receptor</label>
+                            <input type="text" class="form-control form-control-sm" id="receptor_a_profesional" name="receptor_a_profesional" placeholder="Busque al profesional por su RUT" disabled>
+                        </div>
+                        <input type="hidden" id="id_profesional" name="id_profesional" value="">
+                        <div class="form-group col-sm-12">
+                            <label class="floating-label-activo-sm">Título</label>
+                            <input type="text" class="form-control form-control-sm" id="titulo_msj_de_profesional" name="titulo_msj_de_profesional">
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="floating-label-activo-sm">Asunto</label>
+                            <input type="text" class="form-control form-control-sm" id="asunto_msj_de_profesional" name="asunto_msj_de_profesional">
+                        </div>
+                        <div class="form-group col-sm-12 mb-0">
+                            <label class="floating-label-activo-sm">Mensaje</label>
+                            <textarea class="form-control caja-texto form-control-sm" id="mensaje_msj_de_profesional" name="mensaje_msj_de_profesional" rows="5"></textarea>
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" onclick="cerrar_modal_mensaje_de_profesional()">Cancelar</button>
+                    <button type="button" class="btn btn-info" onclick="enviar_mensaje_confirmar()"><i class="feather icon-send mr-1"></i>Enviar</button>
                 </div>
             </div>
         </div>
@@ -251,11 +191,13 @@
                 console.log(mensaje);
                 // abrir modal
                 $('#modal_mensaje_a_profesional').modal('show');
-                $('#fecha_msj').val(mensaje.fecha_emision);
-                $('#remitente_msj').val(mensaje.remitente);
-                $('#titulo_msj').val(mensaje.datos_mensaje.titulo);
-                $('#asunto_msj').val(mensaje.datos_mensaje.asunto);
-                $('#mensaje_msj').val(mensaje.datos_mensaje.mensaje);
+                // Se asigna con .text() para que el contenido no se interprete como HTML
+                let datos = mensaje.datos_mensaje || {};
+                $('#fecha_msj').text(mensaje.fecha_emision || '');
+                $('#remitente_msj').text(mensaje.remitente || '');
+                $('#titulo_msj').text(datos.titulo || 'Sin título');
+                $('#asunto_msj').text(datos.asunto || '').toggle(!!datos.asunto);
+                $('#mensaje_msj').text(datos.mensaje || '');
                 $('#estado-'+id).text('LEIDO');
             },
             error: function(error){
@@ -449,18 +391,18 @@
                 console.log(resp);
                 if(resp.estado == 1){
                     swal({
-                        title:'Exito',
+                        title:'Éxito',
                         text:'Su mensaje se ha enviado con éxito.',
                         icon:'success'
                     })
+                    $('#modal_mensaje_a_profesional_de_profesional').modal('hide');
                 }else{
                     swal({
                         title:'Error',
-                        text:'Su mensaje se ha enviado con éxito.',
+                        text:'No fue posible enviar el mensaje.',
                         icon:'error'
                     })
                 }
-                $('#modal_mensaje_a_profesional').modal('hide');
             },
             error: function(error){
                 console.log(error.responseText);
