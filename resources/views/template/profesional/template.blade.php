@@ -1120,14 +1120,20 @@
                         const lista = $('#lista_lugares_atencion').empty();
                         $('#lugares_atencion').val('');
                         lugares.forEach(lugar => {
-                            $('<div>', {class: 'col-12 col-md-6 mb-2'}).append(
+                            $('<div>', {class: 'col-12 col-sm-6 col-lg-4 mb-3'}).append(
                                 $('<button>', {
                                     type: 'button',
-                                    class: 'btn btn-outline-info btn-block text-left h-100',
+                                    class: 'lugar-agenda-opcion text-capitalize',
                                     'data-lugar-agenda': lugar.id,
-                                    'aria-pressed': 'false',
-                                    text: lugar.nombre_contexto || lugar.nombre
-                                })
+                                    'aria-pressed': 'false'
+                                }).append(
+                                    $('<span>', {class: 'lugar-agenda-icono'}).append($('<img>', {
+                                        src: "{{ asset('images/iconos/seleccion-agenda.png') }}",
+                                        alt: '',
+                                        'aria-hidden': 'true'
+                                    })),
+                                    $('<span>', {class: 'lugar-agenda-nombre', text: String(lugar.nombre_contexto || lugar.nombre || '').toLowerCase()})
+                                )
                             ).appendTo(lista);
                         });
 

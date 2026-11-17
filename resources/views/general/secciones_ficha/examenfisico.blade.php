@@ -10,7 +10,7 @@
                 <div class="form-row">
                     @if (!empty($examenFisicoEnCard))
                         @include('general.secciones_ficha.examen_fisico_signos_basicos')
-                        @include('general.secciones_ficha.campo_examen_fisico', ['filasExamenFisico' => 7, 'etiquetaExamenFisico' => 'Examen físico (descripción)'])
+                        @include('general.secciones_ficha.campo_examen_fisico', ['filasExamenFisico' => 7, 'etiquetaExamenFisico' => 'Examen físico'])
                     @else
                    <!-- <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6">
                         <label class="floating-label-activo-sm" for="antecedentes">Antecedentes Especialidad</label>

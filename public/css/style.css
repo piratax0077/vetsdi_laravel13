@@ -37294,6 +37294,85 @@ transition: 0.2s!important;
     border-radius: 8px;
 }
 
+
+/* Sin borde y recortado para que la cabecera morada llegue al canto sin filo blanco */
+.modal-content.lugar-agenda-fondo {
+    background: #fff;
+    border: 0;
+    overflow: hidden;
+}
+
+.modal-content.lugar-agenda-fondo .modal-header {
+    border-radius: 0;
+}
+
+.lugar-agenda-fondo .modal-body {
+    padding: 24px 20px 12px;
+}
+
+.lugar-agenda-opcion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    min-height: 120px;
+    padding: 16px 12px 14px;
+    background: #fff;
+    border: 1px solid #e6c4f9;
+    border-radius: 14px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: none;
+    transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.lugar-agenda-opcion:hover,
+.lugar-agenda-opcion:focus,
+.lugar-agenda-opcion.active {
+    border-color: var(--info);
+    box-shadow: none;
+    transform: translateY(-3px);
+    outline: none;
+}
+
+.lugar-agenda-icono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+}
+
+.lugar-agenda-icono img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+}
+
+.lugar-agenda-nombre {
+    color: #272727;
+    font-weight: 700;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lugar-agenda-opcion,
+    .lugar-agenda-icono {
+        transition: none;
+    }
+
+    .lugar-agenda-opcion:hover,
+    .lugar-agenda-opcion:focus,
+    .lugar-agenda-opcion.active {
+        transform: none;
+    }
+}
+
 .icono-agenda {
     background-color: #fff;
     margin-right: 5px;
@@ -38172,6 +38251,30 @@ transition: 0.2s!important;
 .modal-header.modal-header-purple .close:hover,
 .modal-header.modal-header-danger .close:hover {
     opacity: 1;
+}
+
+/* Título grande y centrado; la X va absoluta para no correrlo. El color lo da la variante de cabecera */
+.modal-header.modal-header-centrado {
+    position: relative;
+    justify-content: center;
+    padding-left: 56px;
+    padding-right: 56px;
+}
+
+.modal-header.modal-header-centrado h5,
+.modal-header.modal-header-centrado .modal-title {
+    font-size: 1.3rem !important;
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
+}
+
+.modal-header.modal-header-centrado .close {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    margin: 0 !important;
+    transform: translateY(-50%);
 }
 
 /* Color de los encabezados de todas las tablas */
@@ -50404,6 +50507,54 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 @keyframes editor-dictado-pulso {
     0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, .35); }
     50% { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+}
+
+/* Botón de dictado dentro de un campo de texto (abajo a la derecha, sin tapar el texto) */
+.campo-con-dictado {
+    position: relative;
+}
+
+.campo-con-dictado textarea.form-control {
+    padding-bottom: 44px;
+}
+
+.boton-dictado {
+    position: absolute;
+    right: 34px;
+    bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border: 1px solid var(--info);
+    border-radius: 50px;
+    background: #e6f7f9;
+    color: #00838f;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.boton-dictado:hover,
+.boton-dictado:focus {
+    background: var(--info);
+    color: #fff;
+    outline: none;
+}
+
+.boton-dictado.grabando {
+    border-color: #dc2626;
+    background: #fde8e8;
+    color: #dc2626;
+    animation: editor-dictado-pulso 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .boton-dictado.grabando {
+        animation: none;
+    }
 }
 
 /* Visor de archivos de las indicaciones (PDF, imagen o documento para descargar) */
