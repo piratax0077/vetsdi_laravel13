@@ -89,9 +89,11 @@
                                                         optional($responsable)->apellido_dos,
                                                     ])->filter()->implode(' '));
                                                     $rutResponsable = optional($responsable)->rut;
-                                                    $responsableTexto = $nombreResponsable !== ''
-                                                        ? $nombreResponsable . ($rutResponsable ? '<br>' . $rutResponsable : '')
-                                                        : '-';
+                                                    $lugarMascota = $lugarPorMascota[$mascota->id] ?? null;
+                                                    $urlTutor = $responsable ? route('profesional.tutor.informacion', array_filter([
+                                                        'tutor' => $responsable->id,
+                                                        'id_lugar_atencion' => $lugarMascota?->id,
+                                                    ])) : '';
                                                     $especie = optional($mascota->especieMascota)->nombre ?? $mascota->especie ?? '-';
                                                     $raza = optional($mascota->razaMascota)->nombre ?? $mascota->otra_especie ?? '-';
                                                     $convenio = optional(optional($responsable)->Prevision)->nombre ?? '-';
@@ -114,9 +116,12 @@
                                                         <small class="d-block text-muted">Raza: {{ $raza }}</small>
                                                     </td>
                                                     <td>
-                                                        {!! $responsableTexto !!}
+                                                        {{ $nombreResponsable ?: '-' }}
+                                                        @if ($rutResponsable)
+                                                            <br>{{ mb_strtoupper($rutResponsable) }}
+                                                        @endif
                                                         @if ($responsable)
-                                                            <a href="{{ route('profesional.tutor.informacion', ['tutor' => $responsable->id]) }}"
+                                                            <a href="{{ $urlTutor }}"
                                                                 class="text-purple ml-1 js-tooltip-accion"
                                                                 title="Ver información del tutor" aria-label="Ver información del tutor">
                                                                 <i class="feather icon-info"></i>
@@ -124,7 +129,7 @@
                                                             @php
                                                                 $vecesConflictivo = (int) ($vecesConflictivoPorTutor[$responsable->id] ?? 0);
                                                             @endphp
-                                                            @if ($vecesConflictivo > 0)
+                                                            @if ($vecesConflictivo >= 3)
                                                                 <span class="badge badge-light-danger f-12 px-2 py-1 mt-1 d-table" title="Notas internas que lo marcaron como conflictivo">
                                                                     <i class="feather icon-alert-triangle mr-1" aria-hidden="true"></i><strong>{{ $vecesConflictivo }}</strong> {{ $vecesConflictivo === 1 ? 'vez conflictivo' : 'veces conflictivo' }}
                                                                 </span>
@@ -135,7 +140,6 @@
                                                     <td>{{ $chip }}</td>
                                                     @php
                                                         // Lugar de la última atención de la mascota; si no hay, el contexto activo
-                                                        $lugarMascota = $lugarPorMascota[$mascota->id] ?? null;
                                                         $direccionLugar = optional($lugarMascota)->Direccion;
                                                         $direccionLugarTexto = trim(collect([
                                                             trim((optional($direccionLugar)->direccion ?? '') . ' ' . (optional($direccionLugar)->numero_dir ?? '')),
@@ -170,7 +174,7 @@
                                                                 data-tutor-email="{{ optional($responsable)->email ?: '-' }}"
                                                                 data-tutor-telefono="{{ optional($responsable)->telefono_uno ?: optional($responsable)->telefono_dos ?: '-' }}"
                                                                 data-tutor-convenio="{{ $convenio }}"
-                                                                data-tutor-url="{{ $responsable ? route('profesional.tutor.informacion', ['tutor' => $responsable->id]) : '' }}">
+                                                                data-tutor-url="{{ $urlTutor }}">
                                                                 <i class="fas fa-paw"></i>
                                                             </button>
                                                             <a href="{{ route('profesional.mascota.ficha_veterinaria', ['mascota' => $mascota->id]) }}"

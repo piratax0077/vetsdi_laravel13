@@ -11,7 +11,7 @@ class ExportacionPacientesProfesional
         return Schema::hasTable($tabla) && !array_diff($columnas,Schema::getColumnListing($tabla));
     }
 
-    public function consultas(Profesional $profesional): array
+    public function consultas(Profesional $profesional, ?int $tutor = null): array
     {
         $consultas=[];
         foreach(['horas_medicas','fichas_atenciones'] as $tabla) {
@@ -24,6 +24,14 @@ class ExportacionPacientesProfesional
         if($this->disponible('vet_internaciones',['id','id_institucion','id_mascota']) && $this->disponible('vet_internacion_profesionales',['internacion_id','id_usuario']) && $this->disponible('profesionales_lugares_atencion',['id_profesional','id_institucion','estado'])) {
             $consultas['vet_internaciones']=DB::table('vet_internaciones')->whereIn('id',DB::table('vet_internacion_profesionales')->where('id_usuario',$profesional->id_usuario)->select('internacion_id'))->whereIn('id_institucion',DB::table('profesionales_lugares_atencion')->where('id_profesional',$profesional->id)->where('estado',1)->select('id_institucion'));
         }
+        if ($tutor !== null) {
+            foreach ($consultas as $tabla => $consulta) {
+                $consulta->whereIn('id_mascota', DB::table('mascotas')->where('id_responsable', $tutor)->select('id'));
+                if (Schema::hasColumn($tabla, 'id_paciente')) {
+                    $consulta->where('id_paciente', $tutor);
+                }
+            }
+        }
         $fuentes=$consultas;
         $mascotas=DB::table('mascotas')->where(function($q) use($fuentes){
             $q->whereRaw('1 = 0');
@@ -32,7 +40,7 @@ class ExportacionPacientesProfesional
         $campos=array_values(array_intersect(['id','nombre','especie','raza','sexo','fecha_nacimiento','fecha_nac','color','microchip','numero_microchip','esterilizado','peso','id_responsable','created_at','updated_at'],Schema::getColumnListing('mascotas')));
         $consultas=['pacientes_mascotas'=>(clone $mascotas)->select($campos)]+$consultas;
         if($this->disponible('pacientes',['id']) && Schema::hasColumn('mascotas','id_responsable')) {
-            $campos=array_values(array_intersect(['id','rut','nombre','apellido_uno','apellido_dos','apellido_paterno','apellido_materno','email','telefono_uno','telefono_dos','telefono','created_at'],Schema::getColumnListing('pacientes')));
+            $campos=array_values(array_intersect(['id','rut','nombres','nombre','apellido_uno','apellido_dos','apellido_paterno','apellido_materno','email','telefono_uno','telefono_dos','telefono','created_at'],Schema::getColumnListing('pacientes')));
             $consultas['tutores']=DB::table('pacientes')->whereIn('id',(clone $mascotas)->select('id_responsable'))->select($campos);
         }
         if(isset($consultas['vet_internaciones'])) {
@@ -43,8 +51,13 @@ class ExportacionPacientesProfesional
         return $consultas;
     }
 
-    public function crear(Profesional $profesional): string
+    public function crear(Profesional $profesional, ?int $tutor = null): string
     {
-        return app(ExportacionPacientesCentro::class)->crearArchivo($this->consultas($profesional),"Profesional: {$profesional->nombre} {$profesional->apellido} (ID {$profesional->id})\nAtenciones propias; hospitalización limitada a pacientes asignados y registros realizados por este usuario.");
+        $consultas = $this->consultas($profesional, $tutor);
+        if ($tutor !== null && !$consultas['pacientes_mascotas']->exists()) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['rut_tutor' => 'No se encontraron atenciones propias para ese RUT.']);
+        }
+
+        return app(ExportacionPacientesCentro::class)->crearArchivo($consultas,"Profesional: {$profesional->nombre} {$profesional->apellido} (ID {$profesional->id})\nAtenciones propias; hospitalización limitada a pacientes asignados y registros realizados por este usuario.");
     }
 }

@@ -25,7 +25,7 @@ class HoraMedica extends Model
     protected static function booted()
     {
         static::creating(function (HoraMedica $hora) {
-            if (TutorBloqueo::estaBloqueado($hora->id_paciente, $hora->id_profesional)) {
+            if (TutorBloqueo::estaBloqueado($hora->id_paciente, $hora->id_profesional, $hora->id_lugar_atencion)) {
                 throw new \App\Exceptions\TutorBloqueadoException();
             }
         });

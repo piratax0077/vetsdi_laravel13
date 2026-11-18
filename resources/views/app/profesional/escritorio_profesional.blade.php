@@ -41,7 +41,10 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="card subir"><a href="{{ route('vet.hospital.profesional') }}"><div class="card-body text-center px-2"><img class="wid-40" src="{{ asset('images/iconos/hospitalizacion.svg') }}" alt=""><h6 class="mt-1">Pacientes hospitalizados</h6></div></a></div>
+                        @php($centroHospital = app(\App\Services\HospitalizacionAcceso::class)->centrosAsignadosAlProfesional(auth()->user())->first())
+                        @if ($centroHospital)
+                        <div class="card subir"><a href="{{ route('vet.hospital.profesional', ['id_institucion' => $centroHospital->id]) }}"><div class="card-body text-center px-2"><img class="wid-40" src="{{ asset('images/iconos/hospitalizacion.svg') }}" alt=""><h6 class="mt-1">Pacientes hospitalizados</h6></div></a></div>
+                        @endif
                         <div class="card subir">
                             <a href="{{ route('profesional.configuracion') }}">
                                 <div class="card-body text-center px-2" style="cursor:pointer">

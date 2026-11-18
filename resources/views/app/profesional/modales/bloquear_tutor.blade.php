@@ -29,7 +29,7 @@
                     <span class="aviso-sin-registros-icono"><i class="feather icon-alert-triangle"></i></span>
                     <div>
                         <p class="aviso-sin-registros-titulo">No podrá agendar nuevas horas</p>
-                        <p class="aviso-sin-registros-texto">Mientras esté bloqueado no se le podrán reservar horas contigo. Sus mascotas y el historial de atenciones se mantienen.</p>
+                        <p class="aviso-sin-registros-texto">Mientras esté bloqueado, no podrá reservar nuevas horas {{ !empty($lugarTutor) ? 'en '.$lugarTutor->nombre : 'contigo' }}.</p>
                     </div>
                 </div>
             </div>

@@ -632,6 +632,12 @@ class OperacionVeterinariaTest extends TestCase
             $this->assertStringNotContainsString('Mascota ajena',$zip->getFromName('pacientes_mascotas.csv'));
             $zip->close();
         } finally {unlink($ruta);}
+        DB::table('mascotas')->where('id',1)->update(['id_responsable'=>51]);
+        DB::table('mascotas')->where('id',2)->update(['id_responsable'=>52]);
+        DB::table('fichas_atenciones')->insert(['id_profesional'=>1,'id_mascota'=>2,'diagnostico'=>'OTRO_TUTOR']);
+        $porTutor = $service->consultas($profesional, 51);
+        $this->assertSame(['MIA_PROFESIONAL'], $porTutor['fichas_atenciones']->pluck('diagnostico')->all());
+        $this->assertSame([1], $porTutor['pacientes_mascotas']->pluck('id')->all());
         DB::table('profesionales_lugares_atencion')->update(['estado'=>0]);
         $this->assertSame(0,$service->consultas($profesional)['vet_internaciones']->count());
     }

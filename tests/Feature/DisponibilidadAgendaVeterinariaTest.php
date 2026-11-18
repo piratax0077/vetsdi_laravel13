@@ -19,7 +19,7 @@ class DisponibilidadAgendaVeterinariaTest extends TestCase
         foreach ([
             'profesionales' => [],
             'profesional_horarios' => ['id_profesional', 'id_lugar_atencion', 'tipo_agenda', 'dia', 'duracion_consulta', 'hora_inicio', 'hora_termino'],
-            'profesional_horarios_bloqueo' => ['id_profesional', 'id_lugar_atencion', 'fecha_inicio', 'fecha_termino', 'hora_inicio', 'hora_termino', 'todo_dia'],
+            'profesional_horarios_bloqueo' => ['id_profesional', 'id_lugar_atencion', 'fecha_inicio', 'fecha_termino', 'hora_inicio', 'hora_termino', 'todo_dia', 'estado'],
             'horas_medicas' => ['id_profesional', 'id_lugar_atencion', 'fecha_consulta', 'hora_inicio', 'hora_termino', 'tipo_hora_medica', 'id_estado', 'fecha_realizacion_consulta'],
         ] as $tabla => $campos) {
             Schema::create($tabla, function (Blueprint $t) use ($campos) {
@@ -65,7 +65,7 @@ class DisponibilidadAgendaVeterinariaTest extends TestCase
         ]);
         DB::table('profesional_horarios_bloqueo')->insert([
             'id_profesional' => 1, 'id_lugar_atencion' => 2, 'fecha_inicio' => '2026-11-08', 'fecha_termino' => '2026-11-08',
-            'hora_inicio' => '10:30:00', 'hora_termino' => '11:00:00', 'todo_dia' => 0,
+            'hora_inicio' => '10:30:00', 'hora_termino' => '11:00:00', 'todo_dia' => 0, 'estado' => 1,
         ]);
         $agenda = app(AccesoAgendaVeterinaria::class);
         foreach ([['09:30:00','10:00:00'], ['10:30:00','11:00:00'], ['11:45:00','12:15:00'], ['11:15:00','11:45:00']] as [$inicio,$fin]) {
