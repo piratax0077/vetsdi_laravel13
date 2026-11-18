@@ -22,6 +22,8 @@ use App\Services\CuentasService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 /**
@@ -186,7 +188,9 @@ class CompletarPerfilController extends Controller
 
         [$nombres, $apellidoUno, $apellidoDos] = $usuario->partesDelNombre();
 
-        $paciente = $this->perfilDe(Paciente::class, $usuario);
+        $paciente = $this->vincularTutorReservaWeb($usuario);
+        $tutorVinculado = $paciente !== null;
+        $paciente ??= $this->perfilDe(Paciente::class, $usuario);
         $paciente->rut = $usuario->rut;
         $paciente->nombres = $nombres;
         $paciente->apellido_uno = $apellidoUno;
@@ -199,6 +203,10 @@ class CompletarPerfilController extends Controller
         // Este formulario reemplaza la antigua pantalla de bienvenida del escritorio.
         $paciente->bienvenida = 1;
         $paciente->save();
+
+        if ($tutorVinculado) {
+            return;
+        }
 
         // mascotas es MyISAM: no participa de transacciones, por eso se guarda al
         // final, cuando el resto ya quedó bien guardado.
@@ -215,6 +223,33 @@ class CompletarPerfilController extends Controller
         $mascota->estado = 1;
         $mascota->origen_registro = 'registro_tutor';
         $mascota->save();
+    }
+
+    private function vincularTutorReservaWeb(User $usuario): ?Paciente
+    {
+        if (!$usuario->correoVerificado() || Paciente::where('id_usuario', $usuario->id)->exists()) {
+            return null;
+        }
+        $rut = strtoupper(str_replace(['.', '-'], '', (string) $usuario->rut));
+        return DB::transaction(function () use ($usuario, $rut) {
+            $pacientes = Paciente::whereNull('id_usuario')
+                ->whereRaw("UPPER(REPLACE(REPLACE(rut, '.', ''), '-', '')) = ?", [$rut])
+                ->whereIn('id', DB::table('horas_medicas')->where('observaciones', 'like', 'Reserva web pública (tutor nuevo).%')->select('id_paciente'))
+                ->lockForUpdate()->get();
+            if ($pacientes->isEmpty()) {
+                return null;
+            }
+            $paciente = $pacientes->first();
+            if ($pacientes->count() !== 1 || strcasecmp(trim((string) $paciente->email), trim((string) $usuario->email)) !== 0) {
+                throw ValidationException::withMessages([
+                    'direccion' => 'Para recuperar una reserva web, utiliza el mismo correo de la reserva y verifica tu cuenta.',
+                ]);
+            }
+            $paciente->id_usuario = $usuario->id;
+            $paciente->saveOrFail();
+            Mascota::where('id_responsable', $paciente->id)->whereNull('id_user')->update(['id_user' => $usuario->id]);
+            return $paciente;
+        });
     }
 
     /** Si no saben la fecha exacta, la edad aproximada sirve igual. */

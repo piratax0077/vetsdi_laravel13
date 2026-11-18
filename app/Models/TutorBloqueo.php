@@ -13,16 +13,23 @@ class TutorBloqueo extends Model
         'id_paciente',
         'id_profesional',
         'motivo',
+        'id_lugar_atencion',
     ];
 
-    public static function estaBloqueado($idPaciente, $idProfesional): bool
+    public static function estaBloqueado($idPaciente, $idProfesional, $idLugar = null): bool
     {
         if (!$idPaciente || !$idProfesional) {
             return false;
         }
 
         return static::where('id_paciente', $idPaciente)
-            ->where('id_profesional', $idProfesional)
+            ->where(function ($consulta) use ($idProfesional, $idLugar) {
+                $consulta->where(fn ($personal) => $personal->where('id_profesional', $idProfesional)
+                    ->where('id_lugar_atencion', 0));
+                if ($idLugar) {
+                    $consulta->orWhere('id_lugar_atencion', $idLugar);
+                }
+            })
             ->exists();
     }
 }

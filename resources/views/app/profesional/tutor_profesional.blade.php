@@ -9,12 +9,6 @@
             optional(optional($direccion)->Ciudad)->nombre,
         ])->filter()->implode(', '));
         $convenio = optional($tutor->Prevision)->nombre;
-        $fechaAutorizacion = $tutor->fecha_autorizacion ? \Carbon\Carbon::parse($tutor->fecha_autorizacion)->format('d-m-Y') : null;
-        $autorizaciones = [
-            'Autorizó compartir su ficha veterinaria única' => $tutor->auto_fmu,
-            'Autorizó informar a los profesionales de turno' => $tutor->auto_inf_turno,
-            'Autorizó el acceso a su información confidencial' => $tutor->auto_inf_confd,
-        ];
         $pesos = fn ($monto) => '$' . number_format((float) $monto, 0, ',', '.');
         // Las tablas muestran solo lo más reciente; los totales consideran todo
         $maximoFilas = 15;
@@ -46,6 +40,9 @@
                                         <i class="feather icon-lock mr-1" aria-hidden="true"></i>Bloqueado
                                     </span>
                                 </h5>
+                                @if ($lugarTutor)
+                                    <p class="text-muted mb-2"><i class="feather icon-map-pin mr-1" aria-hidden="true"></i>{{ $lugarTutor->nombre }}</p>
+                                @endif
                                 <ul class="tarjeta-datos-tutor__datos">
                                     <li>
                                         <i class="feather icon-credit-card" aria-hidden="true"></i>
@@ -75,9 +72,6 @@
                             <div class="tarjeta-datos-tutor__acciones d-print-none">
                                 <button type="button" class="btn btn-sm btn-warning mb-1" onclick="enviar_mensaje_paciente({{ $tutor->id }})">
                                     <i class="feather icon-mail mr-1"></i>Mensaje
-                                </button>
-                                <button type="button" class="btn btn-sm btn-purple mb-1" onclick="window.print()">
-                                    <i class="feather icon-printer mr-1"></i>Imprimir
                                 </button>
                                 <button type="button" @class(['btn btn-sm btn-danger mb-1', 'd-none' => $bloqueoTutor]) id="boton_abrir_bloquear_tutor"
                                     onclick="abrir_bloquear_tutor(false)">
@@ -182,26 +176,31 @@
                             </div>
                         </div>
 
-                        <!--Autorizaciones que el tutor dio desde su perfil-->
+                        <!--Consentimientos aprobados en consulta-->
                         <div class="tab-pane d-print-block" id="tutor-consentimientos" role="tabpanel" aria-labelledby="tutor-consentimientos-tab">
                             <div class="card">
                                 <div class="card-header bg-white">
                                     <h5 class="mb-0 text-dark">Consentimientos</h5>
-                                    <p class="text-muted font-weight-normal mb-0 mt-1">Lo que esta persona aceptó desde su perfil, y cuándo.</p>
+                                    <p class="text-muted font-weight-normal mb-0 mt-1">Consentimientos aprobados por el tutor durante la atención.</p>
                                 </div>
                                 <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        @foreach ($autorizaciones as $textoAutorizacion => $aceptada)
-                                            <li class="list-group-item d-flex flex-wrap justify-content-between align-items-center px-0 py-2">
-                                                <span>{{ $textoAutorizacion }}</span>
-                                                @if ($aceptada)
-                                                    <span class="text-purple font-weight-bold">Sí{{ $fechaAutorizacion ? ' · ' . $fechaAutorizacion : '' }}</span>
-                                                @else
-                                                    <span class="text-muted">No</span>
-                                                @endif
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-sm">
+                                            <thead><tr><th>Consentimiento</th><th>Mascota</th><th>Fecha y hora de aprobación</th><th>Estado</th></tr></thead>
+                                            <tbody>
+                                                @forelse ($consentimientosAprobados as $consentimiento)
+                                                    <tr>
+                                                        <td>{{ $consentimiento['nombre'] }}</td>
+                                                        <td>{{ $consentimiento['mascota'] }}</td>
+                                                        <td>{{ $consentimiento['fecha'] ?: 'Sin registro' }}</td>
+                                                        <td><span class="badge badge-success">Aprobado</span></td>
+                                                    </tr>
+                                                @empty
+                                                    <tr><td colspan="4">No hay consentimientos aprobados en consulta.</td></tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -248,7 +247,7 @@
                                                                 title="FVU" aria-label="FVU">
                                                                 <i class="feather icon-file-text"></i>
                                                             </a>
-                                                            <a href="{{ route('profesional.atenciones_previas_paciente', ['id' => $tutor->id, 'id_mascota' => $mascota->id]) }}"
+                                                            <a href="{{ route('profesional.atenciones_previas_paciente', array_filter(['id' => $tutor->id, 'id_mascota' => $mascota->id, 'id_lugar_atencion' => $lugarTutor?->id])) }}"
                                                                 target="_blank" rel="noopener"
                                                                 class="btn btn-icon btn-primary js-tooltip-accion"
                                                                 title="Historial de atenciones" aria-label="Historial de atenciones">
@@ -473,6 +472,7 @@
             type: 'POST',
             data: {
                 nota: $nota.val(),
+                id_lugar_atencion: @json($lugarTutor?->id),
                 conflictivo: $('#nota_tutor_conflictivo').is(':checked') ? 1 : 0,
                 _token: "{{ csrf_token() }}"
             }
@@ -489,17 +489,17 @@
             $('#notas_tutor_vacio').addClass('d-none');
             $('#tabla_notas_tutor').removeClass('d-none');
 
-            var veces = parseInt(respuesta.veces_conflictivo, 10) || 0;
+            var veces = parseInt(respuesta[@json($lugarTutor ? 'veces_conflictivo_lugar' : 'veces_conflictivo')], 10) || 0;
             $('.js-veces-conflictivo').text(veces);
             $('.js-veces-conflictivo-texto').text(texto_veces_conflictivo(veces));
 
             formulario.reset();
             $(formulario).removeClass('was-validated');
             $('label[for="nota_tutor_conflictivo"]').text('No');
-            marcar_tutor_bloqueado(!!respuesta.bloqueado);
+            marcar_tutor_bloqueado(!!respuesta.bloqueo_propio);
 
             // Desde la tercera nota conflictiva se propone bloquearlo
-            if (nota.conflictivo && veces >= notas_conflictivas_para_bloquear && !tutor_bloqueado) {
+            if (nota.conflictivo && veces === notas_conflictivas_para_bloquear && !respuesta.bloqueado) {
                 abrir_bloquear_tutor(true);
             }
         }).fail(function (xhr) {
@@ -522,12 +522,12 @@
         $.ajax({
             url: "{{ route('profesional.tutor.bloquear', ['tutor' => $tutor->id]) }}",
             type: 'POST',
-            data: { motivo: $motivo.val(), _token: "{{ csrf_token() }}" }
+            data: { motivo: $motivo.val(), id_lugar_atencion: @json($lugarTutor?->id), _token: "{{ csrf_token() }}" }
         }).done(function () {
             $('#etiqueta_tutor_bloqueado').attr('title', 'Motivo: ' + $motivo.val());
             marcar_tutor_bloqueado(true);
             $('#modal_bloquear_tutor').modal('hide');
-            swal({ title: 'Tutor bloqueado', text: 'Ya no podrá tomar horas contigo.', icon: 'success', button: 'Aceptar' });
+            swal({ title: 'Tutor bloqueado', text: 'Se aplicó el bloqueo de nuevas reservas.', icon: 'success', button: 'Aceptar' });
         }).fail(function (xhr) {
             swal({ title: 'Error', text: mensaje_error_ajax(xhr, 'No se pudo bloquear al tutor.'), icon: 'error', button: 'Aceptar' });
         }).always(function () {
@@ -538,7 +538,7 @@
     function desbloquear_tutor() {
         swal({
             title: '¿Desbloquear al tutor?',
-            text: 'Podrá volver a tomar horas contigo.',
+            text: 'Se levantará este bloqueo de reservas.',
             icon: 'warning',
             buttons: ['Cancelar', 'Desbloquear'],
             dangerMode: true
@@ -549,10 +549,10 @@
             $.ajax({
                 url: "{{ route('profesional.tutor.desbloquear', ['tutor' => $tutor->id]) }}",
                 type: 'POST',
-                data: { _token: "{{ csrf_token() }}" }
+                data: { id_lugar_atencion: @json($lugarTutor?->id), _token: "{{ csrf_token() }}" }
             }).done(function () {
                 marcar_tutor_bloqueado(false);
-                swal({ title: 'Tutor desbloqueado', text: 'Ya puede volver a tomar horas contigo.', icon: 'success', button: 'Aceptar' });
+                swal({ title: 'Tutor desbloqueado', text: 'Se levantó este bloqueo de reservas.', icon: 'success', button: 'Aceptar' });
             }).fail(function (xhr) {
                 swal({ title: 'Error', text: mensaje_error_ajax(xhr, 'No se pudo desbloquear al tutor.'), icon: 'error', button: 'Aceptar' });
             });

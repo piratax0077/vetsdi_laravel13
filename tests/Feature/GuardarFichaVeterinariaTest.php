@@ -103,7 +103,8 @@ class GuardarFichaVeterinariaTest extends TestCase
         config(['database.default' => 'sqlite', 'database.connections.sqlite.database' => ':memory:']);
         DB::purge('sqlite');
         foreach ([
-            'horas_medicas' => ['id_paciente', 'id_profesional', 'id_mascota', 'id_ficha_atencion', 'id_estado', 'id_lugar_atencion', 'fecha_realizacion_consulta'],
+            'horas_medicas' => ['id_paciente', 'id_profesional', 'id_mascota', 'id_ficha_atencion', 'id_estado', 'id_lugar_atencion', 'fecha_realizacion_consulta', 'observaciones'],
+            'tutor_bloqueos' => ['id_paciente', 'id_profesional', 'id_lugar_atencion'],
             'fichas_atenciones' => ['id_paciente', 'id_profesional', 'id_mascota', 'id_lugar_atencion', 'motivo', 'antecedentes', 'examen_fisico', 'hipotesis_diagnostico', 'diagnostico_ce10', 'indicaciones', 'peso', 'temperatura', 'pulso', 'cronico', 'confidencial', 'ges', 'finalizada'],
             'ficha_veterinaria_general' => ['id_fichas_atenciones', 'id_paciente', 'id_profesional', 'datos', 'estado'],
             'control_post_quirurgico' => ['id_ficha_atencion', 'id_profesional', 'id_paciente', 'eg_cpq_cg', 'hoc_cpa_cg', 'masas_cpq_cg', 'obs_egp_cpq_cg', 'estado'],

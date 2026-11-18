@@ -724,6 +724,7 @@ class MascotasController extends Controller
 
     public function guardarSolicitudApareamiento(Request $request, $mascotaId)
     {
+        abort(410, 'Las solicitudes de apareamiento están deshabilitadas.');
         $mascota = $this->mascotaDelResponsableAutenticado($mascotaId);
         if (!$mascota) {
             return response()->json([
@@ -829,6 +830,7 @@ class MascotasController extends Controller
 
     public function buzonApareamientoMascotas(Request $request)
     {
+        abort(410, 'Las solicitudes de apareamiento están deshabilitadas.');
         $paciente = Paciente::where('id_usuario', Auth::id())->first();
         if (!$paciente) {
             return response()->json([
@@ -884,6 +886,7 @@ class MascotasController extends Controller
 
     public function marcarApareamientoLeida(Request $request, $mascotaId, $solicitudId)
     {
+        abort(410, 'Las solicitudes de apareamiento están deshabilitadas.');
         $mascota = $this->mascotaDelResponsableAutenticado($mascotaId);
         if (!$mascota) {
             return response()->json(['estado' => 0, 'msj' => 'Mascota no encontrada.'], 404);

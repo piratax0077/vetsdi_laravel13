@@ -211,11 +211,6 @@
                                         onclick="return abrirTutoriaCompartida(event);">
                                         <i class="feather icon-users"></i> Tutoría compartida
                                     </button>
-                                    <button type="button" class="dropdown-item" id="btn-solicitud-apareamiento" name="btn-solicitud-apareamiento"
-                                        onclick="return abrirModalSolicitudApareamiento(event);">
-                                        <i class="feather icon-heart"></i> Solicitud de apareamiento
-                                        <span class="badge badge-danger d-none" id="apareamiento_badge_menu">0</span>
-                                    </button>
                                     <button type="button" class="dropdown-item" id="btn-registrar-defuncion" name="btn-registrar-defuncion"
                                         onclick="return abrirModalSeleccionDefuncion(event);">
                                         <i class="feather icon-cloud"></i> Registrar defunción
@@ -296,7 +291,6 @@
     @if(($titulo ?? '') === 'Mascotas')
         @include('app.paciente.modales.dependientes.traspasar_mascota')
         @include('app.paciente.partials.tutoria_compartida.modal')
-        @include('app.paciente.modales.dependientes.solicitud_apareamiento')
         @include('app.paciente.modales.dependientes.fallecimiento_mascota')
         <div class="modal fade" id="modal_seleccionar_defuncion" tabindex="-1" role="dialog"
             aria-labelledby="modalSeleccionarDefuncionLabel" aria-hidden="true">
@@ -2792,7 +2786,7 @@
                 marcarApareamientoLeida($(this).data('mascota'), $(this).data('solicitud'));
             });
 
-            cargarBuzonApareamiento();
+            if (document.getElementById('modal_solicitud_apareamiento')) cargarBuzonApareamiento();
             @endif
 
             try {
@@ -3851,7 +3845,7 @@
                 {
                     poblarSelectApareamientoMascotas();
                 }
-                if(typeof cargarBuzonApareamiento === 'function')
+                if(document.getElementById('modal_solicitud_apareamiento'))
                 {
                     cargarBuzonApareamiento();
                 }

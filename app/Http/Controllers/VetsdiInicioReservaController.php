@@ -37,6 +37,14 @@ class VetsdiInicioReservaController extends Controller
                 ];
             })->values(),
             'especies' => EspecieMascota::orderBy('nombre')->get(['id', 'nombre']),
+            'razas' => DB::table('razas_mascotas')->whereIn('especie_id', [1, 2])->orderBy('nombre')
+                ->get(['id', 'nombre', 'especie_id'])->groupBy('especie_id'),
+            'servicios' => [
+                ['id' => 'consulta', 'nombre' => 'Consulta veterinaria', 'label_item' => 'Consulta', 'items' => ['Medicina general veterinaria']],
+                ['id' => 'procedimiento', 'nombre' => 'Procedimiento', 'label_item' => 'Procedimiento', 'items' => []],
+                ['id' => 'examenes', 'nombre' => 'Exámenes', 'label_item' => 'Examen', 'items' => $catalogoVeterinario[0]['items']],
+            ],
+            'videoconsulta' => ['Medicina general veterinaria'],
         ]);
     }
 
@@ -135,7 +143,7 @@ class VetsdiInicioReservaController extends Controller
         ]);
     }
 
-    public function profesionales(Request $request)
+    public function profesionales(Request $request, ?int $id = null)
     {
         $query = Profesional::query()
             ->with([
@@ -168,10 +176,14 @@ class VetsdiInicioReservaController extends Controller
             $query->has('LugaresAtencion');
         }
 
+        if ($id !== null) {
+            $query->whereKey($id);
+        }
+
         if ($request->filled('q')) {
             $term = mb_strtolower(trim((string) $request->input('q')));
             $query->where(function ($nameQuery) use ($term) {
-                $nameQuery->whereRaw('LOWER(nombre) LIKE ?', ["%{$term}%"])
+                $nameQuery->where('rut', $this->formatRut($term))->orWhereRaw('LOWER(nombre) LIKE ?', ["%{$term}%"])
                     ->orWhereRaw('LOWER(apellido_uno) LIKE ?', ["%{$term}%"])
                     ->orWhereRaw('LOWER(apellido_dos) LIKE ?', ["%{$term}%"])
                     ->orWhereRaw('LOWER(CONCAT(nombre, " ", apellido_uno, " ", apellido_dos)) LIKE ?', ["%{$term}%"]);
@@ -243,8 +255,6 @@ class VetsdiInicioReservaController extends Controller
                 'especialidad' => optional($profesional->TipoEspecialidad)->nombre ?: optional($profesional->Especialidad)->nombre ?: 'Veterinario/a',
                 'tipo_especialidad' => optional($profesional->SubTipoEspecialidad)->nombre,
                 'sub_tipo_especialidad' => null,
-                'email' => $profesional->email,
-                'telefono' => $profesional->telefono ?? $profesional->telefono_uno ?? null,
                 'imagen' => $imagen,
                 'lugares_atencion' => $lugares,
                 'agenda_publica_disponible' => $lugares->count() > 0,
@@ -263,6 +273,75 @@ class VetsdiInicioReservaController extends Controller
             'estado' => 1,
             'registros' => $resultados,
         ]);
+    }
+
+    public function buscar(Request $request)
+    {
+        return response()->json(['estado' => 1, 'registros' => $this->resultadosAgenda($request)]);
+    }
+
+    public function ficha(Request $request)
+    {
+        $datos = $request->validate(['id_prestador' => 'required|integer|min:1']);
+        return response()->json(['estado' => 1, 'ficha' => $this->resultadosAgenda($request, (int) $datos['id_prestador'])->first()]);
+    }
+
+    private function resultadosAgenda(Request $request, ?int $id = null)
+    {
+        if (!in_array($request->input('servicio', 'consulta'), ['consulta', 'procedimiento', 'examenes'], true)) {
+            return collect();
+        }
+
+        $agenda = app(AgendaDisponibilidad::class);
+        $tipo = $this->tipoAgenda($request);
+        return collect($this->profesionales($request, $id)->getData(true)['registros'])
+            ->map(function ($profesional) use ($agenda, $tipo) {
+                $turnos = $agenda->turnos($profesional['id'], array_column($profesional['lugares_atencion'], 'id'), $tipo)->groupBy('id_lugar_atencion');
+                $lugares = collect($profesional['lugares_atencion'])->filter(fn ($lugar) => $turnos->has($lugar['id']))
+                    ->map(function ($lugar) use ($turnos) {
+                        $horarios = $turnos->get($lugar['id']);
+                        $lugar['dias'] = $horarios->flatMap(fn ($turno) => AgendaDisponibilidad::diasDelTurno($turno->dia))
+                            ->map(fn ($dia) => (int) $dia ?: 7)->unique()->sort()->values()->all();
+                        $lugar['tramos'] = $horarios->map(fn ($turno) => [substr($turno->hora_inicio, 0, 5), substr($turno->hora_termino, 0, 5)])->unique()->values()->all();
+                        return $lugar;
+                    })->values()->all();
+                $proximas = $agenda->proximaPorLugar($profesional['id'], array_column($lugares, 'id'), $tipo);
+                $proxima = collect($proximas)->map(fn ($bloque, $lugar) => $this->bloquePublico($bloque) + ['id_lugar' => $lugar])
+                    ->sortBy(fn ($bloque) => $bloque['fecha'].' '.$bloque['hora'])->first();
+                return $profesional + ['tipo' => 'veterinario', 'lugares' => $lugares, 'proxima' => $proxima, 'valor' => null];
+            })->filter(fn ($registro) => $registro['lugares'])
+            ->sortBy(fn ($registro) => $registro['proxima'] ? $registro['proxima']['fecha'].' '.$registro['proxima']['hora'] : '9999')->values();
+    }
+
+    public function proximaHoraLugar(Request $request, AgendaDisponibilidad $agenda)
+    {
+        [$profesional, $lugar] = $this->lugarPublico($request);
+        $bloque = $agenda->proximaPorLugar($profesional, [$lugar], $this->tipoAgenda($request))[$lugar] ?? null;
+        return response()->json(['estado' => 1, 'proxima' => $bloque ? $this->bloquePublico($bloque) : null]);
+    }
+
+    public function dias(Request $request, AgendaDisponibilidad $agenda)
+    {
+        [$profesional, $lugar] = $this->lugarPublico($request);
+        $dias = $agenda->diasConAtencion($profesional, $lugar, $this->tipoAgenda($request));
+        $hoy = Carbon::today('America/Santiago');
+        return response()->json([
+            'estado' => 1, 'dias' => array_map(fn ($dia) => $dia ?: 7, $dias),
+            'desde' => $hoy->toDateString(), 'hasta' => $hoy->copy()->addDays(60)->toDateString(),
+        ]);
+    }
+
+    private function lugarPublico(Request $request): array
+    {
+        $datos = $request->validate(['id_prestador' => 'required|integer|min:1', 'id_lugar_atencion' => 'required|integer|min:1']);
+        $profesional = Profesional::findOrFail($datos['id_prestador']);
+        abort_unless($profesional->LugaresAtencion()->whereKey($datos['id_lugar_atencion'])->exists(), 404);
+        return [(int) $profesional->id, (int) $datos['id_lugar_atencion']];
+    }
+
+    private function bloquePublico(array $bloque): array
+    {
+        return ['fecha' => $bloque['dia'], 'hora' => substr($bloque['hora'], 0, 5)];
     }
 
     public function horas(Request $request)
@@ -501,7 +580,7 @@ class VetsdiInicioReservaController extends Controller
                 $horaMedica->alias_examen = ['C' => 'Consulta', 'D' => 'Consulta Dental', 'T' => 'Videoconsulta veterinaria'][$tipoHora] ?? ($item ?: 'Consulta');
                 $horaMedica->descripcion = trim($paciente->nombres.' '.$paciente->apellido_uno.' '.($paciente->apellido_dos === 'N/A' ? '' : $paciente->apellido_dos));
                 $horaMedica->observaciones = trim(
-                    'Reserva web pública. Mascota: '.$mascota->nombre.' ('.$especie->nombre.').'.
+                    ($tutorNuevo ? 'Reserva web pública (tutor nuevo). Mascota: ' : 'Reserva web pública. Mascota: ').$mascota->nombre.' ('.$especie->nombre.').'.
                     ($item !== '' ? ' Servicio: '.$item.'.' : '').
                     (!empty($request->input('comentarios')) ? ' Observaciones: '.$request->input('comentarios') : '')
                 );
@@ -512,6 +591,10 @@ class VetsdiInicioReservaController extends Controller
 
                 return $horaMedica;
             });
+        } catch (\App\Exceptions\TutorBloqueadoException $e) {
+            $this->borrarMascotaCreada($mascotaCreada);
+
+            return $this->errorReserva('No es posible reservar en este lugar con el profesional seleccionado.', 403);
         } catch (ValidationException $e) {
             $this->borrarMascotaCreada($mascotaCreada);
 
@@ -614,7 +697,7 @@ class VetsdiInicioReservaController extends Controller
     /** Servicio y modalidad del buscador → tipo de hora del escritorio (C, D, T, E o P) */
     protected function tipoHoraMedica(Request $request): string
     {
-        if ($request->input('modalidad') === 'videoconsulta') {
+        if ($request->input('modalidad') === 'videoconsulta' || $request->input('modo') === 'video') {
             return 'T';
         }
 

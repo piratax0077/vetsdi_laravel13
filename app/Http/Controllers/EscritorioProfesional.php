@@ -1453,7 +1453,7 @@ class EscritorioProfesional extends Controller
     }
 
     // Ficha del tutor: contacto, autorizaciones, mascotas, documentos firmados y cobros
-    public function ver_tutor($idTutor)
+    public function ver_tutor(Request $request, $idTutor)
     {
         $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
         if (!$profesional) {
@@ -1465,13 +1465,17 @@ class EscritorioProfesional extends Controller
             return redirect()->route('profesional.pacientes')->with('error', 'Tutor no encontrado');
         }
 
-        // Solo se muestra a quien lo atendió alguna vez
+        $request->validate(['id_lugar_atencion' => 'sometimes|required|integer|min:1']);
+        $idLugar = $request->integer('id_lugar_atencion') ?: null;
         $fichasTutor = FichaAtencion::where('id_profesional', $profesional->id)
-            ->where('id_paciente', $tutor->id);
+            ->where('id_paciente', $tutor->id)
+            ->when($idLugar, fn ($consulta) => $consulta->where('id_lugar_atencion', $idLugar));
 
         if (!(clone $fichasTutor)->exists()) {
             return redirect()->route('profesional.pacientes')->with('error', 'No tienes acceso a la información de este tutor');
         }
+
+        $lugarTutor = $idLugar ? LugarAtencion::findOrFail($idLugar) : null;
 
         $totalAtenciones = (clone $fichasTutor)->count();
         $ultimaAtencion = (clone $fichasTutor)->max('created_at');
@@ -1486,6 +1490,7 @@ class EscritorioProfesional extends Controller
         $consentimientos = ConConsentimientosPcte::with('Consentimiento')
             ->where('id_paciente', $tutor->id)
             ->where('id_profesional', $profesional->id)
+            ->when($idLugar, fn ($consulta) => $consulta->whereIn('id_fc', $fichaIds))
             ->orderByDesc('id')
             ->get();
 
@@ -1496,14 +1501,17 @@ class EscritorioProfesional extends Controller
         ];
         $documentosFirmados = DocumentoFcPaciente::where('id_paciente', $tutor->id)
             ->where('id_profesional', $profesional->id)
+            ->when($idLugar, fn ($consulta) => $consulta->whereIn('id_ficha_atencion', $fichaIds))
             ->whereIn('otro', array_keys($nombresDocumento))
             ->where('estado', 1)
             ->orderByDesc('id')
             ->get()
             ->map(function ($documento) use ($nombresDocumento) {
-                $firma = json_decode((string) $documento->cuerpo, true)['firma_tutor'] ?? [];
+                $cuerpo = json_decode((string) $documento->cuerpo, true) ?: [];
+                $firma = $cuerpo['firma_tutor'] ?? [];
 
                 return (object) [
+                    'consentimiento_id' => $cuerpo['id_consentimiento_pcte'] ?? null,
                     'nombre' => $nombresDocumento[$documento->otro],
                     'fecha' => $documento->created_at,
                     'firmado' => !empty($firma['token']),
@@ -1512,27 +1520,45 @@ class EscritorioProfesional extends Controller
                 ];
             });
 
+        $mascotasPorFicha = (clone $fichasTutor)->whereIn('id', $consentimientos->pluck('id_fc'))
+            ->with('Mascota:id,nombre')->get(['id', 'id_mascota'])->keyBy('id');
+        $firmasPorConsentimiento = $documentosFirmados->filter(fn ($documento) => $documento->firmado && $documento->consentimiento_id)
+            ->keyBy('consentimiento_id');
+        $consentimientosAprobados = $consentimientos->filter(fn ($registro) => (int) $registro->confirmacion === 1 && !$registro->revocacion)
+            ->map(fn ($registro) => [
+                'nombre' => $registro->Consentimiento?->nombre ?? 'Consentimiento informado',
+                'mascota' => $mascotasPorFicha->get($registro->id_fc)?->Mascota?->nombre ?? 'Sin registro',
+                'fecha' => $firmasPorConsentimiento->get($registro->id)?->fecha_firma ?? $registro->updated_at?->format('d-m-Y H:i'),
+            ]);
+
         $cobros = Bono::with('TipoBono')
             ->where('id_paciente', $tutor->id)
             ->where('id_profesional', $profesional->id)
+            ->when($idLugar, fn ($consulta) => $consulta->where('id_tipo_bono', 1)
+                ->whereIn('id_referencia', HoraMedica::where('id_profesional', $profesional->id)
+                    ->where('id_paciente', $tutor->id)->where('id_lugar_atencion', $idLugar)->select('id')))
             ->orderByDesc('fecha_atencion')
             ->get();
 
         // Notas internas: solo las del profesional que mira la ficha
         $notasTutor = \App\Models\TutorNotaInterna::where('id_paciente', $tutor->id)
             ->where('id_profesional', $profesional->id)
+            ->when($idLugar, fn ($consulta) => $consulta->where('id_lugar_atencion', $idLugar))
             ->orderByDesc('id')
             ->get();
         $bloqueoTutor = \App\Models\TutorBloqueo::where('id_paciente', $tutor->id)
             ->where('id_profesional', $profesional->id)
+            ->where('id_lugar_atencion', $idLugar ?? 0)
             ->first();
 
         return view('app.profesional.tutor_profesional', compact(
             'profesional',
             'tutor',
+            'lugarTutor',
             'mascotas',
             'consentimientos',
             'documentosFirmados',
+            'consentimientosAprobados',
             'cobros',
             'totalAtenciones',
             'ultimaAtencion',
@@ -1593,8 +1619,7 @@ class EscritorioProfesional extends Controller
 
         $vecesConflictivo = \App\Models\TutorNotaInterna::where('id_paciente', $tutor->id)
             ->where('id_profesional', $profesional->id)
-            ->where('conflictivo', true)
-            ->count();
+            ->where('conflictivo', true);
 
         return response()->json([
             'estado' => 1,
@@ -1605,8 +1630,12 @@ class EscritorioProfesional extends Controller
                 'profesional' => trim($profesional->nombre . ' ' . $profesional->apellido_uno),
                 'lugar' => $idLugarAtencion ? (string) \App\Models\LugarAtencion::where('id', $idLugarAtencion)->value('nombre') : '',
             ],
-            'veces_conflictivo' => $vecesConflictivo,
-            'bloqueado' => \App\Models\TutorBloqueo::estaBloqueado($tutor->id, $profesional->id),
+            'veces_conflictivo' => (clone $vecesConflictivo)->count(),
+            'veces_conflictivo_lugar' => $vecesConflictivo->where('id_lugar_atencion', $idLugarAtencion)->count(),
+            'bloqueado' => \App\Models\TutorBloqueo::estaBloqueado($tutor->id, $profesional->id, $idLugarAtencion),
+            'bloqueo_propio' => \App\Models\TutorBloqueo::where('id_paciente', $tutor->id)
+                ->where('id_profesional', $profesional->id)
+                ->where('id_lugar_atencion', $request->integer('id_lugar_atencion'))->exists(),
         ]);
     }
 
@@ -1620,19 +1649,21 @@ class EscritorioProfesional extends Controller
 
         $request->validate([
             'motivo' => 'required|string|max:255',
+            'id_lugar_atencion' => 'nullable|integer|min:1',
         ], [
             'motivo.required' => 'Escribe el motivo del bloqueo.',
         ]);
 
+        $idLugar = $this->lugarBloqueoTutor($request, $profesional, $tutor);
         \App\Models\TutorBloqueo::updateOrCreate(
-            ['id_paciente' => $tutor->id, 'id_profesional' => $profesional->id],
+            ['id_paciente' => $tutor->id, 'id_profesional' => $profesional->id, 'id_lugar_atencion' => $idLugar],
             ['motivo' => trim($request->input('motivo'))]
         );
 
         return response()->json(['estado' => 1]);
     }
 
-    public function desbloquear_tutor($idTutor)
+    public function desbloquear_tutor(Request $request, $idTutor)
     {
         $datos = $this->profesionalYTutorAtendido($idTutor);
         if (!$datos) {
@@ -1640,11 +1671,24 @@ class EscritorioProfesional extends Controller
         }
         [$profesional, $tutor] = $datos;
 
+        $request->validate(['id_lugar_atencion' => 'nullable|integer|min:1']);
+        $idLugar = $this->lugarBloqueoTutor($request, $profesional, $tutor);
         \App\Models\TutorBloqueo::where('id_paciente', $tutor->id)
             ->where('id_profesional', $profesional->id)
+            ->where('id_lugar_atencion', $idLugar)
             ->delete();
 
         return response()->json(['estado' => 1]);
+    }
+
+    private function lugarBloqueoTutor(Request $request, Profesional $profesional, Paciente $tutor): int
+    {
+        $idLugar = $request->integer('id_lugar_atencion');
+        if ($idLugar) {
+            abort_unless(FichaAtencion::where('id_profesional', $profesional->id)
+                ->where('id_paciente', $tutor->id)->where('id_lugar_atencion', $idLugar)->exists(), 403);
+        }
+        return $idLugar;
     }
 
     public function hospitalizacion()
@@ -9612,9 +9656,12 @@ public function eliminarPiezaCoronaProtesis(Request $req){
             return back()->with('error', 'Profesional no encontrado');
         }
 
+        $request->validate(['id_lugar_atencion' => 'sometimes|required|integer|min:1']);
+        $idLugar = $request->integer('id_lugar_atencion');
         $idMascota = (int) $request->query('id_mascota', 0);
         $consultaFichas = FichaAtencion::where('id_paciente', $id)
             ->where('id_profesional', $profesional->id)
+            ->when($idLugar, fn ($consulta) => $consulta->where('id_lugar_atencion', $idLugar))
             ->where('finalizada', 1);
 
         $mascotaHistorial = null;

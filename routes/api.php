@@ -376,6 +376,10 @@ Route::prefix('vetsdinicio')->group(function () {
         Route::get('ciudades', [App\Http\Controllers\VetsdiInicioReservaController::class, 'ciudades'])->name('api.vetsdinicio.ciudades');
         Route::get('tipos_especialidad', [App\Http\Controllers\VetsdiInicioReservaController::class, 'tiposEspecialidad'])->name('api.vetsdinicio.tipos_especialidad');
         Route::get('profesionales', [App\Http\Controllers\VetsdiInicioReservaController::class, 'profesionales'])->name('api.vetsdinicio.profesionales');
+        Route::get('buscar', [App\Http\Controllers\VetsdiInicioReservaController::class, 'buscar'])->name('api.vetsdinicio.buscar');
+        Route::get('ficha', [App\Http\Controllers\VetsdiInicioReservaController::class, 'ficha'])->name('api.vetsdinicio.ficha');
+        Route::get('dias', [App\Http\Controllers\VetsdiInicioReservaController::class, 'dias'])->name('api.vetsdinicio.dias');
+        Route::get('proxima_hora_lugar', [App\Http\Controllers\VetsdiInicioReservaController::class, 'proximaHoraLugar'])->name('api.vetsdinicio.proxima_hora_lugar');
         Route::get('horas', [App\Http\Controllers\VetsdiInicioReservaController::class, 'horas'])->name('api.vetsdinicio.horas');
     });
 

@@ -38,6 +38,20 @@ class HospitalizacionAcceso
         })->values();
     }
 
+    public function centrosAsignadosAlProfesional(User $user)
+    {
+        if (!Schema::hasTable('vet_equipo_hospitalizacion')) return collect();
+
+        $asignados = DB::table('vet_equipo_hospitalizacion')->where('id_usuario', $user->id)
+            ->where('activo', 1)->where('perfil', 'profesional')->pluck('id_institucion');
+        if (Schema::hasTable('vet_establecimientos')) {
+            $deshabilitados = DB::table('vet_establecimientos')->whereIn('id_institucion', $asignados)
+                ->where('hospitalizacion_habilitada', 0)->pluck('id_institucion');
+            $asignados = $asignados->diff($deshabilitados);
+        }
+        return $this->centros($user)->whereIn('id', $asignados)->values();
+    }
+
     public function tieneAcceso(User $user): bool
     {
         return Schema::hasTable('instituciones') && ($this->centros($user)->isNotEmpty() || $this->administrados($user)->isNotEmpty());

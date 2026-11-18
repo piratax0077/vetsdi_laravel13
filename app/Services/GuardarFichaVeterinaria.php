@@ -7,8 +7,10 @@ use App\Models\FichaAtencion;
 use App\Models\FichaCirugiaGeneralAdulto;
 use App\Models\FichaVeterinariaGeneral;
 use App\Models\HoraMedica;
+use App\Models\Paciente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -135,11 +137,32 @@ class GuardarFichaVeterinaria
                 $this->guardarCirugia($request, $ficha);
             }
             $hora->id_ficha_atencion = $ficha->id;
+            $invitarTutor = !$hora->fecha_realizacion_consulta
+                && (int) $request->input('cerrarsession') !== 2
+                && str_starts_with((string) $hora->observaciones, 'Reserva web pública (tutor nuevo).');
             if ((int) $request->input('cerrarsession') !== 2) {
                 $hora->id_estado = 6;
                 $hora->fecha_realizacion_consulta = $hora->fecha_realizacion_consulta ?: now();
             }
             $hora->saveOrFail();
+
+            if ($invitarTutor) {
+                DB::afterCommit(function () use ($hora) {
+                    try {
+                        $tutor = Paciente::whereNull('id_usuario')->find($hora->id_paciente);
+                        if (!$tutor || !filter_var($tutor->email, FILTER_VALIDATE_EMAIL)) {
+                            return;
+                        }
+                        $enlace = route('login');
+                        Mail::raw(
+                            "La atención veterinaria de tu mascota ha finalizado. Crea tu cuenta de tutor en Veterchile con el mismo RUT usado en la reserva: {$enlace}",
+                            fn ($correo) => $correo->to($tutor->email)->subject('Veterchile · Crea tu cuenta de tutor')
+                        );
+                    } catch (\Throwable $error) {
+                        report($error);
+                    }
+                });
+            }
 
             return $ficha;
         });
