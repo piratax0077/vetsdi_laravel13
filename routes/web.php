@@ -883,7 +883,6 @@ Route::post('Convenios/editar', [App\Http\Controllers\EscritorioPaciente::class,
     Route::get('Suscripcion', [App\Http\Controllers\EscritorioPaciente::class, 'subcripcion'])->name('paciente.subcripcion');
 
 
-
     /* 1.- Reservar Hora Médica */
 
     Route::get('getEspecialidad', [App\Http\Controllers\EscritorioPaciente::class, 'getEspecialidad'])->name('paciente.getEspecialidad');
