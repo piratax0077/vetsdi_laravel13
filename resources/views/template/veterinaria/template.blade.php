@@ -203,7 +203,7 @@
                 @if(session('error'))
                     swal({
                         title: "Registro de Ficha Clínica.",
-                        text:"{{ session('error') }}",
+                        text: @json(session('error')),
                         icon: "error",
                         // buttons: "Aceptar",
                         //SuccessMode: true,

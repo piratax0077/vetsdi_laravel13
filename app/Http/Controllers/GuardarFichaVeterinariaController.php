@@ -18,7 +18,8 @@ class GuardarFichaVeterinariaController extends Controller
             if ($request->expectsJson()) {
                 throw $error;
             }
-            return back()->withErrors($error->errors())->withInput()->with('error', 'La ficha no fue guardada. Revise el diagnóstico.');
+            $mensajes = collect($error->errors())->flatten()->unique()->implode("\n");
+            return back()->withErrors($error->errors())->withInput()->with('error', $mensajes);
         } catch (\Symfony\Component\HttpKernel\Exception\HttpExceptionInterface $error) {
             throw $error;
         } catch (\Throwable $error) {

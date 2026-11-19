@@ -29,7 +29,11 @@ class GuardarFichaVeterinaria
 
         $datosInyecciones = $request->validate([
             'nuevas_inyecciones' => 'sometimes|array|max:20',
-            'nuevas_inyecciones.*' => 'required|array:medicamento,dosis,via,observaciones,procedimiento,precio_medicamento,precio_procedimiento,registro',
+            'nuevas_inyecciones.*' => 'required|array:medicamento,dosis,via,observaciones,procedimiento,precio_medicamento,precio_procedimiento,registro,lote_id,cantidad_stock,administrador_id,receta_stock',
+            'nuevas_inyecciones.*.lote_id' => 'nullable|integer|min:1',
+            'nuevas_inyecciones.*.cantidad_stock' => 'nullable|required_with:nuevas_inyecciones.*.lote_id|numeric|decimal:0,3|min:0.001|max:999999999',
+            'nuevas_inyecciones.*.administrador_id' => 'nullable|required_with:nuevas_inyecciones.*.lote_id|integer|min:1',
+            'nuevas_inyecciones.*.receta_stock' => 'nullable|string|max:150',
             'nuevas_inyecciones.*.medicamento' => 'nullable|required_without:nuevas_inyecciones.*.procedimiento|string|max:255',
             'nuevas_inyecciones.*.dosis' => 'nullable|required_with:nuevas_inyecciones.*.medicamento|string|max:120',
             'nuevas_inyecciones.*.via' => 'nullable|required_with:nuevas_inyecciones.*.medicamento|string|max:120',
@@ -98,6 +102,10 @@ class GuardarFichaVeterinaria
                     $registro = $inyeccion['registro'] ?? null;
                     if ($registro && $registros->has($registro)) {
                         continue;
+                    }
+                    if (!empty($inyeccion['lote_id'])) {
+                        if (!$registro) throw ValidationException::withMessages(['nuevas_inyecciones' => 'Vuelve a agregar el registro de administración.']);
+                        $inyeccion = app(ConsumoInventarioVeterinario::class)->registrar($ficha, $inyeccion);
                     }
                     $datos['inyecciones_consulta'][] = $inyeccion;
                     if ($registro) {

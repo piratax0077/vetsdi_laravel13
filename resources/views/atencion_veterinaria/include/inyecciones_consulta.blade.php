@@ -1,5 +1,36 @@
 <div class="tab-pane fade" id="inyeccion_consulta" role="tabpanel" aria-labelledby="inyeccion_consulta_tab">
+    @php
+        [$titularInventario, $administradoresInventario] = app(\App\Services\ConsumoInventarioVeterinario::class)->contexto($profesional->id, $hora_medica->id_lugar_atencion);
+        $lotesConsulta = \Illuminate\Support\Facades\DB::table('vet_inventario_lotes')->where('titular', $titularInventario)
+            ->where('saldo', '>', 0)->whereDate('vencimiento', '>=', now()->toDateString())->orderBy('vencimiento')->get();
+    @endphp
     <div class="form-row pt-2" id="inyeccion-consulta-campos">
+        <div class="form-group col-md-6">
+            <label for="inyeccion-lote">Producto del inventario / lote</label>
+            <select id="inyeccion-lote" data-campo="lote_id" class="form-control form-control-sm">
+                <option value="">Seleccione si utiliza existencias del inventario</option>
+                @foreach($lotesConsulta as $lote)
+                    <option value="{{ $lote->id }}" data-producto="{{ $lote->producto }}">{{ $lote->producto }} · {{ $lote->lote }} · {{ $lote->saldo }} {{ $lote->unidad }} · {{ $lote->ubicacion }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inyeccion-cantidad">Cantidad utilizada en la unidad del inventario</label>
+            <input id="inyeccion-cantidad" data-campo="cantidad_stock" type="number" min="0.001" step="0.001" max="999999999" class="form-control form-control-sm">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inyeccion-administrador">Administrado por</label>
+            <select id="inyeccion-administrador" data-campo="administrador_id" class="form-control form-control-sm">
+                <option value="">Seleccione</option>
+                @foreach($administradoresInventario as $persona)
+                    <option value="{{ $persona->id }}">{{ $persona->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inyeccion-receta">Referencia receta / autorización</label>
+            <input id="inyeccion-receta" data-campo="receta_stock" maxlength="150" class="form-control form-control-sm">
+        </div>
         @foreach(['medicamento' => ['Medicamento administrado', 255], 'dosis' => ['Dosis administrada', 120], 'via' => ['Vía de administración', 120], 'procedimiento' => ['Procedimiento realizado', 255]] as $campo => [$etiqueta, $maximo])
             <div class="form-group col-md-6">
                 <label class="floating-label-activo-sm" for="inyeccion-{{ $campo }}">{{ $etiqueta }}</label>
@@ -27,6 +58,7 @@
                     @if(!empty($inyeccion['procedimiento'])) · @endif
                 @endif
                 {{ $inyeccion['procedimiento'] ?? '' }}
+                @if(!empty($inyeccion['lote'])) · Lote {{ $inyeccion['lote'] }} · {{ $inyeccion['cantidad_stock'] }} {{ $inyeccion['unidad_stock'] }} · Indicado por {{ $inyeccion['indicado_por'] }} · Administrado por {{ $inyeccion['administrado_por'] }} @endif
                 @if(!empty($inyeccion['medicamento']) && isset($inyeccion['precio_medicamento'])) · Medicamento ${{ number_format($inyeccion['precio_medicamento'], 0, ',', '.') }} @endif
                 @if(isset($inyeccion['precio_procedimiento'])) · Procedimiento ${{ number_format($inyeccion['precio_procedimiento'], 0, ',', '.') }} @endif
                 @if(!empty($inyeccion['observaciones'])) · {{ $inyeccion['observaciones'] }} @endif
@@ -40,6 +72,10 @@ $(function () {
     if (!formulario) return;
     const lista = $('#inyecciones-consulta-lista');
     const campos = $('#inyeccion-consulta-campos [data-campo]');
+    $('#inyeccion-lote').on('change', function () {
+        const nombre = $(this).find(':selected').attr('data-producto');
+        if (nombre) $('#inyeccion-medicamento').val(nombre);
+    });
     const formatoPrecio = new Intl.NumberFormat('es-CL', {style: 'currency', currency: 'CLP'});
     let indice = 0;
     function agregar(inyeccion) {
@@ -78,6 +114,7 @@ $(function () {
         const inyeccion = {};
         campos.each(function () { inyeccion[this.dataset.campo] = this.value.trim(); });
         const requeridos = ['procedimiento', 'precio_procedimiento'];
+        if (inyeccion.lote_id) requeridos.push('cantidad_stock', 'administrador_id');
         if (inyeccion.medicamento) requeridos.push('dosis', 'via', 'precio_medicamento');
         else inyeccion.precio_medicamento = '0';
         if (requeridos.some(campo => !inyeccion[campo])) {

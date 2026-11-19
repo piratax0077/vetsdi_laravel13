@@ -6015,6 +6015,13 @@ require __DIR__.'/asistentes.php';
 require __DIR__.'/peluqueria.php';
 require __DIR__.'/centros_servicios.php';
 
+Route::middleware('auth')->prefix('Veterinaria/Inventario')->name('vet.inventario.')->controller(\App\Http\Controllers\InventarioVeterinarioController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('lotes', 'lote')->name('lote');
+    Route::post('movimientos', 'movimiento')->name('movimiento');
+    Route::get('exportar', 'exportar')->name('exportar');
+});
+
 // Buscador de razas (selector_razas.js): agrega al catálogo una raza escrita a mano.
 // Lo usan tutores, profesionales y centros en cualquier registro de mascota.
 Route::post('razas-mascotas', [App\Http\Controllers\MascotasController::class, 'crearRaza'])

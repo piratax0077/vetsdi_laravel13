@@ -177,28 +177,18 @@
                                     </a>
                                 </div>
                                 <div class="card subir">
+                                    <a href="{{ route('vet.inventario.index', ['id_institucion' => $institucion->id]) }}">
+                                        <div class="card-body text-center">
+                                            <img src="{{ asset('images/iconos/docs.svg') }}" alt="">
+                                            <h6>Medicamentos, vacunas y alimentos</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card subir">
                                     <a href="{{ route('adm_cm.area_comercial') }}">
                                         <div class="card-body text-center">
                                             <img src="{{ asset('images/iconos/adm_comercial.svg') }}" alt="">
                                             <h6>Gestión comercial</h6>
-                                        </div>
-                                    </a>
-                                </div>
-                                {{-- Gestión médica oculta por ahora
-                                <div class="card subir">
-                                    <a href="{{ route('adm_cm.adm_medico') }}">
-                                        <div class="card-body text-center">
-                                            <img src="{{ asset('images/iconos/adm_medica.png') }}" alt="">
-                                            <h6>Gestión médica</h6>
-                                        </div>
-                                    </a>
-                                </div>
-                                --}}
-                                <div class="card subir">
-                                    <a href="{{ route('adm_cm.contratos') }}">
-                                        <div class="card-body text-center">
-                                            <img src="{{ asset('images/iconos/cotizacion.svg') }}" alt="">
-                                            <h6>Contratos</h6>
                                         </div>
                                     </a>
                                 </div>

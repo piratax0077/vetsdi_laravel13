@@ -50,6 +50,17 @@
                 </div>
             </div>
 
+            <div class="col-md-4">
+                <div class="card mb-3 subir">
+                    <a href="{{ route('adm_cm.contratos', ['id_institucion' => $institucion->id]) }}">
+                        <div class="card-body text-center" style="cursor:pointer">
+                            <img class="wid-40 text-center" src="{{ asset('images/iconos/cotizacion.svg') }}" alt="">
+                            <h6 class="mt-1 mb-0">Contratos</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
                 <div class="card mb-3 subir">
 					<a href="{{ ROUTE('adm_cm.profesionales') }}">
