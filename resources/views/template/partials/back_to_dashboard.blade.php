@@ -5,7 +5,8 @@
         && \Illuminate\Support\Facades\Route::has($dashboardRoute)
         && ! request()->routeIs(...$homeRouteNames)
         && ! request()->routeIs('paciente.dependiente.mis_profesionales')
-        && ! request()->routeIs('paciente.perfil');
+        && ! request()->routeIs('paciente.perfil')
+        && ! request()->routeIs('paciente.mascotas.pagos_suscripcion');
 @endphp
 
 @if($showDashboardBack)

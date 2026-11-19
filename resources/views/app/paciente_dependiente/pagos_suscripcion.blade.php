@@ -4,9 +4,11 @@
 <div class="pcoded-main-container">
     <div class="pcoded-content">
 
-        <div class="row">
-            <div class="col-md-12 mb-3">
-                <h5 class="f-26 d-inline">Suscripciones y facturación</h5>
+        {{-- Título pegado al botón Atrás, igual que en Mis mensajes y Mascotas perdidas --}}
+        <div class="perdidas-intro">
+            <div>
+                <h3>Suscripciones y facturación</h3>
+                <p>Revisa tus planes, tu método de pago y los documentos de tus suscripciones.</p>
             </div>
         </div>
 
@@ -57,10 +59,6 @@
 
             /* ---------- sidebar ---------- */
             #vetbilling .vb-sidebar{
-                background:var(--surface);
-                border-radius:var(--radius);
-                box-shadow:var(--shadow);
-                padding:14px;
                 position:sticky;
                 top:16px;
             }
@@ -129,23 +127,15 @@
             #vetbilling .vb-side-note a{ color:#fff; font-size:12.5px; font-weight:700; text-decoration:underline; }
 
             /* ---------- panel card ---------- */
+            /* Los paneles usan la card y el encabezado-card de style.css; aquí solo la entrada suave */
             #vetbilling .vb-panel{
-                background:var(--surface);
-                border-radius:var(--radius);
-                box-shadow:var(--shadow);
-                padding:26px;
                 opacity:0;
                 transform:translateY(8px);
                 animation:vbFadeUp .45s ease forwards;
             }
             @keyframes vbFadeUp{ to{ opacity:1; transform:translateY(0); } }
 
-            #vetbilling .vb-panel-head{
-                display:flex;justify-content:space-between;align-items:flex-start;
-                margin-bottom:20px; gap:12px; flex-wrap:wrap;
-            }
-            #vetbilling .vb-panel-head h5{ font-size:19px; font-weight:700; margin:0; }
-            #vetbilling .vb-panel-head p{ color:var(--muted); font-size:13px; margin:4px 0 0; }
+            #vetbilling .vb-panel-desc{ color:var(--muted); font-size:13px; margin:0 0 20px; }
 
             /* ---------- buttons ---------- */
             #vetbilling .vb-btn{
@@ -166,6 +156,7 @@
             #vetbilling .vb-btn-danger-outline{ background:transparent; color:var(--danger); border:1.5px solid var(--danger); }
             #vetbilling .vb-btn-danger-outline:hover{ background:var(--danger-light); }
             #vetbilling .vb-btn-block{ width:100%; justify-content:center; }
+            #vetbilling .vb-btn-sm{ padding:6px 12px; font-size:12.5px; }
             #vetbilling .vb-btn-dark{ background:var(--ink); color:#fff; }
 
             /* ---------- subscriptions list ---------- */
@@ -201,6 +192,7 @@
             }
             #vetbilling .vb-pill-success{ background:var(--success-light); color:var(--success); }
             #vetbilling .vb-pill-success::before{ content:''; width:6px;height:6px;border-radius:50%;background:var(--success); }
+            #vetbilling .vb-pill-morado{ background:#efe9fa; color:var(--accent); }
 
             #vetbilling .vb-progress-wrap{ width:140px; flex-shrink:0; }
             #vetbilling .vb-progress-label{ font-size:10.5px; color:var(--muted); margin-bottom:4px; display:flex; justify-content:space-between; }
@@ -239,7 +231,7 @@
 
             #vetbilling .vb-billing-row{ display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; }
             #vetbilling .vb-billing-meta{ flex:1; min-width:220px; }
-            #vetbilling .vb-billing-meta .vb-pill-success{ margin-bottom:10px; }
+            #vetbilling .vb-billing-meta .vb-pill-morado{ margin-bottom:10px; }
 
             #vetbilling .vb-empty-card{
                 border:1.5px dashed var(--border);
@@ -359,7 +351,7 @@
                         'features' => ['Historial clínico digital', 'Cartilla de vacunas al día', 'Recordatorios inteligentes'],
                     ],
                     'plus' => [
-                        'label' => 'Vet Plus',
+                        'label' => 'Plan anual 10%OFF',
                         'price' => '5.990',
                         'period' => 'año',
                         'pets' => 5,
@@ -375,8 +367,7 @@
 
                     <!-- SIDEBAR -->
                     <div class="col-md-4 mb-3">
-                        <div class="vb-sidebar">
-                            <div class="vb-eyebrow">Cuenta</div>
+                        <div class="vb-sidebar card card-body">
                             <div class="vb-nav" id="vbNav">
                                 <a class="vb-nav-link active" data-toggle="pill" href="#suscripciones">
                                     <span class="vb-ico"><i class="feather icon-repeat" style="width:16px;height:16px;"></i></span>
@@ -386,6 +377,10 @@
                                     <span class="vb-ico"><i class="feather icon-credit-card" style="width:16px;height:16px;"></i></span>
                                     Método de pago
                                 </a>
+                                <a class="vb-nav-link" data-toggle="pill" href="#historial">
+                                    <span class="vb-ico"><i class="feather icon-file-text" style="width:16px;height:16px;"></i></span>
+                                    Historial de facturaciones
+                                </a>
                                 <a class="vb-nav-link" data-toggle="pill" href="#planes">
                                     <span class="vb-ico"><i class="feather icon-layers" style="width:16px;height:16px;"></i></span>
                                     Planes
@@ -394,7 +389,7 @@
 
                             <div class="vb-side-note">
                                 <strong>¿Necesitas más mascotas?</strong>
-                                <p>Vet Plus cubre hasta 5 mascotas con historial clínico completo.</p>
+                                <p>El plan anual cubre hasta 5 mascotas con historial clínico completo.</p>
                                 <a data-toggle="pill" href="#planes" role="button">Ver planes →</a>
                             </div>
                         </div>
@@ -406,45 +401,41 @@
 
                             <!-- ================= SUSCRIPCIONES ================= -->
                             <div class="tab-pane fade show active" id="suscripciones">
-                                <div class="vb-panel">
-                                    <div class="vb-panel-head">
-                                        <div>
-                                            <h5>Mis suscripciones</h5>
-                                            <p>Revisa el estado y la vigencia de tus planes contratados.</p>
-                                        </div>
-                                        <button class="vb-btn vb-btn-primary" id="btnPagarSeleccionadas">
-                                            <i class="feather icon-credit-card" style="width:15px;height:15px;"></i>
-                                            Pagar seleccionadas
-                                        </button>
+                                <div class="card vb-panel">
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo">
+                                            <span class="encabezado-card-icono"><i class="feather icon-repeat"></i></span>Mis suscripciones
+                                        </h5>
                                     </div>
+                                    <div class="card-body">
+                                    <p class="vb-panel-desc">Revisa el estado y la vigencia de tus planes contratados.</p>
 
                                     <div class="vb-sub-card" data-start="2026-06-01" data-end="2027-06-01">
                                         <input type="checkbox" class="vb-check">
-                                        <div class="vb-sub-icon">
-                                            <i class="feather icon-shield" style="width:20px;height:20px;"></i>
-                                        </div>
                                         <div class="vb-sub-body">
                                             <h6>Plan Básico</h6>
                                             <div class="vb-sub-dates mono">01-06-2026 &nbsp;→&nbsp; 01-06-2027</div>
                                         </div>
-                                        <span class="vb-pill vb-pill-success">Activo</span>
-                                        <div class="vb-progress-wrap">
-                                            <div class="vb-progress-label"><span>Vigencia</span><span class="vb-progress-pct">—</span></div>
-                                            <div class="vb-progress-track"><div class="vb-progress-fill"></div></div>
-                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- ================= FACTURACION ================= -->
                             <div class="tab-pane fade" id="facturacion">
-                                <div class="vb-panel">
-                                    <div class="vb-panel-head">
-                                        <div>
-                                            <h5>Método de pago</h5>
-                                            <p>Gestiona la tarjeta usada para cobrar tus suscripciones.</p>
+                                <div class="card vb-panel">
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo">
+                                            <span class="encabezado-card-icono"><i class="feather icon-credit-card"></i></span>Agregar método de pago
+                                        </h5>
+                                        <div class="encabezado-card-acciones">
+                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#cardModal">
+                                                <i class="feather icon-plus mr-1" aria-hidden="true"></i>Agregar medio de pago
+                                            </button>
                                         </div>
                                     </div>
+                                    <div class="card-body">
+                                    <p class="vb-panel-desc">Gestiona la tarjeta usada para cobrar tus suscripciones.</p>
 
                                     @if($hasCard)
                                         <div class="vb-billing-row">
@@ -461,7 +452,7 @@
                                             </div>
 
                                             <div class="vb-billing-meta">
-                                                <span class="vb-pill vb-pill-success">Tarjeta activa</span>
+                                                <span class="vb-pill vb-pill-morado">Predeterminada</span>
                                                 <p style="font-size:13px;color:var(--muted);margin:0 0 16px;">
                                                     Se usará automáticamente para renovar tu plan y cualquier compra dentro de la app.
                                                 </p>
@@ -489,18 +480,76 @@
                                             </button>
                                         </div>
                                     @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================= HISTORIAL DE FACTURACIONES ================= -->
+                            <div class="tab-pane fade" id="historial">
+                                @php
+                                    // Datos de muestra (reemplazar por las facturaciones reales del tutor)
+                                    $facturaciones = [
+                                        ['fecha' => '01-06-2026', 'total' => 2990, 'estado' => 'pagada'],
+                                        ['fecha' => '01-06-2025', 'total' => 2990, 'estado' => 'pagada'],
+                                        ['fecha' => '01-06-2024', 'total' => 2990, 'estado' => 'pendiente'],
+                                    ];
+                                    $estadosFactura = [
+                                        'pagada' => ['Pagada', 'success'],
+                                        'pendiente' => ['Pendiente', 'warning'],
+                                        'anulada' => ['Anulada', 'secondary'],
+                                    ];
+                                @endphp
+                                <div class="card vb-panel">
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo">
+                                            <span class="encabezado-card-icono"><i class="feather icon-file-text"></i></span>Historial de facturaciones
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Fecha</th>
+                                                        <th>Total</th>
+                                                        <th>Estado</th>
+                                                        <th class="text-right">Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse($facturaciones as $factura)
+                                                        <tr>
+                                                            <td>{{ $factura['fecha'] }}</td>
+                                                            <td>${{ number_format($factura['total'], 0, ',', '.') }}</td>
+                                                            <td><span class="badge badge-{{ $estadosFactura[$factura['estado']][1] }}">{{ $estadosFactura[$factura['estado']][0] }}</span></td>
+                                                            <td class="text-right">
+                                                                <a href="javascript:void(0)" class="btn btn-info btn-icon" title="Descargar detalle en PDF" aria-label="Descargar detalle en PDF">
+                                                                    <i class="feather icon-file-text"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    @empty
+                                                        <tr>
+                                                            <td colspan="4" class="text-center text-muted">Aún no tienes facturaciones.</td>
+                                                        </tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- ================= PLANES ================= -->
                             <div class="tab-pane fade" id="planes">
-                                <div class="vb-panel">
-                                    <div class="vb-panel-head">
-                                        <div>
-                                            <h5>Elige el plan de tu mascota</h5>
-                                            <p>Puedes cambiar de plan cuando quieras, se ajusta en tu próximo cobro.</p>
-                                        </div>
+                                <div class="card vb-panel">
+                                    <div class="card-header encabezado-card">
+                                        <h5 class="encabezado-card-titulo">
+                                            <span class="encabezado-card-icono"><i class="feather icon-layers"></i></span>Elige el plan de tu mascota
+                                        </h5>
                                     </div>
+                                    <div class="card-body">
+                                    <p class="vb-panel-desc">Puedes cambiar de plan cuando quieras, se ajusta en tu próximo cobro.</p>
 
                                     <div class="vb-plans-grid">
                                         @foreach($plans as $key => $plan)
@@ -554,6 +603,11 @@
                                                     <button class="vb-btn vb-btn-dark vb-btn-block" disabled>
                                                         Plan activo
                                                     </button>
+                                                    @if($key !== 'free')
+                                                        <button type="button" class="vb-btn vb-btn-outline vb-btn-sm vb-btn-block mt-2" id="btnCancelarPlan">
+                                                            Cancelar plan
+                                                        </button>
+                                                    @endif
                                                 @else
                                                     <button class="vb-btn {{ $isFeatured ? 'vb-btn-accent' : 'vb-btn-outline' }} vb-btn-block change-plan" data-plan="{{ $key }}" data-label="{{ $plan['label'] }}" data-has-card="{{ $hasCard ? '1' : '0' }}">
                                                         {{ !$hasCard ? 'Contratar plan' : 'Cambiar plan' }}
@@ -561,6 +615,7 @@
                                                 @endif
                                             </div>
                                         @endforeach
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -683,34 +738,6 @@
                 var act = e.target.closest('[data-act]');
                 if (act) close(act.dataset.act === 'ok');
             });
-        });
-    }
-
-    /* ---------------- renewal progress bar ---------------- */
-    document.querySelectorAll('.vb-sub-card').forEach(function (card) {
-        var start = new Date(card.dataset.start);
-        var end = new Date(card.dataset.end);
-        var now = new Date();
-        var pct = Math.min(100, Math.max(0, ((now - start) / (end - start)) * 100));
-        var daysLeft = Math.max(0, Math.ceil((end - now) / (1000 * 60 * 60 * 24)));
-        var fill = card.querySelector('.vb-progress-fill');
-        var label = card.querySelector('.vb-progress-pct');
-        label.textContent = daysLeft + ' días restantes';
-        requestAnimationFrame(function () {
-            setTimeout(function () { fill.style.width = pct + '%'; }, 150);
-        });
-    });
-
-    /* ---------------- pay selected ---------------- */
-    var payBtn = document.getElementById('btnPagarSeleccionadas');
-    if (payBtn) {
-        payBtn.addEventListener('click', function () {
-            var checked = document.querySelectorAll('.vb-sub-card .vb-check:checked').length;
-            if (!checked) {
-                toast('Selecciona al menos una suscripción para pagar.', 'error');
-                return;
-            }
-            toast(checked + ' suscripción(es) enviada(s) a pago.', 'success');
         });
     }
 
@@ -881,7 +908,7 @@
         var trigger = document.querySelector('.vb-nav-link[href="' + target + '"]');
         if (trigger) trigger.classList.add('active');
 
-        var panel = pane.querySelector('.vb-panel');
+        var panel = pane.querySelector('.card');
         if (panel) {
             panel.style.animation = 'none';
             void panel.offsetWidth;
