@@ -95,6 +95,7 @@
     <script src="{{ asset('js/vendor-all.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/ripple.js') }}"></script>
+    <script src="{{ asset('js/tablas_responsivas.js') }}?v={{ filemtime(public_path('js/tablas_responsivas.js')) }}"></script>
     <script src="{{ asset('js/pcoded.min.js') }}"></script>
 
     <!-- datatable Js -->
@@ -2575,6 +2576,7 @@
     @yield('page-script')
     @yield('page-script-med-exa')
     @yield('js-sidebar') {{-- seccion js side bar --}}
+    @include('template.include.visor_imagenes')
 </body>
 
 </html>

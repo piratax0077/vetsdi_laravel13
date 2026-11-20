@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" onchange="ag_antecendente();" id="check_antecedentes">
-                        <label class="custom-control-label" for="check_antecedentes">Agregar antecedente</label>
+                        <label class="custom-control-label" for="check_antecedentes"><strong>Agregar antecedente</strong></label>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 <div class="form-group">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" onchange="es_cronico();" id="enf_cronico">
-                        <label class="custom-control-label" for="enf_cronico">Control crónico</label>
+                        <label class="custom-control-label" for="enf_cronico"><strong>Control crónico</strong></label>
                     </div>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                             onchange="if (this.checked) { abrirVacunacionVeterinaria(); } else { cerrarVacunacionVeterinaria(); }">
                         <label class="custom-control-label" for="abrir_vacunacion_desparasitacion"
                             onclick="setTimeout(function () { var control = document.getElementById('abrir_vacunacion_desparasitacion'); if (control && control.checked) abrirVacunacionVeterinaria(); }, 0)">
-                            Vacunas y desparasitación
+                            <strong>Vacunas y desparasitación</strong>
                         </label>
                     </div>
                 </div>

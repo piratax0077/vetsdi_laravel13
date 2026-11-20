@@ -1963,15 +1963,6 @@ pre code {
     border: 0;
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, 0.09);
-}
-
-.table-hover tbody tr:hover {
-    color: #e2e5e8;
-    background-color: rgba(0, 0, 0, 0.075);
-}
-
 /*.table-primary,
 .table-primary > th,
 .table-primary > td {
@@ -1985,15 +1976,6 @@ pre code {
     border-color: #a2c0f0!important;
 }
 
-/*.table-hover .table-primary:hover {
-    background-color: #b2c9ff;
-}
-
-.table-hover .table-primary:hover > td,
-  .table-hover .table-primary:hover > th {
-    background-color: #b2c9ff;
-}*/
-
 .table-secondary,
 .table-secondary > th,
 .table-secondary > td {
@@ -2005,15 +1987,6 @@ pre code {
 .table-secondary thead th,
 .table-secondary tbody + tbody {
     border-color: #b3b7bb;
-}
-
-.table-hover .table-secondary:hover {
-    background-color: #c8cbcf;
-}
-
-.table-hover .table-secondary:hover > td,
-  .table-hover .table-secondary:hover > th {
-    background-color: #c8cbcf;
 }
 
 .table-success,
@@ -2029,15 +2002,6 @@ pre code {
     border-color: #cce4af;
 }
 
-.table-hover .table-success:hover {
-    background-color: #d6ebc1;
-}
-
-.table-hover .table-success:hover > td,
-  .table-hover .table-success:hover > th {
-    background-color: #d6ebc1;
-}
-
 .table-info,
 .table-info > th,
 .table-info > td {
@@ -2049,15 +2013,6 @@ pre code {
 .table-info thead th,
 .table-info tbody + tbody {
     border-color: #7ad4df;
-}
-
-.table-hover .table-info:hover {
-    background-color: #a3e1e9;
-}
-
-.table-hover .table-info:hover > td,
-  .table-hover .table-info:hover > th {
-    background-color: #a3e1e9;
 }
 
 .table-warning,
@@ -2073,15 +2028,6 @@ pre code {
     border-color: #ffdba8;
 }
 
-.table-hover .table-warning:hover {
-    background-color: #ffe2b7;
-}
-
-.table-hover .table-warning:hover > td,
-  .table-hover .table-warning:hover > th {
-    background-color: #ffe2b7;
-}
-
 .table-danger,
 .table-danger > th,
 .table-danger > td {
@@ -2093,15 +2039,6 @@ pre code {
 .table-danger thead th,
 .table-danger tbody + tbody {
     border-color: #ffa5a5;
-}
-
-.table-hover .table-danger:hover {
-    background-color: #ffb6b6;
-}
-
-.table-hover .table-danger:hover > td,
-  .table-hover .table-danger:hover > th {
-    background-color: #ffb6b6;
 }
 
 .table-light,
@@ -2117,15 +2054,6 @@ pre code {
     border-color: #fbfcfc;
 }
 
-.table-hover .table-light:hover {
-    background-color: #ececf6;
-}
-
-.table-hover .table-light:hover > td,
-  .table-hover .table-light:hover > th {
-    background-color: #ececf6;
-}
-
 .table-dark,
 .table-dark > th,
 .table-dark > td {
@@ -2139,27 +2067,9 @@ pre code {
     border-color: #95999c;
 }
 
-.table-hover .table-dark:hover {
-    background-color: #b9bbbe;
-}
-
-.table-hover .table-dark:hover > td,
-  .table-hover .table-dark:hover > th {
-    background-color: #b9bbbe;
-}
-
 .table-active,
 .table-active > th,
 .table-active > td {
-    background-color: rgba(0, 0, 0, 0.075);
-}
-
-.table-hover .table-active:hover {
-    background-color: rgba(0, 0, 0, 0.075);
-}
-
-.table-hover .table-active:hover > td,
-  .table-hover .table-active:hover > th {
     background-color: rgba(0, 0, 0, 0.075);
 }
 
@@ -2194,11 +2104,6 @@ pre code {
 
 .table-dark.table-striped tbody tr:nth-of-type(odd) {
     background-color: rgba(255, 255, 255, 0.05);
-}
-
-.table-dark.table-hover tbody tr:hover {
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0.075);
 }
 
 @media (max-width: 575.98px) {
@@ -30107,16 +30012,6 @@ body.box-layout .pcoded-navbar.theme-horizontal ~ .pcoded-header {
     border: 1px solid #e2e5e8;
 }
 
-/* Zebra-striping */
-.table-striped tbody tr:nth-of-type(2n+1) {
-    background-color: rgba(70, 128, 255, 0.03);
-}
-
-/* Hover effect */
-.table-hover tbody tr:hover {
-    background-color: rgba(70, 128, 255, 0.03);
-}
-
 /* Table backgrounds */
 .table .thead-dark th {
     color: #fff;
@@ -30137,10 +30032,6 @@ body.box-layout .pcoded-navbar.theme-horizontal ~ .pcoded-header {
 
 .table-dark.table-striped tbody tr:nth-of-type(odd) {
     background-color: #222d32;
-}
-
-.table-dark.table-hover tbody tr:hover {
-    background-color: #1c2429;
 }
 
 .table-dark thead th {
@@ -32192,11 +32083,6 @@ new-task label input[type=checkbox] {
     background: rgba(236, 240, 245, 0.7);
 }
 
-.email-card .tab-content .table tr:hover {
-    background: #ecf0f5;
-    box-shadow: 0 1px 3px 0 #e2e5e8;
-}
-
 .email-card .tab-content .nav-pills {
     margin-left: 0;
     border-top: 1px solid #e2e5e8;
@@ -33993,24 +33879,6 @@ new-task label input[type=checkbox] {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-}
-
-.user-profile-list table tbody tr:hover {
-    box-shadow: 0 0 6px 0 #4680ff;
-}
-
-.user-profile-list table tbody tr:hover td {
-    cursor: pointer;
-    color: #fff;
-    background: #4680ff;
-}
-
-.user-profile-list table tbody tr:hover td h6 {
-    color: #fff;
-}
-
-.user-profile-list table tbody tr:hover td .overlay-edit {
-    opacity: 1;
 }
 
 .user-profile-list table tr td,
@@ -38277,6 +38145,177 @@ transition: 0.2s!important;
     transform: translateY(-50%);
 }
 
+/* Adjuntador de imágenes de la atención: zona de carga arriba y miniaturas en grilla debajo */
+.dropzone.dropzone-atencion {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 14px;
+    min-height: 0;
+    padding: 0;
+    border: 0 !important;
+    background: transparent;
+}
+
+.dropzone.dropzone-atencion .dz-message,
+.dropzone.dropzone-atencion.dz-started .dz-message {
+    grid-column: 1 / -1;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 170px;
+    margin: 0 !important;
+    padding: 24px 16px;
+    border: 2px dashed #13a6a6;
+    border-radius: 10px;
+    background: #f0fbfb;
+    color: #272727;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+}
+
+.dropzone.dropzone-atencion .dz-message:hover,
+.dropzone.dropzone-atencion.dz-drag-hover .dz-message {
+    border-color: #087f7f;
+    background: #e1f7f7;
+    box-shadow: 0 0 0 3px rgba(19, 166, 166, .14);
+}
+
+.dropzone-atencion .dz-message .dropzone-atencion-subir {
+    margin-bottom: 14px;
+    pointer-events: none;
+}
+
+.dropzone-atencion .dz-message strong {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.dropzone-atencion .dz-message small {
+    margin-top: 4px;
+    color: #4d6d70;
+    font-size: 13px;
+}
+
+.dropzone.dropzone-atencion .dz-preview {
+    position: relative;
+    width: auto;
+    min-height: 0;
+    margin: 0;
+    aspect-ratio: 1 / 1;
+}
+
+.dropzone.dropzone-atencion .dz-preview .dz-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background: #f1f1f1;
+}
+
+.dropzone.dropzone-atencion .dz-preview .dz-image img,
+.dropzone.dropzone-atencion .dz-preview:hover .dz-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: none;
+    filter: none;
+}
+
+.dropzone.dropzone-atencion .dz-preview .dz-details,
+.dropzone.dropzone-atencion .dz-preview .dz-success-mark,
+.dropzone.dropzone-atencion .dz-preview .dz-error-mark,
+.dropzone.dropzone-atencion .dz-preview .dz-remove {
+    display: none;
+}
+
+/* Barra de avance delgada al pie de la miniatura */
+.dropzone.dropzone-atencion .dz-preview .dz-progress {
+    top: auto;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    height: 6px;
+    margin: 0;
+}
+
+.dropzone.dropzone-atencion .dz-preview.dz-error .dz-image {
+    box-shadow: inset 0 0 0 2px #e05260;
+}
+
+.dropzone.dropzone-atencion .dz-preview .dz-error-message {
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+}
+
+.dropzone.dropzone-atencion .dz-preview .dropzone-atencion-quitar {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 30;
+}
+
+/* Visor de imágenes de Dropzone (public/js/visor_imagenes.js) */
+.dropzone .dz-preview.dz-image-preview,
+.dropzone .dz-preview.dz-image-preview .dz-details {
+    cursor: zoom-in;
+}
+
+/* Encima de cualquier otro modal, porque la regla global de .modal usa !important */
+.modal.visor-imagenes {
+    z-index: 1070 !important;
+}
+
+.modal-backdrop.visor-imagenes-fondo {
+    z-index: 1065 !important;
+}
+
+.visor-imagenes .visor-imagenes-cuerpo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    background: #f0fbfb;
+}
+
+.visor-imagenes .visor-imagenes-foto {
+    display: block;
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 6px;
+    object-fit: contain;
+}
+
+.visor-imagenes .visor-imagenes-contador {
+    margin-right: auto;
+    color: #272727;
+    font-weight: 600;
+}
+
+/* Sin jQuery el visor se abre solo, sin fondo de Bootstrap */
+body.visor-imagenes-abierto {
+    overflow: hidden;
+}
+
+body.visor-imagenes-abierto .modal.visor-imagenes {
+    background: rgba(0, 0, 0, .5);
+}
+
+@media (max-width: 575.98px) {
+    .visor-imagenes .visor-imagenes-pie {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .visor-imagenes .visor-imagenes-contador {
+        width: 100%;
+        margin-right: 0;
+        text-align: center;
+    }
+}
+
 /* Color de los encabezados de todas las tablas */
 table thead th,
 .table thead th {
@@ -39085,11 +39124,18 @@ table thead th,
 }
 
 /* ==========================================================================
-   Tablas 
+   Tablas
+   Un solo diseño para todas las tablas del sistema (.table): encabezado gris
+   claro en mayúsculas, filas separadas por una línea suave y contorno
+   redondeado. Las filas no cambian de color al pasar el mouse ni van rayadas.
+
+   En celulares, y en tablets cuando la tabla tiene muchas columnas, cada fila
+   se muestra como una tarjeta con el nombre de la columna sobre cada dato.
+   js/tablas_responsivas.js pone esos nombres y la clase .tabla-tarjetas.
+   Para que una tabla nunca pase a tarjetas: clase .tabla-sin-tarjetas.
    ========================================================================== */
 
 .table-responsive {
-
     border-radius: 12px;
     background: #fff;
 }
@@ -39098,6 +39144,28 @@ table thead th,
     border-collapse: separate;
     border-spacing: 0;
     background: transparent;
+}
+
+/* Contorno redondeado (las tablas sin bordes lo omiten) */
+.table:not(.table-dark):not(.table-borderless) {
+    border: 1px solid #e6eaf0;
+    border-radius: 12px;
+}
+
+.table:not(.table-dark):not(.table-borderless) > thead > tr:first-child > th:first-child {
+    border-top-left-radius: 11px;
+}
+
+.table:not(.table-dark):not(.table-borderless) > thead > tr:first-child > th:last-child {
+    border-top-right-radius: 11px;
+}
+
+.table:not(.table-dark):not(.table-borderless) > tbody:last-child > tr:last-child > td:first-child {
+    border-bottom-left-radius: 11px;
+}
+
+.table:not(.table-dark):not(.table-borderless) > tbody:last-child > tr:last-child > td:last-child {
+    border-bottom-right-radius: 11px;
 }
 
 .table:not(.table-dark) thead th {
@@ -39127,14 +39195,14 @@ table thead th,
     border-top: 0;
 }
 
-.table:not(.table-dark) tbody tr {
-    transition: background-color .15s ease;
+/* Sin hover ni filas rayadas, también donde se carga bootstrap.min.css.
+   Las filas con color propio (table-*, bg-*) lo conservan. */
+.table:not(.table-dark) tbody tr:not([class*="table-"]):not([class*="bg-"]):hover,
+.table-striped:not(.table-dark) tbody tr:not([class*="table-"]):not([class*="bg-"]):nth-of-type(odd) {
+    background-color: transparent;
 }
 
-.table:not(.table-dark) tbody tr:hover {
-    background: #faf8fe;
-}
-
+/* Fila de "sin registros" */
 .table:not(.table-dark) tbody td[colspan] {
     padding: 26px 16px;
     text-align: center;
@@ -39142,19 +39210,8 @@ table thead th,
     font-weight: 600;
 }
 
-.table:not(.table-dark) tbody tr:hover td[colspan] {
-    background: #fff;
-}
-
-/* Tablas que no cambian de color al pasar el mouse (panel de configuración de peluquería) */
-.table.tabla-sin-hover tbody tr:hover,
-.table.tabla-sin-hover tbody tr:hover > td {
-    background: transparent;
-}
-
 /* Bandeja de mensajes: el mensaje abierto queda marcado en morado suave */
-.table.tabla-mensajes tbody tr.fila-seleccionada > td,
-.table.tabla-mensajes tbody tr.fila-seleccionada:hover > td {
+.table.tabla-mensajes tbody tr.fila-seleccionada > td {
     background: #f4effc;
 }
 
@@ -39181,6 +39238,157 @@ table thead th,
 
 .table:not(.table-dark) tbody td.bg-estado-light-rojo {
     background-color: #ff3d3dba;
+}
+
+/* --------------------------------------------------------------------------
+   Tablas en tarjetas (celulares y tablets)
+   -------------------------------------------------------------------------- */
+
+.table.tabla-tarjetas,
+.table.tabla-tarjetas > tbody,
+.table.tabla-tarjetas > tfoot {
+    display: block;
+    width: 100% !important;
+}
+
+.table.tabla-tarjetas {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.table.tabla-tarjetas > thead,
+.table.tabla-tarjetas > tbody > tr.child,
+.tabla-tarjetas-scroll > .dataTables_scrollHead,
+.tabla-tarjetas-scroll > .dataTables_scrollFoot {
+    display: none !important;
+}
+
+/* Cada fila es una tarjeta; los datos se acomodan en columnas de al menos 110px
+   (dos por línea en un celular común, más en tablets) */
+.table.tabla-tarjetas > tbody > tr,
+.table.tabla-tarjetas > tfoot > tr {
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 14px 16px;
+    margin: 0 0 12px;
+    padding: 14px 16px;
+    border: 1px solid #e6eaf0;
+    border-radius: 12px;
+    -webkit-box-shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 4px 14px rgba(16, 24, 40, .05);
+    box-shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 4px 14px rgba(16, 24, 40, .05);
+}
+
+/* Fondo blanco sin pisar el color propio de la fila (table-*, bg-*) */
+:where(.table.tabla-tarjetas > tbody > tr, .table.tabla-tarjetas > tfoot > tr) {
+    background-color: #fff;
+}
+
+.table.tabla-tarjetas > tbody > tr:last-child,
+.table.tabla-tarjetas > tfoot > tr:last-child {
+    margin-bottom: 0;
+}
+
+/* display !important vence el display:none que DataTables Responsive pone en línea */
+.table.tabla-tarjetas > tbody > tr > td,
+.table.tabla-tarjetas > tbody > tr > th,
+.table.tabla-tarjetas > tfoot > tr > td,
+.table.tabla-tarjetas > tfoot > tr > th {
+    display: block !important;
+    min-width: 0;
+    padding: 0 !important;
+    border: 0;
+    border-radius: 0;
+    color: #4a5568;
+    font-size: 14px;
+    line-height: 1.45;
+    text-align: left !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.table.tabla-tarjetas > tbody > tr > [data-tabla-oculta],
+.table.tabla-tarjetas > tfoot > tr > [data-tabla-oculta] {
+    display: none !important;
+}
+
+/* Nombre de la columna sobre cada dato, con el mismo estilo del encabezado.
+   La segunda línea reemplaza el botón "+" de DataTables Responsive. */
+.table.tabla-tarjetas > tbody > tr > [data-label]::before,
+.table.tabla-tarjetas > tfoot > tr > [data-label]::before,
+table.dataTable.dtr-inline.collapsed.tabla-tarjetas > tbody > tr[role="row"] > td:first-child::before {
+    content: attr(data-label);
+    position: static;
+    display: block;
+    width: auto;
+    height: auto;
+    margin: 0 0 4px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background: none;
+    color: #242323;
+    font-family: 'Nunito', sans-serif;
+    font-size: 10.5px;
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: .05em;
+    text-align: left;
+    text-indent: 0 !important;
+    text-transform: uppercase;
+}
+
+.table.tabla-tarjetas > tbody > tr > [data-label=""]::before,
+.table.tabla-tarjetas > tfoot > tr > [data-label=""]::before,
+.table.tabla-tarjetas > tbody > tr > .celda-acciones::before,
+.table.tabla-tarjetas > tbody > tr > .celda-unica::before {
+    display: none;
+}
+
+/* Textos largos, listas y campos de formulario ocupan todo el ancho */
+.table.tabla-tarjetas > tbody > tr > .celda-ancha,
+.table.tabla-tarjetas > tfoot > tr > .celda-ancha {
+    grid-column: 1 / -1;
+}
+
+/* Dato vacío */
+.table.tabla-tarjetas > tbody > tr > .celda-vacia::after {
+    content: "—";
+    color: #778296;
+}
+
+/* Botones de la fila: abajo de la tarjeta, alineados a la derecha */
+.table.tabla-tarjetas > tbody > tr > td.celda-acciones {
+    grid-column: 1 / -1;
+    -ms-flex-order: 99;
+    order: 99;
+    padding-top: 12px !important;
+    border-top: 1px solid #eff1f5;
+    text-align: right !important;
+}
+
+.table.tabla-tarjetas > tbody > tr > td.celda-acciones ~ td.celda-acciones {
+    padding-top: 0 !important;
+    border-top: 0;
+}
+
+/* "Sin registros" y otras filas de una sola celda */
+.table.tabla-tarjetas > tbody > tr > .celda-unica {
+    grid-column: 1 / -1;
+    padding: 6px 0 !important;
+    color: #778296;
+    font-weight: 600;
+    text-align: center !important;
+}
+
+/* Celdas con color de estado: el color queda como recuadro dentro de la tarjeta */
+.table.tabla-tarjetas > tbody > tr > td[class*="bg-"] {
+    padding: 8px 10px !important;
+    border-radius: 8px;
 }
 
 /* ==========================================================================
@@ -44953,13 +45161,6 @@ tbody tr.codigo th::first-letter {
     margin: 4px 0 26px;
 }
 
-/* Las tablas que envuelven el formulario no deben pintarse al pasar el mouse */
-#agenda_agregar_paciente .table tbody tr:hover,
-#agenda_agregar_paciente .table tbody tr:hover > td {
-    background-color: transparent !important;
-    box-shadow: none !important;
-}
-
 /* Etiquetas flotantes: separadas del borde izquierdo del campo */
 #agenda_agregar_paciente .form-group > .floating-label-activo-sm {
     top: -10px !important;
@@ -45966,10 +46167,6 @@ tbody tr.codigo th::first-letter {
 
 .asistentes-tabla .table tbody tr:first-child td {
     border-top: 0;
-}
-
-.asistentes-tabla .table tbody tr:hover td {
-    background-color: #fbfaff;
 }
 
 /* Las filas traen una celda sobrante al final; se oculta para no descuadrar el encabezado */
@@ -47059,10 +47256,6 @@ table.dataTable > tbody > tr.child span.dtr-data {
     color: #272727;
 }
 
-.modal-atencion-tabla .table tbody > tr:hover > td {
-    background-color: #fcfbff;
-}
-
 /* Buscador que agrega DataTables sobre la tabla */
 .modal-atencion-tabla .dataTables_wrapper .row {
     margin: 0;
@@ -47162,12 +47355,8 @@ table.dataTable > tbody > tr.child span.dtr-data {
     padding-top: 6px;
     padding-right: 14px;
     font-size: .88rem !important;
-    font-weight: 700;
+    font-weight: 600 !important;
     color: #272727;
-}
-
-#m_agregar_antecedente #modal-body-input .table tr:hover > td {
-    background-color: transparent;
 }
 
 #m_agregar_antecedente #modal-body-input .form-group {
@@ -48057,8 +48246,10 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 }
 
 /* Pestañas sin el subrayado turquesa que estilos_atencion_medica.css pone a los nav-link activos
-   (configuración de peluquería; indicaciones y consentimientos del profesional) */
-.pill-moderno.pill-sin-subrayado a.nav-link {
+   (configuración de peluquería; indicaciones y consentimientos del profesional).
+   La variante blanca nunca lleva ese subrayado: la activa se marca solo con el fondo gris. */
+.pill-moderno.pill-sin-subrayado a.nav-link,
+.pill-moderno.pill-moderno-white a.nav-link {
     background-image: none !important;
 }
 
@@ -49279,16 +49470,6 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 .modal-area-operacion .modal-body,
 .modal-area-edicion .modal-body {
     padding: 24px 20px 8px;
-}
-
-/* Las tablas de las áreas no cambian de color al pasar el mouse; las filas rayadas conservan su fondo */
-.vista-area-veterinaria .table:not(.table-dark) tbody tr:hover,
-.vista-area-veterinaria .table:not(.table-dark) tbody tr:hover td[colspan] {
-    background: transparent;
-}
-
-.vista-area-veterinaria .table-striped:not(.table-dark) tbody tr:nth-of-type(2n+1):hover {
-    background: rgba(70, 128, 255, 0.03);
 }
 
 /* Resumen de las áreas (atenciones, compras y gastos): recuadros tenues, sin íconos */
@@ -51204,6 +51385,125 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     outline: none;
 }
 
+/* Resumen de atenciones anteriores, arriba de la anamnesis de la ficha veterinaria.
+   El borde con degradado sale de pintar el fondo dos veces (padding-box y border-box) */
+.resumen-atenciones {
+    position: relative;
+    margin: 16px 0 18px;
+    padding: 22px 46px 12px 18px;
+    background:
+        linear-gradient(#f3f7ff, #f3f7ff) padding-box,
+        linear-gradient(90deg, var(--primary), var(--purple), var(--pink)) border-box;
+    border: 1.5px solid transparent;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(39, 39, 39, .06);
+}
+.resumen-atenciones__etiqueta {
+    position: absolute;
+    top: -12px;
+    left: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    background: linear-gradient(90deg, var(--primary), var(--blue));
+    border-radius: 6px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+.resumen-atenciones__etiqueta svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+.resumen-atenciones__plegar {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    padding: 2px 4px;
+    background: transparent;
+    border: 0;
+    color: #6c757d;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+}
+.resumen-atenciones__plegar:hover,
+.resumen-atenciones__plegar:focus {
+    color: var(--primary);
+    outline: none;
+}
+.resumen-atenciones__plegar i {
+    display: inline-block;
+    transition: transform .2s ease;
+}
+.resumen-atenciones__plegar.collapsed i { transform: rotate(180deg); }
+.resumen-atenciones__texto {
+    margin: 0 0 6px;
+    color: #272727;
+    font-size: 14px;
+    line-height: 1.6;
+}
+.resumen-atenciones__texto strong {
+    color: #272727;
+    font-weight: 700;
+}
+.resumen-atenciones__pie {
+    display: block;
+    color: #8a8f98;
+    font-size: 12px;
+    font-style: italic;
+}
+@media (max-width: 575.98px) {
+    .resumen-atenciones { padding: 22px 38px 12px 14px; }
+    .resumen-atenciones__texto { font-size: 13px; }
+}
+
+/* Ficha veterinaria: "Indicar / Ver PDF" y "Reenviar al tutor" en una sola línea.
+   En celular el botón de reenviar baja y ocupa todo el ancho */
+.acciones-documento {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    column-gap: 8px;
+}
+.acciones-documento > .btn-group.w-100 {
+    flex: 1 1 260px;
+    width: auto !important;
+}
+.acciones-documento__reenviar {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+@media (max-width: 991.98px) {
+    .acciones-documento + .acciones-documento { margin-top: 6px; }
+}
+@media (max-width: 575.98px) {
+    .acciones-documento__reenviar { flex-basis: 100%; }
+}
+
+/* Títulos de las cards de la ficha veterinaria general (Anamnesis, Examen físico...), en el morado del sistema */
+.ficha-vet-general-wrapper .card-header-a {
+    padding: 8px 1.4rem 8px 12px !important;
+}
+.ficha-vet-general-wrapper .card-header-a .accor-closed,
+.ficha-vet-general-wrapper .card-header-a .accor-open {
+    padding: 2px 0 !important;
+    color: var(--purple) !important;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+.ficha-vet-general-wrapper .card-header-a .accor-closed:after,
+.ficha-vet-general-wrapper .card-header-a .accor-open:after {
+    color: var(--purple) !important;
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
 
 /*
  * Formulario obligatorio de perfil, uno por rol.
@@ -51480,4 +51780,236 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     .perfil-titulo {
         font-size: 22px;
     }
+}
+
+
+/* Unidad de medida dentro del campo, a la derecha y en morado (examen físico de la ficha) */
+.campo-con-unidad {
+    position: relative;
+}
+
+.campo-con-unidad .form-control {
+    padding-right: 2.5rem;
+}
+
+.campo-con-unidad .campo-unidad {
+    position: absolute;
+    top: 50%;
+    right: 0.6rem;
+    transform: translateY(-50%);
+    color: #9372d0;
+    font-weight: 600;
+    font-size: 0.85rem;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* Etiqueta del tipo de documento en la pestaña Documentos de la ficha */
+.tipo-documento {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.tipo-documento-receta {
+    background: #efe8fb;
+    color: #6f42c1;
+}
+
+.tipo-documento-examen {
+    background: #e3f6f8;
+    color: #1a9fb0;
+}
+
+.tipo-documento-consentimiento {
+    background: #fff3dc;
+    color: #b07a12;
+}
+
+.tipo-documento-otro {
+    background: #eceff3;
+    color: #555555;
+}
+
+/* Contador rojo de documentos junto al nombre de la pestaña */
+.contador-documentos-ficha {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    margin-left: 6px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background-color: #dc3545;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.contador-documentos-ficha[hidden] {
+    display: none;
+}
+
+/***** INVENTARIO VETERINARIO (medicamentos, vacunas y alimentos) *****/
+
+/* Nota sobre el SAG, con el mismo tono suave de las demás ayudas */
+.inventario-veterinario .inventario-ayuda {
+    margin-bottom: 20px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(111, 66, 193, .07);
+    color: rgba(39, 39, 39, .75);
+    font-size: .85rem;
+}
+
+.inventario-veterinario .inventario-ayuda i {
+    margin-right: 4px;
+    color: var(--purple);
+}
+
+/* Campos pequeños con la etiqueta flotante encima del borde */
+.inventario-veterinario .form-group {
+    position: relative;
+    margin-bottom: 1.4rem;
+}
+
+.inventario-veterinario .form-row > .form-group > .floating-label-activo-sm {
+    left: 12px !important;
+    z-index: 4;
+}
+
+/* Botón de guardar a la derecha, al pie del formulario */
+.inventario-veterinario .inventario-pie {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* En pantallas chicas el botón de descarga baja bajo el título */
+@media (max-width: 575.98px) {
+    .inventario-veterinario .encabezado-pagina > .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+/* Facturas de compra: subtítulos del modal, total calculado y detalle del documento */
+.inventario-veterinario .facturas-subtitulo {
+    margin: 0 0 26px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #edf0f5;
+    color: #272727;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+/* El siguiente bloque deja aire sobre su subtítulo */
+.inventario-veterinario .form-row + .facturas-subtitulo,
+.inventario-veterinario .inventario-ayuda + .facturas-subtitulo {
+    margin-top: 6px;
+}
+
+.inventario-veterinario .facturas-total {
+    display: flex;
+    align-items: center;
+    height: calc(1.5em + .5rem + 2px);
+    padding: 0 .5rem;
+    border: 1px solid #e6eaf0;
+    border-radius: .2rem;
+    background-color: #f8f9fc;
+    color: #272727;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.inventario-veterinario .facturas-detalle {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px 20px;
+}
+
+.inventario-veterinario .facturas-detalle > div > span {
+    display: block;
+    color: #6b7a90;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.inventario-veterinario .facturas-detalle p {
+    margin: 0;
+    color: #272727;
+    word-break: break-word;
+}
+
+/* Documentos de compra: zona para adjuntar el archivo (misma zona de carga que la atención)
+   y el archivo adjunto como una fila con su nombre, peso y botón para quitarlo */
+.inventario-veterinario .dropzone.dropzone-factura {
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.inventario-veterinario .dropzone.dropzone-factura .dz-message {
+    min-height: 120px;
+}
+
+.inventario-veterinario .dropzone.dropzone-factura.dz-started .dz-message {
+    display: none !important;
+}
+
+.inventario-veterinario .dropzone-factura .dropzone-factura-icono {
+    margin-bottom: 8px;
+    color: #13a6a6;
+    font-size: 28px;
+    pointer-events: none;
+}
+
+.inventario-veterinario .dropzone.dropzone-factura .dz-preview.dropzone-factura-archivo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 12px 14px;
+    border: 1px solid #e6eaf0;
+    border-radius: 10px;
+    background: #f8f9fc;
+    aspect-ratio: auto;
+}
+
+.inventario-veterinario .dropzone-factura-archivo-icono {
+    flex-shrink: 0;
+    color: #6f42c1;
+    font-size: 24px;
+}
+
+.inventario-veterinario .dropzone-factura-archivo-datos {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.inventario-veterinario .dropzone-factura-archivo-datos > strong,
+.inventario-veterinario .dropzone-factura-archivo-datos > small {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.inventario-veterinario .dropzone-factura-archivo-datos > strong {
+    color: #272727;
+    font-size: 14px;
+}
+
+.inventario-veterinario .dropzone-factura-archivo-datos > small {
+    color: #6b7a90;
+    font-size: 12px;
 }

@@ -218,7 +218,6 @@ table { width: 100%; border-collapse: collapse; min-width: 760px; }
 th { text-align: left; color: #71818d; background: #f8fafb; font-size: 10px; letter-spacing: .5px; text-transform: uppercase; }
 th, td { padding: 14px 18px; border-bottom: 1px solid var(--line); }
 td { font-size: 13px; }
-tbody tr:hover { background: #fbfdfe; }
 .person { display: flex; align-items: center; gap: 10px; }
 .person-avatar { width: 36px; height: 36px; border-radius: 9px; display: grid; place-items: center; color: var(--blue); background: #e4f3f7; font-weight: 800; }
 .person strong, .person small { display: block; }

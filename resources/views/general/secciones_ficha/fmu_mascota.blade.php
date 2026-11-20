@@ -417,8 +417,8 @@
                     </div>
 
                     <div class="tab-pane fade" id="seccion_enfer_cronicas" role="tabpanel" aria-labelledby="seccion_enfer_cronicas-tab">
-                        <div class="fvu-tabla-envoltura">
-                            <table class="fvu-tabla">
+                        <div class="table-responsive">
+                            <table class="table fvu-tabla mb-0">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
@@ -443,8 +443,8 @@
                     </div>
 
                     <div class="tab-pane fade" id="seccion_alergias" role="tabpanel" aria-labelledby="seccion_alergias-tab">
-                        <div class="fvu-tabla-envoltura">
-                            <table class="fvu-tabla">
+                        <div class="table-responsive">
+                            <table class="table fvu-tabla mb-0">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
@@ -461,8 +461,8 @@
                     </div>
 
                     <div class="tab-pane fade" id="seccion_ultimas_cirugia" role="tabpanel" aria-labelledby="seccion_ultimas_cirugia-tab">
-                        <div class="fvu-tabla-envoltura">
-                            <table class="fvu-tabla">
+                        <div class="table-responsive">
+                            <table class="table fvu-tabla mb-0">
                                 <thead>
                                     <tr>
                                         <th>Procedimiento</th>
@@ -496,8 +496,8 @@
                     </div>
 
                     <div class="tab-pane fade" id="discap" role="tabpanel" aria-labelledby="discap-tab">
-                        <div class="fvu-tabla-envoltura">
-                            <table class="fvu-tabla">
+                        <div class="table-responsive">
+                            <table class="table fvu-tabla mb-0">
                                 <thead>
                                     <tr>
                                         <th>Tipo</th>
@@ -609,8 +609,8 @@
                     </div>
                     <div id="histo_medico_c" class="collapse" aria-labelledby="histo_medico" data-parent="#histo_medico">
                         <div class="fvu-acordeon__cuerpo">
-                            <div class="fvu-tabla-envoltura">
-                                <table class="fvu-tabla">
+                            <div class="table-responsive">
+                                <table class="table fvu-tabla mb-0">
                                     <thead>
                                         <tr>
                                             <th>Fecha</th>
@@ -670,8 +670,8 @@
                     </div>
                     <div id="vacunas_c" class="collapse" aria-labelledby="vacunas" data-parent="#vacunas">
                         <div class="fvu-acordeon__cuerpo">
-                            <div class="fvu-tabla-envoltura">
-                                <table class="fvu-tabla">
+                            <div class="table-responsive">
+                                <table class="table fvu-tabla mb-0">
                                     <thead>
                                         <tr>
                                             <th>Edad</th>
@@ -715,8 +715,8 @@
                     </div>
                     <div id="desparasitacion_c" class="collapse" aria-labelledby="desparasitacion" data-parent="#desparasitacion">
                         <div class="fvu-acordeon__cuerpo">
-                            <div class="fvu-tabla-envoltura">
-                                <table class="fvu-tabla">
+                            <div class="table-responsive">
+                                <table class="table fvu-tabla mb-0">
                                     <thead>
                                         <tr>
                                             <th>Fecha dosis</th>
@@ -788,8 +788,8 @@
                     </div>
                     <div id="documentos_c" class="collapse" aria-labelledby="documentos" data-parent="#documentos">
                         <div class="fvu-acordeon__cuerpo">
-                            <div class="fvu-tabla-envoltura">
-                                <table class="fvu-tabla">
+                            <div class="table-responsive">
+                                <table class="table fvu-tabla mb-0">
                                     <thead>
                                         <tr>
                                             <th>Tipo</th>
@@ -922,8 +922,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="fvu-tabla-envoltura">
-                    <table class="fvu-tabla">
+                <div class="table-responsive">
+                    <table class="table fvu-tabla mb-0">
                         <thead>
                             <tr>
                                 <th>Edad</th>
@@ -967,8 +967,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="fvu-tabla-envoltura">
-                    <table class="fvu-tabla">
+                <div class="table-responsive">
+                    <table class="table fvu-tabla mb-0">
                         <thead>
                             <tr>
                                 <th>Fecha dosis</th>
@@ -1026,8 +1026,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="fvu-tabla-envoltura">
-                    <table class="fvu-tabla">
+                <div class="table-responsive">
+                    <table class="table fvu-tabla mb-0">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
@@ -1111,8 +1111,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="fvu-tabla-envoltura">
-                    <table class="fvu-tabla">
+                <div class="table-responsive">
+                    <table class="table fvu-tabla mb-0">
                         <thead>
                             <tr>
                                 <th>Tipo</th>

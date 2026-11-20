@@ -242,7 +242,7 @@
             <div class="modal-header modal-header-purple">
                 <div class="row">
                     <div class="col-md-12">
-                        <h5 class="modal-title">Añadir patologías crónicas</h5>
+                        <h5 class="modal-title">Agregar patologías crónicas</h5>
                         <input type="hidden" id="nuevo_antecedente" name="nuevo_antecedente" value="1">
                     </div>
                 </div>
@@ -252,16 +252,11 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <h5 class="text-c-blue f-20 my-2 text-center" id="titulo_antecedente">Añadir</h5>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <div class="card-informacion pt-3">
+                        <div class="pt-2">
                             <div class="col-md-12" id="modal-body-input">
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12 text-right">
                                 <input type="hidden" value="" id="id-antecedente-m">
                                 <input type="hidden" value="" id="tipo-antecedente-m">
                                 <input type="hidden" value="{{ $profesional->rut }}" id="user-rut">
@@ -296,6 +291,10 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                {{-- Paginación de la tabla: 5 registros por página --}}
+                                <nav aria-label="Páginas de antecedentes">
+                                    <ul class="pagination justify-content-end mb-0" id="paginacion_antecedentes_modal"></ul>
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -1953,7 +1952,7 @@
             {
                 case '2':
                     html+=`
-                        <table class="display table  table-borderless dt-responsive nowrap pb-4 table-sm" style="width:100%">
+                        <table class="display table  table-borderless dt-responsive nowrap table-sm" style="width:100%">
                             <tr>
                                 <td class="f-16 font-weight-bold">Procedimiento</td>
                                 <td><input class="form-control" type="text" id="procedimiento"></td>
@@ -1967,7 +1966,7 @@
                 break;
                 case '1':
                     html+=`
-                        <table class="display table table-borderless  dt-responsive nowrap pb-4 table-sm" style="width:100%">
+                        <table class="display table table-borderless  dt-responsive nowrap table-sm" style="width:100%">
                             <tr>
                                 <td class="f-16 font-weight-bold">Patología crónica</td>
                                 <td>
@@ -1991,7 +1990,7 @@
                 break;
                 case '3':
                     html+=`
-                        <table class="display table table-borderless dt-responsive nowrap pb-4 table-sm" style="width:100%">
+                        <table class="display table table-borderless dt-responsive nowrap table-sm" style="width:100%">
                             <tr>
                                 <td class="f-16 font-weight-bold">Fecha Cirugía</td>
                                 <td><input class="form-control" type="date" id="fecha"></td>
@@ -2009,7 +2008,7 @@
                 break;
                 case '4':
                     html+=`
-                        <table class="display table table-borderless dt-responsive nowrap pb-4 table-sm" style="width:100%">
+                        <table class="display table table-borderless dt-responsive nowrap table-sm" style="width:100%">
                             <tr>
                                 <td class="f-16 font-weight-bold">Procedimiento</td>
                                 <td><input class="form-control" type="text" id="procedimiento"></td>
@@ -2023,7 +2022,7 @@
                 break;
                 case '5':
                     html+=`
-                        <table class="display table table-borderless dt-responsive nowrap pb-4 table-sm" style="width:100%">
+                        <table class="display table table-borderless dt-responsive nowrap table-sm" style="width:100%">
                             <tr>
                                 <td class="f-16 font-weight-bold">Nombre antecedente</td>
                                 <td><input class="form-control form-control-sm" type="text" id="procedimiento"></td>
@@ -2041,7 +2040,7 @@
                 break;
                 case '6':
                     html+=`
-                        <table class="display table table-borderless dt-responsive nowrap pb-4 table-sm" style="width:100%">
+                        <table class="display table table-borderless dt-responsive nowrap table-sm" style="width:100%">
                             <tr>
                                 <td class="f-16 font-weight-bold">Nombre alergia</td>
                                 <td><input class="form-control form-control-sm" type="text" id="nombre"></td>
@@ -2055,7 +2054,7 @@
                 break;
                 case '7':
                     html+=`
-                        <table class="display table table-borderless dt-responsive nowrap pb-4 table-sm" style="width:100%">
+                        <table class="display table table-borderless dt-responsive nowrap table-sm" style="width:100%">
                             <tr>
                                 <td class="f-16 font-weight-bold">Nombre Medicamento</td>
                                 <td>
@@ -2074,7 +2073,7 @@
                 break;
                 case '8':
                     html+=`
-                        <table class="display table table-borderless  dt-responsive nowrap pb-4 table-sm" style="width:100%">
+                        <table class="display table table-borderless  dt-responsive nowrap table-sm" style="width:100%">
                             <tr>
                                 <td class="f-16 font-weight-bold">Tipo de Discapacidad</td>
                                 <td>
@@ -2239,7 +2238,8 @@
                     $('#discapacidad_permanente').val('');
 
                     cargarRegistrosAntecedentes(tipo);
-                    msg('Antecedente','Registro Ingresado.','success');
+                    // En patologías crónicas basta con verla en la tabla
+                    if (tipo !== '1') msg('Antecedente','Registro Ingresado.','success');
 
 
                 }else{
@@ -2300,7 +2300,7 @@
                                 html_ +=`
                                     <tr>
                                         <td>${textoSeguro(e.antecedente_data.nombre)}</td>
-                                        <td>${textoSeguro(e.antecedente_data.comentario)}</td>
+                                        <td>${textoSeguro(e.antecedente_data.comentario).trim() || '-'}</td>
                                         <td>${textoSeguro(e.antecedente_data.profesional)} <br/>${textoSeguro(e.antecedente_data.rut_responsable)}</td>
                                         <td>${textoSeguro(e.antecedente_data.fecha_regitro)}</td>
                                         <td>${permiso_}</td>
@@ -2454,10 +2454,12 @@
 
                     $('#tabla_antecedentes_modal thead').html(head_);
                     $('#tabla_antecedentes_modal tbody').html(html_);
+                    paginarTablaAntecedentes(1);
                     if(tipo == 1){
                         $('#listado_patologias_paciente').html(html_patologias);
                     }
                 } else {
+                    $('#paginacion_antecedentes_modal').empty();
                     $('#tabla_antecedentes_modal thead').html(`
                         <tr>
                             <th>Patología crónica</th>
@@ -2480,6 +2482,36 @@
             }
         });
     }
+
+    // Muestra la tabla del modal de a 5 filas y arma los botones de página
+    const paginarTablaAntecedentes = (pagina)=>{
+        const porPagina = 5;
+        const filas = $('#tabla_antecedentes_modal tbody tr');
+        const totalPaginas = Math.ceil(filas.length / porPagina);
+        const contenedor = $('#paginacion_antecedentes_modal');
+        contenedor.empty();
+
+        if (totalPaginas <= 1) {
+            filas.show();
+            return;
+        }
+
+        pagina = Math.min(Math.max(pagina, 1), totalPaginas);
+        filas.hide().slice((pagina - 1) * porPagina, pagina * porPagina).show();
+
+        const boton = (texto, destino, deshabilitado, activo)=>
+            `<li class="page-item${deshabilitado ? ' disabled' : ''}${activo ? ' active' : ''}">
+                <a class="page-link" href="#" onclick="paginarTablaAntecedentes(${destino}); return false;">${texto}</a>
+            </li>`;
+
+        let html = boton('&laquo;', pagina - 1, pagina === 1, false);
+        for (let i = 1; i <= totalPaginas; i++) {
+            html += boton(i, i, false, i === pagina);
+        }
+        html += boton('&raquo;', pagina + 1, pagina === totalPaginas, false);
+        contenedor.html(html);
+    };
+    window.paginarTablaAntecedentes = paginarTablaAntecedentes;
 
     const verEditarAntecedente = (tipo,id)=>{
 

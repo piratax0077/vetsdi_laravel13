@@ -46,7 +46,8 @@
     
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/ripple.js') }}"></script>
+    <script src="{{ asset('js/ripple.js') }}"></script>
+    <script src="{{ asset('js/tablas_responsivas.js') }}?v={{ filemtime(public_path('js/tablas_responsivas.js')) }}"></script>
     <script src="{{ asset('js/pcoded.min.js') }}"></script>
     <script src="{{ asset('js/jquery-validation/jquery.validate.js') }}"></script>
     

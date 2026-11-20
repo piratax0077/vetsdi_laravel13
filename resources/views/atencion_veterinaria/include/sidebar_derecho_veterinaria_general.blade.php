@@ -32,6 +32,7 @@
                         </div>
                     </div>
                     @include("general.modal.m_cuidados_cirugia")
+                    @include("general.modal.m_ind_reflujo")
                     @if(!empty($mascota) && !empty($hora_medica->id) && !empty($profesional))
                         @include('atencion_veterinaria.include.consentimiento_biopsia', ['indicacionPersonalizada' => true])
                     @endif

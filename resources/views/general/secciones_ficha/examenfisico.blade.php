@@ -110,8 +110,8 @@
                         <label class="floating-label-activo-sm" for="mis-imagenes">Imágenes de la atención</label>
                         <div class="dropzone dropzone-atencion" id="mis-imagenes" action="{{ route('profesional.imagen.carga') }}">
                             <div class="dz-message" data-dz-message>
-                                <span class="dropzone-atencion-icono" aria-hidden="true">⇧</span>
-                                <strong>Arrastre las imágenes aquí o haga clic para seleccionarlas</strong>
+                                <span class="btn btn-outline-info dropzone-atencion-subir"><i class="feather icon-upload"></i> Subir imágenes</span>
+                                <strong>Seleccione las imágenes o arrástrelas aquí</strong>
                                 <small>Formatos permitidos: JPG, JPEG y PNG</small>
                             </div>
                         </div>
@@ -122,62 +122,6 @@
         </div>
     </div>
 </div>
-
-<style>
-    .dropzone.dropzone-atencion {
-        min-height: 150px;
-        border: 2px dashed #13a6a6 !important;
-        border-radius: 10px;
-        background: #f0fbfb;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
-    }
-
-    .dropzone.dropzone-atencion:hover,
-    .dropzone.dropzone-atencion.dz-drag-hover {
-        border-color: #087f7f !important;
-        background: #e1f7f7;
-        box-shadow: 0 0 0 3px rgba(19, 166, 166, .14);
-    }
-
-    .dropzone-atencion .dz-message {
-        margin: 0 !important;
-        color: #075f64;
-        text-align: center;
-    }
-
-    .dropzone-atencion .dz-message strong,
-    .dropzone-atencion .dz-message small {
-        display: block;
-    }
-
-    .dropzone-atencion .dz-message strong {
-        font-size: 15px;
-        margin-top: 6px;
-    }
-
-    .dropzone-atencion .dz-message small {
-        margin-top: 4px;
-        color: #4d6d70;
-    }
-
-    .dropzone-atencion-icono {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: #13a6a6;
-        color: #fff;
-        font-size: 25px;
-        font-weight: 700;
-        line-height: 1;
-    }
-</style>
 
 <script>
     (function traducirDropzoneAtencion() {
@@ -196,6 +140,49 @@
             dictCancelUploadConfirmation: '¿Está seguro de que desea cancelar esta carga?',
             dictRemoveFile: 'Eliminar archivo',
             dictMaxFilesExceeded: 'No puede cargar más archivos.'
+        });
+    })();
+</script>
+
+<script>
+    // Cada miniatura lleva su botón para quitarla, haya o no addRemoveLinks en la ficha
+    (function botonQuitarImagenAtencion() {
+        var zona = document.getElementById('mis-imagenes');
+        if (!zona || !window.MutationObserver) {
+            return;
+        }
+
+        function agregarBoton(preview) {
+            if (preview.querySelector('.dropzone-atencion-quitar')) {
+                return;
+            }
+            var boton = document.createElement('button');
+            boton.type = 'button';
+            boton.className = 'btn btn-danger btn-icon dropzone-atencion-quitar';
+            boton.title = 'Quitar imagen';
+            boton.setAttribute('aria-label', 'Quitar imagen');
+            boton.innerHTML = '<i class="feather icon-x"></i>';
+            preview.appendChild(boton);
+        }
+
+        new MutationObserver(function () {
+            Array.prototype.forEach.call(zona.querySelectorAll('.dz-preview'), agregarBoton);
+        }).observe(zona, { childList: true });
+
+        zona.addEventListener('click', function (e) {
+            var boton = e.target.closest('.dropzone-atencion-quitar');
+            if (!boton || !zona.dropzone) {
+                return;
+            }
+            e.preventDefault();
+            e.stopPropagation();
+            var preview = boton.closest('.dz-preview');
+            var archivo = zona.dropzone.files.filter(function (f) { return f.previewElement === preview; })[0];
+            if (archivo) {
+                zona.dropzone.removeFile(archivo);
+            } else {
+                preview.parentNode.removeChild(preview);
+            }
         });
     })();
 </script>

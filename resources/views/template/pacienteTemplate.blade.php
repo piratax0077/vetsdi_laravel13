@@ -75,7 +75,8 @@
     <script type="text/javascript" src="{{ asset('js/datatables.min.js') }}" ></script>
     <script src="{{ asset('js/pages/data-basic-custom.js') }}"></script>
     
-    <script src="{{ asset('js/ripple.js') }}"></script>
+    <script src="{{ asset('js/ripple.js') }}"></script>
+    <script src="{{ asset('js/tablas_responsivas.js') }}?v={{ filemtime(public_path('js/tablas_responsivas.js')) }}"></script>
     <script src="{{ asset('js/pcoded.min.js') }}"></script>
     
     <!--<script src="../assets/js/menu-setting.min.js"></script>-->

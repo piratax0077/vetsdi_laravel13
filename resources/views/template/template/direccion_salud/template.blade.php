@@ -100,6 +100,7 @@
     <script src="{{ asset('js/vendor-all.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/ripple.js') }}"></script>
+    <script src="{{ asset('js/tablas_responsivas.js') }}?v={{ filemtime(public_path('js/tablas_responsivas.js')) }}"></script>
     <script src="{{ asset('js/pcoded.min.js') }}"></script>
     <script src="{{ asset('js/documentos.js') }}?upd={{ random_int(1111,9999) }}"></script>
 
@@ -219,5 +220,6 @@
 
     @yield('page-script')
 
+    @include('template.include.visor_imagenes')
 </body>
 </html>

@@ -172,6 +172,7 @@
     <script src="{{ asset('js/vendor-all.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/ripple.js') }}"></script>
+    <script src="{{ asset('js/tablas_responsivas.js') }}?v={{ filemtime(public_path('js/tablas_responsivas.js')) }}"></script>
     <script src="{{ asset('js/pcoded.min.js') }}"></script>
     <script src="{{ asset('js/plugins/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/funciones.js') }}"></script>

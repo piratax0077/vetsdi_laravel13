@@ -65,6 +65,24 @@
                 z-index: 2006;
                 overflow: auto;
             }
+
+            /* El tooltip de jQuery UI deja al final del body un texto de apoyo para lectores de pantalla.
+               Sin la hoja de jQuery UI ese texto se veía y abría un espacio bajo los botones de guardar. */
+            .ui-helper-hidden-accessible {
+                border: 0;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                width: 1px;
+            }
+
+            /* En la atención veterinaria el fondo de la página es morado suave, no el verde del escritorio. */
+            body {
+                background: #f1ebfb;
+            }
         </style>
         @yield('css-btn-autorizacion')
     </head>
@@ -89,6 +107,7 @@
         <script src="{{ asset('js/vendor-all.min.js') }}"></script>
         <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/ripple.js') }}"></script>
+        <script src="{{ asset('js/tablas_responsivas.js') }}?v={{ filemtime(public_path('js/tablas_responsivas.js')) }}"></script>
         <script src="{{ asset('js/pcoded.min.js') }}?v=20261007-3"></script>
         <script src="{{ asset('js/documentos.js') }}?upd={{ random_int(1111,9999) }}"></script>
 

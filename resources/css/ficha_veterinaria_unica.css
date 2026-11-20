@@ -817,78 +817,11 @@
     color: var(--fvu-texto-suave);
 }
 
-/* Tablas */
-.fvu-tabla-envoltura {
-    border: 1px solid var(--fvu-borde);
-    border-radius: 12px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    background: #fff;
-}
-
-.fvu-vet-shell .fvu-tabla,
-.fvu-modal .fvu-tabla {
-    width: 100%;
-    margin: 0;
-    border-collapse: separate;
-    border-spacing: 0;
-    font-size: 14px;
-    background: transparent;
-}
-
-.fvu-vet-shell .fvu-tabla thead th,
-.fvu-modal .fvu-tabla thead th {
-    padding: 11px 16px;
-    border: 0;
-    border-bottom: 1px solid var(--fvu-borde);
-    background: #f8f9fc;
-    color: #242323;
-    font-size: 11.5px;
-    font-weight: 800;
-    letter-spacing: .05em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    vertical-align: middle;
-}
-
+/* Tablas: el diseño general está en style.css (sección "Tablas");
+   aquí solo lo propio de la ficha */
 .fvu-vet-shell .fvu-tabla tbody td,
 .fvu-modal .fvu-tabla tbody td {
-    padding: 12px 16px;
-    border: 0;
-    border-top: 1px solid #eff1f5;
-    color: var(--fvu-texto);
-    vertical-align: middle;
-    background: transparent;
-}
-
-.fvu-vet-shell .fvu-tabla tbody tr:first-child td,
-.fvu-modal .fvu-tabla tbody tr:first-child td {
-    border-top: 0;
-}
-
-.fvu-vet-shell .fvu-tabla tbody tr,
-.fvu-modal .fvu-tabla tbody tr {
-    -webkit-transition: background-color .15s ease;
-    transition: background-color .15s ease;
-}
-
-.fvu-vet-shell .fvu-tabla tbody tr:hover,
-.fvu-modal .fvu-tabla tbody tr:hover {
-    background: #faf8fe;
-}
-
-/* Fila vacía, también la que se arma por JS al recargar */
-.fvu-vet-shell .fvu-tabla tbody td[colspan],
-.fvu-modal .fvu-tabla tbody td[colspan] {
-    padding: 26px 16px;
-    text-align: center;
-    color: var(--fvu-texto-suave);
-    font-weight: 600;
-}
-
-.fvu-vet-shell .fvu-tabla tbody tr:hover td[colspan],
-.fvu-modal .fvu-tabla tbody tr:hover td[colspan] {
-    background: #fff;
+    white-space: normal;
 }
 
 .fvu-tabla__fuerte {
@@ -1150,10 +1083,6 @@
     padding: 12px 22px;
     border-top: 1px solid var(--fvu-borde);
     background: #fcfcfe;
-}
-
-.fvu-modal .fvu-tabla-envoltura {
-    border-radius: 12px;
 }
 
 .fvu-modal__persona {

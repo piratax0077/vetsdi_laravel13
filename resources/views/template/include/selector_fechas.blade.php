@@ -4,3 +4,5 @@
     data-flatpickr-css="{{ asset('css/flatpickr/flatpickr.min.css') }}"></script>
 {{-- Va junto al calendario para que llegue a las mismas plantillas: los campos de especie y raza con buscador --}}
 @include('template.include.selector_razas')
+{{-- Visor de las imágenes de los Dropzone, para que llegue a las mismas plantillas --}}
+@include('template.include.visor_imagenes')

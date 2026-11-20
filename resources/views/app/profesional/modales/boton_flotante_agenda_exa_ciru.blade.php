@@ -156,14 +156,26 @@
                                         omitZeroMinute: false,
                                         meridiem: 'medium'
                                     },
+                                    // El tooltip vive en el body: al redibujar el calendario la cita se
+                                    // reemplaza y el globo quedaba suelto en cualquier parte. Se cierra
+                                    // al salir, al hacer clic y se elimina cuando la cita se desmonta.
                                     eventDidMount: function(info) {
-                                        {{--   console.log(info.el);  --}}
+                                        var descripcion = info.event.extendedProps.description;
+                                        if (!descripcion || !$.fn.tooltip) return;
+                                        $('.tooltip').remove();
                                         $(info.el).tooltip({
-                                            title: info.event.extendedProps.description,
+                                            title: descripcion,
                                             placement: "top",
                                             trigger: "hover",
-                                            container: "body"
+                                            container: "body",
+                                            boundary: "window"
+                                        }).on('mouseleave click', function() {
+                                            $(this).tooltip('hide');
                                         });
+                                    },
+                                    eventWillUnmount: function(info) {
+                                        if ($.fn.tooltip) $(info.el).tooltip('dispose');
+                                        $('.tooltip').remove();
                                     },
 
                                     // Solo presentación: dibuja la cita con un icono para el tutor y otro
@@ -224,7 +236,7 @@
                                                                 var rut = element.paciente.rut+' | ';
                                                                 var valor = element.estado.valor+' | ';
                                                                 var comentarios_confirmacion = '';
-                                                                if(comentarios_confirmacion != 'null')
+                                                                if(element.comentarios_confirmacion != null && element.comentarios_confirmacion != 'null' && element.comentarios_confirmacion != '')
                                                                     comentarios_confirmacion = element.comentarios_confirmacion+' | ';
                                                                 var nombre = element.paciente.prevision.nombre
                                                                 var descripcion = '';
@@ -722,6 +734,7 @@
 
                                 /** registra la fecha de la semana en la vista */
                                 CalendarEl.on('datesSet', function(info) {
+                                    $('.tooltip').remove();
                                     activeDaysInRange = [];
                                     var dia_inicio = CalendarEl.view.currentStart;
                                     var dia_fin = CalendarEl.view.currentEnd;
@@ -730,6 +743,12 @@
                                 })
 
                                 CalendarEl.render();
+
+                                // Al desplazar las horas el globo no debe quedarse flotando.
+                                if (!calendarEl.dataset.tooltipScroll) {
+                                    calendarEl.dataset.tooltipScroll = '1';
+                                    calendarEl.addEventListener('scroll', function() { $('.tooltip').remove(); }, true);
+                                }
 
                                 if(fecha != '' && fecha != null)
                                     CalendarEl.gotoDate(fecha);

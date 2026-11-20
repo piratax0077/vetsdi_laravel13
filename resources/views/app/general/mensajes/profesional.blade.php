@@ -51,7 +51,7 @@
                                 const mensajes = @json($mensajes);
                             </script>
                             <div class="table-responsive">
-                                <table id="tablaMensajes" class="table tabla-sin-hover tabla-mensajes" style="width:100%">
+                                <table id="tablaMensajes" class="table tabla-mensajes" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Mensaje</th>

@@ -2,9 +2,14 @@
 
 namespace App\Support;
 
+use App\Models\DetalleReceta;
+use App\Models\FichaAtencion;
 use App\Models\FichaVeterinariaGeneral;
+use App\Models\HoraMedica;
 use App\Models\Mascota;
+use App\Models\Profesional;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 /**
  * Arma los datos de la card resumen de la mascota que se muestra
@@ -204,6 +209,159 @@ class ResumenMascotaFicha
         }
 
         return $alertas;
+    }
+
+    /**
+     * Resumen en texto de las atenciones anteriores, para la card que va arriba de la anamnesis.
+     * Solo aparece cuando la mascota ya tiene al menos dos atenciones finalizadas (sin contar la actual
+     * ni las confidenciales). El texto viene con <strong> y todo lo que sale de la base va escapado.
+     */
+    public static function historialAtenciones(?Mascota $mascota, $idFichaActual = null): ?array
+    {
+        if (! $mascota) {
+            return null;
+        }
+
+        $atenciones = FichaAtencion::query()
+            ->where('id_mascota', $mascota->id)
+            ->where('finalizada', 1)
+            ->where(fn ($consulta) => $consulta->whereNull('confidencial')->orWhere('confidencial', 0))
+            ->when($idFichaActual, fn ($consulta) => $consulta->where('id', '!=', $idFichaActual))
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->get(['id', 'motivo', 'hipotesis_diagnostico', 'diagnostico_ce10', 'peso', 'created_at']);
+
+        if ($atenciones->count() < 2) {
+            return null;
+        }
+
+        $ultima = $atenciones->first();
+        $nombre = e($mascota->nombre ?: 'La mascota');
+        $atendido = strtoupper((string) $mascota->sexo) === 'F' ? 'atendida' : 'atendido';
+        $frases = [];
+
+        $frases[] = "<strong>{$nombre}</strong> ha sido {$atendido} en <strong>{$atenciones->count()} ocasiones</strong>"
+            . ' desde <strong>' . e(self::fechaLarga($atenciones->last()->created_at, 'F \d\e Y')) . '</strong>.';
+
+        $motivo = self::textoCorto($ultima->motivo);
+        $frases[] = 'Su última consulta fue el <strong>' . e(self::fechaLarga($ultima->created_at)) . '</strong>'
+            . ($motivo !== '' ? ' por motivo de <strong>' . e($motivo) . '</strong>' : '') . '.';
+
+        $diagnostico = self::textoCorto($ultima->hipotesis_diagnostico ?: $ultima->diagnostico_ce10);
+        $medicamentos = DetalleReceta::where('id_ficha', $ultima->id)
+            ->pluck('producto')
+            ->map(fn ($producto) => self::textoCorto($producto, 40))
+            ->filter()
+            ->unique()
+            ->take(3)
+            ->map(fn ($producto) => '<strong>' . e($producto) . '</strong>')
+            ->all();
+        if ($diagnostico !== '' && $medicamentos) {
+            $frases[] = 'Se registró <strong>' . e($diagnostico) . '</strong> como diagnóstico y se le recetó ' . self::unirLista($medicamentos) . '.';
+        } elseif ($diagnostico !== '') {
+            $frases[] = 'Se registró <strong>' . e($diagnostico) . '</strong> como diagnóstico.';
+        } elseif ($medicamentos) {
+            $frases[] = 'Se le recetó ' . self::unirLista($medicamentos) . '.';
+        }
+
+        $peso = $atenciones->first(fn ($atencion) => filled($atencion->peso));
+        if ($peso) {
+            $valorPeso = is_numeric($peso->peso)
+                ? str_replace('.', ',', (string) (float) $peso->peso) . ' kg'
+                : self::textoCorto($peso->peso, 20);
+            $frases[] = 'Su último peso registrado es de <strong>' . e($valorPeso) . '</strong>.';
+        }
+
+        $desparasitacion = self::fraseDesparasitacion($mascota);
+        if ($desparasitacion !== '') {
+            $frases[] = $desparasitacion;
+        }
+
+        // Próxima hora agendada o confirmada, desde mañana para no tomar la que se está atendiendo
+        $cita = HoraMedica::where('id_mascota', $mascota->id)
+            ->whereIn('id_estado', [1, 2])
+            ->whereDate('fecha_consulta', '>', now()->toDateString())
+            ->orderBy('fecha_consulta')
+            ->orderBy('hora_inicio')
+            ->first(['fecha_consulta', 'id_profesional']);
+        if ($cita) {
+            $fecha = Carbon::parse($cita->fecha_consulta);
+            $profesional = optional(Profesional::find($cita->id_profesional))->nombreCompleto();
+            $frases[] = 'Tiene una cita agendada para el <strong>' . e(self::fechaLarga($fecha, $fecha->isSameYear(now()) ? 'j \d\e F' : 'j \d\e F \d\e Y')) . '</strong>'
+                . ($profesional ? ' con <strong>' . e($profesional) . '</strong>' : '') . '.';
+        }
+
+        $vacunasAtrasadas = self::estadoVacunas($mascota->vacunas_registro) === 'atrasado';
+        $desparasitacionAtrasada = self::estadoDesparasitacion($mascota) === 'atrasado';
+        if ($vacunasAtrasadas && $desparasitacionAtrasada) {
+            $frases[] = 'Tiene el <strong>esquema de vacunación</strong> y la <strong>desparasitación</strong> atrasados.';
+        } elseif ($vacunasAtrasadas) {
+            $frases[] = 'Tiene el <strong>esquema de vacunación</strong> atrasado.';
+        } elseif ($desparasitacionAtrasada) {
+            $frases[] = 'Tiene la <strong>desparasitación</strong> atrasada.';
+        }
+
+        return [
+            'texto' => implode(' ', $frases),
+            'hasta' => self::fechaLarga($ultima->created_at),
+        ];
+    }
+
+    // Última desparasitación de cada tipo (interna, externa, ambas u otra), con fecha y producto.
+    // Si hay una "interna y externa" más reciente, deja fuera las internas o externas anteriores a ella
+    private static function fraseDesparasitacion(Mascota $mascota): string
+    {
+        $ultimas = collect(self::registros($mascota->desparasitaciones_registro))
+            ->filter(fn ($item) => filled($item['fecha_dosis'] ?? null) && rescue(fn () => Carbon::parse($item['fecha_dosis']), null, false))
+            ->groupBy(fn ($item) => mb_strtolower(trim((string) ($item['tipo'] ?? ''))))
+            ->map(fn ($dosis) => $dosis->sortByDesc('fecha_dosis')->first());
+
+        if ($ultimas->isEmpty()) {
+            return $mascota->ultima_desparasitacion
+                ? 'Su última desparasitación fue el <strong>' . e(self::fechaLarga($mascota->ultima_desparasitacion)) . '</strong>.'
+                : '';
+        }
+
+        $ambas = $ultimas->get('interno y externo');
+        if ($ambas) {
+            $ultimas = $ultimas->reject(fn ($item, $tipo) => in_array($tipo, ['interno', 'externo'], true) && $item['fecha_dosis'] <= $ambas['fecha_dosis']);
+        }
+
+        $tipos = ['interno' => 'interna', 'externo' => 'externa', 'interno y externo' => 'interna y externa', 'otro' => 'otro tipo'];
+        $partes = $ultimas->sortByDesc('fecha_dosis')->take(3)->map(function ($item, $tipo) use ($tipos) {
+            $nombreTipo = $tipos[$tipo] ?? self::textoCorto($tipo, 30);
+            $producto = self::textoCorto($item['antiparasitario'] ?? '', 40);
+
+            return ($nombreTipo !== '' ? '<strong>' . e($nombreTipo) . '</strong> ' : '')
+                . 'el <strong>' . e(self::fechaLarga($item['fecha_dosis'])) . '</strong>'
+                . ($producto !== '' ? ' con ' . e($producto) : '');
+        })->values()->all();
+
+        // Con coma y no con "y", porque el tipo "interna y externa" ya lleva una
+        return 'Última desparasitación: ' . implode(', ', $partes) . '.';
+    }
+
+    private static function fechaLarga($fecha, string $formato = 'j \d\e F \d\e Y'): string
+    {
+        return Carbon::parse($fecha)->locale('es')->translatedFormat($formato);
+    }
+
+    // Texto libre de la ficha en una sola línea; si viene todo en mayúsculas se pasa a minúsculas para que se lea en la frase
+    private static function textoCorto($texto, int $largo = 90): string
+    {
+        $texto = trim(preg_replace('/\s+/u', ' ', (string) $texto));
+        if (preg_match('/\p{L}/u', $texto) && mb_strtoupper($texto) === $texto) {
+            $texto = mb_strtolower($texto);
+        }
+
+        return Str::limit(rtrim($texto, '. '), $largo);
+    }
+
+    private static function unirLista(array $elementos): string
+    {
+        $ultimo = array_pop($elementos);
+
+        return $elementos ? implode(', ', $elementos) . ' y ' . $ultimo : (string) $ultimo;
     }
 
     // Registros cuya dosis más reciente (por vacuna o por tipo) ya tiene la próxima dosis vencida

@@ -15,7 +15,7 @@
 <div class="tab-pane fade {{ $seccion==='procedimientos'?'show active':'' }}" id="seccion-procedimientos" role="tabpanel" aria-labelledby="pestana-procedimientos">
 {{-- Catálogo de servicios con la misma tabla del área de peluquería de la clínica; agregar y editar se hacen en modales --}}
 <div class="card"><div class="card-header encabezado-card"><h5 class="encabezado-card-titulo">Servicios y precios</h5><div class="encabezado-card-acciones"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_servicio_nuevo"><i class="feather icon-plus"></i> Agregar servicio</button></div></div><div class="card-body">
-<div class="table-responsive"><table class="table table-sm tabla-sin-hover"><thead><tr><th>Servicio</th><th>Duración</th><th>Precio CLP</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
+<div class="table-responsive"><table class="table table-sm"><thead><tr><th>Servicio</th><th>Duración</th><th>Precio CLP</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
 @forelse($procedimientos as $procedimiento)<tr><td>{{ $procedimiento->nombre }}</td><td>{{ $procedimiento->duracion }} min</td><td>${{ number_format($procedimiento->precio,0,',','.') }}</td><td><span class="badge {{ $procedimiento->activo?'badge-light-success':'badge-light-secondary' }}">{{ $procedimiento->activo?'Activo':'Inactivo' }}</span></td><td><button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#modal_servicio_{{ $procedimiento->id }}" title="Editar" aria-label="Editar {{ $procedimiento->nombre }}"><i class="feather icon-edit"></i></button></td></tr>
 @empty<tr><td colspan="5">Agrega baño, belleza, peluquería u otros servicios con su duración y precio.</td></tr>@endforelse
 </tbody></table></div></div></div>

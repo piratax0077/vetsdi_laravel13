@@ -122,7 +122,7 @@
                         <p class="text-muted mb-0">Aún no has enviado mensajes.</p>
                     @else
                         <div class="table-responsive">
-                            <table class="table tabla-sin-hover table-xs mb-0" style="width:100%">
+                            <table class="table table-xs mb-0" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>

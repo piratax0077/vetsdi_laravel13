@@ -409,6 +409,7 @@
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/ripple.js') }}"></script>
+    <script src="{{ asset('js/tablas_responsivas.js') }}?v={{ filemtime(public_path('js/tablas_responsivas.js')) }}"></script>
     <script src="{{ asset('js/pcoded.min.js') }}"></script>
     <script src="{{ asset('js/plugins/jquery.mask.min.js') }}"></script>
     <script src="{{ asset('js/plugins/select2.full.min.js') }}"></script>

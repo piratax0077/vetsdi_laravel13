@@ -79,7 +79,8 @@
     <script type="text/javascript" src="{{ asset('js/datatables.min.js') }}" ></script>
     <script src="{{ asset('js/pages/data-basic-custom.js') }}"></script>
 
-    <script src="{{ asset('js/ripple.js') }}"></script>
+    <script src="{{ asset('js/ripple.js') }}"></script>
+    <script src="{{ asset('js/tablas_responsivas.js') }}?v={{ filemtime(public_path('js/tablas_responsivas.js')) }}"></script>
     <script src="{{ asset('js/pcoded.min.js') }}"></script>
     {{-- autocomplete
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>--}}

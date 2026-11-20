@@ -27,21 +27,23 @@
         align-items: center;
         margin-bottom: 0;
     }
+    /* Los 15px igualan el relleno de las columnas que envuelven las cards, para que las pestañas partan en el mismo borde */
     .ficha-vet-tabs-row {
         justify-content: flex-start;
         align-items: center;
         column-gap: 16px;
-        margin-right: 0;
-        margin-left: 0;
+        margin-right: 15px;
+        margin-left: 15px;
     }
     .ficha-vet-tabs-row .nav-tabs-secciones {
         justify-content: flex-start;
         width: auto;
     }
+    /* Los -5px compensan el relleno de sus columnas, así los avisos quedan del mismo ancho que las cards */
     .ficha-vet-avisos {
         align-items: stretch;
-        margin-right: 0;
-        margin-left: 0;
+        margin-right: -5px;
+        margin-left: -5px;
         opacity: 1;
         transition: opacity .45s ease, max-height .45s ease, margin .45s ease;
         max-height: 90px;
@@ -81,6 +83,10 @@
 
                     <li class="nav-item-secciones">
                         <a class="nav-secciones text-uppercase" id="presupuesto-mascota-tab" data-toggle="tab" href="#presupuesto-mascota" role="tab" aria-controls="presupuesto-mascota" aria-selected="false">Presupuestos</a>
+                    </li>
+
+                    <li class="nav-item-secciones">
+                        <a class="nav-secciones text-uppercase" id="documentos-ficha-tab" data-toggle="tab" href="#documentos-ficha" role="tab" aria-controls="documentos-ficha" aria-selected="false">Documentos de la atención<span class="contador-documentos-ficha" id="contador_documentos_ficha" hidden></span></a>
                     </li>
                 </ul>
             </div>
@@ -148,6 +154,7 @@
                                                 @php
     $seccionesVeterinarias = ($profesional ?? null)?->seccionesFichaVeterinaria() ?? array_keys(config('ficha_veterinaria_secciones'));
 @endphp
+                                                @include('atencion_veterinaria.include.resumen_atenciones_mascota')
                                                 @include('general.secciones_ficha.motivo', ['examenFisicoEnCard' => true, 'ocultarCamposAnamnesis' => true, 'anamnesisVetGeneral' => true])
                                                 <!--Cierre: Formulario /Motivo de la Consulta-->
                                                 @include('general.secciones_ficha.examenfisico', ['examenFisicoEnCard' => true])
@@ -362,7 +369,10 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+
+                                <!--DOCUMENTOS EMITIDOS Y ADJUNTOS DE LA ATENCIÓN-->
+                                @include('atencion_veterinaria.include.pestana_documentos_ficha')
+
                             </div>
                         </div>
 
