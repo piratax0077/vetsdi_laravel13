@@ -18,6 +18,14 @@ class ConsumoInventarioVeterinario
         return [$titular, $personas];
     }
 
+    public static function validarCantidad(string $modalidad, $cantidad): void
+    {
+        $valor = (float) $cantidad;
+        if (!is_finite($valor) || $valor <= 0 || ($modalidad === 'individual' && floor($valor) !== $valor)) {
+            throw ValidationException::withMessages(['cantidad_stock' => 'El material de uso individual requiere unidades enteras. Los productos fraccionables se descuentan en la unidad de control del lote.']);
+        }
+    }
+
     public function registrar(FichaAtencion $ficha, array $registro): array
     {
         if (empty($registro['lote_id'])) return $registro;
@@ -27,7 +35,10 @@ class ConsumoInventarioVeterinario
         abort_unless($lote, 403, 'El lote no pertenece al inventario de esta consulta.');
         $administrador = $personas->firstWhere('id', (int) ($registro['administrador_id'] ?? 0));
         if (!$administrador) throw ValidationException::withMessages(['nuevas_inyecciones' => 'Selecciona quién administró el producto.']);
+        $despachador = $personas->firstWhere('id', (int) ($registro['despachador_id'] ?? 0));
+        if (!$despachador) throw ValidationException::withMessages(['nuevas_inyecciones' => 'Selecciona quién despachó el producto.']);
         if ($lote->vencimiento < now()->toDateString()) throw ValidationException::withMessages(['nuevas_inyecciones' => 'El lote seleccionado está vencido.']);
+        self::validarCantidad($lote->modalidad_consumo ?? 'fraccionable', $registro['cantidad_stock']);
         $cantidad = (int) round((float) $registro['cantidad_stock'] * 1000);
         $saldo = (int) round((float) $lote->saldo * 1000) - $cantidad;
         if ($saldo < 0) throw ValidationException::withMessages(['nuevas_inyecciones' => 'El lote no tiene existencias suficientes.']);
@@ -38,14 +49,19 @@ class ConsumoInventarioVeterinario
         $registro['medicamento'] = $lote->producto;
         $registro['lote'] = $lote->lote;
         $registro['unidad_stock'] = $lote->unidad;
+        $registro['modalidad_consumo'] = $lote->modalidad_consumo ?? 'fraccionable';
         $registro['indicado_por'] = $profesional->nombreCompleto();
         $registro['administrado_por'] = $administrador->name;
+        $registro['despachado_por'] = $despachador->name;
         DB::table('vet_inventario_movimientos')->insert([
             'lote_id'=>$lote->id, 'usuario_id'=>auth()->id(), 'operacion'=>(string) \Illuminate\Support\Str::uuid(),
             'tipo'=>'salida', 'cantidad'=>$cantidad / 1000, 'saldo'=>$saldo / 1000,
             'contraparte'=>'Mascota #'.$ficha->id_mascota, 'documento'=>'Ficha #'.$ficha->id,
             'receta'=>$registro['receta_stock'] ?? null, 'observaciones'=>$registro['observaciones'] ?? null,
             'ficha_id'=>$ficha->id, 'indicado_por'=>$registro['indicado_por'],
+            'profesional_uso_id'=>$profesional->id, 'profesional_uso'=>$profesional->nombreCompleto(),
+            'despachador_id'=>$despachador->id, 'despachado_por'=>$despachador->name,
+            'uso_clinico'=>mb_substr($registro['procedimiento'] ?? 'Administración en consulta', 0, 250),
             'administrado_por'=>$registro['administrado_por'], 'administrador_id'=>$administrador->id, 'created_at'=>now(),
         ]);
         DB::table('vet_inventario_lotes')->where('id',$lote->id)->update(['saldo'=>$saldo / 1000,'updated_at'=>now()]);

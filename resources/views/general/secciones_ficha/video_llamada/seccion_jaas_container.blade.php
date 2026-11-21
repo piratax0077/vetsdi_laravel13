@@ -58,7 +58,7 @@
 </style>
 
 {{-- video llamada --}}
-<script src='https://8x8.vc/{{ env('JITSI_APP_ID') }}/external_api.js' async></script>
+<script src='https://8x8.vc/{{ config('services.jitsi.app_id') }}/external_api.js' async></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -137,7 +137,7 @@
     function inicio_llamada(token, nombre)
     {
         const api = new JitsiMeetExternalAPI("8x8.vc", {
-            roomName: "{{ env('JITSI_APP_ID') }}/"+nombre,
+            roomName: "{{ config('services.jitsi.app_id') }}/"+nombre,
             parentNode: document.querySelector('#jaas-container'),
             jwt: token,
             configOverwrite: {
@@ -202,7 +202,7 @@
             // console.log('-----------------------');
             if(data.estado == 1)
             {
-                inicio_llamada(data.registro.token_moderator, data.registro.nombre_grupo);
+                inicio_llamada(data.registro.token_moderator || data.registro.token_invitado, data.registro.nombre_grupo);
                 $('#jaas-container').show();
             }
             else

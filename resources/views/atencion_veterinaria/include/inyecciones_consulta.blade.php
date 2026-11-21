@@ -10,7 +10,7 @@
             <select id="inyeccion-lote" data-campo="lote_id" class="form-control form-control-sm">
                 <option value="">Seleccione si utiliza existencias del inventario</option>
                 @foreach($lotesConsulta as $lote)
-                    <option value="{{ $lote->id }}" data-producto="{{ $lote->producto }}">{{ $lote->producto }} · {{ $lote->lote }} · {{ $lote->saldo }} {{ $lote->unidad }} · {{ $lote->ubicacion }}</option>
+                    <option value="{{ $lote->id }}" data-producto="{{ $lote->producto }}" data-modalidad="{{ $lote->modalidad_consumo }}" data-unidad="{{ $lote->unidad }}" data-saldo="{{ $lote->saldo }}" data-categoria="{{ $lote->categoria }}">{{ $lote->producto }} · {{ $lote->lote }} · {{ $lote->saldo }} {{ $lote->unidad }} · {{ $lote->ubicacion }} · {{ $lote->modalidad_consumo === 'individual' ? 'Uso individual' : 'Fraccionable' }}</option>
                 @endforeach
             </select>
         </div>
@@ -31,7 +31,16 @@
             <label for="inyeccion-receta">Referencia receta / autorización</label>
             <input id="inyeccion-receta" data-campo="receta_stock" maxlength="150" class="form-control form-control-sm">
         </div>
-        @foreach(['medicamento' => ['Medicamento administrado', 255], 'dosis' => ['Dosis administrada', 120], 'via' => ['Vía de administración', 120], 'procedimiento' => ['Procedimiento realizado', 255]] as $campo => [$etiqueta, $maximo])
+        <div class="form-group col-md-6">
+            <label for="inyeccion-despachador">Despachado por</label>
+            <select id="inyeccion-despachador" data-campo="despachador_id" class="form-control form-control-sm">
+                <option value="">Seleccione</option>
+                @foreach($administradoresInventario as $persona)
+                    <option value="{{ $persona->id }}">{{ $persona->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        @foreach(['medicamento' => ['Producto administrado o utilizado', 255], 'dosis' => ['Dosis administrada', 120], 'via' => ['Vía de administración', 120], 'procedimiento' => ['Procedimiento realizado', 255]] as $campo => [$etiqueta, $maximo])
             <div class="form-group col-md-6">
                 <label class="floating-label-activo-sm" for="inyeccion-{{ $campo }}">{{ $etiqueta }}</label>
                 <input type="text" class="form-control form-control-sm" id="inyeccion-{{ $campo }}" data-campo="{{ $campo }}" maxlength="{{ $maximo }}">
@@ -58,7 +67,7 @@
                     @if(!empty($inyeccion['procedimiento'])) · @endif
                 @endif
                 {{ $inyeccion['procedimiento'] ?? '' }}
-                @if(!empty($inyeccion['lote'])) · Lote {{ $inyeccion['lote'] }} · {{ $inyeccion['cantidad_stock'] }} {{ $inyeccion['unidad_stock'] }} · Indicado por {{ $inyeccion['indicado_por'] }} · Administrado por {{ $inyeccion['administrado_por'] }} @endif
+                @if(!empty($inyeccion['lote'])) · Lote {{ $inyeccion['lote'] }} · {{ $inyeccion['cantidad_stock'] }} {{ $inyeccion['unidad_stock'] }} · {{ ($inyeccion['modalidad_consumo'] ?? '') === 'individual' ? 'Uso individual' : 'Consumo fraccionado' }} · Indicado por {{ $inyeccion['indicado_por'] }} · Administrado por {{ $inyeccion['administrado_por'] }} @endif
                 @if(!empty($inyeccion['medicamento']) && isset($inyeccion['precio_medicamento'])) · Medicamento ${{ number_format($inyeccion['precio_medicamento'], 0, ',', '.') }} @endif
                 @if(isset($inyeccion['precio_procedimiento'])) · Procedimiento ${{ number_format($inyeccion['precio_procedimiento'], 0, ',', '.') }} @endif
                 @if(!empty($inyeccion['observaciones'])) · {{ $inyeccion['observaciones'] }} @endif
@@ -75,6 +84,13 @@ $(function () {
     $('#inyeccion-lote').on('change', function () {
         const nombre = $(this).find(':selected').attr('data-producto');
         if (nombre) $('#inyeccion-medicamento').val(nombre);
+        const opcion = $(this).find(':selected');
+        const individual = opcion.attr('data-modalidad') === 'individual';
+        $('#inyeccion-cantidad').attr({min: individual ? 1 : 0.001, step: individual ? 1 : 0.001, max: opcion.attr('data-saldo') || 999999999});
+        if (opcion.attr('data-categoria') === 'insumo') {
+            $('#inyeccion-dosis').val('No aplica: insumo');
+            $('#inyeccion-via').val('Uso en procedimiento');
+        }
     });
     const formatoPrecio = new Intl.NumberFormat('es-CL', {style: 'currency', currency: 'CLP'});
     let indice = 0;
@@ -82,7 +98,7 @@ $(function () {
         const grupo = $('<div hidden>').appendTo(formulario);
         campos.each(function () {
             const campo = this.dataset.campo;
-            $('<input>', {type: 'hidden', name: 'nuevas_inyecciones[' + indice + '][' + campo + ']', value: inyeccion[campo] || ''}).appendTo(grupo);
+            $('<input>', {type: 'hidden', name: 'nuevas_inyecciones[' + indice + '][' + campo + ']', value: inyeccion[campo] ?? ''}).appendTo(grupo);
         });
         $('<input>', {type: 'hidden', name: 'nuevas_inyecciones[' + indice + '][registro]', value: inyeccion.registro}).appendTo(grupo);
         const campoRegistro = 'nuevas_inyecciones[' + indice + '][registro]';
@@ -110,11 +126,13 @@ $(function () {
     Object.values(@js((array) old('nuevas_inyecciones', []))).filter(function (registro) {
         return registro && typeof registro.registro === 'string';
     }).forEach(agregar);
-    $('#agregar-inyeccion-consulta').on('click', function () {
+    $('#agregar-inyeccion-consulta').on('click', async function () {
+        const boton = this;
+        if (boton.disabled) return;
         const inyeccion = {};
         campos.each(function () { inyeccion[this.dataset.campo] = this.value.trim(); });
         const requeridos = ['procedimiento', 'precio_procedimiento'];
-        if (inyeccion.lote_id) requeridos.push('cantidad_stock', 'administrador_id');
+        if (inyeccion.lote_id) requeridos.push('cantidad_stock', 'administrador_id', 'despachador_id');
         if (inyeccion.medicamento) requeridos.push('dosis', 'via', 'precio_medicamento');
         else inyeccion.precio_medicamento = '0';
         if (requeridos.some(campo => !inyeccion[campo])) {
@@ -129,6 +147,16 @@ $(function () {
             return;
         }
         inyeccion.registro = Array.from(crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, '0')).join('');
+        if (inyeccion.lote_id) {
+            boton.disabled = true;
+            try {
+                const opcion = $('#inyeccion-lote :selected');
+                const confirmado = await swal({icon: 'warning', title: 'Confirmar consumo en consulta',
+                    text: 'Al guardar la ficha se descontarán ' + inyeccion.cantidad_stock + ' ' + opcion.attr('data-unidad') + ' de ' + inyeccion.medicamento + '. Registre solo lo utilizado para este paciente.',
+                    buttons: ['Cancelar', 'Confirmar consumo']});
+                if (!confirmado) return;
+            } finally { boton.disabled = false; }
+        }
         agregar(inyeccion);
         campos.val('');
     });

@@ -812,7 +812,7 @@
                 pieza.dataset.caras=JSON.stringify(datos.caras);
                 pintarPiezaVet(pieza);
                 pintarRegistroPiezasVet();
-                window.odontoVetBaseline=JSON.stringify(datos);
+                window.odontoVetBaseline=JSON.stringify(datosPiezaVet());
                 if (presupuestar) odontoVetReferencia=null;
                 document.dispatchEvent(new CustomEvent('odontologia-veterinaria:actualizado'));
                 // Se cierra el modal para seguir de inmediato con la siguiente pieza.

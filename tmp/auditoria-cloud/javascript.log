@@ -1,0 +1,165 @@
+✔ un correo duplicado conserva el foco en el teléfono y muestra el aviso (1.8121ms)
+✔ una respuesta para un correo anterior no altera la validación actual (0.6921ms)
+✔ catalogs and settings load through a single authenticated request (8.6781ms)
+✔ saving sends account scoped data with CSRF and refreshes the next list (2.0499ms)
+✔ server validation errors remain available to the price form (1.4979ms)
+✔ a read-only assistant cannot see confirmation and cancellation controls (3.4313ms)
+✔ an explicitly granted action remains available (1.1581ms)
+✔ direct module links follow the same permissions as the server (0.9612ms)
+✔ agrega con nombre tipo y piso sin los campos retirados y reemplaza la tabla (6.8711ms)
+✔ carga un tipo personalizado y lo guarda al editar sin trasladar el box de sede (1.2882ms)
+✔ RUT del centro usa puntos, guion y K mayúscula sin alterar valores incompletos (2.4525ms)
+✔ el formato se aplica al RUT al salir sin modificar teléfonos ni campos ocultos (1.1635ms)
+✔ certificate submits POST with CSRF and opens PDF only after saving: general/modal (4.5319ms)
+✔ certificate submits POST with CSRF and opens PDF only after saving: general/info_simbologia/modal (27.5199ms)
+✔ precarga diagnóstico actual sin modificar otros consentimientos y exige motivo (3.8068ms)
+✔ genera una vez, muestra PDF sin esperar token antiguo y conserva el documento al reabrir (1.6871ms)
+✔ un error permite reintentar sin aparentar un documento generado (1.7897ms)
+✔ un error interno nunca muestra SQL ni etiquetas HTML del servidor (1.036ms)
+✔ sending consent displays sent status without entering the legacy signature wait (2.7174ms)
+✔ carga convenios, conserva porcentaje acordado y calcula el saldo después del descuento (24.3055ms)
+✔ una respuesta atrasada no reemplaza convenios de otra hora (1.7992ms)
+✔ el fallo de la consulta impide confirmar silenciosamente sin el convenio aplicado (0.9998ms)
+✔ modal diagnoses refresh from encounter without touching history, other modals or postoperative findings (4.2874ms)
+✔ sin configuración no inventa fecha ni entrega hoy (1.5451ms)
+✔ solo ofrece fechas válidas disponibles desde hoy, sin duplicados (2.0469ms)
+✔ fecha estimada es informativa y no habilita selección por sí sola (0.1655ms)
+✔ badge hoy requiere habilitación y no usa una fecha vencida o futura (0.1916ms)
+✔ dirección región y comuna usan filas completas y se retiran fecha y franja antiguas (0.4949ms)
+✔ view renders every member even if a professional reference is missing (2.3593ms)
+✔ opening another team for editing clears the previous list (2.0751ms)
+✔ outdated response cannot replace the team currently being viewed (1.176ms)
+✔ genera una vez y muestra el PDF y resultado del envio (3.6509ms)
+✔ si falla el correo reenvia el mismo informe sin generar otro (1.17ms)
+✔ muestra errores y conserva el texto para reintentar (1.762ms)
+✔ un editor visual vacio no genera un informe (1.1912ms)
+✔ filtros automáticos combinan región, comuna por id, especie y estado (4.1004ms)
+✔ publicar envía datos reales y bloquea doble clic; fallo conserva formulario (3.5119ms)
+✔ encontrada publica sin id de mascota y los datos faltantes no envían (4.0573ms)
+✔ saving an incomplete initial profile omits the unregistered address (3.924ms)
+✔ validation errors preserve edited fields and enable retry (1.1606ms)
+✔ repeated clicks issue only one save request (1.7048ms)
+✔ photo upload updates the preview only after a successful save (0.9956ms)
+✔ account changes reload the list only after successful persistence (1.9257ms)
+✔ cancelled account deletion does not send a request (2.3078ms)
+✔ a form submits once and disables only its submit button (2.9113ms)
+✔ repeated reservation submissions send a single request and allow retry after failure (36.2648ms)
+✔ calendar uses opening hours while allowing minute-level flexible reservations (1.8516ms)
+✔ calendar does not allow selecting a reservation without permission (0.9675ms)
+✔ calendar supports professional-style split schedules by weekday (1.7848ms)
+✔ navigation places Today between both arrows (1.0375ms)
+✔ reservation keeps the exact start selected in the calendar (3.0292ms)
+✔ new client registration disables the existing pet selection and restores it (1.2925ms)
+✔ the first step only enables reservation details after searching the tutor (1.5996ms)
+✔ tutor RUT is formatted while typing or pasting, including uppercase K (1.1975ms)
+✔ receiving payment closes its modal and leaves the appointment purple on the calendar (1.4928ms)
+✔ one selector adds priced procedures without duplicates and allows removing an item (1.442ms)
+✔ finding the tutor hides the search and changing tutor restores the first step (1.2621ms)
+✔ past calendar hours are blocked before opening a reservation (1.2498ms)
+✔ expired reservation time is stopped before tutor lookup and before submission (1.4287ms)
+✔ pet is fixed before procedures and cannot be changed within the reservation (1.2318ms)
+✔ a paid appointment blocks unauthorized users with SweetAlert instead of opening a modal (1.3294ms)
+✔ reserva pagada más servicio adicional cobra solo el pendiente (25.2822ms)
+✔ una reserva totalmente pagada no vuelve a cobrarse (0.9571ms)
+✔ sin pago registrado se cobra el total de los servicios (0.8077ms)
+✔ el saldo nunca es negativo cuando el pago supera el total (1.5679ms)
+✔ changing or clearing profession removes old specialty and subspecialty (3.109ms)
+✔ out of order specialty responses cannot restore an unrelated subspecialty (5.1865ms)
+✔ una segunda pulsación con el editor limpio conserva el medicamento sin mostrar campos faltantes (2.9549ms)
+✔ generar usa los medicamentos de la tabla aunque los campos de captura estén vacíos (2.9854ms)
+✔ una tabla sin medicamentos no emite una receta con la fila de marcador (1.5688ms)
+✔ un error de guardado mantiene la receta disponible para reintentar (2.6832ms)
+✔ sin un medicamento agregado se conserva la validación de campos obligatorios (3.0405ms)
+✔ registro habilita antecedentes y permite alternar la fecha desconocida (3.4802ms)
+✔ volver de edición a registro no deja antecedentes bloqueados (1.2816ms)
+✔ tutor saves local form values and address number with optional birthdate (5.1147ms)
+✔ failed tutor save keeps draft open and explains validation errors (1.8026ms)
+✔ Enter saves the tutor once while a request is pending (3.81ms)
+✔ residencia guarda los valores de su propio formulario en el endpoint de dirección (1.4847ms)
+✔ residencia explica el rechazo y conserva los datos para corregirlos (2.2489ms)
+✔ cambiar región descarta la comuna anterior e ignora respuestas atrasadas (2.2977ms)
+✔ cancelar recupera las opciones originales de comuna después de cambiar región (1.041ms)
+✔ professional saves college number and updates displayed data without reloading (5.7592ms)
+✔ validation errors keep the draft open and explain the failed save (2.3077ms)
+✔ repeated save clicks do not issue duplicate requests (1.3033ms)
+✔ Enter in the assistant form submits through the protected endpoint (5.0462ms)
+✔ cancelar restaura el formulario y cierra el panel sin guardar (1.2092ms)
+✔ el RUT se muestra formateado después de guardar (1.2131ms)
+✔ elegir foto no modifica la imagen guardada antes de confirmar la subida (1.1692ms)
+✔ diagnosis is the only required clinical control (2.2966ms)
+✔ reopening restores saved data and validation errors restore the latest input (1.3693ms)
+✔ submitting with Enter also includes prescriptions and examinations (3.3866ms)
+✔ quick save waits for dental changes before sending the clinical record (1.5356ms)
+✔ a failed dental change prevents quick save and explains the error (1.0068ms)
+✖ saving a tooth preserves clinical drafts by avoiding navigation (4.7865ms)
+✖ tooth and budget use a single request and prevent repeated clicks (2.1087ms)
+✖ retrying a failed budget keeps the same operation reference (2.1602ms)
+✔ cancel restores the original form and shows the saved information (3.4015ms)
+✔ save includes clinical history and prevents duplicate submissions (1.6418ms)
+✔ validation failure keeps the form available and allows retry (1.2518ms)
+✔ updates the saved baseline without reloading and preserves consultation text (2.2295ms)
+✔ saving without changes cancels without a request or consultation validation (2.3861ms)
+✔ updates matching antecedents while leaving other consultation inputs intact (1.5712ms)
+✔ FVU inline scripts compile after the sanitary history changes (1.1538ms)
+✔ sanitary read-only controls include the actual save buttons and preserve close buttons (1.2725ms)
+ℹ tests 104
+ℹ suites 0
+ℹ pass 101
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13318.9148
+
+✖ failing tests:
+
+test at tests\Unit\veterinary-odontogram.test.cjs:26:1
+✖ saving a tooth preserves clinical drafts by avoiding navigation (4.7865ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (D:\laragon\www\vet-sdi_v13\tests\Unit\veterinary-odontogram.test.cjs:28:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\Unit\veterinary-odontogram.test.cjs:33:1
+✖ tooth and budget use a single request and prevent repeated clicks (2.1087ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (D:\laragon\www\vet-sdi_v13\tests\Unit\veterinary-odontogram.test.cjs:41:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\Unit\veterinary-odontogram.test.cjs:44:1
+✖ retrying a failed budget keeps the same operation reference (2.1602ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (D:\laragon\www\vet-sdi_v13\tests\Unit\veterinary-odontogram.test.cjs:47:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

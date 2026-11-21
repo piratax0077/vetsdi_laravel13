@@ -12,6 +12,8 @@ class PeluqueriaTest extends TestCase
 {
     protected function setUp(): void {
         parent::setUp();config(['database.default'=>'sqlite','database.connections.sqlite.database'=>':memory:','cache.default'=>'array']);DB::purge('sqlite');
+        Schema::create('especies_mascotas',function(Blueprint $t){$t->id();$t->string('nombre');});
+        DB::table('especies_mascotas')->insert(['nombre'=>'Canina']);
         Schema::create('users',function(Blueprint $t){$t->id();$t->string('name');$t->string('email');$t->timestamps();});
         Schema::create('usuario_roles',function(Blueprint $t){$t->id();$t->unsignedBigInteger('id_usuario');$t->string('tipo');$t->boolean('estado')->default(true);$t->boolean('perfil_completo')->default(false);$t->timestamp('fecha_activacion')->nullable();$t->timestamp('fecha_perfil_completo')->nullable();$t->timestamps();});
         Schema::create('roles',function(Blueprint $t){$t->id();$t->string('name');$t->string('guard_name');$t->timestamps();});
@@ -291,7 +293,7 @@ class PeluqueriaTest extends TestCase
         $this->assertSame('en_atencion',DB::table('peluqueria_citas')->find($id)->estado);
     }
     public function test_ficha_muestra_nombre_de_especie_y_no_su_identificador(): void {
-        Schema::create('especies_mascotas',function(Blueprint $t){$t->id();$t->string('nombre');});
+
         DB::table('especies_mascotas')->insert(['id'=>2,'nombre'=>'Felina']);
         $cliente=$this->cliente();DB::table('peluqueria_clientes')->where('id',$cliente)->update(['especie'=>'2']);
         $this->controller()->citaGuardar($this->req($this->reserva($cliente)));$id=DB::table('peluqueria_citas')->value('id');

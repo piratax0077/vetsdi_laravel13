@@ -22,15 +22,18 @@ class RequerimientosPdfVeterinarioTest extends TestCase
         DB::purge('sqlite');
         foreach ([
             'users' => ['name','nombres','apellido_uno','apellido_dos','email','rut','telefono','password','email_verified_at','remember_token'],
+            'profesional_horarios' => ['id_profesional','id_lugar_atencion','tipo_agenda','dia','duracion_consulta','hora_inicio','hora_termino'],
+            'profesional_horarios_bloqueo' => ['id_profesional','id_lugar_atencion','fecha_inicio','fecha_termino','hora_inicio','hora_termino','todo_dia','estado'],
             'profesionales' => ['id_usuario','nombre','apellido_uno','apellido_dos','id_especialidad'],
-            'mascotas' => ['id_responsable','nombre'],
+            'tutor_bloqueos' => ['id_paciente','id_profesional','id_lugar_atencion'],
+            'mascotas' => ['id_responsable','nombre','estado','fallecida'],
             'mascotas_lugares_atencion' => ['id_mascota','id_lugar_atencion','id_institucion','origen'],
             'sucursal' => ['id_lugar_atencion','id_institucion'],
             'asistentes_lugar_atencion' => ['id_lugar_atencion','id_institucion'],
             'administrativos_lugar_atencion' => ['id_lugar_atencion','id_institucion'],
             'especialidades_cm' => ['id_lugar_atencion','id_institucion'],
             'asistentes' => ['id_usuario'],
-            'pacientes' => ['nombres','apellido_uno','apellido_dos','email'],
+            'pacientes' => ['id_usuario','nombres','apellido_uno','apellido_dos','email'],
             'ciudades' => ['nombre'],
             'direcciones' => ['direccion','numero_dir','id_ciudad'],
             'lugares_atencion' => ['nombre','email','rut','telefono','id_direccion','tipo'],
@@ -299,6 +302,7 @@ class RequerimientosPdfVeterinarioTest extends TestCase
         $this->travelTo(\Carbon\Carbon::parse('2026-10-25 10:00:00'));
         Auth::user()->setRelation('roles',collect([new \Spatie\Permission\Models\Role(['name'=>'Profesional','guard_name'=>'web'])]));
         // La agenda dental usa el mismo flujo con bloques de 15 minutos.
+        DB::table('profesional_horarios')->insert(['id_profesional'=>3,'id_lugar_atencion'=>4,'tipo_agenda'=>2,'dia'=>'1','duracion_consulta'=>'00:15:00','hora_inicio'=>'08:00:00','hora_termino'=>'12:00:00']);
         DB::table('profesionales')->where('id', 3)->update(['id_especialidad' => 2]);
         DB::table('pacientes')->insert(['id' => 10, 'nombres' => 'Tutora', 'apellido_uno' => 'Prueba']);
         DB::table('mascotas')->insert([

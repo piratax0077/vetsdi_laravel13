@@ -1,0 +1,118 @@
+PHPUnit 11.5.56 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.5.0
+Configuration: D:\laragon\www\vet-sdi_v13\phpunit.xml
+
+...............................................................  63 / 470 ( 13%)
+............................................................... 126 / 470 ( 26%)
+....................................E.......................... 189 / 470 ( 40%)
+.........F.....................................E............... 252 / 470 ( 53%)
+............................................................... 315 / 470 ( 67%)
+............................................................... 378 / 470 ( 80%)
+..................................E............................ 441 / 470 ( 93%)
+.............................                                   470 / 470 (100%)
+
+Time: 00:51.957, Memory: 46.00 MB
+
+There were 3 errors:
+
+1) Tests\Feature\OperacionVeterinariaTest::test_gestion_area_guarda_responsable_y_gastos_solo_del_centro
+Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1 table "vet_responsables_area" already exists (Connection: sqlite, Database: :memory:, SQL: create table "vet_responsables_area" ("id" integer primary key autoincrement not null, "id_institucion" integer not null, "area" varchar not null, "nombre" varchar not null, "contacto" varchar, "created_at" datetime, "updated_at" datetime))
+
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:857
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:813
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:590
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Schema\Blueprint.php:122
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Schema\Builder.php:702
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Schema\Builder.php:520
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php:364
+D:\laragon\www\vet-sdi_v13\database\migrations\2026_11_01_000004_gestion_areas_veterinarias.php:10
+D:\laragon\www\vet-sdi_v13\tests\Feature\OperacionVeterinariaTest.php:103
+
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1 table "vet_responsables_area" already exists
+
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:595
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:846
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:813
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:590
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Schema\Blueprint.php:122
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Schema\Builder.php:702
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Schema\Builder.php:520
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php:364
+D:\laragon\www\vet-sdi_v13\database\migrations\2026_11_01_000004_gestion_areas_veterinarias.php:10
+D:\laragon\www\vet-sdi_v13\tests\Feature\OperacionVeterinariaTest.php:103
+
+2) Tests\Feature\PeluqueriaTest::test_ficha_muestra_nombre_de_especie_y_no_su_identificador
+Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1 table "especies_mascotas" already exists (Connection: sqlite, Database: :memory:, SQL: create table "especies_mascotas" ("id" integer primary key autoincrement not null, "nombre" varchar not null))
+
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:857
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:813
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:590
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Schema\Blueprint.php:122
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Schema\Builder.php:702
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Schema\Builder.php:520
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php:364
+D:\laragon\www\vet-sdi_v13\tests\Feature\PeluqueriaTest.php:296
+
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1 table "especies_mascotas" already exists
+
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:595
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:846
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:813
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:590
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Schema\Blueprint.php:122
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Schema\Builder.php:702
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Schema\Builder.php:520
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php:364
+D:\laragon\www\vet-sdi_v13\tests\Feature\PeluqueriaTest.php:296
+
+3) Tests\Feature\RequerimientosPdfVeterinarioTest::test_agenda_profesional_reserva_dos_mascotas_del_tutor_el_mismo_dia
+Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1 no such table: profesional_horarios (Connection: sqlite, Database: :memory:, SQL: select * from "profesional_horarios" where "id_profesional" = 3 and "id_lugar_atencion" = 4 and "tipo_agenda" = 2)
+
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:857
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:813
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:426
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:3574
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:3558
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:908
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:890
+D:\laragon\www\vet-sdi_v13\app\Services\AccesoAgendaVeterinaria.php:47
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Concerns\ManagesTransactions.php:35
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\DatabaseManager.php:502
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php:364
+D:\laragon\www\vet-sdi_v13\app\Services\AccesoAgendaVeterinaria.php:35
+D:\laragon\www\vet-sdi_v13\app\Http\Controllers\EscritorioProfesional.php:10301
+D:\laragon\www\vet-sdi_v13\tests\Feature\RequerimientosPdfVeterinarioTest.php:309
+
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1 no such table: profesional_horarios
+
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:435
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:846
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:813
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:426
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:3574
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:3558
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:908
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:890
+D:\laragon\www\vet-sdi_v13\app\Services\AccesoAgendaVeterinaria.php:47
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Concerns\ManagesTransactions.php:35
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\DatabaseManager.php:502
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php:364
+D:\laragon\www\vet-sdi_v13\app\Services\AccesoAgendaVeterinaria.php:35
+D:\laragon\www\vet-sdi_v13\app\Http\Controllers\EscritorioProfesional.php:10301
+D:\laragon\www\vet-sdi_v13\tests\Feature\RequerimientosPdfVeterinarioTest.php:309
+
+--
+
+There was 1 failure:
+
+1) Tests\Feature\OperacionVeterinariaTest::test_each_area_has_its_own_view_and_saving_returns_to_it
+Failed asserting that 3 is identical to 2.
+
+D:\laragon\www\vet-sdi_v13\tests\Feature\OperacionVeterinariaTest.php:701
+
+ERRORS!
+Tests: 470, Assertions: 3047, Errors: 3, Failures: 1.

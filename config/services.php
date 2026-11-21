@@ -1,7 +1,12 @@
 <?php
 
 return [
-    'jitsi' => ['app_id' => env('JITSI_APP_ID')],
+    'jitsi' => [
+        'app_id' => env('JITSI_APP_ID'),
+        'link_meet' => env('JITSI_LINK_MEET', 'https://8x8.vc/'),
+        'api_key' => env('JITSI_API_KEY'),
+        'private_key' => env('JITSI_PRIVATE_KEY'),
+    ],
 
     /*
     |--------------------------------------------------------------------------

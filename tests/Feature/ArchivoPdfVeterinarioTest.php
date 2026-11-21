@@ -18,6 +18,7 @@ class ArchivoPdfVeterinarioTest extends TestCase
     {
         parent::setUp();config(['database.default'=>'sqlite','database.connections.sqlite.database'=>':memory:']);DB::purge('sqlite');
         foreach(['users'=>['name','email'],'pacientes'=>['id_usuario','nombres','email','telefono_uno','telefono_dos'],
+            'documento_fc_paciente'=>['id_ficha_atencion','id_paciente','id_profesional','otro','estado','documento'],
             'mascotas'=>['id_responsable','nombre'],'profesionales'=>['id_usuario'],
             'instituciones'=>['id_usuario','id_responsable','id_lugar_atencion','nombre'],
             'admin_inst_serv'=>['id_admin'],'contrato_dependiente'=>['id_empleado','tipo_empleado','estado','id_institucion'],

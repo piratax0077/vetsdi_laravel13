@@ -21,11 +21,12 @@ class FotografiasTest extends TestCase
         parent::setUp();
         config(['database.default'=>'sqlite', 'database.connections.sqlite.database'=>':memory:']);
         DB::purge('sqlite');
+        (require database_path('migrations/2026_11_07_000001_create_mascotas_tutorias.php'))->up();
         Storage::fake('public');
         $this->publicOriginal = public_path();
         $this->publicPrueba = storage_path('framework/testing/fotos-'.uniqid());
         $this->app->usePublicPath($this->publicPrueba);
-        foreach (['asistentes'=>['id_usuario','foto_perfil'], 'pacientes'=>['id_usuario','foto_perfil'], 'mascotas'=>['id_responsable','especie_id','especie','foto_perfil'], 'especies_mascotas'=>['nombre'], 'mascota_genealogias'=>['mascota_id','padre_foto','madre_foto','abuelo_paterno_foto','abuela_paterna_foto','abuelo_materno_foto','abuela_materna_foto','observaciones']] as $tabla=>$campos) {
+        foreach (['asistentes'=>['id_usuario','foto_perfil'], 'pacientes'=>['id_usuario','foto_perfil'], 'mascotas'=>['fallecida','estado','id_responsable','especie_id','especie','foto_perfil'], 'especies_mascotas'=>['nombre'], 'mascota_genealogias'=>['mascota_id','padre_foto','madre_foto','abuelo_paterno_foto','abuela_paterna_foto','abuelo_materno_foto','abuela_materna_foto','observaciones']] as $tabla=>$campos) {
             Schema::create($tabla, function (Blueprint $t) use ($campos) {
                 $t->id(); foreach ($campos as $campo) $t->text($campo)->nullable(); $t->timestamps();
             });

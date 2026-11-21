@@ -7,7 +7,7 @@
     $tiposMovimiento = ['entrada' => 'success', 'salida' => 'info', 'baja' => 'danger'];
     // Pestaña abierta: la del formulario que volvió con errores, o la de la tabla que se está paginando
     $pestanaActiva = match (true) {
-        $errors->any() && old('_formulario') === 'factura' => 'facturas',
+        $errors->any() && (old('_formulario') === 'factura' || $errors->has('archivo_compra')) => 'facturas',
         request('vista') === 'facturas' => 'facturas',
         $errors->any() && old('operacion') !== null => 'movimientos',
         $errors->any() => 'registro',
@@ -68,50 +68,63 @@
     <div class="tab-pane fade {{ $pestanaActiva === 'registro' ? 'show active' : '' }}" id="pestana_registro" role="tabpanel">
     <div class="card">
         <div class="card-header encabezado-card">
-            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-package"></i></span>Registrar producto y lote</h5>
+            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-package"></i></span>Ingresar productos de una factura</h5>
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ route('vet.inventario.lote', request()->only('id_institucion')) }}">@csrf
+            <form id="ingreso-compra" method="POST" action="{{ route('vet.inventario.compra.ingreso', request()->only('id_institucion')) }}">@csrf
+                <input type="hidden" name="ingreso_id" value="{{ old('ingreso_id', (string) \Illuminate\Support\Str::uuid()) }}">
+                <div class="form-row">
+                    <div class="form-group col-md-6"><label for="compra-proveedor">Proveedor / procedencia</label><input id="compra-proveedor" name="proveedor_inicial" class="form-control form-control-sm" maxlength="200" value="{{ old('proveedor_inicial') }}" required></div>
+                    <div class="form-group col-md-6"><label for="compra-documento">Factura / guía de ingreso</label><input id="compra-documento" name="documento_inicial" class="form-control form-control-sm" maxlength="150" value="{{ old('documento_inicial') }}" required></div>
+                </div>
+                <div id="productos-compra">
+                    @foreach(old('productos', [[]]) as $indice => $productoCompra)
+                    <div class="producto-compra border rounded p-3 mb-3">
+                        <div class="d-flex justify-content-between mb-3"><h6>Producto <span class="numero-producto">{{ $loop->iteration }}</span></h6><button type="button" class="btn btn-outline-danger btn-sm quitar-producto">Quitar</button></div>
                 <div class="form-row">
                     <div class="form-group col-md-4">
-                        <label class="floating-label-activo-sm" for="inventario-categoria">Categoría</label>
-                        <select class="form-control form-control-sm" id="inventario-categoria" name="categoria">
-                            @foreach(['medicamento','vacuna','alimento','insumo'] as $categoria)<option value="{{ $categoria }}" @selected(old('categoria') === $categoria)>{{ ucfirst($categoria) }}</option>@endforeach
+                        <label class="floating-label-activo-sm" for="inventario-categoria-{{ $indice }}">Categoría</label>
+                        <select class="form-control form-control-sm" id="inventario-categoria-{{ $indice }}" name="productos[{{ $indice }}][categoria]">
+                            @foreach(['medicamento','vacuna','alimento','insumo'] as $categoria)<option value="{{ $categoria }}" @selected(old('productos.'.$indice.'.categoria') === $categoria)>{{ ucfirst($categoria) }}</option>@endforeach
                         </select>
                     </div>
                     @foreach(['producto'=>'Producto / presentación','registro_sag'=>'Registro o autorización SAG','lote'=>'Lote / serie','unidad'=>'Unidad de control (frasco, dosis, kg…)','ubicacion'=>'Bodega / ubicación','conservacion'=>'Condiciones de conservación del fabricante'] as $campo=>$etiqueta)
                     <div class="form-group col-md-4">
-                        <label class="floating-label-activo-sm" for="inventario-{{ $campo }}">{{ $etiqueta }}</label>
-                        <input class="form-control form-control-sm" id="inventario-{{ $campo }}" name="{{ $campo }}" value="{{ old($campo) }}" maxlength="{{ $campo === 'conservacion' ? 250 : ($campo === 'producto' ? 180 : ($campo === 'unidad' ? 40 : 100)) }}" @required($campo !== 'registro_sag')>
+                        <label class="floating-label-activo-sm" for="inventario-{{ $campo }}-{{ $indice }}">{{ $etiqueta }}</label>
+                        <input class="form-control form-control-sm" id="inventario-{{ $campo }}-{{ $indice }}" name="productos[{{ $indice }}][{{ $campo }}]" value="{{ old('productos.'.$indice.'.'.$campo) }}" maxlength="{{ $campo === 'conservacion' ? 250 : ($campo === 'producto' ? 180 : ($campo === 'unidad' ? 40 : 100)) }}" @required($campo !== 'registro_sag')>
                     </div>
                     @endforeach
                     <div class="form-group col-md-4">
-                        <label class="floating-label-activo-sm" for="inventario-vencimiento">Vencimiento</label>
-                        <input class="form-control form-control-sm" id="inventario-vencimiento" name="vencimiento" type="date" value="{{ old('vencimiento') }}" required>
+                        <label class="floating-label-activo-sm" for="inventario-vencimiento-{{ $indice }}">Vencimiento</label>
+                        <input class="form-control form-control-sm" id="inventario-vencimiento-{{ $indice }}" name="productos[{{ $indice }}][vencimiento]" type="date" value="{{ old('productos.'.$indice.'.vencimiento') }}" required>
                     </div>
                     <div class="form-group col-md-4">
-                        <label class="floating-label-activo-sm" for="inventario-condicion-venta">Condición de venta</label>
-                        <select class="form-control form-control-sm" id="inventario-condicion-venta" name="condicion_venta">
-                            @foreach(['libre'=>'Venta libre','receta'=>'Receta veterinaria','retenida'=>'Receta retenida','control_saldo'=>'Receta retenida con control de saldo','uso_veterinario'=>'Uso exclusivo veterinario'] as $clave=>$texto)<option value="{{ $clave }}" @selected(old('condicion_venta') === $clave)>{{ $texto }}</option>@endforeach
+                        <label class="floating-label-activo-sm" for="inventario-condicion-venta-{{ $indice }}">Condición de venta</label>
+                        <select class="form-control form-control-sm" id="inventario-condicion-venta-{{ $indice }}" name="productos[{{ $indice }}][condicion_venta]">
+                            @foreach(['libre'=>'Venta libre','receta'=>'Receta veterinaria','retenida'=>'Receta retenida','control_saldo'=>'Receta retenida con control de saldo','uso_veterinario'=>'Uso exclusivo veterinario'] as $clave=>$texto)<option value="{{ $clave }}" @selected(old('productos.'.$indice.'.condicion_venta') === $clave)>{{ $texto }}</option>@endforeach
                         </select>
                     </div>
                     <div class="form-group col-md-4">
-                        <label class="floating-label-activo-sm" for="inventario-cantidad-inicial">Número de unidades a ingresar</label>
-                        <input class="form-control form-control-sm" id="inventario-cantidad-inicial" name="cantidad_inicial" type="number"
-                            min="0.001" max="999999999" step="0.001" value="{{ old('cantidad_inicial') }}" required>
+                        <label class="floating-label-activo-sm" for="inventario-modalidad-{{ $indice }}">Modalidad de consumo</label>
+                        <select class="form-control form-control-sm" id="inventario-modalidad-{{ $indice }}" name="productos[{{ $indice }}][modalidad_consumo]">
+                            <option value="fraccionable" @selected(old('productos.'.$indice.'.modalidad_consumo', 'fraccionable') === 'fraccionable')>Fraccionable para varios pacientes</option>
+                            <option value="individual" @selected(old('productos.'.$indice.'.modalidad_consumo') === 'individual')>Unidad de uso individual</option>
+                        </select>
+                        <small class="form-text text-muted">Fraccionable: ingrese el contenido total en ml, g o dosis. Individual: unidades completas por paciente.</small>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="floating-label-activo-sm" for="inventario-cantidad-inicial-{{ $indice }}">Número de unidades a ingresar</label>
+                        <input class="form-control form-control-sm" id="inventario-cantidad-inicial-{{ $indice }}" name="productos[{{ $indice }}][cantidad_inicial]" type="number"
+                            min="0.001" max="999999999" step="0.001" value="{{ old('productos.'.$indice.'.cantidad_inicial') }}" required>
                         <small class="form-text text-muted">Cantidad expresada en la unidad de control del lote.</small>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label class="floating-label-activo-sm" for="inventario-proveedor-inicial">Proveedor / procedencia</label>
-                        <input class="form-control form-control-sm" id="inventario-proveedor-inicial" name="proveedor_inicial" maxlength="200" value="{{ old('proveedor_inicial') }}">
+                </div>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label class="floating-label-activo-sm" for="inventario-documento-inicial">Factura / guía de ingreso</label>
-                        <input class="form-control form-control-sm" id="inventario-documento-inicial" name="documento_inicial" maxlength="150" value="{{ old('documento_inicial') }}">
-                    </div>
+                    @endforeach
                 </div>
                 <div class="inventario-pie">
-                    <button type="submit" class="btn btn-info">Guardar lote</button>
+                    <button type="button" class="btn btn-outline-info mr-2" id="agregar-producto-compra">Agregar otro producto</button>
+                    <button type="submit" class="btn btn-info">Guardar productos de la factura</button>
                 </div>
             </form>
         </div>
@@ -126,7 +139,7 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
-                    <thead><tr><th>Producto</th><th>Lote</th><th>Ubicación</th><th>Vencimiento</th><th>Saldo</th></tr></thead>
+                    <thead><tr><th>Producto</th><th>Lote</th><th>Ubicación</th><th>Vencimiento</th><th>Saldo</th><th>Factura asociada</th></tr></thead>
                     <tbody>
                     @forelse($lotes as $lote)
                         <tr>
@@ -135,9 +148,10 @@
                             <td>{{ $lote->ubicacion }}</td>
                             <td><span class="badge {{ $lote->vencimiento < $hoy ? 'badge-light-danger' : ($lote->vencimiento <= $enSesentaDias ? 'badge-light-warning' : 'badge-light-success') }}">{{ \Illuminate\Support\Carbon::parse($lote->vencimiento)->format('d-m-Y') }}</span></td>
                             <td>{{ $lote->saldo }} {{ $lote->unidad }}</td>
+                            <td>{{ $facturasPorLote->get($lote->id) ?: 'Sin documento registrado' }}</td>
                         </tr>
                     @empty
-                        <tr><td colspan="5" class="text-center text-muted">Aún no hay lotes registrados.</td></tr>
+                        <tr><td colspan="6" class="text-center text-muted">Aún no hay lotes registrados.</td></tr>
                     @endforelse
                     </tbody>
                 </table>
@@ -173,6 +187,26 @@
                         <label class="floating-label-activo-sm" for="movimiento-cantidad">Cantidad</label>
                         <input class="form-control form-control-sm" id="movimiento-cantidad" type="number" name="cantidad" step="0.001" min="0.001" value="{{ old('cantidad') }}" required>
                     </div>
+                    <div class="form-group col-md-6 salida-clinica">
+                        <label class="floating-label-activo-sm" for="movimiento-profesional">Profesional que utiliza el producto</label>
+                        <select id="movimiento-profesional" name="profesional_uso_id" class="form-control form-control-sm"><option value="">Seleccione</option>
+                            @foreach($profesionalesUso as $persona)<option value="{{ $persona->id }}" @selected(old('profesional_uso_id') == $persona->id)>{{ $persona->nombreCompleto() }}</option>@endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6 salida-clinica">
+                        <label class="floating-label-activo-sm" for="movimiento-despachador">Funcionario que despachó</label>
+                        <select id="movimiento-despachador" name="despachador_id" class="form-control form-control-sm"><option value="">Seleccione</option>
+                            @foreach($funcionariosDespacho as $persona)<option value="{{ $persona->id }}" @selected(old('despachador_id') == $persona->id)>{{ $persona->name }}</option>@endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6 salida-clinica">
+                        <label class="floating-label-activo-sm" for="movimiento-uso">Uso clínico / procedimiento / área</label>
+                        <input id="movimiento-uso" name="uso_clinico" maxlength="250" value="{{ old('uso_clinico') }}" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group col-md-6 salida-clinica">
+                        <label class="floating-label-activo-sm" for="movimiento-ficha">N° de ficha de atención (si corresponde)</label>
+                        <input id="movimiento-ficha" name="ficha_id" type="number" min="1" value="{{ old('ficha_id') }}" class="form-control form-control-sm">
+                    </div>
                     @foreach(['contraparte'=>'Proveedor / destino / paciente','documento'=>'Factura, guía o referencia del movimiento','receta'=>'Referencia receta SAG / autorización','observaciones'=>'Motivo / observaciones'] as $campo=>$etiqueta)
                     <div class="form-group col-md-6">
                         <label class="floating-label-activo-sm" for="movimiento-{{ $campo }}">{{ $etiqueta }}</label>
@@ -196,7 +230,7 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
-                    <thead><tr><th>Fecha</th><th>Producto / lote</th><th>Tipo</th><th>Cantidad</th><th>Saldo</th><th>Procedencia / destino</th><th>Documento / receta</th><th>Registrado por</th><th>Indicado por</th><th>Administrado por</th></tr></thead>
+                    <thead><tr><th>Fecha</th><th>Producto / lote</th><th>Tipo</th><th>Cantidad</th><th>Saldo</th><th>Procedencia / destino</th><th>Documento / receta</th><th>Registrado por</th><th>Indicado por</th><th>Administrado por</th><th>Profesional que utilizó</th><th>Despachado por</th><th>Uso clínico / ficha</th></tr></thead>
                     <tbody>
                     @forelse($movimientos as $m)
                         <tr>
@@ -207,12 +241,12 @@
                             <td>{{ $m->saldo }} {{ $m->unidad }}</td>
                             <td>{{ $m->contraparte }}</td>
                             <td>{{ $m->documento }} {{ $m->receta }}</td>
-                            <td>{{ $m->usuario_id }}</td>
+                            <td>{{ $m->registrado_por ?: $m->usuario_id }}</td>
                             <td>{{ $m->indicado_por ?: '—' }}</td>
-                            <td>{{ $m->administrado_por ?: '—' }}</td>
+                            <td>{{ $m->administrado_por ?: '—' }}</td><td>{{ $m->profesional_uso ?: '—' }}</td><td>{{ $m->despachado_por ?: '—' }}</td><td>{{ $m->uso_clinico }} @if($m->ficha_id) · Ficha #{{ $m->ficha_id }} @endif</td>
                         </tr>
                     @empty
-                        <tr><td colspan="10" class="text-center text-muted">Aún no hay movimientos.</td></tr>
+                        <tr><td colspan="13" class="text-center text-muted">Aún no hay movimientos.</td></tr>
                     @endforelse
                     </tbody>
                 </table>
@@ -223,6 +257,22 @@
     </div>
 
     <div class="tab-pane fade {{ $pestanaActiva === 'facturas' ? 'show active' : '' }}" id="pestana_facturas" role="tabpanel">
+        <div class="card"><div class="card-header encabezado-card"><h5>Respaldos de ingresos de productos</h5></div><div class="card-body table-responsive">
+            <table class="table table-striped table-sm"><thead><tr><th>Fecha</th><th>Proveedor</th><th>Factura / guía</th><th>Respaldo</th></tr></thead><tbody>
+            @forelse($ingresosCompra as $compra)
+                <tr><td>{{ $compra->created_at }}</td><td>{{ $compra->proveedor }}</td><td>{{ $compra->documento }}</td><td>
+                    @if($compra->ruta)
+                        <a class="btn btn-outline-info btn-sm" target="_blank" rel="noopener" href="{{ route('vet.inventario.compra.archivo', ['ingreso'=>$compra->id] + request()->only('id_institucion')) }}">Ver respaldo</a>
+                    @else
+                        <form method="POST" enctype="multipart/form-data" action="{{ route('vet.inventario.compra.respaldo', ['ingreso'=>$compra->id] + request()->only('id_institucion')) }}">@csrf
+                            <input type="file" name="archivo_compra" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <button class="btn btn-info btn-sm">Subir respaldo</button>
+                        </form>
+                    @endif
+                </td></tr>
+            @empty<tr><td colspan="4">No hay ingresos de compra registrados.</td></tr>@endforelse
+            </tbody></table>{{ $ingresosCompra->links() }}
+        </div></div>
         @include('app.veterinaria.inventario.partials.facturas')
     </div>
     </div>
@@ -233,6 +283,23 @@
 </div></div>
 @endsection
 @section('page-script')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const tipo = document.getElementById('movimiento-tipo');
+    function actualizarSalida() {
+        const salida = tipo.value === 'salida';
+        document.querySelectorAll('.salida-clinica').forEach(function (grupo) {
+            grupo.hidden = !salida;
+            const campo = grupo.querySelector('input, select');
+            campo.disabled = !salida;
+            campo.required = salida && campo.name !== 'ficha_id';
+        });
+    }
+    tipo.addEventListener('change', actualizarSalida);
+    actualizarSalida();
+});
+</script>
+<script src="{{ asset('js/inventario-compra.js') }}"></script>
 <script>
     // Las alertas flotantes se cierran solas a los 6 segundos, como en las demás vistas veterinarias
     if (window.jQuery) {

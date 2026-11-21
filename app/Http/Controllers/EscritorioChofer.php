@@ -41,8 +41,8 @@ class EscritorioChofer extends Controller
 
         $nombre_consulta = 'Emergencia.' . $nombre_chofer_clean . '.' . $nombre_paciente_clean . '.' . $inicio;
 
-        $app_id  = env('JITSI_APP_ID');
-        $api_key = env('JITSI_API_KEY');
+        $app_id  = config('services.jitsi.app_id');
+        $api_key = config('services.jitsi.api_key');
 
         // JWT Moderador (chofer)
         $payload_mod = [
@@ -71,14 +71,14 @@ class EscritorioChofer extends Controller
             ],
             'room' => $nombre_consulta,
         ];
-        $jwt_mod = JWT::encode($payload_mod, env('JITSI_PRIVATE_KEY'), 'RS256', $api_key);
+        $jwt_mod = JWT::encode($payload_mod, config('services.jitsi.private_key'), 'RS256', $api_key);
 
         // JWT Invitado (médico / central)
         $payload_inv = $payload_mod;
         $payload_inv['context']['user']['id']        = 'inv-medico-' . uniqid('', true);
         $payload_inv['context']['user']['name']      = 'Médico Central';
         $payload_inv['context']['user']['moderator'] = false;
-        $jwt_inv = JWT::encode($payload_inv, env('JITSI_PRIVATE_KEY'), 'RS256', $api_key);
+        $jwt_inv = JWT::encode($payload_inv, config('services.jitsi.private_key'), 'RS256', $api_key);
 
         // Guardar registro (si falla por constraint de BD, la llamada igual puede iniciarse)
         $link_medico = null;

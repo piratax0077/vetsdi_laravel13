@@ -17,27 +17,19 @@ class JitsiController extends Controller
 
     public function index($id, $nombre)
     {
-        $error = '';
-        $token_invitado = '';
-        $registro = JitsiVideo::where('nombre_grupo', $nombre)->get()->first();
-        // var_dump( $nombre ) ;
-        // var_dump( $registro ) ;
-        // die();
-        if($registro)
-        {
-            $token_invitado = $registro->$token_invitado;
-        }
-        else
-        {
-            $error = 'Link de llamada no valido';
-        }
-
+        $registro = JitsiVideo::where('nombre_grupo', $nombre)->firstOrFail();
+        $this->autorizarLlamada($registro);
+        abort_unless((string) $id === (string) config('services.jitsi.app_id'), 404);
         return view('videollamada')->with([
-            'id' => $id,
-            'nombre' => $nombre,
-            'error' => $error,
-            'token_invitado' => $token_invitado,
+            'id' => $id, 'nombre' => $nombre, 'error' => '',
+            'token_invitado' => $registro->token_invitado,
         ]);
+    }
+
+    private function autorizarLlamada(JitsiVideo $registro): void
+    {
+        $hora = HoraMedica::where('id_jitsi_video_consulta', $registro->id)->firstOrFail();
+        app(\App\Services\AccesoAgendaVeterinaria::class)->hora($hora->id, 'ver');
     }
     /** REGISTRO DE LLAMADA CON JITSI */
     public function registrar_r( Request $request )
@@ -245,8 +237,10 @@ class JitsiController extends Controller
 
         if($valido)
         {
-            $app_id = env('JITSI_APP_ID');
-            $api_key = env('JITSI_API_KEY');
+            $app_id = config('services.jitsi.app_id');
+            $api_key = config('services.jitsi.api_key');
+            $privateKey = config('services.jitsi.private_key');
+            if (!$app_id || !$api_key || !$privateKey) return (object) ['estado'=>0, 'msj'=>'La videoconsulta no está configurada.', 'error'=>['configuracion'=>'Faltan credenciales del servicio de video.']];
 
             // $inicio = strtotime("2024-09-19 16:31:01");
             // $inicio = strtotime("now");
@@ -288,9 +282,9 @@ class JitsiController extends Controller
                 // "iat"=> $inicio,
                 // "exp"=> $termino,
                 // "nbf"=> $inicio,
-                "iat"=> strtotime("2024-09-19 16:31:01"),
-                "exp"=> strtotime ( '+1 year' , strtotime("2024-09-19 16:31:01") ),
-                "nbf"=> strtotime("2024-09-19 16:31:01"),
+                "iat"=> now()->timestamp,
+                "exp"=> $termino,
+                "nbf"=> $inicio,
                 "sub"=> $app_id,
                 "context"=> array(
                     "features"=> array(
@@ -313,7 +307,11 @@ class JitsiController extends Controller
             ];
 
             /** sin enviar el public key */
-            $jwt = JWT::encode($payload, env('JITSI_PRIVATE_KEY'), 'RS256', $api_key);
+            try {
+                $jwt = JWT::encode($payload, $privateKey, 'RS256', $api_key);
+            } catch (\Throwable $errorFirma) {
+                return (object) ['estado'=>0, 'msj'=>'No fue posible iniciar la videoconsulta.', 'error'=>['configuracion'=>'Revisa la configuración de la firma del servicio de video.']];
+            }
 
             $datos['estado'] = 1;
             $datos['msj'] = 'registros';
@@ -394,7 +392,7 @@ class JitsiController extends Controller
             date('Y-m-d H:i:s', strtotime($hora_medica->fecha_consulta . ' ' . $hora_medica->hora_inicio . ' -5 minutes'))
         );
 
-         echo json_encode($token_paciente_temp);
+
         // echo $token_paciente_temp->estado;
 
         if($token_paciente_temp->estado == 1)
@@ -471,6 +469,10 @@ class JitsiController extends Controller
             $registro = JitsiVideo::find($request->id);
             if($registro)
             {
+                $this->autorizarLlamada($registro);
+                if (!Profesional::whereKey($registro->id_profesional)->where('id_usuario', auth()->id())->exists()) {
+                    $registro->makeHidden('token_moderator');
+                }
                 $datos['estado'] = 1;
                 $datos['msj'] = 'registo';
                 $datos['registro'] = $registro;
@@ -545,7 +547,7 @@ class JitsiController extends Controller
                 $body = array(
                     'nombre_paciente' => $paciente->nombres.' '.$paciente->apellido_uno,
                     'nombre_profesional' => $profesional->nombres.' '.$profesional->apellido_uno,
-                    'link_meet' => env('JITSI_LINK_MEET').env('JITSI_APP_ID').'/'.$nombre_grupo,
+                    'link_meet' => config('services.jitsi.link_meet').config('services.jitsi.app_id').'/'.$nombre_grupo,
                     'lugar_atencion' => $lugar_atencion->nombre,
                     'fecha_consulta' => $value->fecha_consulta,
                     'hora_consulta' => $value->hora_inicio

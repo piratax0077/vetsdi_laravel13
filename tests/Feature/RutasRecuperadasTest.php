@@ -17,6 +17,7 @@ class RutasRecuperadasTest extends TestCase
         parent::setUp();
         config(['database.default'=>'sqlite', 'database.connections.sqlite.database'=>':memory:']);
         DB::purge('sqlite');
+        (require database_path('migrations/2026_11_07_000001_create_mascotas_tutorias.php'))->up();
         (require database_path('migrations/2026_10_13_235000_create_solicitudes_soporte_table.php'))->up();
         foreach ([
             'profesionales'=>['id_usuario'], 'pacientes'=>['id_usuario'],

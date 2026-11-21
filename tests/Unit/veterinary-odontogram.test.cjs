@@ -17,7 +17,7 @@ function setup(fetchResult) {
     };
     context.window=context;vm.createContext(context);vm.runInContext(script,context);
     context.odontoVetContexto={mascota:1,paciente:9,ficha:100,lugar:20,csrf:'test'};
-    context.piezaDentalVetActual={dataset:{pieza:'104'},style:{}};
+    context.piezaDentalVetActual={dataset:{pieza:'104'},style:{},closest:()=>null};
     for(const [id,value] of Object.entries({odontoVetHallazgo:'Fractura',odontoVetTratamiento:'Extracción',odontoVetObservaciones:'Consulta en curso',odontoVetValor:'10000',odontoVetTarifaUco:''}))elements.set(id,{value});
     return {context,requests,get reloads(){return reloads;}};
 }

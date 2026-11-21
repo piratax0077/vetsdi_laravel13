@@ -5757,9 +5757,9 @@ Route::group([
 
 /** jitsi */
 
-Route::get('llamada/inicio', [App\Http\Controllers\JitsiController::class, 'buscarLlamadaJitsi'])->name('jitsi.buscar.meet');
+Route::get('llamada/inicio', [App\Http\Controllers\JitsiController::class, 'buscarLlamadaJitsi'])->middleware('auth')->name('jitsi.buscar.meet');
 
-Route::get('/paciente/videollamada/{id}/{nombre}', [App\Http\Controllers\JitsiController::class, 'index'])->name('videollamada');
+Route::get('/paciente/videollamada/{id}/{nombre}', [App\Http\Controllers\JitsiController::class, 'index'])->middleware('auth')->name('videollamada');
 
 
 
@@ -6017,6 +6017,9 @@ require __DIR__.'/centros_servicios.php';
 Route::middleware('auth')->prefix('Veterinaria/Inventario')->name('vet.inventario.')->controller(\App\Http\Controllers\InventarioVeterinarioController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::post('lotes', 'lote')->name('lote');
+    Route::post('compras/ingreso', 'ingresoCompra')->name('compra.ingreso');
+    Route::post('compras/{ingreso}/respaldo', 'respaldoCompra')->name('compra.respaldo');
+    Route::get('compras/{ingreso}/respaldo', 'verRespaldoCompra')->name('compra.archivo');
     Route::post('movimientos', 'movimiento')->name('movimiento');
     Route::get('exportar', 'exportar')->name('exportar');
 });

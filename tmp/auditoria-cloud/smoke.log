@@ -1,0 +1,194 @@
+{
+    "entorno": {
+        "debug": true,
+        "timezone": "UTC",
+        "mail_driver": "log",
+        "mail_redirigido": false,
+        "jitsi_configurado": false,
+        "sesion_segura": false,
+        "cola": "sync"
+    },
+    "perfiles": {
+        "tutor": {
+            "cuenta_disponible": true,
+            "perfil_completo": true
+        },
+        "profesional": {
+            "cuenta_disponible": true,
+            "perfil_completo": true
+        },
+        "clinica": {
+            "cuenta_disponible": true,
+            "perfil_completo": true
+        },
+        "asistente": {
+            "cuenta_disponible": true,
+            "perfil_completo": true
+        },
+        "guarderia_hotel": {
+            "cuenta_disponible": true,
+            "perfil_completo": true
+        },
+        "cementerio_mascotas": {
+            "cuenta_disponible": true,
+            "perfil_completo": true
+        },
+        "peluqueria": {
+            "cuenta_disponible": true,
+            "perfil_completo": true
+        },
+        "centro_estetico": {
+            "cuenta_disponible": true,
+            "perfil_completo": true
+        }
+    },
+    "pantallas": [
+        {
+            "perfil": "tutor",
+            "ruta": "paciente.home",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "tutor",
+            "ruta": "paciente.perfil",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "tutor",
+            "ruta": "paciente.mascotas.index",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "profesional",
+            "ruta": "profesional.home",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "profesional",
+            "ruta": "profesional.mi_perfil",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "profesional",
+            "ruta": "profesional.configuracion",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "profesional",
+            "ruta": "vet.inventario.index",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "clinica",
+            "ruta": "adm_cm.home",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "clinica",
+            "ruta": "adm_cm.configuracion",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "clinica",
+            "ruta": "adm_cm.perfil_cm",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "clinica",
+            "ruta": "vet.inventario.index",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "asistente",
+            "ruta": "asistentes.perfil",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "guarderia_hotel",
+            "ruta": "guarderia_hotel.home",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "guarderia_hotel",
+            "ruta": "guarderia_hotel.configuracion",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "cementerio_mascotas",
+            "ruta": "cementerio_mascotas.home",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "cementerio_mascotas",
+            "ruta": "cementerio_mascotas.configuracion",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "cementerio_mascotas",
+            "ruta": "cementerio_mascotas.inventario",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "peluqueria",
+            "ruta": "peluqueria.home",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "peluqueria",
+            "ruta": "peluqueria.configuracion",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "centro_estetico",
+            "ruta": "centro_estetico.home",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        },
+        {
+            "perfil": "centro_estetico",
+            "ruta": "centro_estetico.configuracion",
+            "http": 200,
+            "escrituras_bloqueadas": 0,
+            "redireccion": null
+        }
+    ]
+}

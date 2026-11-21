@@ -1,0 +1,96 @@
+PHPUnit 11.5.56 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.5.0
+Configuration: D:\laragon\www\vet-sdi_v13\phpunit.xml
+
+......................................E........................  63 / 125 ( 50%)
+........................................................E.....  125 / 125 (100%)
+
+Time: 00:15.664, Memory: 34.00 MB
+
+There were 2 errors:
+
+1) Tests\Feature\OperacionVeterinariaTest::test_each_area_has_its_own_view_and_saving_returns_to_it
+Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1 no such table: vet_equipo_hospitalizacion (Connection: sqlite, Database: :memory:, SQL: select "e".*, "u"."name" from "vet_equipo_hospitalizacion" as "e" inner join "users" as "u" on "u"."id" = "e"."id_usuario" where "e"."id_institucion" = 10 order by "u"."name" asc)
+
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:864
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:820
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:433
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:3640
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:3624
+D:\laragon\www\vet-sdi_v13\app\Http\Controllers\ServicioHospitalizacionVeterinariaController.php:62
+D:\laragon\www\vet-sdi_v13\app\Http\Controllers\OperacionVeterinariaController.php:126
+D:\laragon\www\vet-sdi_v13\tests\Feature\OperacionVeterinariaTest.php:691
+
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1 no such table: vet_equipo_hospitalizacion
+
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:442
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:853
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:820
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:433
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:3640
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:3624
+D:\laragon\www\vet-sdi_v13\app\Http\Controllers\ServicioHospitalizacionVeterinariaController.php:62
+D:\laragon\www\vet-sdi_v13\app\Http\Controllers\OperacionVeterinariaController.php:126
+D:\laragon\www\vet-sdi_v13\tests\Feature\OperacionVeterinariaTest.php:691
+
+2) Tests\Feature\RequerimientosPdfVeterinarioTest::test_agenda_profesional_reserva_dos_mascotas_del_tutor_el_mismo_dia
+Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1 no such table: tutor_bloqueos (Connection: sqlite, Database: :memory:, SQL: select exists(select * from "tutor_bloqueos" where "id_paciente" = 10 and (("id_profesional" = 3 and "id_lugar_atencion" = 0) or "id_lugar_atencion" = 4)) as "exists")
+
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:864
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:820
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:433
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4014
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2366
+D:\laragon\www\vet-sdi_v13\app\Models\TutorBloqueo.php:33
+D:\laragon\www\vet-sdi_v13\app\Models\HoraMedica.php:28
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Events\Dispatcher.php:500
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Events\Dispatcher.php:330
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Events\Dispatcher.php:310
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Events\Dispatcher.php:270
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Concerns\HasEvents.php:224
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1636
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1455
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1518
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Concerns\ManagesTransactions.php:35
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1518
+D:\laragon\www\vet-sdi_v13\app\Services\AccesoAgendaVeterinaria.php:88
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Concerns\ManagesTransactions.php:35
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\DatabaseManager.php:502
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php:364
+D:\laragon\www\vet-sdi_v13\app\Services\AccesoAgendaVeterinaria.php:35
+D:\laragon\www\vet-sdi_v13\app\Http\Controllers\EscritorioProfesional.php:10301
+D:\laragon\www\vet-sdi_v13\tests\Feature\RequerimientosPdfVeterinarioTest.php:312
+
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1 no such table: tutor_bloqueos
+
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:442
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:853
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:820
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Connection.php:433
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4014
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2366
+D:\laragon\www\vet-sdi_v13\app\Models\TutorBloqueo.php:33
+D:\laragon\www\vet-sdi_v13\app\Models\HoraMedica.php:28
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Events\Dispatcher.php:500
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Events\Dispatcher.php:330
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Events\Dispatcher.php:310
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Events\Dispatcher.php:270
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Concerns\HasEvents.php:224
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1636
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1455
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1518
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Concerns\ManagesTransactions.php:35
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1518
+D:\laragon\www\vet-sdi_v13\app\Services\AccesoAgendaVeterinaria.php:88
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\Concerns\ManagesTransactions.php:35
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Database\DatabaseManager.php:502
+D:\laragon\www\vet-sdi_v13\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php:364
+D:\laragon\www\vet-sdi_v13\app\Services\AccesoAgendaVeterinaria.php:35
+D:\laragon\www\vet-sdi_v13\app\Http\Controllers\EscritorioProfesional.php:10301
+D:\laragon\www\vet-sdi_v13\tests\Feature\RequerimientosPdfVeterinarioTest.php:312
+
+ERRORS!
+Tests: 125, Assertions: 940, Errors: 2.

@@ -254,7 +254,7 @@
 
 @section('page-scripts')
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://8x8.vc/{{ env('JITSI_APP_ID') }}/external_api.js"></script>
+<script src="https://8x8.vc/{{ config('services.jitsi.app_id') }}/external_api.js"></script>
 <script>
 var _mapChofer = null;
 var _markerChofer = null;

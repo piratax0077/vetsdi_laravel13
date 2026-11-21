@@ -312,6 +312,34 @@ class GuardarFichaVeterinariaTest extends TestCase
         return json_decode(FichaVeterinariaGeneral::first()->datos, true);
     }
 
+    public function test_consumo_en_odontologia_se_descontara_una_sola_vez_al_reenviar_la_ficha(): void
+    {
+        Schema::create('users', function (Blueprint $table) { $table->id(); $table->string('name'); });
+        DB::table('users')->insert(['id'=>7,'name'=>'Veterinario']);
+        foreach (['2026_11_18_000001_inventario_trazable_vet.php', '2026_11_18_000002_consumo_clinico_inventario.php', '2026_11_20_000002_despacho_clinico_inventario.php', '2026_11_20_000003_modalidad_consumo_inventario.php'] as $archivo) {
+            (require database_path('migrations/'.$archivo))->up();
+        }
+        $this->actingAs(\App\Models\User::findOrFail(7));
+        $this->partialMock(\App\Services\ConsumoInventarioVeterinario::class, function ($mock) {
+            $mock->shouldReceive('contexto')->andReturn(['profesional:3', collect([\App\Models\User::findOrFail(7)])]);
+        });
+        $lote = DB::table('vet_inventario_lotes')->insertGetId([
+            'titular'=>'profesional:3','categoria'=>'insumo','producto'=>'Pasta dental',
+            'condicion_venta'=>'libre','lote'=>'D1','vencimiento'=>now()->addYear()->toDateString(),
+            'unidad'=>'g','ubicacion'=>'Dental','conservacion'=>'Fabricante','saldo'=>10,'modalidad_consumo'=>'fraccionable',
+        ]);
+        $datos = ['hora_medica'=>1,'descripcion_hipotesis'=>'Tratamiento dental','cerrarsession'=>2,
+            'nuevas_inyecciones'=>[['registro'=>str_repeat('a',32),'lote_id'=>$lote,'cantidad_stock'=>'0.125',
+                'administrador_id'=>7,'despachador_id'=>7,'procedimiento'=>'Limpieza','precio_medicamento'=>100,'precio_procedimiento'=>0]],
+        ];
+        foreach ([1,2] as $intento) {
+            app(GuardarFichaVeterinaria::class)->guardar(Request::create('/', 'POST', $datos),3,'odontologia');
+            $this->assertEquals(9.875,DB::table('vet_inventario_lotes')->where('id',$lote)->value('saldo'));
+            $this->assertSame(1,DB::table('vet_inventario_movimientos')->count());
+            $this->assertCount(1,$this->datos()['inyecciones_consulta']);
+        }
+    }
+
     public function test_all_three_existing_controller_entry_points_use_the_veterinary_save(): void
     {
         foreach ([

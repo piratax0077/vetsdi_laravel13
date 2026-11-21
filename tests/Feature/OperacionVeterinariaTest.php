@@ -30,10 +30,12 @@ class OperacionVeterinariaTest extends TestCase
         DB::table('mascotas')->insert([['id'=>1,'nombre'=>'Luna','especie'=>'Canina'],['id'=>2,'nombre'=>'Milo','especie'=>'Felina'],['id'=>3,'nombre'=>'Mascota ajena','especie'=>'Canina']]);
         DB::table('horas_medicas')->insert([['id_lugar_atencion'=>100,'id_mascota'=>1],['id_lugar_atencion'=>100,'id_mascota'=>2],['id_lugar_atencion'=>200,'id_mascota'=>3]]);
         $this->migracion()->up();
+        (require database_path('migrations/2026_11_01_000004_gestion_areas_veterinarias.php'))->up();
         $this->migracionPacientes()->up();
         (require database_path('migrations/2026_11_01_000001_tipo_evolucion_hospitalaria.php'))->up();
         (require database_path('migrations/2026_11_01_000002_asignacion_y_cirugia_hospitalaria.php'))->up();
         (require database_path('migrations/2026_11_01_000003_controles_hospitalarios.php'))->up();
+        (require database_path('migrations/2026_11_01_000005_servicio_hospitalizacion_veterinaria.php'))->up();
         Auth::setUser(User::find(1));
     }
 
@@ -99,7 +101,7 @@ class OperacionVeterinariaTest extends TestCase
 
     public function test_gestion_area_guarda_responsable_y_gastos_solo_del_centro(): void
     {
-        (require database_path('migrations/2026_11_01_000004_gestion_areas_veterinarias.php'))->up();
+
         $c = app(\App\Http\Controllers\GestionAreaVeterinariaController::class);
         $c->guardar($this->req(['accion'=>'responsable','nombre'=>'Responsable de radiología','contacto'=>'Anexo 20']),$this->servicio(),'imagenologia');
         $c->guardar($this->req(['accion'=>'gasto','tipo'=>'insumos','fecha'=>'2026-11-01','concepto'=>'Insumos radiológicos','monto'=>25000]),$this->servicio(),'imagenologia');
@@ -360,7 +362,7 @@ class OperacionVeterinariaTest extends TestCase
     public function test_servicio_hospitalario_separa_enfermeria_y_profesional_y_revoca_el_acceso(): void
     {
         [$id,$profesional]=$this->prepararProfesionalHospitalario();
-        (require database_path('migrations/2026_11_01_000005_servicio_hospitalizacion_veterinaria.php'))->up();
+
         Schema::create('asistentes',function(Blueprint $t){$t->id();$t->integer('id_usuario');});
         DB::table('users')->insert(['id'=>2,'name'=>'Enfermería','email'=>'enfermeria@example.test']);
         DB::table('asistentes')->insert(['id'=>1,'id_usuario'=>2]);
@@ -697,7 +699,7 @@ class OperacionVeterinariaTest extends TestCase
                 $this->assertStringNotContainsString('Vincular una mascota',$html);
                 $this->assertStringContainsString('Agregar examen',$html);
                 $this->assertStringContainsString('Guardar examen',$html);
-                $this->assertSame(2,substr_count($html,'<table '));
+                $this->assertSame(3,substr_count($html,'<table '));
             }
             $enPestanas=in_array($area,OperacionVeterinaria::AREAS_EN_PESTANAS);
             $this->assertSame($enPestanas || $area === 'hospitalizacion',str_contains($html,'pill-moderno-white'));

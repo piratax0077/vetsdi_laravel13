@@ -1,0 +1,10 @@
+PHPUnit 11.5.56 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.5.0
+Configuration: D:\laragon\www\vet-sdi_v13\phpunit.xml
+
+..........................                                        26 / 26 (100%)
+
+Time: 00:02.988, Memory: 30.00 MB
+
+OK (26 tests, 111 assertions)

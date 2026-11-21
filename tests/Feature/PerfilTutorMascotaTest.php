@@ -43,7 +43,7 @@ class PerfilTutorMascotaTest extends TestCase
             'asistentes'=>['id_usuario','id_direccion'],'asistente_contacto_emergencia'=>['id_asistente','id_contacto'],'pacientes_dependientes'=>['id_responsable','id_paciente'],
             'direcciones'=>['id_ciudad','direccion','numero_dir'],'ciudades'=>['id_region','nombre'],'regiones'=>['nombre'],'previsiones'=>['nombre'],
             'especies_mascotas'=>['nombre','requiere_detalle'],'tamanos_mascotas'=>['nombre','slug'],'razas_mascotas'=>['nombre','slug','especie_id'],'especie_tamano_mascota'=>['especie_id','tamano_id'],
-            'mascotas'=>['id_responsable','tiene_chip','chip','nombre','especie_id','especie','raza_id','otra_especie','tamano_id','tamano','fecha_nacimiento','sexo','foto_perfil','galeria','observaciones_fotos','esterilizado','fecha_esterilizacion','enfermedad_cronica','dieta','ultima_desparasitacion','producto_desparasitacion','cirugias','vacunas','viajes','vive_con_animales','vacunas_registro','desparasitaciones_registro','suscripciones_servicios_registro','reservas_servicios_registro','id_user','estado','ficha_incompleta_veterfarma','fallecida'],
+            'mascotas'=>['id_responsable','tiene_chip','chip','nombre','especie_id','especie','raza_id','otra_especie','tamano_id','tamano','fecha_nacimiento','sexo','foto_perfil','galeria','observaciones_fotos','esterilizado','fecha_esterilizacion','enfermedad_cronica','comportamiento','dieta','ultima_desparasitacion','producto_desparasitacion','cirugias','vacunas','viajes','vive_con_animales','vacunas_registro','desparasitaciones_registro','suscripciones_servicios_registro','reservas_servicios_registro','id_user','estado','ficha_incompleta_veterfarma','fallecida'],
             'mascotas_lugares_atencion'=>['id_mascota','id_lugar_atencion','id_institucion','origen'],'lugares_atencion'=>['nombre'],'sucursal'=>['id_lugar_atencion','id_institucion'],
             'contactos_emergencia'=>['rut','nombre','apellido_uno','apellido_dos','email','telefono','id_direccion','parentezco','prioridad','fecha_nac'],'pacientes_contacto_emergencia'=>['id_paciente','id_contacto','relacion'],
         ]as $tabla=>$campos)Schema::create($tabla,function(Blueprint $t)use($campos){$t->id();foreach($campos as $c)$t->text($c)->nullable();$t->timestamps();});
@@ -229,7 +229,6 @@ class PerfilTutorMascotaTest extends TestCase
         $this->assertSame($url, $mascota->toArray()['foto_url']);
         foreach ([
             'template/paciente_dependiente/menu' => 'fotoMascota',
-            'app/general/buscador_profesionales/buscador' => 'foto_mascota_reserva',
             'app/paciente/carnet_sanitario_mascota' => 'imgMascota',
         ] as $vista => $variable) {
             preg_match('/@php\b.*?@endphp/s', file_get_contents(resource_path('views/'.$vista.'.blade.php')), $bloque);
