@@ -187,7 +187,7 @@
                                         <i class="feather icon-plus-circle mr-1"></i> Insertar dato
                                     </button>
                                     <div class="dropdown-menu">
-                                        @foreach (['mascota' => 'Mascota', 'especie' => 'Especie', 'raza' => 'Raza', 'peso' => 'Peso', 'tutor' => 'Tutor', 'rut_tutor' => 'RUT del tutor', 'microchip' => 'N° de microchip', 'edad' => 'Edad', 'profesional' => 'Profesional', 'rut_profesional' => 'RUT del profesional', 'fecha' => 'Fecha'] as $clave => $texto)
+                                        @foreach (['mascota' => 'Mascota', 'especie' => 'Especie', 'raza' => 'Raza', 'peso' => 'Peso', 'tutor' => 'Tutor(a)', 'rut_tutor' => 'RUT del tutor', 'microchip' => 'N° de microchip', 'edad' => 'Edad', 'profesional' => 'Profesional', 'rut_profesional' => 'RUT del profesional', 'fecha' => 'Fecha'] as $clave => $texto)
                                             <button type="button" class="dropdown-item" onmousedown="event.preventDefault()" onclick="insertarDato('{{ $clave }}', '{{ $texto }}')">{{ $texto }}</button>
                                         @endforeach
                                     </div>
@@ -219,7 +219,7 @@
                                         <div class="documento-firma-espacio"></div>
                                         <div class="documento-firma-linea">Firma del tutor / responsable</div>
                                         <dl class="documento-firma-datos">
-                                            <div><dt>Nombre</dt><dd><span class="indicacion-dato" data-dato="tutor">Tutor</span></dd></div>
+                                            <div><dt>Nombre</dt><dd><span class="indicacion-dato" data-dato="tutor">Tutor(a)</span></dd></div>
                                             <div><dt>RUT</dt><dd><span class="indicacion-dato" data-dato="rut_tutor">RUT del tutor</span></dd></div>
                                         </dl>
                                     </div>

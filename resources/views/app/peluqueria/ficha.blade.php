@@ -27,7 +27,7 @@
         <div class="pelu-atencion-unica">
         <div class="pelu-columnas pelu-evaluacion-columnas">
 <section class="pelu-panel"><h2><span>01</span> Datos de la mascota</h2>
-                <p class="pelu-tutor"><strong>Tutor:</strong> {{ $datos['tutor'] ?? $cliente->tutor }} · {{ $cliente->telefono }}</p>
+                <p class="pelu-tutor"><strong>Tutor(a):</strong> {{ $datos['tutor'] ?? $cliente->tutor }} · {{ $cliente->telefono }}</p>
                 <div class="pelu-campos">
                     @foreach(['mascota'=>'Nombre de la mascota','especie'=>'Especie','raza'=>'Raza','edad'=>'Edad (años o meses)'] as $campo=>$etiqueta)
                     <label>{{ $etiqueta }}<input name="{{ $campo }}" value="{{ $valor($campo) }}" maxlength="{{ in_array($campo,['especie','edad'])?60:100 }}" @required(in_array($campo,['mascota','especie']))></label>

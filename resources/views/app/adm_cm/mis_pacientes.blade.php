@@ -397,7 +397,7 @@
 
     function abrirMensajeTutor(idTutor, nombreTutor) {
         $('#mensaje_tutor_id').val(idTutor);
-        $('#mensaje_tutor_nombre').text(nombreTutor || 'Tutor');
+        $('#mensaje_tutor_nombre').text(nombreTutor || 'Tutor(a)');
         $('#modalMensajeTutor').modal('show');
     }
 

@@ -3,7 +3,7 @@
 <a class="btn btn-outline-info btn-sm mb-3" href="{{ route('vet.pdf.index',$documento->id_mascota ? ['id_mascota'=>$documento->id_mascota] : ['id_institucion'=>$documento->id_institucion]) }}">Historial de documentos</a>
 <div class="card"><div class="card-header"><h5>{{ $documento->nombre }}</h5></div><div class="card-body">
 @if($mascota)
-<p>{{ $mascota->nombre }} · Tutor: {{ $tutor->nombres ?? 'Sin registro' }}</p>
+<p>{{ $mascota->nombre }} · Tutor(a): {{ $tutor->nombres ?? 'Sin registro' }}</p>
 <div class="d-flex flex-wrap mb-3"><form method="post" action="{{ route('vet.pdf.enviar',['documento'=>$documento->id]) }}" class="mr-2 mb-2">@csrf<button type="submit" class="btn btn-info" @disabled(in_array(config('mail.default'),['log','array'],true))>Enviar PDF al correo del tutor</button></form><button type="button" id="preparar-whatsapp" class="btn btn-outline-info mb-2" data-url="{{ route('vet.pdf.preparar',['documento'=>$documento->id]) }}">Preparar WhatsApp</button></div>
 @if(in_array(config('mail.default'),['log','array'],true))<p class="text-muted">El envío por correo estará disponible cuando se configure el correo del sistema. El PDF está guardado y puede compartirse por WhatsApp.</p>@endif
 <p class="text-muted">Correo del tutor: {{ $tutor?->email ?: 'No registrado' }}. Revise sus datos antes de enviar.</p>

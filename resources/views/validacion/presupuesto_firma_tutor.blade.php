@@ -63,7 +63,7 @@
             <div class="ok">Firma del tutor válida y documento auténtico.</div>
             <div class="grid">
                 <div class="item">
-                    <div class="label">Tutor responsable</div>
+                    <div class="label">Tutor(a) responsable</div>
                     <div class="value">{{ $firmaTutor['nombre'] }}</div>
                     <div>RUT: {{ $firmaTutor['rut'] ?: 'No informado' }}</div>
                 </div>

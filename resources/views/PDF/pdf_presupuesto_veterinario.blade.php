@@ -32,7 +32,7 @@
     <table class="meta">
         <tr>
             <td>
-                <div class="label">Tutor responsable</div>
+                <div class="label">Tutor(a) responsable</div>
                 <div class="value">{{ trim($paciente->nombres.' '.$paciente->apellido_uno.' '.$paciente->apellido_dos) }}</div>
                 <div>RUT: {{ $paciente->rut }}</div>
             </td>

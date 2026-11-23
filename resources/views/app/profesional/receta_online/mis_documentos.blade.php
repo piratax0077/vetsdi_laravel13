@@ -43,7 +43,7 @@
 
                                                 <th class="text-center align-middle">Fecha</th>
 
-                                                <th class="text-center align-middle">Tutor</th>
+                                                <th class="text-center align-middle">Tutor(a)</th>
 
                                                 <th class="text-center align-middle">Mascota</th>
 

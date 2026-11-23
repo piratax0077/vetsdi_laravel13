@@ -2654,7 +2654,7 @@
                             $('#btn_registrar_mascota_desde_tomar_hora').hide();
 
                             swal({
-                                title: "Tutor no encontrado",
+                                title: "Tutor(a) no encontrado(a)",
                                 text: 'No existe un tutor registrado con el RUT ' + rut + '. Puede registrarlo sin volver a escribir el RUT.',
                                 icon: "info",
                                 button: "Continuar"

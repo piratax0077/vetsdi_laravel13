@@ -287,7 +287,7 @@
                     <button type="button" class="fvu-boton fvu-boton--claro"
                         data-toggle="modal" data-target="#modal_contacto_emergencia_fvu">
                         <i class="feather icon-phone-call" aria-hidden="true"></i>
-                        Tutor y contacto de emergencia
+                        Tutor(a) y contacto de emergencia
                     </button>
                     <button class="fvu-boton fvu-boton--vidrio collapsed" type="button"
                         data-toggle="collapse" data-target="#cabecera_info"
@@ -338,7 +338,7 @@
                 <div class="fvu-panel__cabecera">
                     <div id="enf-cron-mascota">
                         <h3 class="fvu-seccion__titulo">Información adicional</h3>
-                        <p class="fvu-seccion__bajada">Tutor, antecedentes y documentos de {{ $nombreMascotaFvu }}</p>
+                        <p class="fvu-seccion__bajada">Tutor(a), antecedentes y documentos de {{ $nombreMascotaFvu }}</p>
                     </div>
                     <button type="button" class="fvu-boton-cerrar" data-toggle="collapse" data-target="#cabecera_info"
                         aria-controls="cabecera_info" aria-expanded="false" aria-label="Cerrar información adicional">

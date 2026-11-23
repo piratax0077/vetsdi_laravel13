@@ -20,7 +20,7 @@
                                     <thead>
                                         <tr>
                                             <th class="align-middle">Fecha</th>
-                                            <th>Tutor</th>
+                                            <th>Tutor(a)</th>
                                             <th>Mascota</th>
                                             <th>Tipo</th>
                                             <th>Documento</th>

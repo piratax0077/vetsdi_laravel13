@@ -12,7 +12,7 @@
                 <div class="alert alert-danger d-none" id="aviso_tres_conflictivas" role="alert">
                     Este tutor ya suma <strong class="js-veces-conflictivo">3</strong> notas conflictivas. Te recomendamos bloquearlo.
                 </div>
-                <p class="mb-1 text-muted">Tutor a bloquear</p>
+                <p class="mb-1 text-muted">Tutor(a) a bloquear</p>
                 <div class="d-flex flex-wrap justify-content-between align-items-start mb-3">
                     <h5 class="mb-0 mr-2 font-weight-bold">{{ $nombreTutor }}</h5>
                     <span class="badge badge-light-danger f-12 px-2 py-1 mt-1" title="Notas que lo marcaron como conflictivo">

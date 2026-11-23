@@ -79,7 +79,7 @@ $(function () {
                     html += '<div class="lab-vet-mascota" data-id="'+m.id+'" data-nombre="'+$('<div>').text(m.nombre).html()+'">'+
                         '<strong><i class="fas fa-paw mr-1"></i>'+$('<div>').text(m.nombre).html()+'</strong><br>'+
                         '<small>'+ $('<div>').text(m.especie+' · Chip: '+m.chip).html() +'</small><br>'+
-                        '<small>Tutor: '+$('<div>').text((m.tutor || '-')+' · '+(m.rut || '-')).html()+'</small></div>';
+                        '<small>Tutor(a): '+$('<div>').text((m.tutor || '-')+' · '+(m.rut || '-')).html()+'</small></div>';
                 });
                 $('#lab-vet-resultados').html(html || '<div class="alert alert-warning">No se encontraron mascotas.</div>');
             }).fail(function () { $('#lab-vet-resultados').html('<div class="alert alert-danger">No fue posible realizar la búsqueda.</div>'); });

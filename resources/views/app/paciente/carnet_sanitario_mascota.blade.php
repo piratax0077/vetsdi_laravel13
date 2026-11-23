@@ -58,7 +58,7 @@
 
                 <div class="card-body p-4">
                     <div class="carnet-meta mb-4">
-                        <div class="carnet-meta-item"><small>Tutor responsable</small><strong>{{ trim($paciente->nombres.' '.$paciente->apellido_uno.' '.$paciente->apellido_dos) }}</strong></div>
+                        <div class="carnet-meta-item"><small>Tutor(a) responsable</small><strong>{{ trim($paciente->nombres.' '.$paciente->apellido_uno.' '.$paciente->apellido_dos) }}</strong></div>
                         <div class="carnet-meta-item"><small>Microchip</small><strong>{{ $mascota->chip ?: 'Sin registro' }}</strong></div>
                         <div class="carnet-meta-item"><small>Fecha de nacimiento</small><strong>{{ $mascota->fecha_nacimiento ? $mascota->fecha_nacimiento->format('d-m-Y') : 'Sin registro' }}</strong></div>
                         <div class="carnet-meta-item"><small>Sexo</small><strong>{{ $mascota->sexo === 'M' ? 'Macho' : ($mascota->sexo === 'F' ? 'Hembra' : 'Sin registro') }}</strong></div>

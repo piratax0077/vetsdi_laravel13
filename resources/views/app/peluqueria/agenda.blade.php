@@ -27,7 +27,7 @@
 
 @elseif($seccion==='clientes')
 <section class="card" id="clientes"><div class="card-body">
-<div class="table-responsive mt-3"><table class="table table-sm table-striped"><thead><tr><th>Mascota</th><th>Especie / raza</th><th>Tutor</th><th>Contacto</th></tr></thead><tbody>@forelse($clientes as $cliente)<tr><td>{{ $cliente->mascota }}</td><td>{{ $cliente->especie }} {{ $cliente->raza }}</td><td>{{ $cliente->tutor }}</td><td>{{ $cliente->telefono }}<br>{{ $cliente->email }}</td></tr>@empty<tr><td colspan="4">Aún no hay mascotas registradas.</td></tr>@endforelse</tbody></table></div></div></section>
+<div class="table-responsive mt-3"><table class="table table-sm table-striped"><thead><tr><th>Mascota</th><th>Especie / raza</th><th>Tutor(a)</th><th>Contacto</th></tr></thead><tbody>@forelse($clientes as $cliente)<tr><td>{{ $cliente->mascota }}</td><td>{{ $cliente->especie }} {{ $cliente->raza }}</td><td>{{ $cliente->tutor }}</td><td>{{ $cliente->telefono }}<br>{{ $cliente->email }}</td></tr>@empty<tr><td colspan="4">Aún no hay mascotas registradas.</td></tr>@endforelse</tbody></table></div></div></section>
 
 {{-- Registro de tutor y mascota en modal; lo guardado aparece en la tabla de abajo --}}
 @if($seccion==='clientes' && ($peluqueriaPermisos['editar_clientes']??false))

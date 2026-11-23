@@ -3,7 +3,7 @@
 @section('content')
 @php
     $tipos = [
-        'tutor' => 'Tutor',
+        'tutor' => 'Tutor(a)',
         'profesional' => 'Veterinario',
         'centro' => 'Centro veterinario',
         'alimentacion' => 'Alimentación',

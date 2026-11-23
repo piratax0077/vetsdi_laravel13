@@ -33,7 +33,7 @@
             <div class="ok">{{ !empty($firmaProfesionalValidada) ? 'Firma del profesional válida.' : 'Firma del tutor válida. Consentimiento firmado y autorizado.' }}</div>
             <div class="grid">
                 <div class="item">
-                    <div class="label">{{ !empty($firmaProfesionalValidada) ? 'Profesional firmante' : 'Tutor responsable' }}</div>
+                    <div class="label">{{ !empty($firmaProfesionalValidada) ? 'Profesional firmante' : 'Tutor(a) responsable' }}</div>
                     <div class="value">{{ $firmaTutor['nombre'] }}</div>
                     <div>RUT: {{ $firmaTutor['rut'] ?: 'No informado' }}</div>
                 </div>

@@ -44,13 +44,13 @@
         'CentroEstetico' => ['centro_estetico', 'Centro estético', null],
         'GuarderiaHotel' => ['guarderia_hotel', 'Guardería y Hotel', 'guarderia_hotel.configuracion'],
         'CementerioMascotas' => ['cementerio_mascotas', 'Cementerio de Mascotas', 'cementerio_mascotas.configuracion'],
-        'Paciente' => ['tutor', 'Tutor', 'paciente.perfil'],
+        'Paciente' => ['tutor', 'Tutor(a)', 'paciente.perfil'],
     ];
 
     // Texto por defecto de cada grupo y la tabla de donde sale el nombre y la foto
     $gruposPerfil = [
         'profesional' => ['Profesional', \App\Models\Profesional::class, 'nombre', 'apellido'],
-        'tutor' => ['Tutor', \App\Models\Paciente::class, 'nombres', 'apellido_uno'],
+        'tutor' => ['Tutor(a)', \App\Models\Paciente::class, 'nombres', 'apellido_uno'],
         'asistente' => ['Asistente', \App\Models\Asistente::class, 'nombres', 'apellido_uno'],
         'institucion' => ['Institución', \App\Models\Instituciones::class, 'nombre', null],
         'estetica' => ['Profesional de estética', \App\Models\ProfesionalEstetica::class, 'nombre', null],

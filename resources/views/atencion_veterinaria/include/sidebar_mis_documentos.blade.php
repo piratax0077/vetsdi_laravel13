@@ -72,7 +72,7 @@
                                 <div class="documento-firma-espacio"></div>
                                 <div class="documento-firma-linea">Firma del tutor / responsable</div>
                                 <dl class="documento-firma-datos">
-                                    <div><dt>Nombre</dt><dd>{!! $etiquetaDato('tutor', 'Tutor') !!}</dd></div>
+                                    <div><dt>Nombre</dt><dd>{!! $etiquetaDato('tutor', 'Tutor(a)') !!}</dd></div>
                                     <div><dt>RUT</dt><dd>{!! $etiquetaDato('rut_tutor', 'RUT del tutor') !!}</dd></div>
                                 </dl>
                             </div>

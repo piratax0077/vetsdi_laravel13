@@ -11,7 +11,7 @@
                             <input type="file" id="foto_perfil_input" accept="image/png,image/jpeg,image/jpg,image/webp" class="d-none">
                             @include('template.partials.perfil_cabecera', [
                                 'nombre' => trim(($paciente->nombres ?? '') . ' ' . ($paciente->apellido_uno ?? '') . ' ' . ($paciente->apellido_dos ?? '')),
-                                'rol' => 'Tutor',
+                                'rol' => 'Tutor(a)',
                                 'foto' => $paciente->foto_perfil ?? null,
                                 'foto_base' => 'images/iconos/usuario.svg',
                                 'id_foto' => 'patient-profile-image',

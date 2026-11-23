@@ -2,7 +2,7 @@
 @section('content')
     @php
         $centroActivo = $contextoActivo['label'] ?? 'el centro';
-        $nombreTutor = trim(collect([$tutor->nombres, $tutor->apellido_uno, $tutor->apellido_dos])->filter()->implode(' ')) ?: 'Tutor sin nombre';
+        $nombreTutor = trim(collect([$tutor->nombres, $tutor->apellido_uno, $tutor->apellido_dos])->filter()->implode(' ')) ?: 'Tutor(a) sin nombre';
         $telefonoTutor = $tutor->telefono_uno ?: $tutor->telefono_dos;
         $direccion = $tutor->Direccion;
         $direccionTexto = trim(collect([

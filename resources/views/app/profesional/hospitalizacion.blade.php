@@ -55,7 +55,7 @@
                                     <thead>
                                         <tr>
                                             <th>Mascota</th>
-                                            <th>Tutor</th>
+                                            <th>Tutor(a)</th>
                                             <th>Ingreso</th>
                                             <th>Lugar</th>
                                             <th>Motivo</th>

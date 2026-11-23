@@ -110,7 +110,7 @@
                     {{--  BUSCADOR DE RUT  --}}
                     <div class="form-row div_rut_buscar">
                          <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <h6 class="text-c-blue f-16 mb-2">Ingrese el RUT del Tutor</h6>
+                            <h6 class="text-c-blue f-16 mb-2">Ingrese el RUT del Tutor(a)</h6>
                         </div>
                         <div class="col-sm-9 col-md-9">
                             <form id="validacion_rut_form" onsubmit="event.preventDefault(); buscar_paciente();">
@@ -441,7 +441,7 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <div class="reserva-seccion-titulo">
-                                            Identificación del Tutor
+                                            Identificación del Tutor(a)
                                     </div>
                                 </div>
                             </div>
@@ -834,14 +834,14 @@
                             <input type="hidden" name="bono_id_tipo_bono" id="bono_id_tipo_bono" value="1">
                             <div class="col-sm-6">
                                 <div class="form-group fill">
-                                    <label class="floating-label-activo-sm">RUT del Tutor</label>
+                                    <label class="floating-label-activo-sm">RUT del Tutor(a)</label>
                                     <input type="person" class="form-control form-control-sm" name="bono_paciente_rut"
                                         id="bono_paciente_rut" disabled="disabled">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group fill">
-                                    <label class="floating-label-activo-sm">Nombre del Tutor</label>
+                                    <label class="floating-label-activo-sm">Nombre del Tutor(a)</label>
                                     <input type="text" class="form-control form-control-sm" name="bono_paciente_nombre"
                                         id="bono_paciente_nombre" disabled="disabled">
                                 </div>

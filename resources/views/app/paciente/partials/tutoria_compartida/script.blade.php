@@ -198,7 +198,7 @@
                 '        <strong class="traspaso-tutor-nombre">' + escaparTextoMascota(titularTutoria.nombre || 'Tú') + ' (tú)</strong>' +
                 '        <span class="traspaso-tutor-rut">Puede invitar, quitar accesos y eliminar la mascota</span>' +
                 '    </div>' +
-                '    <span class="traspaso-tutor-estado">Tutor titular</span>' +
+                '    <span class="traspaso-tutor-estado">Tutor(a) titular</span>' +
                 '</div>';
 
             if (!invitaciones.length) {

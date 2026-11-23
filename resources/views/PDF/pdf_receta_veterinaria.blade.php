@@ -84,7 +84,7 @@
                                     <div>Raza: {{ optional($mascota->razaMascota)->nombre ?? 'Sin registro' }} · Sexo: {{ $mascota->sexo ?? 'Sin registro' }}</div>
                                     @if(!empty($mascota->chip))<div>Chip: {{ $mascota->chip }}</div>@endif
                                 @elseif($seccion === 'tutor')
-                                    <div class="label">Tutor responsable</div>
+                                    <div class="label">Tutor(a) responsable</div>
                                     <div class="value">{{ trim(($tutor->nombres ?? '').' '.($tutor->apellido_uno ?? '').' '.($tutor->apellido_dos ?? '')) }}</div>
                                     <div>RUT: {{ $tutor->rut ?? 'Sin registro' }}</div>
                                     <div>Teléfono: {{ $tutor->telefono_uno ?? 'Sin registro' }}</div>

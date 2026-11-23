@@ -161,7 +161,7 @@
 
                     <div class="traspaso-cambio">
                         <div class="traspaso-cambio-tutor">
-                            <span class="traspaso-etiqueta">Tutor actual</span>
+                            <span class="traspaso-etiqueta">Tutor(a) actual</span>
                             <strong class="traspaso-cambio-nombre" id="traspaso_tutor_actual">-</strong>
                             <small class="traspaso-cambio-rut" id="traspaso_tutor_actual_rut"></small>
                         </div>

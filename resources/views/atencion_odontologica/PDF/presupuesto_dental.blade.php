@@ -264,7 +264,7 @@
 <table class="datos">
     <tr>
         <td>
-            <div class="etiqueta">Tutor responsable</div>
+            <div class="etiqueta">Tutor(a) responsable</div>
             <div class="valor">{{ $nombreTutor ?: 'Sin registro' }}</div>
             <div class="secundario">RUT: {{ $paciente->rut ?: 'No informado' }}</div>
         </td>

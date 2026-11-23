@@ -34,7 +34,7 @@
                         <div class="modal-atencion-resumen-dato">
                             <span class="modal-atencion-resumen-icono"><i class="feather icon-user"></i></span>
                             <div class="modal-atencion-resumen-texto">
-                                <span class="modal-atencion-resumen-etiqueta">Tutor</span>
+                                <span class="modal-atencion-resumen-etiqueta">Tutor(a)</span>
                                 <strong class="modal-atencion-resumen-valor">{{ trim(($paciente->nombres ?? '').' '.($paciente->apellido_uno ?? '').' '.($paciente->apellido_dos ?? '')) }}</strong>
                                 <span class="modal-atencion-resumen-extra">RUT: {{ $paciente->rut ?? 'Sin registro' }}</span>
                             </div>

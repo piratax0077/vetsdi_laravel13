@@ -72,7 +72,7 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Mascota</th>
-                                                <th>Tutor</th>
+                                                <th>Tutor(a)</th>
                                                 <th>Convenio</th>
                                                 <th>Chip-Tatuaje</th>
                                                 <th>Lugar</th>
@@ -121,11 +121,6 @@
                                                             <br>{{ mb_strtoupper($rutResponsable) }}
                                                         @endif
                                                         @if ($responsable)
-                                                            <a href="{{ $urlTutor }}"
-                                                                class="text-purple ml-1 js-tooltip-accion"
-                                                                title="Ver información del tutor" aria-label="Ver información del tutor">
-                                                                <i class="feather icon-info"></i>
-                                                            </a>
                                                             @php
                                                                 $vecesConflictivo = (int) ($vecesConflictivoPorTutor[$responsable->id] ?? 0);
                                                             @endphp
@@ -187,6 +182,11 @@
                                                                     class="btn btn-icon btn-primary js-tooltip-accion"
                                                                     title="Revisar consultas anteriores" aria-label="Revisar consultas anteriores">
                                                                     <i class="feather icon-clock"></i>
+                                                                </a>
+                                                                <a href="{{ $urlTutor }}"
+                                                                    class="btn btn-icon btn-success js-tooltip-accion"
+                                                                    title="Ver información del tutor(a)" aria-label="Ver información del tutor(a)">
+                                                                    <i class="feather icon-user"></i>
                                                                 </a>
                                                                 <button type="button" class="btn btn-icon btn-purple js-tooltip-accion"
                                                                     onclick="enviar_mensaje_paciente({{ $responsable->id }})"

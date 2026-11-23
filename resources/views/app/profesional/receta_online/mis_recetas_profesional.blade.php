@@ -20,7 +20,7 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
-                                        <th>Tutor</th>
+                                        <th>Tutor(a)</th>
                                         <th>Mascota</th>
                                         <th>Diagnóstico</th>
                                         <th>Receta</th>

@@ -417,7 +417,7 @@
                         <label class="floating-label-activo-sm" for="modal_agregar_dep_nuevo_desparasitacion_realizada_por">¿Quién realizó la desparasitación?</label>
                         <select class="form-control form-control-sm" id="modal_agregar_dep_nuevo_desparasitacion_realizada_por">
                             <option value="">No informado</option>
-                            <option value="tutor">Tutor</option>
+                            <option value="tutor">Tutor(a)</option>
                             <option value="profesional">Profesional veterinario</option>
                         </select>
                     </div>

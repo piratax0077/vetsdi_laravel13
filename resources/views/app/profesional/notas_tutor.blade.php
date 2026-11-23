@@ -15,26 +15,26 @@
 </div>
 <div class="card-body">
 <form id="form_nota_tutor" class="d-print-none" novalidate>
-    <div class="form-row">
-        <div class="col-md-6">
+    <div class="form-row align-items-center">
+        <div class="col-12 col-md">
             <div class="form-group">
                 <label class="floating-label-activo-sm" for="nota_tutor_texto">Nueva nota</label>
-                <textarea class="form-control form-control-sm" id="nota_tutor_texto" name="nota" rows="3" maxlength="2000" placeholder="Ej.: Llegó tarde y fue agresivo con el equipo" required></textarea>
+                <textarea class="form-control form-control-sm" id="nota_tutor_texto" name="nota" rows="1" maxlength="2000" placeholder="Ej.: Llegó tarde y fue agresivo con el equipo" required></textarea>
                 <div class="invalid-feedback">Escribe la nota.</div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="bloque-estado mt-0 mb-3">
-                <span class="d-block mb-2 font-weight-bold text-dark" id="pregunta_tutor_conflictivo">¿Tutor conflictivo?</span>
+        <div class="col-12 col-md-auto">
+            <div class="bloque-estado mt-0 mb-3 d-flex align-items-center flex-wrap">
+                <span class="font-weight-bold text-dark mr-3" id="pregunta_tutor_conflictivo">¿Tutor(a) conflictivo(a)?</span>
                 <div class="custom-control custom-switch" role="group" aria-labelledby="pregunta_tutor_conflictivo">
                     <input type="checkbox" class="custom-control-input" id="nota_tutor_conflictivo" name="conflictivo" value="1">
                     <label class="custom-control-label" for="nota_tutor_conflictivo">No</label>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="text-right">
-        <button type="submit" class="btn btn-info" id="boton_agregar_nota_tutor"><i class="feather icon-plus mr-1"></i>Agregar nota</button>
+        <div class="col-12 col-md-auto text-right">
+            <button type="submit" class="btn btn-info mb-3" id="boton_agregar_nota_tutor"><i class="feather icon-plus mr-1"></i>Agregar nota</button>
+        </div>
     </div>
 </form>
 

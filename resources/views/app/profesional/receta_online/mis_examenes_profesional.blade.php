@@ -21,7 +21,7 @@
                                     <tr>
                                         {{--  <th class="text-wrap text-center align-middle" hidden="hidden">Nº de Orden</th>  --}}
                                         <th class="text-wrap text-center align-middle">Fecha</th>
-                                        <th class=" align-middle">Tutor</th>
+                                        <th class=" align-middle">Tutor(a)</th>
                                         <th class=" align-middle">Mascota</th>
                                         <th class=" align-middle">Nombre del examen</th>
                                         <th class=" align-middle">Tipo</th>

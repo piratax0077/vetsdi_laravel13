@@ -199,7 +199,7 @@
             <div class="invalid-feedback">Escribe la nota.</div>
         </div>
         <div class="bloque-estado">
-            <span class="notas-internas-mascota__pregunta" id="notas_internas_mascota_pregunta">¿Tutor conflictivo?</span>
+            <span class="notas-internas-mascota__pregunta" id="notas_internas_mascota_pregunta">¿Tutor(a) conflictivo(a)?</span>
             <div class="custom-control custom-switch" role="group" aria-labelledby="notas_internas_mascota_pregunta">
                 <input type="checkbox" class="custom-control-input" id="notas_internas_mascota_conflictivo" name="conflictivo" value="1">
                 <label class="custom-control-label" for="notas_internas_mascota_conflictivo">No</label>

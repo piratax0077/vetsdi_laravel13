@@ -22,7 +22,7 @@
         <table>
             <tbody>
                 <tr>
-                    <td style="padding: 0px;"><strong>{{ !empty($cuerpo['array_mascota']) ? 'Tutor:' : 'Paciente:' }}</strong></td>
+                    <td style="padding: 0px;"><strong>{{ !empty($cuerpo['array_mascota']) ? 'Tutor(a):' : 'Paciente:' }}</strong></td>
                     <td style="padding-top: 8px;">{{ $cuerpo['array_paciente']['nombre'] }}</td>
                     <td style="padding: 0px;"><strong>Rut:</strong></td>
                     <td style="padding-top: 8px;">{{ $cuerpo['array_paciente']['rut'] }}</td>

@@ -8,7 +8,7 @@
         <dl class="row mb-0">
             <dt class="col-sm-3">Centro</dt><dd class="col-sm-9">{{ $centro->nombre }}</dd>
             <dt class="col-sm-3">Mascota</dt><dd class="col-sm-9">{{ $mascota?->nombre ?? 'Sin registro' }}</dd>
-            <dt class="col-sm-3">Tutor</dt><dd class="col-sm-9">{{ $tutor?->nombres }} {{ $tutor?->apellido_uno }}</dd>
+            <dt class="col-sm-3">Tutor(a)</dt><dd class="col-sm-9">{{ $tutor?->nombres }} {{ $tutor?->apellido_uno }}</dd>
             <dt class="col-sm-3">Inicio</dt><dd class="col-sm-9">{{ \Carbon\Carbon::parse($solicitud->inicio)->format('d/m/Y') }}</dd>
             @if(in_array($solicitud->servicio, ['guarderia', 'hotel'], true))
                 <dt class="col-sm-3">Término del período</dt><dd class="col-sm-9">{{ \Carbon\Carbon::parse($solicitud->fin)->format('d/m/Y') }}</dd>

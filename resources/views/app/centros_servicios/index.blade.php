@@ -23,7 +23,7 @@
             <button class="btn btn-outline-info">Filtrar</button>
         </form>
         <div class="table-responsive"><table class="table table-sm">
-            <thead><tr><th>Fecha</th><th>Mascota</th><th>Tutor</th><th>Servicio</th><th>Estado</th><th>Acción</th></tr></thead>
+            <thead><tr><th>Fecha</th><th>Mascota</th><th>Tutor(a)</th><th>Servicio</th><th>Estado</th><th>Acción</th></tr></thead>
             <tbody>
             @forelse($solicitudes as $solicitud)
                 <tr>

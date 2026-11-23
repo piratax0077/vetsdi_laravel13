@@ -1,7 +1,7 @@
 @extends('template.profesional.template')
 @section('content')
     @php
-        $nombreTutor = trim(collect([$tutor->nombres, $tutor->apellido_uno, $tutor->apellido_dos])->filter()->implode(' ')) ?: 'Tutor sin nombre';
+        $nombreTutor = trim(collect([$tutor->nombres, $tutor->apellido_uno, $tutor->apellido_dos])->filter()->implode(' ')) ?: 'Tutor(a) sin nombre';
         $telefonoTutor = $tutor->telefono_uno ?: $tutor->telefono_dos;
         $direccion = $tutor->Direccion;
         $direccionTexto = trim(collect([
@@ -527,7 +527,7 @@
             $('#etiqueta_tutor_bloqueado').attr('title', 'Motivo: ' + $motivo.val());
             marcar_tutor_bloqueado(true);
             $('#modal_bloquear_tutor').modal('hide');
-            swal({ title: 'Tutor bloqueado', text: 'Se aplicó el bloqueo de nuevas reservas.', icon: 'success', button: 'Aceptar' });
+            swal({ title: 'Tutor(a) bloqueado(a)', text: 'Se aplicó el bloqueo de nuevas reservas.', icon: 'success', button: 'Aceptar' });
         }).fail(function (xhr) {
             swal({ title: 'Error', text: mensaje_error_ajax(xhr, 'No se pudo bloquear al tutor.'), icon: 'error', button: 'Aceptar' });
         }).always(function () {
@@ -552,7 +552,7 @@
                 data: { id_lugar_atencion: @json($lugarTutor?->id), _token: "{{ csrf_token() }}" }
             }).done(function () {
                 marcar_tutor_bloqueado(false);
-                swal({ title: 'Tutor desbloqueado', text: 'Se levantó este bloqueo de reservas.', icon: 'success', button: 'Aceptar' });
+                swal({ title: 'Tutor(a) desbloqueado(a)', text: 'Se levantó este bloqueo de reservas.', icon: 'success', button: 'Aceptar' });
             }).fail(function (xhr) {
                 swal({ title: 'Error', text: mensaje_error_ajax(xhr, 'No se pudo desbloquear al tutor.'), icon: 'error', button: 'Aceptar' });
             });
