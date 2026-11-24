@@ -36934,7 +36934,7 @@ transition: 0.2s!important;
 
 .tarjeta-datos-tutor__datos li i {
     margin-right: 6px;
-    color: #31bebe;
+    color: #7f4fa6;
 }
 
 .tarjeta-datos-tutor__datos a {
@@ -43484,35 +43484,29 @@ input.fecha-moderna[readonly] {
     border: 0;
     border-bottom: 1px solid #e3eaef;
     border-radius: 16px 16px 0 0;
-    padding: 14px 20px 0;
+    padding: 14px 20px;
 }
 
 .arv-card .card-body {
     padding: 20px;
 }
 
-/* Pestañas */
-.arv-tabs {
+/* Título del módulo con el botón Configuración a la derecha */
+.arv-encabezado {
     display: flex;
-    gap: 4px;
-    overflow-x: auto;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.arv-encabezado .btn {
+    margin: 0;
+}
+
+/* Pestañas: usan pill-moderno; aquí solo el foco con teclado */
+.arv-tabs {
     -webkit-overflow-scrolling: touch;
-}
-
-.arv-tab {
-    flex: 0 0 auto;
-    background: transparent;
-    border: 0;
-    border-bottom: 3px solid transparent;
-    padding: 10px 16px 12px;
-    color: #5b6b7d;
-    font-weight: 600;
-    white-space: nowrap;
-    cursor: pointer;
-}
-
-.arv-tab:hover {
-    color: #147c70;
 }
 
 .arv-tab:focus {
@@ -43520,13 +43514,8 @@ input.fecha-moderna[readonly] {
 }
 
 .arv-tab:focus-visible {
-    outline: 2px solid #15b8b5;
+    outline: 2px solid #8a4fa6;
     outline-offset: -2px;
-}
-
-.arv-tab.active {
-    color: #147c70;
-    border-bottom-color: #15b8b5;
 }
 
 .arv-tab-contador {
@@ -43546,8 +43535,8 @@ input.fecha-moderna[readonly] {
 }
 
 .arv-tab.active .arv-tab-contador {
-    background: #d5f3f1;
-    color: #147c70;
+    background: #f3ecf7;
+    color: #6f42c1;
 }
 
 /* Buscador, filtros y botón nuevo */
@@ -43596,8 +43585,38 @@ input.fecha-moderna[readonly] {
     cursor: pointer;
 }
 
+/* Check propio en morado: cuadro redondeado con visto blanco al marcarlo */
 .arv-filtro-varia input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
     margin: 0;
+    border: 2px solid #b9a3d3;
+    border-radius: 5px;
+    background: #fff center / 12px 12px no-repeat;
+    cursor: pointer;
+    transition: background-color .15s ease, border-color .15s ease;
+}
+
+.arv-filtro-varia input:hover {
+    border-color: #6f42c1;
+}
+
+.arv-filtro-varia input:checked {
+    border-color: #6f42c1;
+    background-color: #6f42c1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.4 2.4 4.6-5' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.arv-filtro-varia input:focus {
+    outline: none;
+}
+
+.arv-filtro-varia input:focus-visible {
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .25);
 }
 
 /* Tabla */
@@ -43949,7 +43968,7 @@ input.fecha-moderna[readonly] {
     }
 
     .arv-card .card-header {
-        padding: 10px 10px 0;
+        padding: 10px;
     }
 
     .arv-card .card-body {
@@ -46843,7 +46862,7 @@ table.dataTable > tbody > tr.child span.dtr-data {
 
 /* Nombre de las tarjetas de acceso de paneles y escritorios */
 .titulo-tarjeta {
-    font-weight: 500;
+    font-weight: 600;
 }
 
 
@@ -52012,4 +52031,349 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 .inventario-veterinario .dropzone-factura-archivo-datos > small {
     color: #6b7a90;
     font-size: 12px;
+}
+
+/* ==========================================================================
+   Personalizar mi ficha (profesional veterinario): switches y vista previa
+   ========================================================================== */
+
+.pf-fija {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: #f4f7fa;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    color: #6b7a90;
+    font-size: 13px;
+}
+
+.pf-fija > i {
+    color: #8a4fa6;
+    font-size: 16px;
+    margin-top: 2px;
+}
+
+.pf-fija strong {
+    display: block;
+    color: #272727;
+    font-size: 14px;
+}
+
+.pf-opcion {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    border: 1px solid #e3e8ee;
+    border-radius: 10px;
+    padding: 12px 12px 12px 14px;
+    margin: 0 0 10px;
+    cursor: pointer;
+    transition: border-color .2s, background-color .2s;
+}
+
+.pf-opcion:hover {
+    border-color: #15b8b5;
+}
+
+.pf-opcion-activa {
+    border-color: #15b8b5;
+}
+
+.pf-opcion-icono {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8a4fa6;
+    font-size: 16px;
+}
+
+.pf-opcion-texto {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.pf-opcion-texto strong {
+    display: block;
+    color: #272727;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.pf-opcion-texto small {
+    display: block;
+    color: #6b7a90;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+.pf-opcion-switch {
+    flex: 0 0 auto;
+    margin: 0;
+    padding-left: 2.25rem;
+    min-height: 1.5rem;
+}
+
+.pf-acciones {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.pf-acciones .btn {
+    margin: 0;
+}
+
+/* Vista previa: los campos son solo de referencia, no se pueden llenar */
+.pf-previa {
+    background: #fff;
+    border-radius: 0 0 16px 16px;
+}
+
+/* En la vista previa las secciones van con borde y más redondeadas, sin sombra */
+.pf-previa .card-a {
+    box-shadow: none !important;
+    border: 1px solid #c6ced8;
+    border-radius: 12px !important;
+    overflow: hidden;
+}
+
+.pf-previa .card-header-a {
+    border-radius: 0 !important;
+}
+
+.pf-previa-pestana {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #8a4fa6;
+    border-bottom: 2px solid #8a4fa6;
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+}
+
+.pf-previa .card-header-a {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+.pf-previa .accor-closed {
+    cursor: default;
+    color: #89358c;
+}
+
+.pf-previa .accor-closed:after {
+    content: none;
+}
+
+.pf-campo {
+    margin-bottom: 10px;
+}
+
+.pf-campo > span {
+    display: block;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background: #fff;
+    padding: 6px 10px;
+    font-size: 12px;
+    color: #6b7a90;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pf-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 4px 0 10px;
+}
+
+.pf-chips > span {
+    font-size: 12px;
+    color: #272727;
+    background: #f3ecf7;
+    border-radius: 20px;
+    padding: 4px 10px;
+}
+
+.pf-chips i {
+    color: #8a4fa6;
+}
+
+.pf-bloque {
+    overflow: hidden;
+    max-height: 600px;
+    opacity: 1;
+    transition: max-height .35s ease, opacity .25s ease;
+}
+
+.pf-bloque-oculto {
+    max-height: 0;
+    opacity: 0;
+}
+
+.pf-chips > .pf-chip.pf-bloque-oculto {
+    display: none;
+}
+
+.pf-oculta {
+    display: none;
+    border: 1px dashed #c6c9cc;
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 0.8rem;
+    font-size: 13px;
+    color: #6b7a90;
+    text-align: center;
+}
+
+.pf-oculta-visible {
+    display: block;
+}
+
+@media (max-width: 991px) {
+    .pf-acciones {
+        justify-content: stretch;
+    }
+
+    .pf-acciones .btn {
+        flex: 1 1 0;
+    }
+}
+
+/* ==========================================================================
+   Configuración del profesional: pestaña "Descargar datos"
+   ========================================================================== */
+
+.descarga-datos-subtitulo {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #272727;
+    margin-bottom: 16px;
+}
+
+.descarga-datos-incluidos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.descarga-datos-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 1px solid #e3e8ee;
+    border-radius: 10px;
+    padding: 14px;
+    background: #fff;
+}
+
+.descarga-datos-icono {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3ecf7;
+    color: #8a4fa6;
+    font-size: 17px;
+}
+
+.descarga-datos-item strong {
+    display: block;
+    color: #272727;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.descarga-datos-item span:not(.descarga-datos-icono) {
+    display: block;
+    color: #6b7a90;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.descarga-datos-aviso {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #f4f7fa;
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: #6b7a90;
+    font-size: 13px;
+    line-height: 1.45;
+    margin-bottom: 22px;
+}
+
+.descarga-datos-aviso > i {
+    color: #15b8b5;
+    font-size: 16px;
+    margin-top: 1px;
+}
+
+.descarga-datos-opciones {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.descarga-datos-opcion {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 18px;
+    margin: 0;
+}
+
+.descarga-datos-opcion h6 {
+    color: #272727;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.descarga-datos-opcion p {
+    color: #6b7a90;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.descarga-datos-opcion .form-group {
+    margin-top: 14px;
+    margin-bottom: 16px;
+}
+
+/* El botón queda abajo en ambas opciones, aunque una tenga más contenido */
+.descarga-datos-opcion .btn {
+    margin: auto 0 0;
+    align-self: flex-start;
+    white-space: normal;
+}
+
+@media (max-width: 767px) {
+    .descarga-datos-incluidos,
+    .descarga-datos-opciones {
+        grid-template-columns: 1fr;
+    }
+
+    .descarga-datos-opcion .btn {
+        align-self: stretch;
+    }
 }

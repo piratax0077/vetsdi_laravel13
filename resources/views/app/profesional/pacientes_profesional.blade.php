@@ -284,17 +284,16 @@
                     <div class="ficha-profesional__identidad">
                         <h5 class="ficha-profesional__nombre" id="modal_mascota_nombre">Mascota</h5>
                         <span class="ficha-profesional__registro"><span id="modal_mascota_especie">-</span> · <span id="modal_mascota_sexo">-</span></span>
-                        <span class="ficha-profesional__especialidad"><i class="fas fa-paw mr-1" aria-hidden="true"></i> Ficha veterinaria</span>
                     </div>
                 </div>
 
                 <div class="modal-body ficha-profesional__cuerpo">
                     <section class="ficha-profesional__seccion">
-                        <h6 class="ficha-profesional__titulo" id="modalMascotaDetalleLabel"><i class="fas fa-paw mr-1" aria-hidden="true"></i> Información de la mascota</h6>
+                        <h6 class="ficha-profesional__titulo" id="modalMascotaDetalleLabel"><i class="feather icon-heart mr-1" aria-hidden="true"></i> Información de la mascota</h6>
                         <div class="form-row mb-n2">
                             <div class="col-sm-6 col-lg-4 mb-2">
                                 <div class="ficha-profesional__dato py-2 h-100">
-                                    <span class="ficha-profesional__icono"><i class="fas fa-ruler-combined" aria-hidden="true"></i></span>
+                                    <span class="ficha-profesional__icono"><i class="feather icon-maximize" aria-hidden="true"></i></span>
                                     <div>
                                         <span class="ficha-profesional__etiqueta">Tamaño</span>
                                         <span class="ficha-profesional__valor" id="modal_mascota_tamano">-</span>
@@ -303,7 +302,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-4 mb-2">
                                 <div class="ficha-profesional__dato py-2 h-100">
-                                    <span class="ficha-profesional__icono"><i class="far fa-calendar-alt" aria-hidden="true"></i></span>
+                                    <span class="ficha-profesional__icono"><i class="feather icon-calendar" aria-hidden="true"></i></span>
                                     <div>
                                         <span class="ficha-profesional__etiqueta">Fecha de nacimiento</span>
                                         <span class="ficha-profesional__valor" id="modal_mascota_fecha">-</span>
@@ -312,7 +311,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-4 mb-2">
                                 <div class="ficha-profesional__dato py-2 h-100">
-                                    <span class="ficha-profesional__icono"><i class="fas fa-microchip" aria-hidden="true"></i></span>
+                                    <span class="ficha-profesional__icono"><i class="feather icon-cpu" aria-hidden="true"></i></span>
                                     <div>
                                         <span class="ficha-profesional__etiqueta">Chip o tatuaje</span>
                                         <span class="ficha-profesional__valor" id="modal_mascota_chip">-</span>
@@ -321,7 +320,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-4 mb-2">
                                 <div class="ficha-profesional__dato py-2 h-100">
-                                    <span class="ficha-profesional__icono"><i class="fas fa-notes-medical" aria-hidden="true"></i></span>
+                                    <span class="ficha-profesional__icono"><i class="feather icon-clipboard" aria-hidden="true"></i></span>
                                     <div>
                                         <span class="ficha-profesional__etiqueta">Esterilización</span>
                                         <span class="ficha-profesional__valor"><span id="modal_mascota_esterilizado">-</span> · <span id="modal_mascota_esterilizacion">-</span></span>
@@ -330,7 +329,7 @@
                             </div>
                             <div class="col-sm-12 col-lg-8 mb-2">
                                 <div class="ficha-profesional__dato py-2 h-100">
-                                    <span class="ficha-profesional__icono"><i class="fas fa-heartbeat" aria-hidden="true"></i></span>
+                                    <span class="ficha-profesional__icono"><i class="feather icon-activity" aria-hidden="true"></i></span>
                                     <div>
                                         <span class="ficha-profesional__etiqueta">Enfermedad crónica</span>
                                         <span class="ficha-profesional__valor" id="modal_mascota_enfermedad">-</span>
@@ -342,7 +341,7 @@
 
                     <section class="ficha-profesional__seccion">
                         <div class="d-flex flex-wrap justify-content-between align-items-baseline">
-                            <h6 class="ficha-profesional__titulo"><i class="fas fa-user mr-1" aria-hidden="true"></i> Datos del tutor</h6>
+                            <h6 class="ficha-profesional__titulo"><i class="feather icon-user mr-1" aria-hidden="true"></i> Datos del tutor</h6>
                             <a id="modal_tutor_url" href="#" class="text-purple f-12 mb-2 d-none">
                                 <i class="feather icon-info" aria-hidden="true"></i> Ver más información
                             </a>
@@ -350,7 +349,7 @@
                         <div class="form-row mb-n2">
                             <div class="col-sm-6 col-lg-4 mb-2">
                                 <div class="ficha-profesional__dato py-2 h-100">
-                                    <span class="ficha-profesional__icono"><i class="fas fa-user" aria-hidden="true"></i></span>
+                                    <span class="ficha-profesional__icono"><i class="feather icon-user" aria-hidden="true"></i></span>
                                     <div>
                                         <span class="ficha-profesional__etiqueta">Nombre</span>
                                         <span class="ficha-profesional__valor" id="modal_tutor_nombre">-</span>
@@ -359,7 +358,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-4 mb-2">
                                 <div class="ficha-profesional__dato py-2 h-100">
-                                    <span class="ficha-profesional__icono"><i class="fas fa-id-card" aria-hidden="true"></i></span>
+                                    <span class="ficha-profesional__icono"><i class="feather icon-credit-card" aria-hidden="true"></i></span>
                                     <div>
                                         <span class="ficha-profesional__etiqueta">RUT</span>
                                         <span class="ficha-profesional__valor" id="modal_tutor_rut">-</span>
@@ -368,7 +367,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-4 mb-2">
                                 <div class="ficha-profesional__dato py-2 h-100">
-                                    <span class="ficha-profesional__icono"><i class="fas fa-phone-alt" aria-hidden="true"></i></span>
+                                    <span class="ficha-profesional__icono"><i class="feather icon-phone" aria-hidden="true"></i></span>
                                     <div>
                                         <span class="ficha-profesional__etiqueta">Teléfono</span>
                                         <span class="ficha-profesional__valor"><a id="modal_tutor_telefono" href="#">-</a></span>
@@ -377,7 +376,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-4 mb-2">
                                 <div class="ficha-profesional__dato py-2 h-100">
-                                    <span class="ficha-profesional__icono"><i class="fas fa-shield-alt" aria-hidden="true"></i></span>
+                                    <span class="ficha-profesional__icono"><i class="feather icon-shield" aria-hidden="true"></i></span>
                                     <div>
                                         <span class="ficha-profesional__etiqueta">Convenio</span>
                                         <span class="ficha-profesional__valor" id="modal_tutor_convenio">-</span>
@@ -386,7 +385,7 @@
                             </div>
                             <div class="col-sm-12 col-lg-8 mb-2">
                                 <div class="ficha-profesional__dato py-2 h-100">
-                                    <span class="ficha-profesional__icono"><i class="fas fa-envelope" aria-hidden="true"></i></span>
+                                    <span class="ficha-profesional__icono"><i class="feather icon-mail" aria-hidden="true"></i></span>
                                     <div>
                                         <span class="ficha-profesional__etiqueta">Correo electrónico</span>
                                         <span class="ficha-profesional__valor"><a id="modal_tutor_email" href="#">-</a></span>

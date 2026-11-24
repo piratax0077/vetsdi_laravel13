@@ -14,9 +14,11 @@
         }
     }
     $fichaActual = $fichaAtencion ?? null;
-    $ocultarAntecedentes = empty($anamnesisVetGeneral)
-        && isset($seccionesVeterinarias)
+    // Solo la ficha veterinaria general define $seccionesVeterinarias (lo que el profesional eligió en "Personalizar mi ficha")
+    $ocultarAntecedentes = isset($seccionesVeterinarias)
         && !in_array('antecedentes', $seccionesVeterinarias, true);
+    $ocultarVacunas = isset($seccionesVeterinarias)
+        && !in_array('vacunas', $seccionesVeterinarias, true);
 @endphp
 
 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">

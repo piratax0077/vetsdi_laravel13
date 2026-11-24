@@ -1,30 +1,24 @@
 @extends('template.profesional.template')
 
 @section('content')
-<div class="pcoded-main-container arv-page">
-    <div class="pcoded-content m-top">
-        <div class="page-header">
-            
+<div class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!--Header-->
+        <div class="arv-encabezado mb-3">
+            <h5 class="titulo-modulo f-26 d-inline mb-0">Aranceles</h5>
+            <button type="button" id="arvAbrirConfig" class="btn btn-info"><i class="feather icon-settings"></i> Configuración</button>
+        </div>
+        <!--Cierre: Header-->
+
+        <div class="pill-moderno pill-moderno-white arv-tabs mb-4" role="tablist">
+            <a href="#" class="arv-tab active" role="tab" aria-selected="true" data-catalogo="aranceles">Aranceles / Prestaciones <span class="arv-tab-contador"></span></a>
+            <a href="#" class="arv-tab" role="tab" aria-selected="false" data-catalogo="examenes">Exámenes <span class="arv-tab-contador"></span></a>
+            <a href="#" class="arv-tab" role="tab" aria-selected="false" data-catalogo="procedimientos">Procedimientos <span class="arv-tab-contador"></span></a>
         </div>
 
-        <section class="arv-hero mb-4">
-            <div>
-                <h3 class="text-white mb-1">Aranceles</h3>
-                <div>Prestaciones, exámenes y procedimientos de tu consulta, con sus valores.</div>
-            </div>
-            <div class="arv-hero-acciones">
-                <button type="button" id="arvAbrirConfig" class="btn btn-light"><i class="feather icon-settings"></i> Configuración</button>
-                <a href="{{ route('profesional.configuracion') }}" class="btn btn-light"><i class="feather icon-arrow-left"></i> Volver</a>
-            </div>
-        </section>
-
         <div class="card arv-card">
-            <div class="card-header">
-                <div class="arv-tabs" role="tablist">
-                    <button type="button" class="arv-tab active" role="tab" aria-selected="true" data-catalogo="aranceles">Aranceles / Prestaciones <span class="arv-tab-contador"></span></button>
-                    <button type="button" class="arv-tab" role="tab" aria-selected="false" data-catalogo="examenes">Exámenes <span class="arv-tab-contador"></span></button>
-                    <button type="button" class="arv-tab" role="tab" aria-selected="false" data-catalogo="procedimientos">Procedimientos <span class="arv-tab-contador"></span></button>
-                </div>
+            <div class="card-header encabezado-card">
+                <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-tag" id="arvIconoCard"></i></span><span id="arvTituloCard">Aranceles / Prestaciones</span></h5>
             </div>
 
             <div class="card-body">

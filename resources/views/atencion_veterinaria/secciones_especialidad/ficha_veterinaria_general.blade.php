@@ -152,12 +152,12 @@
 
                                                 <!--Motivo consulta-->
                                                 @php
-    $seccionesVeterinarias = ($profesional ?? null)?->seccionesFichaVeterinaria() ?? array_keys(config('ficha_veterinaria_secciones'));
+    $seccionesVeterinarias = ($profesional ?? null)?->seccionesFichaVeterinaria() ?? array_values(array_diff(array_keys(config('ficha_veterinaria_secciones')), ['examen_detallado']));
 @endphp
                                                 @include('atencion_veterinaria.include.resumen_atenciones_mascota')
                                                 @include('general.secciones_ficha.motivo', ['examenFisicoEnCard' => true, 'ocultarCamposAnamnesis' => true, 'anamnesisVetGeneral' => true])
                                                 <!--Cierre: Formulario /Motivo de la Consulta-->
-                                                @include('general.secciones_ficha.examenfisico', ['examenFisicoEnCard' => true])
+                                                @include('general.secciones_ficha.examenfisico', ['examenFisicoEnCard' => true, 'mostrarExamenSistemas' => in_array('examen_detallado', $seccionesVeterinarias, true)])
                                                 <!--Formulario / Signos vitales y otros-->
                                                 @include('general.secciones_ficha.signos_vitales', ['ocultarSignosVitales' => !in_array('signos_vitales', $seccionesVeterinarias, true), 'omitirTallaImc' => true])
                                                 <!--Cierre: Formulario / Signos vitales y otros-->

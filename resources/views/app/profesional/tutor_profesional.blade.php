@@ -33,6 +33,7 @@
                     <div class="card tarjeta-datos-tutor">
                         <div class="card-body">
                             <div class="tarjeta-datos-tutor__cuerpo">
+                                <small class="d-block text-purple font-weight-bold mb-1">Tutor(a) responsable</small>
                                 <h5 class="tarjeta-datos-tutor__nombre">
                                     {{ $nombreTutor }}
                                     <span @class(["badge badge-light-danger f-12 align-middle ml-1", "d-none" => !$bloqueoTutor]) id="etiqueta_tutor_bloqueado"
@@ -75,7 +76,7 @@
                                 </button>
                                 <button type="button" @class(['btn btn-sm btn-danger mb-1', 'd-none' => $bloqueoTutor]) id="boton_abrir_bloquear_tutor"
                                     onclick="abrir_bloquear_tutor(false)">
-                                    <i class="feather icon-lock mr-1"></i>Bloquear tutor
+                                    <i class="feather icon-slash mr-1"></i>Bloquear tutor(a)
                                 </button>
                                 <button type="button" @class(['btn btn-sm btn-danger mb-1', 'd-none' => !$bloqueoTutor]) id="boton_desbloquear_tutor"
                                     onclick="desbloquear_tutor()">

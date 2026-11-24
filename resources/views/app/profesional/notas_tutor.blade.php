@@ -6,7 +6,7 @@
 <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-start">
     <div class="mr-2">
         <h5 class="mb-0 text-dark">Notas internas del tutor</h5>
-        <p class="text-muted font-weight-normal mb-0 mt-1">Solo las ves tú; el tutor no las ve.</p>
+        <p class="text-muted font-weight-normal mb-0 mt-1">Estas notas no las puede ver el Tutor(a).</p>
     </div>
     <span class="badge badge-light-danger f-12 px-2 py-1 mt-1 ml-auto" title="Notas que lo marcaron como conflictivo">
         <i class="feather icon-alert-triangle mr-1" aria-hidden="true"></i><strong class="js-veces-conflictivo">{{ $vecesConflictivo }}</strong>
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="col-12 col-md-auto">
-            <div class="bloque-estado mt-0 mb-3 d-flex align-items-center flex-wrap">
+            <div class="bloque-estado bg-transparent mt-0 mb-3 d-flex align-items-center flex-wrap">
                 <span class="font-weight-bold text-dark mr-3" id="pregunta_tutor_conflictivo">¿Tutor(a) conflictivo(a)?</span>
                 <div class="custom-control custom-switch" role="group" aria-labelledby="pregunta_tutor_conflictivo">
                     <input type="checkbox" class="custom-control-input" id="nota_tutor_conflictivo" name="conflictivo" value="1">
@@ -38,7 +38,7 @@
     </div>
 </form>
 
-<h6 class="text-dark font-weight-bold mt-4 mb-2">Historial de notas internas</h6>
+<h6 class="text-dark font-weight-bold f-16 mt-4 mb-2">Historial de notas internas</h6>
 <div @class(["ficha-profesional__vacio", "d-none" => $notasTutor->isNotEmpty()]) id="notas_tutor_vacio">Todavía no hay notas para este tutor.</div>
 <div @class(["table-responsive", "d-none" => $notasTutor->isEmpty()]) id="tabla_notas_tutor">
     <table class="table table-striped table-xs mb-0">

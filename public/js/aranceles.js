@@ -351,8 +351,12 @@
 
     function cambiarPestana(nombre) {
         catalogo = nombre;
-        $('.arv-tab').removeClass('active').attr('aria-selected', 'false')
+        var pestana = $('.arv-tab').removeClass('active').attr('aria-selected', 'false')
             .filter('[data-catalogo="' + nombre + '"]').addClass('active').attr('aria-selected', 'true');
+        // El encabezado de la card muestra el nombre de la pestaña elegida
+        var iconos = {aranceles: 'icon-tag', examenes: 'icon-file-text', procedimientos: 'icon-scissors'};
+        $('#arvTituloCard').text($.trim(pestana.clone().children().remove().end().text()));
+        $('#arvIconoCard').attr('class', 'feather ' + (iconos[nombre] || 'icon-list'));
         var filtro = filtros[nombre];
         $('#arvBuscar').val(filtro.texto);
         $('#arvFiltroEstado').val(filtro.estado);
@@ -757,7 +761,7 @@
         if (!$('#arvTabla').length) return; // el archivo solo actúa en la pantalla de aranceles
 
         // Pestañas y filtros
-        $('.arv-tab').on('click', function () { cambiarPestana($(this).data('catalogo')); });
+        $('.arv-tab').on('click', function (e) { e.preventDefault(); cambiarPestana($(this).data('catalogo')); });
         $('#arvBuscar').on('input', function () { filtros[catalogo].texto = this.value; pintarLista(); });
         $('#arvFiltroEstado').on('change', function () { filtros[catalogo].estado = this.value; pintarLista(); });
         $('#arvSoloVaria').on('change', function () { filtros[catalogo].soloVaria = this.checked; pintarLista(); });

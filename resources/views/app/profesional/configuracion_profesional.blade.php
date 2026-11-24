@@ -51,7 +51,7 @@
                             <div class="card subir configuracion-card">
                                 <a href="{{ route('vet.inventario.index') }}">
                                     <div class="card-body text-center">
-                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/docs.svg') }}" alt="">
+                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/doc-sag.svg') }}" alt="">
                                         <h5 class="titulo-tarjeta">Medicamentos, vacunas y alimentos</h5>
                                     </div>
                                 </a>
@@ -61,7 +61,7 @@
                             <div class="card subir configuracion-card">
                                 <a href="{{ route('profesional.personalizar_mi_ficha') }}">
                                     <div class="card-body text-center">
-                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/docs.svg') }}" alt="">
+                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/configurar-ficha-medica.svg') }}" alt="">
                                         <h5 class="titulo-tarjeta">Personalizar mi ficha</h5>
                                     </div>
                                 </a>
@@ -71,7 +71,7 @@
                             <div class="card subir configuracion-card">
                                 <a href="{{ route('sitio.configurar') }}">
                                     <div class="card-body text-center" style="cursor:pointer">
-                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/docs.svg') }}"
+                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/personalizar-web.png') }}"
                                             alt="Configurar mi página web">
                                         <h5 class="titulo-tarjeta">Configurar mi página web</h5>
                                     </div>
@@ -109,12 +109,7 @@
                             <div class="card subir configuracion-card">
                                 <a href="{{ route('profesional.aranceles') }}">
                                     <div class="card-body text-center" style="cursor:pointer">
-                                        <span class="configuracion-card-icon d-inline-flex align-items-center justify-content-center position-relative"
-                                              style="width:78px;height:78px;border-radius:22px;background:#e5fbf8;box-shadow:0 8px 20px rgba(16,170,168,.16)">
-                                            <img src="{{ asset($esOdontologo ? 'images/iconos/dental.png' : 'images/iconos/gastos-pagos.png') }}" alt="Configurar aranceles" style="width:58px;height:58px;object-fit:contain">
-                                            <span class="position-absolute d-flex align-items-center justify-content-center"
-                                                  style="right:-4px;bottom:-3px;width:27px;height:27px;border-radius:50%;background:#7b35a5;color:#fff;font-size:15px;font-weight:700;border:3px solid #fff">$</span>
-                                        </span>
+                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/arancel.png') }}" alt="Configurar aranceles">
                                         <h5 class="titulo-tarjeta f-16">Configurar mis aranceles</h5>
                                     </div>
                                 </a>
@@ -139,7 +134,7 @@
                             <div class="card subir configuracion-card">
                                 <a href="{{ route('profesional.indicaciones_medicas') }}">
                                     <div class="card-body text-center" style="cursor:pointer">
-                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/indicaciones.png') }}" alt="Configurar emisión de documentos">
+                                        <img class="configuracion-card-icon" src="{{ asset('images/iconos/indicaciones.svg') }}" alt="Configurar emisión de documentos">
                                         <h5 class="titulo-tarjeta f-16">Configurar emisión de documentos</h5>
                                     </div>
                                 </a>

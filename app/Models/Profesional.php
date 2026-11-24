@@ -27,7 +27,12 @@ class Profesional extends Model
         $disponibles = array_keys(config('ficha_veterinaria_secciones'));
         $guardadas = json_decode($this->getAttribute('secciones_ficha_veterinaria') ?? 'null', true);
 
-        return is_array($guardadas) ? array_values(array_intersect($disponibles, $guardadas)) : $disponibles;
+        if (is_array($guardadas)) {
+            return array_values(array_intersect($disponibles, $guardadas));
+        }
+
+        // Quien nunca personalizó su ficha parte con todo, menos el examen físico por sistemas
+        return array_values(array_diff($disponibles, ['examen_detallado']));
     }
 
     public function LugaresAtencion()

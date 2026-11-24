@@ -1,5 +1,4 @@
 @extends('template.profesional.template')
-@section('sin_boton_volver', '1')
 @section('content')
 <style>
     .doc-card{border:0;border-radius:16px;box-shadow:0 5px 18px rgba(34,49,68,.10);transition:.2s ease;overflow:hidden}
@@ -22,22 +21,22 @@
         <div class="col-lg-6"><div class="card doc-card"><a href="{{ route('profesional.mis_recetas') }}"><div class="doc-card-body">
             <span class="doc-icon"><img src="{{ asset('images/iconos/recetas-ro.svg') }}" alt="Recetas"></span>
             <div class="doc-copy"><h4>Mis recetas</h4><p>Todas las recetas veterinarias que has emitido como profesional.</p></div>
-            <div class="doc-count"><strong>{{ $resumenDocumentos['recetas'] }}</strong><small>documentos</small></div>
+            <div class="doc-count"><strong>{{ $resumenDocumentos['recetas'] }}</strong><small>Documentos</small></div>
         </div></a></div></div>
         <div class="col-lg-6"><div class="card doc-card"><a href="{{ route('profesional.mis_examenes') }}"><div class="doc-card-body">
             <span class="doc-icon"><img src="{{ asset('images/iconos/examenes-ro.svg') }}" alt="Exámenes"></span>
             <div class="doc-copy"><h4>Mis órdenes de exámenes</h4><p>Órdenes de laboratorio, imagenología y otros exámenes solicitados.</p></div>
-            <div class="doc-count"><strong>{{ $resumenDocumentos['examenes'] }}</strong><small>órdenes</small></div>
+            <div class="doc-count"><strong>{{ $resumenDocumentos['examenes'] }}</strong><small>Órdenes</small></div>
         </div></a></div></div>
         <div class="col-lg-6"><div class="card doc-card"><a href="{{ route('profesional.mis_certificados') }}"><div class="doc-card-body">
             <span class="doc-icon"><img src="{{ asset('images/iconos/certificados-ro.svg') }}" alt="Certificados"></span>
             <div class="doc-copy"><h4>Certificados e informes</h4><p>Certificados veterinarios, interconsultas e informes emitidos.</p></div>
-            <div class="doc-count"><strong>{{ $resumenDocumentos['certificados'] }}</strong><small>documentos</small></div>
+            <div class="doc-count"><strong>{{ $resumenDocumentos['certificados'] }}</strong><small>Documentos</small></div>
         </div></a></div></div>
         <div class="col-lg-6"><div class="card doc-card"><a href="{{ route('profesional.historial_mensajes') }}"><div class="doc-card-body">
             <span class="doc-icon"><img src="{{ asset('images/iconos/msje.png') }}" alt="Mensajes"></span>
             <div class="doc-copy"><h4>Mis mensajes</h4><p>Comunicaciones de laboratorios clínicos, centros de imagen, farmacias, SAG y otros profesionales.</p>@if($resumenDocumentos['mensajes_no_leidos'] > 0)<span class="doc-unread">{{ $resumenDocumentos['mensajes_no_leidos'] }} sin leer</span>@endif</div>
-            <div class="doc-count"><strong>{{ $resumenDocumentos['mensajes'] }}</strong><small>mensajes</small></div>
+            <div class="doc-count"><strong>{{ $resumenDocumentos['mensajes'] }}</strong><small>Mensajes</small></div>
         </div></a></div></div>
     </div>
 </div></div>
