@@ -34,6 +34,18 @@
         letter-spacing: .04em;
         text-transform: uppercase;
     }
+    /* Nombre y especie en blanco sobre el fondo gris */
+    .memorial-hero-header .memorial-nombre {
+        color: #fff;
+        font-family: 'Nunito', 'Nunito Sans', sans-serif;
+        font-size: 30px;
+        font-weight: 800;
+        text-transform: capitalize;
+    }
+    .memorial-hero-header .memorial-especie {
+        color: rgba(255,255,255,.9);
+        font-size: 15px;
+    }
     .memorial-body { padding: 24px; }
     .memorial-quote {
         font-size: 18px;
@@ -132,18 +144,10 @@
 <div class="pcoded-main-container">
     <div class="pcoded-content">
         <div class="memorial-shell">
-            <div class="page-header mb-3">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <div class="page-header-title">
-                                <a href="{{ route('paciente.mis_mascotas') }}" class="text-muted mr-2" title="Volver a Mis Mascotas">
-                                    <i class="feather icon-arrow-left"></i>
-                                </a>
-                                <h5 class="d-inline font-weight-bold mb-0">En memoria de {{ $mascota->nombre }}</h5>
-                            </div>
-                        </div>
-                    </div>
+            {{-- Título igual al de Mis Mascotas; para volver se usa el "Atrás" de la plantilla --}}
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <h5 class="f-26 d-inline">En memoria de {{ $mascota->nombre }}</h5>
                 </div>
             </div>
 
@@ -153,8 +157,8 @@
                     <div>
                         <img src="{{ $imgMascota }}" alt="{{ $mascota->nombre }}" class="memorial-photo">
                     </div>
-                    <h3 class="mb-1">{{ $mascota->nombre }}</h3>
-                    <p class="mb-0 opacity-90">{{ $especie }} · {{ $raza }}</p>
+                    <h3 class="memorial-nombre mb-1">{{ $mascota->nombre }}</h3>
+                    <p class="memorial-especie mb-0">{{ $especie }} · {{ $raza }}</p>
                 </div>
                 <div class="memorial-body">
                     @if(!empty($memorial['mensaje']))

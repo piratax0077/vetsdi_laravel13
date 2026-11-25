@@ -170,7 +170,14 @@
                                                                 data-tutor-telefono="{{ optional($responsable)->telefono_uno ?: optional($responsable)->telefono_dos ?: '-' }}"
                                                                 data-tutor-convenio="{{ $convenio }}"
                                                                 data-tutor-url="{{ $urlTutor }}">
-                                                                <i class="fas fa-paw"></i>
+                                                                {{-- Patita en trazo lineal, igual que los íconos feather de las otras acciones --}}
+                                                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -0.125em;">
+                                                                    <ellipse cx="5" cy="10" rx="1.8" ry="2.3"></ellipse>
+                                                                    <ellipse cx="9.2" cy="5.3" rx="1.9" ry="2.4"></ellipse>
+                                                                    <ellipse cx="14.8" cy="5.3" rx="1.9" ry="2.4"></ellipse>
+                                                                    <ellipse cx="19" cy="10" rx="1.8" ry="2.3"></ellipse>
+                                                                    <path d="M12 11.5c-2.3 0-5.2 3.6-5.2 6.2 0 1.6 1.2 2.6 2.7 2.6 1 0 1.6-.5 2.5-.5s1.5.5 2.5.5c1.5 0 2.7-1 2.7-2.6 0-2.6-2.9-6.2-5.2-6.2z"></path>
+                                                                </svg>
                                                             </button>
                                                             <a href="{{ route('profesional.mascota.ficha_veterinaria', ['mascota' => $mascota->id]) }}"
                                                                 class="btn btn-icon btn-warning js-tooltip-accion"

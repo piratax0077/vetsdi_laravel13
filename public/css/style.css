@@ -38480,11 +38480,23 @@ table thead th,
     -ms-flex-direction: column;
     flex-direction: column;
     height: 100%;
-    padding: 24px 18px 16px;
+    padding: 16px 16px 12px;
 }
 
+/* Perfil en una fila: foto, datos y etiqueta de estado */
 .card-mascota-perfil {
     position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+}
+
+.card-mascota-datos {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -38492,21 +38504,38 @@ table thead th,
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    text-align: center;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* La etiqueta (En memoria, Perdida, Co-tutor) queda arriba a la derecha dentro de la fila */
+#card-lista-dependientes .card-mascota-perfil .mascota-badge-memoria,
+#card-lista-dependientes .card-mascota-perfil .mascota-badge-compartida,
+#card-lista-dependientes .card-mascota-perfil .mascota-badge-perdida {
+    position: static;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    -ms-flex-item-align: start;
+    align-self: flex-start;
+    margin-left: auto;
 }
 
 .card-mascota-foto {
     display: block;
-    width: 100px;
-    height: 100px;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
     overflow: hidden;
     background: #ffffff;
-    border: 5px solid #ffffff;
+    border: 3px solid #ffffff;
     border-radius: 50%;
-    box-shadow: 0 8px 20px rgba(18, 139, 130, .25);
+    box-shadow: 0 4px 12px rgba(18, 139, 130, .25);
     -webkit-transition: transform .25s ease;
     transition: transform .25s ease;
 }
@@ -38525,7 +38554,7 @@ table thead th,
 }
 
 .card-mascota-foto-vacia img {
-    padding: 18px;
+    padding: 15px;
     -o-object-fit: contain;
     object-fit: contain;
 }
@@ -38537,11 +38566,11 @@ table thead th,
 
 .card-mascota-nombre {
     max-width: 100%;
-    margin: 12px 0 6px;
+    margin: 0 0 4px;
     overflow: hidden;
     color: #272727;
     font-family: 'Nunito', 'Nunito Sans', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
     line-height: 1.25;
     text-overflow: ellipsis;
@@ -38569,6 +38598,23 @@ table thead th,
     font-size: 11px;
 }
 
+/* Especie y raza como texto simple bajo el nombre */
+.card-mascota-dato {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    color: #6c757d;
+    font-size: 13px;
+    line-height: 1.45;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-mascota-dato span {
+    color: #272727;
+    font-weight: 700;
+}
+
 /* Va fijo en la esquina superior derecha de la tarjeta */
 #card-lista-dependientes .mascota-badge-memoria,
 #card-lista-dependientes .mascota-badge-compartida {
@@ -38591,8 +38637,8 @@ table thead th,
 .card-mascota-principal {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-    margin-top: 18px;
+    gap: 8px;
+    margin-top: 12px;
 }
 
 .card-mascota-boton {
@@ -38605,7 +38651,7 @@ table thead th,
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-    min-height: 36px;
+    min-height: 34px;
     padding: 5px 10px;
     color: #ffffff;
     font-family: 'Nunito', 'Nunito Sans', sans-serif;
@@ -38655,15 +38701,16 @@ table thead th,
 }
 
 /* Botón Escritorio en morado */
+/* Botón Escritorio en morado suave; al pasar el mouse toma el morado completo */
 .card-mascota-boton-morado {
-    background: #6f42c1;
-    background: -webkit-linear-gradient(135deg, #7547c7 0%, #6c3fbd 100%);
-    background: linear-gradient(135deg, #7547c7 0%, #6c3fbd 100%);
+    color: #6f42c1;
+    background: #f1ebfa;
 }
 
 .card-mascota-boton-morado:hover,
 .card-mascota-boton-morado:focus {
-    background: #5a2ea6;
+    color: #ffffff;
+    background: #6f42c1;
 }
 
 /* Botón "Ver mis mascotas" en la genealogía: hover suave */
@@ -38684,22 +38731,22 @@ table thead th,
 .card-mascota-accesos {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-    margin-top: 10px;
+    gap: 6px;
+    margin-top: 8px;
 }
 
+/* Accesos bajos: ícono al lado del texto */
 .card-mascota-acceso {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    padding: 12px 6px 10px;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 7px 4px;
     color: #34475a;
     font-size: 11.5px;
     font-weight: 700;
@@ -38707,7 +38754,7 @@ table thead th,
     text-align: center;
     background: #ffffff;
     border: 1px solid #e3ebef;
-    border-radius: 12px;
+    border-radius: 10px;
     -webkit-transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
     transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
 }
@@ -38722,11 +38769,11 @@ table thead th,
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    margin-bottom: 4px;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-right: 5px;
     color: #17a69e;
-    font-size: 20px;
+    font-size: 15px;
     -webkit-transition: color .18s ease;
     transition: color .18s ease;
 }
@@ -38749,7 +38796,7 @@ table thead th,
 /* Pie con la opción de fallecimiento, más discreta */
 .card-mascota-pie {
     margin-top: auto;
-    padding-top: 12px;
+    padding-top: 8px;
 }
 
 .card-mascota-pie .btn-registrar-fallecimiento {
@@ -38764,7 +38811,7 @@ table thead th,
     justify-content: center;
     width: 100%;
     margin-top: 4px;
-    padding: 9px 10px;
+    padding: 7px 10px;
     color: #7a8594;
     font-family: 'Nunito', 'Nunito Sans', sans-serif;
     font-size: 12px;
@@ -38817,15 +38864,16 @@ table thead th,
     color: #5c6370;
 }
 
+/* Álbum de recuerdos en gris suave */
 .card-mascota-fallecida .card-mascota-boton {
-    background: #6c757d;
-    background: -webkit-linear-gradient(135deg, #6c757d 0%, #626a72 100%);
-    background: linear-gradient(135deg, #6c757d 0%, #626a72 100%);
+    color: #495057;
+    background: #e9ecef;
 }
 
 .card-mascota-fallecida .card-mascota-boton:hover,
 .card-mascota-fallecida .card-mascota-boton:focus {
-    background: #3d4349;
+    color: #ffffff;
+    background: #495057;
 }
 
 .card-mascota-fallecida .card-mascota-boton-suave {
@@ -38844,17 +38892,50 @@ table thead th,
     margin-bottom: 4px;
 }
 
+/* Pie de la mascota fallecida: estado, cruz y fecha */
+.card-mascota-pie.card-mascota-fallecimiento {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: auto;
+    padding: 8px 10px 2px;
+    color: #5c6370;
+    font-family: 'Nunito', 'Nunito Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    border-top: 1px dashed #e3e8ed;
+}
+
+.card-mascota-fallecimiento-fecha {
+    margin-left: 6px;
+}
+
+.card-mascota-fallecimiento-estado {
+    padding: 3px 14px;
+    color: #495057;
+    background: #f1f3f5;
+    border-radius: 999px;
+}
+
+.card-mascota-cruz {
+    font-size: 14px;
+}
+
 /* Celular */
 @media (max-width: 575.98px) {
     #card-lista-dependientes .card-mascota {
         border-radius: 16px;
     }
     .card-mascota-foto {
-        width: 88px;
-        height: 88px;
+        width: 72px;
+        height: 72px;
     }
     .card-mascota-nombre {
-        font-size: 18px;
+        font-size: 17px;
     }
 }
 
@@ -49764,14 +49845,17 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 }
 
 /* Ficha mascota con los colores de btn-info */
+/* Ficha mascota en turquesa suave; al pasar el mouse toma el color de btn-info */
 .card-mascota-boton.btn-info {
-    background: #40abaf;
+    color: #138d91;
+    background: #e3f4f5;
     border: 0;
 }
 
 .card-mascota-boton.btn-info:hover,
 .card-mascota-boton.btn-info:focus {
-    background: #08a0a0;
+    color: #ffffff;
+    background: #40abaf;
 }
 
 /* Pie de la tarjeta: Mascota perdida y Registrar fallecimiento lado a lado */

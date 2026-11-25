@@ -1133,6 +1133,19 @@
             return '-';
         }
 
+        // Raza para la tarjeta: usa el catálogo cargado en la página; sin raza muestra "Sin registro"
+        function obtenerRazaTarjeta(mascota)
+        {
+            var raza = obtenerLabelRaza(mascota);
+            if (raza === '-' && mascota) {
+                var catalogo = window.razasMascotasPorEspecie || razasMascotasPorEspecie || {};
+                var razaId = mascota.raza_id || mascota.raza;
+                var especieId = mascota.especie_id || mascota.especie;
+                raza = obtenerLabelRazaDesdeListado(catalogo[String(especieId)] || [], razaId);
+            }
+            return raza && raza !== '-' ? raza : 'Sin registro';
+        }
+
         function actualizarDetalleRaza(mascota)
         {
             if(!mascota) return;
@@ -3712,6 +3725,18 @@
             var img_patita = '{{ asset('images/iconos/mascotas.svg') }}';
             var $lista = $('#card-lista-dependientes');
 
+            // Las mascotas vivas van primero y las fallecidas quedan al final,
+            // respetando el orden original dentro de cada grupo.
+            if (Array.isArray(registros)) {
+                registros = registros
+                    .map(function(mascota, posicion) { return { mascota: mascota, posicion: posicion }; })
+                    .sort(function(a, b) {
+                        var diferencia = (mascotaEstaFallecida(a.mascota) ? 1 : 0) - (mascotaEstaFallecida(b.mascota) ? 1 : 0);
+                        return diferencia !== 0 ? diferencia : a.posicion - b.posicion;
+                    })
+                    .map(function(item) { return item.mascota; });
+            }
+
             if (!Array.isArray(registros) || !registros.length) {
                 $lista.html(
                     '<div class="col-12 mascotas-vacio-col">' +
@@ -3757,17 +3782,21 @@
                 html += '<div class="col">';
                 html += '    <div class="'+cardClass+'" data-id="'+value.id+'">';
                 html += '        <div class="card-body">';
-                if (esFallecida) {
-                    html += '            <span class="mascota-badge-memoria">En memoria</span>';
-                } else if (mascotaEstaPerdida(value)) {
-                    html += '            <span class="mascota-badge-perdida">Perdida</span>';
-                } else if (rolCompartido) {
-                    html += '            <span class="mascota-badge-compartida">' + (rolCompartido === 'cuidador' ? 'Cuidador' : 'Co-tutor') + '</span>';
-                }
+                // Foto a la izquierda, nombre y especie al lado, etiqueta de estado al final de la fila
                 html += '            <div class="card-mascota-perfil">';
                 html += '                <span class="'+fotoClass+'"><img src="'+img+'" alt="Foto de '+nombre+'"></span>';
-                html += '                <h5 class="card-mascota-nombre">'+nombre+'</h5>';
-                html += '                <span class="card-mascota-especie"><i class="fas fa-paw"></i> '+escaparTextoMascota(especie_label)+'</span>';
+                html += '                <div class="card-mascota-datos">';
+                html += '                    <h5 class="card-mascota-nombre">'+nombre+'</h5>';
+                html += '                    <span class="card-mascota-dato"><span>Especie:</span> '+escaparTextoMascota(especie_label && especie_label !== '-' ? especie_label : 'Sin registro')+'</span>';
+                html += '                    <span class="card-mascota-dato"><span>Raza:</span> '+escaparTextoMascota(obtenerRazaTarjeta(value))+'</span>';
+                html += '                </div>';
+                if (esFallecida) {
+                    // Fallecida: el estado va en el pie de la tarjeta con la fecha
+                } else if (mascotaEstaPerdida(value)) {
+                    html += '                <span class="mascota-badge-perdida">Perdida</span>';
+                } else if (rolCompartido) {
+                    html += '                <span class="mascota-badge-compartida">' + (rolCompartido === 'cuidador' ? 'Cuidador' : 'Co-tutor') + '</span>';
+                }
                 html += '            </div>';
 
                 // Acciones principales
@@ -3784,9 +3813,26 @@
                 // Accesos rápidos a los registros de la mascota
                 html += '            <div class="card-mascota-accesos">';
                 html += '                <a class="card-mascota-acceso btn-ver-ficha" href="'+fvu_url+'" title="Ficha Veterinaria Única"><span class="card-mascota-acceso-icono"><i class="feather icon-file-plus"></i></span>FVU</a>';
-                html += '                <a class="card-mascota-acceso" href="'+carnet_sanitario_url+'" title="Carné de vacunas y desparasitación"><span class="card-mascota-acceso-icono"><i class="fas fa-syringe"></i></span>Carné vacunas/desp.</a>';
-                html += '                <a class="card-mascota-acceso" href="'+genealogia_url+'" title="Mi genealogía"><span class="card-mascota-acceso-icono"><i class="fas fa-sitemap"></i></span>Mi genealogía</a>';
+                html += '                <a class="card-mascota-acceso" href="'+carnet_sanitario_url+'" title="Carné de vacunas y desparasitación"><span class="card-mascota-acceso-icono"><i class="fas fa-syringe"></i></span>Carné</a>';
+                html += '                <a class="card-mascota-acceso" href="'+genealogia_url+'" title="Mi genealogía"><span class="card-mascota-acceso-icono"><i class="fas fa-sitemap"></i></span>Genealogía</a>';
                 html += '            </div>';
+
+                if (esFallecida) {
+                    // Fallecido o Fallecida según el sexo, con una cruz y la fecha del fallecimiento
+                    var textoFallecida = value.sexo === 'F' ? 'Fallecida' : (value.sexo === 'M' ? 'Fallecido' : 'Fallecido(a)');
+                    var fechaFallecimiento = '';
+                    if (value.fecha_fallecimiento) {
+                        var partesFecha = String(value.fecha_fallecimiento).substring(0, 10).split('-');
+                        if (partesFecha.length === 3) fechaFallecimiento = partesFecha[2] + '-' + partesFecha[1] + '-' + partesFecha[0];
+                    }
+                    html += '            <div class="card-mascota-pie card-mascota-fallecimiento">';
+                    html += '                <span class="card-mascota-fallecimiento-estado">' + textoFallecida;
+                    if (fechaFallecimiento) {
+                        html += ' <span class="card-mascota-fallecimiento-fecha"><span class="card-mascota-cruz" aria-hidden="true">&#10013;</span> ' + fechaFallecimiento + '</span>';
+                    }
+                    html += '</span>';
+                    html += '            </div>';
+                }
 
                 if (!esFallecida && !rolCompartido) {
                     html += '            <div class="card-mascota-pie">';
