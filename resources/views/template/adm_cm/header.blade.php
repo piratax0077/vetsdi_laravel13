@@ -20,6 +20,7 @@
                 @endif
 
                 @include('template.partials.mensajes_encabezado')
+                @include('template.partials.avisos_encabezado')
 
                 @include('template.partials.workspace_switcher')
 			</li>

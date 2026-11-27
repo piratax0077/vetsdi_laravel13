@@ -91,13 +91,13 @@
                 <i class="feather icon-refresh-cw icono-header"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-notification menu-roles">
-                <div class="pro-head font-weight-bold f-16 py-2">
+                <div class="pro-head font-weight-bold f-16">
                     <span>{{ $workspaceUser->nombreParaMostrar() }}</span>
                     @if ($nombreRolActivo)
                         <small class="d-block font-weight-normal">Estás en: {{ $nombreRolActivo }}</small>
                     @endif
                 </div>
-                <ul></ul>
+                <div class="titulo-sm menu-roles-subtitulo">Presiona para cambiar de perfil</div>
                 <ul class="pro-body">
                     @foreach ($workspaceOptions as $workspaceOption)
                         <li>
@@ -113,11 +113,6 @@
                             </a>
                         </li>
                     @endforeach
-                    <li>
-                        <a href="{{ route('cuenta.seleccion') }}" class="dropdown-item">
-                            <i class="feather icon-grid"></i> Cambiar de escritorio
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>

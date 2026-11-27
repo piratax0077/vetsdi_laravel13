@@ -63,10 +63,10 @@
                 @endif
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-notification mensajes-encabezado-menu">
-                <div class="pro-head font-weight-bold f-16 py-2">
+                <div class="pro-head font-weight-bold">
                     Mensajes
                     @if ($mensajesSinLeer > 0)
-                        <span class="badge badge-danger">{{ $mensajesSinLeer }} sin leer</span>
+                        <span class="badge badge-danger mensajes-encabezado-sin-leer"><span>{{ $mensajesSinLeer }}</span> sin leer</span>
                     @endif
                 </div>
                 <ul class="pro-body mensajes-encabezado-lista">
@@ -77,32 +77,42 @@
                                 ? $datosMensaje['titulo']
                                 : (is_array($datosMensaje) && !empty($datosMensaje['asunto']) ? $datosMensaje['asunto'] : 'Sin título');
                             $fechaMensaje = $mensajeEncabezado->fecha_envio ?: $mensajeEncabezado->created_at;
-                            $enlaceMensaje = $esTutorMensajes
-                                ? route('paciente.mensajes', ['mensaje' => $mensajeEncabezado->id])
-                                : ($rutaNegocioMensajes
-                                    ? route($rutaNegocioMensajes, ['mensaje' => $mensajeEncabezado->id])
-                                    : route('profesional.mensaje', ['id' => $mensajeEncabezado->id]));
+                            $mensajeNoLeido = (int) $mensajeEncabezado->estado === 1;
+                            // El profesional lo abre directo en su bandeja; las demás cuentas siguen con la vista del mensaje
+                            if ($esTutorMensajes) {
+                                $enlaceMensaje = route('paciente.mensajes', ['mensaje' => $mensajeEncabezado->id]);
+                            } elseif ($rutaNegocioMensajes) {
+                                $enlaceMensaje = route($rutaNegocioMensajes, ['mensaje' => $mensajeEncabezado->id]);
+                            } elseif ($esProfesionalMensajes && \Route::has('profesional.historial_mensajes')) {
+                                $enlaceMensaje = route('profesional.historial_mensajes', ['mensaje' => $mensajeEncabezado->id]);
+                            } else {
+                                $enlaceMensaje = route('profesional.mensaje', ['id' => $mensajeEncabezado->id]);
+                            }
                         @endphp
                         <li>
-                            <a href="{{ $enlaceMensaje }}" class="dropdown-item mensajes-encabezado-item">
+                            <a href="{{ $enlaceMensaje }}" class="dropdown-item mensajes-encabezado-item @if ($mensajeNoLeido) mensajes-encabezado-item-no-leido @endif" data-mensaje="{{ $mensajeEncabezado->id }}">
                                 <img class="mensajes-encabezado-avatar" src="{{ asset('images/iconos/usuario_profesional.svg') }}" alt="">
                                 <span class="mensajes-encabezado-texto">
-                                    <span class="pro-title @if ((int) $mensajeEncabezado->estado === 1) font-weight-bold @endif">{{ $tituloMensaje }}</span>
+                                    <span class="pro-title @if ($mensajeNoLeido) font-weight-bold @endif">{{ $tituloMensaje }}</span>
                                     @if ($fechaMensaje)
                                         <span class="pro-date">{{ \Carbon\Carbon::parse($fechaMensaje)->locale('es')->diffForHumans() }}</span>
                                     @endif
                                 </span>
+                                @if ($mensajeNoLeido)
+                                    <span class="mensajes-encabezado-punto" title="Sin leer"><span class="sr-only">Sin leer</span></span>
+                                @endif
                             </a>
                         </li>
                     @empty
                         <li class="mensajes-encabezado-vacio">No tienes mensajes.</li>
                     @endforelse
-                    @if ($rutaTodosMensajes)
-                        <li class="mensajes-encabezado-todos">
-                            <a href="{{ $rutaTodosMensajes }}" class="dropdown-item text-center">Ver todos los mensajes</a>
-                        </li>
-                    @endif
                 </ul>
+                {{-- Queda fuera de la lista para que no se pierda al hacer scroll --}}
+                @if ($rutaTodosMensajes)
+                    <div class="mensajes-encabezado-todos">
+                        <a href="{{ $rutaTodosMensajes }}">Ver todos los mensajes</a>
+                    </div>
+                @endif
             </div>
         </div>
     </li>

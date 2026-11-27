@@ -55,6 +55,7 @@
                 </div>
             </li>
             @include('template.partials.mensajes_encabezado')
+            @include('template.partials.avisos_encabezado')
             <li>
                 @include('template.partials.perfil_encabezado', ['tipoPerfil' => 'profesional'])
             </li>

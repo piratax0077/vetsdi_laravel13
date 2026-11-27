@@ -14,6 +14,7 @@
 				@include('template.partials.boton_escritorio_encabezado', [
 					'rutaEscritorio' => \Route::has('administracion.home') ? route('administracion.home') : null,
 				])
+			@include('template.partials.avisos_encabezado')
 			<li>
                 @include('template.partials.perfil_encabezado', ['tipoPerfil' => 'administrador'])
             </li>

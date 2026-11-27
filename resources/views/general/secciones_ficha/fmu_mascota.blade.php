@@ -54,23 +54,44 @@
     } catch (\Throwable $e) {
         $contactoEmergenciaFvu = null;
     }
-    $contactoNombreFvu = trim((string) (
-        data_get($contactoEmergenciaFvu, 'nombre')
-        ?: data_get($contactoEmergenciaFvu, 'nombres')
-        ?: data_get($responsableFvu, 'nombre')
-        ?: data_get($responsableFvu, 'nombres')
-        ?: 'Responsable de la mascota'
-    ));
-    $contactoRutFvu = data_get($contactoEmergenciaFvu, 'rut') ?: data_get($responsableFvu, 'rut') ?: 'Sin registro';
-    $contactoTelefonoFvu = data_get($contactoEmergenciaFvu, 'telefono')
-        ?: data_get($contactoEmergenciaFvu, 'celular')
-        ?: data_get($responsableFvu, 'telefono')
-        ?: data_get($responsableFvu, 'telefono_uno')
-        ?: data_get($responsableFvu, 'celular')
-        ?: 'Sin registro';
-    $contactoEmailFvu = data_get($contactoEmergenciaFvu, 'email')
-        ?: data_get($responsableFvu, 'email')
-        ?: 'Sin registro';
+    // Personas a contactar: Tutor(a), su contacto de emergencia y, si los hay, co-tutores y cuidadores
+    $tutoresFvu = [];
+    try {
+        $tutoresFvu = $mascota->contactosTutoria();
+    } catch (\Throwable $e) {
+        $tutoresFvu = [];
+    }
+    if (empty($tutoresFvu) && $responsableFvu) {
+        $tutoresFvu[] = [
+            'rol_texto' => 'Tutor(a)',
+            'nombre' => trim(implode(' ', array_filter([
+                data_get($responsableFvu, 'nombres'), data_get($responsableFvu, 'apellido_uno'), data_get($responsableFvu, 'apellido_dos'),
+            ]))) ?: 'Responsable de la mascota',
+            'rut' => data_get($responsableFvu, 'rut'),
+            'telefono' => data_get($responsableFvu, 'telefono_uno') ?: data_get($responsableFvu, 'telefono_dos'),
+            'email' => data_get($responsableFvu, 'email'),
+        ];
+    }
+    $personasContactoFvu = collect($tutoresFvu);
+    if ($contactoEmergenciaFvu) {
+        // El contacto de emergencia del tutor(a) va justo después de él o ella
+        $personasContactoFvu->splice(min(1, $personasContactoFvu->count()), 0, [[
+            'rol_texto' => 'Contacto de emergencia',
+            'nombre' => trim(implode(' ', array_filter([
+                data_get($contactoEmergenciaFvu, 'nombre') ?: data_get($contactoEmergenciaFvu, 'nombres'),
+                data_get($contactoEmergenciaFvu, 'apellido_uno'), data_get($contactoEmergenciaFvu, 'apellido_dos'),
+            ]))) ?: 'Sin registro',
+            'rut' => data_get($contactoEmergenciaFvu, 'rut'),
+            'telefono' => data_get($contactoEmergenciaFvu, 'telefono') ?: data_get($contactoEmergenciaFvu, 'celular'),
+            'email' => data_get($contactoEmergenciaFvu, 'email'),
+        ]]);
+    }
+    $personasContactoFvu = $personasContactoFvu->map(function ($persona) {
+        foreach (['rut', 'telefono', 'email'] as $campo) {
+            $persona[$campo] = trim((string) ($persona[$campo] ?? '')) ?: 'Sin registro';
+        }
+        return $persona;
+    })->values();
 
     $edadMascota = null;
     if (!empty($mascota->fecha_nacimiento)) {
@@ -865,46 +886,52 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="fvu-modal__persona">
-                    <span class="fvu-modal__avatar"><i class="feather icon-user" aria-hidden="true"></i></span>
-                    <div>
-                        <span class="fvu-modal__rol">Contacto / responsable</span>
-                        <h5 class="fvu-modal__nombre">{{ $contactoNombreFvu }}</h5>
+                @forelse ($personasContactoFvu as $personaFvu)
+                    <div class="fvu-modal__bloque">
+                        <div class="fvu-modal__persona">
+                            <span class="fvu-modal__avatar"><i class="feather icon-user" aria-hidden="true"></i></span>
+                            <div>
+                                <span class="fvu-modal__rol">{{ $personaFvu['rol_texto'] }}</span>
+                                <h5 class="fvu-modal__nombre">{{ $personaFvu['nombre'] }}</h5>
+                            </div>
+                        </div>
+                        <ul class="fvu-modal__lista">
+                            <li>
+                                <span class="fvu-icono fvu-tono--morado"><i class="fas fa-id-card" aria-hidden="true"></i></span>
+                                <div class="fvu-modal__dato">
+                                    <small>RUT</small>
+                                    <span>{{ $personaFvu['rut'] }}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="fvu-icono fvu-tono--verde"><i class="fas fa-phone-alt" aria-hidden="true"></i></span>
+                                <div class="fvu-modal__dato">
+                                    <small>Teléfono</small>
+                                    <span>{{ $personaFvu['telefono'] }}</span>
+                                </div>
+                                @if ($personaFvu['telefono'] !== 'Sin registro')
+                                    <a class="fvu-modal__accion" href="tel:{{ preg_replace('/[^0-9+]/', '', (string) $personaFvu['telefono']) }}">
+                                        <i class="feather icon-phone" aria-hidden="true"></i> Llamar
+                                    </a>
+                                @endif
+                            </li>
+                            <li>
+                                <span class="fvu-icono fvu-tono--azul"><i class="fas fa-envelope" aria-hidden="true"></i></span>
+                                <div class="fvu-modal__dato">
+                                    <small>Email</small>
+                                    <span>{{ $personaFvu['email'] }}</span>
+                                </div>
+                                @if ($personaFvu['email'] !== 'Sin registro')
+                                    <a class="fvu-modal__accion" href="mailto:{{ $personaFvu['email'] }}">
+                                        <i class="feather icon-mail" aria-hidden="true"></i> Escribir
+                                    </a>
+                                @endif
+                            </li>
+                        </ul>
                     </div>
-                </div>
-                <ul class="fvu-modal__lista">
-                    <li>
-                        <span class="fvu-icono fvu-tono--morado"><i class="fas fa-id-card" aria-hidden="true"></i></span>
-                        <div class="fvu-modal__dato">
-                            <small>RUT</small>
-                            <span>{{ $contactoRutFvu }}</span>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="fvu-icono fvu-tono--verde"><i class="fas fa-phone-alt" aria-hidden="true"></i></span>
-                        <div class="fvu-modal__dato">
-                            <small>Teléfono</small>
-                            <span>{{ $contactoTelefonoFvu }}</span>
-                        </div>
-                        @if ($contactoTelefonoFvu !== 'Sin registro')
-                            <a class="fvu-modal__accion" href="tel:{{ preg_replace('/[^0-9+]/', '', (string) $contactoTelefonoFvu) }}">
-                                <i class="feather icon-phone" aria-hidden="true"></i> Llamar
-                            </a>
-                        @endif
-                    </li>
-                    <li>
-                        <span class="fvu-icono fvu-tono--azul"><i class="fas fa-envelope" aria-hidden="true"></i></span>
-                        <div class="fvu-modal__dato">
-                            <small>Email</small>
-                            <span>{{ $contactoEmailFvu }}</span>
-                        </div>
-                        @if ($contactoEmailFvu !== 'Sin registro')
-                            <a class="fvu-modal__accion" href="mailto:{{ $contactoEmailFvu }}">
-                                <i class="feather icon-mail" aria-hidden="true"></i> Escribir
-                            </a>
-                        @endif
-                    </li>
-                </ul>
+                @empty
+                    <p class="mb-0">Sin contactos registrados.</p>
+                @endforelse
             </div>
         </div>
     </div>

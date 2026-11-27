@@ -678,6 +678,7 @@ class EscritorioPacienteDependiente extends Controller
 
         $fichas = FichaAtencion::with(['Profesional', 'RecetasEmitidas', 'Recetas'])->where('id_mascota', $paciente->id)
             ->where('id_paciente', $paciente_responsable->id)
+            ->orderByDesc('created_at')
             ->get();
 
         return view('app.paciente_dependiente.receta.mis_recetas', [
@@ -714,6 +715,7 @@ class EscritorioPacienteDependiente extends Controller
 
         $fichas = FichaAtencion::where('id_mascota', $paciente->id)
             ->where('id_paciente', $paciente_responsable->id)
+            ->orderByDesc('created_at')
             ->get();
 
         return view('app.paciente_dependiente.receta.mis_certificados', [

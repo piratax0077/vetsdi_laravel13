@@ -2114,9 +2114,12 @@ class EscritorioProfesional extends Controller
             $mensaje = $req->mensaje;
             $id_paciente = $req->id_paciente;
 
+            // El tutor ve desde qué lugar de atención le escribió el profesional
+            $contexto = \App\Support\UserCenterContext::forProfessional(Auth::user(), $req)['active'] ?? null;
             $datos_mensaje = [
                 'asunto' => $asunto,
-                'mensaje' => $mensaje
+                'mensaje' => $mensaje,
+                'lugar' => $contexto['label'] ?? null,
             ];
             foreach($pacientes as $paciente){
                 $nuevo_mensaje = new Mensajes;
@@ -8530,7 +8533,7 @@ return $ficha;
     public function mis_examenes()
     {
         $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
-        $ficha = FichaAtencion::where('id_profesional', $profesional->id)->with('Mascota.especieMascota')->get();
+        $ficha = FichaAtencion::where('id_profesional', $profesional->id)->with('Mascota.especieMascota')->orderByDesc('created_at')->get();
 
         $examenes = array();
         foreach ($ficha as $key_f => $value_f)
@@ -8591,14 +8594,14 @@ return $ficha;
     public function mis_recetas()
     {
         $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
-        $fichas = FichaAtencion::where('id_profesional',$profesional->id)->with(['Recetas', 'Mascota.especieMascota'])->get();
+        $fichas = FichaAtencion::where('id_profesional',$profesional->id)->with(['Recetas', 'Mascota.especieMascota'])->orderByDesc('created_at')->get();
         return view('app.profesional.receta_online.mis_recetas_profesional')->with(['ficha' => $fichas]);
     }
 
     public function mis_certificados()
     {
         $profesional = Profesional::where('id_usuario', Auth::user()->id)->first();
-        $ficha = FichaAtencion::where('id_profesional', $profesional->id)->with('Mascota.especieMascota')->get();
+        $ficha = FichaAtencion::where('id_profesional', $profesional->id)->with('Mascota.especieMascota')->orderByDesc('created_at')->get();
         $reposo = array();
         $interconsulta = array();
         $informesMedicos = array();
@@ -13634,6 +13637,7 @@ public function eliminarPiezaCoronaProtesis(Request $req){
                             ->with('FichaAtencion.Mascota.especieMascota')
                             ->with('Profesional')
                             ->with('LugarAtencion')
+                            ->orderByDesc('created_at')
                             ->get();
 
 

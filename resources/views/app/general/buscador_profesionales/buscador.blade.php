@@ -4,6 +4,8 @@
     <!--Container Completo-->
     <div class="pcoded-main-container">
         <div class="pcoded-content">
+            {{-- Desde una mascota vuelve a su escritorio; desde el tutor, al escritorio del tutor --}}
+            @include('template.partials.boton_volver', ['url' => !empty($id_dependiente_activo) ? route('paciente.mascota.home', [$id_dependiente_activo]) : route('paciente.home')])
             <!--Reserva de hora por pasos: todo ocurre dentro de esta tarjeta.
                 Hasta LG ocupa todo el ancho; desde XL se angosta y queda centrada.
                 Es el mismo flujo del modal "Reservar hora" del escritorio del tutor,
@@ -14,6 +16,22 @@
                         <div class="card-header encabezado-card">
                             <div>
                                 <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-calendar"></i></span>Reservar hora</h5>                            </div>
+                            @if(!empty($es_veterinaria_busqueda))
+                                @php
+                                    // Misma foto que muestra el menú lateral de la mascota
+                                    $foto_base_mascota_reserva = asset('images/iconos/mascotas.svg');
+                                    $foto_mascota_reserva = ($mascota->foto_url ?? null) ?: $foto_base_mascota_reserva;
+                                @endphp
+                                <!--Para quién es la hora; al elegir veterinario su nombre queda a la derecha-->
+                                <div class="reserva-vet-profesional">
+                                    <img class="reserva-vet-profesional-icono" id="reserva_hora_mascota_foto" src="{{ $foto_mascota_reserva }}" alt="Foto de la mascota" data-foto-base="{{ $foto_base_mascota_reserva }}" onerror="this.onerror=null;this.src='{{ $foto_base_mascota_reserva }}';">
+                                    <div class="reserva-vet-profesional-datos">
+                                        <span class="reserva-vet-profesional-etiqueta">Reservando hora para</span>
+                                        <span class="reserva-vet-profesional-nombre" id="reserva_hora_mascota_nombre">{{ !empty($mascota) ? (\Illuminate\Support\Str::ucfirst(trim($mascota->nombre ?? '')) ?: '-') : 'Su mascota' }}</span>
+                                    </div>
+                                    <span class="reserva-vet-profesional-especialidad" id="reserva_hora_veterinario"></span>
+                                </div>
+                            @endif
                         </div>
                         <div class="card-body">
                             @include("app.general.buscador_profesionales.partials.pasos_reserva")

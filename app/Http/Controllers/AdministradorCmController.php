@@ -4249,6 +4249,8 @@ class AdministradorCmController extends Controller
         $datosMensaje = [
             'asunto' => $request->asunto,
             'mensaje' => $request->mensaje,
+            // El tutor ve desde qué centro o sucursal se envió
+            'lugar' => $activeContext['label'] ?? null,
         ];
 
         foreach ($responsableIds as $responsableId) {

@@ -34,7 +34,7 @@
                                         @foreach (($fichas ?? collect()) as $ficha)
                                             @foreach ($ficha->OrdenesExamenes as $orden)
                                                 <tr>
-                                                    <td>{{ optional($orden->created_at)->format('d/m/Y') }}</td>
+                                                    <td data-order="{{ optional($orden->created_at)->format('Y-m-d H:i:s') }}">{{ optional($orden->created_at)->format('d/m/Y') }}</td>
                                                     <td>{{ $orden->id }}</td>
                                                     <td>{{ trim(($ficha->Profesional->nombre ?? '').' '.($ficha->Profesional->apellido_uno ?? '').' '.($ficha->Profesional->apellido_dos ?? '')) }}</td>
                                                     <td>{{ $orden->examen }}</td>

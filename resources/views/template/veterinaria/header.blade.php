@@ -31,6 +31,7 @@
 
                     {{-- Mensajes justo al lado del botón Mi escritorio --}}
                     @include('template.partials.mensajes_encabezado')
+                    @include('template.partials.avisos_encabezado')
 
                     @include('template.partials.workspace_switcher')
 

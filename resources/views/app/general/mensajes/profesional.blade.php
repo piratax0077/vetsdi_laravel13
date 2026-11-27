@@ -1,141 +1,88 @@
 @extends('template.template_mensajes')
 @section('content')
+    @php
+        // Mismo formato de la bandeja del tutor y del profesional, del más nuevo al más antiguo
+        $tiposBandeja = [1 => 'Mensaje directo', 2 => 'Mensaje de difusión', 3 => 'Mensaje directo', 4 => 'Mensaje de difusión', 5 => 'Aviso'];
+
+        $mensajesBandeja = collect($mensajes ?? [])
+            ->sortByDesc(fn ($registro) => (string) $registro->fechaConHora())
+            ->map(function ($registro) use ($tiposBandeja) {
+                $datos = is_array($registro->datos_mensaje) ? $registro->datos_mensaje : [];
+                $titulo = trim((string) ($datos['titulo'] ?? ''));
+                $asunto = trim((string) ($datos['asunto'] ?? ''));
+                $fecha = $registro->fechaConHora();
+                $emisor = $registro->emisor ?? null;
+
+                return [
+                    'id' => $registro->id,
+                    'remitente' => trim((string) ($datos['negocio'] ?? $datos['remitente'] ?? '')) ?: ($emisor ? $emisor->nombreParaMostrar() : 'VetSDI'),
+                    'foto' => \App\Models\Mensajes::fotoDelRemitente($emisor),
+                    'asunto' => $titulo ?: ($asunto ?: 'Sin título'),
+                    'resumen' => (string) ($datos['mensaje'] ?? ''),
+                    'tipo' => $tiposBandeja[(int) $registro->tipo_mensaje] ?? 'Mensaje',
+                    'lugar' => trim((string) ($datos['lugar'] ?? '')),
+                    'fecha' => $fecha ? $fecha->format('d-m-Y H:i') : '',
+                    'leido' => (int) $registro->estado !== 1,
+                ];
+            })
+            ->values();
+    @endphp
 
     <!--Container Completo-->
     <div class="pcoded-main-container">
         <div class="pcoded-content">
-            <!--Header-->
-            <div class="row">
-                <div class="col-md-12 mb-3 encabezado-pagina">
-                    <h5 class="f-26 d-inline">Mis mensajes</h5>
-                </div>
-            </div>
-            <!--Cierre: Header-->
-        	<div class="row">
-    			<div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-    				<!--EMISOR DEL MENSAJE-->
-    				<div class="card">
-    					<div class="card-body py-3">
-    						<div class="media align-items-center">
-    							<img class="img-radius wid-50 mr-3" src="{{ asset('images/iconos/usuario_profesional.svg') }}" alt="Foto perfil">
-    							<div class="media-body">
-    								<small class="text-muted d-block">Remitente</small>
-                                    @if($mensaje->emisor)
-								    	<h5 class="mb-0 text-c-blue" id="nombre_emisor">{{ $mensaje->emisor->nombre }} {{ $mensaje->emisor->apellido_uno }}</h5>
-                                    @else
-                                        <h5 class="mb-0 text-c-blue" id="nombre_emisor">Usuario #</h5>
-                                    @endif
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    				<!--ASUNTO Y MENSAJE-->
-    				<div class="card">
-    					<div class="card-header encabezado-card">
-    						<h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-mail"></i></span>Mensaje</h5>
-    					</div>
-        				<div class="card-body">
-        					<h5 class="text-c-blue text-uppercase mb-3" id="asunto_mensaje">{{ $mensaje->asunto }}</h5>
-        					<p class="mb-0 contenido-mensaje" id="contenido_mensaje">{{ $mensaje->mensaje }}</p>
-        				</div>
-        			</div>
-    			</div>
-    			<!--BANDEJA DE MENSAJES-->
-        		<div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                    <div class="card">
-                        <div class="card-header encabezado-card">
-                            <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-inbox"></i></span>Mensajes recibidos</h5>
-                        </div>
-                        <div class="card-body">
-                            <script>
-                                const mensajes = @json($mensajes);
-                            </script>
-                            <div class="table-responsive">
-                                <table id="tablaMensajes" class="table tabla-mensajes" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Mensaje</th>
-                                            <th>Fecha</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($mensajes as $m)
-                                            <tr onclick="mostrarMensaje({{ $m['id'] }}, this)" class="{{ ($mensaje->id ?? null) == $m['id'] ? 'fila-seleccionada' : '' }}" style="cursor: pointer;">
-                                                <td class="align-middle">
-                                                    <div class="media align-items-center">
-                                                        <img class="img-radius wid-40" src="{{ asset('images/iconos/usuario_profesional.svg') }}" alt="Foto">
-                                                        <div class="media-body ml-3">
-                                                            <h6 class="pro-title text-uppercase mb-1">
-                                                                {{ strtoupper($m['datos_mensaje']['titulo'] ?? 'Sin título') }}
-                                                            </h6>
-                                                            <small class="text-muted">
-                                                                {{ Str::limit($m['datos_mensaje']['mensaje'] ?? 'Sin mensaje', 60) }}
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="align-middle text-nowrap text-muted">{{ \Carbon\Carbon::parse($m['fecha_envio'])->format('d/m/Y') }}</td>
-                                            </tr>
-                                        @endforeach
-
-                                    </tbody>
-                                </table>
+            @if ($mensajesBandeja->isEmpty())
+                <div class="card">
+                    <div class="card-header encabezado-card">
+                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-mail"></i></span>Mensajes</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="aviso-sin-registros">
+                            <span class="aviso-sin-registros-icono"><i class="feather icon-inbox"></i></span>
+                            <div>
+                                <p class="aviso-sin-registros-titulo">No tienes mensajes</p>
+                                <p class="aviso-sin-registros-texto">Cuando alguien te escriba, lo verás aquí y en el ícono de sobre de arriba.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-        	</div>
+            @else
+                @include('template.partials.bandeja_mensajes', [
+                    'mensajesBandeja' => $mensajesBandeja,
+                    'sinLeerBandeja' => $mensajesBandeja->where('leido', false)->count(),
+                    'descripcionBandeja' => 'Mensajes que llegan a tu cuenta.',
+                ])
+            @endif
         </div>
     </div>
     <!--Cierre: Container Completo-->
 @endsection
 
 @section('page-script')
+<script src="{{ asset('js/bandeja_mensajes.js') }}?v={{ filemtime(public_path('js/bandeja_mensajes.js')) }}"></script>
 <script>
-    $(document).ready(function() {
-        $('#tablaMensajes').DataTable({
-            paging: true,
-            pageLength: 5,
-            lengthChange: false,
-            searching: true,
-            ordering: false,
-            info: false,
-            language: {
-                search: "Buscar:",
-                paginate: {
-                    previous: "Anterior",
-                    next: "Siguiente"
-                },
-                zeroRecords: "No se encontraron mensajes",
-                emptyTable: "No tiene mensajes"
+    (function () {
+        var rutaVer = @json(route('profesional.mensaje.json', ['id' => '__ID__']));
+
+        BandejaMensajes.iniciar({
+            // Se abre el mensaje con el que se llegó a esta página
+            abrirAlIniciar: @json((string) request()->route('id')),
+            cargar: function (id) {
+                return $.getJSON(rutaVer.replace('__ID__', id)).then(function (datos) {
+                    datos = datos || {};
+                    var titulo = $.trim(datos.titulo || '');
+                    var asunto = $.trim(datos.asunto || '');
+
+                    return {
+                        subtitulo: titulo && asunto !== titulo ? asunto : '',
+                        texto: datos.mensaje,
+                        archivos: (datos.archivos || []).map(function (archivo) {
+                            return { nombre: archivo.nombre_original || archivo.nombre || 'Archivo adjunto', url: archivo.url };
+                        })
+                    };
+                });
             }
         });
-    });
-
-    function mostrarMensaje(id, fila) {
-        // Deja marcado el mensaje que se está leyendo
-        if (fila) {
-            $('#tablaMensajes tbody tr').removeClass('fila-seleccionada');
-            $(fila).addClass('fila-seleccionada');
-        }
-
-        $.ajax({
-            url: `/profesional/mensaje/${id}/json`,
-            type: 'GET',
-            dataType: 'json',
-            success: function(mensaje) {
-                console.log(mensaje);
-                $('#nombre_emisor').text(mensaje.emisor.name || 'Desconocido');
-                $('#asunto_mensaje').text(mensaje.asunto || 'Sin asunto');
-                $('#contenido_mensaje').text(mensaje.mensaje || 'Sin contenido');
-            },
-            error: function(xhr, status, error) {
-                console.error('Error al obtener el mensaje:', error);
-            }
-        });
-    }
-
+    })();
 </script>
-
 @endsection

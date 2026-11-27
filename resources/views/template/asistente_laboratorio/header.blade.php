@@ -15,6 +15,7 @@
                         <i class="feather icon-home mr-1"></i>Mi escritorio
                     </a>
                 </li>
+                @include('template.partials.avisos_encabezado')
                 @include('template.partials.workspace_switcher')
 
 				<li>

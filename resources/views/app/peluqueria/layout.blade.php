@@ -28,6 +28,7 @@
                 </a>
             </li>
             @include('template.partials.mensajes_encabezado')
+            @include('template.partials.avisos_encabezado')
             @include('template.partials.workspace_switcher')
             <li>
                 @include('template.partials.perfil_encabezado', ['tipoPerfil' => ($esCentroEstetico??false) ? 'centro_estetico' : 'estetica'])

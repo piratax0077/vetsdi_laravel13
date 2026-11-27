@@ -224,6 +224,56 @@ class Mascota extends Model
             ->where('usuario_id', $tutor->id_usuario)->where('estado', 'activa')->value('rol');
     }
 
+    // Tutor(a) dueño de la mascota y, si los tiene, co-tutores y cuidadores con acceso aceptado
+    public function contactosTutoria(): array
+    {
+        $nombreCompleto = static fn ($persona) => trim(preg_replace('/\s+/', ' ', implode(' ', [
+            $persona->nombres ?? '', $persona->apellido_uno ?? '', $persona->apellido_dos ?? '',
+        ])));
+        $roles = ['titular' => 'Tutor(a)', 'co_tutor' => 'Co-tutor(a)', 'cuidador' => 'Cuidador(a)'];
+        $personas = [];
+
+        $titular = $this->Responsable;
+        if ($titular) {
+            $personas[] = [
+                'rol' => 'titular',
+                'rol_texto' => $roles['titular'],
+                'nombre' => $nombreCompleto($titular) ?: 'Sin registro',
+                'rut' => $titular->rut ?: null,
+                'telefono' => $titular->telefono_uno ?: ($titular->telefono_dos ?: null),
+                'email' => $titular->email ?: null,
+            ];
+        }
+
+        $accesos = MascotaTutoria::where('mascota_id', $this->id)
+            ->where('titular_id', $this->id_responsable)
+            ->where('estado', 'activa')
+            ->orderByRaw("rol = 'cuidador'")
+            ->orderBy('id')
+            ->get();
+        if ($accesos->isEmpty()) {
+            return $personas;
+        }
+
+        $perfiles = Paciente::whereIn('id_usuario', $accesos->pluck('usuario_id')->filter()->all())
+            ->get()
+            ->keyBy('id_usuario');
+
+        foreach ($accesos as $acceso) {
+            $perfil = $perfiles->get($acceso->usuario_id);
+            $personas[] = [
+                'rol' => $acceso->rol,
+                'rol_texto' => $roles[$acceso->rol] ?? $roles['co_tutor'],
+                'nombre' => ($perfil ? $nombreCompleto($perfil) : '') ?: ($acceso->nombre ?: $acceso->correo),
+                'rut' => $perfil?->rut ?: null,
+                'telefono' => $perfil ? ($perfil->telefono_uno ?: ($perfil->telefono_dos ?: null)) : null,
+                'email' => $perfil?->email ?: $acceso->correo,
+            ];
+        }
+
+        return $personas;
+    }
+
     public function scopeVivas(Builder $query): Builder
     {
         return $query->where(function (Builder $subQuery) {

@@ -236,6 +236,7 @@ class MensajesNegocioController extends Controller
             'asunto' => trim((string) ($datos['asunto'] ?? $datos['titulo'] ?? '')) ?: 'Sin asunto',
             'mensaje' => (string) ($datos['mensaje'] ?? ''),
             'remitente' => trim((string) ($datos['remitente'] ?? '')) ?: ($remitente ? $remitente->nombreParaMostrar() : 'Tutor'),
+            'foto' => Mensajes::fotoDelRemitente($remitente),
             'fecha' => $this->fecha($mensaje),
             'leido' => (int) $mensaje->estado !== 1,
         ];

@@ -7,6 +7,8 @@
 @section('content')
 <div class="pcoded-main-container">
     <div class="pcoded-content">
+        {{-- Vuelve al escritorio de la mascota --}}
+        @include('template.partials.boton_volver', ['url' => route('paciente.mascota.home', [$mascota->id])])
         @include('general.secciones_ficha.fmu_mascota')
     </div>
 </div>

@@ -56,6 +56,7 @@
                         </div>
                     </li>
                 @endif
+				@include('template.partials.avisos_encabezado')
 				<li>
 					@include('template.partials.perfil_encabezado')
 				</li>

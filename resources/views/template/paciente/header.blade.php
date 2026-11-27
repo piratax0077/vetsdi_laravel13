@@ -17,6 +17,7 @@
             </li>
             {{-- Mensajes justo al lado del botón Mi escritorio --}}
             @include('template.partials.mensajes_encabezado', ['tipoPerfil' => 'tutor'])
+            @include('template.partials.avisos_encabezado', ['tipoPerfil' => 'tutor'])
             @include('template.partials.workspace_switcher')
 			<li>
                 @include('template.partials.perfil_encabezado', ['tipoPerfil' => 'tutor'])

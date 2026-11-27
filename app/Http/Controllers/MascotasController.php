@@ -105,7 +105,10 @@ class MascotasController extends Controller
             ->where('estado', 1)
             ->porLugarAtencion($idLugarAtencion)
             ->get();
-        $mascotas->each(fn ($mascota) => $mascota->rol_acceso = $mascota->rolTutoria($paciente));
+        $mascotas->each(function ($mascota) use ($paciente) {
+            $mascota->rol_acceso = $mascota->rolTutoria($paciente);
+            $mascota->contactos_tutoria = $mascota->contactosTutoria();
+        });
         $especies = EspecieMascota::orderBy('nombre')->get();
         $tamanos = TamanoMascota::orderBy('nombre')->get();
         $especieTamanos = EspecieTamanoMascota::with(['especie', 'tamano'])->get();
@@ -615,7 +618,10 @@ class MascotasController extends Controller
             ->when($request->boolean('seleccionables'), fn ($query) => $query->seleccionables(), fn ($query) => $query->where('estado', 1))
             ->porLugarAtencion($request->input('id_lugar_atencion'))
             ->get();
-        $mascotas->each(fn ($mascota) => $mascota->rol_acceso = $mascota->rolTutoria($paciente));
+        $mascotas->each(function ($mascota) use ($paciente) {
+            $mascota->rol_acceso = $mascota->rolTutoria($paciente);
+            $mascota->contactos_tutoria = $mascota->contactosTutoria();
+        });
 
         return response()->json([
             'estado' => 1,
@@ -1921,7 +1927,7 @@ class MascotasController extends Controller
         return view('app.paciente_dependiente.registro_vacunas', [
             'mascota' => $mascota,
             'paciente' => $paciente,
-            'vacunas' => $this->normalizarRegistros($mascota->vacunas_registro),
+            'vacunas' => $this->registrosRecientesPrimero($mascota->vacunas_registro),
         ]);
     }
 
@@ -1937,8 +1943,8 @@ class MascotasController extends Controller
         return view('app.paciente.carnet_sanitario_mascota', [
             'mascota' => $mascota,
             'paciente' => $paciente,
-            'vacunas' => $this->normalizarRegistros($mascota->vacunas_registro),
-            'desparasitaciones' => $this->normalizarRegistros($mascota->desparasitaciones_registro),
+            'vacunas' => $this->registrosRecientesPrimero($mascota->vacunas_registro),
+            'desparasitaciones' => $this->registrosRecientesPrimero($mascota->desparasitaciones_registro),
         ]);
     }
 
@@ -1954,7 +1960,7 @@ class MascotasController extends Controller
         return view('app.paciente_dependiente.registro_desparasitacion',[
             'mascota' => $mascota,
             'paciente' => $paciente,
-            'desparasitaciones' => $this->normalizarRegistros($mascota->desparasitaciones_registro),
+            'desparasitaciones' => $this->registrosRecientesPrimero($mascota->desparasitaciones_registro),
         ]);
     }
 
@@ -1985,8 +1991,8 @@ class MascotasController extends Controller
                     ?? $mascota->otra_especie
                     ?? $mascota->especie,
             ],
-            'vacunas' => $this->normalizarRegistros($mascota->vacunas_registro),
-            'desparasitaciones' => $this->normalizarRegistros($mascota->desparasitaciones_registro),
+            'vacunas' => $this->registrosRecientesPrimero($mascota->vacunas_registro),
+            'desparasitaciones' => $this->registrosRecientesPrimero($mascota->desparasitaciones_registro),
         ];
     }
 
@@ -2055,7 +2061,7 @@ class MascotasController extends Controller
         return [
             'estado' => 1,
             'msj' => 'Vacuna agregada correctamente',
-            'vacunas' => $this->normalizarRegistros($mascota->vacunas_registro),
+            'vacunas' => $this->registrosRecientesPrimero($mascota->vacunas_registro),
         ];
         });
     }
@@ -2148,7 +2154,7 @@ class MascotasController extends Controller
             'estado' => 1,
             'msj' => 'Desparasitación agregada correctamente',
             'ultima_desparasitacion' => $mascota->ultima_desparasitacion?->format('Y-m-d'),
-            'desparasitaciones' => $this->normalizarRegistros($mascota->desparasitaciones_registro),
+            'desparasitaciones' => $this->registrosRecientesPrimero($mascota->desparasitaciones_registro),
         ];
         });
     }
@@ -2199,6 +2205,15 @@ class MascotasController extends Controller
         return array_values(array_filter($registros, function ($item) {
             return is_array($item);
         }));
+    }
+
+    // Vacunas y desparasitaciones para mostrar: la dosis más reciente primero
+    private function registrosRecientesPrimero($registros): array
+    {
+        return collect($this->normalizarRegistros($registros))
+            ->sortByDesc(fn ($item) => ($item['fecha_dosis'] ?? '') . '|' . ($item['created_at'] ?? ''))
+            ->values()
+            ->all();
     }
 
     private function resolverMascota($id, bool $edicion = false)

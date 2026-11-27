@@ -17,6 +17,7 @@
             </li>
             {{-- Mensajes justo al lado del botón Mi escritorio --}}
             @include('template.partials.mensajes_encabezado', ['tipoPerfil' => 'tutor'])
+            @include('template.partials.avisos_encabezado', ['tipoPerfil' => 'tutor'])
             {{-- botones extra que agrega cada vista, por ejemplo el escritorio de la mascota activa --}}
             @stack('botones-header')
             @include('template.partials.workspace_switcher')

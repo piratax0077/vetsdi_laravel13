@@ -34,7 +34,7 @@
                                             @foreach( $fichas as $f )
                                                 @foreach( $f->licencias()->get() as $l)
                                                     <tr>
-                                                        <td class="text-wrap text-left align-middle">{{ \Carbon\Carbon::parse($l->created_at)->format('d/m/Y') }}</td>
+                                                        <td class="text-wrap text-left align-middle" data-order="{{ \Carbon\Carbon::parse($l->created_at)->format('Y-m-d H:i:s') }}">{{ \Carbon\Carbon::parse($l->created_at)->format('d/m/Y') }}</td>
                                                         <td class="align-middle text-left">
                                                             <strong>{{ $f->Profesional()->first()->nombre }} {{ $f->Profesional()->first()->apellido_uno }} {{ $f->Profesional()->first()->apellido_dos }} </strong>
                                                             <br>

@@ -3,6 +3,8 @@
 <!--Container Completo-->
 <div class="pcoded-main-container">
     <div class="pcoded-content">
+        {{-- Vuelve al escritorio de la mascota --}}
+        @include('template.partials.boton_volver', ['url' => route('paciente.mascota.home', [$id_dependiente_activo])])
         <!--Header-->
         <div class="row">
             <div class="col-md-12 mb-3">

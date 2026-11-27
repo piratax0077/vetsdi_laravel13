@@ -54,23 +54,23 @@
         background: rgba(3, 75, 80, .8);
     }
     #modal_detalle_mascota .modal-body {
-        padding: 20px;
+        padding: 16px 18px;
         background: #f5f8fa;
     }
     #modal_detalle_mascota .mascota-resumen {
         display: flex;
         align-items: center;
-        margin-bottom: 16px;
-        padding: 14px 16px;
+        margin-bottom: 12px;
+        padding: 10px 14px;
         border: 1px solid #dce8eb;
         border-radius: 14px;
         background: linear-gradient(135deg, #fff 0%, #eefafa 100%);
     }
     #modal_detalle_mascota #modal_mascota_img {
-        flex: 0 0 88px;
-        width: 88px !important;
-        height: 88px;
-        margin: 0 16px 0 0 !important;
+        flex: 0 0 76px;
+        width: 76px !important;
+        height: 76px;
+        margin: 0 14px 0 0 !important;
         border: 4px solid #fff;
         border-radius: 50%;
         object-fit: cover;
@@ -97,13 +97,12 @@
     #modal_detalle_mascota .mascota-detail-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
+        gap: 7px;
     }
     #modal_detalle_mascota .mascota-detail-item {
-        min-height: 66px;
-        padding: 10px 12px;
+        padding: 6px 12px;
         border: 1px solid #e1e8ee;
-        border-radius: 11px;
+        border-radius: 10px;
         background: #fff;
     }
     #modal_detalle_mascota .mascota-detail-item.is-wide {
@@ -111,9 +110,9 @@
     }
     #modal_detalle_mascota .mascota-detail-label {
         display: block;
-        margin-bottom: 4px;
+        margin-bottom: 1px;
         color: #718096;
-        font-size: 11px;
+        font-size: 10.5px;
         font-weight: 600;
         text-transform: uppercase;
     }
@@ -122,6 +121,26 @@
         color: #2f4054;
         font-size: 14px;
         font-weight: 600;
+        overflow-wrap: anywhere;
+    }
+    /* Tutor(a), co-tutores y cuidadores de la mascota */
+    #modal_detalle_mascota .mascota-tutores-titulo {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 12px 0 7px;
+        color: #272727;
+        font-size: 13px;
+        font-weight: 700;
+    }
+    #modal_detalle_mascota .mascota-tutores-titulo i {
+        color: #6f42c1;
+    }
+    #modal_detalle_mascota .mascota-detail-extra {
+        display: block;
+        margin-top: 1px;
+        color: #718096;
+        font-size: 12px;
         overflow-wrap: anywhere;
     }
     #modal_detalle_mascota .modal-footer {
@@ -381,6 +400,11 @@
                             <span class="mascota-detail-label">Condición crónica o frecuente</span>
                             <span class="mascota-detail-value" id="modal_mascota_enfermedad_cronica">-</span>
                         </div>
+                    </div>
+
+                    <div id="modal_mascota_tutores_bloque" class="d-none">
+                        <h6 class="mascota-tutores-titulo"><i class="feather icon-users" aria-hidden="true"></i> Tutor(a) y contactos</h6>
+                        <div class="mascota-detail-grid" id="modal_mascota_tutores"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1242,6 +1266,31 @@
             return img_patita;
         }
 
+        // Tutor(a) dueño y, si los tiene, co-tutores y cuidadores que aceptaron la invitación
+        function pintarTutoresMascota(mascota)
+        {
+            var $bloque = $('#modal_mascota_tutores_bloque');
+            var $lista = $('#modal_mascota_tutores').empty();
+            var personas = (mascota && Array.isArray(mascota.contactos_tutoria)) ? mascota.contactos_tutoria : [];
+
+            personas.forEach(function(persona, indice){
+                var $item = $('<div class="mascota-detail-item"></div>');
+                // Si queda una tarjeta sola en la última fila, ocupa el ancho completo
+                if (indice === personas.length - 1 && personas.length % 2 === 1) {
+                    $item.addClass('is-wide');
+                }
+                $item.append($('<span class="mascota-detail-label"></span>').text(persona.rol_texto || 'Tutor(a)'));
+                $item.append($('<span class="mascota-detail-value"></span>').text(persona.nombre || '-'));
+                var extra = [persona.telefono, persona.email].filter(function(dato){ return !!dato; }).join(' · ');
+                if (extra) {
+                    $item.append($('<span class="mascota-detail-extra"></span>').text(extra));
+                }
+                $lista.append($item);
+            });
+
+            $bloque.toggleClass('d-none', personas.length === 0);
+        }
+
         function mostrarDetalleMascota(idMascota)
         {
             var mascota = obtenerMascotaPorId(idMascota);
@@ -1265,6 +1314,7 @@
             $('#modal_mascota_fecha_esterilizacion').text(esterilizado ? formatearFecha(mascota.fecha_esterilizacion) : '-');
             $('#modal_mascota_enfermedad_cronica').text(mascota.enfermedad_cronica ? mascota.enfermedad_cronica : '-');
             $('#modal_mascota_img').attr('src', obtenerImagenMascota(mascota));
+            pintarTutoresMascota(mascota);
             actualizarDetalleRaza(mascota);
 
             if (mascotaEstaFallecida(mascota)) {

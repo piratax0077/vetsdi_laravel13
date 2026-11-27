@@ -4,105 +4,66 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 @endpush
 @section('content')
+    @php
+        // Mismos datos que usa la bandeja del tutor, del más nuevo al más antiguo
+        $mensajesProfesional = collect($mis_mensajes ?? []);
+        $remitentesBandeja = \App\Models\User::whereIn('id', $mensajesProfesional->pluck('id_usuario')->filter()->unique())->get()->keyBy('id');
+
+        $mensajesBandeja = $mensajesProfesional
+            ->sortByDesc(fn ($mensaje) => (string) $mensaje->fechaConHora())
+            ->map(function ($mensaje) use ($remitentesBandeja) {
+                $datos = $mensaje->datos_mensaje;
+                $fecha = $mensaje->fechaConHora();
+                $titulo = trim((string) data_get($datos, 'titulo', ''));
+                $asunto = trim((string) data_get($datos, 'asunto', ''));
+
+                return [
+                    'id' => $mensaje->id,
+                    'remitente' => $mensaje->remitente ?: 'VetSDI',
+                    'foto' => \App\Models\Mensajes::fotoDelRemitente($remitentesBandeja->get($mensaje->id_usuario)),
+                    'asunto' => $titulo ?: ($asunto ?: 'Sin título'),
+                    'resumen' => (string) data_get($datos, 'mensaje', ''),
+                    'tipo' => $mensaje->tipo_mensaje === 'DIRECTO' ? 'Mensaje directo' : 'Mensaje de difusión',
+                    'lugar' => trim((string) data_get($datos, 'lugar', '')),
+                    'fecha' => $fecha ? $fecha->format('d-m-Y H:i') : '',
+                    'leido' => $mensaje->estado !== 'NO LEIDO',
+                ];
+            })
+            ->values();
+    @endphp
     <!--Container Completo-->
     <div class="pcoded-main-container">
         <div class="pcoded-content">
-            <!--Header-->
-            <div class="row">
-                <div class="col-md-12 mb-3 encabezado-pagina">
-                    <h5 class="f-26 d-inline">Mis mensajes</h5>
-                    <button class="btn btn-info btn-sm mb-1" onclick="enviar_mensaje_a_profesional()"><i class="feather icon-mail"></i> Enviar mensaje</button>
-                </div>
-            </div>
-            <!--Cierre: Header-->
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <table id="historial_mensajes"
-                                class="display table table-striped dt-responsive nowrap table-xs"
-                                style="width:100%">
-                                <thead>
-                                    <tr>
-                                        {{--  <th class="text-wrap align-middle" hidden="hidden">Nº de Orden</th>  --}}
-                                        <th class="align-middle">Fecha</th>
-                                        <th class="align-middle">Remitente</th>
-                                        <th class="align-middle">Título</th>
-                                        <th class="align-middle">Tipo</th>
-                                        <th class="align-middle">Estado</th>
-                                        <th class="align-middle">Ver Mensaje</th>
-                                        <th class="align-middle">Eliminar</th>
-                                        <th class="align-middle">Descargar</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbody_mensajes_a_profesional">
-
-                                    @if (isset($mis_mensajes) && count($mis_mensajes) > 0)
-                                        @foreach ($mis_mensajes as $mensaje)
-                                            <tr>
-                                                {{--  <td class="text-wrap align-middle">{{ $mensaje->id }}</td>  --}}
-                                                <td class="text-wrap align-middle" style="font-size:12px">
-                                                    {{ preg_replace('/(\d{2}:\d{2}):\d{2}(\.\d+)?/', '$1', (string) $mensaje->created_at) }}
-                                                </td>
-
-                                                <td class="align-middle" style="font-size:12px">
-                                                    {{ $mensaje->remitente }}
-                                                </td>
-                                                <td class="align-middle text-wrap" style="font-size:10px"><label>{{ $mensaje->datos_mensaje->mensaje }}</label></td>
-                                                <td class="align-middle text-wrap" style="font-size:10px"><label>{{ $mensaje->tipo_mensaje }}</label></td>
-                                                <!--<td class="align-middle text-center">
-                                                    <button type="button" class="btn  btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="Enviar mensaje a Paciente"><i class="feather icon-navigation"></i></button>
-                                                </td>-->
-                                                 <!--<td class="align-middle text-center">Enviado</td>-->
-
-
-                                                <td class="align-middle"><span id="estado-{{ $mensaje->id }}">{{ $mensaje->estado }}</span></td>
-                                                <td class="align-middle"> <button class="btn btn-icon btn-warning"><i class="feather icon-mail" onclick="ver_mensaje({{ $mensaje->id  }})"></i></button><!--<img src="{{ asset('images/talk.png') }}" alt="Documento" height="35px">--></div></td>
-                                                <td class="align-middle"><button class="btn btn-danger btn-icon btn-icon" onclick="eliminar_mensaje({{ $mensaje->id }})"><i class="feather icon-x"></i></button></td>
-                                                <td class="align-middle"><button class="btn btn-icon btn-primary" onclick="descargar_mensaje({{ $mensaje->id }})"><i class="feather icon-download"></i></button></td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
+            @if ($mensajesBandeja->isEmpty())
+                <div class="card">
+                    <div class="card-header encabezado-card">
+                        <h5 class="encabezado-card-titulo"><span class="encabezado-card-icono"><i class="feather icon-mail"></i></span>Mensajes</h5>
+                        <div class="encabezado-card-acciones">
+                            <button type="button" class="btn btn-info btn-sm" onclick="enviar_mensaje_a_profesional()"><i class="feather icon-edit"></i> Enviar mensaje</button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL A PROFESIONAL -->
-    <div class="modal fade" id="modal_mensaje_a_profesional" tabindex="-1" role="dialog" aria-labelledby="modal_mensaje_a_profesional" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header modal-header-purple">
-                    <h5 class="modal-title">Mensaje</h5>
-                    <button type="button" class="close text-white" aria-label="Cerrar" onclick="cerrar_modal_mensaje()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Lectura del mensaje con el mismo diseño del historial de mensajes -->
-                    <div class="ver-mensaje">
-                        <div class="ver-mensaje-icono"><i class="feather icon-mail"></i></div>
-                        <div class="ver-mensaje-contenido">
-                            <div class="ver-mensaje-encabezado">
-                                <h6 class="ver-mensaje-titulo" id="titulo_msj"></h6>
-                                <span class="ver-mensaje-fecha"><i class="feather icon-calendar"></i> <span id="fecha_msj"></span></span>
+                    <div class="card-body">
+                        <div class="aviso-sin-registros">
+                            <span class="aviso-sin-registros-icono"><i class="feather icon-inbox"></i></span>
+                            <div>
+                                <p class="aviso-sin-registros-titulo">No tienes mensajes</p>
+                                <p class="aviso-sin-registros-texto">Cuando otro profesional o tu clínica te escriba, lo verás aquí y en el ícono de sobre de arriba.</p>
                             </div>
-                            <p class="ver-mensaje-remitente"><i class="feather icon-user"></i> <span id="remitente_msj"></span></p>
-                            <p class="ver-mensaje-asunto" id="asunto_msj"></p>
-                            <div class="ver-mensaje-texto" id="mensaje_msj"></div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" onclick="cerrar_modal_mensaje();">Cerrar</button>
-                </div>
-            </div>
+            @else
+                @include('template.partials.bandeja_mensajes', [
+                    'mensajesBandeja' => $mensajesBandeja,
+                    'sinLeerBandeja' => $mensajesBandeja->where('leido', false)->count(),
+                    'descripcionBandeja' => 'Mensajes de tu clínica y de otros profesionales.',
+                    'botonNuevoBandeja' => 'Enviar mensaje',
+                    'accionesBandeja' => true,
+                ])
+            @endif
         </div>
     </div>
+
     <!-- MODAL MENSAJE A PROFESIONAL DE PROFESIONAL -->
     <div class="modal fade" id="modal_mensaje_a_profesional_de_profesional" tabindex="-1" role="dialog" aria-labelledby="modal_mensaje_a_profesional_de_profesional" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog modal-dialog-centered" role="document">
@@ -166,6 +127,7 @@
 @endsection
 
 @section('page-script')
+<script src="{{ asset('js/bandeja_mensajes.js') }}?v={{ filemtime(public_path('js/bandeja_mensajes.js')) }}"></script>
 <script>
      $(document).ready(function()
         {
@@ -181,34 +143,46 @@
 
 
         });
-    function ver_mensaje(id){
-        // mostrar el modal
-        $.ajax({
-            url: "{{ URL('Profesional/ver_mensaje') }}"+"/"+id,
-            type: "get",
-            success: function(response){
-                let mensaje = response;
-                console.log(mensaje);
-                // abrir modal
-                $('#modal_mensaje_a_profesional').modal('show');
-                // Se asigna con .text() para que el contenido no se interprete como HTML
-                let datos = mensaje.datos_mensaje || {};
-                $('#fecha_msj').text(mensaje.fecha_emision || '');
-                $('#remitente_msj').text(mensaje.remitente || '');
-                $('#titulo_msj').text(datos.titulo || 'Sin título');
-                $('#asunto_msj').text(datos.asunto || '').toggle(!!datos.asunto);
-                $('#mensaje_msj').text(datos.mensaje || '');
-                $('#estado-'+id).text('LEIDO');
-            },
-            error: function(error){
-                console.log(error);
-            }
-        });
-    }
 
-    function cerrar_modal_mensaje(){
-        $('#modal_mensaje_a_profesional').modal('hide');
-    }
+    // Lectura del mensaje en el panel derecho de la bandeja
+    var bandejaMensajes = BandejaMensajes.iniciar({
+        cargar: function (id) {
+            return $.get("{{ URL('Profesional/ver_mensaje') }}" + "/" + id).then(function (mensaje) {
+                if (!mensaje || typeof mensaje !== 'object') {
+                    return $.Deferred().reject().promise();
+                }
+
+                var datos = mensaje.datos_mensaje || {};
+                var titulo = $.trim(datos.titulo || '');
+                var asunto = $.trim(datos.asunto || '');
+
+                return {
+                    // El asunto va bajo el título solo si dice algo distinto
+                    subtitulo: titulo && asunto !== titulo ? asunto : '',
+                    texto: datos.mensaje,
+                    archivos: (datos.archivos || []).map(function (archivo) {
+                        return { nombre: archivo.nombre_original || archivo.nombre || 'Archivo adjunto', url: archivo.url };
+                    })
+                };
+            });
+        }
+    });
+
+    $('#bandeja_mensajes').on('click', '[data-accion="nuevo-mensaje"]', function () {
+        enviar_mensaje_a_profesional();
+    });
+
+    $('#bandeja_mensajes').on('click', '[data-accion="descargar"]', function () {
+        if (bandejaMensajes && bandejaMensajes.abierto()) {
+            descargar_mensaje(bandejaMensajes.abierto());
+        }
+    });
+
+    $('#bandeja_mensajes').on('click', '[data-accion="eliminar"]', function () {
+        if (bandejaMensajes && bandejaMensajes.abierto()) {
+            eliminar_mensaje(bandejaMensajes.abierto());
+        }
+    });
 
     function cerrar_modal_mensaje_de_profesional(){
         $('#modal_mensaje_a_profesional_de_profesional').modal('hide');
@@ -230,22 +204,9 @@
                     success: function(response){
                         console.log(response);
                         if(response.estado == 1){
-                            let mensajes = response.mensajes;
-                            console.log(mensajes);
-                            $('#tbody_mensajes_a_profesional').empty();
-                            mensajes.forEach(mensaje => {
-                                $('#tbody_mensajes_a_profesional').append(`
-                                    <tr>
-                                        <td class="text-wrap text-center align-middle" style="font-size:12px">${String(mensaje.created_at || "").replace(/(\d{2}:\d{2}):\d{2}(\.\d+)?/, "$1")}</td>
-                                        <td class="align-middle" style="font-size:12px">${mensaje.remitente}</td>
-                                        <td class="align-middle text-wrap" style="font-size:10px"><label>${mensaje.datos_mensaje.mensaje}</label></td>
-                                        <td class="align-middle text-wrap" style="font-size:10px"><label>${mensaje.tipo_mensaje}</label></td>
-                                        <td class="align-middle"><span id="estado-${mensaje.id}">${mensaje.estado}</span></td>
-                                        <td class="align-middle"> <div style="cursor: pointer;" onclick="ver_mensaje(${mensaje.id})"><img src="{{ asset('images/talk.png') }}" alt="Documento" height="35px"></div></td>
-                                        <td class="align-middle"><button class="btn btn-outline-danger btn-sm btn-icon" onclick="eliminar_mensaje(${mensaje.id})"><i class="fas fa-trash"></i></button></td>
-                                    </tr>
-                                `);
-                            });
+                            if (bandejaMensajes) {
+                                bandejaMensajes.quitar(id);
+                            }
                             swal("El mensaje ha sido eliminado", {
                                 icon: "success",
                             });

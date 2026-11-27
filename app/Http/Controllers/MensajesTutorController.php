@@ -104,7 +104,7 @@ class MensajesTutorController extends Controller
         $datos = is_array($datos) ? $datos : [];
 
         $remitente = User::find($mensaje->id_usuario);
-        $fecha = $mensaje->fecha_envio ?: $mensaje->created_at;
+        $fecha = $mensaje->fechaConHora();
         $tipos = [3 => 'Mensaje directo', 4 => 'Mensaje para todos los tutores', 5 => 'Aviso'];
 
         $archivos = collect($datos['archivos'] ?? [])
@@ -119,10 +119,13 @@ class MensajesTutorController extends Controller
             'mensaje' => (string) ($datos['mensaje'] ?? ''),
             // Los negocios de servicios firman con el nombre del negocio
             'remitente' => trim((string) ($datos['negocio'] ?? '')) ?: ($remitente ? $remitente->nombreParaMostrar() : 'VetSDI'),
+            'foto' => Mensajes::fotoDelRemitente($remitente),
             'puede_responder' => ! empty($datos['negocio']) && (bool) $mensaje->id_usuario,
             'tipo' => $tipos[(int) $mensaje->tipo_mensaje] ?? 'Mensaje',
-            'fecha' => $fecha ? Carbon::parse($fecha)->format('d-m-Y H:i') : '',
-            'hace' => $fecha ? Carbon::parse($fecha)->locale('es')->diffForHumans() : '',
+            // Lugar desde donde se envió la difusión (solo los mensajes nuevos lo guardan)
+            'lugar' => trim((string) ($datos['lugar'] ?? '')),
+            'fecha' => $fecha ? $fecha->format('d-m-Y H:i') : '',
+            'hace' => $fecha ? $fecha->copy()->locale('es')->diffForHumans() : '',
             'leido' => (int) $mensaje->estado !== 1,
             'archivos' => $archivos,
         ];

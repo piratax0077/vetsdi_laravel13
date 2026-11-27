@@ -1085,6 +1085,13 @@
     background: #fcfcfe;
 }
 
+/* Cada persona del contacto de emergencia (tutor(a), co-tutor(a), cuidador(a)) va separada */
+.fvu-modal__bloque + .fvu-modal__bloque {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--fvu-borde);
+}
+
 .fvu-modal__persona {
     display: flex;
     align-items: center;

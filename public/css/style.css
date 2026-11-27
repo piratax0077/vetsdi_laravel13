@@ -23538,9 +23538,10 @@ pre[class*=language-]:before {
     margin-right: 10px;
 }
 
+/* Hover de las listas de los desplegables del header: gris un poco más marcado y sin sombra */
 .pcoded-header .dropdown .profile-notification .pro-body li.active, .pcoded-header .dropdown .profile-notification .pro-body li:active, .pcoded-header .dropdown .profile-notification .pro-body li:focus, .pcoded-header .dropdown .profile-notification .pro-body li:hover {
-    background: #F4F4F4;
-    box-shadow: 0 15px 8px -9px rgba(0, 0, 0, 0.1);
+    background: #efefef;
+    box-shadow: none;
 }
 
 .pcoded-header .dropdown .profile-notification .pro-body li.active > a, .pcoded-header .dropdown .profile-notification .pro-body li:active > a, .pcoded-header .dropdown .profile-notification .pro-body li:focus > a, .pcoded-header .dropdown .profile-notification .pro-body li:hover > a {
@@ -37323,20 +37324,34 @@ transition: 0.2s!important;
     line-height: 1;
 }
 
-/* Menú desplegable de mensajes: ancho fijo y sin barra horizontal */
+/* Menú desplegable de mensajes: ancho fijo, esquinas bien redondeadas y sin barra horizontal */
 .pcoded-header .dropdown .mensajes-encabezado-menu {
     width: 340px;
     min-width: 0;
     max-width: calc(100vw - 20px);
     overflow: hidden;
+    -webkit-border-radius: 18px;
+    border-radius: 18px;
 }
 
-.pcoded-header .dropdown .mensajes-encabezado-menu .pro-head {
+/* Cabecera blanca con el título en el color de los títulos del sistema */
+.pcoded-header .dropdown .profile-notification.mensajes-encabezado-menu .pro-head {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     gap: 10px;
+    padding: 16px 20px;
     font-family: 'Nunito', sans-serif;
+    font-size: 18px;
+    color: #272727;
+    background: #fff;
+    border-bottom: 1px solid #ececec;
 }
 
 .pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-lista {
@@ -37357,7 +37372,34 @@ transition: 0.2s!important;
     gap: 12px;
     padding: 10px;
     white-space: normal;
-    border-radius: 6px;
+    border-radius: 10px;
+}
+
+/* Al pasar el mouse el mensaje toma un gris clarito, sin la sombra que pone el tema */
+.pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-lista > li:hover,
+.pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-lista > li:focus,
+.pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-lista > li:active {
+    background: transparent;
+    box-shadow: none;
+}
+
+.pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-lista > li:hover > a.mensajes-encabezado-item,
+.pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-lista > li > a.mensajes-encabezado-item:focus,
+.pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-lista > li > a.mensajes-encabezado-item:active {
+    color: #272727;
+    background-color: #efefef;
+}
+
+/* Punto rojo suave que marca los mensajes que aún no se leen */
+.mensajes-encabezado-punto {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 7px;
+    flex: 0 0 7px;
+    width: 7px;
+    height: 7px;
+    margin-left: 4px;
+    border-radius: 50%;
+    background-color: #e0524f;
 }
 
 /* Avatar con tamaño fijo para que no se estire con la imagen original */
@@ -37401,15 +37443,43 @@ transition: 0.2s!important;
     text-align: center;
 }
 
+/* Pie con el enlace a la bandeja: queda fijo bajo la lista y siempre a la vista */
 .pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-todos {
-    margin-top: 4px;
     border-top: 1px solid #ececec;
-    border-radius: 0;
+    background: #fff;
 }
 
 .pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-todos a {
+    display: block;
+    padding: 16px 20px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
     font-weight: 700;
+    text-align: center;
     color: #6f42c1;
+}
+
+.pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-todos a:hover,
+.pcoded-header .dropdown .mensajes-encabezado-menu .mensajes-encabezado-todos a:focus {
+    color: #6f42c1;
+    text-decoration: none;
+    background-color: #efefef;
+}
+
+/* Campana de notificaciones: usa el mismo desplegable de mensajes, solo con texto */
+.avisos-encabezado-detalle {
+    display: block;
+    margin: 2px 0 0;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    color: #6c757d;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.pcoded-header .dropdown .mensajes-encabezado-menu li a.avisos-encabezado-sin-enlace {
+    cursor: default;
 }
 
 .btn-outline-header {
@@ -39291,22 +39361,6 @@ table thead th,
     font-weight: 600;
 }
 
-/* Bandeja de mensajes: el mensaje abierto queda marcado en morado suave */
-.table.tabla-mensajes tbody tr.fila-seleccionada > td {
-    background: #f4effc;
-}
-
-.table.tabla-mensajes tbody tr.fila-seleccionada > td:first-child {
-    -webkit-box-shadow: inset 3px 0 0 #6f42c1;
-    box-shadow: inset 3px 0 0 #6f42c1;
-}
-
-/* Texto del mensaje: respeta los saltos de línea y no se sale de la tarjeta */
-.contenido-mensaje {
-    white-space: pre-line;
-    word-break: break-word;
-}
-
 /* Las celdas con color de estado (agenda del escritorio, exámenes, radiología)
    mantienen su fondo; sin esto el transparente general de las celdas lo tapa. */
 .table:not(.table-dark) tbody td.bg-estado-light-verde {
@@ -40279,9 +40333,66 @@ table.dataTable.dtr-inline.collapsed.tabla-tarjetas > tbody > tr[role="row"] > t
     font-size: 20px;
 }
 
+/* La mascota de la reserva va en el mismo encabezado, a la derecha del título y más compacta */
+#vista_reserva_veterinaria .card-header.encabezado-card .reserva-vet-profesional {
+    gap: 2px 10px;
+    margin: 0 0 0 auto;
+    padding: 6px 14px 6px 6px;
+    border-radius: 12px;
+}
+
+#vista_reserva_veterinaria .card-header.encabezado-card .reserva-vet-profesional-icono {
+    width: 36px;
+    height: 36px;
+}
+
+#vista_reserva_veterinaria .card-header.encabezado-card .reserva-vet-profesional-etiqueta {
+    font-size: 10.5px;
+}
+
+#vista_reserva_veterinaria .card-header.encabezado-card .reserva-vet-profesional-nombre {
+    font-size: 15px;
+    line-height: 1.2;
+}
+
+/* Indicador de pasos más bajo en esta vista, para que el formulario quede más arriba */
+#vista_reserva_veterinaria > .card-body {
+    padding-top: 14px;
+}
+
+#vista_reserva_veterinaria .reserva-vet-pasos {
+    margin-bottom: 14px;
+}
+
+#vista_reserva_veterinaria .reserva-vet-paso + .reserva-vet-paso::before {
+    top: 13px;
+    left: calc(-50% + 20px);
+    right: calc(50% + 20px);
+}
+
+#vista_reserva_veterinaria .reserva-vet-paso-numero {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+}
+
+#vista_reserva_veterinaria .reserva-vet-paso.activo .reserva-vet-paso-numero {
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .15);
+}
+
+#vista_reserva_veterinaria .reserva-vet-paso-texto {
+    margin-top: 4px;
+    font-size: 12px;
+}
+
 @media (max-width: 575.98px) {
     #vista_reserva_veterinaria .card-header.encabezado-card .encabezado-card-titulo {
         font-size: 18px;
+    }
+
+    #vista_reserva_veterinaria .card-header.encabezado-card .reserva-vet-profesional {
+        width: 100%;
+        margin-left: 0;
     }
 }
 
@@ -50290,28 +50401,166 @@ div.dataTables_wrapper > .row > [class*="col-"] {
 }
 
 /* ==========================================================================
-   Mensajes del tutor: bandeja de entrada y modal para leer cada mensaje
+   Bandeja de mensajes (tutor y profesional): lista a la izquierda y lectura a la derecha
    ========================================================================== */
-.mensajes-tutor-lista {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.card.bandeja-mensajes {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    height: calc(100vh - 250px);
+    min-height: 520px;
+    overflow: hidden;
 }
 
-.mensajes-tutor-lista > li + li {
-    border-top: 1px solid #edf2f5;
-}
-
-.mensajes-tutor-item {
+.bandeja-mensajes-lista-panel {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: start;
-    -ms-flex-align: start;
-    align-items: flex-start;
-    width: 100%;
-    padding: 14px 10px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 380px;
+    flex: 0 0 380px;
+    width: 380px;
+    max-width: 42%;
+    min-height: 0;
+    border-right: 1px solid #ececec;
+}
+
+.bandeja-mensajes-cabecera {
+    padding: 20px 20px 12px;
+}
+
+.bandeja-mensajes-cabecera-fila {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.bandeja-mensajes-titulo {
+    margin: 0;
+    color: #272727;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.bandeja-mensajes-descripcion {
+    margin: 4px 0 0;
+    color: #6b7a90;
+    font-size: .82rem;
+    line-height: 1.4;
+}
+
+/* Lugar de atención desde donde se envió una difusión */
+.bandeja-mensajes-lugar {
+    overflow: hidden;
+    color: #08776f;
+    font-size: .75rem;
+    font-weight: 600;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bandeja-mensajes-lugar .feather {
+    font-size: .72rem;
+}
+
+.bandeja-mensajes-filtros {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.bandeja-mensajes-filtro {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
     border: 0;
+    -webkit-border-radius: 50rem;
+    border-radius: 50rem;
+    background: transparent;
+    color: #4f5d6f;
+    font-family: 'Nunito', sans-serif;
+    font-size: .88rem;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-transition: background-color .2s ease, color .2s ease;
+    transition: background-color .2s ease, color .2s ease;
+}
+
+.bandeja-mensajes-filtro:hover {
+    background: #efefef;
+}
+
+.bandeja-mensajes-filtro:focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 3px rgba(111, 66, 193, .18);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, .18);
+}
+
+.bandeja-mensajes-filtro.activo {
+    background: #f1ecf9;
+    color: #6f42c1;
+}
+
+.bandeja-mensajes-filtro-contador {
+    min-width: 20px;
+    padding: 2px 6px;
+    -webkit-border-radius: 50rem;
+    border-radius: 50rem;
+    background: #e0524f;
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.3;
+    text-align: center;
+}
+
+.bandeja-mensajes-lista {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0 8px 12px;
+    list-style: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.bandeja-mensajes-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 0;
+    -webkit-border-radius: 12px;
     border-radius: 12px;
     background: transparent;
     color: #272727;
@@ -50322,39 +50571,29 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     transition: background-color .2s ease;
 }
 
-.mensajes-tutor-item:hover,
-.mensajes-tutor-item:focus {
-    background: #f6f9fb;
+.bandeja-mensajes-item:hover,
+.bandeja-mensajes-item:focus {
+    background: #efefef;
     outline: 0;
 }
 
-.mensajes-tutor-icono {
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
-    width: 38px;
-    height: 38px;
-    margin-right: 12px;
-    border-radius: 10px;
-    background: #f1f3f6;
-    color: #8a97a8;
-    font-size: 16px;
+.bandeja-mensajes-item.activo {
+    background: #f5f2fc;
 }
 
-.mensajes-tutor-item.no-leido .mensajes-tutor-icono {
-    background: #6f42c1;
-    color: #fff;
+.bandeja-mensajes-foto {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 48px;
+    flex: 0 0 48px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    background-color: #f1ecf9;
 }
 
-.mensajes-tutor-texto {
+.bandeja-mensajes-item-texto {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -50368,34 +50607,71 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     min-width: 0;
 }
 
-.mensajes-tutor-asunto {
-    color: #272727;
-    font-size: .95rem;
-    font-weight: 600;
-    line-height: 1.3;
+.bandeja-mensajes-item-fila {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: baseline;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    gap: 8px;
 }
 
-.mensajes-tutor-item.no-leido .mensajes-tutor-asunto {
-    font-weight: 800;
-}
-
-.mensajes-tutor-detalle {
-    margin-top: 2px;
-    color: #6b7a90;
-    font-size: .78rem;
-    font-weight: 600;
-}
-
-.mensajes-tutor-resumen {
-    margin-top: 4px;
+.bandeja-mensajes-remitente,
+.bandeja-mensajes-asunto,
+.bandeja-mensajes-resumen {
     overflow: hidden;
-    color: #6b7a90;
-    font-size: .82rem;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.mensajes-tutor-fecha {
+.bandeja-mensajes-remitente {
+    color: #272727;
+    font-size: .92rem;
+    font-weight: 700;
+}
+
+.bandeja-mensajes-fecha {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    color: #8a97a8;
+    font-size: .75rem;
+    white-space: nowrap;
+}
+
+.bandeja-mensajes-asunto {
+    color: #272727;
+    font-size: .88rem;
+    line-height: 1.35;
+}
+
+.bandeja-mensajes-resumen {
+    color: #6b7a90;
+    font-size: .8rem;
+    line-height: 1.35;
+}
+
+/* Sin leer: asunto en negrita y la fecha en el morado del sistema */
+.bandeja-mensajes-item.no-leido .bandeja-mensajes-asunto {
+    font-weight: 800;
+}
+
+.bandeja-mensajes-item.no-leido .bandeja-mensajes-fecha {
+    color: #6f42c1;
+    font-weight: 700;
+}
+
+.bandeja-mensajes-sin-resultados {
+    margin: 0;
+    padding: 24px 20px;
+    color: #6b7a90;
+    text-align: center;
+}
+
+.bandeja-mensajes-lectura {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -50403,84 +50679,334 @@ div.dataTables_wrapper > .row > [class*="col-"] {
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
-    -webkit-box-align: end;
-    -ms-flex-align: end;
-    align-items: flex-end;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
-    margin-left: 12px;
-    color: #8a97a8;
-    font-size: .75rem;
-    white-space: nowrap;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 0%;
+    flex: 1 1 0%;
+    min-width: 0;
+    min-height: 0;
 }
 
-.mensajes-tutor-fecha .badge {
-    margin-top: 6px;
+.bandeja-mensajes-lectura-vacia {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 40px 24px;
+    text-align: center;
 }
 
-.mensajes-tutor-modal-asunto {
-    margin: 0 0 4px;
+.bandeja-mensajes-lectura-vacia-icono {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 14px;
+    border-radius: 50%;
+    background: #f1ecf9;
+    color: #6f42c1;
+    font-size: 26px;
+}
+
+.bandeja-mensajes-lectura-vacia-titulo {
+    margin: 0;
     color: #272727;
     font-family: 'Nunito', sans-serif;
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 800;
 }
 
-.mensajes-tutor-modal-detalle {
-    margin-bottom: 16px;
+.bandeja-mensajes-lectura-vacia-texto {
+    margin: 4px 0 0;
     color: #6b7a90;
-    font-size: .82rem;
+    font-size: .88rem;
 }
 
-.mensajes-tutor-modal-cuerpo {
+.bandeja-mensajes-lectura-contenido {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.bandeja-mensajes-lectura-cabecera {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    border-bottom: 1px solid #ececec;
+}
+
+.bandeja-mensajes-foto.bandeja-mensajes-foto-grande {
+    -ms-flex-preferred-size: 52px;
+    flex-basis: 52px;
+    width: 52px;
+    height: 52px;
+}
+
+.bandeja-mensajes-lectura-remitente {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 0%;
+    flex: 1 1 0%;
+    min-width: 0;
+}
+
+.bandeja-mensajes-lectura-nombre {
     color: #272727;
-    font-size: .92rem;
-    line-height: 1.6;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.bandeja-mensajes-lectura-detalle {
+    color: #6b7a90;
+    font-size: .8rem;
+}
+
+.bandeja-mensajes-lectura-acciones {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    gap: 6px;
+}
+
+/* Volver a la lista: solo en celular, donde se ve un panel a la vez */
+.bandeja-mensajes-volver {
+    display: none;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #272727;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.bandeja-mensajes-volver:hover,
+.bandeja-mensajes-volver:focus {
+    background: #efefef;
+    outline: 0;
+}
+
+.bandeja-mensajes-lectura-cuerpo {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 24px 28px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.bandeja-mensajes-lectura-asunto {
+    margin: 0 0 6px;
+    color: #272727;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    line-height: 1.3;
     word-break: break-word;
 }
 
-.mensajes-tutor-modal-archivos {
+.bandeja-mensajes-lectura-subtitulo {
+    margin: 0;
+    color: #6b7a90;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.bandeja-mensajes-lectura-texto {
+    margin-top: 16px;
+    color: #272727;
+    font-size: .95rem;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+.bandeja-mensajes-lectura-aviso {
+    color: #6b7a90;
+}
+
+.bandeja-mensajes-lectura-archivos {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 16px;
+    margin-top: 18px;
 }
 
-/* Celular: la fecha baja bajo el texto para darle ancho al asunto */
+.bandeja-mensajes-respuesta {
+    padding: 16px 24px 20px;
+    border-top: 1px solid #ececec;
+}
+
+/* Tablet y celular: un panel a la vez, la lista primero y el mensaje al tocarlo */
+@media (max-width: 991.98px) {
+    .card.bandeja-mensajes {
+        display: block;
+        height: auto;
+        min-height: 0;
+    }
+
+    .bandeja-mensajes-lista-panel {
+        width: auto;
+        max-width: none;
+        border-right: 0;
+    }
+
+    .bandeja-mensajes-lista {
+        overflow: visible;
+    }
+
+    .bandeja-mensajes-lectura,
+    .bandeja-mensajes-lectura-vacia {
+        display: none;
+    }
+
+    .bandeja-mensajes.leyendo .bandeja-mensajes-lista-panel {
+        display: none;
+    }
+
+    .bandeja-mensajes.leyendo .bandeja-mensajes-lectura {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+    .bandeja-mensajes-volver {
+        display: -webkit-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+    }
+
+    .bandeja-mensajes-lectura-cabecera {
+        padding: 12px 14px;
+    }
+
+    .bandeja-mensajes-lectura-cuerpo {
+        padding: 18px 16px;
+        overflow: visible;
+    }
+
+    .bandeja-mensajes-respuesta {
+        padding: 14px 16px 18px;
+    }
+}
+
 @media (max-width: 575.98px) {
-    .mensajes-tutor-item {
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        padding: 12px 6px;
+    .bandeja-mensajes-cabecera {
+        padding: 16px 14px 10px;
     }
 
-    .mensajes-tutor-fecha {
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-        flex-direction: row;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        gap: 8px;
-        -webkit-box-flex: 0;
-        -ms-flex: 0 0 100%;
-        flex: 0 0 100%;
-        margin: 6px 0 0;
-        padding-left: 50px;
+    .bandeja-mensajes-lista {
+        padding: 0 4px 8px;
     }
 
-    .mensajes-tutor-fecha .badge {
-        margin-top: 0;
+    .bandeja-mensajes-foto.bandeja-mensajes-foto-grande {
+        -ms-flex-preferred-size: 44px;
+        flex-basis: 44px;
+        width: 44px;
+        height: 44px;
     }
 }
 
 /* Menú de roles del header: el rol activo se distingue con el badge "Activo" */
 .menu-roles .pro-body {
     padding: 8px;
+}
+
+/* Más ancho para que los nombres de los perfiles no se corten */
+.pcoded-header .dropdown .profile-notification.menu-roles {
+    width: 320px;
+    max-width: calc(100vw - 20px);
+}
+
+/* Mini título sobre la lista de perfiles, alineado con los íconos de cada opción */
+.menu-roles .menu-roles-subtitulo {
+    padding: 16px 22px 0;
+}
+
+.pcoded-header .dropdown .profile-notification.menu-roles .pro-body {
+    padding-top: 6px;
+}
+
+/* Cambiar de escritorio y menú del perfil: misma cabecera blanca y esquinas que el desplegable de mensajes */
+.pcoded-header .dropdown .profile-notification.menu-roles,
+.pcoded-header .dropdown.perfil-desplegable .profile-notification {
+    -webkit-border-radius: 18px;
+    border-radius: 18px;
+}
+
+.pcoded-header .dropdown .profile-notification.menu-roles .pro-head,
+.pcoded-header .dropdown.perfil-desplegable .profile-notification .pro-head {
+    padding: 16px 20px;
+    color: #272727;
+    background: #fff;
+    border-bottom: 1px solid #ececec;
+}
+
+.pcoded-header .dropdown .profile-notification.menu-roles .pro-head small,
+.pcoded-header .dropdown.perfil-desplegable .profile-notification .pro-head small {
+    margin-top: 2px;
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/* Desplegables del encabezado: sin borde, se despegan del fondo con una sombra suave */
+.pcoded-header .dropdown .dropdown-menu.profile-notification {
+    border: 0;
+    -webkit-box-shadow: 0 12px 32px rgba(39, 39, 39, 0.14);
+    box-shadow: 0 12px 32px rgba(39, 39, 39, 0.14);
 }
 
 .menu-roles .pro-body li > a.dropdown-item {

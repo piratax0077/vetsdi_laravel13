@@ -33,9 +33,12 @@
                                             @if (isset($fichas))
                                                 @foreach ($fichas as $f)
                                                     @if ($f->RecetasEmitidas->isNotEmpty() || $f->Recetas->isNotEmpty())
+                                                        @php
+                                                            $fechaReceta = \Carbon\Carbon::parse($f->RecetasEmitidas->first()?->created_at ?? $f->Recetas->first()?->created_at);
+                                                        @endphp
                                                         <tr>
-                                                            <td class="text-wrap text-left align-middle">
-                                                                {{ \Carbon\Carbon::parse($f->RecetasEmitidas->first()?->created_at ?? $f->Recetas->first()?->created_at)->format('d/m/Y') }}
+                                                            <td class="text-wrap text-left align-middle" data-order="{{ $fechaReceta->format('Y-m-d H:i:s') }}">
+                                                                {{ $fechaReceta->format('d/m/Y') }}
                                                             </td>
                                                             <td class="align-middle text-left">
                                                                 <strong>{{ $f->Profesional->nombre ?? '' }}

@@ -42,6 +42,7 @@
         <ul class="navbar-nav ml-auto">
             <li class="d-flex align-items-center mr-2"><a href="{{ route($base.'.home') }}" class="btn btn-outline-header btn-xxs"><i class="feather icon-home mr-1"></i>Mi escritorio</a></li>
             @include('template.partials.mensajes_encabezado')
+            @include('template.partials.avisos_encabezado')
             @include('template.partials.workspace_switcher')
             <li>@include('template.partials.perfil_encabezado', ['tipoPerfil' => $base])</li>
         </ul>

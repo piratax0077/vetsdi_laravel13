@@ -68,7 +68,7 @@
                                 <tbody>
                                     @foreach ($historicos as $h)
                                         <tr>
-                                            <td class="text-left align-middle">{{ $h['fecha'] ?: 'Sin fecha registrada' }}</td>
+                                            <td class="text-left align-middle" data-order="{{ $h['fecha'] ? rescue(fn () => \Carbon\Carbon::parse($h['fecha'])->format('Y-m-d H:i:s'), '', false) : '' }}">{{ $h['fecha'] ?: 'Sin fecha registrada' }}</td>
                                             <td class="text-left align-middle">{{ $h['titulo'] }}</td>
                                             <td class="text-left align-middle">
                                                 <a class="btn btn-info" href="{{ route('vet.pdf.historico', ['tipo' => $h['tipo'], 'origen' => $h['id']]) }}">Preparar PDF</a>

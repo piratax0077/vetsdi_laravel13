@@ -11,6 +11,7 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav ml-auto">
 			</li>
+			@include('template.partials.avisos_encabezado')
 			<li>
                 @include('template.partials.perfil_encabezado')
             </li>

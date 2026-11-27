@@ -186,7 +186,10 @@ Route::get('Confirmar_cuenta/{token}', [App\Http\Controllers\Auth\VerificacionCo
 
 /** Selección de cuenta y perfil obligatorio de cada rol */
 Route::middleware('auth')->group(function () {
-    Route::get('Elegir_cuenta', [App\Http\Controllers\SeleccionCuentaController::class, 'index'])->name('cuenta.seleccion');
+    // Campana de avisos del encabezado, la usan todos los perfiles
+    Route::post('Avisos/vistos', [App\Http\Controllers\AvisosEncabezadoController::class, 'marcarVistos'])->name('avisos.vistos');
+
+    Route::get('Elegir_cuenta',[App\Http\Controllers\SeleccionCuentaController::class, 'index'])->name('cuenta.seleccion');
 
     Route::get('Entrar_cuenta/{tipo}', [App\Http\Controllers\SeleccionCuentaController::class, 'entrar'])->name('cuenta.entrar');
 

@@ -10,6 +10,7 @@
     </div>
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
+            @include('template.partials.avisos_encabezado')
             @include('template.partials.workspace_switcher')
             @if (false)
             <li>

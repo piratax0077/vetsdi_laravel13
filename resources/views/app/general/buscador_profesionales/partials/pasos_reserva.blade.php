@@ -10,23 +10,8 @@
                             @endphp
                             <input type="hidden" name="select_tipo_agenda" id="select_tipo_agenda" value="1,2">
 
-                            {{-- En el modal la mascota se elige en el primer paso, así que este recuadro no va --}}
-                            @if(!empty($es_veterinaria_busqueda) && !$con_paso_mascota)
-                                @php
-                                    // Misma foto que muestra el menú lateral de la mascota
-                                    $foto_base_mascota_reserva = asset('images/iconos/mascotas.svg');
-                                    $foto_mascota_reserva = ($mascota->foto_url ?? null) ?: $foto_base_mascota_reserva;
-                                @endphp
-                                <!--Para quién es la hora; al elegir veterinario su nombre queda a la derecha-->
-                                <div class="reserva-vet-profesional">
-                                    <img class="reserva-vet-profesional-icono" id="reserva_hora_mascota_foto" src="{{ $foto_mascota_reserva }}" alt="Foto de la mascota" data-foto-base="{{ $foto_base_mascota_reserva }}" onerror="this.onerror=null;this.src='{{ $foto_base_mascota_reserva }}';">
-                                    <div class="reserva-vet-profesional-datos">
-                                        <span class="reserva-vet-profesional-etiqueta">Reservando hora para</span>
-                                        <span class="reserva-vet-profesional-nombre" id="reserva_hora_mascota_nombre">{{ !empty($mascota) ? (\Illuminate\Support\Str::ucfirst(trim($mascota->nombre ?? '')) ?: '-') : 'Su mascota' }}</span>
-                                    </div>
-                                    <span class="reserva-vet-profesional-especialidad" id="reserva_hora_veterinario"></span>
-                                </div>
-                            @endif
+                            {{-- Para quién es la hora va en el encabezado de la card (buscador.blade.php);
+                                 en el modal del escritorio la mascota se elige en el primer paso --}}
 
                             <!--Indicador de pasos-->
                             <ol class="reserva-vet-pasos" id="reserva_hora_pasos">

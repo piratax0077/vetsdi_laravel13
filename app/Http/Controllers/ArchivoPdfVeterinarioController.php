@@ -46,6 +46,8 @@ class ArchivoPdfVeterinarioController extends Controller
                 }
             }
         }
+        // Vienen de varias tablas: se juntan dejando primero el más reciente
+        $historicos = $historicos->sortByDesc(fn ($h) => (string) $h['fecha'])->values();
         return [$documentos,$historicos];
     }
 

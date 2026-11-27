@@ -21,6 +21,7 @@ class UsuarioRol extends Model
         'estado',
         'perfil_completo',
         'id_plan',
+        'fecha_vencimiento_plan',
         'fecha_activacion',
         'fecha_perfil_completo',
     ];
@@ -28,6 +29,7 @@ class UsuarioRol extends Model
     protected $casts = [
         'estado' => 'boolean',
         'perfil_completo' => 'boolean',
+        'fecha_vencimiento_plan' => 'date',
         'fecha_activacion' => 'datetime',
         'fecha_perfil_completo' => 'datetime',
     ];
